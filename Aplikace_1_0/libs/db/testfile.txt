@@ -1,0 +1,1 @@
+[{"kl\u00ed\u010d1": "\u010de\u0161tina1", "kl\u00ed\u010d2": "ma\u010far\u0161tina1", "kl\u00ed\u010d3": "francou\u0161tina1"}, {"kl\u00ed\u010d6": "francou\u0161tina2", "kl\u00ed\u010d1": "\u010de\u0161tina2", "kl\u00ed\u010d3": "ma\u010far\u0161tina2"}]

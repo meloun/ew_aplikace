@@ -1,0 +1,10 @@
+2009-11-10 10:19:27,780 - DEBUG - debug message
+2009-11-10 10:19:28,015 - INFO - info message
+2009-11-10 10:19:28,015 - WARNING - warn message
+2009-11-10 10:19:28,030 - ERROR - error message
+2009-11-10 10:19:28,030 - CRITICAL - critical message
+2010-06-01 14:15:33,273 - DEBUG - debug message
+2010-06-01 14:15:33,289 - INFO - info message
+2010-06-01 14:15:33,289 - WARNING - warn message
+2010-06-01 14:15:33,289 - ERROR - error message
+2010-06-01 14:15:33,289 - CRITICAL - critical message
