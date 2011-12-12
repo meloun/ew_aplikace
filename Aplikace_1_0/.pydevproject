@@ -8,4 +8,9 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/Aplikace</path>
 </pydev_pathproperty>
+<pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+<path>C:\programs\Python271\Lib\site-packages\PyQt4\sip\PyQt4\QtCore</path>
+<path>C:\programs\Python271\Lib\site-packages\PyQt4\sip\PyQt4\Qt</path>
+<path>C:\programs\Python271\Lib\site-packages\PyQt4\sip\PyQt4\QtGui</path>
+</pydev_pathproperty>
 </pydev_project>

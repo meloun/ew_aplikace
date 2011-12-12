@@ -432,7 +432,7 @@ class myTable():
         #get ID for default record
         row = self.model.getDefaultTableRow()        
         print row                
-        my_id = self.params.showmessage(title,"ID: ", type="input_integer", value = row['id'])                
+        my_id = self.params.showmessage(title,"ID: ", msgtype="input_integer", value = row['id'])                
         if my_id == None:
             return
 
@@ -476,7 +476,7 @@ class myTable():
         #confirm dialog and delete
         if (label!=""):
             label="\n\n("+label+")"        
-        if (self.params.showmessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, type='warning_dialog')):                        
+        if (self.params.showmessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, msgtype='warning_dialog')):                        
             self.delete(id)                          
                                                       
         

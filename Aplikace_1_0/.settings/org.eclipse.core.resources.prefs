@@ -1,7 +1,9 @@
-#Sun Oct 30 12:19:17 CET 2011
+#Mon Dec 12 22:10:43 CET 2011
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/gui/GuiData.py=utf-8
+encoding//ewitis/gui/TimesModel.py=utf-8
+encoding//ewitis/gui/TimesUtils.py=utf-8
 encoding//ewitis/gui/Ui_App.py=utf-8
 encoding//libs/log/log.py=utf-8
 encoding/manage_gui.py=utf-8

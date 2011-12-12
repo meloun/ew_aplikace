@@ -7,7 +7,8 @@
 import sys
 import time
 import manage_comm
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore
+from PyQt4 import QtGui
 import ewitis.gui.Ui_App as Ui_App
 import ewitis.gui.myModel as myModel
 import ewitis.gui.GuiData as GuiData
@@ -18,7 +19,6 @@ import ewitis.gui.UsersModel as UsersModel
 
 import libs.sqlite.sqlite as sqlite
 import ewitis.sql_queries.sql_queries as sql_queries
-
 
    
 class wrapper_gui_ewitis(QtGui.QMainWindow):
