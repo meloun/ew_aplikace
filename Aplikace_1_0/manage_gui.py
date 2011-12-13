@@ -7,6 +7,7 @@
 import sys
 import time
 import manage_comm
+import PyQt4
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 import ewitis.gui.Ui_App as Ui_App
@@ -19,8 +20,7 @@ import ewitis.gui.UsersModel as UsersModel
 
 import libs.sqlite.sqlite as sqlite
 import ewitis.sql_queries.sql_queries as sql_queries
-
-   
+  
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
         import libs.comm.serial_utils as serial_utils 

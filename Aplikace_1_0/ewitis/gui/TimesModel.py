@@ -58,7 +58,11 @@ class TimesParameters(myModel.myParameters):
                                        "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "col_nr_export": None,    "write":1},
                                        "lap"        : {"index": 9,  "name": "lap",       "width":50,    "col_nr_export": None,    "write":1},                                               
                                      }  
-        
+        self.EXPORT_COLLUMN_DEF = { "nr   "     :     {"index": 0, "name": "nr"},
+                                    "time"      :     {"index": 1, "name": "time"},
+                                    "name"      :     {"index": 2, "name": "name"},
+                                    "category"  :     {"index": 3, "name": "category"}                                                                                                                                            
+                                  }
         
         #create MODEL and his structure
         myModel.myParameters.__init__(self, source)        

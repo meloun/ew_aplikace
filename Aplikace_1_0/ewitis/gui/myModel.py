@@ -1,6 +1,10 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-import sys
+## @package gui
+#  Dokumentace pro model Gui
+#
+#  bla bla
+
 import time
 from PyQt4 import Qt, QtCore, QtGui
 import ewitis.gui.GuiData as GuiData
@@ -10,17 +14,12 @@ import libs.sqlite.sqlite as sqlite
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
-SYSTEM_SLEEP, SYSTEM_WORKING = range(2)
-
-#=======================================================================
-# class myPARAMETERS
-#=======================================================================
-#inherited by TimesParameters, RunsParameters, UserParameters
-
-#define common parameters for all tables
-    #source.showMessage - callback METHOD,  for showing dialogs, messages
-    #source.db - database
-    #source.GuiData -     
+SYSTEM_SLEEP, SYSTEM_WORKING = range(2)   
+    
+## class myParameters
+#
+#  použita jako parametr pro class myTable, resp. TimesParameters, RunsParameters, UserParameters
+#  ze source(odděděné QMainWindow) postupuje/přebírá hodnoty       
 class myParameters():
     def __init__(self, source):
         
@@ -34,32 +33,64 @@ class myParameters():
         self.guidata = source.GuiData
                                     
 
-#=======================================================================
-# class myMODEL
-#=======================================================================               
+## class myModel
+#
+# odděděná od QStandardItemModel
+# základní model                
 class myModel(QtGui.QStandardItemModel):
-    def __init__(self, params):
+    def __init__(self, params):       
         
-        
+        #parametry
         self.params = params
         
         #model
         QtGui.QStandardItemModel.__init__(self, 0, len(self.params.TABLE_COLLUMN_DEF))                
         
-
+        #
         self.table_mode = MODE_EDIT
         
-        #set header's names   
-        for key in self.params.TABLE_COLLUMN_DEF:            
+        #nastaveni hlavicky   
+        for key in self.params.TABLE_COLLUMN_DEF:
+            
+            #nastaveni jmena sloupce a jeho pozicovani            
             index = self.params.TABLE_COLLUMN_DEF[key]["index"]                          
             self.setHeaderData(index, QtCore.Qt.Horizontal, self.params.TABLE_COLLUMN_DEF[key]["name"]) 
             self.setHeaderData(index, QtCore.Qt.Horizontal, QtCore.QVariant(QtCore.Qt.AlignHCenter), QtCore.Qt.TextAlignmentRole)         
         
                                     
-        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                        
+        #SLOTY
+        
+        #slot na zmenu policka, modelu
+        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                                            
+    
+    #slot MODEL CHANGED
+    #model se zmenil -> ulozeni do DB        
+    def slot_ModelChanged(self, item):                        
+        
+        #user change, no auto update
+        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):                                                                  
+                        
+            #ziskat zmeneny radek, slovnik{}
+            tabRow = self.getRow(item.row())                                                                              
+            
+            #prevest na databazovy radek, dbRow <- tableRow
+            dbRow = self.table2dbRow(tabRow)                    
+                                        
+            #exist row? 
+            if (dbRow != None): 
+                                                                                           
+                #update DB
+                try:                                                        
+                    self.params.db.update_from_dict(self.params.name, dbRow)
+                except:                
+                    self.params.showmessage(self.params.name+" Update", "Error!")                
                 
-    #MODEL CHANGED - define editable rows
-    #first collumn is NOT editable
+            #update model                                                               
+            self.update() 
+    
+    ## definovani vlastnosti enabled, selectable, editable 
+    #
+    # první políčko je standartne needitovatelne
     def flags(self, index):
         
         if not index.isValid():
@@ -75,7 +106,7 @@ class myModel(QtGui.QStandardItemModel):
 
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
     
-    #get current state in lists
+    ## vraci tabulku(hodnoty bunek) v listu[]
     def lists(self):
         rows = []
         for i in range(self.rowCount()):
@@ -91,166 +122,130 @@ class myModel(QtGui.QStandardItemModel):
     
     
 
-    #db2tableRow - convert DATABASE row to TABLE row
-    #basic method, copy 1to1 keys
+    ##konverze DATABASE radku na TABLE radek
+    #
+    #pokud existuje sloupec z database i v tabulce, zkopiruje se 
     def db2tableRow(self, dbRow):
         
         tabRow = {}
-        
-        #1to1 keys just copy
-        #for key in self.params.KEYS_DEF:            
-                        
-            #is there alias for DB and for TABLE too?
-        #    if((key['tabName']!=None) and (key['dbName']!=None)):
-        #        tabRow[ key['tabName']] = dbRow[key['dbName']]
-                
-        #1to1 keys just copy
+     
         for key in self.params.TABLE_COLLUMN_DEF:         
                         
-            #is there alias for DB and for TABLE too?
+            #kopie 1to1
             try:
                 tabRow[key] = dbRow[key]
             except:
-                pass
-                #print  "db2tab", self.params.name, key
-        return tabRow 
-    #table2dbRow - convert TABLE row to DATABASE row       
-    #basic method, copy 1to1 keys
+                pass #tento sloupec v tabulce neexistuje
+
+        return tabRow
+     
+    ##konverze TABLE radku do DATABASE radku       
+    #
+    #pokud existuje sloupec z tabulky i v databazi, zkopiruje se     
     def table2dbRow(self, tabRow):
         
         dbRow = {}
-        
-        #1to1 keys just copy
-        #for key in self.params.KEYS_DEF:            
-            
-            #is for this key alias in DB also in TABLE?            
-            #if((key['tabName']!=None) and (key['dbName']!=None)):
-            #    dbRow[ key['dbName']] = tabRow[key['tabName']]
-                #convert to normal string
-                
-        #1to1 keys just copy
+                       
         for key in self.params.DB_COLLUMN_DEF:         
                         
-            #is there alias for DB and for TABLE too?
+            #kopie 1to1
             try:
                 dbRow[ key] = tabRow[key]
             except:
-                pass
+                pass #tento sloupec v tabulce neexistuje
                 
-        #convert QString to str
+        #QString to String
         for key in dbRow.keys():
             if type(dbRow[key]) is Qt.QString:
                 dbRow[key] = str(dbRow[key].toUtf8())
                 
         return dbRow
-            
     
-    #MODEL CHANGED
-    #model changed -> save to DB        
-    def slot_ModelChanged(self, item):                        
-        
-        #user change, no auto update
-        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):                                                                  
-                        
-            #get dictionary with row-data, ready for DB
-            tabRow = self.getRow(item.row())                                                                              
-            
-            #dbRow <- tableRow
-            dbRow = self.table2dbRow(tabRow)
-            
-            #print dbRow
-                                        
-            #exist row? 
-            if (dbRow != None): 
-                                                                                           
-                #update DB
-                try:                                                        
-                    self.params.db.update_from_dict(self.params.name, dbRow)
-                except:                
-                    self.params.showmessage(self.params.name+" Update", "Error!")                
-                
-            #update model                                                               
-            self.update()            
+    ##konverze TABLE radku do DATABASE radku       
+    #
+    #pokud existuje sloupec z tabulky i v databazi, zkopiruje se     
+    def table2exportRow(self, tabRow):   
+        exportRow = {}
+        return exportRow                     
 
     
-    # get default row of table
+    ## vraci radek naplneny zakladnimi daty
     def getDefaultTableRow(self):        
         row = {}     
            
-        #empty string to all collumns
+        #prazdne znaky do vsech sloupcu
         for key in self.params.TABLE_COLLUMN_DEF:            
             row[key] = ""            
         
-        #set id
+        #pokud existuje sloupec id, naplnit ho nejvyssim id
         if row.has_key('id'):
             try:
                 row['id'] = self.params.db.getMax(self.params.name, 'id') + 1
             except:
-                row['id'] = 0
-                
+                row['id'] = 0                
         
         return row
     
-    #get headerData
+    ##vraci hlavicku tabulky jako list[]
     def header(self):
         header = []
         for i in range(self.columnCount()):
             header.append(str(self.headerData(i, QtCore.Qt.Horizontal).toString()))
         return header
     
-    # get row values in dict
-    def getRow(self, row):
-        column = 0
-        dict = {}                
+    ##vraci radek jako slovnik (podle cisla radku)        
+    def getRow(self, nr_row):
+        nr_column = 0
+        row = {}                
                 
         for key in self.header():                            
-            dict[key] = self.item(row, column).text()
-            column += 1
+            row[key] = self.item(nr_row, nr_column).text()
+            nr_column += 1
         
-        return dict    
+        return row    
                 
-    # go through all keys in dict,  if exist => value added 
-    def addRow(self, row):
-        #print "add..", row  
+    ##prida radek do modelu
+    #    
+    #prochazi vsechny definovane sloupce tabulky
+    #pokud radek{} obsahuje sloupec(klic) z definice 
+    #prida se toto policko na prislusne misto    
+    def addRow(self, row):          
         
         nr_column = 0                        
 
         if (row == {}):            
             return
             
+        #novy radek
         self.insertRow(0)                
                         
-        #through defined keys
+        #pres definovane sloupce
         for key in self.params.TABLE_COLLUMN_DEF.keys():                                      
                                                      
-            #exist in row?                                               
+            #existuje tento sloupec v pridavanem radku?                                               
             if (key in row.keys()):                                                                      
                 
-                #set data  
-                                               
+                #nastavit hodnotu policka                                                
                 self.setData(self.index(0,self.params.TABLE_COLLUMN_DEF[key]["index"]), row[key])                                
-                
-                #next column
+                                
                 nr_column += 1
             else:
-                pass
-                #print "Error: NOT adding item to table", key, row.keys()                    
-                            
-        
-    #=======================================================================  
-    # update model from DB
-    #=======================================================================  
-    # update() => all table
-    # update(parameter, value) => all rows with par = value
+                pass                                
+                              
+    ##update modelu z databaze
+    #  
+    #update() => update cele tabulky
+    # update(parameter, value) => vsechny radky s parametrem = value
     # update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
+    
     def update(self, parameter=None, value=None, conditions=None, operation=None):
                 
         self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE        
                       
-        #remove all rows
+        #smazat vsechny radky
         self.removeRows(0, self.rowCount())  
         
-        #get rows from DB
+        #ziskat radky z databaze DB
         if ((parameter == None) and (conditions == None)):                
             rows = self.params.db.getAll(self.params.name)
         elif (conditions == None):
@@ -260,7 +255,7 @@ class myModel(QtGui.QStandardItemModel):
         else:
             rows = []        
                                                     
-        #add rows in table
+        #pridat radky do modelu/tabulky
         for row in rows:            
             
             #convert "db-row" to dict (in dict can be added record)
@@ -272,8 +267,7 @@ class myModel(QtGui.QStandardItemModel):
             #add row to the table            
             self.addRow(row_table)                                 
             
-        self.params.guidata.user_actions = GuiData.ACTIONS_ENABLE                
-                                                            
+        self.params.guidata.user_actions = GuiData.ACTIONS_ENABLE                                                                          
             
 
 class myProxyModel(QtGui.QSortFilterProxyModel):
