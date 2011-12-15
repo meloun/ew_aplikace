@@ -16,10 +16,7 @@ import ewitis.gui.GuiData as GuiData
 import ewitis.gui.RunsModel as RunsModel
 import ewitis.gui.TimesModel as TimesModel
 import ewitis.gui.UsersModel as UsersModel
-
-
 import libs.sqlite.sqlite as sqlite
-import ewitis.sql_queries.sql_queries as sql_queries
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    

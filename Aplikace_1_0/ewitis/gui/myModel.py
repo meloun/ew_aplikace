@@ -16,11 +16,11 @@ TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
 SYSTEM_SLEEP, SYSTEM_WORKING = range(2)   
     
-## class myParameters
-#
-#  použita jako parametr pro class myTable, resp. TimesParameters, RunsParameters, UserParameters
-#  ze source(odděděné QMainWindow) postupuje/přebírá hodnoty       
 class myParameters():
+    """
+    použita jako parametr pro class myTable, resp. TimesParameters, RunsParameters, UserParameters
+    ze source(odděděné QMainWindow) postupuje/přebírá hodnoty   
+    """
     def __init__(self, source):
         
         #callback METHOD,  for showing dialogs, messages
@@ -31,13 +31,12 @@ class myParameters():
         
         #guidata
         self.guidata = source.GuiData
-                                    
-
-## class myModel
-#
-# odděděná od QStandardItemModel
-# základní model                
+           
 class myModel(QtGui.QStandardItemModel):
+    """
+    odděděná od QStandardItemModel,
+    základní model 
+    """
     def __init__(self, params):       
         
         #parametry
@@ -63,9 +62,11 @@ class myModel(QtGui.QStandardItemModel):
         #slot na zmenu policka, modelu
         QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                                            
     
-    #slot MODEL CHANGED
-    #model se zmenil -> ulozeni do DB        
-    def slot_ModelChanged(self, item):                        
+    #     
+    def slot_ModelChanged(self, item):
+        """
+        SLOT, model se zmenil => ulozeni do DB
+        """                          
         
         #user change, no auto update
         if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):                                                                  
@@ -88,10 +89,11 @@ class myModel(QtGui.QStandardItemModel):
             #update model                                                               
             self.update() 
     
-    ## definovani vlastnosti enabled, selectable, editable 
-    #
-    # první políčko je standartne needitovatelne
     def flags(self, index):
+        """
+        definovaní vlastností - enabled, selectable, editable;        
+        první políčko je standartně needitovatelné
+        """
         
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled        
@@ -105,9 +107,9 @@ class myModel(QtGui.QStandardItemModel):
             return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
-    
-    ## vraci tabulku(hodnoty bunek) v listu[]
+         
     def lists(self):
+        """vraci tabulku(hodnoty bunek) v listu[]"""
         rows = []
         for i in range(self.rowCount()):
             row = []
@@ -122,10 +124,12 @@ class myModel(QtGui.QStandardItemModel):
     
     
 
-    ##konverze DATABASE radku na TABLE radek
-    #
-    #pokud existuje sloupec z database i v tabulce, zkopiruje se 
+
     def db2tableRow(self, dbRow):
+        """
+        konverze DATABASE radku na TABLE radek
+        pokud existuje sloupec z database i v tabulce, zkopiruje se 
+        """
         
         tabRow = {}
      
@@ -139,10 +143,12 @@ class myModel(QtGui.QStandardItemModel):
 
         return tabRow
      
-    ##konverze TABLE radku do DATABASE radku       
-    #
-    #pokud existuje sloupec z tabulky i v databazi, zkopiruje se     
+   
     def table2dbRow(self, tabRow):
+        """
+        konverze TABLE ěščřžýáíéradku do DATABASE radku       
+        pokud existuje sloupec z tabulky i v databazi, zkopiruje se  
+        """
         
         dbRow = {}
                        
@@ -160,17 +166,19 @@ class myModel(QtGui.QStandardItemModel):
                 dbRow[key] = str(dbRow[key].toUtf8())
                 
         return dbRow
-    
-    ##konverze TABLE radku do DATABASE radku       
-    #
-    #pokud existuje sloupec z tabulky i v databazi, zkopiruje se     
-    def table2exportRow(self, tabRow):   
+       
+    def table2exportRow(self, tabRow):
+        """
+        konverze TABLE radku do DATABASE radku       
+        pokud existuje sloupec z tabulky i v databazi, zkopiruje se
+        """     
         exportRow = {}
         return exportRow                     
 
     
-    ## vraci radek naplneny zakladnimi daty
-    def getDefaultTableRow(self):        
+    
+    def getDefaultTableRow(self):
+        """vraci radek naplneny zakladnimi daty"""        
         row = {}     
            
         #prazdne znaky do vsech sloupcu
@@ -186,15 +194,15 @@ class myModel(QtGui.QStandardItemModel):
         
         return row
     
-    ##vraci hlavicku tabulky jako list[]
     def header(self):
+        """vraci hlavicku tabulky jako list[]"""
         header = []
         for i in range(self.columnCount()):
             header.append(str(self.headerData(i, QtCore.Qt.Horizontal).toString()))
         return header
-    
-    ##vraci radek jako slovnik (podle cisla radku)        
+     
     def getRow(self, nr_row):
+        """vraci radek jako slovnik (podle cisla radku)"""
         nr_column = 0
         row = {}                
                 
@@ -204,12 +212,14 @@ class myModel(QtGui.QStandardItemModel):
         
         return row    
                 
-    ##prida radek do modelu
-    #    
-    #prochazi vsechny definovane sloupce tabulky
-    #pokud radek{} obsahuje sloupec(klic) z definice 
-    #prida se toto policko na prislusne misto    
-    def addRow(self, row):          
+    def addRow(self, row):
+        """
+        prida radek do modelu,
+        
+        prochazi vsechny definovane sloupce tabulky
+        pokud radek{} obsahuje sloupec(klic) z definice 
+        prida se toto policko na prislusne misto    
+        """
         
         nr_column = 0                        
 
@@ -230,15 +240,16 @@ class myModel(QtGui.QStandardItemModel):
                                 
                 nr_column += 1
             else:
-                pass                                
-                              
-    ##update modelu z databaze
-    #  
-    #update() => update cele tabulky
-    # update(parameter, value) => vsechny radky s parametrem = value
-    # update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
+                pass                                                              
     
     def update(self, parameter=None, value=None, conditions=None, operation=None):
+        """
+        update modelu z databaze
+          
+        update() => update cele tabulky
+        update(parameter, value) => vsechny radky s parametrem = value
+        update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
+        """
                 
         self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE        
                       
