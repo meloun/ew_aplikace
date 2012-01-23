@@ -12,6 +12,8 @@ import libs.utils.utils as utils
 #===============================================================================
 # COMMANDS
 #===============================================================================
+CMD_SET_BACKLIGHT       =   0x10
+CMD_SET_TIME            =   0x12
 CMD_GET_RUN_PAR_INDEX   =   0x30
 CMD_GET_TIME_PAR_INDEX  =   0x32
 
@@ -51,6 +53,10 @@ def callback(command, data):
         
         #add data      
         #aux_run['datetime'] =  '{0}.{1} {2}  {3}:{4}:{5}'.format(aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])
-        aux_run['datetime'] = '%d.%d %d %02d:%02d:%02d' % (aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])                                                                                  
+        aux_run['datetime'] = '%d.%d. %d %02d:%02d:%02d' % (aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])                                                                                  
         return aux_run
-    return "E: callback error" 
+    elif(command == (CMD_SET_BACKLIGHT | 0x80)):
+        return data
+    elif(command == (CMD_SET_TIME | 0x80)):
+        return data
+    return "E: callback error, cmd: " + str(command) 

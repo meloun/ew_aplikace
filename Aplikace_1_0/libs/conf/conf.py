@@ -13,3 +13,9 @@ def load(filename, default_conf):
         USER_CONF = default_conf
         print 'W: Cannot load user configuration, set default..'  + str(USER_CONF)
     return USER_CONF 
+
+
+if __name__ == "__main__": 
+    
+    USER_CONF = load('ewitis.conf', {"port": "COM8", "baudrate": 38400})
+    print USER_CONF['port']

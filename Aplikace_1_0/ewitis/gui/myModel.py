@@ -202,10 +202,11 @@ class myModel(QtGui.QStandardItemModel):
         return header
      
     def getRow(self, nr_row):
-        """vraci radek jako slovnik (podle cisla radku)"""
+        """vraci radek jako slovnik (podle cisla radku)"""        
         nr_column = 0
         row = {}                
-                
+
+        print self.header()                
         for key in self.header():                            
             row[key] = self.item(nr_row, nr_column).text()
             nr_column += 1
@@ -600,7 +601,7 @@ class myTable():
         title = "Table '"+self.params.name + "' Delete"
         
         #confirm dialog and delete
-        if (self.params.showmessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", type='warning_dialog')):
+        if (self.params.showmessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", msgtype='warning_dialog')):
             self.deleteAll()                                            
     
                   

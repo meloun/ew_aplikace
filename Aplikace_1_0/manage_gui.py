@@ -16,6 +16,7 @@ import ewitis.gui.GuiData as GuiData
 import ewitis.gui.RunsModel as RunsModel
 import ewitis.gui.TimesModel as TimesModel
 import ewitis.gui.UsersModel as UsersModel
+import ewitis.gui.CategoriesModel as CategoriesModel
 import libs.sqlite.sqlite as sqlite
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
@@ -59,6 +60,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.U = UsersModel.Users( UsersModel.UsersParameters(self))                       
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))        
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
+        self.C = CategoriesModel.Categories( CategoriesModel.CategoriesParameters(self))
         
         #doplneni 
         self.T.params.tabRuns = self.R        

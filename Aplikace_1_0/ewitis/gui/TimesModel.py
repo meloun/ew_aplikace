@@ -9,6 +9,7 @@ import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.TimesUtils as Utils
+import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
 
@@ -16,6 +17,7 @@ import libs.utils.utils as utils
 
 class TimesParameters(myModel.myParameters):
     def __init__(self, source):
+                
                 
         #table and db table name
         self.name = "Times" 
@@ -28,41 +30,16 @@ class TimesParameters(myModel.myParameters):
         
         #=======================================================================
         # KEYS
-        #=======================================================================
-        self.DB_COLLUMN_DEF = { "state"     :     {"index": 0, "name": "state"},
-                                "id"        :     {"index": 1, "name": "id"},
-                                "run_id"    :     {"index": 2, "name": "run_id"},
-                                "user_id"   :     {"index": 3, "name": "user_id"},
-                                "cell"      :     {"index": 4, "name": "cell"},
-                                "time_raw"  :     {"index": 5, "name": "time_raw"},
-                                "time"      :     {"index": 6, "name": "time"},                                
-                              }
+        #=======================================================================        
+        self.DATABASE_COLLUMN_DEF= DEF_COLUMN.TIMES['database']
+        
         if(self.guidata.measure_mode == GuiData.MODE_TRAINING_BASIC) or (self.guidata.measure_mode == GuiData.MODE_TRAINING):
-            self.TABLE_COLLUMN_DEF = { "id"         : {"index": 0,  "name": "id",        "width":35,    "write":1},
-                                       "nr"         : {"index": 1,  "name": "nr",        "width":50,    "write":1},
-                                       "cell"       : {"index": 2,  "name": "cell",      "width":50,    "write":1},
-                                       "time"       : {"index": 3,  "name": "time",      "width":50,    "write":1},
-                                       "name"       : {"index": 4,  "name": "name",      "width":50,    "write":1},
-                                       "category"   : {"index": 5,  "name": "category",  "width":150,   "write":1},                                       
-                                     }                             
+            self.TABLE_COLLUMN_DEF = DEF_COLUMN.TIMES['table_training']                                         
       
         elif(self.guidata.measure_mode == GuiData.MODE_RACE):
-            self.TABLE_COLLUMN_DEF = { "id"         : {"index": 0,  "name": "id",        "width":35,    "col_nr_export": None,    "write":1},
-                                       "nr"         : {"index": 1,  "name": "nr",        "width":50,    "col_nr_export": 1,       "write":1},
-                                       "cell"       : {"index": 2,  "name": "cell",      "width":50,    "col_nr_export": None,    "write":1},
-                                       "time"       : {"index": 3,  "name": "time",      "width":100,   "col_nr_export": 5,       "write":1},
-                                       "name"       : {"index": 4,  "name": "name",      "width":150,   "col_nr_export": 2,       "write":1},
-                                       "category"   : {"index": 5,  "name": "category",  "width":100,   "col_nr_export": None,    "write":1},
-                                       "order"      : {"index": 6,  "name": "order",     "width":50,    "col_nr_export": None,    "write":1},      
-                                       "order_kat"  : {"index": 7,  "name": "order_kat", "width":50,    "col_nr_export": 0,       "write":1},      
-                                       "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "col_nr_export": None,    "write":1},
-                                       "lap"        : {"index": 9,  "name": "lap",       "width":50,    "col_nr_export": None,    "write":1},                                               
-                                     }  
-        self.EXPORT_COLLUMN_DEF = { "nr   "     :     {"index": 0, "name": "nr"},
-                                    "time"      :     {"index": 1, "name": "time"},
-                                    "name"      :     {"index": 2, "name": "name"},
-                                    "category"  :     {"index": 3, "name": "category"}                                                                                                                                            
-                                  }
+            self.TABLE_COLLUMN_DEF  = DEF_COLUMN.TIMES['table_race']
+        
+        self.EXPORT_COLLUMN_DEF  = DEF_COLUMN.TIMES['table_race']        
         
         #create MODEL and his structure
         myModel.myParameters.__init__(self, source)        

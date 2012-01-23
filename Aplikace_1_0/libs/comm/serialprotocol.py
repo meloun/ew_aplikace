@@ -56,6 +56,7 @@ import _winreg as winreg
 import re, itertools
 #from ewitis.log import log
 
+#: start byte constant
 START_BYTE              =   "\x53"
 FRAMELENGTH_NO_DATA     =   5
 
@@ -70,11 +71,13 @@ class SendReceiveError(Exception): pass
 class SerialProtocol():
     """    
     """
+    
     def __init__(self, xcallback, port = None, baudrate = 9600):
+                
         self.callback = xcallback
         self.port = port
         self.baudrate = baudrate        
-        self.seq_id = 1            
+        self.seq_id = 1                    
         
     def xor(self, string):
         """checksumm"""
@@ -126,15 +129,14 @@ class SerialProtocol():
           command: a
           
           data: b
-        """
-        
+        """              
         aux_string = START_BYTE;
         aux_string += (chr(self.seq_id))
         aux_string += (chr(command)) 
         aux_string += chr(len(data))
         aux_string += data        
         aux_string += chr(self.xor(aux_string));
-        #print aux_string.encode('hex')
+        print aux_string.encode('hex')
                 
         self.ser.write(aux_string)
         #return self.seq_id
@@ -187,7 +189,7 @@ class SerialProtocol():
             
         if state == eWAIT_FOR_XOR:            
             znak = self.ser.read()            
-            state = eWAIT_FOR_STARTBIT
+            state = eWAIT_FOR_STARTBIT            
             return frame
         raise Receive_Error()
     
@@ -220,18 +222,23 @@ class SerialProtocol():
             '''send frame'''
             self.send_frame(cmd, data)            
             
-            '''wait for enough data'''
+            '''wait for enough data'''            
             for attempt_2 in range(5):                
-                if(self.ser.inWaiting() >= len(data) + FRAMELENGTH_NO_DATA):
+                if(self.ser.inWaiting() >=  FRAMELENGTH_NO_DATA):
                     break                
                 time.sleep(0.1)
             else:
+                print "no enought data"
                 continue #no enough data, try send,receive again
+            
+            time.sleep(0.1)
             
             '''receive answer'''
             try:                                   
                 aux_frame = self.receive_frame()
                 if(aux_frame['seq_id'] != self.seq_id):
+                    print "a: ",aux_frame['seq_id']
+                    print "b:", self.seq_id
                     raise SendReceiveError(1, "no match sequence ids")
                 
                 '''ALL OK'''
