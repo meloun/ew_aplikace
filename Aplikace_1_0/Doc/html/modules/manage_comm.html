@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>manage_comm — CSV File Reading and Writing &mdash; hokus 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="hokus 0.1 documentation" href="../index.html" />
+    <link rel="next" title="ewitis.gui.myModel" href="myModel.html" />
+    <link rel="prev" title="manage_gui — CSV File Reading and Writing" href="manage_gui.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="myModel.html" title="ewitis.gui.myModel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="manage_gui.html" title="manage_gui — CSV File Reading and Writing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hokus 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-manage_comm">
+<span id="manage-comm-csv-file-reading-and-writing"></span><h1><a class="reference internal" href="#module-manage_comm" title="manage_comm"><tt class="xref py py-mod docutils literal"><span class="pre">manage_comm</span></tt></a> &#8212; CSV File Reading and Writing<a class="headerlink" href="#module-manage_comm" title="Permalink to this headline">¶</a></h1>
+<p>Created on 10.06.2010
+&#64;author: Lubos Melichar</p>
+<dl class="data">
+<dt id="manage_comm.CMD_GET_TIME_PAR_INDEX">
+<tt class="descname">CMD_GET_TIME_PAR_INDEX</tt><em class="property"> = 50</em><a class="headerlink" href="#manage_comm.CMD_GET_TIME_PAR_INDEX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Komandy rozdělené do dvou sekcí GET a SET</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="manage_comm.COMMANDS">
+<tt class="descname">COMMANDS</tt><em class="property"> = {'SET': {'language': 0, 'backlight': 16, 'time': 18}, 'GET': {'time_par_index': 50, 'terminal_info': 16, 'measure_info': 16, 'cell_info': 16, 'run_par_index': 49}}</em><a class="headerlink" href="#manage_comm.COMMANDS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>definice DAT pro DATASTORE</dt>
+<dd><ul class="first last">
+<li><p class="first">přenos dat mezi gui a kommunikací</p>
+</li>
+<li><dl class="first docutils">
+<dt>sekce:</dt>
+<dd><p class="first last">TERMINAL_GET: data se pravidelně se obnovují z terminálu
+TERMINAL_SET: při změně se data nastavují do terminálu
+GET_SET: žádná akce mimo základní metody Datastore</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="manage_comm.ManageComm">
+<em class="property">class </em><tt class="descname">ManageComm</tt><big>(</big><em>conf_file='ewitis.conf'</em>, <em>ShaMem_comm={'baudrate': 38400</em>, <em>'enable': False</em>, <em>'port': 'COM5'}</em><big>)</big><a class="headerlink" href="#manage_comm.ManageComm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></p>
+<dl class="method">
+<dt id="manage_comm.ManageComm.port_close">
+<tt class="descname">port_close</tt><big>(</big><big>)</big><a class="headerlink" href="#manage_comm.ManageComm.port_close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="manage_comm.ManageComm.port_open">
+<tt class="descname">port_open</tt><big>(</big><big>)</big><a class="headerlink" href="#manage_comm.ManageComm.port_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="manage_comm.ManageComm.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#manage_comm.ManageComm.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="manage_comm.ManageComm.send_receive_frame">
+<tt class="descname">send_receive_frame</tt><big>(</big><em>command</em>, <em>string_data</em><big>)</big><a class="headerlink" href="#manage_comm.ManageComm.send_receive_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>ošetřená vysílací, přijímací metoda</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="manage_comm.ManageComm.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="headerlink" href="#manage_comm.ManageComm.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p>rst</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="manage_gui.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">manage_gui</span></tt> &#8212; CSV File Reading and Writing</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="myModel.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">ewitis.gui.myModel</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/manage_comm.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="myModel.html" title="ewitis.gui.myModel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="manage_gui.html" title="manage_gui — CSV File Reading and Writing"
+             >previous</a> |</li>
+        <li><a href="../index.html">hokus 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, meloun.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>
