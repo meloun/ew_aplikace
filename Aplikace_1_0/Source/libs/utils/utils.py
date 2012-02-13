@@ -11,3 +11,13 @@ def time_to_string(time):
     milliseconds = time % (100)
     
     return '%02d:%02d:%02d,%02d' %(hours, minutes, seconds, milliseconds)
+
+
+if __name__ == "__main__":
+    import struct
+    
+    a = struct.pack('???', 1,1,1)
+    print str(a)
+
+print int(True)
+print int(False)

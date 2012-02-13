@@ -20,19 +20,27 @@ import ewitis.gui.CategoriesModel as CategoriesModel
 import libs.sqlite.sqlite as sqlite
 import ewitis.data.DEF_DATA as DEF_DATA
 import libs.datastore.datastore as datastore
+import ewitis.gui.UiAccesories as UiAccesories
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
     def __init__(self, parent=None):
-        import libs.comm.serial_utils as serial_utils 
+        import libs.comm.serial_utils as serial_utils                 
         
-        #GUI
+        """ GUI """
         QtGui.QWidget.__init__(self, parent)        
         self.ui = Ui_App.Ui_MainWindow()
-        self.ui.setupUi(self)                                                                                                                          
-
-                       
-
+        self.ui.setupUi(self)
+        
+        
+        
+        #=======================================================================
+        # DATASTORE
+        #=======================================================================                
+        self.datastore = datastore.Datastore(DEF_DATA.DEF_DATA)
+        
+        #slots, update etc.                                                                                                                     
+        self.UiAccesories = UiAccesories.UiAccesories(self.ui, self.datastore)                    
         
                                                            
         #=======================================================================
@@ -54,7 +62,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(250);        
+        self.timer1s.start(10);        
         
         #=======================================================================
         # TABLES
@@ -68,19 +76,16 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #doplneni 
         self.T.params.tabRuns = self.R  
         
-        #=======================================================================
-        # DATASTORE
-        #=======================================================================                
-        self.datastore = datastore.Datastore(DEF_DATA.DEF_DATA)
+
         
         #nastaveni prvniho dostupneho portu
         try:
             self.datastore.Set("port_name", "GET_SET", serial_utils.enumerate_serial_ports().next())        
         except:            
             self.datastore.Set("port_name", "GET_SET", "---")
-        print self.datastore.data
+        #print self.datastore.data
         
-        self.updateGui()
+        self.UiAccesories.updateGui()
               
         
         self.update()
@@ -110,9 +115,10 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.aEditMode, QtCore.SIGNAL("triggered()"), self.sEditMode)
         QtCore.QObject.connect(self.ui.tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged)
         #QtCore.QObject.connect(self.ui.TimesShowAll, QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAllChanged)
-        #QtCore.QObject.connect(self.ui.timesShowZero, QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZeroChanged)
-                                                                         
-
+        #QtCore.QObject.connect(self.ui.timesShowZero, QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZeroChanged)              
+                        
+        self.UiAccesories.createSlots()
+        
         
         #=======================================================================
         # COMM
@@ -121,8 +127,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #self.myManageComm.start() #start thread, 'run' flag should be 0, so this thread ends immediatelly
         
         #print self.ui.aRefresh.
-        
-          
+             
     def __del__(self):
         print "GUI: mazu instanci.."                                                              
 
@@ -164,35 +169,13 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.myapp.show()    
         sys.exit(self.app.exec_())
                 
-    def updateGui(self):
         
-        """ PORT NAME """
-        self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
-        self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
         
-        """ PORT CONNECT """
-        if(self.datastore.Get("port_enable")):
-            self.ui.aConnectPort.setText("Disconnect")
-        else:
-            self.ui.aConnectPort.setText("Connect")
-                
-        terminal_info = self.datastore.Get("terminal info", "GET")
-        
-        """ BACKLIGHT """
-        if(self.datastore.Get("backlight", "SET")):
-            self.ui.lineBacklight.setText("ON")
-            self.ui.pushBacklight.setText("=> OFF")
-        else:
-            self.ui.lineBacklight.setText("OFF")
-            self.ui.pushBacklight.setText("=> ON")
-            
-    def update(self):
+    
+    def updateTables(self):
         self.R.update()
         self.T.update()
-        self.U.update()
-        self.updateGui()     
-
-
+        self.U.update()                  
 
     def uiRestrict(self):
         if(self.GuiData.measure_mode == GuiData.MODE_TRAINING_BASIC):
@@ -210,18 +193,13 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             
             #MENU
             self.ui.menubar.setHidden(True)                                                                                              
-            self.ui.TimesWwwExport.addAction(self.ui.aDirectWwwExport)
-            
-        
-        
-        
-
+            self.ui.TimesWwwExport.addAction(self.ui.aDirectWwwExport)            
          
     #=======================================================================
     ### SLOTS ###
     #=======================================================================        
     def sTimer(self):
-        self.update()
+        self.UiAccesories.updateGui()
         
     def sTabChanged(self, nr):        
         if(nr==0):
@@ -287,7 +265,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             self.datastore.Set("port_name", str(item))
             self.showMessage(title, str(item), dialog = False)
              
-        self.updateGui()               
+        self.UiAccesories.updateGui()               
         
                            
     #=======================================================================
@@ -320,7 +298,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
                 title = "Port connect"                                
                 self.showMessage(title, self.datastore.Get("port_name")+" cant connect")                
                                 
-        self.updateGui()                     
+        self.UiAccesories.updateGui()                     
         
     #===========================================================================
     ### ACTION TOOLBAR ### 
@@ -394,8 +372,8 @@ if __name__ == "__main__":
     #myManageGui = manage_gui()
     #myManageGui.start()
     
-    def gui_start():
-        app = QtGui.QApplication(sys.argv)
+    def gui_start():        
+        app = QtGui.QApplication(sys.argv)        
         myapp = wrapper_gui_ewitis()           
         myapp.show()
         sys.exit(app.exec_())

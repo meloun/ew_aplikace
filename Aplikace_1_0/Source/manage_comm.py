@@ -51,7 +51,7 @@ class ManageComm(Thread):
         
         ''' CONNECT TO EWITIS '''                
         self.protokol = serialprotocol.SerialProtocol( callback.callback, port=self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))
-        print self.datastore.Get("port_name", "GET_SET")
+        #print self.datastore.Get("port_name", "GET_SET")
         print "COMM: zakladam instanci.."                        
         
     def __del__(self):
@@ -61,7 +61,7 @@ class ManageComm(Thread):
         self.protokol.close_port()
         print "COMM: koncim vlakno.."
         
-    def send_receive_frame(self, command, string_data):
+    def send_receive_frame(self, command, string_data=""):
         """ ošetřená vysílací, přijímací metoda """
         try:                                               
             return self.protokol.send_receive_frame(command, string_data)                                                                             
@@ -107,11 +107,11 @@ class ManageComm(Thread):
         #res = self.db.query(query)
         #for item in res:
         #    print item 
-                                                                                           
+        cnt = 0                                                                                   
         while(1):
                                   
             #wait 1 second, test if thread should be terminated
-            for i in range(100): 
+            for i in range(5): 
                 
                 #              
                 time.sleep(0.01)
@@ -165,7 +165,8 @@ class ManageComm(Thread):
                                                 
                                                             
             else:
-                print "I:Comm: no new time"  
+                pass
+                #print "I:Comm: no new time"  
                 
         
             """ STORE NEW RUN TO THE DATABASE """ 
@@ -192,41 +193,68 @@ class ManageComm(Thread):
                                                 
                                                             
             else:
-                print "I:Comm: no new run"
+                pass
+                #print "I:Comm: no new run"
                 
                 
-#            """
-#            GET&STORE NEW STATES FROM TERMINAL TO THE DATASTORE            
-#             - get&store new terminal states
-#             - get&store new cells states
-#             - get&store new measure states                        
-#            """
-#                        
-#            """ get new terminal-states """
-#            aux_terminal_states = self.send_receive_frame(COMMANDS["GET"]["terminal_info"])
-#            
-#            """ store terminal-states to the datastore """            
-#            self.datastore.set["backlight", "GET"] = aux_terminal_states["backlight"]  
-#            self.datastore.set["time", "GET"] = aux_terminal_states["time"]  
-#            self.datastore.set["language", "GET"] = aux_terminal_states["language"]  
-#            self.datastore.set["battery", "GET"] = aux_terminal_states["battery"]  
-#            
-#            """
-#            SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
-#             - set new backlight state
-#             - set new time
-#             - set language                        
-#            """
-#            
+            """
+            GET&STORE NEW VALUES FROM TERMINAL TO THE DATASTORE            
+             - get&store new terminal states
+             - get&store new cells states
+             - get&store new measure states                        
+            """
+                        
+
+                                         
+            
+            """
+            SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
+             - set new backlight state
+             - set new time
+             - set language                        
+            """
+            
             """ set backlight """
-            if(self.datastore.IsFlagged("backlight", "SET", "changed")):                
+            if(self.datastore.IsChanged("backlight")):                                
                 data = self.datastore.Get("backlight", "SET")                
                 ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
-                #print "R1:",ret
-                if(data == 0x00):
-                    self.datastore.Set("backlight", 0x01, "SET")
-                else:
-                    self.datastore.Set("backlight", 0x00, "SET")
+                self.datastore.ResetChangedFlag("backlight")                                   
+            
+            """ set speaker """
+            if(self.datastore.IsChanged("speaker")):
+                print "NASTAVUJI"                                                                             
+                aux_speaker = self.datastore.Get("speaker", "SET")                                
+                aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                 
+                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
+                self.datastore.ResetChangedFlag("speaker")                
+                                        
+            """ set language """
+            if(self.datastore.IsChanged("language")):                                                                                        
+                aux_speaker = self.datastore.Get("language", "SET")                                
+                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], struct.pack('B', data))
+                self.datastore.ResetChangedFlag("language")                                   
+                            
+                                                                                
+            """ get terminal-info """                     
+            aux_terminal_info = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["terminal_info"])
+            """ store terminal-info to the datastore """ 
+            if(self.datastore.IsReadyForRefresh("terminal_info")):           
+                self.datastore.Set("terminal_info", aux_terminal_info, "GET")
+            else:
+                print "not ready for refresh", aux_terminal_info   
+
+            """ get timing-settings """            
+            aux_timing_setting = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"])
+            print aux_timing_setting
+            """ store terminal-states to the datastore """ 
+            if(self.datastore.IsReadyForRefresh("timing_settings")):           
+                self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+            else:
+                print "not ready for refresh", aux_timing_setting   
+                                                                          
+                
+
+            #print cnt, aux_terminal_states['speaker']['keys']            
                 
             """ set time """
             #if(self.datastore.isRequested("time", "SET", "changed")):
@@ -251,6 +279,8 @@ class ManageComm(Thread):
 #            """ set language """
 #            if(self.datastore.isRequested("language", "SET", "changed")):
 #                ret = self.send_receive_frame(COMMANDS["SET"]["language"], struct.pack('B', self.datastore.get("language", "SET")))
+
+
                 
             
     def port_open(self):

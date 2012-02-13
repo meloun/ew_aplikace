@@ -1,13 +1,15 @@
-#Wed Feb 01 14:06:44 CET 2012
+#Mon Feb 06 10:35:42 CET 2012
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
+encoding//ewitis/comm/callback.py=utf-8
 encoding//ewitis/data/DEF_DATA.py=utf-8
 encoding//ewitis/gui/GuiData.py=utf-8
 encoding//ewitis/gui/RunsModel.py=utf-8
 encoding//ewitis/gui/TimesModel.py=utf-8
 encoding//ewitis/gui/TimesSlots.py=utf-8
 encoding//ewitis/gui/TimesUtils.py=utf-8
+encoding//ewitis/gui/UiAccesories.py=utf-8
 encoding//ewitis/gui/Ui_App.py=utf-8
 encoding//ewitis/gui/myModel.py=utf-8
 encoding//libs/comm/serialprotocol.py=utf-8

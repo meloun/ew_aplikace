@@ -455,7 +455,7 @@ class myTable():
         
         #get ID for default record
         row = self.model.getDefaultTableRow()        
-        print row                
+        #print row                
         my_id = self.params.showmessage(title,"ID: ", msgtype="input_integer", value = row['id'])                
         if my_id == None:
             return
@@ -561,7 +561,7 @@ class myTable():
         #title
         title = "Table '"+self.params.name + "' CSV Export"
         
-        print filename, source
+        #print filename, source
          
         #export to csv file
         #try:                        

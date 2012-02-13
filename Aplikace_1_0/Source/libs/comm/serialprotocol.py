@@ -54,6 +54,7 @@ import sqlite3
 from struct import unpack
 import _winreg as winreg
 import re, itertools
+import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #from ewitis.log import log
 
 #: start byte constant
@@ -136,7 +137,9 @@ class SerialProtocol():
         aux_string += chr(len(data))
         aux_string += data        
         aux_string += chr(self.xor(aux_string));
-        #print aux_string.encode('hex')
+        
+#        if(command == DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"]):
+#           print aux_string.encode('hex')
                         
         self.ser.write(aux_string)        
         #return self.seq_id
@@ -222,17 +225,21 @@ class SerialProtocol():
             self.send_frame(cmd, data)                      
             
             '''wait for enough data'''            
-            for attempt_2 in range(5):                
+            for attempt_2 in range(5): 
+                time.sleep(0.03)               
                 if(self.ser.inWaiting() >=  FRAMELENGTH_NO_DATA):
-                    break                               
-                time.sleep(0.1)
+                    break
+                if(cmd == DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"]):
+                    print "I: no enought data YET.."                               
+                
             else:
-                print "no enought data"
-                continue #no enough data, try send,receive again            
-            time.sleep(0.1)
+                print "E: no enought data"
+                continue #no enough data, try send,receive again
+                        
+            time.sleep(0.01)
             
             '''receive answer'''
-            try:                                   
+            try:                                 
                 aux_frame = self.receive_frame()
                 if(aux_frame['seq_id'] != self.seq_id):
                     print "a: ",aux_frame['seq_id']

@@ -1,0 +1,164 @@
+# -*- coding: utf-8 -*-
+
+from PyQt4 import QtCore, QtGui 
+from threading import Thread,RLock
+
+class UiAccesories():
+    def __init__(self, ui, datastore):
+        
+        self.ui = ui
+        self.datastore = datastore                
+    
+    def createSlots(self): 
+                
+        """SLOTY"""
+        QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
+        #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
+        QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
+        QtCore.QObject.connect(self.ui.pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
+        QtCore.QObject.connect(self.ui.pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))
+        QtCore.QObject.connect(self.ui.comboLanguage, QtCore.SIGNAL("currentIndexChanged(int)"), self.sComboLanguage)
+
+    def updateGui(self):
+        
+        """ PORT NAME """
+        self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
+        self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
+        
+        """ PORT CONNECT """
+        if(self.datastore.Get("port_enable")):
+            self.ui.aConnectPort.setText("Disconnect")
+        else:
+            self.ui.aConnectPort.setText("Connect")
+                
+        terminal_info = self.datastore.Get("terminal info", "GET")
+        
+        """ TERMINAL INFO """
+        aux_terminal_info = self.datastore.Get("terminal_info", "GET")
+        
+        """ number of cells """
+        if(aux_terminal_info['number_of_cells'] != None):
+            self.ui.lineCells.setText(str(aux_terminal_info['number_of_cells']))                        
+        else:
+            self.ui.lineCells.setText("-") 
+            
+        
+        """ battery """
+        if(aux_terminal_info['battery'] != None):
+            self.ui.lineBattery.setText(str(aux_terminal_info['battery'])+" %")                        
+        else:
+            self.ui.lineBacklight.setText("-- %")            
+            
+            
+        
+        """ backlight """        
+        if(aux_terminal_info['backlight'] == True):
+            self.ui.lineBacklight.setText("ON")
+            self.ui.pushBacklight.setText("OFF")
+            self.ui.pushBacklight.setEnabled(True)
+        elif(aux_terminal_info['backlight'] == False):
+            self.ui.lineBacklight.setText("OFF")
+            self.ui.pushBacklight.setText("ON")
+            self.ui.pushBacklight.setEnabled(True)
+        else:
+            self.ui.lineBacklight.setText("- -")
+            self.ui.pushBacklight.setText("- -")
+            self.ui.pushBacklight.setEnabled(False)        
+        
+        """ speaker """
+        #print aux_terminal_info['speaker']['keys']
+        if(aux_terminal_info['speaker']['keys'] == True):
+            self.ui.lineSpeakerKeys.setText("ON")
+            self.ui.pushSpeakerKeys.setText("OFF")
+            self.ui.pushSpeakerKeys.setEnabled(True)
+            self.ui.pushSpeakerSystem.setEnabled(True)
+            self.ui.pushSpeakerTiming.setEnabled(True)
+        elif(aux_terminal_info['speaker']['keys'] == False):
+            self.ui.lineSpeakerKeys.setText("OFF")
+            self.ui.pushSpeakerKeys.setText("ON")
+            self.ui.pushSpeakerKeys.setEnabled(True)
+            self.ui.pushSpeakerSystem.setEnabled(True)
+            self.ui.pushSpeakerTiming.setEnabled(True)
+        else:
+            self.ui.lineSpeakerKeys.setText("- -")
+            self.ui.pushSpeakerKeys.setText("- -")
+            
+        
+        if(aux_terminal_info['speaker']['system'] == True):
+            self.ui.lineSpeakerSystem.setText("ON")
+            self.ui.pushSpeakerSystem.setText("OFF")
+            self.ui.pushSpeakerSystem.setEnabled(True)
+        elif(aux_terminal_info['speaker']['system'] == False):
+            self.ui.lineSpeakerSystem.setText("OFF")
+            self.ui.pushSpeakerSystem.setText("ON")
+            self.ui.pushSpeakerSystem.setEnabled(True)
+        else:
+            self.ui.lineSpeakerSystem.setText("- -")
+            self.ui.pushSpeakerSystem.setText("- -")
+            self.ui.pushSpeakerSystem.setEnabled(False)
+            
+        if(aux_terminal_info['speaker']['timing'] == True):
+            self.ui.lineSpeakerTiming.setText("ON")
+            self.ui.pushSpeakerTiming.setText("OFF")
+            self.ui.pushSpeakerTiming.setEnabled(True)
+        elif(aux_terminal_info['speaker']['timing'] == False):
+            self.ui.lineSpeakerTiming.setText("OFF")
+            self.ui.pushSpeakerTiming.setText("ON")
+            self.ui.pushSpeakerTiming.setEnabled(True)
+        else: 
+            self.ui.lineSpeakerTiming.setText("- -")
+            self.ui.pushSpeakerTiming.setText("- -")
+            self.ui.pushSpeakerTiming.setEnabled(False)
+        
+        if(aux_terminal_info['speaker']['keys'] == None or aux_terminal_info['speaker']['timing']==None or aux_terminal_info['speaker']['system']==None):    
+            self.ui.pushSpeakerKeys.setEnabled(False)
+            self.ui.pushSpeakerSystem.setEnabled(False)
+            self.ui.pushSpeakerTiming.setEnabled(False)
+        else:
+            self.ui.pushSpeakerKeys.setEnabled(True)
+            self.ui.pushSpeakerSystem.setEnabled(True)
+            self.ui.pushSpeakerTiming.setEnabled(True)
+                
+        if(aux_terminal_info['language'] == 0):                    
+            self.ui.comboLanguage.setCurrentIndex(aux_terminal_info['language'])
+            self.ui.lineLanguage.setText(u"čeština")
+        elif(aux_terminal_info['language'] == 0):
+            self.ui.comboLanguage.setCurrentIndex(aux_terminal_info['language'])
+            self.ui.lineLanguage.setText("english")
+        else:
+            self.ui.comboLanguage.setCurrentIndex(0)
+            self.ui.lineLanguage.setText("- -")
+                        
+        
+    def sTerminalBacklight(self):
+        
+        '''získání a nastavení nové SET hodnoty'''
+        aux_terminal_info = self.datastore.Get("terminal_info", "GET")                        
+        self.datastore.Set("backlight", not(aux_terminal_info["backlight"]), "SET")        
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("terminal_info", 'backlight')                                                                
+        self.updateGui()
+                                                 
+    def sTerminalSpeaker(self, key):
+        
+        '''získání a nastavení nové SET hodnoty'''
+        aux_terminal_info = self.datastore.Get("terminal_info", "GET")
+        aux_speaker = aux_terminal_info['speaker'].copy()       
+        aux_speaker[key] = not(aux_speaker[key])                 
+        self.datastore.Set("speaker", aux_speaker, "SET")
+
+        '''reset GET hodnoty'''                
+        self.datastore.ResetValue("terminal_info", 'speaker', key)                                                          
+        self.updateGui()
+                             
+    def sComboLanguage(self, index):
+        '''získání a nastavení nové SET hodnoty'''
+        aux_terminal_info = self.datastore.Get("terminal_info", "GET")                        
+        self.datastore.Set("language", not(aux_terminal_info["language"]), "SET")
+        #print self.datastore.data['languag']       
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("terminal_info", 'language')                                                                
+        self.updateGui()
+                 
