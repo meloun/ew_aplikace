@@ -138,8 +138,8 @@ class SerialProtocol():
         aux_string += data        
         aux_string += chr(self.xor(aux_string));
         
-#        if(command == DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"]):
-#           print aux_string.encode('hex')
+        if(command == DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"]):
+           print aux_string.encode('hex')
                         
         self.ser.write(aux_string)        
         #return self.seq_id

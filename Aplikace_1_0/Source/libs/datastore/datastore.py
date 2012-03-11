@@ -148,7 +148,7 @@ class Datastore():
         """
         Jen pro SET section                
         slouží ke zjištění zda nastala změna, flag "changed" == True  
-        """
+        """        
         return self.data[name]['SET']['changed']
         
 #        if(name in self.data) and (section in self.data[name]) and (flag in self.data[name][section]):

@@ -75,7 +75,7 @@ class myModel(QtGui.QStandardItemModel):
         if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):                                                                  
                         
             #ziskat zmeneny radek, slovnik{}
-            tabRow = self.getRow(item.row())                                                                              
+            tabRow = self.getTableRow(item.row())                                                                              
             
             #prevest na databazovy radek, dbRow <- tableRow
             dbRow = self.table2dbRow(tabRow)                    
@@ -211,7 +211,7 @@ class myModel(QtGui.QStandardItemModel):
             header.append(str(self.headerData(i, QtCore.Qt.Horizontal).toString()))
         return header
      
-    def getRow(self, nr_row):
+    def getTableRow(self, nr_row):
         """
         vraci radek jako slovnik (podle cisla radku)
         """
@@ -371,14 +371,34 @@ class myTable():
     """
     def  __init__(self, params):                
                         
+        #
+        print "TABLE: ",params.name
+        
         #name
         self.params = params        
+        
+        
+        #create MODEL
+        self.model = self.params.classModel(params)        
+        
+        #create PROXY MODEL        
+        self.proxy_model = self.params.classProxyModel()
         
         #assign MODEL to PROXY MODEL
         self.proxy_model.setSourceModel(self.model)   
         
         #set default sorting
-        self.params.gui['view'].sortByColumn(0, QtCore.Qt.AscendingOrder)
+        self.params.gui['view'].sortByColumn(1, QtCore.Qt.AscendingOrder)
+        
+        #nastaveni proxy modelu
+        self.params.gui['view'].setModel(self.proxy_model)
+        
+        #parametry        
+        self.params.gui['view'].setRootIsDecorated(False)
+        self.params.gui['view'].setAlternatingRowColors(True)        
+        self.params.gui['view'].setSortingEnabled(True)
+        
+        self.update()#setColumnWidth()
                     
         
         #TIMERs
@@ -392,6 +412,23 @@ class myTable():
         
         #update "Counter"
         self.sFilterRegExp()
+        
+        #TIMERs
+        self.timer1s = QtCore.QTimer(); 
+        self.timer1s.start(1000);
+        
+    def setColumnWidth(self):
+        
+        for col in range(self.proxy_model.columnCount()):
+            self.params.gui['view'].resizeColumnToContents(col)
+              
+        #nastaveni sirky sloupcu        
+        for key in self.params.TABLE_COLLUMN_DEF:
+            index = self.params.TABLE_COLLUMN_DEF[key]["index"]
+            width = self.params.TABLE_COLLUMN_DEF[key]["width"]
+            if(width):            
+                self.params.gui['view'].setColumnWidth(index,width)
+                #print index, key, width                        
         
     def createSlots(self):
         print "I: ",self.params.name," vytvarim sloty.."
@@ -718,8 +755,9 @@ class myTable():
         
         
         #resize collumns to contents        
-        for col in range(self.proxy_model.columnCount()):
-            self.params.gui['view'].resizeColumnToContents(col)        
+        #for col in range(self.proxy_model.columnCount()):
+        #    self.params.gui['view'].resizeColumnToContents(col)        
+        self.setColumnWidth()        
 
             
         #row-selection back
@@ -735,6 +773,26 @@ class myTable():
     def update_counter(self):        
         self.params.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))
                          
+    def getDbRow(self, id):
+                 
+        dbRow = self.params.db.getParX(self.params.name, "id", id).fetchone()                            
+        return dbRow
+    
+    def getTabRow(self, id):
+                             
+        #get db row
+        dbRow = self.getDbRow(id)
+        
+        #exist?
+        if dbRow == None:
+            tabRow = self.model.getDefaultTableRow()
+            
+        #exist => restrict username                
+        else:
+            tabCategory = self.model.db2tableRow(dbRow)  
+            
+        return tabRow
+    
     def delete(self, id):
 
         self.params.db.delete(self.params.name, id)                          

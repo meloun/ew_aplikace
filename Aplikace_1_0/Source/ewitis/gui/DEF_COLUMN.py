@@ -22,10 +22,10 @@ RUNS['database'] = {
                   }
 """ table collumn for times, mode training """
 RUNS['table'] = { 
-                 "id"            :     {"index": 0,  "name": "id"},                                
-                 "date"          :     {"index": 1,  "name": "date"},
-                 "name"          :     {"index": 2,  "name": "name"},                                
-                 "description"   :     {"index": 3,  "name": "description"}                                
+                 "id"            :     {"index": 0,  "name": "id",          "width":40},                                
+                 "date"          :     {"index": 1,  "name": "date",        "width":120},
+                 "name"          :     {"index": 2,  "name": "name",        "width":120},                                
+                 "description"   :     {"index": 3,  "name": "description", "width":0}                                
                  }  
 
 """
@@ -99,23 +99,24 @@ USERS['database'] = {
                     "user_field_3"  :     {"index": 14,     "name": "user_field_3",     "col_nr_export": None},    
                     "user_field_4"  :     {"index": 15,     "name": "user_field_4",     "col_nr_export": None},                                                                    
                   }
-""" table collumn for times, mode race """
-USERS['table'] = { "id"            :     {"index": 0,   "name": "id"},
-                   "nr"            :     {"index": 1,   "name": "nr"},
-                   "name"          :     {"index": 2,   "name": "name"},
-                   "first_name"    :     {"index": 3,   "name": "first_name"},
-                   "category"      :     {"index": 4,   "name": "category"},
-                   "club"          :     {"index": 5,   "name": "club"},
-                   "birthday"      :     {"index": 6,   "name": "birthday"},
-                   "sex"           :     {"index": 7,   "name": "sex"},
-                   "email"         :     {"index": 8,   "name": "email"},
-                   "symbol"        :     {"index": 9,   "name": "symbol"},
-                   "paid"          :     {"index": 10,   "name": "paid"},
-                   "note"          :     {"index": 11,  "name": "note"},
-                   "user_field_1"  :     {"index": 12,  "name": "user_field_1"},
-                   "user_field_2"  :     {"index": 13,  "name": "user_field_2"},
-                   "user_field_3"  :     {"index": 14,  "name": "user_field_3"},    
-                   "user_field_4"  :     {"index": 15,  "name": "user_field_4"},                                                                    
+
+""" table collumn for times, mode race """ 
+USERS['table'] = { "id"            :     {"index": 0,   "name": "id", "width":30},
+                   "nr"            :     {"index": 1,   "name": "nr", "width":30},
+                   "name"          :     {"index": 2,   "name": "name", "width":100},                
+                   "first_name"    :     {"index": 3,   "name": "first_name", "width":100},
+                   "category"      :     {"index": 4,   "name": "category", "width":100},                   
+                   "club"          :     {"index": 5,   "name": "club", "width":200},
+                   "birthday"      :     {"index": 6,   "name": "birthday", "width":70},
+                   "sex"           :     {"index": 7,   "name": "sex", "width":None},
+                   "email"         :     {"index": 8,   "name": "email", "width":None},
+                   "symbol"        :     {"index": 9,   "name": "symbol", "width":None},
+                   "paid"          :     {"index": 10,   "name": "paid", "width":None},
+                   "note"          :     {"index": 11,  "name": "note", "width":None},
+                   "user_field_1"  :     {"index": 12,  "name": "#1", "width":None},
+                   "user_field_2"  :     {"index": 13,  "name": "#2", "width":None},
+                   "user_field_3"  :     {"index": 14,  "name": "#3", "width":None},    
+                   "user_field_4"  :     {"index": 15,  "name": "#4", "width":10},                                                                    
               }
 
 
@@ -133,7 +134,29 @@ CATEGORIES['database'] = {
                          }
 """ table collumn for times, mode race """
 CATEGORIES['table'] = {
-                        "id"         :     {"index": 0,  "name": "id",           "width":300},
+                        "id"         :     {"index": 0,  "name": "id",           "width":30},
                         "name"       :     {"index": 1,  "name": "name",         "width":300},                                                                
                         "starttime"  :     {"index": 2,  "name": "starttime",    "width":300},
-                      }   
+                      }  
+
+"""
+TAGS
+"""
+TAGS = {}
+
+
+""" database column for times """
+TAGS['database'] = {
+                           "id"          :     {"index": 0,  "name": "id",            "col_nr_export": None},
+                           "tag_id"      :     {"index": 1,  "name": "tag_id",        "col_nr_export": None},                                                                 
+                           "printed_nr"  :     {"index": 2,  "name": "printed_nr",    "col_nr_export": None},
+                           "user_nr"     :     {"index": 3,  "name": "user_nr",       "col_nr_export": None},
+                         }
+""" table collumn for times, mode race """
+TAGS['table'] = {
+                        "id"         :     {"index": 0,  "name": "id",           "width":30},
+                        "tag_id"     :     {"index": 1,  "name": "tag_id",       "width":160},                                                                
+                        "printed_nr"  :    {"index": 2,  "name": "printed_nr",   "width":80},
+                        "user_nr"  :       {"index": 3,  "name": "user_nr",      "width":80},
+                        "#1" :             {"index": 4,  "name": "",           "width":80},
+                      } 

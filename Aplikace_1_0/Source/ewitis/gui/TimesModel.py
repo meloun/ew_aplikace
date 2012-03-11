@@ -75,6 +75,12 @@ class TimesParameters(myModel.myParameters):
         
         #self.gui['add'].setEnabled = False
         
+        #=======================================================================
+        # classes
+        #=======================================================================        
+        self.classModel = TimesModel                              
+        self.classProxyModel = TimesProxyModel
+        
         
 class TimesModel(myModel.myModel):
     def __init__(self, params):                        
@@ -335,15 +341,15 @@ class Times(myModel.myTable):
 #    def  __init__(self, view, db, guidata):  
     def  __init__(self, params):
         
-        self.params = params               
+        #self.params = params               
                                                     
         #create MODEL
-        self.model = TimesModel(params)  
+        #self.model = TimesModel(params)  
         
          
         
         #create PROXY MODEL
-        self.proxy_model = TimesProxyModel() 
+        #self.proxy_model = TimesProxyModel() 
         
         #create table instance (slots, etc.)
         myModel.myTable.__init__(self, params)                
@@ -356,14 +362,14 @@ class Times(myModel.myTable):
         #self.proxy_model.setSourceModel(self.model)
         
         #assign PROXY MODEL to VIEW        
-        self.params.gui['view'].setModel(self.proxy_model)
-        self.params.gui['view'].setRootIsDecorated(False)
-        self.params.gui['view'].setAlternatingRowColors(True)        
-        self.params.gui['view'].setSortingEnabled(True)       
+#        self.params.gui['view'].setModel(self.proxy_model)
+#        self.params.gui['view'].setRootIsDecorated(False)
+#        self.params.gui['view'].setAlternatingRowColors(True)        
+#        self.params.gui['view'].setSortingEnabled(True)       
         
-        #width
-        for collumn in self.params.TABLE_COLLUMN_DEF.values():       
-            self.params.gui['view'].setColumnWidth(collumn["index"], collumn["width"])
+#        #width
+#        for collumn in self.params.TABLE_COLLUMN_DEF.values():       
+#            self.params.gui['view'].setColumnWidth(collumn["index"], collumn["width"])
             
        
         #TIMERs
@@ -380,14 +386,14 @@ class Times(myModel.myTable):
         
         # EXPORT WWW BUTTON        
         if (self.params.gui['aDirectExportCategories'] != None):
-            print "export categories"
+            print "export Categories"
             QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), self.sExportCategoriesDirect)
             #QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("clicked()"), self.sExportCategoriesDirect)
             
     #=======================================================================
     # SLOTS
     #=======================================================================
-    # EXPORT CATEGORIES
+    # EXPORT Categories
     def tabRow2exportRow(self, tabRow):        
                
         #export                    
@@ -462,10 +468,10 @@ class Times(myModel.myTable):
                 
          
         
-        categories = [start['category'] for start in self.params.guidata.measure_setting["starts"]]
+        Categories = [start['category'] for start in self.params.guidata.measure_setting["starts"]]
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]             
          
-        for category in categories:
+        for category in Categories:
             exportRows = []                              
             for tabRow in self.proxy_model.lists():
                 if (tabRow[index_category] == category):                
@@ -527,10 +533,11 @@ class Times(myModel.myTable):
 
                 
                     
-            
+    #toDo: sloucit s myModel konstruktorem        
     def update(self, run_id = None):                      
         self.model.update(run_id = run_id)                
         #myModel.myTable.update(self)
+        self.setColumnWidth()
         self.update_counter()
             
     # REMOVE ROW      

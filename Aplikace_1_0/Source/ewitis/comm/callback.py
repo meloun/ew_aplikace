@@ -72,6 +72,7 @@ def callback(command, data):
         aux_terminal_info['backlight'] = bool(aux_terminal_info['backlight'])                
                                 
         return aux_terminal_info
+    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"] | 0x80)):
         ''' GET_TIMING_SETTINGS RESPONSE
             | timing_logic_mode (1B) | measurement_state (1B)| name_id (1B) | basic_tag_timefilter (1B) |
@@ -79,12 +80,17 @@ def callback(command, data):
         ''' 
         aux_timing_settings = {}
         
-        aux_timing_settings['timing_logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'], aux_timing_settings['basic_tag_timefilter'],\
-        aux_timing_settings['lap_timefilter'], aux_timing_settings['lap_numberfilter'], = struct.unpack("<BBBBhB", data)
+        aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
+        aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'], = struct.unpack("<BBBBhB", data)                
                                                         
         return aux_timing_settings
         
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"] | 0x80)):
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"] | 0x80)):        
         return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"] | 0x80)):        
+        return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"] | 0x80)):        
+        return data    
 
+    print "d:", data
     return "E: callback error, cmd: " + str(command) 

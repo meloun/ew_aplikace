@@ -17,6 +17,7 @@ import ewitis.gui.RunsModel as RunsModel
 import ewitis.gui.TimesModel as TimesModel
 import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.CategoriesModel as CategoriesModel
+import ewitis.gui.TagsModel as TagsModel
 import libs.sqlite.sqlite as sqlite
 import ewitis.data.DEF_DATA as DEF_DATA
 import libs.datastore.datastore as datastore
@@ -68,15 +69,14 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         # TABLES
         #=======================================================================
         
-        self.U = UsersModel.Users( UsersModel.UsersParameters(self))                       
-        self.T = TimesModel.Times( TimesModel.TimesParameters(self))        
+        self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
+        self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
-        self.C = CategoriesModel.Categories( CategoriesModel.CategoriesParameters(self))
+        self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
+        self.Tags = TagsModel.Tags(TagsModel.TagsParameters(self))
         
         #doplneni 
-        self.T.params.tabRuns = self.R  
-        
-
+        self.T.params.tabRuns = self.R        
         
         #nastaveni prvniho dostupneho portu
         try:
@@ -197,7 +197,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
          
     #=======================================================================
     ### SLOTS ###
-    #=======================================================================        
+    #=======================================================================  
+    # 23 06 04 00 00 0000 00      
     def sTimer(self):
         self.UiAccesories.updateGui()
         
@@ -205,8 +206,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         if(nr==0):
             self.R.update()
             self.R.updateTimes()  #update TIMES table
-            #self.T.update()
-        elif(nr==1):
+            self.T.update()
+        elif(nr==1):            
             self.U.update()
             
     def sTimesShowAllChanged(self, state):        

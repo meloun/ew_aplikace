@@ -9,18 +9,18 @@ import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
       
-class CategoriesParameters(myModel.myParameters):
+class TagsParameters(myModel.myParameters):
        
     def __init__(self, source):
                                 
         #table and db table name
-        self.name = "Categories"  
+        self.name = "Tags"  
         
         #=======================================================================
         # KEYS DEFINITION
         #======================================================================= 
-        self.DB_COLLUMN_DEF = DEF_COLUMN.CATEGORIES['database']
-        self.TABLE_COLLUMN_DEF = DEF_COLUMN.CATEGORIES['table']
+        self.DB_COLLUMN_DEF = DEF_COLUMN.TAGS['database']
+        self.TABLE_COLLUMN_DEF = DEF_COLUMN.TAGS['table']
                 
         #create MODEL and his structure
         myModel.myParameters.__init__(self, source)                                                                                            
@@ -30,31 +30,31 @@ class CategoriesParameters(myModel.myParameters):
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.CategoriesProxyView        
+        self.gui['view'] = source.ui.TagssProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.CategoriesFilterLineEdit
-        self.gui['filterclear'] = source.ui.CategoriesFilterClear
+        self.gui['filter'] = source.ui.TagsFilterLineEdit
+        self.gui['filterclear'] = source.ui.TagsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.CategoriesAdd
-        self.gui['remove'] =  source.ui.CategoriesRemove
-        self.gui['export'] = source.ui.CategoriesExport
+        self.gui['add'] = source.ui.TagsAdd
+        self.gui['remove'] =  source.ui.TagsRemove
+        self.gui['export'] = source.ui.TagsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.CategoriesImport 
-        self.gui['delete'] = source.ui.CategoriesDelete
+        self.gui['import'] = source.ui.TagsImport 
+        self.gui['delete'] = source.ui.TagsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.CategoriesCounter
+        self.gui['counter'] = source.ui.TagsCounter
         
         #=======================================================================
         # classes
         #=======================================================================        
-        self.classModel = CategoriesModel                              
-        self.classProxyModel = CategoriesProxyModel
+        self.classModel = TagsModel                              
+        self.classProxyModel = TagsProxyModel
                 
 
-class CategoriesModel(myModel.myModel):
+class TagsModel(myModel.myModel):
     def __init__(self, params):                        
         
         #create MODEL and his structure
@@ -69,7 +69,7 @@ class CategoriesModel(myModel.myModel):
         category['starttime'] = 0
         return category 
                     
-class CategoriesProxyModel(myModel.myProxyModel):
+class TagsProxyModel(myModel.myProxyModel):
     def __init__(self):                        
         
         #default proxy-model constructor
@@ -77,7 +77,7 @@ class CategoriesProxyModel(myModel.myProxyModel):
         
 
 # view <- proxymodel <- model 
-class Categories(myModel.myTable):
+class Tags(myModel.myTable):
     def  __init__(self, params):                                             
          
         #default table constructor

@@ -51,6 +51,12 @@ class RunsParameters(myModel.myParameters):
         
         #COUNTER
         self.gui['counter'] = source.ui.runsCounter
+        
+        #=======================================================================
+        # classes
+        #=======================================================================        
+        self.classModel = RunsModel                              
+        self.classProxyModel = RunsProxyModel
                  
         
 
@@ -68,8 +74,8 @@ class RunsModel(myModel.myModel):
         aux_flags = 0
                 
         #id, name, category, addres NOT editable
-        if ((index.column() == 2) and (self.params.guidata.table_mode !=  GuiData.MODE_REFRESH)):
-            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+#        if ((index.column() == 2) and (self.params.guidata.table_mode !=  GuiData.MODE_REFRESH)):
+#            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
         
         return myModel.myModel.flags(self, index)
         
@@ -110,30 +116,13 @@ class Runs(myModel.myTable):
     def  __init__(self, params):                        
                 
         #create MODEL
-        self.model = RunsModel(params)        
+        #self.model = RunsModel(params)        
         
         #create PROXY MODEL        
-        self.proxy_model = RunsProxyModel()
-        
-
-        
+        #self.proxy_model = RunsProxyModel()
+                
         myModel.myTable.__init__(self, params)        
-        
-        
-        #assign MODEL to PROXY MODEL
-        #self.proxy_model.setSourceModel(self.model)
-        
-        #assign PROXY MODEL to VIEW        
-        #self.view = view 
-        self.params.gui['view'].setModel(self.proxy_model)
-        self.params.gui['view'].setRootIsDecorated(False)
-        self.params.gui['view'].setAlternatingRowColors(True)        
-        self.params.gui['view'].setSortingEnabled(True)
-        self.params.gui['view'].setColumnWidth(0,40)
-        self.params.gui['view'].setColumnWidth(1,120)
-        self.params.gui['view'].setColumnWidth(2,110)
-        self.params.gui['view'].setColumnWidth(3,80)
-        
+                       
         #set default sorting
         self.params.gui['view'].sortByColumn(0, QtCore.Qt.DescendingOrder)
     

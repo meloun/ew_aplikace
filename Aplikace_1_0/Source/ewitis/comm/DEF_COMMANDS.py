@@ -19,10 +19,17 @@ DEF_COMMANDS = {
                    },
             
             "SET":{
-                   "backlight"      : 0x10,
-                   "speaker"        : 0x11,
-                   "time"           : 0x12,
-                   "language"       : 0x00,
+                   "backlight"       : 0x10,
+                   "speaker"         : 0x11,
+                   "time"            : 0x12,
+                   "language"        : 0x14,
+                   "timing_settings" : 0x23,
+                   "enable_startcell": 0x41,
+                   "enable_finishcell": 0x42,
+                   "generate_starttime": 0x43,
+                   "generate_finishtime": 0x44
+                   
+                   
                 }            
             }
 

@@ -2,6 +2,7 @@
 
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
+from ewitis.data.DEF_ENUM_STRINGS import * 
 
 class UiAccesories():
     def __init__(self, ui, datastore):
@@ -17,7 +18,15 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
         QtCore.QObject.connect(self.ui.pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
         QtCore.QObject.connect(self.ui.pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))
-        QtCore.QObject.connect(self.ui.comboLanguage, QtCore.SIGNAL("currentIndexChanged(int)"), self.sComboLanguage)
+        QtCore.QObject.connect(self.ui.comboLanguage, QtCore.SIGNAL("activated(int)"), self.sComboLanguage)
+        QtCore.QObject.connect(self.ui.comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode)        
+        
+        QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
+        QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
+        QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
+        QtCore.QObject.connect(self.ui.pushRaceStart, QtCore.SIGNAL("clicked()"), self.sRaceStart)
+        QtCore.QObject.connect(self.ui.pushRaceStop, QtCore.SIGNAL("clicked()"), self.sRaceStop)
+        #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
 
     def updateGui(self):
         
@@ -47,9 +56,7 @@ class UiAccesories():
         if(aux_terminal_info['battery'] != None):
             self.ui.lineBattery.setText(str(aux_terminal_info['battery'])+" %")                        
         else:
-            self.ui.lineBacklight.setText("-- %")            
-            
-            
+            self.ui.lineBacklight.setText("-- %")                                
         
         """ backlight """        
         if(aux_terminal_info['backlight'] == True):
@@ -65,8 +72,7 @@ class UiAccesories():
             self.ui.pushBacklight.setText("- -")
             self.ui.pushBacklight.setEnabled(False)        
         
-        """ speaker """
-        #print aux_terminal_info['speaker']['keys']
+        """ speaker """        
         if(aux_terminal_info['speaker']['keys'] == True):
             self.ui.lineSpeakerKeys.setText("ON")
             self.ui.pushSpeakerKeys.setText("OFF")
@@ -82,8 +88,7 @@ class UiAccesories():
         else:
             self.ui.lineSpeakerKeys.setText("- -")
             self.ui.pushSpeakerKeys.setText("- -")
-            
-        
+                    
         if(aux_terminal_info['speaker']['system'] == True):
             self.ui.lineSpeakerSystem.setText("ON")
             self.ui.pushSpeakerSystem.setText("OFF")
@@ -119,15 +124,53 @@ class UiAccesories():
             self.ui.pushSpeakerSystem.setEnabled(True)
             self.ui.pushSpeakerTiming.setEnabled(True)
                 
-        if(aux_terminal_info['language'] == 0):                    
-            self.ui.comboLanguage.setCurrentIndex(aux_terminal_info['language'])
-            self.ui.lineLanguage.setText(u"čeština")
-        elif(aux_terminal_info['language'] == 0):
-            self.ui.comboLanguage.setCurrentIndex(aux_terminal_info['language'])
-            self.ui.lineLanguage.setText("english")
-        else:
-            self.ui.comboLanguage.setCurrentIndex(0)
+        """ language """          
+        if(aux_terminal_info['language'] != None):            
+            self.ui.comboLanguage.setCurrentIndex(aux_terminal_info['language'])            
+            self.ui.lineLanguage.setText(self.ui.comboLanguage.currentText())                    
+        else:            
             self.ui.lineLanguage.setText("- -")
+            
+        """ TIMING SETTINGS"""
+        timing_settings_get = self.datastore.Get("timing_settings", "GET")
+        timing_settings_set = self.datastore.Get("timing_settings", "SET")
+        #print timing_settings_get
+        #print aux_timing_settings
+        
+        """ logic mode """  
+        if(timing_settings_get['logic_mode'] != None):
+            self.ui.comboTimingMode.setCurrentIndex(timing_settings_get['logic_mode']-1)            
+            self.ui.lineTimingMode.setText(str(self.ui.comboTimingMode.currentText()+" mode").upper())                    
+        else:
+            self.ui.comboTimingMode.setCurrentIndex(0)
+            self.ui.lineTimingMode.setText("- - -")
+        """ Measurement State"""
+        if(timing_settings_get['measurement_state'] != None):            
+            self.ui.labelMeasurementState.setText(MEASUREMENT_STATE.STRINGS[timing_settings_get['measurement_state']])                    
+        else:            
+            self.ui.labelMeasurementState.setText("- - -")
+                        
+        """ Filter Tagtime """
+        if(timing_settings_get['filter_tagtime'] != None):                                    
+            self.ui.lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))
+            #self.ui.spinTagtime.setText(str(timing_settings_get['filter_tagtime']))                    
+        else:            
+            self.ui.lineFilterTagtime.setText("- -")
+        """ Filter Minlaptime """                
+        if(timing_settings_get['filter_minlaptime'] != None):                                    
+            self.ui.lineFilterMinlaptime.setText(str(timing_settings_get['filter_minlaptime']))                    
+        else:            
+            self.ui.lineFilterMinlaptime.setText("- -")
+        
+        """ Filter Maxlapnumber """                
+        if(timing_settings_get['filter_maxlapnumber'] != None):                                    
+            self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
+        else:            
+            self.ui.lineMaxlapnumber.setText("- -")
+        
+        
+        
+        
                         
         
     def sTerminalBacklight(self):
@@ -153,12 +196,75 @@ class UiAccesories():
         self.updateGui()
                              
     def sComboLanguage(self, index):
-        '''získání a nastavení nové SET hodnoty'''
-        aux_terminal_info = self.datastore.Get("terminal_info", "GET")                        
-        self.datastore.Set("language", not(aux_terminal_info["language"]), "SET")
-        #print self.datastore.data['languag']       
+        print "SLOT", index
+        '''získání a nastavení nové SET hodnoty'''                                
+        self.datastore.Set("language", index, "SET")               
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'language')                                                                
         self.updateGui()
-                 
+    
+    """                 """
+    """ TIMING SETTINGS """
+    """                 """
+    
+    def sComboTimingMode(self, index):
+        print "sComboTimingMode", index                
+        '''získání a nastavení nové SET hodnoty'''
+        aux_timing_settings = self.datastore.Get("timing_settings", "GET").copy()
+        aux_timing_settings["logic_mode"] = index + 1                               
+        self.datastore.Set("timing_settings", aux_timing_settings, "SET")            
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("timing_settings", 'logic_mode')                                                                
+        self.updateGui()
+    
+    
+    def sFilterTagtime(self, value):
+        print "sFilterTagTime", value
+        '''získání a nastavení nové SET hodnoty'''
+        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
+        timing_settings["filter_tagtime"]  = value                                      
+        self.datastore.Set("timing_settings", timing_settings, "SET")            
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("timing_settings", 'filter_tagtime')                                                                
+        self.updateGui()
+    
+    def sFilterMinlaptime(self, value):
+        print "sFilterMinlaptime", value
+        '''získání a nastavení nové SET hodnoty'''
+        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
+        timing_settings["filter_minlaptime"]  = value                                      
+        self.datastore.Set("timing_settings", timing_settings, "SET")            
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
+        self.updateGui()
+    def sFilterMaxlapnumber(self, value):
+        print "sFilterMaxlapnumber", value
+        '''získání a nastavení nové SET hodnoty'''
+        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
+        timing_settings["filter_maxlapnumber"]  = value                                      
+        self.datastore.Set("timing_settings", timing_settings, "SET")            
+        
+        '''reset GET hodnoty'''
+        self.datastore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
+        self.updateGui() 
+        
+    def sRaceStart(self):
+        print "sRaceStart"
+        '''získání a nastavení nové SET hodnoty'''
+        generate_starttime = self.datastore.Get("generate_starttime", "GET")                                        
+        self.datastore.Set("generate_starttime", not(generate_starttime), "SET")            
+        
+        '''reset GET hodnoty'''                                                                        
+        self.updateGui() 
+    def sRaceStop(self):
+        '''získání a nastavení nové SET hodnoty'''
+        generate_finishtime = self.datastore.Get("generate_finishtime", "GET")                                        
+        self.datastore.Set("generate_finishtime", not(generate_finishtime), "SET")            
+        
+        '''reset GET hodnoty'''                                                                        
+        self.updateGui() 
+        print "sRaceStop"

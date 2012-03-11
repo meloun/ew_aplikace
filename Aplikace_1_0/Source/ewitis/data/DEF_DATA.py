@@ -27,9 +27,13 @@ eTIMING_LOGIC_MODE = ["basic", "manual"]
 class LOGIC_MODES:
     basic, manual, single_mass, multiple_mass = range(1,5)  
     STRINGS =  {basic:"basic", manual:"manual"} 
+class MEASUREMENT_STATE:
+    not_active, prepared, time_is_running, finished = range(0,4)
+    STRINGS =  {not_active:"Not Active", prepared:"Prepared, waiting for start", time_is_running:"Time is running", prepared:"Finished"}      
 class LANGUAGES:
     czech, english = range(0,2)  
-    STRINGS =  {czech:"čeština", english:"english"}    
+    STRINGS =  {czech:"čeština", english:"english"}
+    
          
 
 DEF_DATA = {
@@ -39,7 +43,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": False}
                                },
         "port_name"          : {"name"   : "Port name",
-                                "GET_SET"  : {"value": "COM3"}
+                                "GET_SET"  : {"value": "COM7"}
                                },
         "port_baudrate"      : {"name"   : "Port baudrate",
                                 "GET_SET"  : {"value": 38400}
@@ -62,7 +66,8 @@ DEF_DATA = {
                                              "changed": True},
                                },                                        
         "language"           : {"name"    : "language",                                
-                                "SET"     : {"value": LANGUAGES.czech, "changed": False}, 
+                                "SET"     : {"value": LANGUAGES.czech,
+                                             "changed": False}, 
                                },                                               
         "terminal_info"      : {"name"    : "terminal info",
                                 "GET"     : {"value": {"number_of_cells": None,
@@ -87,17 +92,34 @@ DEF_DATA = {
                                                        },
                                              },
                                },
-        "timing_settings"    : {"name"    : "timing info", 
-                                "GET"     : {"value": {"logic mode": LOGIC_MODES.basic,
-                                                       "baterry": 99,
-                                                       "status":  {"new error": True,
-                                                                   "cell on": True,
-                                                                   "battery empty": True,
-                                                                   "ping error": True,
-                                                                   "ack error": True,
-                                                                   "IR signal missinng": True},
+        "timing_settings"    : {"name"    : "logic timing_settings",                                
+                                "SET"     : {"value": {"logic_mode": LOGIC_MODES.basic,
+                                                       "measurement_state": MEASUREMENT_STATE.not_active,
+                                                       "name_id": 4,
+                                                       "filter_tagtime": 5,
+                                                       "filter_minlaptime": 60,
+                                                       "filter_maxlapnumber": 0,                                                       
+                                                       },
+                                              "changed": False
+                                            },
+                                "GET"     : {"value": {"logic_mode": None,
+                                                       "measurement_state": None,
+                                                       "name_id": 04,
+                                                       "filter_tagtime": None,
+                                                       "filter_minlaptime": None,
+                                                       "filter_maxlapnumber": None,                                                       
                                                        },
                                              "refresh_countdown": 0 
                                              },                                
-                                },                                                                                                
+                                },
+        "generate_starttime" :  {"name"    : "generate starttime",                                                                 
+                                "SET"     : { "value": 0x00, 
+                                              "changed": False,                                             
+                                            },
+                                },
+        "generate_finishtime" : {"name"  : "generate finishtime",                                                                 
+                                  "SET"   : { "value": 0x00, 
+                                              "changed": False,                                             
+                                            },
+                                },
         }

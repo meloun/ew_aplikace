@@ -20,7 +20,8 @@ class UsersParameters(myModel.myParameters):
         #======================================================================= 
         #toDo: predat jen DEF_COLUMN.USERS, zbytek v myModel
         self.DB_COLLUMN_DEF = DEF_COLUMN.USERS['database']
-        self.TABLE_COLLUMN_DEF = DEF_COLUMN.USERS['table']                                
+        self.TABLE_COLLUMN_DEF = DEF_COLUMN.USERS['table']
+                                  
 
                 
         #create MODEL and his structure
@@ -32,6 +33,7 @@ class UsersParameters(myModel.myParameters):
         #VIEW   
         self.gui = {}     
         self.gui['view'] = source.ui.UsersProxyView
+        
         
         #FILTER
         self.gui['filter'] = source.ui.UsersFilterLineEdit
@@ -46,7 +48,13 @@ class UsersParameters(myModel.myParameters):
         self.gui['delete'] = source.ui.UsersDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.usersCounter
+        self.gui['counter'] = source.ui.UsersCounter
+        
+        #=======================================================================
+        # classes
+        #=======================================================================        
+        self.classModel = UsersModel                              
+        self.classProxyModel = UsersProxyModel
                 
 
 class UsersModel(myModel.myModel):
@@ -74,40 +82,40 @@ class UsersModel(myModel.myModel):
     #===============================================================   
     #DB:  "id", "nr", "name", "first_name", "category", "address"
     #GUI: "id", "nr", "name", "first_name", "category", "address"    
-    def db2tableRow(self, dbUser):                                        
-        
-        #1to1 keys just copy
-        tabUser = myModel.myModel.db2tableRow(self, dbUser) 
-        
-        if(tabUser['name']==''):
-                tabUser['name'] = 'nobody'                              
-                                
-        return tabUser
+#    def db2tableRow(self, dbUser):                                        
+#        
+#        #1to1 keys just copy
+#        tabUser = myModel.myModel.db2tableRow(self, dbUser) 
+#        
+#        if(tabUser['name']==''):
+#                tabUser['name'] = 'nobody'                              
+#                                
+#        return tabUser
     
     #===============================================================
     # GUI => DB                            
     #===============================================================
     #GUI: "id", "nr", "name", "first_name", "category", "address"   
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
-    def table2dbRow(self, tabUser):                              
-            
-        #1to1 keys just copy
-        dbUser = myModel.myModel.table2dbRow(self, tabUser)
-                                                                                          
-        return dbUser 
+#    def table2dbRow(self, tabUser):                              
+#            
+#        #1to1 keys just copy
+#        dbUser = myModel.myModel.table2dbRow(self, tabUser)
+#                                                                                          
+#        return dbUser 
      
-    def slot_ModelChanged(self, item):
-        
-        #EXIST USER WITH THIS NR??
-        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):
-            if(item.column() == 1):                                
-                nr = item.data(0).toString() #get row
-                user = self.params.db.getParX("users", "nr", nr).fetchone()
-                if(user != None):
-                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
-                    self.update()
-                    return None
-        myModel.myModel.slot_ModelChanged(self, item)
+#    def slot_ModelChanged(self, item):
+#        
+#        #EXIST USER WITH THIS NR??
+#        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):
+#            if(item.column() == 1):                                
+#                nr = item.data(0).toString() #get row
+#                user = self.params.db.getParX("users", "nr", nr).fetchone()
+#                if(user != None):
+#                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
+#                    self.update()
+#                    return None
+#        myModel.myModel.slot_ModelChanged(self, item)
                  
 class UsersProxyModel(myModel.myProxyModel):
     def __init__(self):                        
@@ -122,10 +130,10 @@ class Users(myModel.myTable):
     def  __init__(self, params):                
                 
         #create MODEL
-        self.model = UsersModel(params)        
+        #self.model = UsersModel(params)        
         
         #create PROXY MODEL
-        self.proxy_model = UsersProxyModel() 
+        #self.proxy_model = UsersProxyModel() 
         
         myModel.myTable.__init__(self, params)
         
@@ -135,16 +143,21 @@ class Users(myModel.myTable):
         
         #assign PROXY MODEL to VIEW
         #self.view = view 
-        self.params.gui['view'].setModel(self.proxy_model)
-        self.params.gui['view'].setRootIsDecorated(False)
-        self.params.gui['view'].setAlternatingRowColors(True)        
-        self.params.gui['view'].setSortingEnabled(True)
-        self.params.gui['view'].setColumnWidth(0,40)
-        self.params.gui['view'].setColumnWidth(1,30)
-        self.params.gui['view'].setColumnWidth(2,100)
-        self.params.gui['view'].setColumnWidth(3,100)
-        self.params.gui['view'].setColumnWidth(4,100)        
-        self.params.gui['view'].setColumnWidth(5,250)
+#        self.params.gui['view'].setModel(self.proxy_model)
+#        self.params.gui['view'].setRootIsDecorated(False)
+#        self.params.gui['view'].setAlternatingRowColors(True)        
+#        self.params.gui['view'].setSortingEnabled(True)
+#        self.params.gui['view'].setColumnWidth(0,90)
+#        self.params.gui['view'].setColumnWidth(1,230)
+#        self.params.gui['view'].setColumnWidth(2,100)
+#        self.params.gui['view'].setColumnWidth(3,100)
+#        self.params.gui['view'].setColumnWidth(4,100)        
+#        self.params.gui['view'].setColumnWidth(5,250)
+#        
+        
+#        print self.params.gui['view'].columnWidth(2)
+#        self.params.gui['view'].setColumnWidth(2,640)
+#        print self.params.gui['view'].columnWidth(2)
         
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
