@@ -39,14 +39,17 @@ class LANGUAGES:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "port_enable"        : {"name"   : "Port enable",
+        "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
-        "port_name"          : {"name"   : "Port name",
-                                "GET_SET"  : {"value": "COM7"}
+        "port_name"          : {"name"     : "Port name",
+                                "GET_SET"  : {"value": "COM5"}
                                },
-        "port_baudrate"      : {"name"   : "Port baudrate",
+        "port_baudrate"      : {"name"     : "Port baudrate",
                                 "GET_SET"  : {"value": 38400}
+                               },
+        "rfid"               : {"name"     : "rfid",
+                                "GET_SET"  : {"value":False}  
                                },        
 
         # TERMINAL DATA

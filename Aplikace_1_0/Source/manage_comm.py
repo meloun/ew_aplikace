@@ -146,8 +146,10 @@ class ManageComm(Thread):
             if(aux_time['error'] == 0):
                                     
                 '''update CSV file'''                                
-                aux_csv_string = str(aux_time['id']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time']).replace(',', '.')
+                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time']).replace(',', '.')
+                                
                 print "I:Comm: receive time: "+aux_csv_string
+                #print struct.pack('<I', aux_time['user_id']).encode('hex')
                                 
                 '''save to database'''
                 keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]

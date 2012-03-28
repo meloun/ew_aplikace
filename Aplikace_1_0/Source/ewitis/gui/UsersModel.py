@@ -7,6 +7,7 @@ import ewitis.gui.myModel as myModel
 import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
+import libs.datastore.datastore as datastore
         
 class UsersParameters(myModel.myParameters):
        
@@ -14,6 +15,10 @@ class UsersParameters(myModel.myParameters):
                                 
         #table and db table name
         self.name = "Users"  
+        
+        self.tableTags = source.tableTags
+        
+        self.datastore = source.datastore
         
         #=======================================================================
         # KEYS DEFINITION
@@ -82,15 +87,22 @@ class UsersModel(myModel.myModel):
     #===============================================================   
     #DB:  "id", "nr", "name", "first_name", "category", "address"
     #GUI: "id", "nr", "name", "first_name", "category", "address"    
-#    def db2tableRow(self, dbUser):                                        
-#        
-#        #1to1 keys just copy
-#        tabUser = myModel.myModel.db2tableRow(self, dbUser) 
-#        
+    def db2tableRow(self, dbUser):                                        
+        
+        #1to1 keys just copy
+        tabUser = myModel.myModel.db2tableRow(self, dbUser) 
+        
 #        if(tabUser['name']==''):
-#                tabUser['name'] = 'nobody'                              
-#                                
-#        return tabUser
+#                tabUser['name'] = 'nobody'
+
+        if dbUser:            
+            #tabUser['user_id'] = dbUser['id']
+            dbTag = self.params.tableTags.getTabTagParUserNr(dbUser['nr'])            
+            tabUser['user_id'] = dbTag['tag_id']
+        else:
+            tabUser['user_id'] = 0                              
+                                
+        return tabUser
     
     #===============================================================
     # GUI => DB                            
@@ -127,78 +139,66 @@ class UsersProxyModel(myModel.myProxyModel):
 
 # view <- proxymodel <- model 
 class Users(myModel.myTable):
-    def  __init__(self, params):                
-                
-        #create MODEL
-        #self.model = UsersModel(params)        
-        
-        #create PROXY MODEL
-        #self.proxy_model = UsersProxyModel() 
+    def  __init__(self, params):                            
         
         myModel.myTable.__init__(self, params)
         
-        
-        #assign MODEL to PROXY MODEL
-        #self.proxy_model.setSourceModel(self.model)
-        
-        #assign PROXY MODEL to VIEW
-        #self.view = view 
-#        self.params.gui['view'].setModel(self.proxy_model)
-#        self.params.gui['view'].setRootIsDecorated(False)
-#        self.params.gui['view'].setAlternatingRowColors(True)        
-#        self.params.gui['view'].setSortingEnabled(True)
-#        self.params.gui['view'].setColumnWidth(0,90)
-#        self.params.gui['view'].setColumnWidth(1,230)
-#        self.params.gui['view'].setColumnWidth(2,100)
-#        self.params.gui['view'].setColumnWidth(3,100)
-#        self.params.gui['view'].setColumnWidth(4,100)        
-#        self.params.gui['view'].setColumnWidth(5,250)
-#        
-        
-#        print self.params.gui['view'].columnWidth(2)
-#        self.params.gui['view'].setColumnWidth(2,640)
-#        print self.params.gui['view'].columnWidth(2)
-        
+           
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(1000);
-        
-        #MODE EDIT/REFRESH        
-        #self.table_mode = myModel.MODE_REFRESH
-               
-        #self.db = db
-        
-        #self.keys = keys
-        
-        #self.model.update()        
-        #self.createSlots()
-        
-    def get_db_user_par_nr(self, nr):
+        self.timer1s.start(1000);        
+            
+    def getDbUserParNr(self, nr):
                  
         db_user = self.params.db.getParX("users", "nr", nr).fetchone()        
                         
         return db_user
     
-    def get_db_user(self, id):
+    def getTabUserParNr(self, id):
+                             
+        #get db row
+        dbRow = self.getDbUserParNr(id)
+        
+        tabRow = self.model.db2tableRow(dbRow)  
+            
+        return tabRow
+    
+    def getDbUserParTagId(self, tag_id):
+        
+        '''get tag because of number'''
+        dbTag = self.params.tableTags.getDbTagParTagId(tag_id) 
                  
-        db_user = self.params.db.getParX("users", "id", id).fetchone()        
+        if (dbTag == None):
+            return None
+        
+        '''get user par number'''
+        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr']).fetchone()        
                         
         return db_user
     
-    def get_tab_user(self, id):
-                             
-        #get db user
-        db_user = self.get_db_user(id)
+    
+    def getTabUserParIdOrTagId(self, id):
         
-        #exist user?
-        if db_user == None:
-            tab_user = self.model.getDefaultTableRow()
-            
-        #exist => restrict username                
-        else:
-            tab_user = self.model.db2tableRow(db_user)  
-            
-        return tab_user
+        if(self.params.datastore.Get("rfid") == True):        
+            '''tag id'''
+            dbUser = self.getDbUserParTagId(id)
+        else:        
+            '''id'''
+            dbUser = self.getDbRow(id)
+        
+        tabUser = self.model.db2tableRow(dbUser)
+        return tabUser
+    
+    def getIdOrTagIdParNr(self, nr):
+        
+        if(self.params.datastore.Get("rfid") == True):    
+            '''tag id'''
+            dbTag = self.params.tableTags.getDbTagParUserNr(nr)                        
+            return dbTag['tag_id']
+        else:       
+            '''id'''
+            dbUser = self.getDbUserParNr(nr)
+            return dbUser['id']
         
        
 

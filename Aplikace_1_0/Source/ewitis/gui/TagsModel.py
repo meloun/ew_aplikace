@@ -81,7 +81,28 @@ class Tags(myModel.myTable):
     def  __init__(self, params):                                             
          
         #default table constructor
-        myModel.myTable.__init__(self, params)        
+        myModel.myTable.__init__(self, params)
+        
+    def getDbTagParTagId(self, tag_id):
+                 
+        dbTag = self.params.db.getParX("tags", "tag_id", tag_id).fetchone()        
+                        
+        return dbTag   
+    
+    def getDbTagParUserNr(self, user_nr):
+                 
+        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
+                        
+        return dbTag
+    
+    def getTabTagParUserNr(self, user_nr):
+                 
+        
+        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
+                     
+        tabTag = self.model.db2tableRow(dbTag)   
+                                
+        return tabTag       
                         
 
                             

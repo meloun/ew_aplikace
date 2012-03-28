@@ -31,7 +31,7 @@ class TimesParameters(myModel.myParameters):
         #=======================================================================
         # KEYS
         #=======================================================================        
-        self.DATABASE_COLLUMN_DEF = DEF_COLUMN.TIMES['database']
+        self.DB_COLLUMN_DEF = DEF_COLUMN.TIMES['database']
 
         
         if(self.guidata.measure_mode == GuiData.MODE_TRAINING_BASIC) or (self.guidata.measure_mode == GuiData.MODE_TRAINING):
@@ -88,24 +88,12 @@ class TimesModel(myModel.myModel):
         
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
-        
-        #width define - toDo for all tables, move to myModel
-        #self.TABLE_DEF = params.TABLE_DEF
-        
-        #for row in params.TABLE_DEF:
-        #    print "row:", row
-            
-            
-        
-        
-        
+                    
         #add utils function
         self.utils = Utils.TimesUtils(self)
-        
-                
+                        
         self.showall = False
-        self.showzero = True                       
-        
+        self.showzero = True                               
         
         #update with first run        
         first_run = self.params.db.getFirst("runs")
@@ -114,8 +102,7 @@ class TimesModel(myModel.myModel):
         else:
             self.run_id = 0 #no times for run_id = 0 
                 
-        self.update()
-        
+        self.update()        
                 
     def ssTimesShowAllChanged(self, state):
         print "wrong"
@@ -140,59 +127,54 @@ class TimesModel(myModel.myModel):
         return row                 
 
     
-    #["id", "nr", "cell", "time", "name", "category", "address"]
     def db2tableRow(self, dbTime):
-        
-        
+        """    
+        ["id", "nr", "cell", "time", "name", "category", "address"]
+        """     
         #hide all zero time?
         if(self.showzero == False):
             if (dbTime["time"]=="00:00:00,00"):  
                 return {}                        
         
-        ''' USER '''         
-        user =  self.params.tabUser.get_tab_user(dbTime["user_id"]) 
-        
-                        
-        ''' 1to1 KEYS '''
-        tabTime = myModel.myModel.db2tableRow(self, dbTime) 
-        
+        ''' 1to1 KEYS '''           
+        tabTime = myModel.myModel.db2tableRow(self, dbTime)
+         
+        ''' get USER
+            - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''                                     
+        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])                
+                                
         ''' OTHER KEYS '''                    
-        tabTime['nr'] = user['nr']        
+        tabTime['nr'] = tabUser['nr']        
         if(dbTime['cell'] == 1):
             tabTime['name'] = ''
         else:            
-            tabTime['name'] = user['name'] +' '+user['first_name']
-        tabTime['category'] = user['category']        
+            tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']
+        tabTime['category'] = tabUser['category']        
         tabTime['cell'] = dbTime['cell']       
                                     
-        ''' TIME '''
-        #get starttime number
+        """ TIME """
+                
+        '''get starttime number'''
         if(tabTime['cell'] == 1): #start time?                           
             tabTime['start_nr'] = 1 #decrement 1.starttime
         else:
-            tabTime['start_nr'] = self.params.guidata.getStartNr(tabTime['category']) #get starttime number
-            
-        #print tabTime['start_nr']
-                                      
+            tabTime['start_nr'] = self.params.guidata.getStartNr(tabTime['category']) #get starttime number                    
+        
+        '''time'''                               
         tabTime['time'] = self.utils.dbtime2tabtime( dbTime['run_id'],dbTime, tabTime['start_nr']) #dbtime -> tabtime
         
-        #lap
+        '''lap'''
         try:
             tabTime['lap'] = self.utils.getLap(dbTime)
         except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:
-            tabTime['lap'] = 0
-        
-        
-      
-        #tabTime['address'] = user['address']            
-        
+            tabTime['lap'] = 0                                              
         
         #RACE MODE?
         if(self.params.guidata.measure_mode == GuiData.MODE_RACE):
             
             dbTime["category"] = tabTime['category']
             
-            #GET ORDER
+            '''order'''
             try:
                 order = self.utils.getOrder(dbTime)
                 if(order["start"] >= order["end"]):                    
@@ -204,7 +186,7 @@ class TimesModel(myModel.myModel):
             except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:
                 tabTime['order'] = None
                     
-            #GET ORDER IN CATEGEORY
+            '''order in category'''
             try:
                 order_incategory = self.utils.getOrder(dbTime, incategory=True)                                                           
                 if(order_incategory["start"] >= order_incategory["end"]):  
@@ -249,20 +231,16 @@ class TimesModel(myModel.myModel):
             self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
             return None        
         
-        #user nr => user id
-        if(tabTime['nr'] == "0"):
+        '''USER NR => USER ID'''
+        if(tabTime['nr'] == 0):
             dbTime['user_id'] = 0            
-        else:
-                                                
-            ''' USER '''                     
-            user =  self.params.tabUser.get_db_user_par_nr(tabTime['nr'])                                           
-            #user not found => nothing to save
-            if(user == None):
-                self.params.showmessage(self.params.name+" Update error", "No user with number "+str(tabTime['nr'])+"!")
-                return None
+        else:                                                
+            ''' get USER '''                     
+            #user =  self.params.tabUser.getDbUserParNr(tabTime['nr'])            
+            user =  self.params.tabUser.getTabUserParNr(tabTime['nr'])
             
-            #TEST if is here enought START-TIMES
-            nr_start = self.params.guidata.getStartNr(user['category'])            
+            '''TEST if is here enought START-TIMES'''            
+            nr_start = self.params.guidata.getStartNr(user['category'])
             try:
                 aux_start_time = self.utils.getStartTime(self.run_id, nr_start)
             except IndexError:                        
@@ -272,29 +250,23 @@ class TimesModel(myModel.myModel):
                 self.params.showmessage(self.params.name+" Update error", "Cant find start time for this category.")
                 return None
                 
-            
-            
-            #add user_id                     
-            dbTime['user_id'] = user['id']    
-        
-        ''' TIME '''                         
-        #try:
-            #get TIME in absolut format
-        
-
+            ''' get user id'''
+            dbTime['user_id'] = self.params.tabUser.getIdOrTagIdParNr(tabTime['nr'])
+                        
+            if(dbTime['user_id'] == None):
+                '''user not found => nothing to save'''
+                self.params.showmessage(self.params.name+" Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
+                return None
+                            
+        ''' TIME '''                       
+                     
+        #get TIME in absolut format        
         try:                       
             dbTime['time_raw'] = self.utils.tabtime2dbtime(run_id, tabTime)
         except Utils.TimeFormat_Error:
             self.params.showmessage(self.params.name+" Update error", "Time wrong format!")                     
-        
-        
-        dbTime['run_id'] = run_id
-                    
-        #except:
-        #    self.params.showmessage(self.params.name+" Update error", "Wrong time format.!")
-        #    return None                                
-                  
-                     
+                
+        dbTime['run_id'] = run_id                
                                                                                                                                          
         return dbTime    
         
@@ -317,60 +289,30 @@ class TimesModel(myModel.myModel):
                                             
             #create list of lists, [["id",2],["id",6],..]
             for id in ids:
-                conditions.append(['run_id', id])
-                
-            #print conditions                            
+                conditions.append(['run_id', id])                                                      
                                          
             #update all times             
             myModel.myModel.update(self, conditions = conditions, operation = 'OR')            
         else:            
             #update for selected run        
-            myModel.myModel.update(self, "run_id", self.run_id)
-                    
-                                                     
+            myModel.myModel.update(self, "run_id", self.run_id)                                                                         
 
 class TimesProxyModel(myModel.myProxyModel):
     def __init__(self):                        
         
         #create PROXYMODEL
-        myModel.myProxyModel.__init__(self)  
-    
+        myModel.myProxyModel.__init__(self)      
    
 # view <- proxymodel <- model 
 class Times(myModel.myTable):
 #    def  __init__(self, view, db, guidata):  
-    def  __init__(self, params):
-        
-        #self.params = params               
-                                                    
-        #create MODEL
-        #self.model = TimesModel(params)  
-        
-         
-        
-        #create PROXY MODEL
-        #self.proxy_model = TimesProxyModel() 
+    def  __init__(self, params):        
         
         #create table instance (slots, etc.)
         myModel.myTable.__init__(self, params)                
-        
-        
+                
         #special slots
-        self.slots = Slots.TimesSlots(self)                     
-        
-        #assign MODEL to PROXY MODEL
-        #self.proxy_model.setSourceModel(self.model)
-        
-        #assign PROXY MODEL to VIEW        
-#        self.params.gui['view'].setModel(self.proxy_model)
-#        self.params.gui['view'].setRootIsDecorated(False)
-#        self.params.gui['view'].setAlternatingRowColors(True)        
-#        self.params.gui['view'].setSortingEnabled(True)       
-        
-#        #width
-#        for collumn in self.params.TABLE_COLLUMN_DEF.values():       
-#            self.params.gui['view'].setColumnWidth(collumn["index"], collumn["width"])
-            
+        self.slots = Slots.TimesSlots(self)                                       
        
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
@@ -418,7 +360,7 @@ class Times(myModel.myTable):
                 
         #db user part
         tabHeader = self.params.tabUser.proxy_model.header()                    
-        user = self.params.tabUser.get_db_user_par_nr(tabRow[index_user_nr])        
+        user = self.params.tabUser.getDbUserParNr(tabRow[index_user_nr])        
         for collumn in self.params.tabUser.params.DB_COLLUMN_DEF.values():
             if(collumn['col_nr_export'] is not None):
                 

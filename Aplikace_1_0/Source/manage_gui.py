@@ -69,14 +69,14 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         # TABLES
         #=======================================================================
         
+        self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
         self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
         self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
-        self.Tags = TagsModel.Tags(TagsModel.TagsParameters(self))
         
         #doplneni 
-        self.T.params.tabRuns = self.R        
+        self.T.params.tabRuns = self.R                        
         
         #nastaveni prvniho dostupneho portu
         try:
@@ -106,9 +106,11 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)        
         
-        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)  
+        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
         
-        #self.ui.aRefresh.a connect(QtCore.QObject, QtCore.SIGNAL("activated()"), self.sRefresh)
+        QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("activated()"), self.sRefresh)   
+        
+        #self.ui.aRefresh.connect(QtCore.QObject, QtCore.SIGNAL("activated()"), self.sRefresh)
         
         QtCore.QObject.connect(self.ui.aRefreshMode, QtCore.SIGNAL("triggered()"), self.sRefreshMode)      
         QtCore.QObject.connect(self.ui.aLockMode, QtCore.SIGNAL("triggered()"), self.sLockMode)
@@ -200,7 +202,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     #=======================================================================  
     # 23 06 04 00 00 0000 00      
     def sTimer(self):
-        self.UiAccesories.updateGui()
+        self.UiAccesories.updateTab(self.ui.tabWidget.currentIndex ())        
         
     def sTabChanged(self, nr):        
         if(nr==0):
@@ -306,7 +308,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     #=========================================================================== 
     def sRefresh(self):        
         
-        self.update()       
+        self.update()
+        #self.adskfha()       
         
         title = "Manual Refresh"
         self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)   

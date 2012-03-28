@@ -81,7 +81,13 @@ class Categories(myModel.myTable):
     def  __init__(self, params):                                             
          
         #default table constructor
-        myModel.myTable.__init__(self, params)        
+        myModel.myTable.__init__(self, params)
+        
+    def getDbCategoryParName(self, nr):
+                 
+        db_user = self.params.db.getParX("categories", "name", nr).fetchone()        
+                        
+        return db_user        
                         
 
                             

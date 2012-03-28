@@ -138,6 +138,10 @@ class myModel(QtGui.QStandardItemModel):
         """
         
         tabRow = {}
+        
+        #exist?
+        if dbRow == None:
+            tabRow = self.getDefaultTableRow()
      
         for key in self.params.TABLE_COLLUMN_DEF:         
                         
@@ -783,13 +787,7 @@ class myTable():
         #get db row
         dbRow = self.getDbRow(id)
         
-        #exist?
-        if dbRow == None:
-            tabRow = self.model.getDefaultTableRow()
-            
-        #exist => restrict username                
-        else:
-            tabCategory = self.model.db2tableRow(dbRow)  
+        tabRow = self.model.db2tableRow(dbRow)  
             
         return tabRow
     
