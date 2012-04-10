@@ -4,7 +4,6 @@ import sys
 import time
 from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
-import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
@@ -66,7 +65,7 @@ class TagsModel(myModel.myModel):
     def getDefaultTableRow(self): 
         category = myModel.myModel.getDefaultTableRow(self)                
         category['name'] = "unknown"        
-        category['starttime'] = 0
+        category['start_nr'] = 0
         return category 
                     
 class TagsProxyModel(myModel.myProxyModel):

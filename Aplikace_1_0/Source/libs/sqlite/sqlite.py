@@ -78,7 +78,7 @@ class sqlite_db(object):
         return res.fetchone()    
     
     def getParX(self, tablename, parameter, value):
-        query = "select * from " + tablename + " where " + parameter +" = " + str(value)        
+        query = "select * from " + tablename + " where " + parameter +" = '" + str(value) + "'"        
         res = self.query(query)
         return res
     

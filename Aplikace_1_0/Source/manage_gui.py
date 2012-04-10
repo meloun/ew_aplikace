@@ -12,7 +12,6 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 import ewitis.gui.Ui_App as Ui_App
 import ewitis.gui.myModel as myModel
-import ewitis.gui.GuiData as GuiData
 import ewitis.gui.RunsModel as RunsModel
 import ewitis.gui.TimesModel as TimesModel
 import ewitis.gui.UsersModel as UsersModel
@@ -22,6 +21,7 @@ import libs.sqlite.sqlite as sqlite
 import ewitis.data.DEF_DATA as DEF_DATA
 import libs.datastore.datastore as datastore
 import ewitis.gui.UiAccesories as UiAccesories
+from ewitis.data.DEF_ENUM_STRINGS import * 
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
@@ -41,7 +41,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.datastore = datastore.Datastore(DEF_DATA.DEF_DATA)
         
         #slots, update etc.                                                                                                                     
-        self.UiAccesories = UiAccesories.UiAccesories(self.ui, self.datastore)                    
+        self.UiAccesories = UiAccesories.UiAccesories(self)                    
         
                                                            
         #=======================================================================
@@ -54,7 +54,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             print "E: GUI: Database"                 
         
         
-        self.GuiData = GuiData.GuiData()
+        #self.GuiData = GuiData.GuiData()
         
         
         #UI RESTRICT
@@ -70,10 +70,10 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         
         self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
+        self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
         self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
-        self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
         
         #doplneni 
         self.T.params.tabRuns = self.R                        
@@ -90,8 +90,9 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         self.update()
         
-        '''status bar'''                
-        self.showMessage("mode", self.GuiData.getMesureModeString() + " ["+self.GuiData.getRaceName()+"]", dialog=False)
+        '''status bar'''       
+        logic_mode = LOGIC_MODES.STRINGS[self.datastore.Get("timing_settings", "GET")['logic_mode']]          
+        self.showMessage("mode", logic_mode + " ["+self.datastore.Get("race_name")+"]", dialog=False)
         
         #=======================================================================
         # SIGNALS
@@ -180,22 +181,24 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.U.update()                  
 
     def uiRestrict(self):
-        if(self.GuiData.measure_mode == GuiData.MODE_TRAINING_BASIC):
-            #TABLE RUNS
-            #add
-            self.ui.RunsAdd.setEnabled(False)
-            
-            #TABLE TIMES                
-            #add
-            self.ui.TimesAdd.setEnabled(False)
-            
-            #TOOLBAR MODES
-            self.ui.toolBar_Modes.setEnabled(False)        
-            self.ui.toolBar_Modes.setVisible(False)
-            
-            #MENU
-            self.ui.menubar.setHidden(True)                                                                                              
-            self.ui.TimesWwwExport.addAction(self.ui.aDirectWwwExport)            
+        pass
+        #toDo: rozlisit podle modu z datastore
+#        if(self.GuiData.measure_mode == GuiData.MODE_TRAINING_BASIC):
+#            #TABLE RUNS
+#            #add
+#            self.ui.RunsAdd.setEnabled(False)
+#            
+#            #TABLE TIMES                
+#            #add
+#            self.ui.TimesAdd.setEnabled(False)
+#            
+#            #TOOLBAR MODES
+#            self.ui.toolBar_Modes.setEnabled(False)        
+#            self.ui.toolBar_Modes.setVisible(False)
+#            
+#            #MENU
+#            self.ui.menubar.setHidden(True)                                                                                              
+#            self.ui.TimesWwwExport.addAction(self.ui.aDirectWwwExport)            
          
     #=======================================================================
     ### SLOTS ###

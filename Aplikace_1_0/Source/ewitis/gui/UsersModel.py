@@ -4,10 +4,9 @@ import sys
 import time
 from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
-import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-import libs.datastore.datastore as datastore
+#import libs.datastore.datastore as datastore
         
 class UsersParameters(myModel.myParameters):
        
@@ -17,8 +16,9 @@ class UsersParameters(myModel.myParameters):
         self.name = "Users"  
         
         self.tableTags = source.tableTags
+        self.tabCategories = source.C
         
-        self.datastore = source.datastore
+        #self.datastore = source.datastore
         
         #=======================================================================
         # KEYS DEFINITION
@@ -79,7 +79,8 @@ class UsersModel(myModel.myModel):
     def getDefaultTableRow(self): 
         user = myModel.myModel.getDefaultTableRow(self)                
         user['nr'] = 0
-        user['name'] = "unknown"        
+        user['name'] = "unknown"
+        user['category'] = self.params.tabCategories.getDbCategoryFirst()['name']    
         return user 
     
     #===============================================================
@@ -92,30 +93,39 @@ class UsersModel(myModel.myModel):
         #1to1 keys just copy
         tabUser = myModel.myModel.db2tableRow(self, dbUser) 
         
-#        if(tabUser['name']==''):
-#                tabUser['name'] = 'nobody'
-
-        if dbUser:            
-            #tabUser['user_id'] = dbUser['id']
-            dbTag = self.params.tableTags.getTabTagParUserNr(dbUser['nr'])            
-            tabUser['user_id'] = dbTag['tag_id']
+        '''get category'''
+        if dbUser == None:
+            tabCategory = self.params.tabCategories.model.getDefaultTableRow()
         else:
-            tabUser['user_id'] = 0                              
+            tabCategory = self.params.tabCategories.getTabRow(dbUser['category_id'])        
+        
+        tabUser['category'] = tabCategory['name']                           
                                 
         return tabUser
+    
+
     
     #===============================================================
     # GUI => DB                            
     #===============================================================
     #GUI: "id", "nr", "name", "first_name", "category", "address"   
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
-#    def table2dbRow(self, tabUser):                              
-#            
-#        #1to1 keys just copy
-#        dbUser = myModel.myModel.table2dbRow(self, tabUser)
-#                                                                                          
-#        return dbUser 
-     
+    def table2dbRow(self, tabUser):                              
+            
+        #1to1 keys just copy
+        dbUser = myModel.myModel.table2dbRow(self, tabUser)
+        
+        '''category_id'''
+        dbCategory = self.params.tabCategories.getDbCategoryParName(tabUser['category']) 
+        
+        if(dbCategory == None):
+            '''category not found => nothing to save'''
+            self.params.showmessage(self.params.name+" Update error", "No category with this name "+str(tabUser['category'])+"!")
+            return None
+        dbUser['category_id'] = dbCategory['id']
+                                                                                          
+        return dbUser 
+#     
 #    def slot_ModelChanged(self, item):
 #        
 #        #EXIST USER WITH THIS NR??
@@ -157,9 +167,9 @@ class Users(myModel.myTable):
     def getTabUserParNr(self, id):
                              
         #get db row
-        dbRow = self.getDbUserParNr(id)
+        dbRow = self.getDbUserParNr(id)        
         
-        tabRow = self.model.db2tableRow(dbRow)  
+        tabRow = self.model.db2tableRow(dbRow)                
             
         return tabRow
     
@@ -176,8 +186,7 @@ class Users(myModel.myTable):
                         
         return db_user
     
-    
-    def getTabUserParIdOrTagId(self, id):
+    def getDbUserParIdOrTagId(self, id):
         
         if(self.params.datastore.Get("rfid") == True):        
             '''tag id'''
@@ -185,6 +194,12 @@ class Users(myModel.myTable):
         else:        
             '''id'''
             dbUser = self.getDbRow(id)
+                
+        return dbUser
+    
+    def getTabUserParIdOrTagId(self, id):
+        
+        dbUser = self.getDbUserParIdOrTagId(id)                 
         
         tabUser = self.model.db2tableRow(dbUser)
         return tabUser

@@ -32,16 +32,12 @@ class Db_csv():
     #save csv into file from lists
     def save(self, lists, keys = [], encode = None):
         
-        #print "csv lists:", lists
+        #print "csv lists:", lists        
         my_string = ""
         
-        my_string += ";".join(str(x) for x in keys) + "\n"            
-        
-        for list in lists:                
-            my_string += ";".join(str(x) for x in list) + "\n"
-                            
-        
-        
+        #my_string += ";".join(str(x) for x in keys) + "\n"            
+        my_string += ";".join((x) for x in keys) + "\n"
+                        
         #print my_string, type(my_string)
         if encode != None:
             my_string = my_string.encode(encode)    

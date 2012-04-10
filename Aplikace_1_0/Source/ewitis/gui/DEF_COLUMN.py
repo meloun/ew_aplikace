@@ -41,7 +41,7 @@ TIMES['database'] = {
                             "user_id"   :     {"index": 3, "name": "user_id"},
                             "cell"      :     {"index": 4, "name": "cell"},
                             "time_raw"  :     {"index": 5, "name": "time_raw"},
-                            "time"      :     {"index": 6, "name": "time"},                                
+                            #"time"      :     {"index": 6, "name": "time"},                                
                       }
 """ table collumn for times, mode training """
 TIMES['table_training'] = {
@@ -55,16 +55,16 @@ TIMES['table_training'] = {
 
 """ table collumn for times, mode race """
 TIMES['table_race'] =   {
-                           "id"         : {"index": 0,  "name": "id",        "width":35,    "col_nr_export": None,    "write":1},
-                           "nr"         : {"index": 1,  "name": "nr",        "width":50,    "col_nr_export": 1,       "write":1},
-                           "cell"       : {"index": 2,  "name": "cell",      "width":50,    "col_nr_export": None,    "write":1},
-                           "time"       : {"index": 3,  "name": "time",      "width":100,   "col_nr_export": 5,       "write":1},
-                           "name"       : {"index": 4,  "name": "name",      "width":150,   "col_nr_export": 2,       "write":1},
-                           "category"   : {"index": 5,  "name": "category",  "width":100,   "col_nr_export": None,    "write":1},
-                           "order"      : {"index": 6,  "name": "order",     "width":50,    "col_nr_export": None,    "write":1},      
-                           "order_kat"  : {"index": 7,  "name": "order_kat", "width":50,    "col_nr_export": 0,       "write":1},      
-                           "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "col_nr_export": None,    "write":1},
-                           "lap"        : {"index": 9,  "name": "lap",       "width":50,    "col_nr_export": None,    "write":1},                                               
+                           "id"         : {"index": 0,  "name": "id",        "width":35,    "col_nr_export": None,  "col_nr_export_raw": 1,     "write":1},
+                           "nr"         : {"index": 1,  "name": "nr",        "width":50,    "col_nr_export": 1,     "col_nr_export_raw": 2,     "write":1},
+                           "cell"       : {"index": 2,  "name": "cell",      "width":50,    "col_nr_export": None,  "col_nr_export_raw": 3,     "write":1},
+                           "time"       : {"index": 3,  "name": "time",      "width":100,   "col_nr_export": 5,     "col_nr_export_raw": 4,     "write":1},
+                           "name"       : {"index": 4,  "name": "name",      "width":150,   "col_nr_export": 2,     "col_nr_export_raw": None,  "write":1},
+                           "category"   : {"index": 5,  "name": "category",  "width":100,   "col_nr_export": None,  "col_nr_export_raw": None,  "write":1},
+                           "order"      : {"index": 6,  "name": "order",     "width":50,    "col_nr_export": None,  "col_nr_export_raw": 5,     "write":1},      
+                           "order_kat"  : {"index": 7,  "name": "order_kat", "width":50,    "col_nr_export": 0,     "col_nr_export_raw": 6,     "write":1},      
+                           "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "col_nr_export": None,  "col_nr_export_raw": 7,     "write":1},
+                           "lap"        : {"index": 9,  "name": "lap",       "width":50,    "col_nr_export": None,  "col_nr_export_raw": 8,     "write":1},                                               
                         }
   
 """ export collumn for times """
@@ -82,42 +82,41 @@ USERS = {}
 
 """ database column for times """
 USERS['database'] = { 
-                    "id"            :     {"index": 0,      "name": "id",               "col_nr_export": None},
-                    "nr"            :     {"index": 1,      "name": "nr",               "col_nr_export": None},
-                    "name"          :     {"index": 2,      "name": "name",             "col_nr_export": None},
-                    "first_name"    :     {"index": 3,      "name": "first_name",       "col_nr_export": None},
-                    "category"      :     {"index": 4,      "name": "category",         "col_nr_export": None},
-                    "club"          :     {"index": 5,      "name": "club",             "col_nr_export": 3},
-                    "birthday"      :     {"index": 6,      "name": "birthday",         "col_nr_export": 4},
-                    "sex"           :     {"index": 7,      "name": "sex",              "col_nr_export": None},
-                    "email"         :     {"index": 8,      "name": "email",            "col_nr_export": None},
-                    "symbol"        :     {"index": 9,      "name": "symbol",           "col_nr_export": None},
-                    "paid"          :     {"index": 10,     "name": "paid",             "col_nr_export": None},
-                    "note"          :     {"index": 11,     "name": "note",             "col_nr_export": None},
-                    "user_field_1"  :     {"index": 12,     "name": "user_field_1",     "col_nr_export": None},
-                    "user_field_2"  :     {"index": 13,     "name": "user_field_2",     "col_nr_export": None},
-                    "user_field_3"  :     {"index": 14,     "name": "user_field_3",     "col_nr_export": None},    
-                    "user_field_4"  :     {"index": 15,     "name": "user_field_4",     "col_nr_export": None},                                                                    
+                    "id"            :     {"index": 0,      "name": "id",               },
+                    "nr"            :     {"index": 1,      "name": "nr",               },
+                    "name"          :     {"index": 2,      "name": "name",             },
+                    "first_name"    :     {"index": 3,      "name": "first_name",       },
+                    "category_id"   :     {"index": 4,      "name": "category",         },
+                    "club"          :     {"index": 5,      "name": "club",             },
+                    "birthday"      :     {"index": 6,      "name": "birthday",         },
+                    "sex"           :     {"index": 7,      "name": "sex",              },
+                    "email"         :     {"index": 8,      "name": "email",            },
+                    "symbol"        :     {"index": 9,      "name": "symbol",           },
+                    "paid"          :     {"index": 10,     "name": "paid",             },
+                    "note"          :     {"index": 11,     "name": "note",             },
+                    "user_field_1"  :     {"index": 12,     "name": "user_field_1",     },
+                    "user_field_2"  :     {"index": 13,     "name": "user_field_2",     },
+                    "user_field_3"  :     {"index": 14,     "name": "user_field_3",     },    
+                    "user_field_4"  :     {"index": 15,     "name": "user_field_4",     },                                                                                        
                   }
 
 """ table collumn for times, mode race """ 
-USERS['table'] = { "id"            :     {"index": 0,   "name": "id", "width":30},
-                   "user_id"       :     {"index": 1,   "name": "user_id", "width":30},
-                   "nr"            :     {"index": 2,   "name": "nr", "width":30},
-                   "name"          :     {"index": 3,   "name": "name", "width":100},                
-                   "first_name"    :     {"index": 4,   "name": "first_name", "width":100},
-                   "category"      :     {"index": 5,   "name": "category", "width":100},                   
-                   "club"          :     {"index": 6,   "name": "club", "width":200},
-                   "birthday"      :     {"index": 7,   "name": "birthday", "width":70},
-                   "sex"           :     {"index": 8,   "name": "sex", "width":None},
-                   "email"         :     {"index": 9,   "name": "email", "width":None},
-                   "symbol"        :     {"index": 10,   "name": "symbol", "width":None},
-                   "paid"          :     {"index": 11,   "name": "paid", "width":None},
-                   "note"          :     {"index": 12,  "name": "note", "width":None},
-                   "user_field_1"  :     {"index": 13,  "name": "#1", "width":None},
-                   "user_field_2"  :     {"index": 14,  "name": "#2", "width":None},
-                   "user_field_3"  :     {"index": 15,  "name": "#3", "width":None},    
-                   "user_field_4"  :     {"index": 16,  "name": "#4", "width":10},                                                                    
+USERS['table'] = { "id"            :     {"index": 0,   "name": "id",          "width":30,   "col_nr_export": None, "col_nr_export_raw": 9},                   
+                   "nr"            :     {"index": 1,   "name": "nr",          "width":30,   "col_nr_export": None, "col_nr_export_raw": 10},
+                   "name"          :     {"index": 2,   "name": "name",        "width":100,  "col_nr_export": None, "col_nr_export_raw": 11},                
+                   "first_name"    :     {"index": 3,   "name": "first_name",  "width":100,  "col_nr_export": None, "col_nr_export_raw": 12},
+                   "category"      :     {"index": 4,   "name": "category",    "width":100,  "col_nr_export": None, "col_nr_export_raw": 13},                   
+                   "club"          :     {"index": 5,   "name": "club",        "width":200,  "col_nr_export": 3,    "col_nr_export_raw": 14},
+                   "birthday"      :     {"index": 6,   "name": "birthday",    "width":70,   "col_nr_export": 4,    "col_nr_export_raw": 15},
+                   "sex"           :     {"index": 7,   "name": "sex",         "width":None, "col_nr_export": None, "col_nr_export_raw": 16},
+                   "email"         :     {"index": 8,   "name": "email",       "width":None, "col_nr_export": None, "col_nr_export_raw": 17},
+                   "symbol"        :     {"index": 9,   "name": "symbol",      "width":None, "col_nr_export": None, "col_nr_export_raw": 18},
+                   "paid"          :     {"index": 10,  "name": "paid",        "width":None, "col_nr_export": None, "col_nr_export_raw": 19},
+                   "note"          :     {"index": 11,  "name": "note",        "width":None, "col_nr_export": None, "col_nr_export_raw": 20},
+                   "user_field_1"  :     {"index": 12,  "name": "#1",          "width":None, "col_nr_export": None, "col_nr_export_raw": 21},
+                   "user_field_2"  :     {"index": 13,  "name": "#2",          "width":None, "col_nr_export": None, "col_nr_export_raw": 22},
+                   "user_field_3"  :     {"index": 14,  "name": "#3",          "width":None, "col_nr_export": None, "col_nr_export_raw": 23},    
+                   "user_field_4"  :     {"index": 15,  "name": "#4",          "width":10,   "col_nr_export": None, "col_nr_export_raw": 24},                                                                    
               }
 
 
@@ -131,13 +130,13 @@ CATEGORIES = {}
 CATEGORIES['database'] = {
                            "id"            :     {"index": 0,  "name": "id",           "col_nr_export": None},
                            "name"          :     {"index": 1,  "name": "name",         "col_nr_export": None},                                                                 
-                           "starttime"     :     {"index": 2,  "name": "starttime",    "col_nr_export": None},
+                           "start_nr"     :     {"index": 2,  "name": "start_nr",    "col_nr_export": None},
                          }
 """ table collumn for times, mode race """
 CATEGORIES['table'] = {
                         "id"         :     {"index": 0,  "name": "id",           "width":30},
                         "name"       :     {"index": 1,  "name": "name",         "width":300},                                                                
-                        "starttime"  :     {"index": 2,  "name": "starttime",    "width":300},
+                        "start_nr"  :     {"index": 2,  "name": "start_nr",    "width":300},
                       }  
 
 """

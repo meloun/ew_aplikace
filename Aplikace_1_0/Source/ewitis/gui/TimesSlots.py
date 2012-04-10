@@ -2,7 +2,6 @@
 
 from PyQt4 import QtCore, QtGui
 import libs.timeutils.timeutils as timeutils 
-import ewitis.gui.GuiData as GuiData
 
 class TimesSlots():
     def __init__(self, times):
@@ -13,6 +12,9 @@ class TimesSlots():
         QtCore.QObject.connect(times.params.gui['show_zero'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZeroChanged)
         QtCore.QObject.connect(times.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sTimesDirectWwwExport)        
                         
+
+
+
         
     def sTimesShowAllChanged(self, state):        
         if(state == 0):
@@ -31,8 +33,8 @@ class TimesSlots():
         self.times.update()
         
     def sTimesDirectWwwExport(self):
-        if(self.times.params.guidata.measure_mode == GuiData.MODE_RACE):
-            self.times.sExport_directWWW(filename="export/www/times_"+self.times.params.guidata.measure_setting["name"]+".htm")
-        else:
-            self.times.sExport_directWWW(filename="export/www/times_"+timeutils.getUnderlinedDatetime()+".htm")        
+        
+        #toDo: rozlisit podle modu z datastore
+        self.times.sExport_directWWW(filename="export/www/times_"+self.times.params.guidata.measure_setting["name"]+".htm")
+        #self.times.sExport_directWWW(filename="export/www/times_"+timeutils.getUnderlinedDatetime()+".htm")        
         

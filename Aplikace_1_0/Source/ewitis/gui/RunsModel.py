@@ -8,7 +8,6 @@
 import sys
 from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
-import ewitis.gui.GuiData as GuiData
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
 
@@ -166,10 +165,10 @@ class Runs(myModel.myTable):
             #ziskani id z vybraneho radku                                         
             self.run_id = (self.proxy_model.data(rows[0]).toInt()[0])                 
                                      
-            #get TIMES from database & add them to the table
-            self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
-            self.params.tabTimes.update(run_id = self.run_id)             
-            self.params.guidata.user_actions = GuiData.ACTIONS_ENABLE
+            #get TIMES from database & add them to the table            
+            self.params.datastore.Set("user_actions", False)  
+            self.params.tabTimes.update(run_id = self.run_id)
+            self.params.datastore.Set("user_actions", True)                         
         except:
             print "I: Times: nelze aktualizovat!"
         

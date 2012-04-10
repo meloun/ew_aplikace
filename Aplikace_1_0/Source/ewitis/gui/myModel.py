@@ -7,10 +7,10 @@
 
 import time
 from PyQt4 import Qt, QtCore, QtGui
-import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
 import libs.sqlite.sqlite as sqlite
+import libs.datastore.datastore as datastore
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
@@ -29,10 +29,9 @@ class myParameters():
         self.showmessage = source.showMessage
     
         #db for acces
-        self.db = source.db
+        self.db = source.db                        
         
-        #guidata
-        self.guidata = source.GuiData
+        self.datastore = source.datastore
            
 class myModel(QtGui.QStandardItemModel):
     """
@@ -71,8 +70,8 @@ class myModel(QtGui.QStandardItemModel):
         SLOT, model se zmenil => ulozeni do DB
         """                          
         
-        #user change, no auto update
-        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):                                                                  
+        #user change, no auto update        
+        if(self.params.datastore.Get("user_actions")):                                                                        
                         
             #ziskat zmeneny radek, slovnik{}
             tabRow = self.getTableRow(item.row())                                                                              
@@ -100,10 +99,6 @@ class myModel(QtGui.QStandardItemModel):
         
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled        
-
-        #refresh mode => NOT editable                                    
-        if(self.params.guidata.table_mode ==  MODE_REFRESH):
-            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
         
         #NOT editable items
         if (index.column() == 0):
@@ -142,14 +137,22 @@ class myModel(QtGui.QStandardItemModel):
         #exist?
         if dbRow == None:
             tabRow = self.getDefaultTableRow()
-     
-        for key in self.params.TABLE_COLLUMN_DEF:         
-                        
+        
+        #kopie vseho z db do tab    
+        for key in self.params.DB_COLLUMN_DEF:
             #kopie 1to1
             try:
                 tabRow[key] = dbRow[key]
             except:
                 pass #tento sloupec v tabulce neexistuje
+                     
+#        for key in self.params.TABLE_COLLUMN_DEF:
+#                        
+#            #kopie 1to1
+#            try:
+#                tabRow[key] = dbRow[key]
+#            except:
+#                pass #tento sloupec v tabulce neexistuje
 
         return tabRow
      
@@ -222,9 +225,8 @@ class myModel(QtGui.QStandardItemModel):
                 
         nr_column = 0
         row = {}                
-
-        print self.header()                
-        for key in self.header():                            
+                   
+        for key in self.header():                                        
             row[key] = self.item(nr_row, nr_column).text()
             nr_column += 1
         
@@ -269,7 +271,8 @@ class myModel(QtGui.QStandardItemModel):
         update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
         """
                 
-        self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE        
+        #self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
+        self.params.datastore.Set("user_actions", False)          
                       
         #smazat vsechny radky
         self.removeRows(0, self.rowCount())  
@@ -295,8 +298,8 @@ class myModel(QtGui.QStandardItemModel):
              
             #add row to the table            
             self.addRow(row_table)                                 
-            
-        self.params.guidata.user_actions = GuiData.ACTIONS_ENABLE                                                                          
+                    
+        self.params.datastore.Set("user_actions", True)                                                                            
             
 
 class myProxyModel(QtGui.QSortFilterProxyModel):
@@ -457,7 +460,7 @@ class myTable():
             QtCore.QObject.connect(self.params.gui['import'], QtCore.SIGNAL("clicked()"), self.sImport)   
             
         # EXPORT BUTTON
-        QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
+        #QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
         
         # EXPORT WWW BUTTON
         #if(self.params.guidata.measure_mode != GuiData.MODE_TRAINING_BASIC):
@@ -475,8 +478,8 @@ class myTable():
         
     #UPDATE TIMER    
     def slot_Timer1s(self):                 
-        if (self.params.guidata.table_mode == GuiData.MODE_REFRESH): 
-            self.update()    #update table            
+        pass 
+        #self.update()    #update table            
     
         # CLEAR FILTER BUTTON -> CLEAR FILTER        
     def sFilterClear(self):    
@@ -513,7 +516,8 @@ class myTable():
         #    row[key] = ''
         row['id'] = my_id        
                 
-        self.model.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
+        
+        self.params.datastore.Set("user_actions", False)  
                 
         #self.model.addRow(row)
                 
@@ -522,8 +526,8 @@ class myTable():
             self.params.db.insert_from_dict(self.params.name, dbRow)            
             self.params.showmessage(title,"succesfully (id="+str(my_id)+")", dialog = False)
 
-        self.update()            
-        self.model.params.guidata.user_actions = GuiData.ACTIONS_ENABLE
+        self.update()                    
+        self.params.datastore.Set("user_actions", True)  
         
     # REMOVE ROW               
     def sDelete(self, label=""):                
@@ -581,7 +585,7 @@ class myTable():
         if(state['ko'] != 0) :
             self.params.showmessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
         else:
-            self.params.showmessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", type='info')                                               
+            self.params.showmessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", msgtype='info')                                               
         
     # EXPORT
     # WEB (or DB) => CSV FILE
@@ -590,19 +594,18 @@ class myTable():
     def sExport(self, source='table'):
         
         #hack for table times
-        print self.params.name
+        print "I: ", self.params.name, ": export"
         if(self.params.name == "Times"):            
             source = 'raw'
         
+        print source
         #get filename, gui dialog 
         filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","export/csv/table_"+self.params.name+".csv","Csv Files (*.csv)")                
         if(filename == ""):
             return              
         
         #title
-        title = "Table '"+self.params.name + "' CSV Export"
-        
-        #print filename, source
+        title = "Table '"+self.params.name + "' CSV Export"                
          
         #export to csv file
         #try:                        
@@ -690,6 +693,8 @@ class myTable():
             
         #FROM DB
         elif(source == 'raw'):
+            self.export_csv_raw(filename)
+            return
             
             #final lists for CSV export
             raw = []
@@ -704,7 +709,7 @@ class myTable():
             category_index = self.params.TABLE_COLLUMN_DEF['category']['index']
             
             
-            #
+            #            
             for list in tabLists:
                 userlist = []             
                 
@@ -712,6 +717,7 @@ class myTable():
                 time = self.params.db.getParId("times", list[id_index])                                
                                 
                 #get user per user_id                                                
+                #user = self.params.db.getParId("users", time[user_id_index])
                 user = self.params.db.getParId("users", time[user_id_index])
                                
                 
@@ -729,7 +735,9 @@ class myTable():
                     raw_row =  list + userlist
 
                     #append row to final lists                                          
-                    raw.append(raw_row)       
+                    raw.append(raw_row)
+                else:
+                    print "neco spatne",list       
                     
                 #save to CSV
                 header = self.proxy_model.header()                
@@ -790,6 +798,12 @@ class myTable():
         tabRow = self.model.db2tableRow(dbRow)  
             
         return tabRow
+    
+    def getDbRows(self):
+                                 
+        dbRows = self.params.db.getAll(self.params.name)
+                      
+        return dbRows        
     
     def delete(self, id):
 

@@ -4,7 +4,6 @@ import sys
 import time
 from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
-import ewitis.gui.GuiData as GuiData
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
@@ -66,7 +65,7 @@ class CategoriesModel(myModel.myModel):
     def getDefaultTableRow(self): 
         category = myModel.myModel.getDefaultTableRow(self)                
         category['name'] = "unknown"        
-        category['starttime'] = 0
+        category['start_nr'] = 0
         return category 
                     
 class CategoriesProxyModel(myModel.myProxyModel):
@@ -81,13 +80,25 @@ class Categories(myModel.myTable):
     def  __init__(self, params):                                             
          
         #default table constructor
-        myModel.myTable.__init__(self, params)
+        myModel.myTable.__init__(self, params)        
+    
         
-    def getDbCategoryParName(self, nr):
+    def getDbCategoryFirst(self):
+        return self.params.db.getFirst("categories")
+        
+    def getDbCategoryParName(self, name):
                  
-        db_user = self.params.db.getParX("categories", "name", nr).fetchone()        
+        dbCategory = self.params.db.getParX("categories", "name", name).fetchone()        
                         
-        return db_user        
+        return dbCategory
+    
+    def getTabCategoryParName(self, name):
+                 
+        dbCategory = self.getDbCategoryParName(name)
+        
+        tabCategory = self.model.db2tableRow(dbCategory)           
+                        
+        return tabCategory        
                         
 
                             

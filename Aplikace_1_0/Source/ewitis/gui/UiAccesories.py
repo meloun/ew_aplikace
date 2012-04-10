@@ -7,14 +7,16 @@ from ewitis.data.DEF_ENUM_STRINGS import *
 
 
 class UiAccesories():
-    def __init__(self, ui, datastore):
+    def __init__(self, source):
         
-        self.ui = ui
-        self.datastore = datastore                
+        self.ui = source.ui
+        self.datastore = source.datastore
+        self.showmessage = source.showMessage                
     
     def createSlots(self): 
                 
         """SLOTY"""
+        QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("clicked()"), self.sRfidRace)        
         QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
         #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
         QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
@@ -55,6 +57,11 @@ class UiAccesories():
             terminal_info = self.datastore.Get("terminal info", "GET")
         
         elif(tab == 4):
+            if(self.datastore.Get("rfid")):
+                self.ui.checkRfidRace.setCheckState(2)
+            else:
+                self.ui.checkRfidRace.setCheckState(0)       
+            
             """ TERMINAL INFO """
             aux_terminal_info = self.datastore.Get("terminal_info", "GET")
             
@@ -181,11 +188,14 @@ class UiAccesories():
                 self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
             else:            
                 self.ui.lineMaxlapnumber.setText("- -")
+                    
         
-        
-        
-        
-                        
+    
+    def sRfidRace(self):                        
+        if (self.showmessage("d", "Are you sure you want to? \n ", msgtype='warning_dialog')):            
+            self.datastore.Set("rfid", not(self.datastore.Get("rfid")))
+        self.updateGui()
+                            
         
     def sTerminalBacklight(self):
         

@@ -26,7 +26,7 @@ eTIMING_LOGIC_MODE = ["basic", "manual"]
 
 class LOGIC_MODES:
     basic, manual, single_mass, multiple_mass = range(1,5)  
-    STRINGS =  {basic:"basic", manual:"manual"} 
+    STRINGS =  {basic:"basic", manual:"manual", single_mass:"single_mass", multiple_mass:"multiple_mass"} 
 class MEASUREMENT_STATE:
     not_active, prepared, time_is_running, finished = range(0,4)
     STRINGS =  {not_active:"Not Active", prepared:"Prepared, waiting for start", time_is_running:"Time is running", prepared:"Finished"}      
@@ -48,9 +48,17 @@ DEF_DATA = {
         "port_baudrate"      : {"name"     : "Port baudrate",
                                 "GET_SET"  : {"value": 38400}
                                },
+
+        "race_name"          : {"name"     : "race_name",
+                                "GET_SET"  : {"value":"Test"}  
+                               },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":False}  
+                               },
+        "user_actions"        : {"name"     : "user_actions",
+                                "GET_SET"  : {"value":True}  
                                },        
+        
 
         # TERMINAL DATA
         "backlight"          : {"name"    : "backlight",                                                                 
@@ -96,7 +104,7 @@ DEF_DATA = {
                                              },
                                },
         "timing_settings"    : {"name"    : "logic timing_settings",                                
-                                "SET"     : {"value": {"logic_mode": LOGIC_MODES.basic,
+                                "SET"     : {"value": {"logic_mode": LOGIC_MODES.multiple_mass,
                                                        "measurement_state": MEASUREMENT_STATE.not_active,
                                                        "name_id": 4,
                                                        "filter_tagtime": 5,
@@ -105,7 +113,7 @@ DEF_DATA = {
                                                        },
                                               "changed": False
                                             },
-                                "GET"     : {"value": {"logic_mode": None,
+                                "GET"     : {"value": {"logic_mode": LOGIC_MODES.multiple_mass,
                                                        "measurement_state": None,
                                                        "name_id": 04,
                                                        "filter_tagtime": None,

@@ -1,34 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import ewitis.gui.GuiData as GuiData
-
 class ZeroRawTime_Error(Exception): pass
 class NoneRawTime_Error(Exception): pass
 class TimeFormat_Error(Exception): pass
 
 
 class TimesUtils():
-    def __init__(self, times):
-        self.times = times
+    def __init__(self, TimesModel):
+        self.TimesModel = TimesModel
         
         #predelat, tohle pres self.times.name atd.
-        self.name = times.params.name
-        self.db = times.params.db
-        self.guidata = times.params.guidata
+        self.name = TimesModel.params.name
+        self.db = TimesModel.params.db        
                 
         #update start times
-        self.updateStartTimes()        
-         
-        
-    #CELL_DB2TABLE = {1:"start", 250:"end"}
-    def cell_db2table(self, dbCell): 
-        if dbCell == 0 or dbCell==None or dbCell == "":
-            return "N"
-        elif dbCell == 1:
-            return "S"
-        elif dbCell == 250:
-            return "E"        
-        return "M"+str(dbCell)
+        self.updateStartTimes()                 
         
     #time_raw => time
     @staticmethod
@@ -82,11 +68,10 @@ class TimesUtils():
                        
         #get starttime number        
         if(tabTime['cell'] == 1): #start time?                           
-            starttime_nr = 1 #decrement 1.starttime
-        else:            
-            #starttime_nr = self.guidata.getStartNr(str(tabTime['category']))
-            starttime_nr = self.guidata.getStartNr(tabTime['category'])
-                
+            starttime_nr = 1 #decrement 1.starttime        
+        else:
+            category = self.TimesModel.params.tabCategories.getTabCategoryParName(tabTime['category'])
+            starttime_nr = category['start_nr']                                                                
         try:
             start_times = self.start_times[run_id]
         
@@ -114,19 +99,22 @@ class TimesUtils():
             return        
 
         #TRAINING MODE
-        if(self.guidata.measure_setting == GuiData.TRAINING_STANDART):                
-            #find before-starttime
-            previous_starttime = self.get_previous_time(start_times, dbTime['id'])
-            #print aux_rawtime,"-",previous_starttime['time_raw']
-            aux_rawtime = aux_rawtime - previous_starttime['time_raw']
+        #toDo: rozlisit podle modu z datastore
+        #if(self.guidata.measure_setting == GuiData.TRAINING_STANDART):                
+#            #find before-starttime
+#            previous_starttime = self.get_previous_time(start_times, dbTime['id'])
+#            #print aux_rawtime,"-",previous_starttime['time_raw']
+#            aux_rawtime = aux_rawtime - previous_starttime['time_raw']
         #RACE MODE
-        else:
-            #decrement start time (if exist start_nr)
-            if start_nr and start_times:
-                try:                                               
-                    aux_rawtime = aux_rawtime - start_times[start_nr-1]['time_raw']
-                except:
-                    return None
+        
+        #else:
+        #decrement start time (if exist start_nr)        
+        if start_nr and start_times:
+            try:                                               
+                aux_rawtime = aux_rawtime - start_times[start_nr-1]['time_raw']
+            except:
+                print "e: dbtime2tabtime"
+                return None
 
         #convert to table format                                          
         return self.timeraw2time(aux_rawtime)
@@ -189,26 +177,49 @@ class TimesUtils():
             raise NoneRawTime_Error;
             
         if(time['time_raw'] == 0):
-            raise ZeroRawTime_Error
-                                
+            raise ZeroRawTime_Error                                                
         
         #ORDER IN THE SAME CATEGORY
         #toDo: str(time['category']) chyba pri vygenerovani exe
-        if incategory == True:                        
-            query_order = \
-                " SELECT COUNT(*) FROM " + self.name +\
-                    " INNER JOIN users ON users.id=times.user_id"+\
-                    " WHERE (times.time_raw < " +str(time['time_raw'])+ ")"+\
-                    " AND (times.time_raw != 0 )"+\
-                    " AND (users.category=\"" +((time['category']))+ "\")"+\
-                    " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
-            query_count = \
-                "SELECT COUNT(*) FROM " + self.name +\
-                    " INNER JOIN users ON users.id=times.user_id"+\
-                    " WHERE (times.time_raw = "+str(time['time_raw'])+")"+\
-                    " AND (times.time_raw != 0 )"+\
-                    " AND (users.category=\""+((time['category']))+"\")"+\
-                    " AND (times.run_id=\""+str(time['run_id'])+"\")"
+        if incategory == True:     
+                   
+
+            if(self.TimesModel.params.datastore.Get('rfid')):                
+                query_order = \
+                    " SELECT COUNT(*) FROM " + self.name +\
+                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+                        " INNER JOIN users ON tags.user_nr = users.nr "+\
+                        " INNER JOIN categories ON users.category_id = categories.id "+\
+                        " WHERE (times.time_raw < " +str(time['time_raw'])+ ")"+\
+                        " AND (times.time_raw != 0 )"+\
+                        " AND (categories.name=\"" +((time['category']))+ "\")"+\
+                        " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
+                query_count = \
+                    " SELECT COUNT(*) FROM " + self.name +\
+                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+                        " INNER JOIN users ON tags.user_nr = users.nr "+\
+                        " INNER JOIN categories ON users.category_id = categories.id "+\
+                        " WHERE (times.time_raw = " +str(time['time_raw'])+ ")"+\
+                        " AND (times.time_raw != 0 )"+\
+                        " AND (categories.name=\"" +((time['category']))+ "\")"+\
+                        " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
+            else:
+                query_order = \
+                    " SELECT COUNT(*) FROM " + self.name +\
+                        " INNER JOIN users ON times.user_id = users.id"+\
+                        " INNER JOIN categories ON users.category_id = categories.id "+\
+                        " WHERE (times.time_raw < " +str(time['time_raw'])+ ")"+\
+                        " AND (times.time_raw != 0 )"+\
+                        " AND (categories.name=\"" +((time['category']))+ "\")"+\
+                        " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
+                query_count = \
+                    " SELECT COUNT(*) FROM " + self.name +\
+                        " INNER JOIN users ON times.user_id = users.id "+\
+                        " INNER JOIN categories ON users.category_id = categories.id "+\
+                        " WHERE (times.time_raw = " +str(time['time_raw'])+ ")"+\
+                        " AND (times.time_raw != 0 )"+\
+                        " AND (categories.name=\"" +((time['category']))+ "\")"+\
+                        " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
 
         #ORDER IN ALL RUN
         else:
