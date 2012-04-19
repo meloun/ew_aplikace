@@ -10,6 +10,7 @@ from PyQt4 import Qt, QtCore, QtGui
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
 import libs.sqlite.sqlite as sqlite
+import libs.db_csv.db_csv as Db_csv
 import libs.datastore.datastore as datastore
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
@@ -74,7 +75,7 @@ class myModel(QtGui.QStandardItemModel):
         if(self.params.datastore.Get("user_actions")):                                                                        
                         
             #ziskat zmeneny radek, slovnik{}
-            tabRow = self.getTableRow(item.row())                                                                              
+            tabRow = self.getTableRow(item.row())                                                                                     
             
             #prevest na databazovy radek, dbRow <- tableRow
             dbRow = self.table2dbRow(tabRow)                    
@@ -178,6 +179,7 @@ class myModel(QtGui.QStandardItemModel):
             if type(dbRow[key]) is Qt.QString:
                 dbRow[key] = str(dbRow[key].toUtf8())
                 
+        print  "dbrow",dbRow       
         return dbRow
        
     def table2exportRow(self, tabRow):
@@ -186,7 +188,13 @@ class myModel(QtGui.QStandardItemModel):
         pokud existuje sloupec z tabulky i v databazi, zkopiruje se
         """     
         exportRow = {}
-        return exportRow                     
+        return exportRow
+    
+    def import2dbRow(self, importRow):
+        return importRow
+    
+    def table2exportRow(self, tableRow):
+        return tableRow                        
         
     def getDefaultTableRow(self):
         """
@@ -227,7 +235,7 @@ class myModel(QtGui.QStandardItemModel):
         row = {}                
                    
         for key in self.header():                                        
-            row[key] = self.item(nr_row, nr_column).text()
+            row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
         return row    
@@ -294,8 +302,7 @@ class myModel(QtGui.QStandardItemModel):
             row_dict = self.params.db.dict_factory(rows, row)            
             
             #call table-specific function, return "table-row"                                           
-            row_table = self.db2tableRow(row_dict)                                                                                                                        
-             
+            row_table = self.db2tableRow(row_dict)                                                                                                                                     
             #add row to the table            
             self.addRow(row_table)                                 
                     
@@ -395,7 +402,7 @@ class myTable():
         self.proxy_model.setSourceModel(self.model)   
         
         #set default sorting
-        self.params.gui['view'].sortByColumn(1, QtCore.Qt.AscendingOrder)
+        self.params.gui['view'].sortByColumn(0, QtCore.Qt.DescendingOrder)
         
         #nastaveni proxy modelu
         self.params.gui['view'].setModel(self.proxy_model)
@@ -460,7 +467,7 @@ class myTable():
             QtCore.QObject.connect(self.params.gui['import'], QtCore.SIGNAL("clicked()"), self.sImport)   
             
         # EXPORT BUTTON
-        #QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
+        QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
         
         # EXPORT WWW BUTTON
         #if(self.params.guidata.measure_mode != GuiData.MODE_TRAINING_BASIC):
@@ -551,8 +558,7 @@ class myTable():
         
     # IMPORT
     # CSV FILE => DB               
-    def sImport(self): 
-                           
+    def sImport2(self):                                   
                                    
         #gui dialog -> get filename
         filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
@@ -577,6 +583,61 @@ class myTable():
             self.sImportDialog(state)
         except sqlite.CSV_FILE_Error:
             self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+            
+    def sImport(self):                                   
+                                           
+        '''gui dialog'''    
+        filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        
+        '''cancel or close window'''
+        if(filename == ""):                 
+            return        
+                  
+        '''IMPORT CSV TO DATABASE'''
+        #try:            
+            
+        '''get sorted keys'''
+        keys = []
+        for list in sorted(self.params.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
+            keys.append(list[0])
+            
+        '''create csv'''        
+        aux_csv = Db_csv.Db_csv(filename)
+        rows =  aux_csv.load()
+                    
+        '''check csv file format - emty file'''
+        if(rows==[]):                
+            self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+            return
+        
+        '''check csv file format - wrong format'''                                
+        header = rows.pop(0)
+        for i in range(4): 
+            if not(header[i] in keys):
+                self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+                return
+
+        '''counters'''
+        state = {'ko':0, 'ok':0}
+        
+        '''adding records to DB'''                        
+        for row in rows:                                                                                                                                    
+            try:
+                '''add 1 record'''
+                importRow = dict(zip(keys, row)) 
+                dbRow = self.model.import2dbRow(importRow)                     
+                self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
+                state['ok'] += 1            
+            except:
+                state['ko'] += 1 #increment errors for error message
+
+        self.params.db.commit()                        
+        self.model.update()
+        self.sImportDialog(state)
+        #except:
+        #    self.params.showmessage(self.params.name+" CSV Import", "Error")
+                                                    
+                
                                 
     def sImportDialog(self, state):                            
         #title
@@ -593,10 +654,8 @@ class myTable():
     #def sExport(self, source='table'):                        
     def sExport(self, source='table'):
         
-        #hack for table times
         print "I: ", self.params.name, ": export"
-        if(self.params.name == "Times"):            
-            source = 'raw'
+
         
         print source
         #get filename, gui dialog 
@@ -675,7 +734,8 @@ class myTable():
         #FROM TABLE 
         if(source == 'table'):                        
             
-            #get table as lists; save into file in csv format                
+            #get table as lists; save into file in csv format
+            #print self.proxy_model.header()                 
             aux_csv.save(self.proxy_model.lists(), keys = self.proxy_model.header()) 
         
         #FROM DB

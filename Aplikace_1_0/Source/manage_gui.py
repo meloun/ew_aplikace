@@ -31,9 +31,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         """ GUI """
         QtGui.QWidget.__init__(self, parent)        
         self.ui = Ui_App.Ui_MainWindow()
-        self.ui.setupUi(self)
-        
-        
+        self.ui.setupUi(self)            
         
         #=======================================================================
         # DATASTORE
@@ -215,22 +213,6 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         elif(nr==1):            
             self.U.update()
             
-    def sTimesShowAllChanged(self, state):        
-        if(state == 0):
-            self.T.model.showall = False
-            self.T.params.gui['add'].setEnabled(True)            
-        elif(state == 2):            
-            self.T.model.showall = True
-            self.T.params.gui['add'].setEnabled(False)            
-        self.T.update()
-        
-    def sTimesShowZeroChanged(self, state):        
-        if(state == 0):
-            self.T.model.showzero = False
-        elif(state == 2):
-            self.T.model.showzero = True
-        self.T.update()
-        
         
     def sRunsProxyView_SelectionChanged(self, selected, deselected):               
         if(selected):            
@@ -311,8 +293,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     #=========================================================================== 
     def sRefresh(self):        
         
-        self.update()
-        #self.adskfha()       
+        self.updateTables()               
         
         title = "Manual Refresh"
         self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)   

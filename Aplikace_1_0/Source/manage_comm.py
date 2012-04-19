@@ -211,75 +211,75 @@ class ManageComm(Thread):
 
                                          
             
-            """
-            SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
-             - set new backlight state
-             - set new time
-             - set language                        
-            """
-            
-            """ set backlight """
-            if(self.datastore.IsChanged("backlight")):                                
-                data = self.datastore.Get("backlight", "SET")                
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
-                self.datastore.ResetChangedFlag("backlight")                                   
-            
-            """ set speaker """
-            if(self.datastore.IsChanged("speaker")):
-                print "NASTAVUJI"                                                                             
-                aux_speaker = self.datastore.Get("speaker", "SET")                                
-                aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                 
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
-                self.datastore.ResetChangedFlag("speaker")                
-                                        
-            """ set language """                                    
-            if(self.datastore.IsChanged("language")):
-                data = self.datastore.Get("language", "SET")
-                print "COMM", data                                                                                        
-                                                
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], struct.pack('B', data))
-                self.datastore.ResetChangedFlag("language")                                   
-                            
-                                                                                
-            """ get terminal-info """                     
-            aux_terminal_info = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["terminal_info"])                         
-            """ store terminal-info to the datastore """ 
-            if(self.datastore.IsReadyForRefresh("terminal_info")):           
-                self.datastore.Set("terminal_info", aux_terminal_info, "GET")
-            else:
-                print "not ready for refresh", aux_terminal_info               
-            
-            """ logic mode """
-            if(self.datastore.IsChanged("timing_settings")):
-                aux_timing_settings = self.datastore.Get("timing_settings", "SET")                
-                aux_data = struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
-                           aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
-                #print "COMM2", aux_data.encode('hex')                                                                                        
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"], aux_data)                
-                self.datastore.ResetChangedFlag("timing_settings")  
-
-
-            """ generate starttime """
-            if(self.datastore.IsChanged("generate_starttime")):                                
-                data = self.datastore.Get("generate_starttime", "SET")                
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"], struct.pack('B', data))
-                self.datastore.ResetChangedFlag("generate_starttime")
-            """ generate finishtime """
-            if(self.datastore.IsChanged("generate_finishtime")):                                
-                data = self.datastore.Get("generate_finishtime", "SET")                
-                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_finishtime"], struct.pack('B', data))
-                self.datastore.ResetChangedFlag("generate_finishtime")    
-                                
-            """ get timing-settings """            
-            aux_timing_setting = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"])
-            aux_timing_setting["name_id"] = 4
-            
-            #print aux_timing_setting            
-            """ store terminal-states to the datastore """ 
-            if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-            else:
-                print "not ready for refresh", aux_timing_setting   
+#            """
+#            SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
+#             - set new backlight state
+#             - set new time
+#             - set language                        
+#            """
+#            
+#            """ set backlight """
+#            if(self.datastore.IsChanged("backlight")):                                
+#                data = self.datastore.Get("backlight", "SET")                
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
+#                self.datastore.ResetChangedFlag("backlight")                                   
+#            
+#            """ set speaker """
+#            if(self.datastore.IsChanged("speaker")):
+#                print "NASTAVUJI"                                                                             
+#                aux_speaker = self.datastore.Get("speaker", "SET")                                
+#                aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                 
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
+#                self.datastore.ResetChangedFlag("speaker")                
+#                                        
+#            """ set language """                                    
+#            if(self.datastore.IsChanged("language")):
+#                data = self.datastore.Get("language", "SET")
+#                print "COMM", data                                                                                        
+#                                                
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], struct.pack('B', data))
+#                self.datastore.ResetChangedFlag("language")                                   
+#                            
+#                                                                                
+#            """ get terminal-info """                     
+#            aux_terminal_info = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["terminal_info"])                         
+#            """ store terminal-info to the datastore """ 
+#            if(self.datastore.IsReadyForRefresh("terminal_info")):           
+#                self.datastore.Set("terminal_info", aux_terminal_info, "GET")
+#            else:
+#                print "not ready for refresh", aux_terminal_info               
+#            
+#            """ logic mode """
+#            if(self.datastore.IsChanged("timing_settings")):
+#                aux_timing_settings = self.datastore.Get("timing_settings", "SET")                
+#                aux_data = struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
+#                           aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
+#                #print "COMM2", aux_data.encode('hex')                                                                                        
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"], aux_data)                
+#                self.datastore.ResetChangedFlag("timing_settings")  
+#
+#
+#            """ generate starttime """
+#            if(self.datastore.IsChanged("generate_starttime")):                                
+#                data = self.datastore.Get("generate_starttime", "SET")                
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"], struct.pack('B', data))
+#                self.datastore.ResetChangedFlag("generate_starttime")
+#            """ generate finishtime """
+#            if(self.datastore.IsChanged("generate_finishtime")):                                
+#                data = self.datastore.Get("generate_finishtime", "SET")                
+#                ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_finishtime"], struct.pack('B', data))
+#                self.datastore.ResetChangedFlag("generate_finishtime")    
+#                                
+#            """ get timing-settings """            
+#            aux_timing_setting = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"])
+#            aux_timing_setting["name_id"] = 4
+#            
+#            #print aux_timing_setting            
+#            """ store terminal-states to the datastore """ 
+#            if(self.datastore.IsReadyForRefresh("timing_settings")):           
+#                self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+#            else:
+#                print "not ready for refresh", aux_timing_setting   
                                                                           
                 
 

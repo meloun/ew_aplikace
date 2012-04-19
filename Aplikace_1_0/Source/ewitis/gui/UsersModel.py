@@ -125,6 +125,15 @@ class UsersModel(myModel.myModel):
         dbUser['category_id'] = dbCategory['id']
                                                                                           
         return dbUser 
+    
+    def import2dbRow(self, importRow):                    
+        #if 'category_id' in importRow:
+        #    del importRow['category_id']
+        tabCategory = self.params.tabCategories.getTabCategoryParName(importRow['category_id'])
+        print tabCategory
+        importRow['category_id'] = tabCategory['id']
+        return importRow
+        
 #     
 #    def slot_ModelChanged(self, item):
 #        

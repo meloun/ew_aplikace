@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v0_1.ui'
 #
-# Created: Sun Apr 08 16:03:21 2012
+# Created: Thu Apr 12 21:39:38 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -200,6 +200,7 @@ class Ui_MainWindow(object):
         self.TimesRemove.setObjectName(_fromUtf8("TimesRemove"))
         self.horizontalLayout_3.addWidget(self.TimesRemove)
         self.TimesImport = QtGui.QPushButton(self.groupBox_3)
+        self.TimesImport.setEnabled(False)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -263,6 +264,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.timesShowZero.sizePolicy().hasHeightForWidth())
         self.timesShowZero.setSizePolicy(sizePolicy)
         self.timesShowZero.setText(QtGui.QApplication.translate("MainWindow", "Zero Times", None, QtGui.QApplication.UnicodeUTF8))
+        self.timesShowZero.setChecked(True)
         self.timesShowZero.setObjectName(_fromUtf8("timesShowZero"))
         self.gridLayout.addWidget(self.timesShowZero, 0, 8, 1, 1)
         self.timesCounter = QtGui.QLabel(self.tabRuns_Times)

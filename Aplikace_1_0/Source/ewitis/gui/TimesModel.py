@@ -117,7 +117,7 @@ class TimesModel(myModel.myModel):
     
     def getDefaultTableRow(self): 
         row = myModel.myModel.getDefaultTableRow(self)
-        row['cell'] = 0                  
+        row['cell'] = 250                  
         row['nr'] = 0 #musi byt cislo!        
         row['time'] = "00:00:00,00"     
         row['start_nr'] = 1               
@@ -130,7 +130,7 @@ class TimesModel(myModel.myModel):
         """             
         #hide all zero time?
         if(self.showzero == False):
-            if (dbTime["time"]=="00:00:00,00"):  
+            if (int(dbTime["cell"])==1):                
                 return {}                        
         
         ''' 1to1 KEYS '''           
@@ -150,7 +150,9 @@ class TimesModel(myModel.myModel):
         tabTime['nr'] = tabUser['nr']        
         if(dbTime['cell'] == 1):
             tabTime['name'] = ''
-        else:            
+        elif(dbTime["user_id"] == 0):
+            tabTime['name'] = 'undefined'
+        else:           
             tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']
             
         '''category'''            
@@ -191,7 +193,9 @@ class TimesModel(myModel.myModel):
             else:
                 tabTime['order'] = '%03d - %03d ' % (order["start"], order["end"])
                 #tabTime['order'] = str(order["start"])+" - "+str(order["end"])                
-        except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:
+        except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:            
+            tabTime['order'] = None
+        except Utils.WrongCell_Error:
             tabTime['order'] = None
                 
         '''order in category'''
@@ -206,11 +210,37 @@ class TimesModel(myModel.myModel):
                 tabTime['order_kat'] = '%03d - %03d ' % (order_incategory["start"], order_incategory["end"])
                 #tabTime['order in cat.'] = str(order_incategory["start"])+" - "+str(order_incategory["end"])
         except Utils.ZeroRawTime_Error:                                 
-            tabTime['order_kat'] = None                              
+            tabTime['order_kat'] = None
+        except Utils.WrongCell_Error:
+            tabTime['order'] = None                              
             
         return tabTime
                                                                                    
-    
+    def slot_ModelChanged(self, item):
+        
+                
+        if(self.params.datastore.Get("user_actions")):  
+        
+            tabRow = self.getTableRow(item.row())
+                    
+            if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
+               
+                '''změna čísla/přiřazení uživatele nelze u času                
+                   - startovací buňky
+                   - nulového času'''
+                
+                if(int(tabRow['cell']) == 1):                            
+                    self.params.showmessage(self.params.name+" Update error", "Cannot assign user to start time!")
+                    self.update()
+                    return 
+                elif(tabRow['time'] == '00:00:00,00'):
+                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
+                   self.update()
+                   return                                               
+                
+        
+        myModel.myModel.slot_ModelChanged(self, item)
+        
     def table2dbRow(self, tabTime): 
                                             
         #get selected id
@@ -248,11 +278,16 @@ class TimesModel(myModel.myModel):
             if(dbUser == None):
                 self.params.showmessage(self.params.name+" Update error", "Cant find user with nr. "+ tabTime['nr'])                
                 return None
+                        
+              
             '''get DB-CATEGORY'''             
             dbCategory = self.params.tabCategories.getDbRow(dbUser['category_id'])
             if(dbCategory == None):
                 self.params.showmessage(self.params.name+" Update error", "Cant find category for this user.")                
                 return None
+            
+            '''při změně čísla nejsou v tabTime správné user údaje'''
+            tabTime['category'] = dbCategory['name']
             
             '''TEST if is here enought START-TIMES'''                        
             nr_start = dbCategory['start_nr']
@@ -276,12 +311,14 @@ class TimesModel(myModel.myModel):
         ''' TIME '''                       
                      
         #get TIME in absolut format        
-        try:                       
+        try:                                               
             dbTime['time_raw'] = self.utils.tabtime2dbtime(run_id, tabTime)            
         except Utils.TimeFormat_Error:
             self.params.showmessage(self.params.name+" Update error", "Time wrong format!")                                 
                 
-        dbTime['run_id'] = run_id                
+        dbTime['run_id'] = run_id
+        
+        print "dbTime", dbTime                
                                                                                                                                                                                                                                                                                      
         return dbTime    
         
@@ -343,8 +380,7 @@ class Times(myModel.myTable):
         
         # EXPORT WWW BUTTON        
         if (self.params.gui['aDirectExportCategories'] != None):            
-            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))
-        QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)            
+            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))                   
 
             
     ''''''
@@ -456,16 +492,20 @@ class Times(myModel.myTable):
         #EXPORT ALL TIMES                                            
         for tabRow in self.proxy_model.dicts():
             exportRow = self.tabRow2exportRow(tabRow, col_nr_export)[1]
+            #print "tabRow ",tabRow
+            #print "exportRow ",exportRow            
             if exportRow != []:                            
                 exportRows.append(exportRow)
             exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
             
+        #print exportRows
+             
         #write to csv file
         if(exportRows != []):
             print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
-            #first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+            first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
             exportRows.insert(0, exportHeader)
-            aux_csv = Db_csv.Db_csv(filename) #create csv class
+            aux_csv = Db_csv.Db_csv(filename) #create csv class                        
             aux_csv.save(exportRows)               
                     
     #toDo: sloucit s myModel konstruktorem        

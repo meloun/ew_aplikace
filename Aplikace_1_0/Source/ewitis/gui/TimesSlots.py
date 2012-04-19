@@ -25,7 +25,7 @@ class TimesSlots():
             self.times.params.gui['add'].setEnabled(False)            
         self.times.update()
         
-    def sTimesShowZeroChanged(self, state):
+    def sTimesShowZeroChanged(self, state):        
         if(state == 0):
             self.times.model.showzero = False
         elif(state == 2):

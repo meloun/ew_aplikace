@@ -2,6 +2,7 @@
 
 class ZeroRawTime_Error(Exception): pass
 class NoneRawTime_Error(Exception): pass
+class WrongCell_Error(Exception): pass
 class TimeFormat_Error(Exception): pass
 
 
@@ -60,8 +61,7 @@ class TimesUtils():
         time_raw = ((hours*60*60)+(minutes*60) + seconds)*100 + tens_ms       
         return time_raw
     
-    #restrict time(+starttime), different starts
-    #
+    #restrict time(+starttime), different starts    
     def tabtime2dbtime(self, run_id, tabTime):                
         
         dbtime = self.time2timeraw(tabTime['time'])
@@ -177,7 +177,10 @@ class TimesUtils():
             raise NoneRawTime_Error;
             
         if(time['time_raw'] == 0):
-            raise ZeroRawTime_Error                                                
+            raise ZeroRawTime_Error
+            
+        if(time['cell'] == 1):
+            raise WrongCell_Error 
         
         #ORDER IN THE SAME CATEGORY
         #toDo: str(time['category']) chyba pri vygenerovani exe
@@ -192,6 +195,7 @@ class TimesUtils():
                         " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw < " +str(time['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
+                        " AND (times.cell != 1 )"+\
                         " AND (categories.name=\"" +((time['category']))+ "\")"+\
                         " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
                 query_count = \
@@ -201,6 +205,7 @@ class TimesUtils():
                         " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw = " +str(time['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
+                        " AND (times.cell != 1 )"+\
                         " AND (categories.name=\"" +((time['category']))+ "\")"+\
                         " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
             else:
@@ -210,6 +215,7 @@ class TimesUtils():
                         " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw < " +str(time['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
+                        " AND (times.cell != 1 )"+\
                         " AND (categories.name=\"" +((time['category']))+ "\")"+\
                         " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
                 query_count = \
@@ -218,6 +224,7 @@ class TimesUtils():
                         " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw = " +str(time['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
+                        " AND (times.cell != 1 )"+\
                         " AND (categories.name=\"" +((time['category']))+ "\")"+\
                         " AND (times.run_id=\"" +str(time['run_id'])+ "\")"
 
@@ -227,11 +234,13 @@ class TimesUtils():
                 SELECT COUNT(*) FROM " + self.name +\
                     " WHERE (times.time_raw<" + str(time['time_raw']) + ")"+\
                     " AND (times.time_raw != 0 )"+\
+                    " AND (times.cell != 1 )"+\
                     " AND (times.run_id=\""+str(time['run_id'])+"\")"
             query_count = "\
                 SELECT COUNT(*) FROM " + self.name +\
                     " WHERE (times.time_raw=" + str(time['time_raw']) + ")"+\
                     " AND (times.time_raw != 0 )"+\
+                    " AND (times.cell != 1 )"+\
                     " AND (times.run_id=\""+str(time['run_id'])+"\")"
                                
                      
@@ -251,8 +260,12 @@ class TimesUtils():
             
         if(time['time_raw'] == 0):
             raise ZeroRawTime_Error
+
+        '''v čase může být user_id pro které neexistuje uživatel => lap =0'''        
+        if(self.TimesModel.params.tabUser.getDbUserParIdOrTagId(time["user_id"]) == None):           
+            return 0 
         
-        #count of times - same race, same user, better time, exclude start time
+        '''count of times - same race, same user, better time, exclude start time'''
         query = "\
                 SELECT COUNT(*) FROM " + self.name +\
                     " WHERE (times.run_id ==" + str(time['run_id'])+ ")"+\
