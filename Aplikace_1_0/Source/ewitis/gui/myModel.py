@@ -160,7 +160,7 @@ class myModel(QtGui.QStandardItemModel):
    
     def table2dbRow(self, tabRow):
         """
-        konverze TABLE ěščřžýáíéradku do DATABASE radku       
+        konverze TABLE radku do DATABASE radku       
         pokud existuje sloupec z tabulky i v databazi, zkopiruje se  
         """
         
@@ -178,8 +178,7 @@ class myModel(QtGui.QStandardItemModel):
         for key in dbRow.keys():
             if type(dbRow[key]) is Qt.QString:
                 dbRow[key] = str(dbRow[key].toUtf8())
-                
-        print  "dbrow",dbRow       
+                              
         return dbRow
        
     def table2exportRow(self, tabRow):
@@ -234,7 +233,7 @@ class myModel(QtGui.QStandardItemModel):
         nr_column = 0
         row = {}                
                    
-        for key in self.header():                                        
+        for key in self.header():                                                               
             row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
@@ -251,7 +250,7 @@ class myModel(QtGui.QStandardItemModel):
         
         nr_column = 0                        
 
-        if (row == {}):            
+        if (row == None):            
             return
             
         #novy radek

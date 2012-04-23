@@ -7,7 +7,7 @@ from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
 import libs.db_csv.db_csv as Db_csv
-import ewitis.gui.TimesUtils as Utils
+import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
@@ -87,7 +87,13 @@ class TimesModel(myModel.myModel):
         myModel.myModel.__init__(self, params)
                     
         #add utils function
-        self.utils = Utils.TimesUtils(self)
+        self.utils = TimesUtils.TimesUtils(self)
+        
+        #
+        self.starts = TimesUtils.TimesStarts(self.params.db)
+        self.order = TimesUtils.TimesOrder(self.params.db, self.params.datastore)
+        self.lap = TimesUtils.TimesLap(self.params.db)
+        
                         
         self.showall = False
         self.showzero = True                               
@@ -117,7 +123,7 @@ class TimesModel(myModel.myModel):
     
     def getDefaultTableRow(self): 
         row = myModel.myModel.getDefaultTableRow(self)
-        row['cell'] = 250                  
+        row['cell'] = 1                  
         row['nr'] = 0 #musi byt cislo!        
         row['time'] = "00:00:00,00"     
         row['start_nr'] = 1               
@@ -127,92 +133,81 @@ class TimesModel(myModel.myModel):
     def db2tableRow(self, dbTime):
         """    
         ["id", "nr", "cell", "time", "name", "category", "address"]
-        """             
-        #hide all zero time?
+        """
+                     
+        '''hide all zero time?'''
         if(self.showzero == False):
             if (int(dbTime["cell"])==1):                
-                return {}                        
+                return None                      
         
         ''' 1to1 KEYS '''           
         tabTime = myModel.myModel.db2tableRow(self, dbTime)
          
         ''' get USER
-            - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''                                     
+            - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
+        '''toDo: proč neberu tabUSera rovnou?'''                                     
         dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])
         if(dbUser == None):
             dbUser = {}
             dbUser['id'] = 0
             dbUser['category_id'] = 0        
-        tabUser = self.params.tabUser.getTabRow(dbUser["id"])                
+        tabUser = self.params.tabUser.getTabRow(dbUser["id"])
+        
+        ''' get CATEGORY'''               
         tabCategory =  self.params.tabCategories.getTabRow(dbUser['category_id'])                        
-                                
-        ''' OTHER KEYS '''                    
-        tabTime['nr'] = tabUser['nr']        
+                                        
+        ''' OTHER KEYS ''' 
+        
+        '''NR'''                   
+        tabTime['nr'] = tabUser['nr']
+                                    
+        '''START NR'''
+        if(tabTime['cell'] == 1) or (tabTime['nr']==0): #start time?                           
+            tabTime['start_nr'] = 1 #decrement 1.starttime
+        else:                                
+            tabTime['start_nr'] = tabCategory['start_nr']        
+        
+        '''TIME
+            dbtime 2 tabletime'''                                               
+        
+        '''raw time'''
+        aux_rawtime = dbTime['time_raw']
+
+        '''get start-time for this run'''
+        try:                                   
+            start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])
+        except:                         
+            print "E:neexistuje startime"
+            aux_rawtime = None
+            start_time = None        
+                        
+        '''time = time_raw - starttime'''        
+        if tabTime['start_nr'] and start_time:
+            tabTime['time'] = self.utils.timeraw2timestring(aux_rawtime, start_time['time_raw'])
+        else:
+            print "e: dbtime2tabtime"
+            tabTime['time'] = None
+            aux_rawtime = None    
+                
+        '''NAME'''        
         if(dbTime['cell'] == 1):
             tabTime['name'] = ''
         elif(dbTime["user_id"] == 0):
             tabTime['name'] = 'undefined'
         else:           
-            tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']
-            
-        '''category'''            
-        tabTime['category'] = tabUser['category']
-        
-                
-        tabTime['cell'] = dbTime['cell']              
-                                    
-        """ TIME """
-                
-        '''get starttime number'''
-        if(tabTime['cell'] == 1) or (tabTime['nr']==0): #start time?                           
-            tabTime['start_nr'] = 1 #decrement 1.starttime
-        else:                                
-            tabTime['start_nr'] = tabCategory['start_nr']
-        
-        '''time'''                               
-        tabTime['time'] = self.utils.dbtime2tabtime( dbTime['run_id'],dbTime, tabTime['start_nr']) #dbtime -> tabtime
-        
-        '''lap'''
-        try:
-            tabTime['lap'] = self.utils.getLap(dbTime)
-        except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:
-            tabTime['lap'] = 0                                              
-        
-        #RACE MODE?
-        #if(self.params.guidata.measure_mode == GuiData.MODE_RACE):
-        #toDo: rozlisit podle mode z datastore
-            
-        dbTime["category"] = tabTime['category']
+            tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']        
+                                                                        
+        '''CATEGORY'''            
+        tabTime['category'] = tabUser['category']                                                              
                         
-        '''order'''
-        try:
-            order = self.utils.getOrder(dbTime)
-            if(order["start"] >= order["end"]):                    
-                tabTime['order'] = '%03d' % order["start"]
-                #tabTime['order'] = str(order["start"])
-            else:
-                tabTime['order'] = '%03d - %03d ' % (order["start"], order["end"])
-                #tabTime['order'] = str(order["start"])+" - "+str(order["end"])                
-        except Utils.ZeroRawTime_Error, Utils.NoneRawTime_Error:            
-            tabTime['order'] = None
-        except Utils.WrongCell_Error:
-            tabTime['order'] = None
+        '''ORDER'''
+        tabTime['order']  = self.order.Get(tabTime)
                 
-        '''order in category'''
-        try:
-            order_incategory = self.utils.getOrder(dbTime, incategory=True)                                                           
-            if(order_incategory["start"] >= order_incategory["end"]):  
-                #tabTime['order in cat.'] = order_incategory["start"]                  
-                tabTime['order_kat'] = '%03d' % order_incategory["start"]
-                #tabTime['order in cat.'] = str(order_incategory["start"])           
-            else:
-                #tabTime['order in cat.'] = order_incategory["start"]
-                tabTime['order_kat'] = '%03d - %03d ' % (order_incategory["start"], order_incategory["end"])
-                #tabTime['order in cat.'] = str(order_incategory["start"])+" - "+str(order_incategory["end"])
-        except Utils.ZeroRawTime_Error:                                 
-            tabTime['order_kat'] = None
-        except Utils.WrongCell_Error:
-            tabTime['order'] = None                              
+        '''ORDER IN CATEGORY'''
+        tabTime['order_kat'] = self.order.Get(dbTime, category=tabTime['category'])
+
+        '''LAP'''
+        tabTime['lap'] = self.lap.Get(dbTime)                                         
             
         return tabTime
                                                                                    
@@ -249,37 +244,35 @@ class TimesModel(myModel.myModel):
         #    id = self.proxy_model.data(rows[0]).toString()
         #except:
         #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
-
             
         #1to1 keys, just copy
+        
         dbTime = myModel.myModel.table2dbRow(self, tabTime)
-        
-        #get run_id
-        if(self.showall):
-            #get time['run_id'] from DB, , in showall-mode i dont know what run is it            
-            dbtime = self.params.db.getParId("times",tabTime['id'])
-            run_id = dbtime['run_id']            
-        else:
-            run_id = self.run_id
                 
+        '''RUN_ID'''
+        if(self.showall):
+            '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
+            aux_dbtime = self.params.db.getParId("times",tabTime['id'])            
+            dbTime['run_id'] = aux_dbtime['run_id']            
+        else:
+            dbTime['run_id'] = self.run_id
+                        
+        '''first start time? => cant be updated
+            toDo:asi by za určitých okolností měl jít'''       
+#        if(int(tabTime['id']) == (self.utils.getFirstStartTime(dbTime['run_id'])['id'])):
+#            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
+#            return None        
         
-        #first start time? => cant be updated       
-        if(int(tabTime['id']) == (self.utils.getFirstStartTime(run_id)['id'])):
-            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
-            return None        
-        
-        '''USER NR => USER ID'''        
-        
+        '''USER NR => USER ID'''                
         if(int(tabTime['nr']) == 0):
-            dbTime['user_id'] = 0            
+            dbTime['user_id'] = 0                     
         else:                                                
-            ''' get DB-USER for save'''                                          
-            dbUser =  self.params.tabUser.getDbUserParNr(tabTime['nr'])
+            ''' get DB-USER'''
+            dbUser = self.params.tabUser.getDbUserParNr(tabTime['nr'])                                                      
             if(dbUser == None):
                 self.params.showmessage(self.params.name+" Update error", "Cant find user with nr. "+ tabTime['nr'])                
                 return None
-                        
-              
+                                      
             '''get DB-CATEGORY'''             
             dbCategory = self.params.tabCategories.getDbRow(dbUser['category_id'])
             if(dbCategory == None):
@@ -287,12 +280,14 @@ class TimesModel(myModel.myModel):
                 return None
             
             '''při změně čísla nejsou v tabTime správné user údaje'''
-            tabTime['category'] = dbCategory['name']
+            '''toDo:sloučit name a first name'''
+            #tabTime['category'] = dbCategory['name']
+            #tabTime['name'] = dbUser['name'] +' ' + dbUser['first_name']                        
             
             '''TEST if is here enought START-TIMES'''                        
-            nr_start = dbCategory['start_nr']
-            try:
-                aux_start_time = self.utils.getStartTime(self.run_id, nr_start)
+            nr_start = dbCategory['start_nr']            
+            try:                                
+                aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
             except IndexError:                        
                 self.params.showmessage(self.params.name+" Update error", str(nr_start)+".th start-time is necessary for users from this category!")
                 return None
@@ -308,18 +303,38 @@ class TimesModel(myModel.myModel):
                 self.params.showmessage(self.params.name+" Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
                             
-        ''' TIME '''                       
-                     
-        #get TIME in absolut format        
-        try:                                               
-            dbTime['time_raw'] = self.utils.tabtime2dbtime(run_id, tabTime)            
+        ''' TIME '''                                                            
+        try:                                                         
+            #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
+                   
+            '''get start-time'''        
+            if(tabTime['cell'] == 1):                
+#                if(self.utils.start_times==None):
+#                    start_time = {id:0, 'time_raw':0}
+#                elif not(dbTime['run_id'] in self.utils.start_times):
+#                    start_time = {id:0, 'time_raw':0}
+#                else:
+#                    #start_time = self.utils.start_times[dbTime['run_id']][0]
+#                    start_time = self.starts.GetFirst(dbTime['run_id'])
+                try:                                         
+                    start_time = self.starts.GetFirst(dbTime['run_id'])
+                except TypeError:
+                    start_time = self.starts.GetDefault()
+            else:
+                ''' z categories vezmu start_nr a pak do start-times pro start-time
+                    při změně čísla se počítá se starou kategorii a časem, ale nevadí to'''
+                #start_times = self.utils.start_times[dbTime['run_id']]                
+                category = self.params.tabCategories.getDbCategoryParName(tabTime['category'])                
+                try:                    
+                    start_time = self.starts.Get(dbTime['run_id'], category['start_nr']) 
+                except TypeError:                    
+                    start_time = self.starts.GetFirst(dbTime['run_id']) 
+                        
+            dbTime['time_raw'] = self.utils.timestring2timeraw(tabTime['time'], start_time['time_raw'])                                                                                            
+                                            
         except Utils.TimeFormat_Error:
-            self.params.showmessage(self.params.name+" Update error", "Time wrong format!")                                 
-                
-        dbTime['run_id'] = run_id
-        
-        print "dbTime", dbTime                
-                                                                                                                                                                                                                                                                                     
+            self.params.showmessage(self.params.name+" Update error", "Time wrong format!")             
+                                                                                                                                                                                                                                                                                                                             
         return dbTime    
         
     
@@ -330,7 +345,8 @@ class TimesModel(myModel.myModel):
             self.run_id = run_id #update run_id
             
         #update start times
-        self.utils.updateStartTimes()
+        #self.utils.updateStartTimes()
+        self.starts.Update()
         
         #update times
         if(self.showall):
@@ -528,7 +544,8 @@ class Times(myModel.myTable):
             self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
             
         #first start time? => cant be updated               
-        if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
+        #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
+        if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
             self.params.showmessage(self.params.name+" Delete warning", "First start time cant be deleted!")
             return None  
         
