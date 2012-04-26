@@ -75,19 +75,19 @@ class myModel(QtGui.QStandardItemModel):
         if(self.params.datastore.Get("user_actions")):                                                                        
                         
             #ziskat zmeneny radek, slovnik{}
-            tabRow = self.getTableRow(item.row())                                                                                     
+            tabRow = self.getTableRow(item.row())                                                                                                  
             
             #prevest na databazovy radek, dbRow <- tableRow
-            dbRow = self.table2dbRow(tabRow)                    
+            dbRow = self.table2dbRow(tabRow)                                            
                                         
             #exist row? 
             if (dbRow != None): 
                                                                                            
                 #update DB
-                try:                                                        
-                    self.params.db.update_from_dict(self.params.name, dbRow)
-                except:                
-                    self.params.showmessage(self.params.name+" Update", "Error!")                
+                #try:                                                        
+                self.params.db.update_from_dict(self.params.name, dbRow)
+                #except:                
+                #    self.params.showmessage(self.params.name+" Update", "Error!")                
                 
             #update model                                                               
             self.update() 
@@ -118,7 +118,7 @@ class myModel(QtGui.QStandardItemModel):
             for j in range(self.columnCount()):
                 index = self.index(i,j)
                 mystr1 = self.data(index).toString()                   
-                mystr2 = str(mystr1.toUtf8())                
+                mystr2 = mystr1#str(mystr1.toUtf8())                
                 row.append(mystr2)            
             rows.append(row)
         return rows
@@ -146,14 +146,6 @@ class myModel(QtGui.QStandardItemModel):
                 tabRow[key] = dbRow[key]
             except:
                 pass #tento sloupec v tabulce neexistuje
-                     
-#        for key in self.params.TABLE_COLLUMN_DEF:
-#                        
-#            #kopie 1to1
-#            try:
-#                tabRow[key] = dbRow[key]
-#            except:
-#                pass #tento sloupec v tabulce neexistuje
 
         return tabRow
      
@@ -172,13 +164,8 @@ class myModel(QtGui.QStandardItemModel):
             try:
                 dbRow[ key] = tabRow[key]
             except:
-                pass #tento sloupec v tabulce neexistuje
+                pass #tento sloupec v tabulce neexistuje             
                 
-        #QString to String
-        for key in dbRow.keys():
-            if type(dbRow[key]) is Qt.QString:
-                dbRow[key] = str(dbRow[key].toUtf8())
-                              
         return dbRow
        
     def table2exportRow(self, tabRow):
@@ -233,7 +220,7 @@ class myModel(QtGui.QStandardItemModel):
         nr_column = 0
         row = {}                
                    
-        for key in self.header():                                                               
+        for key in self.header():                                                                
             row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
@@ -339,22 +326,22 @@ class myProxyModel(QtGui.QSortFilterProxyModel):
         for j in range(self.columnCount()):
             index = self.index(nr_row, j)
             mystr1 = self.data(index).toString()                   
-            mystr2 = str(mystr1.toUtf8())                
+            mystr2 = mystr1#.toUtf8()                
             row.append(mystr2)
         return row     
     
-    #get current state in lists
-    def lists_old(self):
-        rows = []
-        for i in range(self.rowCount()):
-            row = []
-            for j in range(self.columnCount()):
-                index = self.index(i,j)
-                mystr1 = self.data(index).toString()                   
-                mystr2 = str(mystr1.toUtf8())                
-                row.append(mystr2)            
-            rows.append(row)
-        return rows
+#    #get current state in lists
+#    def lists_old(self):
+#        rows = []
+#        for i in range(self.rowCount()):
+#            row = []
+#            for j in range(self.columnCount()):
+#                index = self.index(i,j)
+#                mystr1 = self.data(index).toString()                   
+#                mystr2 = str(mystr1.toUtf8())                
+#                row.append(mystr2)            
+#            rows.append(row)
+#        return rows
     
     #get current state in lists
     def lists(self):
@@ -371,7 +358,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel):
         header = self.header()
         
         for i in range(self.rowCount()):
-            row = self.row(i)
+            row = self.row(i)            
             aux_dict = dict(zip(header, row))
             dicts.append(aux_dict)
         
@@ -611,7 +598,7 @@ class myTable():
         
         '''check csv file format - wrong format'''                                
         header = rows.pop(0)
-        for i in range(4): 
+        for i in range(3): 
             if not(header[i] in keys):
                 self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
                 return
@@ -621,14 +608,14 @@ class myTable():
         
         '''adding records to DB'''                        
         for row in rows:                                                                                                                                    
-            try:
-                '''add 1 record'''
-                importRow = dict(zip(keys, row)) 
-                dbRow = self.model.import2dbRow(importRow)                     
-                self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
-                state['ok'] += 1            
-            except:
-                state['ko'] += 1 #increment errors for error message
+            #try:
+            '''add 1 record'''
+            importRow = dict(zip(keys, row)) 
+            dbRow = self.model.import2dbRow(importRow)                     
+            self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
+            state['ok'] += 1            
+            #except:
+                #state['ko'] += 1 #increment errors for error message
 
         self.params.db.commit()                        
         self.model.update()

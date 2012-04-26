@@ -17,15 +17,16 @@ def time_to_string(time):
 
 def getUtf8String(item):
     
-    
+    #print "1",type(item)
     if type(item) is unicode:
         item = (item).encode('utf-8')
-    if type(item) is unicode:
-        item = (item).encode('utf-8')
+    #if type(item) is str:
+    #    item = (item).encode('utf-8')
     if type(item) is Qt.QString:
         item = str(item.toUtf8())
     if type(item) is int:
-        item=str(item)             
+        item=str(item)
+    #print "2",type(item), item             
          
     return item
 

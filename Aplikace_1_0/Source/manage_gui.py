@@ -26,7 +26,7 @@ from ewitis.data.DEF_ENUM_STRINGS import *
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
     def __init__(self, parent=None):
-        import libs.comm.serial_utils as serial_utils                 
+        import libs.comm.serial_utils as serial_utils                                         
         
         """ GUI """
         QtGui.QWidget.__init__(self, parent)        
@@ -205,7 +205,10 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     def sTimer(self):
         self.UiAccesories.updateTab(self.ui.tabWidget.currentIndex ())        
         
-    def sTabChanged(self, nr):        
+    def sTabChanged(self, nr):
+                
+        self.datastore.Set("active_tab", nr)        
+                
         if(nr==0):
             self.R.update()
             self.R.updateTimes()  #update TIMES table
@@ -267,7 +270,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         if(self.datastore.Get("port_enable") == True):                           
             
             # KILL COMMUNICATION - thread, etc..
-            self.datastore.Set("port_enable", False);                    
+            self.datastore.Set("port_enable", False)                    
             self.showMessage(title, self.datastore.Get("port_name")+" disconnected", dialog = False)                       
         else:            
             self.showMessage(title, self.datastore.Get("port_name")+" connected", dialog = False)                                 

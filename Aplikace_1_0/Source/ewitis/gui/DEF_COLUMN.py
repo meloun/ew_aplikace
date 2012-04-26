@@ -158,5 +158,5 @@ TAGS['table'] = {
                         "tag_id"     :     {"index": 1,  "name": "tag_id",       "width":160},                                                                
                         "printed_nr"  :    {"index": 2,  "name": "printed_nr",   "width":80},
                         "user_nr"  :       {"index": 3,  "name": "user_nr",      "width":80},
-                        "#1" :             {"index": 4,  "name": "",           "width":80},
+                        #"#1" :             {"index": 4,  "name": "",           "width":80},
                       } 

@@ -49,6 +49,10 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": 38400}
                                },
 
+        "active_tab"         : {"name"     : "active_tab",
+                                "GET_SET"  : {"value":0}  
+                               },
+            
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {"value":"Test"}  
                                },        

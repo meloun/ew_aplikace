@@ -13,7 +13,6 @@ import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
 
 
-
 class TimesParameters(myModel.myParameters):
     def __init__(self, source):
                 
@@ -124,8 +123,8 @@ class TimesModel(myModel.myModel):
     def getDefaultTableRow(self): 
         row = myModel.myModel.getDefaultTableRow(self)
         row['cell'] = 1                  
-        row['nr'] = 0 #musi byt cislo!        
-        row['time'] = "00:00:00,00"     
+        row['nr'] = 0 #musi byt cislo!                    
+        row['time_raw'] = 0
         row['start_nr'] = 1               
         return row                 
 
@@ -146,7 +145,7 @@ class TimesModel(myModel.myModel):
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
         '''toDo: proč neberu tabUSera rovnou?'''                                     
-        dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])
+        dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
         if(dbUser == None):
             dbUser = {}
             dbUser['id'] = 0
@@ -174,7 +173,8 @@ class TimesModel(myModel.myModel):
         aux_rawtime = dbTime['time_raw']
 
         '''get start-time for this run'''
-        try:                                   
+        try:
+            '''toDo: misto try catch, Get bude vracet None'''                                   
             start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])
         except:                         
             print "E:neexistuje startime"
@@ -228,10 +228,10 @@ class TimesModel(myModel.myModel):
                     self.params.showmessage(self.params.name+" Update error", "Cannot assign user to start time!")
                     self.update()
                     return 
-                elif(tabRow['time'] == '00:00:00,00'):
-                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
-                   self.update()
-                   return                                               
+#                elif(tabRow['time'] == '00:00:00,00'):
+#                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
+#                   self.update()
+#                   return                                               
                 
         
         myModel.myModel.slot_ModelChanged(self, item)
@@ -245,8 +245,7 @@ class TimesModel(myModel.myModel):
         #except:
         #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
             
-        #1to1 keys, just copy
-        
+        #1to1 keys, just copy        
         dbTime = myModel.myModel.table2dbRow(self, tabTime)
                 
         '''RUN_ID'''
@@ -304,11 +303,11 @@ class TimesModel(myModel.myModel):
                 return None
                             
         ''' TIME '''                                                            
-        try:                                                         
-            #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
-                   
-            '''get start-time'''        
-            if(tabTime['cell'] == 1):                
+        #try:                                                         
+        #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
+               
+        '''get start-time'''        
+        if(tabTime['cell'] == 1):                
 #                if(self.utils.start_times==None):
 #                    start_time = {id:0, 'time_raw':0}
 #                elif not(dbTime['run_id'] in self.utils.start_times):
@@ -316,24 +315,38 @@ class TimesModel(myModel.myModel):
 #                else:
 #                    #start_time = self.utils.start_times[dbTime['run_id']][0]
 #                    start_time = self.starts.GetFirst(dbTime['run_id'])
-                try:                                         
-                    start_time = self.starts.GetFirst(dbTime['run_id'])
-                except TypeError:
-                    start_time = self.starts.GetDefault()
-            else:
+            try:                                         
+                start_time = self.starts.GetFirst(dbTime['run_id'])
+            except (TypeError,KeyError):            
+                start_time = self.starts.GetDefault()                
+        else:
+            '''čas může být v tabulce None, třeba pokud nemá všechny startovací běhy k dispozici
+                   potom se čas naupdatuje, nechává se současný v databázi'''
+            '''toDo: nevracet string ale pravou hodnotu z getTableRow'''
+            if(tabTime['time'] != None) and (tabTime['time'] != u''):
+                
                 ''' z categories vezmu start_nr a pak do start-times pro start-time
-                    při změně čísla se počítá se starou kategorii a časem, ale nevadí to'''
-                #start_times = self.utils.start_times[dbTime['run_id']]                
+                    při změně čísla se počítá se starou kategorii a časem, ale nevadí to'''                            
                 category = self.params.tabCategories.getDbCategoryParName(tabTime['category'])                
                 try:                    
                     start_time = self.starts.Get(dbTime['run_id'], category['start_nr']) 
-                except TypeError:                    
+                except TypeError:
+                    '''žádný startovací čas => vezmi default (1.čas vůbec)'''                    
                     start_time = self.starts.GetFirst(dbTime['run_id']) 
-                        
-            dbTime['time_raw'] = self.utils.timestring2timeraw(tabTime['time'], start_time['time_raw'])                                                                                            
+                                
+                '''table-time => db-time'''
+                try:
+                    dbTime['time_raw'] = self.utils.timestring2timeraw(tabTime['time'], start_time['time_raw'])
+                except TimesUtils.TimeFormat_Error:
+                    self.params.showmessage(self.params.name+" Update error", "Wrong Time format!")                
+                
+            
+        
+        '''nelze přiřadit číslo nulovému/zápornému času'''
+        #&if(dbTime['time_raw'] == 0)                                                                                          
                                             
-        except Utils.TimeFormat_Error:
-            self.params.showmessage(self.params.name+" Update error", "Time wrong format!")             
+        #except TimesUtils.TimeFormat_Error:
+        #    self.params.showmessage(self.params.name+" Update error", "Time wrong format!")             
                                                                                                                                                                                                                                                                                                                              
         return dbTime    
         
@@ -418,7 +431,8 @@ class Times(myModel.myTable):
                     
                 #add collumn to export                
                 exportRow[collumn[col_nr_export]] = tabRow[collumn_key]
-                exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]                                
+                exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]
+                #print exportRow[collumn[col_nr_export]], type(exportRow[collumn[col_nr_export]])                               
                 
         #print "time part",exportRow
                  
@@ -542,12 +556,13 @@ class Times(myModel.myTable):
             id = self.proxy_model.data(rows[0]).toString()
         except:
             self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
+            return
             
         #first start time? => cant be updated               
         #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
         if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
             self.params.showmessage(self.params.name+" Delete warning", "First start time cant be deleted!")
-            return None  
+            return  
         
         #delete run with additional message
         myModel.myTable.sDelete(self)                                                         

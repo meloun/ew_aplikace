@@ -8,6 +8,8 @@ Created on 16.9.2009
 '''
 import csv
 
+import libs.utils.utils as utils
+
 
 
 
@@ -19,15 +21,17 @@ class Db_csv():
     def load(self, encode = 'utf8'):
                         
         reader = csv.reader(open(self.filename, "r"), delimiter = ";", skipinitialspace=True)
-        
-
-        listofnames = []
-
-        for name in reader:
-            listofnames.append(name)
-        
-        #print listofnames
-        return listofnames
+                
+        list = []
+        for row in reader:
+            list.append([unicode(cell, 'utf-8') for cell in row])
+            #list.append([cell for cell in row])            
+                    
+        for lt in list:
+            for item in lt:
+                print item, type(item)
+                
+        return list
     
     #save csv into file from lists
     def save(self, lists, keys = None, encode = None):       
@@ -40,20 +44,13 @@ class Db_csv():
         
         for list in lists:
             for item in list:    
-                #print type(item), item
-                
-                if type(item) is int:
-                    #print "retype"
-                    item = str(item)                
-                if type(item) is unicode:
-                    item = (item).encode('utf-8')           
+                '''add item'''                                    
+                item = utils.getUtf8String(item)          
                 my_string += item+';'
-            my_string += "\n"
-            #print my_string
-                        
-        #print my_string, type(my_string)
-        if encode != None:
-            my_string = my_string.encode(encode)    
+            my_string += "\n"            
+                                
+        #if encode != None:
+        #    my_string = my_string.encode(encode)    
         
         FILE = open(self.filename, 'w')
         FILE.write(my_string)

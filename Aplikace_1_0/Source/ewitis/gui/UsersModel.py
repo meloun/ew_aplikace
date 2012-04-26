@@ -116,11 +116,12 @@ class UsersModel(myModel.myModel):
         dbUser = myModel.myModel.table2dbRow(self, tabUser)
         
         '''category_id'''
+        print tabUser['category'], type(tabUser['category'])
         dbCategory = self.params.tabCategories.getDbCategoryParName(tabUser['category']) 
         
         if(dbCategory == None):
             '''category not found => nothing to save'''
-            self.params.showmessage(self.params.name+" Update error", "No category with this name "+str(tabUser['category'])+"!")
+            self.params.showmessage(self.params.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
             return None
         dbUser['category_id'] = dbCategory['id']
                                                                                           
@@ -197,10 +198,10 @@ class Users(myModel.myTable):
     
     def getDbUserParIdOrTagId(self, id):
         
-        if(self.params.datastore.Get("rfid") == True):        
+        if(self.params.datastore.Get("rfid") == True):                    
             '''tag id'''
             dbUser = self.getDbUserParTagId(id)
-        else:        
+        else:                
             '''id'''
             dbUser = self.getDbRow(id)
                 
