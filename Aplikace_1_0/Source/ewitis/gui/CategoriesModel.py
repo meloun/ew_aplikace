@@ -58,8 +58,7 @@ class CategoriesModel(myModel.myModel):
         
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
-
-        self.update()                    
+                         
 
                 
     def getDefaultTableRow(self): 
@@ -69,10 +68,10 @@ class CategoriesModel(myModel.myModel):
         return category 
                     
 class CategoriesProxyModel(myModel.myProxyModel):
-    def __init__(self):                        
+    def __init__(self, params):                        
         
         #default proxy-model constructor
-        myModel.myProxyModel.__init__(self)  
+        myModel.myProxyModel.__init__(self, params)  
         
 
 # view <- proxymodel <- model 
@@ -83,7 +82,7 @@ class Categories(myModel.myTable):
         myModel.myTable.__init__(self, params)        
     
         
-    def getDbCategoryFirst(self):
+    def getDbCategoryFirst(self):        
         return self.params.db.getFirst("categories")
         
     def getDbCategoryParName(self, name):

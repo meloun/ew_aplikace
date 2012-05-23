@@ -66,13 +66,16 @@ class ManageComm(Thread):
         try:                                               
             return self.protokol.send_receive_frame(command, string_data)                                                                             
         except (serialprotocol.SendReceiveError) as (errno, strerror):
-            print "E:SendReceiveError - {1}({0})".format(errno, strerror) 
+            print "E:SendReceiveError - {1}({0})".format(errno, strerror)
+            return {"error":0xFF} 
             #continue
         except (serial.SerialException) as (strerror):
             print "E:SendReceiveError - {0}()".format(strerror)
+            return {"error":0xFF} 
                                                             
     def run(self):  
-        import sqlite3      
+        #import sqlite3
+        import pysqlite2      
         print "COMM: zakladam vlakno.."
 #        if(self.datastore.Get("port_enable", "GET_SET") == False):        
 #            print "COMM: okamzite koncim vlakno.."
@@ -156,12 +159,15 @@ class ManageComm(Thread):
                 #values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
                 keys = ["state","id", "run_id", "user_id", "cell", "time_raw"]
                 values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw']]
-                
+                import pysqlite2 
                 try: 
                     #self.tableTimes.insert_from_lists(keys, values)
                     self.db.insert_from_lists("times", keys, values)
-                except sqlite3.IntegrityError:
-                    print "I:DB: Time already exist"                                                    
+#                except sqlite3.IntegrityError as err:                                
+#                    print "I:DB: Time already exist", err
+                except pysqlite2.dbapi2.IntegrityError:                                
+                    print "I:DB: Time already exist"
+                                                                        
                 
                 '''all for this run has been successfully done, take next'''                   
                 self.index_times += 1
@@ -188,8 +194,10 @@ class ManageComm(Thread):
                 try:
                     #self.tableRuns.insert_from_lists(keys, values)
                     self.db.insert_from_lists("runs", keys, values)
-                except sqlite3.IntegrityError:
-                    print "I: DB: run already exist"   
+#                except sqlite3.IntegrityError:
+#                    print "I: DB: run already exist"
+                except pysqlite2.dbapi2.IntegrityError:                                
+                    print "I:DB: Time already exist"   
                                 
                 '''all for this run has been successfully done, take next'''   
                 self.index_runs += 1

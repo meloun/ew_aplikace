@@ -58,8 +58,7 @@ class TagsModel(myModel.myModel):
         
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
-
-        self.update()                    
+                            
 
                 
     def getDefaultTableRow(self): 
@@ -69,10 +68,10 @@ class TagsModel(myModel.myModel):
         return category 
                     
 class TagsProxyModel(myModel.myProxyModel):
-    def __init__(self):                        
+    def __init__(self, params):                        
         
         #default proxy-model constructor
-        myModel.myProxyModel.__init__(self)  
+        myModel.myProxyModel.__init__(self, params)  
         
 
 # view <- proxymodel <- model 

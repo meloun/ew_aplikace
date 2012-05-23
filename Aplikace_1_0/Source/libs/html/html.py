@@ -7,6 +7,7 @@ Created on 17.9.2009
 import libs.file.file as file  
 import libs.html.htmltags as htmltags
 import libs.dicts.dicts as dicts
+import libs.utils.utils as utils
 
 class html(object):
     def __init__(self, filename, title=None, styles=None, scripts=None):
@@ -35,7 +36,7 @@ class html(object):
     def get_body(self):
         return htmltags.BODY("body")
     
-    def save(self):        
+    def save(self):                
         html_string = str(htmltags.HTML(self.get_head()+self.get_body()))        
         self.file.write(html_string)         
 
@@ -95,23 +96,23 @@ class html(object):
         #radky
         for list in lists:
             radekTabulky = htmltags.TR()  # inicializace proměnné  
-            radekTabulky <= htmltags.TD(list[0]) #hide by css
-            radekTabulky <= htmltags.TD(list[6])
-            radekTabulky <= htmltags.TD(list[2]) #hide by css
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[0])) #hide by css
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[6]))
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[2])) #hide by css
             
-            radekTabulky <= htmltags.TD(list[7]) 
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[7])) 
                       
-            radekTabulky <= htmltags.TD(list[1]) 
-            radekTabulky <= htmltags.TD(list[4])            
-            radekTabulky <= htmltags.TD(list[3])
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[1])) 
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[4]))            
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[3]))
             
-            radekTabulky <= htmltags.TD(list[5])
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[5]))
             
            
-            radekTabulky <= htmltags.TD(list[8])
+            radekTabulky <= htmltags.TD(utils.getUtf8String(list[8]))
             #for item in list:  # pres vsechny existujici slovniky v datech                                        
-            #    radekTabulky <= htmltags.TD(item)                
-            tabulka <= radekTabulky        
+            #    radekTabulky <= htmltags.TD(item)                            
+            tabulka <= radekTabulky                    
                           
         return tabulka
     

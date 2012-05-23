@@ -3,7 +3,7 @@
 
 import sys
 import time
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui, Qt
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
 import libs.db_csv.db_csv as Db_csv
@@ -11,6 +11,7 @@ import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
+import time
 
 
 class TimesParameters(myModel.myParameters):
@@ -65,6 +66,7 @@ class TimesParameters(myModel.myParameters):
         #SPECIAL
         self.gui['show_all'] = source.ui.TimesShowAll
         self.gui['show_zero'] = source.ui.timesShowZero
+        self.gui['show_additional_info'] = source.ui.timesAdditionalInfo
         
         #COUNTER
         self.gui['counter'] = source.ui.timesCounter
@@ -78,10 +80,10 @@ class TimesParameters(myModel.myParameters):
         self.classProxyModel = TimesProxyModel
         
         
+        
 class TimesModel(myModel.myModel):
     def __init__(self, params):                        
                 
-        
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
                     
@@ -91,11 +93,12 @@ class TimesModel(myModel.myModel):
         #
         self.starts = TimesUtils.TimesStarts(self.params.db)
         self.order = TimesUtils.TimesOrder(self.params.db, self.params.datastore)
-        self.lap = TimesUtils.TimesLap(self.params.db)
+        self.lap = TimesUtils.TimesLap(self.params.db, self.params.datastore)
         
                         
         self.showall = False
-        self.showzero = True                               
+        self.showzero = True
+                                        
         
         #update with first run        
         first_run = self.params.db.getFirst("runs")
@@ -103,8 +106,7 @@ class TimesModel(myModel.myModel):
             self.run_id = first_run['id']
         else:
             self.run_id = 0 #no times for run_id = 0 
-                
-        self.update()        
+                                
                 
     def ssTimesShowAllChanged(self, state):
         print "wrong"
@@ -133,7 +135,8 @@ class TimesModel(myModel.myModel):
         """    
         ["id", "nr", "cell", "time", "name", "category", "address"]
         """
-                     
+        
+        #print "TIME DB2TABLEROW START", time.time()            
         '''hide all zero time?'''
         if(self.showzero == False):
             if (int(dbTime["cell"])==1):                
@@ -144,16 +147,17 @@ class TimesModel(myModel.myModel):
          
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
-        '''toDo: proč neberu tabUSera rovnou?'''                                     
+        '''toDo: proč neberu tabUSera rovnou?'''                                            
         dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
         if(dbUser == None):
             dbUser = {}
             dbUser['id'] = 0
             dbUser['category_id'] = 0        
         tabUser = self.params.tabUser.getTabRow(dbUser["id"])
+        #print "..2", time.time()
         
         ''' get CATEGORY'''               
-        tabCategory =  self.params.tabCategories.getTabRow(dbUser['category_id'])                        
+        tabCategory =  self.params.tabCategories.getTabRow(dbUser['category_id'])                                
                                         
         ''' OTHER KEYS ''' 
         
@@ -172,14 +176,14 @@ class TimesModel(myModel.myModel):
         '''raw time'''
         aux_rawtime = dbTime['time_raw']
 
-        '''get start-time for this run'''
+        '''get start-time for this run'''        
         try:
             '''toDo: misto try catch, Get bude vracet None'''                                   
             start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])
         except:                         
             print "E:neexistuje startime"
             aux_rawtime = None
-            start_time = None        
+            start_time = None                
                         
         '''time = time_raw - starttime'''        
         if tabTime['start_nr'] and start_time:
@@ -187,7 +191,7 @@ class TimesModel(myModel.myModel):
         else:
             print "e: dbtime2tabtime"
             tabTime['time'] = None
-            aux_rawtime = None    
+            aux_rawtime = None           
                 
         '''NAME'''        
         if(dbTime['cell'] == 1):
@@ -196,46 +200,52 @@ class TimesModel(myModel.myModel):
             tabTime['name'] = 'undefined'
         else:           
             tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']        
-                                                                        
-        '''CATEGORY'''            
+        
+        '''CATEGORY'''                                                                                
         tabTime['category'] = tabUser['category']                                                              
                         
-        '''ORDER'''
+        '''ORDER'''        
         tabTime['order']  = self.order.Get(tabTime)
                 
-        '''ORDER IN CATEGORY'''
-        tabTime['order_kat'] = self.order.Get(dbTime, category=tabTime['category'])
+        '''ORDER IN CATEGORY'''        
+        #tabTime['order_kat'] = self.order.Get(dbTime, category=tabTime['category'])        
+        tabTime['order_kat'] = self.order.Get(dbTime, category=dbUser['category_id'])
 
-        '''LAP'''
-        tabTime['lap'] = self.lap.Get(dbTime)                                         
-            
+        '''LAP'''        
+        tabTime['lap'] = self.lap.Get(dbTime)
+        
+        #'''ORDER'''        
+        #tabTime['order']  = self.order.Get2(tabTime, tabTime['lap'])                                         
+                    
         return tabTime
                                                                                    
     def slot_ModelChanged(self, item):
-        
                 
-        if(self.params.datastore.Get("user_actions")):  
+        if(self.params.datastore.Get("user_actions")):                              
         
             tabRow = self.getTableRow(item.row())
                     
             if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
                
-                '''změna čísla/přiřazení uživatele nelze u času                
+                '''ZMĚNA ČÍSLA'''
+                '''přiřazení uživatele nelze u času                
                    - startovací buňky
-                   - nulového času'''
+                   - nulového času'''                                  
                 
                 if(int(tabRow['cell']) == 1):                            
                     self.params.showmessage(self.params.name+" Update error", "Cannot assign user to start time!")
-                    self.update()
+                    self.update()       
                     return 
 #                elif(tabRow['time'] == '00:00:00,00'):
 #                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
 #                   self.update()
-#                   return                                               
+#                   return
+                                                   
                 
         
         myModel.myModel.slot_ModelChanged(self, item)
-        
+
+                
     def table2dbRow(self, tabTime): 
                                             
         #get selected id
@@ -352,14 +362,14 @@ class TimesModel(myModel.myModel):
         
     
     #UPDATE TABLE        
-    def update(self, run_id = None):
+    def update(self, run_id = None):                
         
         if(run_id != None):                    
             self.run_id = run_id #update run_id
             
         #update start times
         #self.utils.updateStartTimes()
-        self.starts.Update()
+        self.starts.Update()        
         
         #update times
         if(self.showall):
@@ -376,13 +386,37 @@ class TimesModel(myModel.myModel):
             myModel.myModel.update(self, conditions = conditions, operation = 'OR')            
         else:            
             #update for selected run        
-            myModel.myModel.update(self, "run_id", self.run_id)                                                                         
+            myModel.myModel.update(self, "run_id", self.run_id)            
+                                                                                       
 
 class TimesProxyModel(myModel.myProxyModel):
-    def __init__(self):                        
+    def __init__(self, params):                        
         
         #create PROXYMODEL
-        myModel.myProxyModel.__init__(self)      
+        myModel.myProxyModel.__init__(self, params)
+        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&,const QModelIndex&)"), self.slot_ModelChanged)   
+        
+    #setting flags for this model
+    #first collumn is NOT editable
+    def flags(self, index):             
+
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable        
+        
+                
+    def slot_ModelChanged(self,  topLeft, bottomRight):
+        if(self.params.datastore.Get("user_actions")):                  
+            if(topLeft == bottomRight):
+            
+                '''změna jednoho prvku'''
+                
+                if(topLeft.column() == 1):                    
+                
+                    '''ZMĚNA ČÍSLA'''
+
+                    '''editovat číslo o jeden řádek výše'''                        
+                    myindex = self.index(topLeft.row()-1,1)                    
+                    if(myindex.isValid()==True):                        
+                        self.params.gui['view'].edit(myindex)                    
    
 # view <- proxymodel <- model 
 class Times(myModel.myTable):
@@ -422,7 +456,7 @@ class Times(myModel.myTable):
         tabHeader = self.proxy_model.header()
         for collumn_key in self.params.TABLE_COLLUMN_DEF.keys():
             collumn = self.params.TABLE_COLLUMN_DEF[collumn_key]
-            if(collumn[col_nr_export] is not None):
+            if(collumn[col_nr_export] is not None):                                
                 
                 '''pokud mezera, vložit prozatím prázdné prvky'''                            
                 if((len(exportRow))<=collumn[col_nr_export]):
@@ -441,7 +475,7 @@ class Times(myModel.myTable):
         tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])        
         for collumn_key in self.params.tabUser.params.TABLE_COLLUMN_DEF.keys():            
             collumn = self.params.tabUser.params.TABLE_COLLUMN_DEF[collumn_key]
-            if(collumn[col_nr_export] is not None):
+            if(collumn[col_nr_export] is not None):                                
                 
                 '''pokud mezera, vložit prozatím prázdné prvky''' 
                 if((len(exportRow))<=collumn[col_nr_export]):
@@ -477,11 +511,15 @@ class Times(myModel.myTable):
             exportRow = self.tabRow2exportRow(tabRow, col_nr_export)[1]
             if exportRow != []:                            
                 exportRows.append(exportRow)
-            exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
+            #exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
+            #print "exportHeader",exportHeader
+            
+        '''natvrdo pred girem'''
+        exportHeader = ["pořadí", "číslo", "jméno", "klub", "ročník", "čas"]  
             
         '''write to csv file'''
         if(exportRows != []):
-            print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
+            #print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
             first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
             exportRows.insert(0, exportHeader)
             aux_csv = Db_csv.Db_csv(dirname+"/"+self.params.datastore.Get('race_name')+".csv") #create csv class
@@ -494,8 +532,11 @@ class Times(myModel.myTable):
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 if (tabRow['category'] == dbCategory['name']):                                                                                               
-                    exportRows.append(self.tabRow2exportRow(tabRow, col_nr_export)[1])
+                    exportRows.append(self.tabRow2exportRow(tabRow, col_nr_export)[1])                    
                     #exportHeader = self.tabRow2exportRow(tabRow)[0]                                             
+            
+            '''natvrdo pred girem'''
+            exportHeader = ["pořadí", "číslo", "jméno", "klub", "ročník", "čas"]    
             
             '''write to csv file'''
             if(exportRows != []):
@@ -507,7 +548,12 @@ class Times(myModel.myTable):
         return                                                                                                                   
                 
 
-    def sExport(self):
+    def sExport(self):        
+        myindex = self.params.gui['view'].model().index(2,2)
+        print myindex.isValid()
+        self.params.gui['view'].edit(myindex) 
+        return
+                
         
         col_nr_export = 'col_nr_export_raw'
         
@@ -535,8 +581,12 @@ class Times(myModel.myTable):
             print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
             first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
             exportRows.insert(0, exportHeader)
-            aux_csv = Db_csv.Db_csv(filename) #create csv class                        
-            aux_csv.save(exportRows)               
+            aux_csv = Db_csv.Db_csv(filename) #create csv class
+            try:                        
+                aux_csv.save(exportRows)
+            except IOError:
+                self.params.showmessage(self.params.name+" Export warning", "Permission denied!")
+                               
                     
     #toDo: sloucit s myModel konstruktorem        
     def update(self, run_id = None):                      

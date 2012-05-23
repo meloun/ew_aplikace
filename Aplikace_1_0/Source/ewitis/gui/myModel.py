@@ -12,6 +12,7 @@ import ewitis.exports.ewitis_html as ew_html
 import libs.sqlite.sqlite as sqlite
 import libs.db_csv.db_csv as Db_csv
 import libs.datastore.datastore as datastore
+import libs.utils.utils as utils 
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
@@ -42,7 +43,7 @@ class myModel(QtGui.QStandardItemModel):
         params: třída obdahující parametry
     """
     def __init__(self, params):                    
-        
+                        
         #parametry
         self.params = params
         
@@ -64,7 +65,7 @@ class myModel(QtGui.QStandardItemModel):
         #SLOTY
         
         #slot na zmenu policka, modelu
-        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                                            
+        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                                                    
              
     def slot_ModelChanged(self, item):
         """
@@ -263,8 +264,8 @@ class myModel(QtGui.QStandardItemModel):
         update() => update cele tabulky
         update(parameter, value) => vsechny radky s parametrem = value
         update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
-        """
-                
+        """        
+        print self.params.name, "update"
         #self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
         self.params.datastore.Set("user_actions", False)          
                       
@@ -280,29 +281,32 @@ class myModel(QtGui.QStandardItemModel):
             rows = self.params.db.getParXX(self.params.name, conditions, operation)
         else:
             rows = []        
-                                                    
+                                                                 
         #pridat radky do modelu/tabulky
         for row in rows:            
             
+            #print "START", row, time.time()
             #convert "db-row" to dict (in dict can be added record)
-            row_dict = self.params.db.dict_factory(rows, row)            
+            row_dict = self.params.db.dict_factory(rows, row)                                    
             
             #call table-specific function, return "table-row"                                           
-            row_table = self.db2tableRow(row_dict)                                                                                                                                     
+            row_table = self.db2tableRow(row_dict)            
+                                                                                                                                                            
             #add row to the table            
-            self.addRow(row_table)                                 
-                    
-        self.params.datastore.Set("user_actions", True)                                                                            
+            self.addRow(row_table)            
+                                                                    
+        self.params.datastore.Set("user_actions", True)                                                                          
             
 
 class myProxyModel(QtGui.QSortFilterProxyModel):
     """
     """
-    def __init__(self):
+    def __init__(self, params):
         #model
         QtGui.QSortFilterProxyModel.__init__(self)
         self.setDynamicSortFilter(True)        
-        self.setFilterKeyColumn(-1)                
+        self.setFilterKeyColumn(-1)
+        self.params = params                
         
     #get ids
     def ids(self):
@@ -379,10 +383,12 @@ class myTable():
         
         
         #create MODEL
-        self.model = self.params.classModel(params)        
+        print params.name, ": vytvarim model"
+        self.model = self.params.classModel(params)                
         
-        #create PROXY MODEL        
-        self.proxy_model = self.params.classProxyModel()
+        #create PROXY MODEL
+        print params.name, ": vytvarim proxy model"        
+        self.proxy_model = self.params.classProxyModel(params)        
         
         #assign MODEL to PROXY MODEL
         self.proxy_model.setSourceModel(self.model)   
@@ -397,8 +403,10 @@ class myTable():
         self.params.gui['view'].setRootIsDecorated(False)
         self.params.gui['view'].setAlternatingRowColors(True)        
         self.params.gui['view'].setSortingEnabled(True)
+                
+        #self.update()
+        #setColumnWidth()
         
-        self.update()#setColumnWidth()
                     
         
         #TIMERs
@@ -463,7 +471,7 @@ class myTable():
         # DELETE BUTTON -> EMPTY TABLE
         QtCore.QObject.connect(self.params.gui['delete'], QtCore.SIGNAL("clicked()"), self.sDeleteAll)
         
-        #self.sFilterRegExp(filter, table, label_counter)
+        #self.sFilterRegExp(filter, table, label_counter)        
                              
     #=======================================================================
     # SLOTS
@@ -608,14 +616,14 @@ class myTable():
         
         '''adding records to DB'''                        
         for row in rows:                                                                                                                                    
-            #try:
-            '''add 1 record'''
-            importRow = dict(zip(keys, row)) 
-            dbRow = self.model.import2dbRow(importRow)                     
-            self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
-            state['ok'] += 1            
-            #except:
-                #state['ko'] += 1 #increment errors for error message
+            try:
+                '''add 1 record'''
+                importRow = dict(zip(keys, row)) 
+                dbRow = self.model.import2dbRow(importRow)                     
+                self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
+                state['ok'] += 1            
+            except:
+                state['ko'] += 1 #increment errors for error message
 
         self.params.db.commit()                        
         self.model.update()
@@ -675,17 +683,18 @@ class myTable():
         title = "Table '"+self.params.name + "' HTML Export"
          
         #export to HTML file        
-        try:                                    
-            html_page = ew_html.Page_table(filename, styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
-            html_page.save()                             
-            self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
-        except:            
+        try:
+                                     
+                html_page = ew_html.Page_table(filename, styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
+                html_page.save()                             
+                self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
+        except IOError:            
             self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
     
     
     #default WWW export - without dialog to specific directory        
     def sExport_directWWW(self, filename="export/www/filename.htm"):
-        
+
         #sort model
         self.model.sort(3, order = QtCore.Qt.DescendingOrder)
         
@@ -694,11 +703,11 @@ class myTable():
          
         #export to HTML file
         try:                                                
-            html_page = ew_html.Page_table(filename, styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
+            html_page = ew_html.Page_table(filename, title = self.params.datastore.Get('race_name'), styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
             html_page.save()                             
             self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
-        except:            
-            self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+        except IOError:            
+           self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                                          
                         
     # DELETE BUTTON          

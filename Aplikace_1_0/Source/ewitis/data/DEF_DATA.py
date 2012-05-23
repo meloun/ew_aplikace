@@ -54,14 +54,18 @@ DEF_DATA = {
                                },
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":"Test"}  
+                                "GET_SET"  : {"value":u"Sport Bike Marathon 2012"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":False}  
+                                "GET_SET"  : {"value":True}  
+                               },
+        "additinal_info"     : {"name"     : "additinal info",
+                                "GET_SET"  : {"value": True}  
                                },
         "user_actions"        : {"name"     : "user_actions",
                                 "GET_SET"  : {"value":True}  
-                               },        
+                               },
+            
         
 
         # TERMINAL DATA

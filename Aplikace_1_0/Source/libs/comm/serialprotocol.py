@@ -50,7 +50,8 @@ Commands
 
 import serial, time
 import binascii
-import sqlite3
+#import sqlite3
+import pysqlite2
 from struct import unpack
 import _winreg as winreg
 import re, itertools
@@ -309,7 +310,8 @@ if __name__ == "__main__":
             ''' send request and receive run record '''
             try:                    
                 run = protokol.send_receive_frame(CMD_GET_TIME_PAR_INDEX, chr(index)+"\x00")
-            except sqlite3.IntegrityError:                
+            #except sqlite3.IntegrityError:
+            except pysqlite2.dbapi2.IntegrityError:                
                 raise
                         
             

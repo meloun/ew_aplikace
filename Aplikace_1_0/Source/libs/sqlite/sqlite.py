@@ -4,7 +4,8 @@ Created on 01.06.2010
 
 @author: MELICHARL
 '''
-from sqlite3 import dbapi2 as sqlite
+#from sqlite3 import dbapi2 as sqlite
+from pysqlite2 import dbapi2 as sqlite
 import time
 
 import libs.db_csv.db_csv as Db_csv
@@ -56,10 +57,15 @@ class sqlite_db(object):
         return res 
             
     def query(self, query):
-        #print "query: ",query
-        query = utils.getUtf8String(query) 
-        res = self.db.execute(query)                
-        return res
+        #import time                
+        query = utils.getUtf8String(query)
+        #print query
+        #print "sql1:",time.clock(), query        
+                
+        last_result = self.db.execute(query)
+        #print "..sql2:",time.clock(), query
+                        
+        return last_result
     
 #    def escape(self, var):
 #        if(type(var) == )

@@ -21,7 +21,8 @@ import libs.sqlite.sqlite as sqlite
 import ewitis.data.DEF_DATA as DEF_DATA
 import libs.datastore.datastore as datastore
 import ewitis.gui.UiAccesories as UiAccesories
-from ewitis.data.DEF_ENUM_STRINGS import * 
+from ewitis.data.DEF_ENUM_STRINGS import *
+import libs.utils.utils as utils 
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
@@ -73,8 +74,15 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
         
+        
+        
+        
         #doplneni 
-        self.T.params.tabRuns = self.R                        
+        self.T.params.tabRuns = self.R
+        
+        '''Update'''
+        self.R.update()
+        #self.updateTables()                        
         
         #nastaveni prvniho dostupneho portu
         try:
@@ -83,18 +91,17 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             self.datastore.Set("port_name", "GET_SET", "---")
         #print self.datastore.data
         
-        self.UiAccesories.updateGui()
-              
+        self.UiAccesories.updateGui()                                        
         
-        self.update()
-        
-        '''status bar'''       
-        logic_mode = LOGIC_MODES.STRINGS[self.datastore.Get("timing_settings", "GET")['logic_mode']]          
+        '''status bar'''                       
+        logic_mode = LOGIC_MODES.STRINGS[self.datastore.Get("timing_settings", "GET")['logic_mode']]
+                   
         self.showMessage("mode", logic_mode + " ["+self.datastore.Get("race_name")+"]", dialog=False)
+
         
         #=======================================================================
         # SIGNALS
-        #======================================================================= 
+        #=======================================================================
         
         QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
          
@@ -159,7 +166,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             
         #STATUSBAR        
         if(statusbar):
-            self.ui.statusbar.showMessage( unicode(title+" : " + message))
+            print title, message            
+            self.ui.statusbar.showMessage( (title+" : " + message))
         
         return True
         
@@ -173,10 +181,17 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         
     
-    def updateTables(self):
-        self.R.update()
-        self.T.update()
-        self.U.update()                  
+    def updateTables(self, nr):        
+        if(nr==0):
+            self.R.update()
+            #self.R.updateTimes()  #update TIMES table
+            self.T.update()
+        elif(nr==1):            
+            self.U.update()
+        elif(nr==2):            
+            self.C.update()
+        elif(nr==3):            
+            self.tableTags.update()                    
 
     def uiRestrict(self):
         pass
@@ -207,14 +222,11 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
     def sTabChanged(self, nr):
                 
-        self.datastore.Set("active_tab", nr)        
+        self.datastore.Set("active_tab", nr)
+        
+        self.updateTables(nr)        
                 
-        if(nr==0):
-            self.R.update()
-            self.R.updateTimes()  #update TIMES table
-            self.T.update()
-        elif(nr==1):            
-            self.U.update()
+
             
         
     def sRunsProxyView_SelectionChanged(self, selected, deselected):               
@@ -296,7 +308,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     #=========================================================================== 
     def sRefresh(self):        
         
-        self.updateTables()               
+        nr_tab = self.datastore.Get("active_tab")
+        self.updateTables(nr_tab)               
         
         title = "Manual Refresh"
         self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)   

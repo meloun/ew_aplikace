@@ -67,8 +67,7 @@ class UsersModel(myModel.myModel):
         
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
-
-        self.update()                    
+                    
 
         
     #first collumn is NOT editable      
@@ -150,10 +149,10 @@ class UsersModel(myModel.myModel):
 #        myModel.myModel.slot_ModelChanged(self, item)
                  
 class UsersProxyModel(myModel.myProxyModel):
-    def __init__(self):                        
+    def __init__(self, params):                        
         
         #create PROXYMODEL
-        myModel.myProxyModel.__init__(self)  
+        myModel.myProxyModel.__init__(self, params)  
         
 
 

@@ -114,6 +114,10 @@ class TimesOrder():
         self.datastore = datastore        
 
     def Get(self, dbTime, category = None):
+        
+        if(self.datastore.Get("additinal_info") == False):            
+            return None
+        
         if(dbTime['time_raw'] == None):
             return None
               
@@ -121,48 +125,38 @@ class TimesOrder():
             return None
             
         if(dbTime['cell'] == 1):            
-            return None
-        
+            return None                                        
+    
         if category != None:     
             
             '''ORDER IN THE SAME CATEGORY'''        
                            
             if(self.datastore.Get('rfid') == True):                
+#                query_order = \
+#                    " SELECT COUNT(times.id) FROM times" +\
+#                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+#                        " INNER JOIN users ON tags.user_nr = users.nr "+\
+#                        " INNER JOIN categories ON users.category_id = categories.id "+\
+#                        " WHERE (times.time_raw < " +str(dbTime['time_raw'])+ ")"+\
+#                        " AND (times.time_raw != 0 )"+\
+#                        " AND (times.cell != 1 )"+\
+#                        " AND (categories.name=\"" +(category)+ "\")"+\
+#                        " AND (times.run_id=" +str(dbTime['run_id'])+ ")"
                 query_order = \
-                    " SELECT COUNT(*) FROM times" +\
+                    " SELECT COUNT(times.id) FROM times" +\
                         " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                         " INNER JOIN users ON tags.user_nr = users.nr "+\
-                        " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw < " +str(dbTime['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
                         " AND (times.cell != 1 )"+\
-                        " AND (categories.name=\"" +(category)+ "\")"+\
-                        " AND (times.run_id=\"" +str(dbTime['run_id'])+ "\")"
-                query_count = \
-                    " SELECT COUNT(*) FROM times" +\
-                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                        " INNER JOIN users ON tags.user_nr = users.nr "+\
-                        " INNER JOIN categories ON users.category_id = categories.id "+\
-                        " WHERE (times.time_raw = " +str(dbTime['time_raw'])+ ")"+\
-                        " AND (times.time_raw != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (categories.name=\"" +(category)+ "\")"+\
-                        " AND (times.run_id=\"" +str(dbTime['run_id'])+ "\")"
+                        " AND (users.category_id=\"" +str(category)+ "\")"+\
+                        " AND (times.run_id=" +str(dbTime['run_id'])+ ")"
             else:
                 query_order = \
-                    " SELECT COUNT(*) FROM times" +\
+                    "SELECT COUNT(*) FROM times" +\
                         " INNER JOIN users ON times.user_id = users.id"+\
                         " INNER JOIN categories ON users.category_id = categories.id "+\
                         " WHERE (times.time_raw < " +str(dbTime['time_raw'])+ ")"+\
-                        " AND (times.time_raw != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (categories.name=\"" +(category)+ "\")"+\
-                        " AND (times.run_id=\"" +str(dbTime['run_id'])+ "\")"
-                query_count = \
-                    " SELECT COUNT(*) FROM times" +\
-                        " INNER JOIN users ON times.user_id = users.id "+\
-                        " INNER JOIN categories ON users.category_id = categories.id "+\
-                        " WHERE (times.time_raw = " +str(dbTime['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " AND (categories.name=\"" +(category)+ "\")"+\
@@ -172,32 +166,82 @@ class TimesOrder():
             
             '''ORDER IN ALL RUN'''
             
-            query_order = "\
-                SELECT COUNT(*) FROM times" +\
+            query_order = \
+                "SELECT COUNT(times.id) FROM times" +\
                     " WHERE (times.time_raw<" + str(dbTime['time_raw']) + ")"+\
                     " AND (times.time_raw != 0 )"+\
                     " AND (times.cell != 1 )"+\
                     " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
-            query_count = "\
-                SELECT COUNT(*) FROM times" +\
-                    " WHERE (times.time_raw=" + str(dbTime['time_raw']) + ")"+\
-                    " AND (times.time_raw != 0 )"+\
-                    " AND (times.cell != 1 )"+\
-                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
+#            query_count = \
+#                "SELECT COUNT(times.id) FROM times" +\
+#                    " WHERE (times.time_raw=" + str(dbTime['time_raw']) + ")"+\
+#                    " AND (times.time_raw != 0 )"+\
+#                    " AND (times.cell != 1 )"+\
+#                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
                                
-                     
-        res_order = self.db.query(query_order).fetchone()[0]+1        
-        res_count = self.db.query(query_count).fetchone()[0]
+
+        #import time                     
+        #print "QQ ", query_order
+        #print "..1", time.time()
+        res_order = self.db.query(query_order).fetchone()[0]+1
+        #print "..2", time.time() 
+               
+        #res_count = self.db.query(query_count).fetchone()[0]
         
         #return {"start":res_order, "end":res_order+res_count-1}              
-        return res_order                   
+        return res_order
+    
+    def Get2(self, dbTime, lap, category_id = None):
+        
+        if(self.datastore.Get("additinal_info") == False):            
+            return None
+        
+        if(dbTime['time_raw'] == None):
+            return None
+              
+        if(dbTime['time_raw'] == 0):
+            return None
+            
+        if(dbTime['cell'] == 1):            
+            return None                                        
+            
+        '''ORDER IN ALL RUN'''
+        
+        query_order = \
+            "SELECT count(*) from (" +\
+                " SELECT COUNT(times.id) FROM times" +\
+                " WHERE (times.time_raw <= " + str(dbTime['time_raw']) + ")"+\
+                " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
+                " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                " AND (times.time_raw != 0 )"+\
+                " AND (times.cell != 1 )"+\
+                " GROUP BY user_id"+\
+                " HAVING count(*) >= "+str(lap)+\
+            ")"
+                
+        print "new count:", query_order                     
+                                                       
+        try:
+            res_order = self.db.query(query_order).fetchone()[0]
+            res_order = res_order + 1        
+        except:
+            res_order = None
+            print "0"
+        
+        
+
+        return res_order                 
 
     
 class TimesLap():
-    def __init__(self, db):                          
+    def __init__(self, db, datastore):                          
         self.db = db
+        self.datastore = datastore
         
     def Get(self, dbTime):        
+        
+        if(self.datastore.Get("additinal_info") == False):
+            return None
         
         if(dbTime['time_raw'] == None):
             return None;
@@ -206,15 +250,15 @@ class TimesLap():
             return None
                     
         if(dbTime['time_raw'] == 0):
-            return None
+            return None        
 
         '''v čase může být user_id pro které neexistuje uživatel => lap =0'''        
         #if(self.TimesModel.params.tabUser.getDbUserParIdOrTagId(time["user_id"]) == None):           
-        #    return 0 
-        
+        #    return 0         
+    
         '''count of times - same race, same user, better time, exclude start time'''
-        query = "\
-                SELECT COUNT(*) FROM times" +\
+        query = \
+                "SELECT COUNT(*) FROM times" +\
                     " WHERE (times.run_id ==" + str(dbTime['run_id'])+ ")"+\
                     " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
                     " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\

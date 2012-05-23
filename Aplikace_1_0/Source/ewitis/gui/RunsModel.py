@@ -64,8 +64,7 @@ class RunsModel(myModel.myModel):
         
         #create MODEL and his structure
         myModel.myModel.__init__(self, params)
-        
-        self.update() 
+                 
                 
     #setting flags for this model        
     #first collumn is NOT editable
@@ -102,10 +101,10 @@ class RunsModel(myModel.myModel):
         
 
 class RunsProxyModel(myModel.myProxyModel):
-    def __init__(self):                        
+    def __init__(self, params):                        
         
         #create PROXYMODEL
-        myModel.myProxyModel.__init__(self)        
+        myModel.myProxyModel.__init__(self, params)        
         
               
         
@@ -113,13 +112,7 @@ class RunsProxyModel(myModel.myProxyModel):
 # view <- proxymodel <- model 
 class Runs(myModel.myTable):
     def  __init__(self, params):                        
-                
-        #create MODEL
-        #self.model = RunsModel(params)        
-        
-        #create PROXY MODEL        
-        #self.proxy_model = RunsProxyModel()
-                
+                                      
         myModel.myTable.__init__(self, params)        
                        
         #set default sorting
@@ -130,10 +123,10 @@ class Runs(myModel.myTable):
         self.system = 0                       
                                
         #set selection to first row
-        self.params.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)
+        self.params.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)                
             
-        #update table times (use selection to define run_id)        
-        self.updateTimes()
+        #update table times (use selection to define run_id)                
+        #self.updateTimes()
         
     
     #=======================================================================

@@ -1,4 +1,4 @@
-#Tue Apr 24 22:53:57 CEST 2012
+#Thu May 03 20:57:00 CEST 2012
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -16,6 +16,7 @@ encoding//libs/comm/serialprotocol.py=utf-8
 encoding//libs/datastore/datastore.py=utf-8
 encoding//libs/db/db_json.py=utf-8
 encoding//libs/db_csv/db_csv.py=utf-8
+encoding//libs/html/html.py=utf-8
 encoding//libs/log/log.py=utf-8
 encoding//libs/sqlite/sqlite.py=utf-8
 encoding//libs/utils/utils.py=utf-8

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v0_1.ui'
 #
-# Created: Thu Apr 12 21:39:38 2012
+# Created: Thu May 03 20:47:22 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -248,7 +248,7 @@ class Ui_MainWindow(object):
         self.TimesDelete.setIconSize(QtCore.QSize(24, 24))
         self.TimesDelete.setObjectName(_fromUtf8("TimesDelete"))
         self.horizontalLayout_3.addWidget(self.TimesDelete)
-        self.gridLayout.addWidget(self.groupBox_3, 0, 10, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_3, 0, 11, 1, 1)
         self.TimesProxyView = QtGui.QTreeView(self.tabRuns_Times)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(3)
@@ -256,7 +256,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.TimesProxyView.sizePolicy().hasHeightForWidth())
         self.TimesProxyView.setSizePolicy(sizePolicy)
         self.TimesProxyView.setObjectName(_fromUtf8("TimesProxyView"))
-        self.gridLayout.addWidget(self.TimesProxyView, 1, 5, 1, 6)
+        self.gridLayout.addWidget(self.TimesProxyView, 1, 5, 1, 7)
         self.timesShowZero = QtGui.QCheckBox(self.tabRuns_Times)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -271,11 +271,20 @@ class Ui_MainWindow(object):
         self.timesCounter.setText(QtGui.QApplication.translate("MainWindow", "0/0", None, QtGui.QApplication.UnicodeUTF8))
         self.timesCounter.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.timesCounter.setObjectName(_fromUtf8("timesCounter"))
-        self.gridLayout.addWidget(self.timesCounter, 2, 10, 1, 1)
+        self.gridLayout.addWidget(self.timesCounter, 2, 11, 1, 1)
         spacerItem = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 0, 4, 1, 1)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem1, 0, 7, 1, 1)
+        self.timesAdditionalInfo = QtGui.QCheckBox(self.tabRuns_Times)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.timesAdditionalInfo.sizePolicy().hasHeightForWidth())
+        self.timesAdditionalInfo.setSizePolicy(sizePolicy)
+        self.timesAdditionalInfo.setText(QtGui.QApplication.translate("MainWindow", "Aditinal Info", None, QtGui.QApplication.UnicodeUTF8))
+        self.timesAdditionalInfo.setObjectName(_fromUtf8("timesAdditionalInfo"))
+        self.gridLayout.addWidget(self.timesAdditionalInfo, 0, 10, 1, 1)
         self.tabWidget.addTab(self.tabRuns_Times, _fromUtf8(""))
         self.tabUsers = QtGui.QWidget()
         self.tabUsers.setObjectName(_fromUtf8("tabUsers"))
@@ -1127,6 +1136,7 @@ class Ui_MainWindow(object):
         self.menuActions.addAction(self.aRefreshMode)
         self.menuActions.addAction(self.aLockMode)
         self.menuActions.addAction(self.aDirectExportCategories)
+        self.menuActions.addAction(self.aDirectWwwExport)
         self.menubar.addAction(self.menuDatabase.menuAction())
         self.menubar.addAction(self.menuSettings.menuAction())
         self.menubar.addAction(self.menuActions.menuAction())
