@@ -23,6 +23,7 @@ import libs.datastore.datastore as datastore
 import ewitis.gui.UiAccesories as UiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import *
 import libs.utils.utils as utils 
+from libs.myqt import gui
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
     #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
@@ -50,7 +51,12 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             self.db = sqlite.sqlite_db("db/test_db.sqlite")                
             self.db.connect()
         except:
-            print "E: GUI: Database"                 
+            print "E: GUI: Database"
+        
+        #=======================================================================
+        # GUI
+        #=======================================================================
+        self.myQFileDialog = gui.myDialog(self.datastore)                 
         
         
         #self.GuiData = GuiData.GuiData()
@@ -78,7 +84,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         
         #doplneni 
-        self.T.params.tabRuns = self.R
+        self.T.params.tabRuns = self.R        
         
         '''Update'''
         self.R.update()

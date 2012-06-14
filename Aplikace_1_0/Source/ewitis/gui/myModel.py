@@ -34,6 +34,8 @@ class myParameters():
         self.db = source.db                        
         
         self.datastore = source.datastore
+        
+        self.myQFileDialog = source.myQFileDialog
            
 class myModel(QtGui.QStandardItemModel):
     """
@@ -552,10 +554,11 @@ class myTable():
         
     # IMPORT
     # CSV FILE => DB               
-    def sImport2(self):                                   
+    def sImport(self):                                   
                                    
         #gui dialog -> get filename
-        filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")
         
         #cancel or close window
         if(filename == ""):                 
@@ -577,11 +580,13 @@ class myTable():
             self.sImportDialog(state)
         except sqlite.CSV_FILE_Error:
             self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
-            
-    def sImport(self):                                   
+
+    '''toDo: casem smazat, pouziva se db.importCSV'''            
+    def sImport2(self):                                   
                                            
         '''gui dialog'''    
-        filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")
+        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
         
         '''cancel or close window'''
         if(filename == ""):                 
@@ -653,7 +658,8 @@ class myTable():
         
         print source
         #get filename, gui dialog 
-        filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","export/csv/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","export/csv/table_"+self.params.name+".csv","Csv Files (*.csv)")
+        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
         if(filename == ""):
             return              
         
@@ -673,7 +679,8 @@ class myTable():
     def sExport_www(self): 
         
         #get filename, gui dialog 
-        filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","export/www/table_"+self.params.name+".htm","HTML Files (*.htm; *.html)")                
+        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","export/www/table_"+self.params.name+".htm","HTML Files (*.htm; *.html)")
+        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
         if(filename == ""):
             return              
         

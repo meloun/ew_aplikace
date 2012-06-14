@@ -49,12 +49,13 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": 38400}
                                },
 
-        "active_tab"         : {"name"     : "active_tab",
-                                "GET_SET"  : {"value":0}  
-                               },
+        "active_tab"         : {"GET_SET"  : {"value":0}},
+        "show_alltimes"      : {"GET_SET"  : {"value": True}},
+        "show_zerotimes"     : {"GET_SET"  : {"value": True}},
+        "show_starttimes"    : {"GET_SET"  : {"value": True}},
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Sport Bike Marathon 2012"}  
+                                "GET_SET"  : {"value":u"Hustá Rubárna 2012"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":True}  
@@ -62,8 +63,17 @@ DEF_DATA = {
         "additinal_info"     : {"name"     : "additinal info",
                                 "GET_SET"  : {"value": True}  
                                },
-        "user_actions"        : {"name"     : "user_actions",
+        "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value":True}  
+                               },
+        "dir_import_csv"     : {"name"     : "dir_import_csv",
+                                "GET_SET"  : {"value":"import/csv/"}  
+                               },
+        "dir_export_csv"     : {"name"     : "dir_export_csv",
+                                "GET_SET"  : {"value":"export/csv/"}  
+                               },
+        "dir_export_www"     : {"name"     : "dir_export_www",
+                                "GET_SET"  : {"value":"export/www/"}  
                                },
             
         

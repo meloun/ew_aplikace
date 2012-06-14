@@ -84,6 +84,10 @@ class Categories(myModel.myTable):
         
     def getDbCategoryFirst(self):        
         return self.params.db.getFirst("categories")
+    def getTabCategoryFirst(self):                  
+        dbCategory = self.getDbCategoryFirst()        
+        tabCategory = self.model.db2tableRow(dbCategory)                                   
+        return tabCategory  
         
     def getDbCategoryParName(self, name):
                  

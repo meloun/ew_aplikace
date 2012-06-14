@@ -159,7 +159,7 @@ class TimesOrder():
                         " WHERE (times.time_raw < " +str(dbTime['time_raw'])+ ")"+\
                         " AND (times.time_raw != 0 )"+\
                         " AND (times.cell != 1 )"+\
-                        " AND (categories.name=\"" +(category)+ "\")"+\
+                        " AND (categories.name=\"" +str(category)+ "\")"+\
                         " AND (times.run_id=\"" +str(dbTime['run_id'])+ "\")"
         
         else:

@@ -233,47 +233,47 @@ class sqlite_db(object):
         self.db.commit()        
         
         
-#    #=============
-#    # IMPORT
-#    #=============
-#    # exception: CSV_FILE_Error (check the first line => header)
-#    #
-#    def importCsv(self, tablename, filename, keys):
-#                                
-#        #create DB        
-#        aux_csv = Db_csv.Db_csv(filename)
-#        rows =  aux_csv.load()
-#        
-#        #counters
-#        state = {'ko':0, 'ok':0}                        
-#        
-#        #wrong file format?
-#        if (rows==[]):
-#            raise CSV_FILE_Error
-#        
-#        #header, check first X keys
-#        header = rows.pop(0)
-#        print "header> ", header
-#        print "keys> ",keys
-#        for i in range(4): 
-#            if not(header[i] in keys):
-#                raise CSV_FILE_Error
-#            
-#        for row in rows:                                                              
-#                                                      
-#            #ADD USER
-#            try:
-#                print "import row", dict(zip(keys, row))                              
-#                #dict(zip()) - synchronize lists to dictionary 
-#                self.insert_from_dict(tablename, dict(zip(keys, row)), commit = False)                      
-#                #self.insert_from_lists(tablename, keys, row, commit = False) 
-#                state['ok'] += 1            
-#            except:
-#                state['ko'] += 1 #increment errors for error message
-#
-#        self.db.commit()                        
-#        
-#        return state             
+    #=============
+    # IMPORT
+    #=============
+    # exception: CSV_FILE_Error (check the first line => header)
+    #
+    def importCsv(self, tablename, filename, keys):
+                                
+        #create DB        
+        aux_csv = Db_csv.Db_csv(filename)
+        rows =  aux_csv.load()
+        
+        #counters
+        state = {'ko':0, 'ok':0}                        
+        
+        #wrong file format?
+        if (rows==[]):
+            raise CSV_FILE_Error
+        
+        #header, check first X keys
+        header = rows.pop(0)
+        print "header> ", header
+        print "keys> ",keys
+        for i in range(3): 
+            if not(header[i] in keys):
+                raise CSV_FILE_Error
+            
+        for row in rows:                                                              
+                                                      
+            #ADD USER
+            try:
+                print "import row", dict(zip(keys, row))                              
+                #dict(zip()) - synchronize lists to dictionary 
+                self.insert_from_dict(tablename, dict(zip(keys, row)), commit = False)                      
+                #self.insert_from_lists(tablename, keys, row, commit = False) 
+                state['ok'] += 1            
+            except:
+                state['ko'] += 1 #increment errors for error message
+
+        self.db.commit()                        
+        
+        return state             
         
 if __name__ == "__main__":
     import json

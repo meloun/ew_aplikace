@@ -4,6 +4,7 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui, Qt
+from libs.myqt import gui
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
 import libs.db_csv.db_csv as Db_csv
@@ -13,7 +14,13 @@ import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
 import time
 
-
+'''
+F5 - refresh
+F6 - export table
+F7 - export WWW
+F11 - export categories 
+F12 - direct WWW export
+'''
 class TimesParameters(myModel.myParameters):
     def __init__(self, source):
                 
@@ -213,6 +220,16 @@ class TimesModel(myModel.myModel):
 
         '''LAP'''        
         tabTime['lap'] = self.lap.Get(dbTime)
+        
+        '''GAP'''
+        #print start_time
+        #try:         
+        #dbRow = self.params.db.getParId("Times", start_time['id']+1)
+        #print dbRow
+            #tabTime['gap'] = aux_rawtime - dbRow['time']
+        #except TypeError:
+        #    pass
+            
         
         #'''ORDER'''        
         #tabTime['order']  = self.order.Get2(tabTime, tabTime['lap'])                                         
@@ -462,8 +479,12 @@ class Times(myModel.myTable):
                 if((len(exportRow))<=collumn[col_nr_export]):
                     exportRow = exportRow + ([''] * (collumn[col_nr_export] - len(exportRow)+1))
                     exportHeader = exportHeader + ([''] * (collumn[col_nr_export] - len(exportHeader)+1))                                
-                    
-                #add collumn to export                
+
+                '''restrict'''
+                if(collumn_key == 'order_kat'):
+                    tabRow[collumn_key] = tabRow[collumn_key]+'.'
+                                        
+                '''add collumn to export'''                
                 exportRow[collumn[col_nr_export]] = tabRow[collumn_key]
                 exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]
                 #print exportRow[collumn[col_nr_export]], type(exportRow[collumn[col_nr_export]])                               
@@ -500,7 +521,8 @@ class Times(myModel.myTable):
         title = "Table '"+self.params.name + "' CSV Export Categories" 
         
         #get filename, gui dialog 
-        dirname = QtGui.QFileDialog.getExistingDirectory(self.params.gui['view'], title)                
+        #dirname = QtGui.QFileDialog.getExistingDirectory(self.params.gui['view'], title)
+        dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)                 
         if(dirname == ""):
             return              
 
@@ -536,31 +558,45 @@ class Times(myModel.myTable):
                     #exportHeader = self.tabRow2exportRow(tabRow)[0]                                             
             
             '''natvrdo pred girem'''
-            exportHeader = ["pořadí", "číslo", "jméno", "klub", "ročník", "čas"]    
+            #exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas", "Ztráta"]    
+            exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]    
             
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = [self.params.datastore.Get('race_name'), dbCategory['name'], time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
-                exportRows.insert(0, exportHeader)
+                first_header = ["Kategorie:"+dbCategory['name'],"","","","",dbCategory['description']]
+                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),])
+                exportRows.insert(1, first_header)
+                exportRows.insert(2, exportHeader)
                 aux_csv = Db_csv.Db_csv(dirname+"/"+dbCategory['name']+".csv") #create csv class
-                aux_csv.save(exportRows, keys = first_header)                                                                                             
+                #aux_csv.save(exportRows, keys = first_header)
+                try:                                                                                             
+                    aux_csv.save(exportRows)
+                except IOError:
+                    self.params.showmessage(self.params.name+" Export warning", "File "+dbCategory['name']+".csv"+"\nPermission denied!")
+                                                                                                                 
         return                                                                                                                   
                 
 
-    def sExport(self):        
-        myindex = self.params.gui['view'].model().index(2,2)
-        print myindex.isValid()
-        self.params.gui['view'].edit(myindex) 
-        return
-                
+    def sExport(self):                      
+        import os        
         
         col_nr_export = 'col_nr_export_raw'
         
-        #get filename, gui dialog 
-        filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","export/csv/table_"+self.params.name+".csv","Csv Files (*.csv)")                
+        #get filename, gui dialog        
+        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV",self.params.datastore.Get("dir_export_csv")+"/"+self.params.name+".csv","Csv Files (*.csv)")
+        #filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV",self.params.datastore.Get("dir_export_csv")+"/"+self.params.name+".csv","Csv Files (*.csv)")
+        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
+                         
+        #print "FF1",filename
         if(filename == ""):
-            return               
+            return
+        #CurrentDir = QtCore.QDir()
+        #self.params.datastore.Set("dir_export_csv", os.path.dirname(str(CurrentDir.absoluteFilePath(filename))))
+        #print "FF2",filename
+
+                       
 
         title = "Table '"+self.params.name + "' CSV Export Categories" 
         exportRows = []        
