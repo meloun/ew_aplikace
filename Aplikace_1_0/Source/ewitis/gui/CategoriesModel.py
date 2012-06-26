@@ -102,7 +102,22 @@ class Categories(myModel.myTable):
         
         tabCategory = self.model.db2tableRow(dbCategory)           
                         
-        return tabCategory        
+        return tabCategory
+    
+    def getDbCategoriesParGroupLabel(self, group_label):
+                 
+        dbCategories = self.params.db.getParX("categories", group_label, "1")        
+                        
+        return dbCategories
+    
+    def getTabCategoryParName(self, name):
+
+        print type(name)                 
+        dbCategory = self.getDbCategoryParName(name)
+        
+        tabCategory = self.model.db2tableRow(dbCategory)           
+                        
+        return tabCategory          
                         
 
                             

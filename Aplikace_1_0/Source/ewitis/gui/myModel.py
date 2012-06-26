@@ -223,7 +223,9 @@ class myModel(QtGui.QStandardItemModel):
         nr_column = 0
         row = {}                
                    
-        for key in self.header():                                                                
+        for key in self.header():
+            print "nr_row",nr_row
+            print "nr_column",nr_column                                                                  
             row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
@@ -554,7 +556,7 @@ class myTable():
         
     # IMPORT
     # CSV FILE => DB               
-    def sImport(self):                                   
+    def sImport2(self):                                   
                                    
         #gui dialog -> get filename
         #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
@@ -581,12 +583,12 @@ class myTable():
         except sqlite.CSV_FILE_Error:
             self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
 
-    '''toDo: casem smazat, pouziva se db.importCSV'''            
-    def sImport2(self):                                   
+    '''ten druhy import nefunguje pro USER, nekonvertuje category na category_id'''            
+    def sImport(self):                                   
                                            
         '''gui dialog'''    
         #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")
-        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
         
         '''cancel or close window'''
         if(filename == ""):                 

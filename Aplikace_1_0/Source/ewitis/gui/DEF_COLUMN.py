@@ -133,13 +133,54 @@ CATEGORIES['database'] = {
                            "name"          :     {"index": 1,  "name": "name",         "col_nr_export": None},                                                                 
                            "description"   :     {"index": 2,  "name": "description",  "col_nr_export": None},
                            "start_nr"      :     {"index": 3,  "name": "start_nr",     "col_nr_export": None},
+                           "g1"            :     {"index": 4,  "name": "g1",           "col_nr_export": None},
+                           "g2"            :     {"index": 5,  "name": "g2",           "col_nr_export": None},
+                           "g3"            :     {"index": 6,  "name": "g3",           "col_nr_export": None},
+                           "g4"            :     {"index": 7,  "name": "g4",           "col_nr_export": None},
+                           "g5"            :     {"index": 8,  "name": "g5",           "col_nr_export": None},
+                           "g6"            :     {"index": 9,  "name": "g6",           "col_nr_export": None},
+                           "g7"            :     {"index": 10, "name": "g7",           "col_nr_export": None},
+                           "g8"            :     {"index": 11, "name": "g8",           "col_nr_export": None},
+                           "g9"            :     {"index": 12, "name": "g9",           "col_nr_export": None},
+                           "g10"           :     {"index": 13, "name": "g10",          "col_nr_export": None},
                          }
 """ table collumn for times, mode race """
 CATEGORIES['table'] = {
                         "id"          :     {"index": 0,  "name": "id",           "width":30},
-                        "name"        :     {"index": 1,  "name": "name",         "width":300},
-                        "description" :     {"index": 2,  "name": "description",  "width":300},                                                                
-                        "start_nr"    :     {"index": 3,  "name": "start_nr",     "width":300},
+                        "name"        :     {"index": 1,  "name": "name",         "width":220},
+                        "description" :     {"index": 2,  "name": "description",  "width":400},                                                                
+                        "start_nr"    :     {"index": 3,  "name": "start_nr",     "width":100},
+                        "g1"          :     {"index": 4,  "name": "g1",           "width":30},
+                        "g2"          :     {"index": 5,  "name": "g2",           "width":30},
+                        "g3"          :     {"index": 6,  "name": "g3",           "width":30},
+                        "g4"          :     {"index": 7,  "name": "g4",           "width":30},
+                        "g5"          :     {"index": 8,  "name": "g5",           "width":30},
+                        "g6"          :     {"index": 9,  "name": "g6",           "width":30},
+                        "g7"          :     {"index": 10,  "name": "g7",          "width":30},
+                        "g8"          :     {"index": 11,  "name": "g8",          "width":30},
+                        "g9"          :     {"index": 12,  "name": "g9",          "width":30},
+                        "g10"         :     {"index": 13,  "name": "g10",         "width":30},
+                        #"#"           :     {"index": 14,  "name": "#",           "width":0},
+                      }  
+"""
+CATEGORY GROUPS
+"""
+CGROUPS = {}
+
+
+""" database column for times """
+CGROUPS['database'] = {
+                           "id"            :     {"index": 0,  "name": "id",           "col_nr_export": None},
+                           "label"         :     {"index": 1,  "name": "label",         "col_nr_export": None},                                                                 
+                           "name"          :     {"index": 2,  "name": "name",         "col_nr_export": None},                                                                 
+                           "description"   :     {"index": 3,  "name": "description",  "col_nr_export": None},                           
+                         }
+""" table collumn for times, mode race """
+CGROUPS['table'] = {
+                        "id"          :     {"index": 0,  "name": "id",           "width":30},
+                        "label"       :     {"index": 1,  "name": "label",        "width":300},
+                        "name"        :     {"index": 2,  "name": "name",         "width":300},
+                        "description" :     {"index": 3,  "name": "description",  "width":300},                                                                                        
                       }  
 
 """

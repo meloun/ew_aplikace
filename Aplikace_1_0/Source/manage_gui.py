@@ -16,6 +16,7 @@ import ewitis.gui.RunsModel as RunsModel
 import ewitis.gui.TimesModel as TimesModel
 import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.CategoriesModel as CategoriesModel
+import ewitis.gui.CGroupsModel as CGroupsModel
 import ewitis.gui.TagsModel as TagsModel
 import libs.sqlite.sqlite as sqlite
 import ewitis.data.DEF_DATA as DEF_DATA
@@ -76,6 +77,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
         self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
+        self.CG = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters(self))
         self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))
@@ -197,7 +199,9 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         elif(nr==2):            
             self.C.update()
         elif(nr==3):            
-            self.tableTags.update()                    
+            self.CG.update()                     
+        elif(nr==4):            
+            self.tableTags.update()
 
     def uiRestrict(self):
         pass

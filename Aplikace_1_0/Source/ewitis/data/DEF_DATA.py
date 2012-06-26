@@ -55,7 +55,7 @@ DEF_DATA = {
         "show_starttimes"    : {"GET_SET"  : {"value": True}},
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Hustá Rubárna 2012"}  
+                                "GET_SET"  : {"value":u"Blizák 2012"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":True}  

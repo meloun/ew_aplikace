@@ -30,7 +30,8 @@ class TimesParameters(myModel.myParameters):
         
         #TABLE
         self.tabUser = source.U
-        self.tabCategories = source.C 
+        self.tabCategories = source.C
+        self.tabCGroups = source.CG 
                 
         
         #=======================================================================
@@ -222,6 +223,7 @@ class TimesModel(myModel.myModel):
         tabTime['lap'] = self.lap.Get(dbTime)
         
         '''GAP'''
+        tabTime['gap'] = ""
         #print start_time
         #try:         
         #dbRow = self.params.db.getParId("Times", start_time['id']+1)
@@ -240,6 +242,7 @@ class TimesModel(myModel.myModel):
                 
         if(self.params.datastore.Get("user_actions")):                              
         
+            print "radek",item.row()
             tabRow = self.getTableRow(item.row())
                     
             if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
@@ -536,16 +539,21 @@ class Times(myModel.myTable):
             #exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
             #print "exportHeader",exportHeader
             
-        '''natvrdo pred girem'''
-        exportHeader = ["pořadí", "číslo", "jméno", "klub", "ročník", "čas"]  
+        '''natvrdo pred girem'''        
+        exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]  
             
         '''write to csv file'''
         if(exportRows != []):
             #print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
-            first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
-            exportRows.insert(0, exportHeader)
+            #first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+            exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
+            exportRows.insert(1, ["","","","","",""])
+            exportRows.insert(2, exportHeader)
+            #import unicodedata
+            #filename = filename = unicodedata.normalize('NFD',self.params.datastore.Get('race_name'))
+            #aux_csv = Db_csv.Db_csv(dirname+"/"+filename+".csv") #create csv class
             aux_csv = Db_csv.Db_csv(dirname+"/"+self.params.datastore.Get('race_name')+".csv") #create csv class
-            aux_csv.save(exportRows, keys = first_header)
+            aux_csv.save(exportRows)
                                              
         '''export categories'''
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
@@ -564,18 +572,29 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie:"+dbCategory['name'],"","","","",dbCategory['description']]
+                first_header = ["Kategorie: "+dbCategory['name'],"","","","",dbCategory['description']]
                 #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),])
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)
+                #import unicodedata
+                #filename = unicodedata.normalize('NFD',dbCategory['name'])                
+                #aux_csv = Db_csv.Db_csv(dirname+"/"+filename+".csv") #create csv class
                 aux_csv = Db_csv.Db_csv(dirname+"/"+dbCategory['name']+".csv") #create csv class
                 #aux_csv.save(exportRows, keys = first_header)
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+dbCategory['name']+".csv"+"\nPermission denied!")
-                                                                                                                 
+                    
+        '''export groups'''
+        cgroups = self.params.tabCGroups.getDbRows()
+        
+        for cgroup in cgroups:
+            print "cgroup", cgroup
+            categories = self.params.tabCategories.getDbCategoriesParGroupLabel(cgroup['label'])
+            for category in categories:
+                print "cg", category
         return                                                                                                                   
                 
 

@@ -79,7 +79,8 @@ class UsersModel(myModel.myModel):
         user = myModel.myModel.getDefaultTableRow(self)                
         user['nr'] = 0
         user['name'] = "unknown"
-        user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']    
+        #user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
+        user['category'] = self.params.tabCategories.getDbCategoryFirst()['name']       
         return user 
     
     #===============================================================

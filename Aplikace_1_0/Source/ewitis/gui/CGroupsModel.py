@@ -8,18 +8,18 @@ import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
       
-class TagsParameters(myModel.myParameters):
+class CGroupsParameters(myModel.myParameters):
        
     def __init__(self, source):
                                 
         #table and db table name
-        self.name = "Tags"  
+        self.name = "CGroups"  
         
         #=======================================================================
         # KEYS DEFINITION
         #======================================================================= 
-        self.DB_COLLUMN_DEF = DEF_COLUMN.TAGS['database']
-        self.TABLE_COLLUMN_DEF = DEF_COLUMN.TAGS['table']
+        self.DB_COLLUMN_DEF = DEF_COLUMN.CGROUPS['database']
+        self.TABLE_COLLUMN_DEF = DEF_COLUMN.CGROUPS['table']
                 
         #create MODEL and his structure
         myModel.myParameters.__init__(self, source)                                                                                            
@@ -29,31 +29,31 @@ class TagsParameters(myModel.myParameters):
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.TagsProxyView        
+        self.gui['view'] = source.ui.CGroupsProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.TagsFilterLineEdit
-        self.gui['filterclear'] = source.ui.TagsFilterClear
+        self.gui['filter'] = source.ui.CGroupsFilterLineEdit
+        self.gui['filterclear'] = source.ui.CGroupsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.TagsAdd
-        self.gui['remove'] =  source.ui.TagsRemove
-        self.gui['export'] = source.ui.TagsExport
+        self.gui['add'] = source.ui.CGroupsAdd
+        self.gui['remove'] =  source.ui.CGroupsRemove
+        self.gui['export'] = source.ui.CGroupsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.TagsImport 
-        self.gui['delete'] = source.ui.TagsDelete
+        self.gui['import'] = source.ui.CGroupsImport 
+        self.gui['delete'] = source.ui.CGroupsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.TagsCounter
+        self.gui['counter'] = source.ui.CGroupsCounter
         
         #=======================================================================
         # classes
         #=======================================================================        
-        self.classModel = TagsModel                              
-        self.classProxyModel = TagsProxyModel
+        self.classModel = CGroupsModel                              
+        self.classProxyModel = CGroupsProxyModel
                 
 
-class TagsModel(myModel.myModel):
+class CGroupsModel(myModel.myModel):
     def __init__(self, params):                        
         
         #create MODEL and his structure
@@ -62,12 +62,12 @@ class TagsModel(myModel.myModel):
 
                 
     def getDefaultTableRow(self): 
-        category = myModel.myModel.getDefaultTableRow(self)                
-        category['name'] = "unknown"        
-        category['start_nr'] = 0
-        return category 
+        cgroup = myModel.myModel.getDefaultTableRow(self)                
+        cgroup['name'] = "unknown"        
+        cgroup['label'] = g0
+        return cgroup 
                     
-class TagsProxyModel(myModel.myProxyModel):
+class CGroupsProxyModel(myModel.myProxyModel):
     def __init__(self, params):                        
         
         #default proxy-model constructor
@@ -75,46 +75,24 @@ class TagsProxyModel(myModel.myProxyModel):
         
 
 # view <- proxymodel <- model 
-class Tags(myModel.myTable):
+class CGroups(myModel.myTable):
     def  __init__(self, params):                                             
          
         #default table constructor
         myModel.myTable.__init__(self, params)
         
-    def getDbTagParTagId(self, tag_id):
+    def getDbCGroupParLabel(self, label):
                  
-        dbTag = self.params.db.getParX("tags", "tag_id", tag_id).fetchone()        
+        dbCGroup = self.params.db.getParX("CGroups", "label", label).fetchone()        
                         
-        return dbTag   
-    
-    def getDbTagParUserNr(self, user_nr):
-                 
-        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
-                        
-        return dbTag
-    
-    def getTabTagParUserNr(self, user_nr):
+        return dbCGroup   
+        
+    def getTabCGrouptParLabel(self, label):
                  
         
-        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
+        dbCGroup = getDbCGroupParLabel(label)        
                      
-        tabTag = self.model.db2tableRow(dbTag)   
+        tabCGroup = self.model.db2tableRow(dbCGroup)   
                                 
-        return tabTag       
+        return tabCGroup       
                         
-
-                            
-
-
-        
-       
-
-
-        
-        
-            
-            
-
-        
-        
-    
