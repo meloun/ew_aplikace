@@ -34,8 +34,10 @@ def callback(command, data):
         aux_time['error'], aux_time['state'], aux_time['id'],  aux_time['run_id'], \
         aux_time['user_id'], aux_time['cell'],aux_time['time_raw'], = struct.unpack("<HBIHIBI", data)
         
+#        if(aux_time['cell'] != 1):
+#            aux_time['time_raw'] = aux_time['time_raw'] + 255800
         #add data
-        aux_time['time'] = utils.time_to_string(aux_time['time_raw'])        
+        aux_time['time'] = None#utils.time_to_string(aux_time['time_raw'])        
                                                         
                        
         return aux_time

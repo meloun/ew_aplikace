@@ -53,7 +53,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
             self.db.connect()
         except:
             print "E: GUI: Database"
-        
+                        
         #=======================================================================
         # GUI
         #=======================================================================

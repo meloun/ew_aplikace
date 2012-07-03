@@ -93,7 +93,7 @@ class RunsModel(myModel.myModel):
                                 
         return run
     
-    def table2dbRow(self, run_table): 
+    def table2dbRow(self, run_table, item): 
         run_db = {"id" : run_table['id'], "date" : run_table['date'], "description" :  run_table['description']}                                                                       
         return run_db
     

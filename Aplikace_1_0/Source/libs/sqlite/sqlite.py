@@ -66,10 +66,7 @@ class sqlite_db(object):
         #print "..sql2:",time.clock(), query
                         
         return last_result
-    
-#    def escape(self, var):
-#        if(type(var) == )
-    
+       
     def getCount(self, tablename):
         query = "SELECT COUNT(*) from " + tablename
         res = self.query(query)
@@ -136,6 +133,8 @@ class sqlite_db(object):
         
         '''sestaveni a provedeni dotazu'''
         query = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
+        query = query.replace('\'None\'', 'Null')
+        #print "qq2", query
         
         res = self.query(query)
         
@@ -164,7 +163,7 @@ class sqlite_db(object):
         '''sestaveni a provedeni dotazu'''
         query = u"replace into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         res = self.db.query(query)
-        self.db.commit()
+        #self.db.commit()
         return res
     
     
@@ -192,7 +191,7 @@ class sqlite_db(object):
             
         return res
     
-    def update_from_dict(self, tablename, dict):                        
+    def update_from_dict(self, tablename, dict, commit = True):                        
     
         keys = dict.keys()
         values = dict.values()
@@ -200,16 +199,19 @@ class sqlite_db(object):
         res = ''                 
                            
         '''vytvoreni stringu pro dotaz, 
-        column1=value, column2=value2,... '''                                
-        mystring = u",".join([u" "+unicode(k)+u"='"+unicode(v)+u"'" for k,v in zip(keys, values)])                
+        column1=value, column2=value2,... '''                                        
+        mystring = u",".join([u" "+unicode(k)+u"='"+unicode(v)+u"'" for k,v in zip(keys, values)])
+                        
         
         #print "mystring", mystring
                 
         '''sestaveni a provedeni dotazu'''
-        query = u"update %s SET %s WHERE id = \"%s\"" % (tablename, mystring, dict['id'])                                
+        query = u"update %s SET %s WHERE id = \"%s\"" % (tablename, mystring, dict['id']) 
+        query = query.replace('\'None\'', 'Null')                                       
               
-        res = self.query(query)        
-        self.db.commit()            
+        res = self.query(query)
+        if commit:      
+            self.db.commit()            
         return res
         
 

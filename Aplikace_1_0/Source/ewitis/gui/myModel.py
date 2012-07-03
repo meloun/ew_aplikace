@@ -75,13 +75,13 @@ class myModel(QtGui.QStandardItemModel):
         """                          
         
         #user change, no auto update        
-        if(self.params.datastore.Get("user_actions")):                                                                        
+        if(self.params.datastore.Get("user_actions")):                                                                                    
                         
             #ziskat zmeneny radek, slovnik{}
             tabRow = self.getTableRow(item.row())                                                                                                  
             
             #prevest na databazovy radek, dbRow <- tableRow
-            dbRow = self.table2dbRow(tabRow)                                            
+            dbRow = self.table2dbRow(tabRow, item)                                            
                                         
             #exist row? 
             if (dbRow != None): 
@@ -153,7 +153,7 @@ class myModel(QtGui.QStandardItemModel):
         return tabRow
      
    
-    def table2dbRow(self, tabRow):
+    def table2dbRow(self, tabRow, item):
         """
         konverze TABLE radku do DATABASE radku       
         pokud existuje sloupec z tabulky i v databazi, zkopiruje se  
@@ -224,8 +224,8 @@ class myModel(QtGui.QStandardItemModel):
         row = {}                
                    
         for key in self.header():
-            print "nr_row",nr_row
-            print "nr_column",nr_column                                                                  
+            #print "nr_row",nr_row
+            #print "nr_column",nr_column                                                                  
             row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
@@ -288,17 +288,15 @@ class myModel(QtGui.QStandardItemModel):
                                                                  
         #pridat radky do modelu/tabulky
         for row in rows:            
-            
-            #print "START", row, time.time()
+                        
             #convert "db-row" to dict (in dict can be added record)
             row_dict = self.params.db.dict_factory(rows, row)                                    
             
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)            
                                                                                                                                                             
-            #add row to the table            
-            self.addRow(row_table)            
-                                                                    
+            #add row to the table             
+            self.addRow(row_table)                                                                                             
         self.params.datastore.Set("user_actions", True)                                                                          
             
 

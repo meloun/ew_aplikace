@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import Qt
+import unicodedata
+
 
 '''cconvert integer(time in ms) to string (HH:MM:SS:mSmS)'''
 def time_to_string(time):
@@ -30,6 +32,15 @@ def getUtf8String(item):
          
     return item
 
+def remove_accents(input_str):
+    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
+
+def get_filename(input_str):
+    filename = remove_accents(input_str)    
+    filename = filename.replace(' ', '_')        
+    return filename
 if __name__ == "__main__":
     import struct
     

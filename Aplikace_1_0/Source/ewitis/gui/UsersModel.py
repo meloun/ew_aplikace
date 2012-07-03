@@ -79,8 +79,9 @@ class UsersModel(myModel.myModel):
         user = myModel.myModel.getDefaultTableRow(self)                
         user['nr'] = 0
         user['name'] = "unknown"
-        #user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
-        user['category'] = self.params.tabCategories.getDbCategoryFirst()['name']       
+        user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
+        user['category_id'] = 0
+        user['id'] = 0                  
         return user 
     
     #===============================================================
@@ -99,7 +100,8 @@ class UsersModel(myModel.myModel):
         else:
             tabCategory = self.params.tabCategories.getTabRow(dbUser['category_id'])        
         
-        tabUser['category'] = tabCategory['name']                           
+        tabUser['category'] = tabCategory['name']
+                        
                                 
         return tabUser
     
@@ -110,7 +112,7 @@ class UsersModel(myModel.myModel):
     #===============================================================
     #GUI: "id", "nr", "name", "first_name", "category", "address"   
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
-    def table2dbRow(self, tabUser):                              
+    def table2dbRow(self, tabUser, item):                              
             
         #1to1 keys just copy
         dbUser = myModel.myModel.table2dbRow(self, tabUser)

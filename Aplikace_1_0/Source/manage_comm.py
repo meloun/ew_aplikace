@@ -157,8 +157,8 @@ class ManageComm(Thread):
                 '''save to database'''
                 #keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
                 #values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
-                keys = ["state","id", "run_id", "user_id", "cell", "time_raw"]
-                values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw']]
+                keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
+                values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
                 import pysqlite2 
                 try: 
                     #self.tableTimes.insert_from_lists(keys, values)

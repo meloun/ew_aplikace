@@ -96,7 +96,7 @@ class TimesModel(myModel.myModel):
         myModel.myModel.__init__(self, params)
                     
         #add utils function
-        self.utils = TimesUtils.TimesUtils(self)
+        #self.utils = TimesUtils.TimesUtils()
         
         #
         self.starts = TimesUtils.TimesStarts(self.params.db)
@@ -115,10 +115,7 @@ class TimesModel(myModel.myModel):
         else:
             self.run_id = 0 #no times for run_id = 0 
                                 
-                
-    def ssTimesShowAllChanged(self, state):
-        print "wrong"
-        
+                   
     #setting flags for this model
     #first collumn is NOT editable
     def flags(self, index): 
@@ -143,8 +140,7 @@ class TimesModel(myModel.myModel):
         """    
         ["id", "nr", "cell", "time", "name", "category", "address"]
         """
-        
-        #print "TIME DB2TABLEROW START", time.time()            
+                                    
         '''hide all zero time?'''
         if(self.showzero == False):
             if (int(dbTime["cell"])==1):                
@@ -155,17 +151,18 @@ class TimesModel(myModel.myModel):
          
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
-        '''toDo: proč neberu tabUSera rovnou?'''                                            
-        dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
-        if(dbUser == None):
-            dbUser = {}
-            dbUser['id'] = 0
-            dbUser['category_id'] = 0        
-        tabUser = self.params.tabUser.getTabRow(dbUser["id"])
-        #print "..2", time.time()
+        '''Test: vzal jsem rovnou tabusera, zda se to ze to chodi'''                                            
+        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])        
+#        dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
+#        if(dbUser == None):
+#            dbUser = {}
+#            dbUser['id'] = 0
+#            dbUser['category_id'] = 0        
+#        tabUser = self.params.tabUser.getTabRow(dbUser["id"])        
         
-        ''' get CATEGORY'''               
-        tabCategory =  self.params.tabCategories.getTabRow(dbUser['category_id'])                                
+        ''' get CATEGORY'''
+        #print "lkfj",dbUser                
+        tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
                                         
         ''' OTHER KEYS ''' 
         
@@ -181,25 +178,35 @@ class TimesModel(myModel.myModel):
         '''TIME
             dbtime 2 tabletime'''                                               
         
-        '''raw time'''
-        aux_rawtime = dbTime['time_raw']
+        '''raw time'''        
+        tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'])
+        
+        if(dbTime['time'] == None):
+            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
+                
+            '''get start-time'''        
+            try:
+                '''toDo: misto try catch, Get bude vracet None'''                                   
+                start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])                                
+            except:                         
+                print "E:neexistuje startime"
+                aux_rawtime = None
+                start_time = None
+                                    
+            '''odecteni startovaciho casu a ulozeni do db'''
+            dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+            self.params.db.update_from_dict(self.params.name, dbTime, commit = False) #commit v update()                
+                            
+            '''time = time_raw - starttime'''        
+            if tabTime['start_nr'] and start_time:
+                tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw']-start_time['time_raw'])                
+            else:
+                print "e: dbtime2tabtime"
+                tabTime['time'] = None
+                #aux_rawtime = None
+        else:                        
+            tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
 
-        '''get start-time for this run'''        
-        try:
-            '''toDo: misto try catch, Get bude vracet None'''                                   
-            start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])
-        except:                         
-            print "E:neexistuje startime"
-            aux_rawtime = None
-            start_time = None                
-                        
-        '''time = time_raw - starttime'''        
-        if tabTime['start_nr'] and start_time:
-            tabTime['time'] = self.utils.timeraw2timestring(aux_rawtime, start_time['time_raw'])
-        else:
-            print "e: dbtime2tabtime"
-            tabTime['time'] = None
-            aux_rawtime = None           
                 
         '''NAME'''        
         if(dbTime['cell'] == 1):
@@ -210,17 +217,16 @@ class TimesModel(myModel.myModel):
             tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']        
         
         '''CATEGORY'''                                                                                
-        tabTime['category'] = tabUser['category']                                                              
-                        
-        '''ORDER'''        
-        tabTime['order']  = self.order.Get(tabTime)
-                
-        '''ORDER IN CATEGORY'''        
-        #tabTime['order_kat'] = self.order.Get(dbTime, category=tabTime['category'])        
-        tabTime['order_kat'] = self.order.Get(dbTime, category=dbUser['category_id'])
+        tabTime['category'] = tabUser['category']                                                                                                                              
 
         '''LAP'''        
         tabTime['lap'] = self.lap.Get(dbTime)
+        
+        '''ORDER'''        
+        tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+        
+        '''ORDER IN CATEGORY'''                       
+        tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
         
         '''GAP'''
         tabTime['gap'] = ""
@@ -242,7 +248,7 @@ class TimesModel(myModel.myModel):
                 
         if(self.params.datastore.Get("user_actions")):                              
         
-            print "radek",item.row()
+            #print "radek",item.row()
             tabRow = self.getTableRow(item.row())
                     
             if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
@@ -266,7 +272,7 @@ class TimesModel(myModel.myModel):
         myModel.myModel.slot_ModelChanged(self, item)
 
                 
-    def table2dbRow(self, tabTime): 
+    def table2dbRow(self, tabTime, item): 
                                             
         #get selected id
         #try:                     
@@ -276,7 +282,7 @@ class TimesModel(myModel.myModel):
         #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
             
         #1to1 keys, just copy        
-        dbTime = myModel.myModel.table2dbRow(self, tabTime)
+        dbTime = myModel.myModel.table2dbRow(self, tabTime, item)
                 
         '''RUN_ID'''
         if(self.showall):
@@ -355,18 +361,25 @@ class TimesModel(myModel.myModel):
             '''toDo: nevracet string ale pravou hodnotu z getTableRow'''
             if(tabTime['time'] != None) and (tabTime['time'] != u''):
                 
-                ''' z categories vezmu start_nr a pak do start-times pro start-time
-                    při změně čísla se počítá se starou kategorii a časem, ale nevadí to'''                            
-                category = self.params.tabCategories.getDbCategoryParName(tabTime['category'])                
-                try:                    
-                    start_time = self.starts.Get(dbTime['run_id'], category['start_nr']) 
+                ''' z categories vezmu start_nr a pak jdu do start-times pro start-time'''                
+                tabUser = self.params.tabUser.getTabUserParNr(tabTime['nr'])                            
+                category = self.params.tabCategories.getDbCategoryParName(tabUser['category'])                
+                try:                                        
+                    start_time = self.starts.Get(dbTime['run_id'], category['start_nr'])                    
                 except TypeError:
                     '''žádný startovací čas => vezmi default (1.čas vůbec)'''                    
                     start_time = self.starts.GetFirst(dbTime['run_id']) 
                                 
                 '''table-time => db-time'''
                 try:
-                    dbTime['time_raw'] = self.utils.timestring2timeraw(tabTime['time'], start_time['time_raw'])
+                                        
+                    if(item.column() == self.params.TABLE_COLLUMN_DEF['time']['index']):
+                        '''změna času=>změna času v db'''             
+                        dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
+                    
+                    '''počítaný čas se vždy maže a spočte se při updatu znova'''    
+                    dbTime['time'] = None
+                    
                 except TimesUtils.TimeFormat_Error:
                     self.params.showmessage(self.params.name+" Update error", "Wrong Time format!")                
                 
@@ -406,7 +419,8 @@ class TimesModel(myModel.myModel):
             myModel.myModel.update(self, conditions = conditions, operation = 'OR')            
         else:            
             #update for selected run        
-            myModel.myModel.update(self, "run_id", self.run_id)            
+            myModel.myModel.update(self, "run_id", self.run_id)
+        self.params.db.commit()            
                                                                                        
 
 class TimesProxyModel(myModel.myProxyModel):
@@ -484,7 +498,7 @@ class Times(myModel.myTable):
                     exportHeader = exportHeader + ([''] * (collumn[col_nr_export] - len(exportHeader)+1))                                
 
                 '''restrict'''
-                if(collumn_key == 'order_kat'):
+                if(collumn_key == 'order_cat'):
                     tabRow[collumn_key] = tabRow[collumn_key]+'.'
                                         
                 '''add collumn to export'''                
@@ -580,7 +594,9 @@ class Times(myModel.myTable):
                 #import unicodedata
                 #filename = unicodedata.normalize('NFD',dbCategory['name'])                
                 #aux_csv = Db_csv.Db_csv(dirname+"/"+filename+".csv") #create csv class
-                aux_csv = Db_csv.Db_csv(dirname+"/"+dbCategory['name']+".csv") #create csv class
+                import unicodedata
+                filename = unicodedata.normalize('NFKD', "c_"+dbCategory['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
                 #aux_csv.save(exportRows, keys = first_header)
                 try:                                                                                             
                     aux_csv.save(exportRows)
@@ -588,13 +604,35 @@ class Times(myModel.myTable):
                     self.params.showmessage(self.params.name+" Export warning", "File "+dbCategory['name']+".csv"+"\nPermission denied!")
                     
         '''export groups'''
-        cgroups = self.params.tabCGroups.getDbRows()
-        
-        for cgroup in cgroups:
-            print "cgroup", cgroup
-            categories = self.params.tabCategories.getDbCategoriesParGroupLabel(cgroup['label'])
-            for category in categories:
-                print "cg", category
+        dbCGroups = self.params.tabCGroups.getDbRows()
+                      
+        '''export categories'''
+        index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
+        dbCategories = self.params.tabCategories.getDbRows()                      
+        for dbCGroup in dbCGroups:            
+            exportRows = []                        
+            for tabRow in self.proxy_model.dicts():
+                tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
+                if (tabCategory[dbCGroup['label']] == 1):                                                                                                                  
+                    exportRows.append(self.tabRow2exportRow(tabRow, col_nr_export)[1])
+                    
+            '''write to csv file'''
+            if(exportRows != []):
+                print "export cgroups", dbCGroup['label'], ":",len(exportRows),"times"
+                first_header = ["Skupina: "+dbCGroup['label'],"","","","",dbCGroup['description']]
+                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
+                exportRows.insert(1, first_header)
+                exportRows.insert(2, exportHeader)                
+                import unicodedata
+                #filename = unicodedata.normalize('NFD', unicode(dbCGroup['label']+"_"+dbCGroup['name']+".csv")).encode('ASCII', 'ignore')
+                filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
+                #aux_csv.save(exportRows, keys = first_header)
+                try:                                                                                             
+                    aux_csv.save(exportRows)
+                except IOError:
+                    self.params.showmessage(self.params.name+" Export warning", "File "+dbCGroup['label']+"_"+dbCGroup['name']+".csv"+"\nPermission denied!")  
         return                                                                                                                   
                 
 

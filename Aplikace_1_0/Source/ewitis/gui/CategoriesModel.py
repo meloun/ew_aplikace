@@ -112,7 +112,7 @@ class Categories(myModel.myTable):
     
     def getTabCategoryParName(self, name):
 
-        print type(name)                 
+        #print type(name)                 
         dbCategory = self.getDbCategoryParName(name)
         
         tabCategory = self.model.db2tableRow(dbCategory)           
