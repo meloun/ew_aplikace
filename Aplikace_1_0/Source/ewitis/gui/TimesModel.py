@@ -22,14 +22,14 @@ F11 - export categories
 F12 - direct WWW export
 '''
 class TimesParameters(myModel.myParameters):
+    
     def __init__(self, source):
-                
                 
         #table and db table name
         self.name = "Times"         
         
         #TABLE
-        self.tabUser = source.U
+        self.tabUser = source.U        
         self.tabCategories = source.C
         self.tabCGroups = source.CG 
                 
@@ -195,8 +195,9 @@ class TimesModel(myModel.myModel):
                                     
             '''odecteni startovaciho casu a ulozeni do db'''
             dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
-            self.params.db.update_from_dict(self.params.name, dbTime, commit = False) #commit v update()                
-                            
+            #self.params.db.update_from_dict(self.params.name, dbTime, commit = False) #commit v update()                                           
+            self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
+            
             '''time = time_raw - starttime'''        
             if tabTime['start_nr'] and start_time:
                 tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw']-start_time['time_raw'])                
@@ -214,7 +215,7 @@ class TimesModel(myModel.myModel):
         elif(dbTime["user_id"] == 0):
             tabTime['name'] = 'undefined'
         else:           
-            tabTime['name'] = tabUser['name'] +' '+tabUser['first_name']        
+            tabTime['name'] = tabUser['name'].upper() +' '+tabUser['first_name']        
         
         '''CATEGORY'''                                                                                
         tabTime['category'] = tabUser['category']                                                                                                                              
@@ -222,11 +223,21 @@ class TimesModel(myModel.myModel):
         '''LAP'''        
         tabTime['lap'] = self.lap.Get(dbTime)
         
-        '''ORDER'''        
-        tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+        '''ORDER'''                        
+        lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])        
+        #print "last: ", lasttime, tabTime['lap'], dbTime
         
-        '''ORDER IN CATEGORY'''                       
-        tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
+        if(lasttime == True):                                
+            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+        else:
+            tabTime['order']  = ""
+            
+        
+        '''ORDER IN CATEGORY'''
+        if(lasttime == True):                       
+            tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
+        else:
+            tabTime['order_cat']  = ""
         
         '''GAP'''
         tabTime['gap'] = ""
@@ -270,6 +281,7 @@ class TimesModel(myModel.myModel):
                 
         
         myModel.myModel.slot_ModelChanged(self, item)
+  
 
                 
     def table2dbRow(self, tabTime, item): 
@@ -395,13 +407,12 @@ class TimesModel(myModel.myModel):
         
     
     #UPDATE TABLE        
-    def update(self, run_id = None):                
+    def update(self, run_id = None):                  
         
         if(run_id != None):                    
             self.run_id = run_id #update run_id
             
-        #update start times
-        #self.utils.updateStartTimes()
+        #update start times        
         self.starts.Update()        
         
         #update times
@@ -419,6 +430,7 @@ class TimesModel(myModel.myModel):
             myModel.myModel.update(self, conditions = conditions, operation = 'OR')            
         else:            
             #update for selected run        
+            myModel.myModel.update(self, "run_id", self.run_id)            
             myModel.myModel.update(self, "run_id", self.run_id)
         self.params.db.commit()            
                                                                                        
@@ -454,7 +466,7 @@ class TimesProxyModel(myModel.myProxyModel):
    
 # view <- proxymodel <- model 
 class Times(myModel.myTable):
-#    def  __init__(self, view, db, guidata):  
+    (eTOTAL, eCATEGORY, eGROUP) = range(0,3) 
     def  __init__(self, params):        
         
         #create table instance (slots, etc.)
@@ -481,6 +493,38 @@ class Times(myModel.myTable):
 
             
     ''''''
+    def tabRow2exportRow2(self, tabRow, mode):        
+                                                           
+        exportRow = []
+        exportHeader = []
+        
+        '''get user'''
+        tabHeader = self.params.tabUser.proxy_model.header()                                                  
+        tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr']) 
+        
+        if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
+            exportHeader = ["Pořadí", "Kategorie", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]
+            exportRow.append(tabRow['order']+".")
+            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
+            exportRow.append(tabRow['nr'])
+            exportRow.append(tabRow['name'])
+            exportRow.append(tabUser['birthday'])                                       
+            exportRow.append(tabUser['club'])
+            exportRow.append(tabRow['time'])
+        elif(mode == Times.eCATEGORY):                                       
+            exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]
+            exportRow.append(tabRow['order_cat']+".")
+            exportRow.append(tabRow['nr'])
+            exportRow.append(tabRow['name'])
+            exportRow.append(tabUser['birthday'])                                       
+            exportRow.append(tabUser['club'])
+            exportRow.append(tabRow['time'])
+                        
+        exportHeader.append("Okruhy")
+        exportRow.append(tabRow['lap'])
+        
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
+        return (exportHeader, exportRow) 
     def tabRow2exportRow(self, tabRow, col_nr_export):        
                                                            
         exportRow = []
@@ -493,13 +537,13 @@ class Times(myModel.myTable):
             if(collumn[col_nr_export] is not None):                                
                 
                 '''pokud mezera, vložit prozatím prázdné prvky'''                            
-                if((len(exportRow))<=collumn[col_nr_export]):
+                if(len(exportRow) <= collumn[col_nr_export]):
                     exportRow = exportRow + ([''] * (collumn[col_nr_export] - len(exportRow)+1))
                     exportHeader = exportHeader + ([''] * (collumn[col_nr_export] - len(exportHeader)+1))                                
 
                 '''restrict'''
-                if(collumn_key == 'order_cat'):
-                    tabRow[collumn_key] = tabRow[collumn_key]+'.'
+                if(collumn_key == 'order') or (collumn_key == 'order_cat'):
+                    tabRow[collumn_key] = tabRow[collumn_key]+'.'                
                                         
                 '''add collumn to export'''                
                 exportRow[collumn[col_nr_export]] = tabRow[collumn_key]
@@ -527,7 +571,8 @@ class Times(myModel.myTable):
                 exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]
                 if(exportHeader[collumn[col_nr_export]] == 'id'):
                     exportHeader[collumn[col_nr_export]] = 'user_id'
-                         
+
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
         return (exportHeader, exportRow) 
                     
     #=======================================================================
@@ -545,76 +590,72 @@ class Times(myModel.myTable):
 
         exportRows = []        
 
-        '''export all'''                                       
+        '''EXPORT TOTAL'''                                       
         for tabRow in self.proxy_model.dicts():
-            exportRow = self.tabRow2exportRow(tabRow, col_nr_export)[1]
-            if exportRow != []:                            
-                exportRows.append(exportRow)
-            #exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
-            #print "exportHeader",exportHeader
+            dbTime = self.getDbRow(tabRow['id'])            
+            if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])):                                   
+                exportRow = self.tabRow2exportRow2(tabRow, Times.eTOTAL)                                                                                                                                       
+                exportRows.append(exportRow[1])
+                exportHeader = exportRow[0] 
+                    
             
         '''natvrdo pred girem'''        
-        exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]  
+        #exportHeader = ["Pořadí", "Pořadí K", "Kategorie" , "Číslo", "Jméno", "Ročník", "Klub", "Čas"]  
             
         '''write to csv file'''
-        if(exportRows != []):
-            #print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
-            #first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+        if(exportRows != []):                        
             exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
             exportRows.insert(1, ["","","","","",""])
             exportRows.insert(2, exportHeader)
-            #import unicodedata
-            #filename = filename = unicodedata.normalize('NFD',self.params.datastore.Get('race_name'))
-            #aux_csv = Db_csv.Db_csv(dirname+"/"+filename+".csv") #create csv class
-            aux_csv = Db_csv.Db_csv(dirname+"/"+self.params.datastore.Get('race_name')+".csv") #create csv class
-            aux_csv.save(exportRows)
+            filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
+            aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
+            try:
+                aux_csv.save(exportRows)
+            except IOError:
+                self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
                                              
-        '''export categories'''
-        index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
+        '''EXPORT CATEGORIES'''                        
         dbCategories = self.params.tabCategories.getDbRows()                      
         for dbCategory in dbCategories:
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
-                if (tabRow['category'] == dbCategory['name']):                                                                                               
-                    exportRows.append(self.tabRow2exportRow(tabRow, col_nr_export)[1])                    
-                    #exportHeader = self.tabRow2exportRow(tabRow)[0]                                             
-            
-            '''natvrdo pred girem'''
-            #exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas", "Ztráta"]    
-            exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]    
+                dbTime = self.getDbRow(tabRow['id'])            
+                if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])): 
+                    if (tabRow['category'] == dbCategory['name']):
+                        exportRow = self.tabRow2exportRow2(tabRow, Times.eCATEGORY)                                                                                                                                       
+                        exportRows.append(exportRow[1])
+                        exportHeader = exportRow[0]                                                                             
+                        
             
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie: "+dbCategory['name'],"","","","",dbCategory['description']]
-                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
+                first_header = ["Kategorie: "+dbCategory['name'],"","","","",dbCategory['description']]                
                 exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)
-                #import unicodedata
-                #filename = unicodedata.normalize('NFD',dbCategory['name'])                
-                #aux_csv = Db_csv.Db_csv(dirname+"/"+filename+".csv") #create csv class
-                import unicodedata
-                filename = unicodedata.normalize('NFKD', "c_"+dbCategory['name']+".csv")
-                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
-                #aux_csv.save(exportRows, keys = first_header)
+                filename = utils.get_filename("c_"+dbCategory['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+dbCategory['name']+".csv"+"\nPermission denied!")
                     
-        '''export groups'''
+        '''EXPORT GROUPS'''
         dbCGroups = self.params.tabCGroups.getDbRows()
-                      
-        '''export categories'''
+                              
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
         dbCategories = self.params.tabCategories.getDbRows()                      
         for dbCGroup in dbCGroups:            
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
-                if (tabCategory[dbCGroup['label']] == 1):                                                                                                                  
-                    exportRows.append(self.tabRow2exportRow(tabRow, col_nr_export)[1])
+                if (tabCategory[dbCGroup['label']] == 1):
+                    exportRow = self.tabRow2exportRow2(tabRow, Times.eGROUP)                                                                                                                                       
+                    exportRows.append(exportRow[1])
+                    exportHeader = exportRow[0]                                                                                                                  
+
+            
                     
             '''write to csv file'''
             if(exportRows != []):
@@ -623,12 +664,9 @@ class Times(myModel.myTable):
                 #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
                 exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
                 exportRows.insert(1, first_header)
-                exportRows.insert(2, exportHeader)                
-                import unicodedata
-                #filename = unicodedata.normalize('NFD', unicode(dbCGroup['label']+"_"+dbCGroup['name']+".csv")).encode('ASCII', 'ignore')
+                exportRows.insert(2, exportHeader)                                                
                 filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
-                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
-                #aux_csv.save(exportRows, keys = first_header)
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:

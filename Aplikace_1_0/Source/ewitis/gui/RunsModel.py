@@ -151,6 +151,7 @@ class Runs(myModel.myTable):
     def updateTimes(self):         
                          
         #get index of selected ID (from tableRuns) 
+        print "-update times"
         rows = self.params.gui['view'].selectionModel().selectedRows() #default collumn = 0
                                       
         #update table times with run_id
@@ -164,6 +165,7 @@ class Runs(myModel.myTable):
             self.params.datastore.Set("user_actions", True)                         
         except:
             print "I: Times: nelze aktualizovat!"
+        print "-end update times"
         
     # REMOVE ROW               
     def sDelete(self):

@@ -115,7 +115,7 @@ class UsersModel(myModel.myModel):
     def table2dbRow(self, tabUser, item):                              
             
         #1to1 keys just copy
-        dbUser = myModel.myModel.table2dbRow(self, tabUser)
+        dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
         
         '''category_id'''
         print tabUser['category'], type(tabUser['category'])

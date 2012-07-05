@@ -86,7 +86,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         
         #doplneni 
-        self.T.params.tabRuns = self.R        
+        self.T.params.tabRuns = self.R                
         
         '''Update'''
         self.R.update()

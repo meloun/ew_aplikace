@@ -210,7 +210,7 @@ class sqlite_db(object):
         query = query.replace('\'None\'', 'Null')                                       
               
         res = self.query(query)
-        if commit:      
+        if commit == True:      
             self.db.commit()            
         return res
         

@@ -88,12 +88,12 @@ class myModel(QtGui.QStandardItemModel):
                                                                                            
                 #update DB
                 #try:                                                        
-                self.params.db.update_from_dict(self.params.name, dbRow)
+                self.params.db.update_from_dict(self.params.name, dbRow)                
                 #except:                
                 #    self.params.showmessage(self.params.name+" Update", "Error!")                
                 
-            #update model                                                               
-            self.update() 
+            #update model                                                                           
+            self.update()                                                                        
     
     def flags(self, index):
         """
@@ -224,8 +224,7 @@ class myModel(QtGui.QStandardItemModel):
         row = {}                
                    
         for key in self.header():
-            #print "nr_row",nr_row
-            #print "nr_column",nr_column                                                                  
+            #print "nr_row: ",nr_row,"nr_column: ",nr_column, self.item(nr_row, nr_column).text()                                                                  
             row[key] = unicode(self.item(nr_row, nr_column).text())
             nr_column += 1
         
@@ -269,7 +268,7 @@ class myModel(QtGui.QStandardItemModel):
         update(parameter, value) => vsechny radky s parametrem = value
         update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
         """        
-        print self.params.name, "update"
+        print self.params.name, "model update"
         #self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
         self.params.datastore.Set("user_actions", False)          
                       
@@ -287,14 +286,16 @@ class myModel(QtGui.QStandardItemModel):
             rows = []        
                                                                  
         #pridat radky do modelu/tabulky
-        for row in rows:            
+        row_dicts = []         
+        for row in rows:                    
                         
             #convert "db-row" to dict (in dict can be added record)
-            row_dict = self.params.db.dict_factory(rows, row)                                    
+            row_dicts.append(self.params.db.dict_factory(rows, row))                                                
             
+                    
+        for row_dict in row_dicts:            
             #call table-specific function, return "table-row"                                           
-            row_table = self.db2tableRow(row_dict)            
-                                                                                                                                                            
+            row_table = self.db2tableRow(row_dict)                                                                                                                                                     
             #add row to the table             
             self.addRow(row_table)                                                                                             
         self.params.datastore.Set("user_actions", True)                                                                          
