@@ -78,21 +78,24 @@ class sqlite_db(object):
         return res
     
     def getFirst(self, tablename):                
-        res = self.getAll(tablename)  
+        query = "SELECT * from " + tablename + " LIMIT 1"         
+        res = self.query(query)  
         return res.fetchone()          
         
     def getParId(self, tablename, id):
-        query = "select * from " + tablename + " where id = " + str(id)
+        query = "select * from " + tablename + " where id = " + str(id) + " LIMIT 1"
         res = self.query(query)
         return res.fetchone()    
     
-    def getParX(self, tablename, parameter, value):
-        query = u"select * from " + tablename + " where " + parameter +" = '" + unicode(value) + "'"        
+    def getParX(self, tablename, parameter, value, limit = None):
+        query = u"select * from " + tablename + " where " + parameter +" = '" + unicode(value) + "'"
+        if limit != None:
+            query = query + " LIMIT "+str(limit)        
         res = self.query(query)
         return res
     
     # getParXX(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1]
-    def getParXX(self, tablename, conditions, operation):
+    def getParXX(self, tablename, conditions, operation, limit = None):
         
         #where_string = (" "+operation+" ").join(condition[0]+" = " + str(condition[1]) for condition in conditions)
         
@@ -105,7 +108,10 @@ class sqlite_db(object):
         #separate conditions with 'operator' - AND, OR, ..
         where_string =  (" "+operation+" ").join(conditions_list)
         
-        query = "select * from " + tablename + " where " + where_string     
+        query = "select * from " + tablename + " where " + where_string 
+        
+        if limit != None:
+            query = query + " LIMIT "+str(limit)
         
         res = self.query(query)
         return res

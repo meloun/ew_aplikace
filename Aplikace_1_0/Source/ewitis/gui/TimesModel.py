@@ -140,7 +140,9 @@ class TimesModel(myModel.myModel):
         """    
         ["id", "nr", "cell", "time", "name", "category", "address"]
         """
-                                    
+
+        #ztime = time.clock()
+        #print "Z:", ztime                                     
         '''hide all zero time?'''
         if(self.showzero == False):
             if (int(dbTime["cell"])==1):                
@@ -152,16 +154,13 @@ class TimesModel(myModel.myModel):
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
         '''Test: vzal jsem rovnou tabusera, zda se to ze to chodi'''                                            
-        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])        
-#        dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
-#        if(dbUser == None):
-#            dbUser = {}
-#            dbUser['id'] = 0
-#            dbUser['category_id'] = 0        
-#        tabUser = self.params.tabUser.getTabRow(dbUser["id"])        
+        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])
+        #print "M1:", (time.clock()-ztime)*1000         
+        #dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])
+        #print "K:", (time.clock()-ztime) * 1000        
+       
         
-        ''' get CATEGORY'''
-        #print "lkfj",dbUser                
+        ''' get CATEGORY'''            
         tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
                                         
         ''' OTHER KEYS ''' 
@@ -181,30 +180,11 @@ class TimesModel(myModel.myModel):
         '''raw time'''        
         tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'])
         
+        '''time'''
         if(dbTime['time'] == None):
-            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                
-            '''get start-time'''        
-            try:
-                '''toDo: misto try catch, Get bude vracet None'''                                   
-                start_time = self.starts.Get(dbTime['run_id'], tabTime['start_nr'])                                
-            except:                         
-                print "E:neexistuje startime"
-                aux_rawtime = None
-                start_time = None
-                                    
-            '''odecteni startovaciho casu a ulozeni do db'''
-            dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
-            #self.params.db.update_from_dict(self.params.name, dbTime, commit = False) #commit v update()                                           
-            self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
-            
-            '''time = time_raw - starttime'''        
-            if tabTime['start_nr'] and start_time:
-                tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw']-start_time['time_raw'])                
-            else:
-                print "e: dbtime2tabtime"
-                tabTime['time'] = None
-                #aux_rawtime = None
+            '''cas by mel existovat'''
+            print "E: neexistuje cas!!!", dbTime                            
+            #self.calc_update_time(dbTime, tabTime['start_nr'])
         else:                        
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
 
@@ -405,7 +385,52 @@ class TimesModel(myModel.myModel):
                                                                                                                                                                                                                                                                                                                              
         return dbTime    
         
-    
+
+    def calc_update_time(self, dbTime, start_nr = None):
+        
+        if(dbTime['time'] == None):            
+                                    
+            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
+            try:
+                '''toDo: misto try catch, Get bude vracet None'''                                   
+                start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
+            except:                         
+                print "E:neexistuje startime"
+                aux_rawtime = None
+                start_time = None
+                                                    
+            '''odecteni startovaciho casu a ulozeni do db'''
+            print dbTime['time_raw']
+            dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']                                                       
+            self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
+            
+                
+    def calc_update_times(self):
+        dbTimes = self.params.db.getAll(self.params.name)
+        dbTimes = self.params.db.cursor2dicts(dbTimes)
+        for dbTime in dbTimes:
+            
+            '''time'''
+            if(dbTime['time'] == None):
+                print "HHHURAY"
+            
+                ''' get USER'''            
+                tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])
+                ''' get CATEGORY'''            
+                tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
+                                            
+                '''START NR'''
+                if(dbTime['cell'] == 1) or (tabUser['nr']==0): #start time?                           
+                    start_nr = 1 #decrement 1.starttime
+                else:                                
+                    start_nr = tabCategory['start_nr']        
+                            
+                            
+                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                
+                self.calc_update_time(dbTime, start_nr)
+            
+               
+             
     #UPDATE TABLE        
     def update(self, run_id = None):                  
         
@@ -414,6 +439,8 @@ class TimesModel(myModel.myModel):
             
         #update start times        
         self.starts.Update()        
+        
+        self.calc_update_times()
         
         #update times
         if(self.showall):
@@ -430,7 +457,7 @@ class TimesModel(myModel.myModel):
             myModel.myModel.update(self, conditions = conditions, operation = 'OR')            
         else:            
             #update for selected run        
-            myModel.myModel.update(self, "run_id", self.run_id)            
+            #myModel.myModel.update(self, "run_id", self.run_id)            
             myModel.myModel.update(self, "run_id", self.run_id)
         self.params.db.commit()            
                                                                                        
@@ -465,8 +492,7 @@ class TimesProxyModel(myModel.myProxyModel):
                         self.params.gui['view'].edit(myindex)                    
    
 # view <- proxymodel <- model 
-class Times(myModel.myTable):
-    (eTOTAL, eCATEGORY, eGROUP) = range(0,3) 
+class Times(myModel.myTable):    
     def  __init__(self, params):        
         
         #create table instance (slots, etc.)
@@ -493,7 +519,7 @@ class Times(myModel.myTable):
 
             
     ''''''
-    def tabRow2exportRow2(self, tabRow, mode):        
+    def tabRow2exportRow(self, tabRow, mode):        
                                                            
         exportRow = []
         exportHeader = []
@@ -503,10 +529,10 @@ class Times(myModel.myTable):
         tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr']) 
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = ["Pořadí", "Kategorie", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]
+            exportHeader = ["Pořadí", "Číslo", "Kategorie", "Jméno", "Ročník", "Klub", "Čas"]
             exportRow.append(tabRow['order']+".")
-            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
             exportRow.append(tabRow['nr'])
+            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
             exportRow.append(tabRow['name'])
             exportRow.append(tabUser['birthday'])                                       
             exportRow.append(tabUser['club'])
@@ -525,55 +551,7 @@ class Times(myModel.myTable):
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
         return (exportHeader, exportRow) 
-    def tabRow2exportRow(self, tabRow, col_nr_export):        
-                                                           
-        exportRow = []
-        exportHeader = []                                       
-                            
-        '''TIME part'''
-        tabHeader = self.proxy_model.header()
-        for collumn_key in self.params.TABLE_COLLUMN_DEF.keys():
-            collumn = self.params.TABLE_COLLUMN_DEF[collumn_key]
-            if(collumn[col_nr_export] is not None):                                
-                
-                '''pokud mezera, vložit prozatím prázdné prvky'''                            
-                if(len(exportRow) <= collumn[col_nr_export]):
-                    exportRow = exportRow + ([''] * (collumn[col_nr_export] - len(exportRow)+1))
-                    exportHeader = exportHeader + ([''] * (collumn[col_nr_export] - len(exportHeader)+1))                                
 
-                '''restrict'''
-                if(collumn_key == 'order') or (collumn_key == 'order_cat'):
-                    tabRow[collumn_key] = tabRow[collumn_key]+'.'                
-                                        
-                '''add collumn to export'''                
-                exportRow[collumn[col_nr_export]] = tabRow[collumn_key]
-                exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]
-                #print exportRow[collumn[col_nr_export]], type(exportRow[collumn[col_nr_export]])                               
-                
-        #print "time part",exportRow
-                 
-        '''USER part'''
-        tabHeader = self.params.tabUser.proxy_model.header()                                                  
-        tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])        
-        for collumn_key in self.params.tabUser.params.TABLE_COLLUMN_DEF.keys():            
-            collumn = self.params.tabUser.params.TABLE_COLLUMN_DEF[collumn_key]
-            if(collumn[col_nr_export] is not None):                                
-                
-                '''pokud mezera, vložit prozatím prázdné prvky''' 
-                if((len(exportRow))<=collumn[col_nr_export]):
-                    exportRow = exportRow + ([''] * (collumn[col_nr_export] - len(exportRow)+1))
-                    exportHeader = exportHeader + ([''] * (collumn[col_nr_export] - len(exportHeader)+1))
-                    
-                #add collumn to export
-                if(tabUser is not None):                    
-                    exportRow[collumn[col_nr_export]] = tabUser[collumn_key]
-                
-                exportHeader[collumn[col_nr_export]] = tabHeader[collumn['index']]
-                if(exportHeader[collumn[col_nr_export]] == 'id'):
-                    exportHeader[collumn[col_nr_export]] = 'user_id'
-
-        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
-        return (exportHeader, exportRow) 
                     
     #=======================================================================
     # SLOTS
@@ -594,7 +572,7 @@ class Times(myModel.myTable):
         for tabRow in self.proxy_model.dicts():
             dbTime = self.getDbRow(tabRow['id'])            
             if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])):                                   
-                exportRow = self.tabRow2exportRow2(tabRow, Times.eTOTAL)                                                                                                                                       
+                exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)                                                                                                                                       
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0] 
                     
@@ -604,8 +582,8 @@ class Times(myModel.myTable):
             
         '''write to csv file'''
         if(exportRows != []):                        
-            exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
-            exportRows.insert(1, ["","","","","",""])
+            exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
+            exportRows.insert(1, ["","","","","","","",""])
             exportRows.insert(2, exportHeader)
             filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
@@ -622,7 +600,7 @@ class Times(myModel.myTable):
                 dbTime = self.getDbRow(tabRow['id'])            
                 if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])): 
                     if (tabRow['category'] == dbCategory['name']):
-                        exportRow = self.tabRow2exportRow2(tabRow, Times.eCATEGORY)                                                                                                                                       
+                        exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)                                                                                                                                       
                         exportRows.append(exportRow[1])
                         exportHeader = exportRow[0]                                                                             
                         
@@ -630,8 +608,8 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie: "+dbCategory['name'],"","","","",dbCategory['description']]                
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
+                first_header = ["Kategorie: "+dbCategory['name'],"","","","","",dbCategory['description']]                
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")
@@ -649,11 +627,13 @@ class Times(myModel.myTable):
         for dbCGroup in dbCGroups:            
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
-                tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
-                if (tabCategory[dbCGroup['label']] == 1):
-                    exportRow = self.tabRow2exportRow2(tabRow, Times.eGROUP)                                                                                                                                       
-                    exportRows.append(exportRow[1])
-                    exportHeader = exportRow[0]                                                                                                                  
+                dbTime = self.getDbRow(tabRow['id'])            
+                if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])): 
+                    tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
+                    if (tabCategory[dbCGroup['label']] == 1):
+                        exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)                                                                                                                                       
+                        exportRows.append(exportRow[1])
+                        exportHeader = exportRow[0]                                                                                                                  
 
             
                     
@@ -720,11 +700,13 @@ class Times(myModel.myTable):
                                
                     
     #toDo: sloucit s myModel konstruktorem        
-    def update(self, run_id = None):                      
+    def update(self, run_id = None):
+        ztime = time.clock()                      
         self.model.update(run_id = run_id)                        
         #myModel.myTable.update(self)
         self.setColumnWidth()
         self.update_counter()
+        print time.clock() - ztime
             
 
     # REMOVE ROW      

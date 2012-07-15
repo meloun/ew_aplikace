@@ -153,7 +153,7 @@ class myModel(QtGui.QStandardItemModel):
         return tabRow
      
    
-    def table2dbRow(self, tabRow, item):
+    def table2dbRow(self, tabRow, item = None):
         """
         konverze TABLE radku do DATABASE radku       
         pokud existuje sloupec z tabulky i v databazi, zkopiruje se  
@@ -376,6 +376,7 @@ class myTable():
     """
     
     """
+    (eTOTAL, eCATEGORY, eGROUP) = range(0,3) 
     def  __init__(self, params):                
                         
         #
@@ -545,9 +546,10 @@ class myTable():
             id = self.proxy_model.data(rows[0]).toString()
         except:
             self.params.showmessage(title, "Nelze smazat")
+            return
             
         #confirm dialog and delete
-        if (label!=""):
+        if (label != ""):
             label="\n\n("+label+")"        
         if (self.params.showmessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, msgtype='warning_dialog')):                        
             self.delete(id)                          
@@ -679,39 +681,35 @@ class myTable():
     # what you see, is exported    
     def sExport_www(self): 
         
-        #get filename, gui dialog 
-        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","export/www/table_"+self.params.name+".htm","HTML Files (*.htm; *.html)")
+        #get filename, gui dialog         
         filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
         if(filename == ""):
-            return              
-        
-        #misto zbytku dole pouzit sExport_directWWW()
-        
-        #title
-        title = "Table '"+self.params.name + "' HTML Export"
+            return                
          
         #export to HTML file        
-        try:
-                                     
-                html_page = ew_html.Page_table(filename, styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
-                html_page.save()                             
-                self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
-        except IOError:            
-            self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
-    
+        self.sExport_directWWW(filename)
+                                                                        
     
     #default WWW export - without dialog to specific directory        
-    def sExport_directWWW(self, filename="export/www/filename.htm"):
+    def sExport_directWWW(self, filename = None):
 
-        #sort model
-        self.model.sort(3, order = QtCore.Qt.DescendingOrder)
+        if filename == None:
+            filename = utils.get_filename("export/www/"+self.params.name+"_"+self.params.datastore.Get('race_name')+".htm")
+            
+        exportRows = []
+        for tabRow in self.proxy_model.dicts():
+            #dbRow = self.getDbRow(tabRow['id'])            
+            #if(self.model.order.IsLastUsertime(dbRow, tabRow['lap'])):
+            exportRow = self.tabRow2exportRow(tabRow, myTable.eTOTAL)
+            exportRows.append(exportRow[1])
+            exportHeader = exportRow[0]              
         
         #title
         title = "Table '"+self.params.name + "' HTML Export"
          
         #export to HTML file
         try:                                                
-            html_page = ew_html.Page_table(filename, title = self.params.datastore.Get('race_name'), styles= ["css/results.css",], lists = self.proxy_model.lists(), keys = self.params.TABLE_COLLUMN_DEF.keys())
+            html_page = ew_html.Page_table(filename, title = self.params.datastore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
             html_page.save()                             
             self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
         except IOError:            

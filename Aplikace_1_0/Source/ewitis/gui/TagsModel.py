@@ -83,20 +83,21 @@ class Tags(myModel.myTable):
         
     def getDbTagParTagId(self, tag_id):
                  
-        dbTag = self.params.db.getParX("tags", "tag_id", tag_id).fetchone()        
+        dbTag = self.params.db.getParX("tags", "tag_id", tag_id, limit = 1).fetchone()        
                         
         return dbTag   
     
     def getDbTagParUserNr(self, user_nr):
                  
-        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
+        dbTag = self.params.db.getParX("tags", "user_nr", user_nr, limit = 1).fetchone()        
                         
         return dbTag
     
     def getTabTagParUserNr(self, user_nr):
                  
         
-        dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()        
+        #dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()
+        dbTag = self.getDbTagParUserNr(user_nr)        
                      
         tabTag = self.model.db2tableRow(dbTag)   
                                 

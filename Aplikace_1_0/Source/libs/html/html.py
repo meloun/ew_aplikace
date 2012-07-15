@@ -79,9 +79,7 @@ class html(object):
     def lists_to_table(self, lists, keys = None, css_class = ""):
         
         tabulka = htmltags.TABLE(cellpadding="6", cellspacing="0",Class=css_class)
-        
-        
-        keys = ['id', 'celkové pořadí', 'cell', 'pořadí v kategorii', 'číslo',  'jméno', 'čas', 'kategorie',  'start_nr']
+                        
         
         #ZAHLAVI, klice - nadpisy sloupcu      
         zahlavi = htmltags.TR()  # inicializace proměnné
@@ -96,22 +94,8 @@ class html(object):
         #radky
         for list in lists:
             radekTabulky = htmltags.TR()  # inicializace proměnné  
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[0])) #hide by css
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[6]))
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[2])) #hide by css
-            
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[7])) 
-                      
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[1])) 
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[4]))            
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[3]))
-            
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[5]))
-            
-           
-            radekTabulky <= htmltags.TD(utils.getUtf8String(list[8]))
-            #for item in list:  # pres vsechny existujici slovniky v datech                                        
-            #    radekTabulky <= htmltags.TD(item)                            
+            for item in list:
+                radekTabulky <= htmltags.TD(item)                          
             tabulka <= radekTabulky                    
                           
         return tabulka

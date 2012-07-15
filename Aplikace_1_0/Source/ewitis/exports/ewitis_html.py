@@ -46,6 +46,3 @@ if __name__ == "__main__":
     print html_page.get_head()
     html_page.save(["jedna","dva"])
     
-    #print dicts_to_table(dictss)
-    #print html_page.dicts_to_table(dicts, ["klíč1", 'klíč2'])
-    #print html_page.list_to_table(list)t html_page.list_to_table(list)

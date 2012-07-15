@@ -12,7 +12,7 @@ class TimesSlots():
         QtCore.QObject.connect(times.params.gui['show_all'] , QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAllChanged)
         QtCore.QObject.connect(times.params.gui['show_zero'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZeroChanged)
         QtCore.QObject.connect(times.params.gui['show_additional_info'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAditionalInfoChanged)         
-        QtCore.QObject.connect(times.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sTimesDirectWwwExport)        
+        QtCore.QObject.connect(times.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.times.sExport_directWWW)        
                         
 
 
@@ -41,10 +41,10 @@ class TimesSlots():
             self.times.params.datastore.Set("additinal_info", True)                                    
         self.times.update()
         
-    def sTimesDirectWwwExport(self):
-        print "Direct Export www"
-        
-        #toDo: rozlisit podle modu z datastore
-        self.times.sExport_directWWW(filename="export/www/times_"+self.times.params.datastore.Get('race_name')+".htm")
-        #self.times.sExport_directWWW(filename="export/www/times_"+timeutils.getUnderlinedDatetime()+".htm")        
-        
+#    def sTimesDirectWwwExport(self):
+#        print "Direct Export www"
+#        
+#        #toDo: rozlisit podle modu z datastore
+#        self.times.sExport_directWWW(filename="export/www/times_"+self.times.params.datastore.Get('race_name')+".htm")
+#        #self.times.sExport_directWWW(filename="export/www/times_"+timeutils.getUnderlinedDatetime()+".htm")        
+#        

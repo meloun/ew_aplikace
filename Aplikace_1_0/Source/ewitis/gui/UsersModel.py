@@ -172,7 +172,7 @@ class Users(myModel.myTable):
             
     def getDbUserParNr(self, nr):
                  
-        db_user = self.params.db.getParX("users", "nr", nr).fetchone()        
+        db_user = self.params.db.getParX("users", "nr", nr, limit = 1).fetchone()        
                         
         return db_user
     
@@ -194,7 +194,7 @@ class Users(myModel.myTable):
             return None
         
         '''get user par number'''
-        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr']).fetchone()        
+        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()        
                         
         return db_user
     
