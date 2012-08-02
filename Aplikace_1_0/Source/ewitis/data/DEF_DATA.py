@@ -39,6 +39,7 @@ class LANGUAGES:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
+        "app_version"        : {"GET_SET"  : {"value":u"v0.60"}},
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -70,10 +71,10 @@ DEF_DATA = {
                                 "GET_SET"  : {"value":"import/csv/"}  
                                },
         "dir_export_csv"     : {"name"     : "dir_export_csv",
-                                "GET_SET"  : {"value":"export/csv/"}  
+                                "GET_SET"  : {"value":u"export/csv/"}  
                                },
         "dir_export_www"     : {"name"     : "dir_export_www",
-                                "GET_SET"  : {"value":"export/www/"}  
+                                "GET_SET"  : {"value":u"export/www/"}  
                                },
             
         

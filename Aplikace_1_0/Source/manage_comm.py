@@ -326,6 +326,7 @@ class ManageComm(Thread):
         self.flags['port_open'] = 0
                 
 if __name__ == "__main__":    
+    print "main manage_com()"
     my_comm = ManageComm()         
     my_comm.start()
     while(1):

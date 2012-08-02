@@ -23,7 +23,8 @@ import ewitis.data.DEF_DATA as DEF_DATA
 import libs.datastore.datastore as datastore
 import ewitis.gui.UiAccesories as UiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import *
-import libs.utils.utils as utils 
+import libs.utils.utils as utils
+import libs.test.codepage as codepage  
 from libs.myqt import gui
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):
@@ -39,11 +40,18 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         # DATASTORE
         #=======================================================================                
-        self.datastore = datastore.Datastore(DEF_DATA.DEF_DATA)
+        self.datastore = datastore.Datastore(DEF_DATA.DEF_DATA)                
         
         #slots, update etc.                                                                                                                     
         self.UiAccesories = UiAccesories.UiAccesories(self)                    
         
+        #=======================================================================
+        # FIRST CONSOLE OUTPUT
+        #=======================================================================
+        print "*****************************************"
+        print "* Ewitis application, ", self.datastore.Get("app_version")
+        print "*****************************************" 
+        codepage.codepage()
                                                            
         #=======================================================================
         # DATABASE
@@ -385,6 +393,7 @@ if __name__ == "__main__":
     import threading
     #myManageGui = manage_gui()
     #myManageGui.start()
+            
     
     def gui_start():        
         app = QtGui.QApplication(sys.argv)        

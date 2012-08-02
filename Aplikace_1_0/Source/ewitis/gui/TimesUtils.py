@@ -253,6 +253,7 @@ class TimesOrder():
             #print "query_order: ",query_order                                             
                                                        
         try:
+            #print query_order
             res_order = self.db.query(query_order).fetchone()[0]
             #res_order_2 = self.db.query(query_order_2).fetchone()[0]
            

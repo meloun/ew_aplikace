@@ -64,7 +64,3 @@ if __name__ == "__main__":
     print b, type(b)
     print c, type(c)
     print d, type(d)
-    
-
-print int(True)
-print int(False)

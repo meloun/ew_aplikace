@@ -658,10 +658,8 @@ class myTable():
         
         print "I: ", self.params.name, ": export"
 
-        
-        print source
-        #get filename, gui dialog 
-        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","export/csv/table_"+self.params.name+".csv","Csv Files (*.csv)")
+                
+        #get filename, gui dialog         
         filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
         if(filename == ""):
             return              
@@ -670,11 +668,11 @@ class myTable():
         title = "Table '"+self.params.name + "' CSV Export"                
          
         #export to csv file
-        #try:                        
-        self.export_csv(filename, source)                                
-        self.params.showmessage(title, "Succesfully", dialog=False)            
-        #except:            
-        #    self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file")
+        try:                        
+            self.export_csv(filename, source)                                
+            self.params.showmessage(title, "Succesfully", dialog=False)            
+        except:            
+            self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file")
                    
              
     # EXPORT WWW    

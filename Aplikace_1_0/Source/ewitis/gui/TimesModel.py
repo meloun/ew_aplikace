@@ -207,15 +207,19 @@ class TimesModel(myModel.myModel):
         lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])        
         #print "last: ", lasttime, tabTime['lap'], dbTime
         
-        if(lasttime == True):                                
-            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
-        else:
-            tabTime['order']  = ""
-            
-        
+#        if(lasttime == True):                                
+#            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+#        else:
+#            tabTime['order']  = ""
+#            
+#
+                
         '''ORDER IN CATEGORY'''
-        if(lasttime == True):                       
+        if(lasttime == True):
+            #print tabTime['id']
+            #z1 = time.clock()                       
             tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
+            #print (time.clock() - z1)
         else:
             tabTime['order_cat']  = ""
         
