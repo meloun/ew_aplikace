@@ -1,0 +1,1 @@
+python setuptest.py py2exe
