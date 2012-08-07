@@ -24,17 +24,16 @@ class Db_csv():
                 
         list = []
         for row in reader:
-            list.append([unicode(cell, 'utf-8') for cell in row])
-            #list.append([cell for cell in row])            
+            list.append([cell.decode(encode) for cell in row])                        
                     
-        for lt in list:
-            for item in lt:
-                print item, type(item)
+#        for lt in list:
+#            for item in lt:
+#                print type(item), item 
                 
         return list
     
     #save csv into file from lists
-    def save(self, lists, keys = None, encode = None):       
+    def save(self, lists, keys = None, encode = 'utf8'):       
                     
         my_string = ""
         
@@ -45,12 +44,12 @@ class Db_csv():
         for list in lists:
             for item in list:    
                 '''add item'''                                    
-                item = utils.getUtf8String(item)          
-                my_string += item+';'
+                #item = item.encode(encode)          
+                my_string += item + u';'
             my_string += "\n"            
                                 
-        #if encode != None:
-        #    my_string = my_string.encode(encode)    
+        if encode != None:
+            my_string = my_string.encode(encode)    
         
         FILE = open(self.filename, 'w')
         FILE.write(my_string)

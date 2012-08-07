@@ -10,8 +10,9 @@ import sys
 
 
 def codepage():
-    s1 = u"Žluťoučký kůň pěl ďábelské ódy."
-    s2 = "Žluťoučký kůň pěl ďábelské ódy."
+    s1 = u"Žluťoučký kůň pěl ďábelské ódy.-–"
+    s2 = "Žluťoučký kůň pěl ďábelské ódy.-–"
+    s3 = u'\u2013'    
     i1 = 0x12345678
     
     print "default encoding: ", sys.getdefaultencoding()
@@ -29,6 +30,8 @@ def codepage():
     print "cp1250 test.. ",s2.decode('utf-8').encode('cp1250'), type(s2.decode('utf-8').encode('cp1250'))
     print "utf-8 test.. ",s2.decode('utf-8'), type(s2.decode('utf-8'))
     print "\n"
+    
+    #print "ee",s3  
     
 #    print "\nOperation"
 #    print "====================="

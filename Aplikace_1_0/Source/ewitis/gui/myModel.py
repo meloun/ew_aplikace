@@ -354,8 +354,8 @@ class myProxyModel(QtGui.QSortFilterProxyModel):
     def lists(self):
         rows = []
         for i in range(self.rowCount()):
-            row = self.row(i)                       
-            rows.append(row)
+            row = self.row(i)                                   
+            rows.append(row.decode('utf-8'))
         return rows
     
     #get current state in dicts
@@ -668,11 +668,11 @@ class myTable():
         title = "Table '"+self.params.name + "' CSV Export"                
          
         #export to csv file
-        try:                        
-            self.export_csv(filename, source)                                
-            self.params.showmessage(title, "Succesfully", dialog=False)            
-        except:            
-            self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file")
+        #try:                        
+        self.export_csv(filename, source)                                
+        self.params.showmessage(title, "Succesfully", dialog=False)            
+        #except:            
+        #    self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file")
                    
              
     # EXPORT WWW    

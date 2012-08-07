@@ -268,7 +268,7 @@ class TimesModel(myModel.myModel):
   
 
                 
-    def table2dbRow(self, tabTime, item): 
+    def table2dbRow(self, tabTime, item = None): 
                                             
         #get selected id
         #try:                     
