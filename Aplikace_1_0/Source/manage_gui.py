@@ -27,9 +27,8 @@ import libs.utils.utils as utils
 import libs.test.codepage as codepage  
 from libs.myqt import gui
   
-class wrapper_gui_ewitis(QtGui.QMainWindow):
-    #def __init__(self, parent=None, ShaMem_comm = manage_comm.DEFAULT_COMM_SHARED_MEMORY):    
-    def __init__(self, parent=None):
+class wrapper_gui_ewitis(QtGui.QMainWindow):        
+    def __init__(self, parent = None):
         import libs.comm.serial_utils as serial_utils                                         
         
         """ GUI """
@@ -391,6 +390,9 @@ class manage_gui():
     
 if __name__ == "__main__":    
     import threading
+    import sys
+    
+    #sys.setdefaultencoding('utf-8')
     #myManageGui = manage_gui()
     #myManageGui.start()
             

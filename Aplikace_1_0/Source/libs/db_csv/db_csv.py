@@ -32,22 +32,16 @@ class Db_csv():
                 
         return list
     
-    #save csv into file from lists
+    '''save csv into file from lists'''
     def save(self, lists, keys = None, encode = 'utf8'):       
                     
-        my_string = ""
-        
-        #my_string += ";".join(str(x) for x in keys) + "\n"
-        if(keys != None):            
-            my_string += ";".join((x) for x in keys) + "\n"
+        my_string = ""    
         
         for list in lists:
-            for item in list:    
-                '''add item'''                                    
-                #item = item.encode(encode)          
+            for item in list:                                                                                               
                 my_string += item + u';'
             my_string += "\n"            
-                                
+                                        
         if encode != None:
             my_string = my_string.encode(encode)    
         

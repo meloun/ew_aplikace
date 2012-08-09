@@ -1255,7 +1255,7 @@ class Ui_MainWindow(object):
         self.toolbarPort.addAction(self.aConnectPort)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

@@ -207,10 +207,10 @@ class TimesModel(myModel.myModel):
         lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])        
         #print "last: ", lasttime, tabTime['lap'], dbTime
         
-#        if(lasttime == True):                                
-#            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
-#        else:
-#            tabTime['order']  = ""
+        if(lasttime == True):                                
+            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+        else:
+            tabTime['order']  = ""
 #            
 #
                 
@@ -533,7 +533,7 @@ class Times(myModel.myTable):
         tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr']) 
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = ["Pořadí", "Číslo", "Kategorie", "Jméno", "Ročník", "Klub", "Čas"]
+            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub", u"Čas"]
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
@@ -542,7 +542,7 @@ class Times(myModel.myTable):
             exportRow.append(tabUser['club'])
             exportRow.append(tabRow['time'])
         elif(mode == Times.eCATEGORY):                                       
-            exportHeader = ["Pořadí", "Číslo", "Jméno", "Ročník", "Klub", "Čas"]
+            exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub", u"Čas"]
             exportRow.append(tabRow['order_cat']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['name'])
@@ -550,7 +550,7 @@ class Times(myModel.myTable):
             exportRow.append(tabUser['club'])
             exportRow.append(tabRow['time'])
                         
-        exportHeader.append("Okruhy")
+        exportHeader.append(u"Okruhy")
         exportRow.append(tabRow['lap'])
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
@@ -663,41 +663,29 @@ class Times(myModel.myTable):
         
         col_nr_export = 'col_nr_export_raw'
         
-        #get filename, gui dialog        
-        #filename = QtGui.QFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV",self.params.datastore.Get("dir_export_csv")+"/"+self.params.name+".csv","Csv Files (*.csv)")
-        #filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV",self.params.datastore.Get("dir_export_csv")+"/"+self.params.name+".csv","Csv Files (*.csv)")
-        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
-                         
-        #print "FF1",filename
+        '''get filename, gui dialog, save path to datastore'''        
+        filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
+                                 
         if(filename == ""):
-            return
-        #CurrentDir = QtCore.QDir()
-        #self.params.datastore.Set("dir_export_csv", os.path.dirname(str(CurrentDir.absoluteFilePath(filename))))
-        #print "FF2",filename
-
-                       
+            return                            
 
         title = "Table '"+self.params.name + "' CSV Export Categories" 
         exportRows = []        
 
-        #EXPORT ALL TIMES                                            
+        '''EXPORT ALL TIMES'''                                                        
         for tabRow in self.proxy_model.dicts():
-            exportRow = self.tabRow2exportRow(tabRow, col_nr_export)[1]
-            #print "tabRow ",tabRow
-            #print "exportRow ",exportRow            
+            exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)[1]                                    
             if exportRow != []:                            
                 exportRows.append(exportRow)
-            exportHeader = self.tabRow2exportRow(tabRow, col_nr_export)[0]
-            
-        #print exportRows
+            exportHeader = self.tabRow2exportRow(tabRow, Times.eTOTAL)[0]                                        
              
-        #write to csv file
+        '''write to csv file'''
         if(exportRows != []):
             print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
             first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
             exportRows.insert(0, exportHeader)
             aux_csv = Db_csv.Db_csv(filename) #create csv class
-            try:                        
+            try:                                     
                 aux_csv.save(exportRows)
             except IOError:
                 self.params.showmessage(self.params.name+" Export warning", "Permission denied!")

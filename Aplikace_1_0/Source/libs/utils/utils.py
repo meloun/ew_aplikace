@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import Qt
 import unicodedata
-
+import collections
 
 '''cconvert integer(time in ms) to string (HH:MM:SS:mSmS)'''
 def time_to_string(time):
@@ -32,6 +32,28 @@ def getUtf8String(item):
          
     return item
 
+def toString(data):    
+    if isinstance(data, unicode):
+        return str(data)
+    elif isinstance(data, collections.Mapping):
+        return dict(map(toString, data.iteritems()))
+    elif isinstance(data, collections.Iterable):
+        return type(data)(map(toString, data))    
+    return data
+    
+def toUnicode(data, decode = 'utf-8', decode_number = True):    
+    if isinstance(data, unicode):
+        return data
+    elif isinstance( data, ( int, long ) ) and decode_number:
+        return unicode(data)
+    elif isinstance(data, str):
+        return unicode(data, decode)
+    elif isinstance(data, collections.Mapping):        
+        return dict(map(toUnicode, data.iteritems()))
+    elif isinstance(data, collections.Iterable):        
+        return type(data)(map(toUnicode, data))    
+    return unicode(data)
+
 def remove_accents(input_str):
     nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
@@ -43,6 +65,14 @@ def get_filename(input_str):
     return filename
 if __name__ == "__main__":
     import struct
+    
+    DATA = { u'spam': u'eggs', u'foo': frozenset([u'Gah!']), u'bar': { u'baz': 97 },
+         u'list': [u'list', (True, u'Maybe'), set([u'and', u'a', u'set', 1])]}
+    
+    print DATA, type(DATA)
+    print toString(DATA), type(toString(DATA))
+    print toUnicode(DATA), type(toUnicode(DATA))
+
     
     a = struct.pack('???', 1,1,1)
     print str(a)

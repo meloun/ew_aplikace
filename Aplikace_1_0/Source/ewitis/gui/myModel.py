@@ -3,7 +3,7 @@
 ## @package gui
 #  Dokumentace pro model Gui
 #
-#  bla bla
+#  bla blar
 
 import time
 from PyQt4 import Qt, QtCore, QtGui
@@ -36,8 +36,57 @@ class myParameters():
         self.datastore = source.datastore
         
         self.myQFileDialog = source.myQFileDialog
-           
-class myModel(QtGui.QStandardItemModel):
+
+class myAbstractModel():
+    def __init__(self): 
+        pass 
+    
+    def row(self, r):
+        """
+        vrací řádek jako list[] unicode stringů
+        """                
+        row = []
+        for c in range(self.columnCount()):
+            index = self.index(r, c)
+            value = self.data(index ).toString()
+            row.append(utils.toUnicode(value))        
+        return row
+    
+    def header(self):
+        """
+        vrací hlavičku tabulky jako list[]
+        """
+        
+        header = []
+        for i in range(self.columnCount()):
+            value = self.headerData(i, QtCore.Qt.Horizontal).toString()
+            header.append(utils.toUnicode(value))
+        return header 
+    
+    def lists(self):
+        """
+        vrací tabulku(hodnoty buněk) v listu[]
+        """        
+        rows = []
+        for r in range(self.rowCount()):                              
+            rows.append(self.row(r))
+        return rows
+            
+    def dicts(self):
+        """
+        vrací tabulku(hodnoty buněk) jako list of dict{}
+        """ 
+        dicts = []
+        
+        header = self.header()
+        
+        for i in range(self.rowCount()):
+            row = self.row(i)            
+            aux_dict = dict(zip(header, row))
+            dicts.append(aux_dict)
+        
+        return dicts           
+class myModel(QtGui.QStandardItemModel, myAbstractModel):
     """
     #odděděná od QStandardItemModel,
     základní model
@@ -110,23 +159,7 @@ class myModel(QtGui.QStandardItemModel):
 
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
          
-    def lists(self):
-        """
-        vraci tabulku(hodnoty bunek) v listu[]
-        """
-        
-        rows = []
-        for i in range(self.rowCount()):
-            row = []
-            for j in range(self.columnCount()):
-                index = self.index(i,j)
-                mystr1 = self.data(index).toString()                   
-                mystr2 = mystr1#str(mystr1.toUtf8())                
-                row.append(mystr2)            
-            rows.append(row)
-        return rows
-    
-    
+  
     
 
 
@@ -204,16 +237,6 @@ class myModel(QtGui.QStandardItemModel):
                 row['id'] = 0                
         
         return row
-    
-    def header(self):
-        """
-        vraci hlavicku tabulky jako list[]
-        """
-        
-        header = []
-        for i in range(self.columnCount()):
-            header.append(str(self.headerData(i, QtCore.Qt.Horizontal).toString()))
-        return header
      
     def getTableRow(self, nr_row):
         """
@@ -224,8 +247,9 @@ class myModel(QtGui.QStandardItemModel):
         row = {}                
                    
         for key in self.header():
-            #print "nr_row: ",nr_row,"nr_column: ",nr_column, self.item(nr_row, nr_column).text()                                                                  
-            row[key] = unicode(self.item(nr_row, nr_column).text())
+            #print "nr_row: ",nr_row,"nr_column: ",nr_column, self.item(nr_row, nr_column).text()                                                                               
+                                                                               
+            row[key] = utils.toUnicode(self.item(nr_row, nr_column).text())            
             nr_column += 1
         
         return row    
@@ -301,7 +325,7 @@ class myModel(QtGui.QStandardItemModel):
         self.params.datastore.Set("user_actions", True)                                                                          
             
 
-class myProxyModel(QtGui.QSortFilterProxyModel):
+class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
     """
     """
     def __init__(self, params):
@@ -319,58 +343,6 @@ class myProxyModel(QtGui.QSortFilterProxyModel):
             index = self.index(i,0)                              
             ids.append(str(self.data(index).toString()))
         return ids
-        
-    #get headerData
-    def header(self):
-        header = []
-        for i in range(self.columnCount()):
-            header.append(str(self.headerData(i, QtCore.Qt.Horizontal).toString()))
-        return header
-    
-    
-    def row(self, nr_row):
-        row = []
-        for j in range(self.columnCount()):
-            index = self.index(nr_row, j)
-            mystr1 = self.data(index).toString()                   
-            mystr2 = mystr1#.toUtf8()                
-            row.append(mystr2)
-        return row     
-    
-#    #get current state in lists
-#    def lists_old(self):
-#        rows = []
-#        for i in range(self.rowCount()):
-#            row = []
-#            for j in range(self.columnCount()):
-#                index = self.index(i,j)
-#                mystr1 = self.data(index).toString()                   
-#                mystr2 = str(mystr1.toUtf8())                
-#                row.append(mystr2)            
-#            rows.append(row)
-#        return rows
-    
-    #get current state in lists
-    def lists(self):
-        rows = []
-        for i in range(self.rowCount()):
-            row = self.row(i)                                   
-            rows.append(row.decode('utf-8'))
-        return rows
-    
-    #get current state in dicts
-    def dicts(self):
-        dicts = []
-        
-        header = self.header()
-        
-        for i in range(self.rowCount()):
-            row = self.row(i)            
-            aux_dict = dict(zip(header, row))
-            dicts.append(aux_dict)
-        
-        return dicts
-
 
 class myTable():
     """
