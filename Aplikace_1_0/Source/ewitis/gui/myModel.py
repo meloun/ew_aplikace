@@ -52,6 +52,7 @@ class myAbstractModel():
             row.append(utils.toUnicode(value))        
         return row
     
+    
     def header(self):
         """
         vrací hlavičku tabulky jako list[]
@@ -61,7 +62,15 @@ class myAbstractModel():
         for i in range(self.columnCount()):
             value = self.headerData(i, QtCore.Qt.Horizontal).toString()
             header.append(utils.toUnicode(value))
-        return header 
+        return header
+    
+    def row_dict(self, r):
+        """
+        vraci radek jako slovnik (podle cisla radku)
+        """                    
+        row = self.row(r)                                   
+        header = self.header()                                                                                                                                                                          
+        return dict(zip(header, row)) 
     
     def lists(self):
         """
@@ -127,19 +136,18 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if(self.params.datastore.Get("user_actions")):                                                                                    
                         
             #ziskat zmeneny radek, slovnik{}
-            tabRow = self.getTableRow(item.row())                                                                                                  
+            tabRow = self.row_dict(item.row())#self.getTableRow(item.row())                                                                                                  
             
             #prevest na databazovy radek, dbRow <- tableRow
             dbRow = self.table2dbRow(tabRow, item)                                            
                                         
             #exist row? 
-            if (dbRow != None): 
-                                                                                           
+            if (dbRow != None):                                                                                         
                 #update DB
-                #try:                                                        
-                self.params.db.update_from_dict(self.params.name, dbRow)                
-                #except:                
-                #    self.params.showmessage(self.params.name+" Update", "Error!")                
+                try:                                                        
+                    self.params.db.update_from_dict(self.params.name, dbRow)                
+                except:                
+                    self.params.showmessage(self.params.name+" Update", "Error!")                
                 
             #update model                                                                           
             self.update()                                                                        
@@ -157,25 +165,20 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if (index.column() == 0):
             return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
-         
-  
-    
-
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable 
 
     def db2tableRow(self, dbRow):
         """
         konverze DATABASE radku na TABLE radek
         pokud existuje sloupec z database i v tabulce, zkopiruje se 
-        """
-        
+        """        
         tabRow = {}
         
         #exist?
         if dbRow == None:
             tabRow = self.getDefaultTableRow()
         
-        #kopie vseho z db do tab    
+        #kopie všeho z db do tab    
         for key in self.params.DB_COLLUMN_DEF:
             #kopie 1to1
             try:
@@ -183,8 +186,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             except:
                 pass #tento sloupec v tabulce neexistuje
 
-        return tabRow
-     
+        return tabRow     
    
     def table2dbRow(self, tabRow, item = None):
         """
@@ -194,14 +196,12 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         
         dbRow = {}
                        
-        for key in self.params.DB_COLLUMN_DEF:         
-                        
+        for key in self.params.DB_COLLUMN_DEF:                                 
             #kopie 1to1
             try:
                 dbRow[ key] = tabRow[key]
             except:
-                pass #tento sloupec v tabulce neexistuje             
-                
+                pass #tento sloupec v tabulce neexistuje                             
         return dbRow
        
     def table2exportRow(self, tabRow):
@@ -221,8 +221,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
     def getDefaultTableRow(self):
         """
         vraci radek naplneny zakladnimi daty
-        """
-                
+        """                
         row = {}     
            
         #prazdne znaky do vsech sloupcu
@@ -234,25 +233,8 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             try:
                 row['id'] = self.params.db.getMax(self.params.name, 'id') + 1
             except:
-                row['id'] = 0                
-        
-        return row
-     
-    def getTableRow(self, nr_row):
-        """
-        vraci radek jako slovnik (podle cisla radku)
-        """
-                
-        nr_column = 0
-        row = {}                
-                   
-        for key in self.header():
-            #print "nr_row: ",nr_row,"nr_column: ",nr_column, self.item(nr_row, nr_column).text()                                                                               
-                                                                               
-            row[key] = utils.toUnicode(self.item(nr_row, nr_column).text())            
-            nr_column += 1
-        
-        return row    
+                row['id'] = 0                        
+        return row        
                 
     def addRow(self, row):
         """
@@ -524,80 +506,49 @@ class myTable():
         if (label != ""):
             label="\n\n("+label+")"        
         if (self.params.showmessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, msgtype='warning_dialog')):                        
-            self.delete(id)                          
-                                                      
-        
-    # IMPORT
-    # CSV FILE => DB               
-    def sImport2(self):                                   
-                                   
-        #gui dialog -> get filename
-        #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")                
-        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")
+            self.delete(id)                                                                                            
+                            
+    def sImport(self):
+        """import"""                                   
+                                           
+        #gui dialog        
+        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
         
         #cancel or close window
         if(filename == ""):                 
             return        
                   
         #IMPORT CSV TO DATABASE
-        try:                          
-            
-            #get sorted keys
-            keys = []
-            for list in sorted(self.params.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
-                    keys.append(list[0])
-                    
-            #import CSV to Database
-            state = self.params.db.importCsv(self.params.name, filename, keys)
-            
-            #update gui
-            self.model.update()
-            self.sImportDialog(state)
-        except sqlite.CSV_FILE_Error:
-            self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
-
-    '''ten druhy import nefunguje pro USER, nekonvertuje category na category_id'''            
-    def sImport(self):                                   
-                                           
-        '''gui dialog'''    
-        #filename = QtGui.QFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"import/table_"+self.params.name+".csv","Csv Files (*.csv)")
-        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        
-        '''cancel or close window'''
-        if(filename == ""):                 
-            return        
-                  
-        '''IMPORT CSV TO DATABASE'''
         #try:            
             
-        '''get sorted keys'''
+        #get sorted keys
         keys = []
         for list in sorted(self.params.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
             keys.append(list[0])
             
-        '''create csv'''        
+        #create csv        
         aux_csv = Db_csv.Db_csv(filename)
         rows =  aux_csv.load()
                     
-        '''check csv file format - emty file'''
+        #check csv file format - emty file
         if(rows==[]):                
             self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
             return
         
-        '''check csv file format - wrong format'''                                
+        #check csv file format - wrong format                                
         header = rows.pop(0)
         for i in range(3): 
             if not(header[i] in keys):
                 self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
                 return
 
-        '''counters'''
+        #counters
         state = {'ko':0, 'ok':0}
         
-        '''adding records to DB'''                        
+        #adding records to DB                        
         for row in rows:                                                                                                                                    
             try:
-                '''add 1 record'''
+                #add 1 record
                 importRow = dict(zip(keys, row)) 
                 dbRow = self.model.import2dbRow(importRow)                     
                 self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      

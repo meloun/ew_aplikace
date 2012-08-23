@@ -145,11 +145,12 @@ class ManageComm(Thread):
             aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], struct.pack('h',self.index_runs))          
                                     
             
-            """ STORE NEW TIME TO THE DATABASE """                                                            
+            """ STORE NEW TIME TO THE DATABASE """
+            #print "aux_time['error']: ",aux_time['error'], type(aux_time['error'])                                                             
             if(aux_time['error'] == 0):
                                     
                 '''update CSV file'''                                
-                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time']).replace(',', '.')
+                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')
                                 
                 print "I:Comm: receive time: "+aux_csv_string
                 #print struct.pack('<I', aux_time['user_id']).encode('hex')

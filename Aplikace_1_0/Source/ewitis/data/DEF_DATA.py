@@ -61,6 +61,9 @@ DEF_DATA = {
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":True}  
                                },
+        "onelap_race"        : {"name"     : "onelap race",
+                                "GET_SET"  : {"value": True}  
+                               },
         "additinal_info"     : {"name"     : "additinal info",
                                 "GET_SET"  : {"value": True}  
                                },

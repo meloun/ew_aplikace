@@ -170,38 +170,28 @@ class TimesOrder():
                         " WHERE (times.time < " + str(dbTime['time']) + ")"+\
                         " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                         " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)+\
-                    " UNION "+\
-                    " SELECT user_id FROM times" +\
-                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                    " INNER JOIN users ON tags.user_nr = users.nr "+\
-                        " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) > "+str(lap)+\
-                ")"  
-#                "SELECT count(*) FROM (" +\
-#                    " SELECT COUNT(times.id) FROM times" +\
-#                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-#                    " INNER JOIN users ON tags.user_nr = users.nr "+\
-#                    " WHERE (times.time < " + str(dbTime['time']) + ")"+\
-#                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-#                    " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-#                    " AND (times.time != 0 )"+\
-#                    " AND (times.cell != 1 )"+\
-#                    " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-#                    " GROUP BY user_id"+\
-#                    " HAVING count(*) >= "+str(lap)+\
-#                ")"
-                    
-            else:
+                        " HAVING count(*) == "+str(lap)
+                if(self.datastore.Get('onelap_race') == False):
+                    query_order = query_order + \
+                        " UNION "+\
+                        " SELECT user_id FROM times" +\
+                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+                        " INNER JOIN users ON tags.user_nr = users.nr "+\
+                            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
+                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                            " AND (times.user_id != 0 )"+\
+                            " AND (times.time != 0 )"+\
+                            " AND (times.cell != 1 )"+\
+                            " AND (users.category_id=\"" +str(category_id)+ "\")"+\
+                            " GROUP BY user_id"+\
+                            " HAVING count(*) > "+str(lap)
+                query_order = query_order + ")"                   
+            else:                
                 query_order = \
                 "SELECT COUNT(*) FROM("+\
                     "SELECT user_id FROM times" +\
@@ -209,22 +199,28 @@ class TimesOrder():
                         " WHERE (times.time < " + str(dbTime['time']) + ")"+\
                         " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                         " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)+\
-                    " UNION "+\
-                    " SELECT user_id FROM times" +\
-                    " INNER JOIN users ON times.user_id = users.id"+\
-                        " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) > "+str(lap)+\
-                ")"                              
+                        " HAVING count(*) == "+str(lap)
+                if(self.datastore.Get('onelap_race') == False):
+                    query_order = query_order +\
+                        " UNION "+\
+                        " SELECT user_id FROM times" +\
+                        " INNER JOIN users ON times.user_id = users.id"+\
+                            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
+                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                            " AND (times.user_id != 0)"+\
+                            " AND (times.time != 0 )"+\
+                            " AND (times.cell != 1 )"+\
+                            " AND (users.category_id=\"" +str(category_id)+ "\")"+\
+                            " GROUP BY user_id"+\
+                            " HAVING count(*) > "+str(lap)
+                query_order = query_order + ")"
+            
+            #print "query_order: ",query_order                                 
                         
                                                                                           
         
@@ -237,19 +233,22 @@ class TimesOrder():
                         " WHERE (times.time < " + str(dbTime['time']) + ")"+\
                         " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                         " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)+\
+                        " HAVING count(*) == " + str(lap)
+            if(self.datastore.Get('onelap_race') == False):
+                    query_order = query_order +\
                     " UNION "+\
                     " SELECT user_id FROM times" +\
                         " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " GROUP BY user_id"+\
-                        " HAVING count(*) > "+str(lap)+\
-                ")"                
+                        " HAVING count(*) > "+str(lap)
+            query_order = query_order + ")"                
             #print "query_order: ",query_order                                             
                                                        
         try:
@@ -367,6 +366,25 @@ class TimesLap():
         #print query          
         count = self.db.query(query).fetchone()[0]+1
         return count
+    
+    def GetLaps(self, dbTime):        
+                
+        if(dbTime['cell'] == 1):
+            return None                    
+        
+        if(dbTime['user_id'] == 0):
+            return None         
+    
+        '''count of times - same race, same user, better time, exclude start time'''
+        query = \
+                "SELECT COUNT(*) FROM times" +\
+                    " WHERE (times.run_id ==" + str(dbTime['run_id'])+ ")"+\
+                    " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
+                    " AND (times.cell != 1)"
+     
+        #print query          
+        count = self.db.query(query).fetchone()[0]
+        return count        
     
 
                     

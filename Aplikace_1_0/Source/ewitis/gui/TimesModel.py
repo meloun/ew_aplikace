@@ -210,13 +210,10 @@ class TimesModel(myModel.myModel):
         if(lasttime == True):                                
             tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
         else:
-            tabTime['order']  = ""
-#            
-#
+            tabTime['order']  = ""            
                 
         '''ORDER IN CATEGORY'''
-        if(lasttime == True):
-            #print tabTime['id']
+        if(lasttime == True):                        
             #z1 = time.clock()                       
             tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
             #print (time.clock() - z1)
@@ -244,7 +241,7 @@ class TimesModel(myModel.myModel):
         if(self.params.datastore.Get("user_actions")):                              
         
             #print "radek",item.row()
-            tabRow = self.getTableRow(item.row())
+            tabRow = self.row_dict(item.row())
                     
             if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
                
@@ -294,7 +291,7 @@ class TimesModel(myModel.myModel):
 #            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
 #            return None        
         
-        '''USER NR => USER ID'''                
+        '''USER NR => USER ID'''                        
         if(int(tabTime['nr']) == 0):
             dbTime['user_id'] = 0                     
         else:                                                
@@ -320,10 +317,10 @@ class TimesModel(myModel.myModel):
             try:                                
                 aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
             except IndexError:                        
-                self.params.showmessage(self.params.name+" Update error", str(nr_start)+".th start-time is necessary for users from this category!")
+                self.params.showmessage(self.params.name+": Update error", str(nr_start)+".th start-time is necessary for users from this category!")
                 return None
             except:
-                self.params.showmessage(self.params.name+" Update error", "Cant find start time for this category.")
+                self.params.showmessage(self.params.name+": Update error", "Cant find start time for this category.")
                 return None
                 
             ''' get user id'''
@@ -331,8 +328,14 @@ class TimesModel(myModel.myModel):
                         
             if(dbTime['user_id'] == None):
                 '''user not found => nothing to save'''
-                self.params.showmessage(self.params.name+" Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
+                self.params.showmessage(self.params.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
+            
+            #in onelap race user can have ONLY 1 TIME
+            if(self.params.datastore.Get('onelap_race') == True):
+                if(self.lap.GetLaps(dbTime) != 0):
+                    self.params.showmessage(self.params.name+": Update error", "This user has already time!")
+                    return None 
                             
         ''' TIME '''                                                            
         #try:                                                         
@@ -386,6 +389,8 @@ class TimesModel(myModel.myModel):
                                             
         #except TimesUtils.TimeFormat_Error:
         #    self.params.showmessage(self.params.name+" Update error", "Time wrong format!")             
+        
+
                                                                                                                                                                                                                                                                                                                              
         return dbTime    
         
@@ -404,7 +409,7 @@ class TimesModel(myModel.myModel):
                 start_time = None
                                                     
             '''odecteni startovaciho casu a ulozeni do db'''
-            print dbTime['time_raw']
+            #print dbTime['time_raw']
             dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']                                                       
             self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
             
@@ -416,7 +421,6 @@ class TimesModel(myModel.myModel):
             
             '''time'''
             if(dbTime['time'] == None):
-                print "HHHURAY"
             
                 ''' get USER'''            
                 tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])
@@ -428,8 +432,7 @@ class TimesModel(myModel.myModel):
                     start_nr = 1 #decrement 1.starttime
                 else:                                
                     start_nr = tabCategory['start_nr']        
-                            
-                            
+                                                        
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                
                 self.calc_update_time(dbTime, start_nr)
             
@@ -698,7 +701,7 @@ class Times(myModel.myTable):
         #myModel.myTable.update(self)
         self.setColumnWidth()
         self.update_counter()
-        print time.clock() - ztime
+        print "Times: update",time.clock() - ztime
             
 
     # REMOVE ROW      

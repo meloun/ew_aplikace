@@ -264,7 +264,6 @@ class SerialProtocol():
         
         '''common errors'''
         #aux_dict['common_errors'] = 0
-
         
         return aux_dict
         
