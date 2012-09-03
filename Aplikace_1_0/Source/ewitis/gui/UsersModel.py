@@ -138,7 +138,7 @@ class UsersModel(myModel.myModel):
         return importRow
         
 #     
-#    def slot_ModelChanged(self, item):
+#    def sModelChanged(self, item):
 #        
 #        #EXIST USER WITH THIS NR??
 #        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):
@@ -149,7 +149,7 @@ class UsersModel(myModel.myModel):
 #                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
 #                    self.update()
 #                    return None
-#        myModel.myModel.slot_ModelChanged(self, item)
+#        myModel.myModel.sModelChanged(self, item)
                  
 class UsersProxyModel(myModel.myProxyModel):
     def __init__(self, params):                        

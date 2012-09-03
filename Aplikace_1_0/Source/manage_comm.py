@@ -219,7 +219,7 @@ class ManageComm(Thread):
                         
 
                                          
-            if(self.datastore.Get("active_tab") == 4) or (self.datastore.Get("active_tab") == 5):                                
+            if(self.datastore.Get("active_tab") == 5) or (self.datastore.Get("active_tab") == 6):                                
                 """
                 SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
                  - set new backlight state

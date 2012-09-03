@@ -64,10 +64,9 @@ TIMES['table_race'] =   {
                            "order"      : {"index": 6,  "name": "order",     "width":50,    "write":1},      
                            "order_cat"  : {"index": 7,  "name": "order_cat", "width":50,    "write":1},      
                            "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "write":1},
-                           "lap"        : {"index": 9,  "name": "lap",       "width":50,    "write":1},                                               
-                           "gap"        : {"index": 10, "name": "gap",       "width":50,    "write":1},
-                           #nedavat time_raw, potom stejne jmeno s tabulkou a kreje se
-                           "timeraw"    : {"index": 11, "name": "timeraw",   "width":100,   "write":1},                        
+                           "lap"        : {"index": 9,  "name": "lap",       "width":50,    "write":1},                                                                          
+                           #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
+                           "timeraw"    : {"index": 10, "name": "timeraw",   "width":100,   "write":1},                        
                         
                         }
   

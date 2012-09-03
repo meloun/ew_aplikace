@@ -7,6 +7,11 @@ Created on 28.2.2012
 
 '''čísla záložek v TAB widgetu'''
 TABS = {"run_times":0, "users":1, "categories":2, "tags":3, "terminal_cells":4, "timing_settings":5}
+class TAB:
+    run_times, users, categories, cgroups, tags, terminal_cells, timing_settings = range(0,7)
+
+class UPDATE_MODE:
+    all, tables, gui = range(0,3)
 
 class LOGIC_MODES:
     basic, manual, single_mass, multiple_mass = range(1,5)  

@@ -94,5 +94,5 @@ def callback(command, data):
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"] | 0x80)):        
         return data    
 
-    print "d:", data
+    print "E: callback error, cmd: " + str(command) +","+ data
     return "E: callback error, cmd: " + str(command) 

@@ -29,7 +29,7 @@ from libs.myqt import gui
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):        
     def __init__(self, parent = None):
-        import libs.comm.serial_utils as serial_utils                                         
+        import libs.comm.serial_utils as serial_utils                                     
         
         """ GUI """
         QtGui.QWidget.__init__(self, parent)        
@@ -118,24 +118,13 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         # SIGNALS
         #=======================================================================
         
-        QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
-         
-        QtCore.QObject.connect(self.ui.RunsProxyView.selectionModel(), QtCore.SIGNAL("selectionChanged(QItemSelection, QItemSelection)"), self.sRunsProxyView_SelectionChanged)
+        QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)                 
         QtCore.QObject.connect(self.ui.aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)
         QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("triggered()"), self.sRefresh)
-        QtCore.QObject.connect(self.ui.aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)
-        
-        QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)        
-        
-        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
-        
-        QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("activated()"), self.sRefresh)   
-        
-        #self.ui.aRefresh.connect(QtCore.QObject, QtCore.SIGNAL("activated()"), self.sRefresh)
-        
-        QtCore.QObject.connect(self.ui.aRefreshMode, QtCore.SIGNAL("triggered()"), self.sRefreshMode)      
-        QtCore.QObject.connect(self.ui.aLockMode, QtCore.SIGNAL("triggered()"), self.sLockMode)
-        QtCore.QObject.connect(self.ui.aEditMode, QtCore.SIGNAL("triggered()"), self.sEditMode)
+        QtCore.QObject.connect(self.ui.aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)        
+        QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
+        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)        
+        QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("activated()"), self.sRefresh)           
         QtCore.QObject.connect(self.ui.tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged)
         #QtCore.QObject.connect(self.ui.TimesShowAll, QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAllChanged)
         #QtCore.QObject.connect(self.ui.timesShowZero, QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZeroChanged)              
@@ -192,64 +181,22 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.myapp = wrapper_gui_ewitis()
         self.myapp.show()    
         sys.exit(self.app.exec_())
-                
-        
-        
-    
-    def updateTables(self, nr):        
-        if(nr==0):
-            self.R.update()
-            #self.R.updateTimes()  #update TIMES table
-            self.T.update()
-        elif(nr==1):            
-            self.U.update()
-        elif(nr==2):            
-            self.C.update()
-        elif(nr==3):            
-            self.CG.update()                     
-        elif(nr==4):            
-            self.tableTags.update()
 
+    
     def uiRestrict(self):
         pass
-        #toDo: rozlisit podle modu z datastore
-#        if(self.GuiData.measure_mode == GuiData.MODE_TRAINING_BASIC):
-#            #TABLE RUNS
-#            #add
-#            self.ui.RunsAdd.setEnabled(False)
-#            
-#            #TABLE TIMES                
-#            #add
-#            self.ui.TimesAdd.setEnabled(False)
-#            
-#            #TOOLBAR MODES
-#            self.ui.toolBar_Modes.setEnabled(False)        
-#            self.ui.toolBar_Modes.setVisible(False)
-#            
-#            #MENU
-#            self.ui.menubar.setHidden(True)                                                                                              
-#            self.ui.TimesWwwExport.addAction(self.ui.aDirectWwwExport)            
          
     #=======================================================================
     ### SLOTS ###
     #=======================================================================  
     # 23 06 04 00 00 0000 00      
     def sTimer(self):
-        self.UiAccesories.updateTab(self.ui.tabWidget.currentIndex ())        
+        self.UiAccesories.updateTab(self.ui.tabWidget.currentIndex (), UPDATE_MODE.gui)        
         
     def sTabChanged(self, nr):
                 
-        self.datastore.Set("active_tab", nr)
-        
-        self.updateTables(nr)        
-                
-
-            
-        
-    def sRunsProxyView_SelectionChanged(self, selected, deselected):               
-        if(selected):            
-            self.R.updateTimes()  #update TIMES table                                                                               
-                      
+        self.datastore.Set("active_tab", nr)        
+        self.UiAccesories.updateTab(nr, UPDATE_MODE.all)                                    
         
     #===========================================================================
     ### PORT TOOLBAR ### 
@@ -323,58 +270,19 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
     #===========================================================================
     ### ACTION TOOLBAR ### 
     #=========================================================================== 
-    def sRefresh(self):        
-        
-        nr_tab = self.datastore.Get("active_tab")
-        self.updateTables(nr_tab)               
-        
+    def sRefresh(self):
         title = "Manual Refresh"
-        self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)   
         
-    #===========================================================================
-    #### MODE TOOLBAR => EDIT, LOCK, REFRESH ### 
-    #===========================================================================         
-    def sEditMode(self):
+        #disable user actions        
+        self.datastore.Set("user_actions", self.datastore.Get("user_actions")+1)
+                         
+        nr_tab = self.datastore.Get("active_tab")        
+        self.UiAccesories.updateTab(nr_tab)                       
+        self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)
         
-        self.ui.aEditMode.setChecked(True) 
-        self.ui.aLockMode.setChecked(False) 
-        self.ui.aRefreshMode.setChecked(False)
-        
-        self.GuiData.table_mode = GuiData.MODE_EDIT
-          
-        self.T.model.table_mode = myModel.MODE_EDIT           
-        self.R.model.table_mode = myModel.MODE_EDIT
-        self.U.model.table_mode = myModel.MODE_EDIT
-        
-        self.showMessage("Mode", "EDIT", dialog = False)
-          
-    def sRefreshMode(self):
-        
-        self.ui.aRefreshMode.setChecked(True)
-        self.ui.aLockMode.setChecked(False) 
-        self.ui.aEditMode.setChecked(False)  
-        
-        self.GuiData.table_mode = GuiData.MODE_REFRESH     
-                  
-        self.R.model.table_mode = myModel.MODE_REFRESH
-        self.T.model.table_mode = myModel.MODE_REFRESH
-        self.U.model.table_mode = myModel.MODE_REFRESH  
-        
-        self.showMessage("Mode", "REFRESH", dialog = False)      
-        
-    def sLockMode(self):
-        
-        self.ui.aLockMode.setChecked(True)
-        self.ui.aRefreshMode.setChecked(False) 
-        self.ui.aEditMode.setChecked(False)
-          
-        self.GuiData.table_mode = GuiData.MODE_LOCK     
-                
-        self.R.model.table_mode = myModel.MODE_LOCK
-        self.T.model.table_mode = myModel.MODE_LOCK
-        self.U.model.table_mode = myModel.MODE_LOCK
-        
-        self.showMessage("Mode", "LOCK", dialog = False)                                                                                                                                                                                 
+        #enable user actions        
+        self.datastore.Set("user_actions", self.datastore.Get("user_actions")-1)                     
+                                                                                                                                                                                            
     def sShortcuts(self):                           
         QtGui.QMessageBox.information(self, "Shortcuts", "F5 - manual refresh\nF12 - direct www export")
     def sAbout(self):                           

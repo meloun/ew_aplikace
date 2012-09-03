@@ -51,24 +51,27 @@ DEF_DATA = {
                                },
 
         "active_tab"         : {"GET_SET"  : {"value":0}},
-        "show_alltimes"      : {"GET_SET"  : {"value": True}},
+        
+        #show flags for times table
+        "show_alltimes"      : {"GET_SET"  : {"value": False}},
         "show_zerotimes"     : {"GET_SET"  : {"value": True}},
-        "show_starttimes"    : {"GET_SET"  : {"value": True}},
+        "show_starttimes"    : {"GET_SET"  : {"value": True}},     
+        
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"XC Partyzán Chomutov 2012"}  
+                                "GET_SET"  : {"value":u"Křápkap"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":True}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
-                                "GET_SET"  : {"value": True}  
+                                "GET_SET"  : {"value": False}  
                                },
         "additinal_info"     : {"name"     : "additinal info",
                                 "GET_SET"  : {"value": True}  
                                },
         "user_actions"       : {"name"     : "user_actions",
-                                "GET_SET"  : {"value":True}  
+                                "GET_SET"  : {"value": 0}  
                                },
         "dir_import_csv"     : {"name"     : "dir_import_csv",
                                 "GET_SET"  : {"value":"import/csv/"}  

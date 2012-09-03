@@ -102,12 +102,7 @@ class TimesModel(myModel.myModel):
         self.starts = TimesUtils.TimesStarts(self.params.db)
         self.order = TimesUtils.TimesOrder(self.params.db, self.params.datastore)
         self.lap = TimesUtils.TimesLap(self.params.db, self.params.datastore)
-        
-                        
-        self.showall = False
-        self.showzero = True
-                                        
-        
+                                                           
         #update with first run        
         first_run = self.params.db.getFirst("runs")
         if(first_run != None):
@@ -142,10 +137,12 @@ class TimesModel(myModel.myModel):
         """
 
         #ztime = time.clock()
-        #print "Z:", ztime                                     
-        '''hide all zero time?'''
-        if(self.showzero == False):
-            if (int(dbTime["cell"])==1):                
+        #print "Z:", ztime
+        #print dbTime
+                                             
+        '''hide all zero time?'''                    
+        if(self.params.datastore.Get('show_zerotimes') == False):                            
+            if (dbTime["cell"] == 1):                
                 return None                      
         
         ''' 1to1 KEYS '''           
@@ -218,27 +215,16 @@ class TimesModel(myModel.myModel):
             tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
             #print (time.clock() - z1)
         else:
-            tabTime['order_cat']  = ""
-        
-        '''GAP'''
-        tabTime['gap'] = ""
-        #print start_time
-        #try:         
-        #dbRow = self.params.db.getParId("Times", start_time['id']+1)
-        #print dbRow
-            #tabTime['gap'] = aux_rawtime - dbRow['time']
-        #except TypeError:
-        #    pass
-            
+            tabTime['order_cat']  = ""                  
         
         #'''ORDER'''        
         #tabTime['order']  = self.order.Get2(tabTime, tabTime['lap'])                                         
                     
         return tabTime
                                                                                    
-    def slot_ModelChanged(self, item):
+    def sModelChanged(self, item):
                 
-        if(self.params.datastore.Get("user_actions")):                              
+        if(self.params.datastore.Get("user_actions") == 0):                              
         
             #print "radek",item.row()
             tabRow = self.row_dict(item.row())
@@ -261,7 +247,7 @@ class TimesModel(myModel.myModel):
                                                    
                 
         
-        myModel.myModel.slot_ModelChanged(self, item)
+        myModel.myModel.sModelChanged(self, item)
   
 
                 
@@ -278,7 +264,8 @@ class TimesModel(myModel.myModel):
         dbTime = myModel.myModel.table2dbRow(self, tabTime, item)
                 
         '''RUN_ID'''
-        if(self.showall):
+        #if(self.showall):
+        if(self.params.datastore.Get('show_alltimes') == True):
             '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
             aux_dbtime = self.params.db.getParId("times",tabTime['id'])            
             dbTime['run_id'] = aux_dbtime['run_id']            
@@ -415,8 +402,17 @@ class TimesModel(myModel.myModel):
             
                 
     def calc_update_times(self):
+        """
+        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
+        
+        *Ret:*
+            pole čísel závodníků u kterých se nepodařilo časy updatovat   
+        """
+        ret_ko_times = []
+        
         dbTimes = self.params.db.getAll(self.params.name)
         dbTimes = self.params.db.cursor2dicts(dbTimes)
+        
         for dbTime in dbTimes:
             
             '''time'''
@@ -433,13 +429,18 @@ class TimesModel(myModel.myModel):
                 else:                                
                     start_nr = tabCategory['start_nr']        
                                                         
-                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                
-                self.calc_update_time(dbTime, start_nr)
-            
-               
-             
+                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
+                try:                
+                    self.calc_update_time(dbTime, start_nr)
+                except:
+                    ret_ko_times.append(start_nr)
+                           
+        return ret_ko_times
+    
     #UPDATE TABLE        
     def update(self, run_id = None):                  
+        
+        #print self.params.name+": model update (t)"
         
         if(run_id != None):                    
             self.run_id = run_id #update run_id
@@ -447,10 +448,15 @@ class TimesModel(myModel.myModel):
         #update start times        
         self.starts.Update()        
         
-        self.calc_update_times()
+        ko_nrs = self.calc_update_times()
+        if(ko_nrs != []):
+            print "E:",self.params.name+" Update error", "Some times have no start times"+str(ko_nrs)
+            
+        
         
         #update times
-        if(self.showall):
+        #if(self.showall):
+        if(self.params.datastore.Get('show_alltimes') == True):
             
             #get run ids
             conditions = []
@@ -474,7 +480,7 @@ class TimesProxyModel(myModel.myProxyModel):
         
         #create PROXYMODEL
         myModel.myProxyModel.__init__(self, params)
-        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&,const QModelIndex&)"), self.slot_ModelChanged)   
+        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&,const QModelIndex&)"), self.sModelChanged)   
         
     #setting flags for this model
     #first collumn is NOT editable
@@ -483,8 +489,8 @@ class TimesProxyModel(myModel.myProxyModel):
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable        
         
                 
-    def slot_ModelChanged(self,  topLeft, bottomRight):
-        if(self.params.datastore.Get("user_actions")):                  
+    def sModelChanged(self,  topLeft, bottomRight):
+        if(self.params.datastore.Get("user_actions") == 0):                  
             if(topLeft == bottomRight):
             
                 '''změna jednoho prvku'''
@@ -615,8 +621,8 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie: "+dbCategory['name'],"","","","","",dbCategory['description']]                
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","",""])
+                first_header = ["Kategorie: "+dbCategory['name'],"","","","","","",dbCategory['description']]                
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")
@@ -647,9 +653,9 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "export cgroups", dbCGroup['label'], ":",len(exportRows),"times"
-                first_header = ["Skupina: "+dbCGroup['label'],"","","","",dbCGroup['description']]
+                first_header = ["Skupina: "+dbCGroup['name'],"","","","","","",dbCGroup['description']]
                 #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","",""])
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)                                                
                 filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
@@ -696,12 +702,12 @@ class Times(myModel.myTable):
                     
     #toDo: sloucit s myModel konstruktorem        
     def update(self, run_id = None):
-        ztime = time.clock()                      
+        #ztime = time.clock()                      
         self.model.update(run_id = run_id)                        
         #myModel.myTable.update(self)
         self.setColumnWidth()
         self.update_counter()
-        print "Times: update",time.clock() - ztime
+        #print "Times: update time:",time.clock() - ztime
             
 
     # REMOVE ROW      

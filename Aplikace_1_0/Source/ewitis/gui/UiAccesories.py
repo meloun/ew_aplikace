@@ -11,8 +11,9 @@ class UiAccesories():
         
         self.ui = source.ui
         self.datastore = source.datastore
-        self.showmessage = source.showMessage                
-    
+        self.showmessage = source.showMessage
+        self.source = source
+        
     def createSlots(self): 
                 
         """SLOTY"""
@@ -33,30 +34,54 @@ class UiAccesories():
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
 
     def updateGui(self):
-        self.updateTab(0)
-        self.updateTab(1)
-        self.updateTab(2)
-        self.updateTab(3)
-        self.updateTab(4)
+        self.updateTab(TAB.run_times)
+        self.updateTab(TAB.users)
+        self.updateTab(TAB.categories)
+        self.updateTab(TAB.cgroups)
+        self.updateTab(TAB.tags)
+        self.updateTab(TAB.terminal_cells)
+        self.updateTab(TAB.timing_settings)
         
-    def updateTab(self, tab):
-        
-
-        if(tab == 0):
-        
-            """ PORT NAME """
-            self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
-            self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
+    def updateTab(self, tab, mode = UPDATE_MODE.all):
+        """ 
+        """
+        #print "update tab", tab
+        if(tab == TAB.run_times):
             
-            """ PORT CONNECT """
-            if(self.datastore.Get("port_enable")):
-                self.ui.aConnectPort.setText("Disconnect")
-            else:
-                self.ui.aConnectPort.setText("Connect")
-                    
-            terminal_info = self.datastore.Get("terminal info", "GET")
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
+                """ PORT NAME """
+                self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
+                self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
+                
+                """ PORT CONNECT """
+                if(self.datastore.Get("port_enable")):
+                    self.ui.aConnectPort.setText("Disconnect")
+                else:
+                    self.ui.aConnectPort.setText("Connect")
+                        
+                #terminal_info = self.datastore.Get("terminal info", "GET")                                            
+                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.R.update()
+                self.source.T.update()
+                
+        elif(tab == TAB.users):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.U.update()
+                
+        elif(tab == TAB.categories):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.C.update()
+                  
+        elif(tab == TAB.cgroups):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):                
+                self.source.CG.update()
+                   
+        elif(tab == TAB.tags):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.tableTags.update()                                               
         
-        elif(tab == 4):
+        elif(tab == TAB.terminal_cells):
             if(self.datastore.Get("rfid")):
                 self.ui.checkRfidRace.setCheckState(2)
             else:
@@ -151,7 +176,7 @@ class UiAccesories():
             else:            
                 self.ui.lineLanguage.setText("- -")
         
-        elif(tab == 5):    
+        elif(tab == TAB.timing_settings):    
             """ TIMING SETTINGS"""
             timing_settings_get = self.datastore.Get("timing_settings", "GET")
             timing_settings_set = self.datastore.Get("timing_settings", "SET")
@@ -205,7 +230,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'backlight')                                                                
-        self.updateTab(TABS["terminal_cells"])
+        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
                                                  
     def sTerminalSpeaker(self, key):
         
@@ -217,7 +242,7 @@ class UiAccesories():
 
         '''reset GET hodnoty'''                
         self.datastore.ResetValue("terminal_info", 'speaker', key)                                                          
-        self.updateTab(TABS["terminal_cells"])
+        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
                              
     def sComboLanguage(self, index):
         print "SLOT", index
@@ -226,7 +251,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'language')                                                                
-        self.updateTab(TABS["terminal_cells"])
+        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
     
     """                 """
     """ TIMING SETTINGS """
@@ -241,7 +266,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'logic_mode')                                                                
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
     
     
     def sFilterTagtime(self, value):
@@ -253,7 +278,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_tagtime')                                                                
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
     
     def sFilterMinlaptime(self, value):
         print "sFilterMinlaptime", value
@@ -264,7 +289,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
         
     def sFilterMaxlapnumber(self, value):
         print "sFilterMaxlapnumber", value
@@ -275,7 +300,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
         
     def sRaceStart(self):
         print "sRaceStart"
@@ -284,12 +309,12 @@ class UiAccesories():
         self.datastore.Set("generate_starttime", not(generate_starttime), "SET")            
         
         '''reset GET hodnoty'''                                                                        
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
     def sRaceStop(self):
         '''získání a nastavení nové SET hodnoty'''
         generate_finishtime = self.datastore.Get("generate_finishtime", "GET")                                        
         self.datastore.Set("generate_finishtime", not(generate_finishtime), "SET")            
         
         '''reset GET hodnoty'''                                                                        
-        self.updateTab(TABS["timing_settings"])
+        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
         print "sRaceStop"

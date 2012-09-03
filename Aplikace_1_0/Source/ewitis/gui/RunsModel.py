@@ -76,7 +76,8 @@ class RunsModel(myModel.myModel):
 #            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
         
         return myModel.myModel.flags(self, index)
-        
+    
+                
     def db2tableRow(self, run):                        
         
         #get USER
@@ -131,7 +132,12 @@ class Runs(myModel.myTable):
     
     #=======================================================================
     # SLOTS
-    #======================================================================= 
+    #=======================================================================        
+    def sSelectionChanged(self, selected, deselected):    
+        print "Runs: selection changed", self.params.datastore.Get("user_actions"), selected            
+        if(selected) and (self.params.datastore.Get("user_actions") == 0):                            
+                self.updateTimes()  #update TIMES table
+                   
     # CLEAR FILTER BUTTON -> CLEAR FILTER        
     def sFilterClear(self): 
         myModel.myTable.sFilterClear(self)
@@ -150,8 +156,7 @@ class Runs(myModel.myTable):
     # function for update table TIMES according to selection in RUNS
     def updateTimes(self):         
                          
-        #get index of selected ID (from tableRuns) 
-        print "-update times"
+        #get index of selected ID (from tableRuns)         
         rows = self.params.gui['view'].selectionModel().selectedRows() #default collumn = 0
                                       
         #update table times with run_id
@@ -159,13 +164,10 @@ class Runs(myModel.myTable):
             #ziskani id z vybraneho radku                                         
             self.run_id = (self.proxy_model.data(rows[0]).toInt()[0])                 
                                      
-            #get TIMES from database & add them to the table            
-            self.params.datastore.Set("user_actions", False)  
-            self.params.tabTimes.update(run_id = self.run_id)
-            self.params.datastore.Set("user_actions", True)                         
+            #get TIMES from database & add them to the table              
+            self.params.tabTimes.update(run_id = self.run_id)                                     
         except:
-            print "I: Times: nelze aktualizovat!"
-        print "-end update times"
+            print "I: Times: nelze aktualizovat!"        
         
     # REMOVE ROW               
     def sDelete(self):

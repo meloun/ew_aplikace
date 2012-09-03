@@ -125,15 +125,15 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         #SLOTY
         
         #slot na zmenu policka, modelu
-        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.slot_ModelChanged)                                                    
+        QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.sModelChanged)                                                    
              
-    def slot_ModelChanged(self, item):
+    def sModelChanged(self, item):
         """
         SLOT, model se zmenil => ulozeni do DB
         """                          
         
         #user change, no auto update        
-        if(self.params.datastore.Get("user_actions")):                                                                                    
+        if(self.params.datastore.Get("user_actions") == 0):                                                                                                
                         
             #ziskat zmeneny radek, slovnik{}
             tabRow = self.row_dict(item.row())#self.getTableRow(item.row())                                                                                                  
@@ -274,9 +274,10 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         update(parameter, value) => vsechny radky s parametrem = value
         update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
         """        
-        print self.params.name, "model update"
-        #self.params.guidata.user_actions = GuiData.ACTIONS_DISABLE
-        self.params.datastore.Set("user_actions", False)          
+        #print self.params.name+": model update (s)"
+       
+        #disable user actions        
+        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")+1)          
                       
         #smazat vsechny radky
         self.removeRows(0, self.rowCount())  
@@ -303,8 +304,10 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)                                                                                                                                                     
             #add row to the table             
-            self.addRow(row_table)                                                                                             
-        self.params.datastore.Set("user_actions", True)                                                                          
+            self.addRow(row_table)
+
+        #enable user actions                                                                                                                 
+        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")-1)                                                                          
             
 
 class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
@@ -315,8 +318,9 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
         QtGui.QSortFilterProxyModel.__init__(self)
         self.setDynamicSortFilter(True)        
         self.setFilterKeyColumn(-1)
-        self.params = params                
+        self.params = params                    
         
+
     #get ids
     def ids(self):
         ids = []
@@ -351,22 +355,23 @@ class myTable():
         #assign MODEL to PROXY MODEL
         self.proxy_model.setSourceModel(self.model)   
         
+        #nastaveni proxy modelu
+        self.params.gui['view'].setModel(self.proxy_model)
+        
         #set default sorting
         self.params.gui['view'].sortByColumn(0, QtCore.Qt.DescendingOrder)
         
-        #nastaveni proxy modelu
-        self.params.gui['view'].setModel(self.proxy_model)
         
         #parametry        
         self.params.gui['view'].setRootIsDecorated(False)
         self.params.gui['view'].setAlternatingRowColors(True)        
         self.params.gui['view'].setSortingEnabled(True)
                 
-        #self.update()
         #setColumnWidth()
+        #self.update()
         
-                    
-        
+        QtCore.QObject.connect(self.params.gui['view'].selectionModel(), QtCore.SIGNAL("selectionChanged(QItemSelection, QItemSelection)"), self.sSelectionChanged)
+                         
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
         self.timer1s.start(1000);
@@ -382,6 +387,13 @@ class myTable():
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
         self.timer1s.start(1000);
+        
+    def sSelectionChanged(self, selected, deselected):
+        #if selected:
+        #print "selection changed"
+        pass               
+                        
+        
         
     def setColumnWidth(self):
         
@@ -440,7 +452,9 @@ class myTable():
         pass 
         #self.update()    #update table            
     
-        # CLEAR FILTER BUTTON -> CLEAR FILTER        
+           
+                 
+    # CLEAR FILTER BUTTON -> CLEAR FILTER        
     def sFilterClear(self):    
         self.params.gui['filter'].setText("")
                         
@@ -469,24 +483,17 @@ class myTable():
             self.params.showmessage(title,"Record with this ID already exist!")
             return
      
-        #get dict for adding
-        #row = {}
-        #for key in self.params['keys']:
-        #    row[key] = ''
         row['id'] = my_id        
-                
-        
-        self.params.datastore.Set("user_actions", False)  
-                
-        #self.model.addRow(row)
-                
+                    
+        #self.params.datastore.Set("user_actions", False)  
+                              
         dbRow = self.model.table2dbRow(row)        
         if(dbRow != None):        
             self.params.db.insert_from_dict(self.params.name, dbRow)            
             self.params.showmessage(title,"succesfully (id="+str(my_id)+")", dialog = False)
 
         self.update()                    
-        self.params.datastore.Set("user_actions", True)  
+        #self.params.datastore.Set("user_actions", True)  
         
     # REMOVE ROW               
     def sDelete(self, label=""):                
@@ -733,9 +740,8 @@ class myTable():
                                                              
             
             
-    def update(self, parameter=None, value=None, selectionback=True):
-                
-                    
+    def update(self, parameter=None, value=None, selectionback=True):                        
+                                    
         #get row-selection
         if(selectionback==True):
             try:
@@ -763,6 +769,7 @@ class myTable():
         
         #update counter
         self.update_counter()
+                
         
     def update_counter(self):        
         self.params.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))

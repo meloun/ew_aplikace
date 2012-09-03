@@ -64,7 +64,7 @@ class CGroupsModel(myModel.myModel):
     def getDefaultTableRow(self): 
         cgroup = myModel.myModel.getDefaultTableRow(self)                
         cgroup['name'] = "unknown"        
-        cgroup['label'] = g0
+        cgroup['label'] = "gx"
         return cgroup 
                     
 class CGroupsProxyModel(myModel.myProxyModel):
