@@ -52,7 +52,8 @@ import serial, time
 import binascii
 #import sqlite3
 import pysqlite2
-from struct import unpack
+#from struct import unpack
+import struct
 import _winreg as winreg
 import re, itertools
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
@@ -130,18 +131,16 @@ class SerialProtocol():
         *parameters:*
           command: a
           
-          data: b
-        """              
+          data: byte, short integer, integer, string
+        """    
+
         aux_string = START_BYTE;
         aux_string += (chr(self.seq_id))
         aux_string += (chr(command)) 
         aux_string += chr(len(data))
         aux_string += data        
         aux_string += chr(self.xor(aux_string));
-        
-        if(command == DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"]):
-           print aux_string.encode('hex')
-                        
+                               
         self.ser.write(aux_string)        
         #return self.seq_id
         
@@ -229,10 +228,7 @@ class SerialProtocol():
             for attempt_2 in range(5): 
                 time.sleep(0.03)               
                 if(self.ser.inWaiting() >=  FRAMELENGTH_NO_DATA):
-                    break
-                if(cmd == DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"]):
-                    print "I: no enought data YET.."                               
-                
+                    break                                          
             else:
                 print "E: no enought data"
                 continue #no enough data, try send,receive again

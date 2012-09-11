@@ -26,7 +26,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 def callback(command, data):
     
     # GET TIME PAR INDEX
-    if(command == (DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"] | 0x80)):
+    if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIME_PAR_INDEX"]["cmd"] | 0x80)):
         ''' GET_TIME_PAR_IDNEX => TIME struct (16b) + 2b error
             | error (2b) | state(1b) | id (4b) | run_id (2b) | user_id (4b) | cell (1b) | time(4b) |
         '''                                          
@@ -43,7 +43,7 @@ def callback(command, data):
         return aux_time
     
     # GET RUN PAR INDEX
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"] | 0x80)):        
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_RUN_PAR_INDEX"]["cmd"] | 0x80)):        
         ''' GET_RUN_PAR_IDNEX RESPONSE => error(2b) + RUN struct (16b)
             | error (2b) | state(1b) | id (4b) | starttime_id (4b) | datetime (6b) | name_id (1b) 
         '''                                          
@@ -58,7 +58,7 @@ def callback(command, data):
         aux_run['datetime'] = '%d.%d. %d %02d:%02d:%02d' % (aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])                                                                                  
         return aux_run
     
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET"]["terminal_info"] | 0x80)):
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TERMINAL_INFO"]["cmd"] | 0x80)):
         ''' GET_TERMINAL_INFO RESPONSE
             | number_of_cells (1B) | battery (1B)| backlight (1B) | speaker (1B) | language (1B)
         ''' 
@@ -75,7 +75,7 @@ def callback(command, data):
                                 
         return aux_terminal_info
     
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"] | 0x80)):
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIMING_SETTINGS"]["cmd"] | 0x80)):
         ''' GET_TIMING_SETTINGS RESPONSE
             | timing_logic_mode (1B) | measurement_state (1B)| name_id (1B) | basic_tag_timefilter (1B) |
               lap_timefilter (2B) | lap_numberfilter(1B) | 
@@ -87,11 +87,11 @@ def callback(command, data):
                                                         
         return aux_timing_settings
         
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"] | 0x80)):        
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_BACKLIGHT"]["cmd"] | 0x80)):        
         return data
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"] | 0x80)):        
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):        
         return data
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"] | 0x80)):        
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_STARTTIME"]["cmd"] | 0x80)):        
         return data    
 
     print "E: callback error, cmd: " + str(command) +","+ data

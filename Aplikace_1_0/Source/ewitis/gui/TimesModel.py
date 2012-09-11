@@ -621,8 +621,8 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "export category", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie: "+dbCategory['name'],"","","","","","",dbCategory['description']]                
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
+                first_header = ["Kategorie: "+dbCategory['name'],"","","","","",dbCategory['description']]                
+                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","",""])
                 exportRows.insert(1, first_header)
                 exportRows.insert(2, exportHeader)
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")

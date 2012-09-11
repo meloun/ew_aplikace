@@ -39,7 +39,7 @@ class LANGUAGES:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "app_version"        : {"GET_SET"  : {"value":u"v0.60"}},
+        "app_version"        : {"GET_SET"  : {"value":u"v0.61"}},
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -62,7 +62,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value":u"Křápkap"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":True}  
+                                "GET_SET"  : {"value":False}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": False}  

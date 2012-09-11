@@ -61,10 +61,25 @@ class ManageComm(Thread):
         self.protokol.close_port()
         print "COMM: koncim vlakno.."
         
-    def send_receive_frame(self, command, string_data=""):
+    def send_receive_frame(self, command_key, data="", length = None):
         """ ošetřená vysílací, přijímací metoda """
+        
+        print "key", command_key
+        print "cmd", DEF_COMMANDS.DEF_COMMANDS[command_key]
+        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
+        length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']
+        
+        #pack data (to string)
+        if(length == 1):
+            data = struct.pack('B', data)
+        elif(length == 2):
+            data = struct.pack('H', data)
+        elif(length == 4):
+            data = struct.pack('L', data)
+                      
+                      
         try:                                               
-            return self.protokol.send_receive_frame(command, string_data)                                                                             
+            return self.protokol.send_receive_frame(command, data)                                                                             
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             return {"error":0xFF} 
@@ -137,13 +152,16 @@ class ManageComm(Thread):
             """
             
             """ GET NEW TIME """                              
-            aux_time = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"], struct.pack('h',self.index_times))            
+            #aux_time = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"], struct.pack('h',self.index_times))            
+            #aux_time = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"], self.index_times, 2)            
+            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)            
             #aux_time['order'] = self.order
                         
             
             """ GET NEW RUN """
-            aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], struct.pack('h',self.index_runs))          
-                                    
+            #aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], struct.pack('h',self.index_runs))                                                  
+            #aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], self.index_runs, 2)          
+            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)          
             
             """ STORE NEW TIME TO THE DATABASE """
             #print "aux_time['error']: ",aux_time['error'], type(aux_time['error'])                                                             
@@ -230,7 +248,8 @@ class ManageComm(Thread):
                 """ set backlight """
                 if(self.datastore.IsChanged("backlight")):                                
                     data = self.datastore.Get("backlight", "SET")                
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
+                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
+                    ret = self.send_receive_frame("SET_BACKLIGHT", data)
                     self.datastore.ResetChangedFlag("backlight")                                   
                 
                 """ set speaker """
@@ -238,7 +257,8 @@ class ManageComm(Thread):
                     print "NASTAVUJI"                                                                             
                     aux_speaker = self.datastore.Get("speaker", "SET")                                
                     aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                 
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
+                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
+                    ret = self.send_receive_frame("SET_SPEAKER", aux_data)
                     self.datastore.ResetChangedFlag("speaker")                
                                             
                 """ set language """                                    
@@ -246,12 +266,13 @@ class ManageComm(Thread):
                     data = self.datastore.Get("language", "SET")
                     print "COMM", data                                                                                        
                                                     
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], struct.pack('B', data))
+                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], data, 1)
+                    ret = self.send_receive_frame("SET_LANGUAGE", data)                    
                     self.datastore.ResetChangedFlag("language")                                   
                                 
                                                                                     
                 """ get terminal-info """                     
-                aux_terminal_info = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["terminal_info"])                         
+                aux_terminal_info = self.send_receive_frame("GET_TERMINAL_INFO")                         
                 """ store terminal-info to the datastore """ 
                 if(self.datastore.IsReadyForRefresh("terminal_info")):           
                     self.datastore.Set("terminal_info", aux_terminal_info, "GET")
@@ -264,23 +285,24 @@ class ManageComm(Thread):
                     aux_data = struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
                                aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
                     #print "COMM2", aux_data.encode('hex')                                                                                        
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["timing_settings"], aux_data)                
+                    ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_data)                
                     self.datastore.ResetChangedFlag("timing_settings")  
     
     
                 """ generate starttime """
                 if(self.datastore.IsChanged("generate_starttime")):                                
                     data = self.datastore.Get("generate_starttime", "SET")                
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_starttime"], struct.pack('B', data))
+                    ret = self.send_receive_frame("GENERATE_STARTTIME", data)
                     self.datastore.ResetChangedFlag("generate_starttime")
+                    
                 """ generate finishtime """
                 if(self.datastore.IsChanged("generate_finishtime")):                                
                     data = self.datastore.Get("generate_finishtime", "SET")                
-                    ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["generate_finishtime"], struct.pack('B', data))
+                    ret = self.send_receive_frame("GENERATE_FINISHTIME", data)
                     self.datastore.ResetChangedFlag("generate_finishtime")    
                                     
                 """ get timing-settings """            
-                aux_timing_setting = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["timing_settings"])
+                aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
                 aux_timing_setting["name_id"] = 4
                 
                 #print aux_timing_setting            

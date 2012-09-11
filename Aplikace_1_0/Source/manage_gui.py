@@ -48,7 +48,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         # FIRST CONSOLE OUTPUT
         #=======================================================================
         print "*****************************************"
-        print "* Ewitis application, ", self.datastore.Get("app_version")
+        print "* Ewitis application, ", self.datastore.Get("app_version"), "rfid" if self.datastore.Get("rfid") else "ir"
         print "*****************************************" 
         codepage.codepage()
                                                            
