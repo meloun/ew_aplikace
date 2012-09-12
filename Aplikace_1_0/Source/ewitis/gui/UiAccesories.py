@@ -305,16 +305,16 @@ class UiAccesories():
     def sRaceStart(self):
         print "sRaceStart"
         '''získání a nastavení nové SET hodnoty'''
-        generate_starttime = self.datastore.Get("generate_starttime", "GET")                                        
-        self.datastore.Set("generate_starttime", not(generate_starttime), "SET")            
+        #user_id = self.datastore.Get("generate_starttime", "GET")                                        
+        self.datastore.Set("generate_starttime", 0x01, "SET")            
         
         '''reset GET hodnoty'''                                                                        
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        #self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
     def sRaceStop(self):
         '''získání a nastavení nové SET hodnoty'''
-        generate_finishtime = self.datastore.Get("generate_finishtime", "GET")                                        
-        self.datastore.Set("generate_finishtime", not(generate_finishtime), "SET")            
+        #generate_finishtime = self.datastore.Get("generate_finishtime", "GET")                                        
+        self.datastore.Set("generate_finishtime", 0x00, "SET")            
         
         '''reset GET hodnoty'''                                                                        
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        #self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
         print "sRaceStop"

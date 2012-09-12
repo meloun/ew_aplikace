@@ -23,9 +23,9 @@ RUNS['database'] = {
 """ table collumn for times, mode training """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "width":40},                                
-                 "date"          :     {"index": 1,  "name": "date",        "width":120},
-                 "name"          :     {"index": 2,  "name": "name",        "width":120},                                
-                 "description"   :     {"index": 3,  "name": "description", "width":0}                                
+                 "date"          :     {"index": 1,  "name": "date",        "width":110},
+                 "name"          :     {"index": 2,  "name": "name",        "width":100},                                
+                 "description"   :     {"index": 3,  "name": "description", "width":10}                                
                  }  
 
 """

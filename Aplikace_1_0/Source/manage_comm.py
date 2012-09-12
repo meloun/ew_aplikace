@@ -64,8 +64,6 @@ class ManageComm(Thread):
     def send_receive_frame(self, command_key, data="", length = None):
         """ ošetřená vysílací, přijímací metoda """
         
-        print "key", command_key
-        print "cmd", DEF_COMMANDS.DEF_COMMANDS[command_key]
         command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
         length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']
         
@@ -168,7 +166,7 @@ class ManageComm(Thread):
             if(aux_time['error'] == 0):
                                     
                 '''update CSV file'''                                
-                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')
+                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id'])+ ";" + str(aux_time['cell']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')
                                 
                 print "I:Comm: receive time: "+aux_csv_string
                 #print struct.pack('<I', aux_time['user_id']).encode('hex')
@@ -291,14 +289,14 @@ class ManageComm(Thread):
     
                 """ generate starttime """
                 if(self.datastore.IsChanged("generate_starttime")):                                
-                    data = self.datastore.Get("generate_starttime", "SET")                
-                    ret = self.send_receive_frame("GENERATE_STARTTIME", data)
+                    user_id = self.datastore.Get("generate_starttime", "SET")                
+                    ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
                     self.datastore.ResetChangedFlag("generate_starttime")
                     
                 """ generate finishtime """
                 if(self.datastore.IsChanged("generate_finishtime")):                                
-                    data = self.datastore.Get("generate_finishtime", "SET")                
-                    ret = self.send_receive_frame("GENERATE_FINISHTIME", data)
+                    user_id = self.datastore.Get("generate_finishtime", "SET")                
+                    ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
                     self.datastore.ResetChangedFlag("generate_finishtime")    
                                     
                 """ get timing-settings """            
