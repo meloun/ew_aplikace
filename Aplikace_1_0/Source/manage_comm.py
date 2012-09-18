@@ -18,6 +18,7 @@ import libs.utils.utils as utils
 import libs.conf.conf as conf
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
+from ewitis.data.DEF_ENUM_STRINGS import * 
 import libs.datastore.datastore as datastore
 import ewitis.data.DEF_DATA as DEF_DATA
 from threading import Thread
@@ -87,13 +88,8 @@ class ManageComm(Thread):
             return {"error":0xFF} 
                                                             
     def run(self):  
-        #import sqlite3
         import pysqlite2      
-        print "COMM: zakladam vlakno.."
-#        if(self.datastore.Get("port_enable", "GET_SET") == False):        
-#            print "COMM: okamzite koncim vlakno.."
-#            return
-        
+        print "COMM: zakladam vlakno.."       
         
         ''' CONNECT TO EWITIS '''        
         try:
@@ -119,11 +115,7 @@ class ManageComm(Thread):
         """communication established"""
         self.datastore.Set("port_enable", True)
             
-        #query = sql_queries.get_query_times_par_id(152)
-        #res = self.db.query(query)
-        #for item in res:
-        #    print item 
-        cnt = 0                                                                                   
+                                                                                    
         while(1):
                                   
             #wait 1 second, test if thread should be terminated
@@ -149,16 +141,10 @@ class ManageComm(Thread):
              - store new run to the databasae
             """
             
-            """ GET NEW TIME """                              
-            #aux_time = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"], struct.pack('h',self.index_times))            
-            #aux_time = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["time_par_index"], self.index_times, 2)            
-            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)            
-            #aux_time['order'] = self.order
-                        
+            """ GET NEW TIME """                                                      
+            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)                                                
             
-            """ GET NEW RUN """
-            #aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], struct.pack('h',self.index_runs))                                                  
-            #aux_run = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["GET"]["run_par_index"], self.index_runs, 2)          
+            """ GET NEW RUN """                                                                                   
             aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)          
             
             """ STORE NEW TIME TO THE DATABASE """
@@ -171,9 +157,7 @@ class ManageComm(Thread):
                 print "I:Comm: receive time: "+aux_csv_string
                 #print struct.pack('<I', aux_time['user_id']).encode('hex')
                                 
-                '''save to database'''
-                #keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
-                #values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
+                '''save to database'''                                
                 keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
                 values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
                 import pysqlite2 
@@ -187,9 +171,7 @@ class ManageComm(Thread):
                                                                         
                 
                 '''all for this run has been successfully done, take next'''                   
-                self.index_times += 1
-                #self.order += 1
-                                                
+                self.index_times += 1                                                                
                                                             
             else:
                 pass
@@ -233,9 +215,8 @@ class ManageComm(Thread):
              - get&store new measure states                        
             """
                         
-
-                                         
-            if(self.datastore.Get("active_tab") == 5) or (self.datastore.Get("active_tab") == 6):                                
+                                                     
+            if(self.datastore.Get("active_tab") == TAB.device) or (self.datastore.Get("active_tab") == TAB.timing_settings):                                
                 """
                 SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
                  - set new backlight state
@@ -254,8 +235,7 @@ class ManageComm(Thread):
                 if(self.datastore.IsChanged("speaker")):
                     print "NASTAVUJI"                                                                             
                     aux_speaker = self.datastore.Get("speaker", "SET")                                
-                    aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                 
-                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["speaker"], aux_data)
+                    aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                                     
                     ret = self.send_receive_frame("SET_SPEAKER", aux_data)
                     self.datastore.ResetChangedFlag("speaker")                
                                             
@@ -263,8 +243,7 @@ class ManageComm(Thread):
                 if(self.datastore.IsChanged("language")):
                     data = self.datastore.Get("language", "SET")
                     print "COMM", data                                                                                        
-                                                    
-                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["language"], data, 1)
+                                                                        
                     ret = self.send_receive_frame("SET_LANGUAGE", data)                    
                     self.datastore.ResetChangedFlag("language")                                   
                                 
@@ -287,8 +266,8 @@ class ManageComm(Thread):
                     self.datastore.ResetChangedFlag("timing_settings")  
     
     
-                """ generate starttime """
-                if(self.datastore.IsChanged("generate_starttime")):                                
+                """ generate starttime """                
+                if(self.datastore.IsChanged("generate_starttime")):                                        
                     user_id = self.datastore.Get("generate_starttime", "SET")                
                     ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
                     self.datastore.ResetChangedFlag("generate_starttime")
@@ -297,7 +276,12 @@ class ManageComm(Thread):
                 if(self.datastore.IsChanged("generate_finishtime")):                                
                     user_id = self.datastore.Get("generate_finishtime", "SET")                
                     ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
-                    self.datastore.ResetChangedFlag("generate_finishtime")    
+                    self.datastore.ResetChangedFlag("generate_finishtime")
+                        
+                """ quit timing """
+                if(self.datastore.IsChanged("quit_timing")):                                                                                     
+                    ret = self.send_receive_frame("QUIT_TIMING")
+                    self.datastore.ResetChangedFlag("quit_timing")    
                                     
                 """ get timing-settings """            
                 aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
@@ -309,42 +293,10 @@ class ManageComm(Thread):
                     self.datastore.Set("timing_settings", aux_timing_setting, "GET")
                 else:
                     print "not ready for refresh", aux_timing_setting   
-                                                                          
-                
-
-            #print cnt, aux_terminal_states['speaker']['keys']            
-                
-            """ set time """
-            #if(self.datastore.isRequested("time", "SET", "changed")):
-            #    data = self.datastore.Get("time", "SET")
-            # 53 11 12 0c 30 31 303130313031303135305 
-            #print "AA",hex(0x010101010150), type(hex(0x010101010150))
-#            aa = "313233".decode('hex')
-#            print aa.encode('hex')
-#            
-#            print "d"
-            #53 11 12 0e 30 78 31 303130313031303135304c6e
-            
-            
-#            print "010101č01010113"
-#            print str(01010101010113)
-#            print hex(1010101010113)                  
-#            ret = self.send_receive_frame(18, 01010101010113.decode('hex'))
-#            print "R2:",ret
-            
-            
-#                
-#            """ set language """
-#            if(self.datastore.isRequested("language", "SET", "changed")):
-#                ret = self.send_receive_frame(COMMANDS["SET"]["language"], struct.pack('B', self.datastore.get("language", "SET")))
-
+                                                                                  
 
                 
-            
-    def port_open(self):
-        self.flags['port_open'] = 1
-    def port_close(self):
-        self.flags['port_open'] = 0
+
                 
 if __name__ == "__main__":    
     print "main manage_com()"

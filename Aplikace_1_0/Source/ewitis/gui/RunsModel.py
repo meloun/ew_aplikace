@@ -134,7 +134,7 @@ class Runs(myModel.myTable):
     # SLOTS
     #=======================================================================        
     def sSelectionChanged(self, selected, deselected):    
-        print "Runs: selection changed", self.params.datastore.Get("user_actions"), selected            
+        #print "Runs: selection changed", self.params.datastore.Get("user_actions"), selected            
         if(selected) and (self.params.datastore.Get("user_actions") == 0):                            
                 self.updateTimes()  #update TIMES table
                    

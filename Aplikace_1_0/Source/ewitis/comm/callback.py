@@ -13,14 +13,6 @@ import libs.utils.utils as utils
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 
 #===============================================================================
-# COMMANDS
-#===============================================================================
-#CMD_SET_BACKLIGHT       =   0x10
-#CMD_SET_TIME            =   0x12
-#CMD_GET_RUN_PAR_INDEX   =   0x30
-#CMD_GET_TIME_PAR_INDEX  =   0x32
-
-#===============================================================================
 # CALLBACK
 #===============================================================================
 def callback(command, data):
@@ -34,12 +26,13 @@ def callback(command, data):
         aux_time['error'], aux_time['state'], aux_time['id'],  aux_time['run_id'], \
         aux_time['user_id'], aux_time['cell'],aux_time['time_raw'], = struct.unpack("<HBIHIBI", data)
         
-#        if(aux_time['cell'] != 1):
-#            aux_time['time_raw'] = aux_time['time_raw'] + 255800
+        #pricteni casu ke vsem casum, chyba blizak
+        #if(aux_time['cell'] != 1):
+        #    aux_time['time_raw'] = aux_time['time_raw'] + 255800
+
         #add data
         aux_time['time'] = None#utils.time_to_string(aux_time['time_raw'])        
-                                                        
-                       
+                                                                               
         return aux_time
     
     # GET RUN PAR INDEX
@@ -87,12 +80,22 @@ def callback(command, data):
                                                         
         return aux_timing_settings
         
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]["cmd"] | 0x80)):        
+        return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_BACKLIGHT"]["cmd"] | 0x80)):        
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):        
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_STARTTIME"]["cmd"] | 0x80)):        
         return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_FINISHTIME"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["QUIT_TIMING"]["cmd"] | 0x80)):        
+        return data
+    else:
+        for cmd_string, cmd_nr in DEF_COMMANDS.DEF_ERRORS.items():
+            if(command == cmd_nr):
+                print "E: callback: cmd:", cmd_nr, cmd_string
 
-    print "E: callback error, cmd: " + str(command) +","+ data
-    return "E: callback error, cmd: " + str(command) 
+    print "E: callback: cmd: " + str(command) +","+ data
+    return {'error':command} 

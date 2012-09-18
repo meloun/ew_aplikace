@@ -62,7 +62,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value":u"Křápkap"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":False}  
+                                "GET_SET"  : {"value":True}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": False}  
@@ -88,18 +88,18 @@ DEF_DATA = {
         # TERMINAL DATA
         "backlight"          : {"name"    : "backlight",                                                                 
                                 "SET"     : {"value": 0x01, 
-                                             "changed": True,                                             
+                                             "changed": False,                                             
                                              },
                                },
                 
         "speaker"            : {"name"    : "speaker",                                                                 
                                 "SET"     : {"value":{"keys": True, "timing": True, "system":True},
-                                             "changed": True,                                             
+                                             "changed": False,                                             
                                              },
                                },                                                                                                       
         "datetime"           : {"name"    : "datetime",                                                                
                                 "SET"     : {"value": {"year":1999, "month":8, "day":13, "hour":15, "minutes":5, "seconds":7, "dayweek":5},
-                                             "changed": True},
+                                             "changed": False},
                                },                                        
         "language"           : {"name"    : "language",                                
                                 "SET"     : {"value": LANGUAGES.czech,
@@ -154,6 +154,11 @@ DEF_DATA = {
                                             },
                                 },
         "generate_finishtime" : {"name"  : "generate finishtime",                                                                 
+                                  "SET"   : { "value": False, 
+                                              "changed": False,                                             
+                                            },
+                                },
+        "quit_timing" :         {"name"  : "quit timing",                                                                 
                                   "SET"   : { "value": False, 
                                               "changed": False,                                             
                                             },

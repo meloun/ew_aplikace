@@ -18,6 +18,7 @@ class UiAccesories():
                 
         """SLOTY"""
         QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("clicked()"), self.sRfidRace)        
+        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("clicked()"), self.sOneLapRace)        
         QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
         #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
         QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
@@ -29,8 +30,9 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
         QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
-        QtCore.QObject.connect(self.ui.pushRaceStart, QtCore.SIGNAL("clicked()"), self.sRaceStart)
-        QtCore.QObject.connect(self.ui.pushRaceStop, QtCore.SIGNAL("clicked()"), self.sRaceStop)
+        QtCore.QObject.connect(self.ui.pushGenerateStarttime, QtCore.SIGNAL("clicked()"), self.sGenerateStarttime)
+        QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateStoptime)
+        QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
 
     def updateGui(self):
@@ -39,7 +41,7 @@ class UiAccesories():
         self.updateTab(TAB.categories)
         self.updateTab(TAB.cgroups)
         self.updateTab(TAB.tags)
-        self.updateTab(TAB.terminal_cells)
+        self.updateTab(TAB.device)
         self.updateTab(TAB.timing_settings)
         
     def updateTab(self, tab, mode = UPDATE_MODE.all):
@@ -81,11 +83,7 @@ class UiAccesories():
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tableTags.update()                                               
         
-        elif(tab == TAB.terminal_cells):
-            if(self.datastore.Get("rfid")):
-                self.ui.checkRfidRace.setCheckState(2)
-            else:
-                self.ui.checkRfidRace.setCheckState(0)       
+        elif(tab == TAB.device):
             
             """ TERMINAL INFO """
             aux_terminal_info = self.datastore.Get("terminal_info", "GET")
@@ -183,6 +181,16 @@ class UiAccesories():
             #print timing_settings_get
             #print aux_timing_settings
             
+            if(self.datastore.Get("rfid")):
+                self.ui.checkRfidRace.setCheckState(2)
+            else:
+                self.ui.checkRfidRace.setCheckState(0)
+                       
+            if(self.datastore.Get("onelap_race")):
+                self.ui.checkOneLapRace.setCheckState(2)
+            else:
+                self.ui.checkOneLapRace.setCheckState(0)
+            
             """ logic mode """  
             if(timing_settings_get['logic_mode'] != None):
                 self.ui.comboTimingMode.setCurrentIndex(timing_settings_get['logic_mode']-1)            
@@ -217,9 +225,15 @@ class UiAccesories():
         
     
     def sRfidRace(self):                        
-        if (self.showmessage("d", "Are you sure you want to? \n ", msgtype='warning_dialog')):            
+        if (self.showmessage("Rfid race", "Are you sure you want to change \"Rfid Race\"? \n ", msgtype='warning_dialog')):            
             self.datastore.Set("rfid", not(self.datastore.Get("rfid")))
-        self.updateGui()
+        self.updateTab(TAB.timing_settings)
+        
+    def sOneLapRace(self):                                
+        if (self.showmessage("One Lap Race", "Are you sure you want to change \"One Lap Race\"? \n ", msgtype='warning_dialog')):            
+            self.datastore.Set("onelap_race", not(self.datastore.Get("onelap_race")))        
+        self.updateTab(TAB.timing_settings)
+        
                             
         
     def sTerminalBacklight(self):
@@ -230,7 +244,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'backlight')                                                                
-        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
                                                  
     def sTerminalSpeaker(self, key):
         
@@ -242,7 +256,7 @@ class UiAccesories():
 
         '''reset GET hodnoty'''                
         self.datastore.ResetValue("terminal_info", 'speaker', key)                                                          
-        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
                              
     def sComboLanguage(self, index):
         print "SLOT", index
@@ -251,7 +265,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'language')                                                                
-        self.updateTab(TABS["terminal_cells"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
     
     """                 """
     """ TIMING SETTINGS """
@@ -266,7 +280,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'logic_mode')                                                                
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
     
     
     def sFilterTagtime(self, value):
@@ -278,7 +292,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_tagtime')                                                                
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
     
     def sFilterMinlaptime(self, value):
         print "sFilterMinlaptime", value
@@ -289,7 +303,7 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
         
     def sFilterMaxlapnumber(self, value):
         print "sFilterMaxlapnumber", value
@@ -300,21 +314,15 @@ class UiAccesories():
         
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
-        self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
+        self.updateTab(TAB.device, UPDATE_MODE.gui)
         
-    def sRaceStart(self):
-        print "sRaceStart"
-        '''získání a nastavení nové SET hodnoty'''
-        #user_id = self.datastore.Get("generate_starttime", "GET")                                        
-        self.datastore.Set("generate_starttime", 0x01, "SET")            
+    def sGenerateStarttime(self):                                                            
+        self.datastore.Set("generate_starttime", 0x01, "SET")                    
         
-        '''reset GET hodnoty'''                                                                        
-        #self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
-    def sRaceStop(self):
-        '''získání a nastavení nové SET hodnoty'''
-        #generate_finishtime = self.datastore.Get("generate_finishtime", "GET")                                        
-        self.datastore.Set("generate_finishtime", 0x00, "SET")            
+    def sGenerateStoptime(self):                                                        
+        self.datastore.Set("generate_finishtime", 0x00, "SET")                   
         
-        '''reset GET hodnoty'''                                                                        
-        #self.updateTab(TABS["timing_settings"], UPDATE_MODE.gui)
-        print "sRaceStop"
+    def sQuitTiming(self):                                                                
+        self.datastore.Set("quit_timing", 0x00, "SET")                   
+        
+           

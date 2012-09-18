@@ -34,25 +34,13 @@ Frame
         
     SLAVE executes command (using function comm_app_process()) and
     responds with the equal structured frame, but the COMMAND MSb is
-    set to 1
-    
-Commands
-++++++++
-    
-    ========================  =====  ======
-    COMMAND                   Nr     Popis
-    ========================  =====  ======
-    CMD_GET_RUN_PAR_INDEX     0x30
-    CMD_GET_TIME_PAR_INDEX    0x32
-    ========================  =====  ======
-    
+    set to 1       
 """
 
 import serial, time
 import binascii
 #import sqlite3
 import pysqlite2
-#from struct import unpack
 import struct
 import _winreg as winreg
 import re, itertools
@@ -68,8 +56,8 @@ FRAMELENGTH_NO_DATA     =   5
 
 #exceptions
 class Receive_Error(Exception): pass
-class SR_SeqNr_Error(Exception): pass
 class SendReceiveError(Exception): pass
+#class SR_SeqNr_Error(Exception): pass
 
 class SerialProtocol():
     """    
@@ -185,8 +173,8 @@ class SerialProtocol():
             state = eWAIT_FOR_DATA            
             
         if state == eWAIT_FOR_DATA:            
-            if(self.ser.inWaiting()<frame['datalength']):
-                print"E:NEDOSTATEK DAT! (cekam..)"            
+            if(self.ser.inWaiting() < frame['datalength']):
+                print"E: NEDOSTATEK DAT! (cekam..)"            
             frame['data'] = self.ser.read(frame['datalength'])
             state = eWAIT_FOR_XOR            
             
@@ -238,15 +226,13 @@ class SerialProtocol():
             '''receive answer'''
             try:                                 
                 aux_frame = self.receive_frame()
-                if(aux_frame['seq_id'] != self.seq_id):
-                    print "a: ",aux_frame['seq_id']
-                    print "b:", self.seq_id
+                if(aux_frame['seq_id'] != self.seq_id):                                        
                     raise SendReceiveError(1, "no match sequence ids")
                 
                 '''ALL OK'''
                 break   #end of for
             except (Receive_Error, SendReceiveError) as (errno, strerror):
-                print "W:SendReceiveError - {1}({0}) , try again..".format(errno, strerror)
+                print "E:SendReceiveError - {1}({0}) , try again..".format(errno, strerror)
                                                   
         else:                       
             raise SendReceiveError(100,"no valid response")
@@ -257,9 +243,6 @@ class SerialProtocol():
         aux_dict = self.callback(aux_frame['cmd'], aux_frame['data'])
         
         '''ADD COMMON data and errors'''
-        
-        '''common errors'''
-        #aux_dict['common_errors'] = 0
         
         return aux_dict
         

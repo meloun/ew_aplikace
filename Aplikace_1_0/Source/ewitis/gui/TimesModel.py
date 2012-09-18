@@ -197,28 +197,35 @@ class TimesModel(myModel.myModel):
         '''CATEGORY'''                                                                                
         tabTime['category'] = tabUser['category']                                                                                                                              
 
-        '''LAP'''        
+        '''LAP'''
+        #z1 = time.clock()
+        #print "- 1. Lap"        
         tabTime['lap'] = self.lap.Get(dbTime)
+        #print "- 2. Lap take: ",(time.clock() - z1)  
         
-        '''ORDER'''                        
-        lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])        
-        #print "last: ", lasttime, tabTime['lap'], dbTime
+        '''ORDER'''
+        #z1 = time.clock()
+        #print "- 1. isLastUserTime"                         
+        lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])  
+        #print "- 2. isLastUserTime take: ",(time.clock() - z1)              
         
-        if(lasttime == True):                                
+        if(lasttime == True):
+            #z1 = time.clock()
+            #print "- 1. order"                                        
             tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
+            #print "- 2. order take: ",(time.clock() - z1)
+            
         else:
             tabTime['order']  = ""            
                 
         '''ORDER IN CATEGORY'''
         if(lasttime == True):                        
-            #z1 = time.clock()                       
+            #z1 = time.clock()
+            #print "- 1. order in category"                                   
             tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
-            #print (time.clock() - z1)
+            #print "- 2. order in category take: ",(time.clock() - z1)
         else:
-            tabTime['order_cat']  = ""                  
-        
-        #'''ORDER'''        
-        #tabTime['order']  = self.order.Get2(tabTime, tabTime['lap'])                                         
+            tabTime['order_cat']  = ""                                                                  
                     
         return tabTime
                                                                                    
@@ -454,8 +461,7 @@ class TimesModel(myModel.myModel):
             
         
         
-        #update times
-        #if(self.showall):
+        #update times        
         if(self.params.datastore.Get('show_alltimes') == True):
             
             #get run ids
@@ -702,12 +708,12 @@ class Times(myModel.myTable):
                     
     #toDo: sloucit s myModel konstruktorem        
     def update(self, run_id = None):
-        #ztime = time.clock()                      
+        ztime = time.clock()                      
         self.model.update(run_id = run_id)                        
+        print "Times: update time:",time.clock() - ztime
         #myModel.myTable.update(self)
         self.setColumnWidth()
         self.update_counter()
-        #print "Times: update time:",time.clock() - ztime
             
 
     # REMOVE ROW      

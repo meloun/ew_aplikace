@@ -59,11 +59,12 @@ class sqlite_db(object):
     def query(self, query):
         #import time                
         query = utils.getUtf8String(query)
-        #print query
-        #print "sql1:",time.clock(), query        
-                
+        
+        #z1 = time.clock()
+        #print "  - 1.sql 1."        
+        #print "  ",query
         last_result = self.db.execute(query)
-        #print "..sql2:",time.clock(), query
+        #print "  - 2. sql take:", (time.clock()-z1)
                         
         return last_result
        
