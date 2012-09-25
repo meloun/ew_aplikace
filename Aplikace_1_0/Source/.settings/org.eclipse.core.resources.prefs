@@ -1,4 +1,4 @@
-#Tue Aug 07 21:43:05 CEST 2012
+#Tue Sep 25 20:04:12 CEST 2012
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -27,3 +27,4 @@ encoding//libs/utils/utils.py=utf-8
 encoding/manage.py=utf-8
 encoding/manage_comm.py=utf-8
 encoding/manage_gui.py=utf-8
+encoding/test.py=utf-8

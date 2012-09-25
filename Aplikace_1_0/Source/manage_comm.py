@@ -216,7 +216,7 @@ class ManageComm(Thread):
             """
                         
                                                      
-            if(self.datastore.Get("active_tab") == TAB.device) or (self.datastore.Get("active_tab") == TAB.timing_settings):                                
+            if(self.datastore.Get("active_tab") == TAB.device) or (self.datastore.Get("active_tab") == TAB.race_settings):                                
                 """
                 SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
                  - set new backlight state

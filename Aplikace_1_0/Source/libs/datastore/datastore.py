@@ -119,21 +119,53 @@ class Datastore():
         Nastaví proměnnou typu "section" a flagy "flags" 
         '''
         
-        if(name in self.data) and (section in self.data[name]): #data exist? section exist? (GET, SET, ..)
+        if(name in self.data) and (section in self.data[name]):
+             
+            #data exist, section exist (GET, SET, ..)
                         
-            self.datalock.acquire()            
+            self.datalock.acquire()   
+                     
             #set data            
             self.data[name][section]["value"] = value            
             
             '''set flag "changed" for section SET'''
             if (section == "SET"):
                 self.data[name][section]['changed'] = True
-#            for flag in flags:              
-#                if(flag in self.data[name][section]): #exist flag for this section?
-#                    self.data[name][section][flag] = True
             
             self.datalock.release() 
             
+        return None
+    
+    """
+    SET ITEM
+    
+    - metoda Set() nastaví hodnotu a případně také flag na obsloužení
+    - metodou isflaged() lze otestovat, zda je požadováno obsloužení(např. vyslání do terminálu)
+    - metodou Get() se získají data pro obsluhu
+    - metodou resetFlags() se flag smaže, volá se po obsloužení    
+    """    
+    def SetItem(self, name, keys, value, section = "GET_SET"):
+        '''
+        Nastaví proměnnou typu "section" a flagy "flags"             
+        '''
+                       
+        item = self.data[name][section]["value"]
+    
+        for key in keys[:-1]:          
+            if key in item:                
+                item = item[key]                
+
+        self.datalock.acquire() 
+        
+        #set data          
+        item[keys[-1]] = value        
+        
+        #set flag "changed" for section SET
+        if (section == "SET"):
+            self.data[name][section]['changed'] = True
+            
+        self.datalock.release() 
+    
         return None
         
     
@@ -150,22 +182,7 @@ class Datastore():
         Jen pro SET section                
         slouží ke zjištění zda nastala změna, flag "changed" == True  
         """        
-        return self.data[name]['SET']['changed']
-        
-#        if(name in self.data) and (section in self.data[name]) and (flag in self.data[name][section]):
-#            return self.data[name][section][flag]
-#            
-#        return False
-
-#    def ResetFlags(self, name, section = "GET_SET", flags = ["changed",]):
-#
-#        for flag in flags:
-##            print flag, type(flag)            
-##            print  self.data[name][section]
-##            print flag in self.data[name][section]
-#            if(name in self.data) and (section in self.data[name]) and (flag in self.data[name][section]):
-#                self.data[name][section][flag] = False
-#    
+        return self.data[name]['SET']['changed']          
                
     
     """
@@ -178,29 +195,42 @@ class Datastore():
         Vrací data
         '''            
         if(name in self.data) and (section in self.data[name]):
-                #reset flags                                
-                return self.data[name][section]["value"]
+            #reset flags                                
+            return self.data[name][section]["value"]
         return None
-        
-#    def GetCounter(self, name):
-#        '''
-#        Vrací čítač pro danou proměnnou
-#        '''
-#        section = "GET"
-#        
-#        if(name in self.get_data) and (section in self.data[name]):
-#            return self.get_data[name][section]["counter"]
-#        return None
-#    
-#    def SetCounter(self, name):
-#        '''
-#        Nastaví čítač na maximum pro danou proměnnou
-#        '''        
-#        section = "SET"
-#        
-#        if(name in self.get_data) and (section in self.data[name]):
-#            self.get_data[name][section]["counter"] = self.get_data[name][section]["period"]
-                
+    """
+    GET DATA
+    - zapis je nutný pomocí metody SET()
+    - GET vrací data zapsaná v dané sekci    
+    """    
+    def GetItem(self, name, keys, section = "GET_SET"):
+        '''
+        Vrací data
+        '''            
+        #print name, section
+        item = self.data[name][section]["value"]
+    
+        for key in keys:          
+            if key not in item:
+                return None
+            item = item[key]                
+
+        return item
+    
+    """
+    GET DATA
+    - zapis je nutný pomocí metody SET()
+    - GET vrací data zapsaná v dané sekci    
+    """    
+    def GetName(self, name):
+        '''
+        Vrací data
+        '''            
+        if(name in self.data):
+                #reset flags                                
+                return self.data[name]["name"]
+        return None
+                      
     
 if __name__ == "__main__":
     DATA = {

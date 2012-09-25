@@ -72,9 +72,9 @@ class TimesParameters(myModel.myParameters):
         self.gui['aDirectExportCategories'] = source.ui.aDirectExportCategories 
         
         #SPECIAL
-        self.gui['show_all'] = source.ui.TimesShowAll
-        self.gui['show_zero'] = source.ui.timesShowZero
-        self.gui['show_additional_info'] = source.ui.timesAdditionalInfo
+        #self.gui['show_all'] = source.ui.TimesShowAll
+        #self.gui['show_zero'] = source.ui.timesShowZero
+        #self.gui['show_additional_info'] = source.ui.timesAdditionalInfo
         
         #COUNTER
         self.gui['counter'] = source.ui.timesCounter
@@ -141,7 +141,7 @@ class TimesModel(myModel.myModel):
         #print dbTime
                                              
         '''hide all zero time?'''                    
-        if(self.params.datastore.Get('show_zerotimes') == False):                            
+        if(self.params.datastore.Get('show')['starttimes'] == False):                            
             if (dbTime["cell"] == 1):                
                 return None                      
         
@@ -197,35 +197,42 @@ class TimesModel(myModel.myModel):
         '''CATEGORY'''                                                                                
         tabTime['category'] = tabUser['category']                                                                                                                              
 
+        
+        
+        tabTime['lap'] = None
+        tabTime['order'] = None
+        tabTime['order_cat'] = None
+        
+        
         '''LAP'''
         #z1 = time.clock()
-        #print "- 1. Lap"        
-        tabTime['lap'] = self.lap.Get(dbTime)
+        #print "- 1. Lap"
+        aux_lap = self.lap.Get(dbTime)        
+        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['lap']:           
+            tabTime['lap'] = aux_lap
         #print "- 2. Lap take: ",(time.clock() - z1)  
         
-        '''ORDER'''
         #z1 = time.clock()
-        #print "- 1. isLastUserTime"                         
-        lasttime = self.order.IsLastUsertime(dbTime, tabTime['lap'])  
+        #print "- 1. isLastUserTime"
+        if  self.params.datastore.Get("additional_info")['enabled'] and (self.params.datastore.Get("additional_info")['order'] or self.params.datastore.Get("additional_info")['order_in_cat']):                         
+            lasttime = self.order.IsLastUsertime(dbTime, aux_lap)  
         #print "- 2. isLastUserTime take: ",(time.clock() - z1)              
         
-        if(lasttime == True):
-            #z1 = time.clock()
-            #print "- 1. order"                                        
-            tabTime['order']  = self.order.Get(dbTime, tabTime['lap'])
-            #print "- 2. order take: ",(time.clock() - z1)
-            
-        else:
-            tabTime['order']  = ""            
+        '''ORDER'''
+        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['order']:
+            if(lasttime == True):
+                #z1 = time.clock()
+                #print "- 1. order"                                        
+                tabTime['order']  = self.order.Get(dbTime, aux_lap)
+                #print "- 2. order take: ",(time.clock() - z1)                                
                 
         '''ORDER IN CATEGORY'''
-        if(lasttime == True):                        
-            #z1 = time.clock()
-            #print "- 1. order in category"                                   
-            tabTime['order_cat'] = self.order.Get(dbTime, tabTime['lap'], category_id = tabUser['category_id'])
-            #print "- 2. order in category take: ",(time.clock() - z1)
-        else:
-            tabTime['order_cat']  = ""                                                                  
+        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['order_in_cat']:
+            if(lasttime == True):                        
+                #z1 = time.clock()
+                #print "- 1. order in category"                                   
+                tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = tabUser['category_id'])
+                #print "- 2. order in category take: ",(time.clock() - z1)                                                                          
                     
         return tabTime
                                                                                    
@@ -272,7 +279,7 @@ class TimesModel(myModel.myModel):
                 
         '''RUN_ID'''
         #if(self.showall):
-        if(self.params.datastore.Get('show_alltimes') == True):
+        if(self.params.datastore.Get('show')['alltimes'] == True):
             '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
             aux_dbtime = self.params.db.getParId("times",tabTime['id'])            
             dbTime['run_id'] = aux_dbtime['run_id']            
@@ -462,8 +469,8 @@ class TimesModel(myModel.myModel):
         
         
         #update times        
-        if(self.params.datastore.Get('show_alltimes') == True):
-            
+        if self.params.datastore.Get('show')['alltimes'] == True:            
+            print "ff", self.params.datastore.Get('show')
             #get run ids
             conditions = []
             ids = self.params.tabRuns.proxy_model.ids()

@@ -33,3 +33,9 @@ print toUnicode(DATA), type(toUnicode(DATA))
 
 if(u'režnice' == "režnice"):
     print "ANO"
+    
+if 2:
+    print "nula"
+    
+print 1 == True
+print 0 == False

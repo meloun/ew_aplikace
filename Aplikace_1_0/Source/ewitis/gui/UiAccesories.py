@@ -3,6 +3,7 @@
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
 from ewitis.data.DEF_ENUM_STRINGS import * 
+import libs.utils.utils as utils 
 
 
 
@@ -17,8 +18,15 @@ class UiAccesories():
     def createSlots(self): 
                 
         """SLOTY"""
-        QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("clicked()"), self.sRfidRace)        
-        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("clicked()"), self.sOneLapRace)        
+        #times
+        QtCore.QObject.connect(self.ui.timesShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["starttimes"], state, TAB.run_times))
+        QtCore.QObject.connect(self.ui.timesShowAllTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["alltimes"], state, TAB.run_times))
+        QtCore.QObject.connect(self.ui.timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))
+                        
+        QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
+        QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
+        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))        
+
         QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
         #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
         QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
@@ -34,7 +42,15 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateStoptime)
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
-
+        
+        QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
+    
+    def sRaceNameChanged(self, s):
+        print "1:Race changed", s
     def updateGui(self):
         self.updateTab(TAB.run_times)
         self.updateTab(TAB.users)
@@ -42,7 +58,7 @@ class UiAccesories():
         self.updateTab(TAB.cgroups)
         self.updateTab(TAB.tags)
         self.updateTab(TAB.device)
-        self.updateTab(TAB.timing_settings)
+        self.updateTab(TAB.race_settings)
         
     def updateTab(self, tab, mode = UPDATE_MODE.all):
         """ 
@@ -55,13 +71,11 @@ class UiAccesories():
                 self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
                 self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
                 
-                """ PORT CONNECT """
-                if(self.datastore.Get("port_enable")):
-                    self.ui.aConnectPort.setText("Disconnect")
-                else:
-                    self.ui.aConnectPort.setText("Connect")
-                        
-                #terminal_info = self.datastore.Get("terminal info", "GET")                                            
+                """ PORT CONNECT """                            
+                self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port_enable")])                                                                                                                    
+                self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
+                self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
+                self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
                 
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.R.update()
@@ -81,7 +95,55 @@ class UiAccesories():
                    
         elif(tab == TAB.tags):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
-                self.source.tableTags.update()                                               
+                self.source.tableTags.update()
+                
+        elif(tab == TAB.race_settings):    
+            """ TIMING SETTINGS"""
+            timing_settings_get = self.datastore.Get("timing_settings", "GET")
+            timing_settings_set = self.datastore.Get("timing_settings", "SET")
+            #print timing_settings_get
+            #print aux_timing_settings
+                                                
+            self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
+            self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
+            self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
+            self.ui.checkAInfoEnabled.setCheckState(self.datastore.Get("additional_info")['enabled'])
+            self.ui.checkAInfoOrder.setCheckState(self.datastore.Get("additional_info")['order'])
+            self.ui.checkAInfoOrderInCategory.setCheckState(self.datastore.Get("additional_info")['order_in_cat'])
+            self.ui.checkAInfoLaps.setCheckState(self.datastore.Get("additional_info")['lap'])
+            self.ui.checkAInfoLaptime.setCheckState(self.datastore.Get("additional_info")['laptime'])
+            
+            
+            """ logic mode """  
+            if(timing_settings_get['logic_mode'] != None):
+                self.ui.comboTimingMode.setCurrentIndex(timing_settings_get['logic_mode']-1)            
+                self.ui.lineTimingMode.setText(str(self.ui.comboTimingMode.currentText()+" mode").upper())                    
+            else:
+                self.ui.comboTimingMode.setCurrentIndex(0)
+                self.ui.lineTimingMode.setText("- - -")
+            """ Measurement State"""
+            if(timing_settings_get['measurement_state'] != None):            
+                self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                    
+            else:            
+                self.ui.labelMeasurementState.setText("- - -")
+                            
+            """ Filter Tagtime """
+            if(timing_settings_get['filter_tagtime'] != None):                                    
+                self.ui.lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))
+                #self.ui.spinTagtime.setText(str(timing_settings_get['filter_tagtime']))                    
+            else:            
+                self.ui.lineFilterTagtime.setText("- -")
+            """ Filter Minlaptime """                
+            if(timing_settings_get['filter_minlaptime'] != None):                                    
+                self.ui.lineFilterMinlaptime.setText(str(timing_settings_get['filter_minlaptime']))                    
+            else:            
+                self.ui.lineFilterMinlaptime.setText("- -")
+            
+            """ Filter Maxlapnumber """                
+            if(timing_settings_get['filter_maxlapnumber'] != None):                                    
+                self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
+            else:            
+                self.ui.lineMaxlapnumber.setText("- -")                                               
         
         elif(tab == TAB.device):
             
@@ -174,65 +236,45 @@ class UiAccesories():
             else:            
                 self.ui.lineLanguage.setText("- -")
         
-        elif(tab == TAB.timing_settings):    
-            """ TIMING SETTINGS"""
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")
-            timing_settings_set = self.datastore.Get("timing_settings", "SET")
-            #print timing_settings_get
-            #print aux_timing_settings
-            
-            if(self.datastore.Get("rfid")):
-                self.ui.checkRfidRace.setCheckState(2)
-            else:
-                self.ui.checkRfidRace.setCheckState(0)
-                       
-            if(self.datastore.Get("onelap_race")):
-                self.ui.checkOneLapRace.setCheckState(2)
-            else:
-                self.ui.checkOneLapRace.setCheckState(0)
-            
-            """ logic mode """  
-            if(timing_settings_get['logic_mode'] != None):
-                self.ui.comboTimingMode.setCurrentIndex(timing_settings_get['logic_mode']-1)            
-                self.ui.lineTimingMode.setText(str(self.ui.comboTimingMode.currentText()+" mode").upper())                    
-            else:
-                self.ui.comboTimingMode.setCurrentIndex(0)
-                self.ui.lineTimingMode.setText("- - -")
-            """ Measurement State"""
-            if(timing_settings_get['measurement_state'] != None):            
-                self.ui.labelMeasurementState.setText(MEASUREMENT_STATE.STRINGS[timing_settings_get['measurement_state']])                    
-            else:            
-                self.ui.labelMeasurementState.setText("- - -")
-                            
-            """ Filter Tagtime """
-            if(timing_settings_get['filter_tagtime'] != None):                                    
-                self.ui.lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))
-                #self.ui.spinTagtime.setText(str(timing_settings_get['filter_tagtime']))                    
-            else:            
-                self.ui.lineFilterTagtime.setText("- -")
-            """ Filter Minlaptime """                
-            if(timing_settings_get['filter_minlaptime'] != None):                                    
-                self.ui.lineFilterMinlaptime.setText(str(timing_settings_get['filter_minlaptime']))                    
-            else:            
-                self.ui.lineFilterMinlaptime.setText("- -")
-            
-            """ Filter Maxlapnumber """                
-            if(timing_settings_get['filter_maxlapnumber'] != None):                                    
-                self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
-            else:            
-                self.ui.lineMaxlapnumber.setText("- -")
+
                     
-        
     
-    def sRfidRace(self):                        
-        if (self.showmessage("Rfid race", "Are you sure you want to change \"Rfid Race\"? \n ", msgtype='warning_dialog')):            
-            self.datastore.Set("rfid", not(self.datastore.Get("rfid")))
-        self.updateTab(TAB.timing_settings)
+    def sGuiSet(self, name, value, tab, dialog = False):
+        if value == self.datastore.Get(name):
+            return
+                
+        if(dialog == True):            
+            name_string = self.datastore.GetName(name)            
+            if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
+                return
+                
+        self.datastore.Set(name, value)
+        self.updateTab(tab)
         
-    def sOneLapRace(self):                                
-        if (self.showmessage("One Lap Race", "Are you sure you want to change \"One Lap Race\"? \n ", msgtype='warning_dialog')):            
-            self.datastore.Set("onelap_race", not(self.datastore.Get("onelap_race")))        
-        self.updateTab(TAB.timing_settings)
+        
+    def sGuiSetItem(self, name, keys, value, tab, dialog = False):
+        if value == self.datastore.GetItem(name, keys):
+            return
+                
+        if(dialog == True):            
+            name_string = self.datastore.GetName(name)            
+            if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
+                return
+                
+        self.datastore.SetItem(name, keys, value)        
+        self.updateTab(tab)
+        
+            
+    
+#    def sRfidRace(self):                        
+#        if (self.showmessage("Rfid race", "Are you sure you want to change \"Rfid Race\"? \n ", msgtype='warning_dialog')):            
+#            self.datastore.Set("rfid", not(self.datastore.Get("rfid")))
+#        self.updateTab(TAB.race_settings)
+#        
+#    def sOneLapRace(self):                                
+#        if (self.showmessage("One Lap Race", "Are you sure you want to change \"One Lap Race\"? \n ", msgtype='warning_dialog')):            
+#            self.datastore.Set("onelap_race", not(self.datastore.Get("onelap_race")))        
+#        self.updateTab(TAB.race_settings)
         
                             
         

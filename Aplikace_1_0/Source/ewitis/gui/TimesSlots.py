@@ -9,9 +9,9 @@ class TimesSlots():
         
         self.times = times                
                 
-        QtCore.QObject.connect(times.params.gui['show_all'] , QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAllTimesChanged)
-        QtCore.QObject.connect(times.params.gui['show_zero'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZerotimesChanged)
-        QtCore.QObject.connect(times.params.gui['show_additional_info'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAditionalInfoChanged)         
+        #QtCore.QObject.connect(times.params.gui['show_all'] , QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAllTimesChanged)
+        #QtCore.QObject.connect(times.params.gui['show_zero'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowZerotimesChanged)
+        #QtCore.QObject.connect(times.params.gui['show_additional_info'], QtCore.SIGNAL("stateChanged (int)"), self.sTimesShowAditionalInfoChanged)         
         QtCore.QObject.connect(times.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.times.sExport_directWWW)        
                         
 
@@ -43,11 +43,12 @@ class TimesSlots():
             self.times.params.datastore.Set('show_starttimes', True)
         self.times.update()
         
-    def sTimesShowAditionalInfoChanged(self, state):        
+    def sTimesShowAditionalInfoChanged(self, state):
+        print self.times.params.datastore.Get("additinal_info")      
         if(state == 0):
-            self.times.params.datastore.Set("additinal_info", False)                        
+            self.times.params.datastore.SetItem("additinal_info",["enabled"], False)                        
         elif(state == 2):
-            self.times.params.datastore.Set("additinal_info", True)                                    
+            self.times.params.datastore.SetItem("additinal_info",["enabled"], True)                                    
         self.times.update()
         
 #    def sTimesDirectWwwExport(self):

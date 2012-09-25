@@ -109,9 +109,9 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         self.UiAccesories.updateGui()                                        
         
         '''status bar'''                       
-        logic_mode = LOGIC_MODES.STRINGS[self.datastore.Get("timing_settings", "GET")['logic_mode']]
+        #logic_mode = LOGIC_MODES.STRINGS[self.datastore.Get("timing_settings", "GET")['logic_mode']]
                    
-        self.showMessage("mode", logic_mode + " ["+self.datastore.Get("race_name")+"]", dialog=False)
+        #self.showMessage("mode", logic_mode + " ["+self.datastore.Get("race_name")+"]", dialog=False)
 
         
         #=======================================================================

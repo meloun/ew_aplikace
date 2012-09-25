@@ -142,7 +142,11 @@ class TimesOrder():
                  
     def Get(self, dbTime, lap, category_id = None):
         
-        if(self.datastore.Get("additinal_info") == False):            
+        if (self.datastore.Get("additional_info")["enabled"] == 0):                 
+            return None
+        if (category_id == None) and (self.datastore.Get("additional_info")["order"] == 0):
+            return None
+        if (category_id != None) and (self.datastore.Get("additional_info")["order_in_cat"] == 0):
             return None
         
         if(dbTime['time'] == None):
@@ -336,8 +340,8 @@ class TimesLap():
         
     def Get(self, dbTime):        
         
-        if(self.datastore.Get("additinal_info") == False):
-            return None
+        if(self.datastore.Get("additional_info")['enabled'] == 0):            
+            return None                        
         
         if(dbTime['time_raw'] == None):
             return None;

@@ -24,9 +24,9 @@ import time
 
 eTIMING_LOGIC_MODE = ["basic", "manual"]
 
-class LOGIC_MODES:
-    basic, manual, single_mass, multiple_mass = range(1,5)  
-    STRINGS =  {basic:"basic", manual:"manual", single_mass:"single_mass", multiple_mass:"multiple_mass"} 
+#class LOGIC_MODES:
+#    basic, manual, single_mass, multiple_mass = range(1,5)  
+#    STRINGS =  {basic:"basic", manual:"manual", single_mass:"single_mass", multiple_mass:"multiple_mass"} 
 class MEASUREMENT_STATE:
     not_active, prepared, time_is_running, finished = range(0,4)
     STRINGS =  {not_active:"Not Active", prepared:"Prepared, waiting for start", time_is_running:"Time is running", prepared:"Finished"}      
@@ -53,22 +53,33 @@ DEF_DATA = {
         "active_tab"         : {"GET_SET"  : {"value":0}},
         
         #show flags for times table
-        "show_alltimes"      : {"GET_SET"  : {"value": False}},
-        "show_zerotimes"     : {"GET_SET"  : {"value": True}},
-        "show_starttimes"    : {"GET_SET"  : {"value": True}},     
+        "show_alltimes"      : {"GET_SET"  : {"value": 0}},        
+        "show_starttimes"    : {"GET_SET"  : {"value": 2}},     
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Křápkap"}  
+                                "GET_SET"  : {"value":u"Chomutov Tour 2012"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":True}  
+                                "GET_SET"  : {"value":2}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
-                                "GET_SET"  : {"value": False}  
+                                "GET_SET"  : {"value": 0}  
                                },
-        "additinal_info"     : {"name"     : "additinal info",
-                                "GET_SET"  : {"value": True}  
+        "show"               : {"GET_SET"  : {"value": {
+                                                        "starttimes"     : 2, 
+                                                        "alltimes"       : 0                                              
+                                                        }
+                                              }
+                                },
+        "additional_info"     : {"name"     : "additinal info",
+                                "GET_SET"  : {"value": {"enabled"       : 0,
+                                                        "order"         : 2,
+                                                        "order_in_cat"  : 2,
+                                                        "lap"           : 2,                                               
+                                                        "laptime"       : 2,                                               
+                                                        }
+                                              }  
                                },
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
@@ -93,7 +104,12 @@ DEF_DATA = {
                                },
                 
         "speaker"            : {"name"    : "speaker",                                                                 
-                                "SET"     : {"value":{"keys": True, "timing": True, "system":True},
+                                "SET"     : {"value":{"keys": False, "timing": True, "system":True},
+                                             "changed": False,                                             
+                                             },
+                               },                                                                                                       
+        "speaker2"           : {"name"    : "speaker",                                                                 
+                                "SET"     : {"value": {"keys": False, "dict1a": {"dict2a":2, "dict2b":3}, "dict1b":3},
                                              "changed": False,                                             
                                              },
                                },                                                                                                       
@@ -129,7 +145,7 @@ DEF_DATA = {
                                              },
                                },
         "timing_settings"    : {"name"    : "logic timing_settings",                                
-                                "SET"     : {"value": {"logic_mode": LOGIC_MODES.multiple_mass,
+                                "SET"     : {"value": {"logic_mode": 1,
                                                        "measurement_state": MEASUREMENT_STATE.not_active,
                                                        "name_id": 4,
                                                        "filter_tagtime": 5,
@@ -138,7 +154,7 @@ DEF_DATA = {
                                                        },
                                               "changed": False
                                             },
-                                "GET"     : {"value": {"logic_mode": LOGIC_MODES.multiple_mass,
+                                "GET"     : {"value": {"logic_mode": 1,
                                                        "measurement_state": None,
                                                        "name_id": 04,
                                                        "filter_tagtime": None,

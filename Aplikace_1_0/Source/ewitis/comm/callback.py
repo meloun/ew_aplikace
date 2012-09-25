@@ -17,6 +17,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #===============================================================================
 def callback(command, data):
     
+    print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     # GET TIME PAR INDEX
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIME_PAR_INDEX"]["cmd"] | 0x80)):
         ''' GET_TIME_PAR_IDNEX => TIME struct (16b) + 2b error
@@ -56,9 +57,15 @@ def callback(command, data):
             | number_of_cells (1B) | battery (1B)| backlight (1B) | speaker (1B) | language (1B)
         ''' 
         aux_terminal_info = {}
+        aux_time = {}
         
-        aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
-        aux_terminal_info['language'], = struct.unpack("<BBBBB", data)
+        if( len(data) == 12):
+            aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
+            aux_terminal_info['language'], aux_time['sec'], aux_time['min'], aux_time['hour'], aux_time['day'], aux_time['dayweek'], \
+            aux_time['month'], aux_time['year']= struct.unpack("<BBBBBBBBBBBB", data)
+        else:
+            aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
+            aux_terminal_info['language'] = struct.unpack("<BBBBB", data)
         
         aux_terminal_info['speaker'] = {}
         aux_terminal_info['speaker']['keys'] = bool(aux_speaker & 0x01)
