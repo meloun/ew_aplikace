@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-s
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
 import sys
@@ -493,29 +493,14 @@ class TimesProxyModel(myModel.myProxyModel):
         
         #create PROXYMODEL
         myModel.myProxyModel.__init__(self, params)
-        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&,const QModelIndex&)"), self.sModelChanged)   
         
-    #setting flags for this model
-    #first collumn is NOT editable
-    def flags(self, index):             
-
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable        
-        
-                
-    def sModelChanged(self,  topLeft, bottomRight):
-        if(self.params.datastore.Get("user_actions") == 0):                  
-            if(topLeft == bottomRight):
-            
-                '''změna jednoho prvku'''
-                
-                if(topLeft.column() == 1):                    
-                
-                    '''ZMĚNA ČÍSLA'''
-
-                    '''editovat číslo o jeden řádek výše'''                        
-                    myindex = self.index(topLeft.row()-1,1)                    
-                    if(myindex.isValid()==True):                        
-                        self.params.gui['view'].edit(myindex)                    
+    def IsColumnAutoEditable(self, column):
+        if column == 1:
+            '''změna čísla'''    
+            return True
+        return False
+           
+                  
    
 # view <- proxymodel <- model 
 class Times(myModel.myTable):    
@@ -525,11 +510,11 @@ class Times(myModel.myTable):
         myModel.myTable.__init__(self, params)                
                 
         #special slots
-        self.slots = Slots.TimesSlots(self)                                       
+        #self.slots = Slots.TimesSlots(self)                                       
        
         #TIMERs
-        self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(1000);
+        #self.timer1s = QtCore.QTimer(); 
+        #self.timer1s.start(1000);
         
         #MODE EDIT/REFRESH        
         self.system = 0
@@ -539,7 +524,10 @@ class Times(myModel.myTable):
         #standart slots
         myModel.myTable.createSlots(self)
         
-        # EXPORT WWW BUTTON        
+        #export direct www
+        QtCore.QObject.connect(self.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sExport_directWWW)
+        
+        #export www button        
         if (self.params.gui['aDirectExportCategories'] != None):            
             QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))                   
 

@@ -130,7 +130,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
     def sModelChanged(self, item):
         """
         SLOT, model se zmenil => ulozeni do DB
-        """                          
+        """                                  
         
         #user change, no auto update        
         if(self.params.datastore.Get("user_actions") == 0):                                                                                                
@@ -149,8 +149,14 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
                 except:                
                     self.params.showmessage(self.params.name+" Update", "Error!")                
                 
-            #update model                                                                           
-            self.update()                                                                        
+            #update model
+            #time.sleep(2)
+#            z1 = time.clock()
+#            print "1: update"
+#            time.sleep(1)                                                                        
+#            self.update()
+#            time.sleep(1)
+#            print "2: update", (time.clock() - z1)                                                                        
     
     def flags(self, index):
         """
@@ -280,7 +286,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")+1)          
                       
         #smazat vsechny radky
-        self.removeRows(0, self.rowCount())  
+        self.removeRows(0, self.rowCount())          
         
         #ziskat radky z databaze DB
         if ((parameter == None) and (conditions == None)):                
@@ -290,23 +296,24 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         elif (conditions!=[]):
             rows = self.params.db.getParXX(self.params.name, conditions, operation)
         else:
-            rows = []        
+            rows = []
+                                   
                                                                  
         #pridat radky do modelu/tabulky
         row_dicts = []         
-        for row in rows:                    
+        for row in rows:
                         
             #convert "db-row" to dict (in dict can be added record)
             row_dicts.append(self.params.db.dict_factory(rows, row))                                                
             
-                    
+                            
         for row_dict in row_dicts:            
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)                                                                                                                                                     
             #add row to the table             
             self.addRow(row_table)
 
-        #enable user actions                                                                                                                 
+        #enable user actions                                                                                                                                                                                                   
         self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")-1)                                                                          
             
 
@@ -320,6 +327,37 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
         self.setFilterKeyColumn(-1)
         self.params = params                    
         
+        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&,const QModelIndex&)"), self.sModelChanged)
+            
+    #setting flags for this model
+    #first collumn is NOT editable
+    def flags(self, index):             
+
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable        
+        
+                
+    def IsColumnAutoEditable(self, column):
+        return False
+    def sModelChanged(self,  topLeft, bottomRight):
+        if(self.params.datastore.Get("user_actions") == 0):                  
+            if(topLeft == bottomRight):
+            
+                '''změna jednoho prvku'''
+                
+                if(self.IsColumnAutoEditable(topLeft.column())):                                                        
+
+                    '''editovat sloupec nad aktivním řádkem'''
+                    
+                    '''uložit aktivní řádek do datastore'''
+                    self.params.datastore.Set("active_row", topLeft.row())
+                    
+                    '''update model'''                                                                 
+                    self.model.update()
+
+                    '''editovat sloupec nad aktivním řádkem'''                         
+                    myindex = self.index(self.params.datastore.Get("active_row")-1, topLeft.column())                    
+                    if(myindex.isValid() == True):                        
+                        self.params.gui['view'].edit(myindex)
 
     #get ids
     def ids(self):
@@ -343,14 +381,17 @@ class myTable():
         #name
         self.params = params        
         
+        #create PROXY MODEL
+        print params.name, ": vytvarim proxy model"        
+        self.proxy_model = self.params.classProxyModel(params)
         
         #create MODEL
         print params.name, ": vytvarim model"
         self.model = self.params.classModel(params)                
         
-        #create PROXY MODEL
-        print params.name, ": vytvarim proxy model"        
-        self.proxy_model = self.params.classProxyModel(params)        
+        
+        #vazba na proxy model kvuli focusu / edit
+        self.proxy_model.model = self.model
         
         #assign MODEL to PROXY MODEL
         self.proxy_model.setSourceModel(self.model)   

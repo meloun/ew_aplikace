@@ -165,7 +165,7 @@ class TimesOrder():
             
             '''ORDER IN THE SAME CATEGORY'''        
                            
-            if(self.datastore.Get('rfid') == True):                
+            if(self.datastore.Get('rfid') == 2):                
                 query_order = \
                 "SELECT COUNT(*) FROM("+\
                     " SELECT user_id FROM times" +\
@@ -180,7 +180,7 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == False):
+                if(self.datastore.Get('onelap_race') == 2):
                     query_order = query_order + \
                         " UNION "+\
                         " SELECT user_id FROM times" +\
@@ -209,7 +209,7 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == False):
+                if(self.datastore.Get('onelap_race') == 0):
                     query_order = query_order +\
                         " UNION "+\
                         " SELECT user_id FROM times" +\
@@ -242,7 +242,7 @@ class TimesOrder():
                         " AND (times.cell != 1 )"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == " + str(lap)
-            if(self.datastore.Get('onelap_race') == False):
+            if(self.datastore.Get('onelap_race') == 0):
                     query_order = query_order +\
                     " UNION "+\
                     " SELECT user_id FROM times" +\

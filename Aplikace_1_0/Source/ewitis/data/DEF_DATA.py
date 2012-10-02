@@ -51,6 +51,8 @@ DEF_DATA = {
                                },
 
         "active_tab"         : {"GET_SET"  : {"value":0}},
+        "active_row"         : {"GET_SET"  : {"value":0}},
+        
         
         #show flags for times table
         "show_alltimes"      : {"GET_SET"  : {"value": 0}},        

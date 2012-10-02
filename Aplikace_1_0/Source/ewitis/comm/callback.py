@@ -17,7 +17,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #===============================================================================
 def callback(command, data):
     
-    print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
+    #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     # GET TIME PAR INDEX
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIME_PAR_INDEX"]["cmd"] | 0x80)):
         ''' GET_TIME_PAR_IDNEX => TIME struct (16b) + 2b error

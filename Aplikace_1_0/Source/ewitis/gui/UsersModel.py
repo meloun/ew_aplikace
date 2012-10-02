@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
 import sys
@@ -117,8 +118,7 @@ class UsersModel(myModel.myModel):
         #1to1 keys just copy
         dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
         
-        '''category_id'''
-        print tabUser['category'], type(tabUser['category'])
+        '''category_id'''        
         dbCategory = self.params.tabCategories.getDbCategoryParName(tabUser['category']) 
         
         if(dbCategory == None):
@@ -155,7 +155,13 @@ class UsersProxyModel(myModel.myProxyModel):
     def __init__(self, params):                        
         
         #create PROXYMODEL
-        myModel.myProxyModel.__init__(self, params)  
+        myModel.myProxyModel.__init__(self, params)
+        
+    def IsColumnAutoEditable(self, column):
+        if column == 1:
+            '''změna čísla'''    
+            return True
+        return False  
         
 
 
@@ -198,27 +204,29 @@ class Users(myModel.myTable):
                         
         return db_user
     
-    def getDbUserParIdOrTagId(self, id):
-        
-        if(self.params.datastore.Get("rfid") == True):                    
-            '''tag id'''
+    def getDbUserParIdOrTagId(self, id):        
+             
+        if(self.params.datastore.Get("rfid") == 2):                    
+            '''tag id'''            
             dbUser = self.getDbUserParTagId(id)
         else:                
-            '''id'''
+            '''id'''            
             dbUser = self.getDbRow(id)
-                
+                     
         return dbUser
     
     def getTabUserParIdOrTagId(self, id):
         
+        
         dbUser = self.getDbUserParIdOrTagId(id)                 
+        
         
         tabUser = self.model.db2tableRow(dbUser)
         return tabUser
     
     def getIdOrTagIdParNr(self, nr):
         
-        if(self.params.datastore.Get("rfid") == True):    
+        if(self.params.datastore.Get("rfid") == 2):    
             '''tag id'''
             dbTag = self.params.tableTags.getDbTagParUserNr(nr)                        
             return dbTag['tag_id']
