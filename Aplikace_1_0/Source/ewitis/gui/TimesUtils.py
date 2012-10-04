@@ -107,6 +107,12 @@ class TimesOrder():
         self.datastore = datastore   
     
     def IsLastUsertime(self, dbTime, lap, category_id = None):
+        '''
+        jde momentálně o poslední čas daného závodníka?
+        '''
+        
+#        if (self.datastore.Get("additional_info")["enabled"] == 0):                 
+#            return None
         
         if(dbTime['time'] == None):
             return None
@@ -180,7 +186,7 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == 2):
+                if(self.datastore.Get('onelap_race') == 0):
                     query_order = query_order + \
                         " UNION "+\
                         " SELECT user_id FROM times" +\
@@ -209,7 +215,7 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == 0):
+                if(self.datastore.Get('onelap_race') == 0):                    
                     query_order = query_order +\
                         " UNION "+\
                         " SELECT user_id FROM times" +\
@@ -224,7 +230,7 @@ class TimesOrder():
                             " HAVING count(*) > "+str(lap)
                 query_order = query_order + ")"
             
-            #print "query_order: ",query_order                                 
+            #print "query_order: ",self.datastore.Get('onelap_race') ,query_order                                 
                         
                                                                                           
         
@@ -338,7 +344,10 @@ class TimesLap():
         self.db = db
         self.datastore = datastore
         
-    def Get(self, dbTime):        
+    def Get(self, dbTime):
+        '''
+        spočítá kolikáté kolo daného závodníka je tento čas
+        '''        
         
         if(self.datastore.Get("additional_info")['enabled'] == 0):            
             return None                        
@@ -371,7 +380,11 @@ class TimesLap():
         count = self.db.query(query).fetchone()[0]+1
         return count
     
-    def GetLaps(self, dbTime):        
+    def GetLaps(self, dbTime):
+        '''
+        vrátí počet kol daného uživatele
+        '''
+                
                 
         if(dbTime['cell'] == 1):
             return None                    
@@ -390,7 +403,78 @@ class TimesLap():
         count = self.db.query(query).fetchone()[0]
         return count        
     
+class TimesLaptime():
+    def __init__(self, db, datastore):                          
+        self.db = db
+        self.datastore = datastore
+    
+    def Get(self, dbTime):
+        '''
+        vyhledá přechozí čas a spočítá laptime
+        '''        
+        
+        #if(self.datastore.Get("additional_info")['enabled'] == 0):            
+        #    return None                        
+        
+        if(dbTime['time_raw'] == None):
+            #print "laptime: neni time_raw", dbTime
+            return None;
 
+        if(dbTime['cell'] == 1):
+            #print "laptime: spatna cell", dbTime
+            return None
+                    
+        if(dbTime['time_raw'] == 0):
+            #print "laptime: zero time_raw", dbTime
+            return None
+        
+        if(dbTime['user_id'] == 0):
+            #print "laptime: neni user", dbTime
+            return None
+        
+        '''count of times - same race, same user, better time, exclude start time'''
+        query = \
+                "SELECT time_raw FROM times" +\
+                    " WHERE (times.run_id ==" + str(dbTime['run_id'])+ ")"+\
+                    " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
+                    " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\
+                    " AND (times.cell != 1)"+\
+                    " ORDER BY time_raw DESC"+\
+                    " LIMIT 1"
+                    
+        res = self.db.query(query).fetchone()
+        if res == None:
+            return None        
+        return dbTime['time_raw'] - res['time_raw']    
+        
+    def GetBest(self, dbTime):
+        '''
+        vyhledá přechozí čas a spočítá laptime
+        '''        
+                               
+        if(dbTime['time_raw'] == None):            
+            return None;
+
+        if(dbTime['cell'] == 1):            
+            return None
+                    
+        if(dbTime['time_raw'] == 0):            
+            return None
+        
+        if(dbTime['user_id'] == 0):            
+            return None
+        
+        '''count of times - same race, same user, better time, exclude start time'''
+        query = \
+                "SELECT max(laptime) FROM times" +\
+                    " WHERE (times.run_id ==" + str(dbTime['run_id'])+ ")"+\
+                    " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"
+        res = self.db.query(query).fetchone()                
+        if res == None:
+            return None
+        return res[0]
+        
+        
                     
         
         

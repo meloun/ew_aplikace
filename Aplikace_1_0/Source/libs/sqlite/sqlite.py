@@ -60,11 +60,10 @@ class sqlite_db(object):
         #import time                
         query = utils.getUtf8String(query)
         
-        #z1 = time.clock()
-        #print "  - 1.sql 1."        
-        #print "  ",query
+        #z1 = time.clock()                
+        #◙print "  ",query
         last_result = self.db.execute(query)
-        #print "  - 2. sql take:", (time.clock()-z1)
+        #print "  - sql take:", (time.clock()-z1)
                         
         return last_result
        
@@ -90,7 +89,8 @@ class sqlite_db(object):
     
     def getParX(self, tablename, parameter, value, limit = None):
         query = u"select * from " + tablename + " where " + parameter +" = '" + unicode(value) + "'"
-        if limit != None:
+        query = query + " ORDER BY id DESC " 
+        if (limit != None) and (limit != 0):
             query = query + " LIMIT "+str(limit)        
         res = self.query(query)
         return res
@@ -111,7 +111,7 @@ class sqlite_db(object):
         
         query = "select * from " + tablename + " where " + where_string 
         
-        if limit != None:
+        if (limit != None) and (limit != 0):
             query = query + " LIMIT "+str(limit)
         
         res = self.query(query)

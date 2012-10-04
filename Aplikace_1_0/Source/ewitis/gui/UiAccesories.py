@@ -43,11 +43,13 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
         
+        QtCore.QObject.connect(self.ui.spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))        
         QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -107,6 +109,9 @@ class UiAccesories():
             self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
             self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
             self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
+            self.ui.spinTimesViewLimit.setValue(self.datastore.Get("times_view_limit"))
+            
+            
             self.ui.checkAInfoEnabled.setCheckState(self.datastore.Get("additional_info")['enabled'])
             self.ui.checkAInfoOrder.setCheckState(self.datastore.Get("additional_info")['order'])
             self.ui.checkAInfoOrderInCategory.setCheckState(self.datastore.Get("additional_info")['order_in_cat'])

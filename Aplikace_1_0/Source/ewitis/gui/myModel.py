@@ -154,7 +154,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
 #            z1 = time.clock()
 #            print "1: update"
 #            time.sleep(1)                                                                        
-#            self.update()
+            self.update()
 #            time.sleep(1)
 #            print "2: update", (time.clock() - z1)                                                                        
     
@@ -292,19 +292,21 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if ((parameter == None) and (conditions == None)):                
             rows = self.params.db.getAll(self.params.name)
         elif (conditions == None):
-            rows = self.params.db.getParX(self.params.name, parameter, value)
+            rows = self.params.db.getParX(self.params.name, parameter, value, self.params.datastore.Get("times_view_limit"))
+            #rows = self.params.db.getParX(self.params.name, parameter, value)
         elif (conditions!=[]):
-            rows = self.params.db.getParXX(self.params.name, conditions, operation)
+            rows = self.params.db.getParXX(self.params.name, conditions, operation, self.params.datastore.Get("times_view_limit"))
         else:
             rows = []
                                    
                                                                  
         #pridat radky do modelu/tabulky
         row_dicts = []         
-        for row in rows:
-                        
-            #convert "db-row" to dict (in dict can be added record)
-            row_dicts.append(self.params.db.dict_factory(rows, row))                                                
+#        for row in rows:
+#                        
+#            #convert "db-row" to dict (in dict can be added record)
+#            row_dicts.append(self.params.db.dict_factory(rows, row))
+        row_dicts = self.params.db.cursor2dicts(rows)                                                
             
                             
         for row_dict in row_dicts:            
@@ -340,7 +342,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
         return False
     def sModelChanged(self,  topLeft, bottomRight):
         if(self.params.datastore.Get("user_actions") == 0):                  
-            if(topLeft == bottomRight):
+            if(topLeft == bottomRight):                
             
                 '''změna jednoho prvku'''
                 
@@ -352,7 +354,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     self.params.datastore.Set("active_row", topLeft.row())
                     
                     '''update model'''                                                                 
-                    self.model.update()
+                    #self.model.update()
 
                     '''editovat sloupec nad aktivním řádkem'''                         
                     myindex = self.index(self.params.datastore.Get("active_row")-1, topLeft.column())                    

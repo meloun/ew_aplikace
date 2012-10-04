@@ -82,8 +82,13 @@ def callback(command, data):
         ''' 
         aux_timing_settings = {}
         
-        aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
-        aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'], = struct.unpack("<BBBBhB", data)                
+        if( len(data) == 8):
+            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
+            aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'],aux_timing_settings['tags_reading_enable'], = struct.unpack("<BBBBhBB", data)
+        else:
+            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
+            aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'], = struct.unpack("<BBBBhB", data)
+                
                                                         
         return aux_timing_settings
         

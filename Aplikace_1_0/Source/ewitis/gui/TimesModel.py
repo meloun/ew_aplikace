@@ -102,6 +102,7 @@ class TimesModel(myModel.myModel):
         self.starts = TimesUtils.TimesStarts(self.params.db)
         self.order = TimesUtils.TimesOrder(self.params.db, self.params.datastore)
         self.lap = TimesUtils.TimesLap(self.params.db, self.params.datastore)
+        self.laptime = TimesUtils.TimesLaptime(self.params.db, self.params.datastore)
                                                            
         #update with first run        
         first_run = self.params.db.getFirst("runs")
@@ -136,9 +137,8 @@ class TimesModel(myModel.myModel):
         ["id", "nr", "cell", "time", "name", "category", "address"]
         """
 
-        #ztime = time.clock()
-        #print "Z:", ztime
-        #print dbTime
+        #ztimeT = time.clock()
+        #print "TIME", dbTime['id']
                                              
         '''hide all zero time?'''                    
         if(self.params.datastore.Get('show')['starttimes'] == False):                            
@@ -151,14 +151,13 @@ class TimesModel(myModel.myModel):
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
         '''Test: vzal jsem rovnou tabusera, zda se to ze to chodi'''                                            
-        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])
-        #print "M1:", (time.clock()-ztime)*1000         
-        #dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])
-        #print "K:", (time.clock()-ztime) * 1000        
+        tabUser =  self.params.tabUser.getTabUserParIdOrTagId(dbTime["user_id"])         
+        #dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
        
         
         ''' get CATEGORY'''            
-        tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
+        #tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
+        tabCategory =  None                                
                                         
         ''' OTHER KEYS ''' 
         
@@ -166,7 +165,7 @@ class TimesModel(myModel.myModel):
         tabTime['nr'] = tabUser['nr']
                                     
         '''START NR'''
-        if(tabTime['cell'] == 1) or (tabTime['nr']==0): #start time?                           
+        if(tabTime['cell'] == 1) or (tabTime['nr']==0) or tabCategory==None: #start time?                           
             tabTime['start_nr'] = 1 #decrement 1.starttime
         else:                                
             tabTime['start_nr'] = tabCategory['start_nr']        
@@ -210,7 +209,15 @@ class TimesModel(myModel.myModel):
         aux_lap = self.lap.Get(dbTime)        
         if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['lap']:           
             tabTime['lap'] = aux_lap
-        #print "- 2. Lap take: ",(time.clock() - z1)  
+        #print "- 2. Lap take: ",(time.clock() - z1)
+        
+        '''LAPTIME'''
+        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['laptime']:
+            tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+        
+        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['best_laptime']:
+            tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))        
+         
         
         #z1 = time.clock()
         #print "- 1. isLastUserTime"
@@ -232,8 +239,10 @@ class TimesModel(myModel.myModel):
                 #z1 = time.clock()
                 #print "- 1. order in category"                                   
                 tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = tabUser['category_id'])
-                #print "- 2. order in category take: ",(time.clock() - z1)                                                                          
-                    
+                #print "- 2. order in category take: ",(time.clock() - z1)
+                #print "- 2. order in category take: ",(time.clock() - z1)
+                                                                                          
+        #print "TIME take: ",(time.clock() - ztimeT)
         return tabTime
                                                                                    
     def sModelChanged(self, item):
@@ -396,6 +405,43 @@ class TimesModel(myModel.myModel):
         return dbTime    
         
 
+    def update_laptime(self, dbTime):
+        
+        if(dbTime['laptime'] == None):            
+                                    
+            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
+            laptime = self.laptime.Get(dbTime)                                            
+             
+            if laptime != None:                                                        
+                '''ulozeni do db'''
+                print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
+                dbTime['laptime'] = laptime                                                       
+                self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()
+    def update_laptimes(self):
+        """
+        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
+        
+        *Ret:*
+            pole čísel závodníků u kterých se nepodařilo časy updatovat   
+        """
+        ret_ko_times = []
+        
+        dbTimes = self.params.db.getAll(self.params.name)
+        dbTimes = self.params.db.cursor2dicts(dbTimes)
+        
+        for dbTime in dbTimes:
+            
+            '''time'''
+            if(dbTime['laptime'] == None):                                                                        
+                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
+                
+                try:                                    
+                    self.update_laptime(dbTime)
+                except:                    
+                    ret_ko_times.append(dbTime['id'])
+                           
+        return ret_ko_times
+                                                       
     def calc_update_time(self, dbTime, start_nr = None):
         
         if(dbTime['time'] == None):            
@@ -465,6 +511,10 @@ class TimesModel(myModel.myModel):
         ko_nrs = self.calc_update_times()
         if(ko_nrs != []):
             print "E:",self.params.name+" Update error", "Some times have no start times"+str(ko_nrs)
+            
+        ko_nrs = self.update_laptimes()        
+        if(ko_nrs != []):
+            print "E:",self.params.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs)
             
         
         

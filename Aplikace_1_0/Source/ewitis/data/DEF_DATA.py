@@ -68,6 +68,9 @@ DEF_DATA = {
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
                                },
+        "times_view_limit"        : {"name"     : "times view limit",
+                                "GET_SET"  : {"value": 100}  
+                               },
         "show"               : {"GET_SET"  : {"value": {
                                                         "starttimes"     : 2, 
                                                         "alltimes"       : 0                                              
@@ -80,6 +83,7 @@ DEF_DATA = {
                                                         "order_in_cat"  : 2,
                                                         "lap"           : 2,                                               
                                                         "laptime"       : 2,                                               
+                                                        "best_laptime"  : 2,                                               
                                                         }
                                               }  
                                },

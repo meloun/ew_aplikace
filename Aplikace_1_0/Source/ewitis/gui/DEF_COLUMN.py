@@ -18,14 +18,14 @@ RUNS['database'] = {
                     "date"          :     {"name": "date"},
                     "name_id"       :     {"name": "name_id"},
                     "time_raw"      :     {"name": "time_raw"},
-                    "description"   :     {"name": "description"}                                
+                    #"description"   :     {"name": "description"}                                
                   }
 """ table collumn for times, mode training """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "width":40},                                
                  "date"          :     {"index": 1,  "name": "date",        "width":110},
                  "name"          :     {"index": 2,  "name": "name",        "width":100},                                
-                 "description"   :     {"index": 3,  "name": "description", "width":10}                                
+                 #"description"   :     {"index": 3,  "name": "description", "width":10}                                
                  }  
 
 """
@@ -65,8 +65,10 @@ TIMES['table_race'] =   {
                            "order_cat"  : {"index": 7,  "name": "order_cat", "width":50,    "write":1},      
                            "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "write":1},
                            "lap"        : {"index": 9,  "name": "lap",       "width":50,    "write":1},                                                                          
+                           "laptime"    : {"index": 10, "name": "laptime",   "width":100,    "write":1},                                                                          
+                           "best_laptime":{"index": 11, "name": "best_laptime","width":100,    "write":1},                                                                          
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"    : {"index": 10, "name": "timeraw",   "width":100,   "write":1},                        
+                           "timeraw"    : {"index": 12, "name": "timeraw",   "width":100,   "write":1},                        
                         
                         }
   
