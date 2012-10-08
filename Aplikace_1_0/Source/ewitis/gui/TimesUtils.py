@@ -106,40 +106,30 @@ class TimesOrder():
         self.db = db
         self.datastore = datastore   
     
-    def IsLastUsertime(self, dbTime, lap, category_id = None):
+    def IsLastUsertime(self, dbTime):
         '''
         jde momentálně o poslední čas daného závodníka?
         '''
-        
-#        if (self.datastore.Get("additional_info")["enabled"] == 0):                 
-#            return None
-        
+               
         if(dbTime['time'] == None):
-            return None
+            return True
               
         if(dbTime['time'] == 0):
-            return None
+            return True
             
         if(dbTime['cell'] == 1):            
-            return None                                        
+            return True                                        
 
         if(dbTime['user_id'] == 0):
-            return None  
-        
-        self.db.commit()
+            return True  
+                
         query_order = \
         " SELECT COUNT(times.id) FROM times" +\
-            " WHERE (times.time > " + str(dbTime['time']) + ")"+\
-            " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
+            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
             " AND (times.user_id == " +str(dbTime['user_id'])+ ")"+\
-            " AND (times.time != 0 )"+\
-            " AND (times.cell != 1 )"
-                                                                                                                           
+            " AND (times.time_raw > " + str(dbTime['time_raw']) + ")"            
         
-        res_cnt = self.db.query(query_order).fetchone()[0]
-        #if dbTime['id'] == 3543:
-        #print "q: ",query_order, res_cnt
-                                                 
+        res_cnt = self.db.query(query_order).fetchone()[0]                                                         
 
         if(res_cnt == 0):
             return True

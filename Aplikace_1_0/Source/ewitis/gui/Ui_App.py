@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v0_3.ui'
 #
-# Created: Thu Oct 04 21:06:10 2012
+# Created: Mon Oct 08 18:24:48 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -857,7 +857,7 @@ class Ui_MainWindow(object):
         self.checkOneLapRace.setText(QtGui.QApplication.translate("MainWindow", "One Lap Race", None, QtGui.QApplication.UnicodeUTF8))
         self.checkOneLapRace.setObjectName(_fromUtf8("checkOneLapRace"))
         self.groupTerminal_6 = QtGui.QGroupBox(self.groupTerminal_5)
-        self.groupTerminal_6.setGeometry(QtCore.QRect(20, 150, 271, 211))
+        self.groupTerminal_6.setGeometry(QtCore.QRect(20, 150, 271, 251))
         self.groupTerminal_6.setAutoFillBackground(False)
         self.groupTerminal_6.setTitle(QtGui.QApplication.translate("MainWindow", "TABLE TIMES", None, QtGui.QApplication.UnicodeUTF8))
         self.groupTerminal_6.setObjectName(_fromUtf8("groupTerminal_6"))
@@ -887,7 +887,7 @@ class Ui_MainWindow(object):
         self.checkAInfoLaptime.setChecked(True)
         self.checkAInfoLaptime.setObjectName(_fromUtf8("checkAInfoLaptime"))
         self.label_17 = QtGui.QLabel(self.groupTerminal_6)
-        self.label_17.setGeometry(QtCore.QRect(20, 30, 91, 16))
+        self.label_17.setGeometry(QtCore.QRect(20, 210, 91, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.label_17.setFont(font)
@@ -901,7 +901,7 @@ class Ui_MainWindow(object):
         self.label_20.setText(QtGui.QApplication.translate("MainWindow", "Additional Info", None, QtGui.QApplication.UnicodeUTF8))
         self.label_20.setObjectName(_fromUtf8("label_20"))
         self.spinTimesViewLimit = QtGui.QSpinBox(self.groupTerminal_6)
-        self.spinTimesViewLimit.setGeometry(QtCore.QRect(120, 30, 61, 22))
+        self.spinTimesViewLimit.setGeometry(QtCore.QRect(120, 210, 61, 22))
         self.spinTimesViewLimit.setMaximum(10000)
         self.spinTimesViewLimit.setObjectName(_fromUtf8("spinTimesViewLimit"))
         self.checkAInfoBestLaptime = QtGui.QCheckBox(self.groupTerminal_6)
@@ -909,6 +909,11 @@ class Ui_MainWindow(object):
         self.checkAInfoBestLaptime.setText(QtGui.QApplication.translate("MainWindow", "Best Laptime", None, QtGui.QApplication.UnicodeUTF8))
         self.checkAInfoBestLaptime.setChecked(True)
         self.checkAInfoBestLaptime.setObjectName(_fromUtf8("checkAInfoBestLaptime"))
+        self.checkShowLastTimes = QtGui.QCheckBox(self.groupTerminal_6)
+        self.checkShowLastTimes.setGeometry(QtCore.QRect(20, 30, 131, 17))
+        self.checkShowLastTimes.setText(QtGui.QApplication.translate("MainWindow", "Show only last times", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkShowLastTimes.setChecked(False)
+        self.checkShowLastTimes.setObjectName(_fromUtf8("checkShowLastTimes"))
         self.lineRaceName = QtGui.QLineEdit(self.groupTerminal_5)
         self.lineRaceName.setGeometry(QtCore.QRect(20, 30, 271, 31))
         font = QtGui.QFont()

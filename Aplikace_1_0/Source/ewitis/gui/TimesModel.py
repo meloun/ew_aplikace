@@ -139,6 +139,12 @@ class TimesModel(myModel.myModel):
 
         #ztimeT = time.clock()
         #print "TIME", dbTime['id']
+        
+        
+        lasttime = self.order.IsLastUsertime(dbTime)
+        if(self.params.datastore.Get('show_last_times') == 2):
+            if(lasttime == False):
+                return None
                                              
         '''hide all zero time?'''                    
         if(self.params.datastore.Get('show')['starttimes'] == False):                            
@@ -221,8 +227,8 @@ class TimesModel(myModel.myModel):
         
         #z1 = time.clock()
         #print "- 1. isLastUserTime"
-        if  self.params.datastore.Get("additional_info")['enabled'] and (self.params.datastore.Get("additional_info")['order'] or self.params.datastore.Get("additional_info")['order_in_cat']):                         
-            lasttime = self.order.IsLastUsertime(dbTime, aux_lap)  
+        #if  self.params.datastore.Get("additional_info")['enabled'] and (self.params.datastore.Get("additional_info")['order'] or self.params.datastore.Get("additional_info")['order_in_cat']):                         
+        #    lasttime = self.order.IsLastUsertime(dbTime)  
         #print "- 2. isLastUserTime take: ",(time.clock() - z1)              
         
         '''ORDER'''
@@ -516,6 +522,8 @@ class TimesModel(myModel.myModel):
         if(ko_nrs != []):
             print "E:",self.params.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs)
             
+        self.params.db.commit()
+            
         
         
         #update times        
@@ -535,7 +543,7 @@ class TimesModel(myModel.myModel):
             #update for selected run        
             #myModel.myModel.update(self, "run_id", self.run_id)            
             myModel.myModel.update(self, "run_id", self.run_id)
-        self.params.db.commit()            
+        #self.params.db.commit()            
                                                                                        
 
 class TimesProxyModel(myModel.myProxyModel):
