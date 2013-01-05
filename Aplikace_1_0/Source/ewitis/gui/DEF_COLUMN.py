@@ -23,7 +23,7 @@ RUNS['database'] = {
 """ table collumn for times, mode training """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "width":40},                                
-                 "date"          :     {"index": 1,  "name": "date",        "width":110},
+                 "date"          :     {"index": 1,  "name": "date",        "width":130},
                  "name"          :     {"index": 2,  "name": "name",        "width":100},                                
                  #"description"   :     {"index": 3,  "name": "description", "width":10}                                
                  }  
@@ -56,17 +56,17 @@ TIMES['table_training'] = {
 """ table collumn for times, mode race """
 TIMES['table_race'] =   {
                            "id"         : {"index": 0,  "name": "id",        "width":35,    "write":1},
-                           "nr"         : {"index": 1,  "name": "nr",        "width":50,    "write":1},
-                           "cell"       : {"index": 2,  "name": "cell",      "width":50,    "write":1},
-                           "time"       : {"index": 3,  "name": "time",      "width":100,   "write":1},
-                           "name"       : {"index": 4,  "name": "name",      "width":150,   "write":1},
+                           "nr"         : {"index": 1,  "name": "nr",        "width":35,    "write":1},
+                           "cell"       : {"index": 2,  "name": "cell",      "width":35,    "write":1},
+                           "time"       : {"index": 3,  "name": "time",      "width":80,   "write":1},
+                           "name"       : {"index": 4,  "name": "name",      "width":130,   "write":1},
                            "category"   : {"index": 5,  "name": "category",  "width":100,   "write":1},
                            "order"      : {"index": 6,  "name": "order",     "width":50,    "write":1},      
                            "order_cat"  : {"index": 7,  "name": "order_cat", "width":50,    "write":1},      
                            "start_nr"   : {"index": 8,  "name": "start_nr",  "width":50,    "write":1},
                            "lap"        : {"index": 9,  "name": "lap",       "width":50,    "write":1},                                                                          
-                           "laptime"    : {"index": 10, "name": "laptime",   "width":100,    "write":1},                                                                          
-                           "best_laptime":{"index": 11, "name": "best_laptime","width":100,    "write":1},                                                                          
+                           "laptime"    : {"index": 10, "name": "laptime",   "width":80,    "write":1},                                                                          
+                           "best_laptime":{"index": 11, "name": "best_laptime","width":80,    "write":1},                                                                          
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
                            "timeraw"    : {"index": 12, "name": "timeraw",   "width":100,   "write":1},                        
                         

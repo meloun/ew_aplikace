@@ -21,20 +21,15 @@ definice DAT pro DATASTORE
 import sys
 import time
 
-
-eTIMING_LOGIC_MODE = ["basic", "manual"]
-
 #class LOGIC_MODES:
 #    basic, manual, single_mass, multiple_mass = range(1,5)  
-#    STRINGS =  {basic:"basic", manual:"manual", single_mass:"single_mass", multiple_mass:"multiple_mass"} 
 class MEASUREMENT_STATE:
-    not_active, prepared, time_is_running, finished = range(0,4)
-    STRINGS =  {not_active:"Not Active", prepared:"Prepared, waiting for start", time_is_running:"Time is running", prepared:"Finished"}      
-class LANGUAGES:
-    czech, english = range(0,2)  
-    STRINGS =  {czech:"čeština", english:"english"}
+    not_active, prepared, time_is_running, finished = range(0,4) 
+class Languages:
+    CZECH, ENGLISH = range(0,2)    
+class OrderEvaluation:
+    RACE, SLALOM = range(0,2)    
     
-         
 
 DEF_DATA = {
                
@@ -55,32 +50,33 @@ DEF_DATA = {
         
         
         #show flags for times table
-        "show_alltimes"      : {"GET_SET"  : {"value": 0}},        
-        "show_starttimes"    : {"GET_SET"  : {"value": 2}},     
+        #"show_alltimes"      : {"GET_SET"  : {"value": 0}},        
+        #"show_starttimes"    : {"GET_SET"  : {"value": 2}},     
         
             
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {"value":u"Chomutov Tour 2012"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":2}  
+                                "GET_SET"  : {"value":0}  
+                               },
+        "order_evaluation"   : {"name"     : "order evaluation",
+                                "GET_SET"  : {"value": OrderEvaluation.SLALOM}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
-                               },
-        "show_last_times"    : {"name"     : "show last times",
-                                "GET_SET"  : {"value": 0}  
-                               },
+                               },                   
         "times_view_limit"   : {"name"     : "times view limit",
                                 "GET_SET"  : {"value": 100}  
                                },
         "show"               : {"GET_SET"  : {"value": {
-                                                        "starttimes"     : 2, 
-                                                        "alltimes"       : 0                                              
+                                                        "starttimes"       : 2, 
+                                                        "times_with_order" : 0,                                                                                                      
+                                                        "alltimes"         : 0
                                                         }
                                               }
                                 },
-        "additional_info"     : {"name"     : "additinal info",
+        "additional_info"    : {"name"     : "additinal info",
                                 "GET_SET"  : {"value": {"enabled"       : 0,
                                                         "order"         : 2,
                                                         "order_in_cat"  : 2,
@@ -90,6 +86,13 @@ DEF_DATA = {
                                                         }
                                               }  
                                },
+        "export"             : {"name"     : "export",
+                                "GET_SET"  : {"value": {
+                                                        "laps"          : 2, 
+                                                        "best_laptime"  : 2                                              
+                                                        }
+                                              }  
+                               },         
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
                                },
@@ -127,7 +130,7 @@ DEF_DATA = {
                                              "changed": False},
                                },                                        
         "language"           : {"name"    : "language",                                
-                                "SET"     : {"value": LANGUAGES.czech,
+                                "SET"     : {"value": Languages.CZECH,
                                              "changed": False}, 
                                },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -164,7 +167,7 @@ DEF_DATA = {
                                               "changed": False
                                             },
                                 "GET"     : {"value": {"logic_mode": 1,
-                                                       "measurement_state": None,
+                                                       "measurement_state": MEASUREMENT_STATE.not_active,
                                                        "name_id": 04,
                                                        "filter_tagtime": None,
                                                        "filter_minlaptime": None,

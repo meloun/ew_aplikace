@@ -4,7 +4,7 @@ from PyQt4 import QtCore, QtGui
 from threading import Thread,RLock
 from ewitis.data.DEF_ENUM_STRINGS import * 
 import libs.utils.utils as utils 
-
+import manage_comm
 
 
 class UiAccesories():
@@ -12,21 +12,62 @@ class UiAccesories():
         
         self.ui = source.ui
         self.datastore = source.datastore
-        self.showmessage = source.showMessage
+        #self.showmessage = source.UishowMessage
         self.source = source
         
     def createSlots(self): 
                 
         """SLOTY"""
+        #common
+        #TIMERs
+        self.timer1s = QtCore.QTimer(); 
+        self.timer1s.start(10); 
+        QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
+        QtCore.QObject.connect(self.ui.aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)
+        QtCore.QObject.connect(self.ui.tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged)
+        QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("triggered()"), self.sRefresh)
+        QtCore.QObject.connect(self.ui.aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)        
+        QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
+        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)                   
+        
+        #tab RUN-TIMES#
+        
         #times
         QtCore.QObject.connect(self.ui.timesShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["starttimes"], state, TAB.run_times))
         QtCore.QObject.connect(self.ui.timesShowAllTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["alltimes"], state, TAB.run_times))
         QtCore.QObject.connect(self.ui.timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))
-                        
+
+        #tab RACE SETTINGS#
+        
+        #race settings                        
         QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
         QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
-        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))                                
-        QtCore.QObject.connect(self.ui.checkShowLastTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("show_last_times", state, TAB.race_settings, True))                                
+        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))
+        
+        #export
+        QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
+        QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
+
+        #table TIMES
+        #order_evaluation
+        QtCore.QObject.connect(self.ui.comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
+                                                
+        #show
+        QtCore.QObject.connect(self.ui.checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["starttimes"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
+        
+        #additional info
+        QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
+        
+        #view limit
+        QtCore.QObject.connect(self.ui.spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))        
+                                        
 
         QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
         #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
@@ -44,17 +85,17 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
         
-        QtCore.QObject.connect(self.ui.spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))        
-        QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
+    def configGui(self):
+        self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
+        self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
+        #self.ui.statusbar_msg2 = QtGui.QLabel("bacha jedu")        
+        #self.ui.statusbar.addWidget(self.ui.statusbar_msg2)
+        self.showMessage("Race", self.datastore.Get("race_name"), False)            
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
     def updateGui(self):
+        self.updateTab()
         self.updateTab(TAB.run_times)
         self.updateTab(TAB.users)
         self.updateTab(TAB.categories)
@@ -63,12 +104,11 @@ class UiAccesories():
         self.updateTab(TAB.device)
         self.updateTab(TAB.race_settings)
         
-    def updateTab(self, tab, mode = UPDATE_MODE.all):
+    def updateTab(self, tab = None, mode = UPDATE_MODE.all):
         """ 
-        """
-        #print "update tab", tab
-        if(tab == TAB.run_times):
-            
+        """        
+        if(tab == None):
+            #common for all tabs
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
                 """ PORT NAME """
                 self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
@@ -79,6 +119,10 @@ class UiAccesories():
                 self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
                 self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
                 self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
+            
+        #print "update tab", tab
+        if(tab == TAB.run_times):
+            
                 
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.R.update()
@@ -104,21 +148,6 @@ class UiAccesories():
             """ TIMING SETTINGS"""
             timing_settings_get = self.datastore.Get("timing_settings", "GET")
             timing_settings_set = self.datastore.Get("timing_settings", "SET")
-            #print timing_settings_get
-            #print aux_timing_settings
-                                                
-            self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
-            self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
-            self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
-            self.ui.spinTimesViewLimit.setValue(self.datastore.Get("times_view_limit"))
-            
-            
-            self.ui.checkAInfoEnabled.setCheckState(self.datastore.Get("additional_info")['enabled'])
-            self.ui.checkAInfoOrder.setCheckState(self.datastore.Get("additional_info")['order'])
-            self.ui.checkAInfoOrderInCategory.setCheckState(self.datastore.Get("additional_info")['order_in_cat'])
-            self.ui.checkAInfoLaps.setCheckState(self.datastore.Get("additional_info")['lap'])
-            self.ui.checkAInfoLaptime.setCheckState(self.datastore.Get("additional_info")['laptime'])
-            
             
             """ logic mode """  
             if(timing_settings_get['logic_mode'] != None):
@@ -127,11 +156,7 @@ class UiAccesories():
             else:
                 self.ui.comboTimingMode.setCurrentIndex(0)
                 self.ui.lineTimingMode.setText("- - -")
-            """ Measurement State"""
-            if(timing_settings_get['measurement_state'] != None):            
-                self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                    
-            else:            
-                self.ui.labelMeasurementState.setText("- - -")
+                
                             
             """ Filter Tagtime """
             if(timing_settings_get['filter_tagtime'] != None):                                    
@@ -149,7 +174,39 @@ class UiAccesories():
             if(timing_settings_get['filter_maxlapnumber'] != None):                                    
                 self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
             else:            
-                self.ui.lineMaxlapnumber.setText("- -")                                               
+                self.ui.lineMaxlapnumber.setText("- -")                 
+                                                        
+            """ Measurement State"""                       
+            self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
+                
+            #APPLICATION
+            self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
+            self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
+            self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
+            #export
+            self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
+            self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
+            
+            #order evaluation
+            self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))
+            #print "G",self.datastore.Get("order_evaluation")
+            
+            #show
+            self.ui.checkShowOnlyTimesWithOrder.setCheckState(self.datastore.Get("show")["times_with_order"])
+            self.ui.checkShowStartTimes.setCheckState(self.datastore.Get("show")["starttimes"])
+            self.ui.checkShowTimesFromAllRuns.setCheckState(self.datastore.Get("show")["alltimes"])                   
+            
+            #aditional info
+            self.ui.checkAInfoEnabled.setCheckState(self.datastore.Get("additional_info")['enabled'])
+            self.ui.checkAInfoOrder.setCheckState(self.datastore.Get("additional_info")['order'])
+            self.ui.checkAInfoOrderInCategory.setCheckState(self.datastore.Get("additional_info")['order_in_cat'])
+            self.ui.checkAInfoLaps.setCheckState(self.datastore.Get("additional_info")['lap'])
+            self.ui.checkAInfoLaptime.setCheckState(self.datastore.Get("additional_info")['laptime'])
+            
+            #view limit
+            self.ui.spinTimesViewLimit.setValue(self.datastore.Get("times_view_limit"))
+            
+                                              
         
         elif(tab == TAB.device):
             
@@ -244,7 +301,39 @@ class UiAccesories():
         
 
                     
-    
+    #=======================================================================
+    # SHOW MESSAGE -     
+    #=======================================================================
+    # dialog, status bar
+    # warning(OK), info(OK), warning_dialog(Yes, Cancel), input_integer(integer, OK)      
+    def showMessage(self, title, message, msgtype='warning', dialog=True, statusbar=True, value=0):        
+        
+        #DIALOG
+        if(dialog):                                
+            if(msgtype=='warning'):
+                QtGui.QMessageBox.warning(self.source, title, message)            
+            elif(msgtype=='info'):
+                QtGui.QMessageBox.information(self.source, title, message)
+            elif(msgtype=='warning_dialog'):
+                ret = QtGui.QMessageBox.warning(self.source, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)                
+                if (ret != QtGui.QMessageBox.Yes):
+                    return False
+                message = "succesfully"
+            elif(msgtype=='input_integer'):
+                i, ok = QtGui.QInputDialog.getInteger(self.source, title, message, value=value)
+                if ok:
+                    return i
+                return None
+            
+        #STATUSBAR        
+        if(statusbar):
+            print title, message
+            timing_settings_get = self.datastore.Get("timing_settings", "GET")                       
+            self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
+            self.ui.statusbar.showMessage(title+" : " + message)
+        
+        return True
+        
     def sGuiSet(self, name, value, tab, dialog = False):
         if value == self.datastore.Get(name):
             return
@@ -259,6 +348,7 @@ class UiAccesories():
         
         
     def sGuiSetItem(self, name, keys, value, tab, dialog = False):
+        #print name, keys, value
         if value == self.datastore.GetItem(name, keys):
             return
                 
@@ -270,20 +360,101 @@ class UiAccesories():
         self.datastore.SetItem(name, keys, value)        
         self.updateTab(tab)
         
-            
+         
+    def sTimer(self):        
+        self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui)        
+           
+    def sTabChanged(self, nr):                
+        self.datastore.Set("active_tab", nr)        
+        self.updateTab(nr, UPDATE_MODE.all)
+                                     
+    # sPortSet() -> set the port 
+    def sPortSet(self):
+        import libs.comm.serial_utils as serial_utils         
+        
+        #dostupne porty
+        ports = []        
+        title = "Port Set"
+        
+        try:
+            for p in serial_utils.enumerate_serial_ports():            
+                ports.append(p)
+        except:
+            self.showMessage(title, "No serial port available.")
+            return   
     
-#    def sRfidRace(self):                        
-#        if (self.showmessage("Rfid race", "Are you sure you want to change \"Rfid Race\"? \n ", msgtype='warning_dialog')):            
-#            self.datastore.Set("rfid", not(self.datastore.Get("rfid")))
-#        self.updateTab(TAB.race_settings)
-#        
-#    def sOneLapRace(self):                                
-#        if (self.showmessage("One Lap Race", "Are you sure you want to change \"One Lap Race\"? \n ", msgtype='warning_dialog')):            
-#            self.datastore.Set("onelap_race", not(self.datastore.Get("onelap_race")))        
-#        self.updateTab(TAB.race_settings)
+        if (ports==[]):
+            self.showMessage(title, "No serial port available.")
+            return    
+            
+            
+        ports = sorted(ports)                    
+
+        item, ok = QtGui.QInputDialog.getItem(self.source, "Serial Port",
+                "Serial Port:", ports, 0, False)
         
-                            
         
+        if (ok and item):                                  
+            self.datastore.Set("port_name", str(item))
+            self.showMessage(title, str(item), dialog = False)
+        
+        self.updateTab()
+        
+    """                 """
+    """ PORT SETTINGS   """
+    """                 """    
+    # sPortConnect() -> create/kill communication thread             
+    def sPortConnect(self):
+        '''ddd'''
+
+        title = "Port connect"
+                                            
+        #comm runs?        
+        if(self.datastore.Get("port_enable") == True):                           
+            
+            # KILL COMMUNICATION - thread, etc..
+            self.datastore.Set("port_enable", False)                    
+            self.showMessage(title, self.datastore.Get("port_name")+" disconnected", dialog = False)                       
+        else:            
+            self.showMessage(title, self.datastore.Get("port_name")+" connected", dialog = False)                                 
+                        
+            # CREATE COMMUNICATION - thread, etc..                                    
+                                 
+            self.myManageComm = manage_comm.ManageComm(self.datastore)
+            self.myManageComm.start()
+            
+            # wait to stable shared memory 
+            time.sleep(0.2)            
+            
+            #already connected?                                
+            #flag down => cant connect
+            if(self.datastore.Get("port_enable") == False):             
+                title = "Port connect"                                
+                self.showMessage(title, self.datastore.Get("port_name")+" cant connect")                
+                                
+        self.updateGui()                     
+        
+    
+    #sRefresh      
+    def sRefresh(self):
+        title = "Manual Refresh"
+        
+        #disable user actions        
+        self.datastore.Set("user_actions", self.datastore.Get("user_actions")+1)
+                         
+        nr_tab = self.datastore.Get("active_tab")        
+        self.updateTab(nr_tab)                       
+        self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)
+        
+        #enable user actions        
+        self.datastore.Set("user_actions", self.datastore.Get("user_actions")-1)
+        
+    def sShortcuts(self):                           
+        QtGui.QMessageBox.information(self.source, "Shortcuts", "F5 - manual refresh\nF12 - direct www export")
+        
+    def sAbout(self):                           
+        QtGui.QMessageBox.information(self.source, "About", "Ewitis  - Electronic wireless timing \n\ninfo@ewitis.cz\nwww.ewitis.cz\n\n v0.2\n\n (c) 2011")                                                
+                     
     def sTerminalBacklight(self):
         
         '''získání a nastavení nové SET hodnoty'''
@@ -316,9 +487,8 @@ class UiAccesories():
         self.updateTab(TAB.device, UPDATE_MODE.gui)
     
     """                 """
-    """ TIMING SETTINGS """
-    """                 """
-    
+    """ RACE SETTINGS """
+    """                 """            
     def sComboTimingMode(self, index):
         print "sComboTimingMode", index                
         '''získání a nastavení nové SET hodnoty'''
@@ -363,7 +533,15 @@ class UiAccesories():
         '''reset GET hodnoty'''
         self.datastore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
         self.updateTab(TAB.device, UPDATE_MODE.gui)
+
+    def sComboOrderEvaluation(self, index):
+        #print "sComboOrderEvaluation", index                                                               
+        self.datastore.Set("order_evaluation", index)                                                                                                    
+        self.updateTab(TAB.race_settings, UPDATE_MODE.gui)
         
+    """                 """
+    """ ACTIONS         """
+    """                 """                  
     def sGenerateStarttime(self):                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                    
         

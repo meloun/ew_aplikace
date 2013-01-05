@@ -28,7 +28,7 @@ class myParameters():
     def __init__(self, source):
         
         #callback METHOD,  for showing dialogs, messages
-        self.showmessage = source.showMessage
+        self.showmessage = source.UiAccesories.showMessage
     
         #db for acces
         self.db = source.db                        
@@ -94,11 +94,13 @@ class myAbstractModel():
             aux_dict = dict(zip(header, row))
             dicts.append(aux_dict)
         
-        return dicts           
+        return dicts
+           
 class myModel(QtGui.QStandardItemModel, myAbstractModel):
-    """
+    """    
     #odděděná od QStandardItemModel,
-    základní model
+    základní model    
+        
     *Args:* 
         params: třída obdahující parametry
     """

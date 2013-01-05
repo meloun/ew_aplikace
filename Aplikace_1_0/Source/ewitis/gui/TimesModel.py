@@ -136,14 +136,12 @@ class TimesModel(myModel.myModel):
         """    
         ["id", "nr", "cell", "time", "name", "category", "address"]
         """
-
+        
         #ztimeT = time.clock()
-        #print "TIME", dbTime['id']
+        #print "TIME", dbTime['id']                                
         
-        
-        lasttime = self.order.IsLastUsertime(dbTime)
-        if(self.params.datastore.Get('show_last_times') == 2):
-            if(lasttime == False):
+        if(self.params.datastore.Get('show')['times_with_order'] == 2):
+            if(self.order.IsToShow(dbTime) == False):
                 return None
                                              
         '''hide all zero time?'''                    
@@ -162,8 +160,8 @@ class TimesModel(myModel.myModel):
        
         
         ''' get CATEGORY'''            
-        #tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
-        tabCategory =  None                                
+        tabCategory =  self.params.tabCategories.getTabRow(tabUser['category_id'])                                
+        #tabCategory =  None                                
                                         
         ''' OTHER KEYS ''' 
         
@@ -189,7 +187,6 @@ class TimesModel(myModel.myModel):
             #self.calc_update_time(dbTime, tabTime['start_nr'])
         else:                        
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
-
                 
         '''NAME'''        
         if(dbTime['cell'] == 1):
@@ -202,51 +199,32 @@ class TimesModel(myModel.myModel):
         '''CATEGORY'''                                                                                
         tabTime['category'] = tabUser['category']                                                                                                                              
 
-        
-        
+             
         tabTime['lap'] = None
         tabTime['order'] = None
-        tabTime['order_cat'] = None
-        
+        tabTime['order_cat'] = None       
         
         '''LAP'''
         #z1 = time.clock()
-        #print "- 1. Lap"
-        aux_lap = self.lap.Get(dbTime)        
-        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['lap']:           
+        #@workaround: potrebuju lap pro poradi => lap.Get() nerezohlednuje ("additional_info")['lap']                
+        aux_lap = self.lap.Get(dbTime)          
+        if  self.params.datastore.Get("additional_info")['lap']:           
             tabTime['lap'] = aux_lap
-        #print "- 2. Lap take: ",(time.clock() - z1)
+        #print "- Lap takes: ",(time.clock() - z1)
         
-        '''LAPTIME'''
-        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['laptime']:
-            tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+        '''LAPTIMEs'''        
+        tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))                
+        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                       
         
-        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['best_laptime']:
-            tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))        
-         
-        
-        #z1 = time.clock()
-        #print "- 1. isLastUserTime"
-        #if  self.params.datastore.Get("additional_info")['enabled'] and (self.params.datastore.Get("additional_info")['order'] or self.params.datastore.Get("additional_info")['order_in_cat']):                         
-        #    lasttime = self.order.IsLastUsertime(dbTime)  
-        #print "- 2. isLastUserTime take: ",(time.clock() - z1)              
-        
-        '''ORDER'''
-        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['order']:
-            if(lasttime == True):
-                #z1 = time.clock()
-                #print "- 1. order"                                        
-                tabTime['order']  = self.order.Get(dbTime, aux_lap)
-                #print "- 2. order take: ",(time.clock() - z1)                                
+        '''ORDER'''                
+        #z1 = time.clock()                                                
+        tabTime['order']  = self.order.Get(dbTime, aux_lap)
+        #print "- order takes: ",(time.clock() - z1)                                
                 
-        '''ORDER IN CATEGORY'''
-        if  self.params.datastore.Get("additional_info")['enabled'] and self.params.datastore.Get("additional_info")['order_in_cat']:
-            if(lasttime == True):                        
-                #z1 = time.clock()
-                #print "- 1. order in category"                                   
-                tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = tabUser['category_id'])
-                #print "- 2. order in category take: ",(time.clock() - z1)
-                #print "- 2. order in category take: ",(time.clock() - z1)
+        '''ORDER IN CATEGORY'''                                    
+        #z1 = time.clock()                                
+        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = tabUser['category_id'])
+        #print "- order in category takes: ",(time.clock() - z1)    
                                                                                           
         #print "TIME take: ",(time.clock() - ztimeT)
         return tabTime
@@ -294,7 +272,7 @@ class TimesModel(myModel.myModel):
                 
         '''RUN_ID'''
         #if(self.showall):
-        if(self.params.datastore.Get('show')['alltimes'] == True):
+        if(self.params.datastore.Get('show')['alltimes'] == 2):
             '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
             aux_dbtime = self.params.db.getParId("times",tabTime['id'])            
             dbTime['run_id'] = aux_dbtime['run_id']            
@@ -527,8 +505,7 @@ class TimesModel(myModel.myModel):
         
         
         #update times        
-        if self.params.datastore.Get('show')['alltimes'] == True:            
-            print "ff", self.params.datastore.Get('show')
+        if self.params.datastore.Get('show')['alltimes'] == 2:                        
             #get run ids
             conditions = []
             ids = self.params.tabRuns.proxy_model.ids()
@@ -601,7 +578,7 @@ class Times(myModel.myTable):
         tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr']) 
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub", u"Čas"]
+            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub", u"Čas"]                        
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
@@ -618,8 +595,13 @@ class Times(myModel.myTable):
             exportRow.append(tabUser['club'])
             exportRow.append(tabRow['time'])
                         
-        exportHeader.append(u"Okruhy")
-        exportRow.append(tabRow['lap'])
+        if self.params.datastore.GetItem("export", ["laps"]) == 2:
+            exportHeader.append(u"Okruhy")
+            exportRow.append(tabRow['lap'])
+
+        if self.params.datastore.GetItem("export", ["best_laptime"]) == 2:
+            exportHeader.append(u"Top okruh")
+            exportRow.append(tabRow['best_laptime'])
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
         return (exportHeader, exportRow) 
@@ -643,7 +625,7 @@ class Times(myModel.myTable):
         '''EXPORT TOTAL'''                                       
         for tabRow in self.proxy_model.dicts():
             dbTime = self.getDbRow(tabRow['id'])            
-            if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])):                                   
+            if(self.model.order.IsLastUsertime(dbTime)):                                   
                 exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)                                                                                                                                       
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0] 
@@ -670,7 +652,7 @@ class Times(myModel.myTable):
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
-                if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])): 
+                if(self.model.order.IsLastUsertime(dbTime)): 
                     if (tabRow['category'] == dbCategory['name']):
                         exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)                                                                                                                                       
                         exportRows.append(exportRow[1])
@@ -700,7 +682,7 @@ class Times(myModel.myTable):
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
-                if(self.model.order.IsLastUsertime(dbTime, tabRow['lap'])): 
+                if(self.model.order.IsLastUsertime(dbTime)): 
                     tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
                     if (tabCategory[dbCGroup['label']] == 1):
                         exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)                                                                                                                                       

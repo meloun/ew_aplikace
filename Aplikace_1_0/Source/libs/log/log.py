@@ -20,7 +20,7 @@ class _Log:
                settings.LOG_FILENAME , maxBytes=3000, backupCount=5)
         ch = logging.StreamHandler()
         
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        formatter = logging.Formatter("%(asctime)s - %(levelname)-8s - %(message)s")
         handler.setFormatter(formatter)
         ch.setFormatter(formatter)
         self.__my_logger.addHandler(handler)
@@ -47,6 +47,7 @@ if __name__ == '__main__':
     Log().warn("warn message")
     Log().error("error message")
     Log().critical("critical message")
+
 
                 
         
