@@ -258,23 +258,34 @@ class TimesOrder():
                 " INNER JOIN users ON times.user_id = users.id"
                 
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time']) + ")"+\
-                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                    " WHERE (times.time < " + str(dbTime['time']) + ")"
+            
+            if(self.datastore.Get('show')['alltimes'] == 0):
+                query_order = query_order + \
+                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
+                                    
+            #if(self.datastore.Get('onelap_race') == 0):
+            query_order = query_order + \
+                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
+            
+            query_order = query_order + \
                         " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"+\
                         " AND (times.cell != 1 )"+\
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)
+                        " GROUP BY user_id"
+
+            if(self.datastore.Get('order_evaluation') == OrderEvaluation.RACE):
+                query_order = query_order + \
+                        " HAVING count(*) == " + str(lap)                        
                     
-            if(self.datastore.Get('onelap_race') == 0):
+            if(self.datastore.Get('onelap_race') == 0) and (self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
                 
                 query_order = query_order + \
                     " UNION "+\
-                        " SELECT user_id FROM times"
+                    " SELECT user_id FROM times"
                     
                 if(self.datastore.Get('rfid') == 2):  
                     query_order = query_order + \
@@ -285,8 +296,14 @@ class TimesOrder():
                         " INNER JOIN users ON times.user_id = users.id"
                     
                 query_order = query_order + \
-                        " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " WHERE"
+                        
+                if(self.datastore.Get('show')['alltimes'] == 0):
+                    query_order = query_order + \
+                            "(times.run_id=\""+str(dbTime['run_id'])+"\") AND"
+                            
+                query_order = query_order + \
+                            " (times.user_id != " +str(dbTime['user_id'])+ ")"+\
                             " AND (times.user_id != 0 )"+\
                             " AND (times.time != 0 )"+\
                             " AND (times.cell != 1 )"+\
@@ -311,8 +328,8 @@ class TimesOrder():
                 query_order = query_order + \
                     " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
 
-            if(self.datastore.Get('onelap_race') == 0):
-                query_order = query_order + \
+            #if(self.datastore.Get('onelap_race') == 0):
+            query_order = query_order + \
                     " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
                                 
             query_order = query_order + \

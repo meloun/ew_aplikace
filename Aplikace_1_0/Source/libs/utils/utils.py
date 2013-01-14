@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import Qt
-#import unicodedata
+import unicodedata
 import collections
 
 '''cconvert integer(time in ms) to string (HH:MM:SS:mSmS)'''

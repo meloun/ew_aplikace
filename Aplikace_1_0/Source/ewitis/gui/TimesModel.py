@@ -661,7 +661,7 @@ class Times(myModel.myTable):
             
             '''write to csv file'''
             if(exportRows != []):
-                print "export category", dbCategory['name'], ":",len(exportRows),"times"
+                print "Export: category:", dbCategory['name'], ":",len(exportRows),"times"
                 first_header = ["Kategorie: "+dbCategory['name'],"","","","","",dbCategory['description']]                
                 exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","",""])
                 exportRows.insert(1, first_header)
@@ -677,8 +677,9 @@ class Times(myModel.myTable):
         dbCGroups = self.params.tabCGroups.getDbRows()
                               
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
-        dbCategories = self.params.tabCategories.getDbRows()                      
+        dbCategories = self.params.tabCategories.getDbRows()
         for dbCGroup in dbCGroups:            
+            print "dbCGroup", dbCGroup                      
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
