@@ -636,8 +636,8 @@ class Times(myModel.myTable):
             
         '''write to csv file'''
         if(exportRows != []):                        
-            exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
-            exportRows.insert(1, ["","","","","","","",""])
+            exportRows.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
+            exportRows.insert(1, len(exportHeader)*["",])
             exportRows.insert(2, exportHeader)
             filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
@@ -662,9 +662,8 @@ class Times(myModel.myTable):
             '''write to csv file'''
             if(exportRows != []):
                 print "Export: category:", dbCategory['name'], ":",len(exportRows),"times"
-                first_header = ["Kategorie: "+dbCategory['name'],"","","","","",dbCategory['description']]                
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","",""])
-                exportRows.insert(1, first_header)
+                exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
+                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -678,8 +677,7 @@ class Times(myModel.myTable):
                               
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
         dbCategories = self.params.tabCategories.getDbRows()
-        for dbCGroup in dbCGroups:            
-            print "dbCGroup", dbCGroup                      
+        for dbCGroup in dbCGroups:                                              
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
@@ -694,11 +692,11 @@ class Times(myModel.myTable):
                     
             '''write to csv file'''
             if(exportRows != []):
-                print "export cgroups", dbCGroup['label'], ":",len(exportRows),"times"
-                first_header = ["Skupina: "+dbCGroup['name'],"","","","","","",dbCGroup['description']]
+                print "export cgroups", dbCGroup['label'], ":",len(exportRows),"times"                
                 #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
-                exportRows.insert(0, [self.params.datastore.Get('race_name'),"","","","","","",""])
-                exportRows.insert(1, first_header)
+                
+                exportRows.insert(0, ["Skupina: "+dbCGroup['name'],] + ["",]*(len(exportHeader)-2) + [dbCGroup['description'],])
+                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)                                                
                 filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
