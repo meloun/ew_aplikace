@@ -23,9 +23,9 @@ DEF_COMMANDS = {
             "SET_TIME"                  : {'cmd':0x12, 'length':7},                                      
             "SET_LANGUAGE"              : {'cmd':0x14, 'length':1},                                      
             "SET_TIMING_SETTINGS"       : {'cmd':0x23, 'length':6},                                      
+            "QUIT_TIMING"               : {'cmd':0x40, 'length':0},
             "ENABLE_START_CELL"         : {'cmd':0x41, 'length':0},
             "ENABLE_FINISH_CELL"        : {'cmd':0x42, 'length':0},
-            "QUIT_TIMING"               : {'cmd':0x40, 'length':0},
             "GENERATE_STARTTIME"        : {'cmd':0x43, 'length':4},
             "GENERATE_FINISHTIME"       : {'cmd':0x44, 'length':4}                                                                                                    
             

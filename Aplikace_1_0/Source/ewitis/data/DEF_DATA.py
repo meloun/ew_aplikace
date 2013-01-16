@@ -23,7 +23,8 @@ import time
 
 #class LOGIC_MODES:
 #    basic, manual, single_mass, multiple_mass = range(1,5)  
-class MEASUREMENT_STATE:
+#class MEASUREMENT_STATE:
+class MeasurementState:
     not_active, prepared, time_is_running, finished = range(0,4) 
 class Languages:
     CZECH, ENGLISH = range(0,2)    
@@ -158,7 +159,7 @@ DEF_DATA = {
                                },
         "timing_settings"    : {"name"    : "logic timing_settings",                                
                                 "SET"     : {"value": {"logic_mode": 1,
-                                                       "measurement_state": MEASUREMENT_STATE.not_active,
+                                                       "measurement_state": MeasurementState.not_active,
                                                        "name_id": 4,
                                                        "filter_tagtime": 5,
                                                        "filter_minlaptime": 60,
@@ -167,7 +168,7 @@ DEF_DATA = {
                                               "changed": False
                                             },
                                 "GET"     : {"value": {"logic_mode": 1,
-                                                       "measurement_state": MEASUREMENT_STATE.not_active,
+                                                       "measurement_state": MeasurementState.not_active,
                                                        "name_id": 04,
                                                        "filter_tagtime": None,
                                                        "filter_minlaptime": None,

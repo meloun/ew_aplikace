@@ -267,15 +267,17 @@ class ManageComm(Thread):
     
     
                 """ enable start-cell """                
-                if(self.datastore.IsChanged("enable_startcell")):                                        
+                if(self.datastore.IsChanged("enable_startcell")):
+                    print "s"                                        
                     user_id = self.datastore.Get("enable_startcell", "SET")                
                     ret = self.send_receive_frame("ENABLE_START_CELL")
                     self.datastore.ResetChangedFlag("enable_startcell")
                     
                 """ enable finish-cell """                
-                if(self.datastore.IsChanged("enable_finishcell")):                                        
+                if(self.datastore.IsChanged("enable_finishcell")):
+                    print "f"                                        
                     user_id = self.datastore.Get("enable_finishcell", "SET")                
-                    ret = self.send_receive_frame("ENABLE_START_CELL")
+                    ret = self.send_receive_frame("ENABLE_FINISH_CELL")
                     self.datastore.ResetChangedFlag("enable_finishcell")
                                         
                 """ generate starttime """                

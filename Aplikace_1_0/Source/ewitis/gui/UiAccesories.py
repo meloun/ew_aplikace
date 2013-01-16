@@ -544,11 +544,9 @@ class UiAccesories():
     """                 """
     """ ACTIONS         """
     """                 """                  
-    def sEnableStartcell(self):
-        print "s"                                                            
+    def sEnableStartcell(self):                                                             
         self.datastore.Set("enable_startcell", 0x01, "SET")                    
-    def sEnableFinishcell(self):
-        print "f"                                                            
+    def sEnableFinishcell(self):                                                                    
         self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
     def sGenerateStarttime(self):                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                            
