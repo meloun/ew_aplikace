@@ -2092,7 +2092,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>90</y>
+           <y>180</y>
            <width>91</width>
            <height>40</height>
           </rect>
@@ -2105,7 +2105,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>40</y>
+           <y>130</y>
            <width>91</width>
            <height>40</height>
           </rect>
@@ -2118,13 +2118,39 @@
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>40</y>
+           <y>130</y>
            <width>91</width>
            <height>40</height>
           </rect>
          </property>
          <property name="text">
           <string>FINISH TIME</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushEnableStartcell">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>40</y>
+           <width>91</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ENABLE START</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushEnableFinishcell">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>40</y>
+           <width>91</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ENABLE FINISH</string>
          </property>
         </widget>
        </widget>

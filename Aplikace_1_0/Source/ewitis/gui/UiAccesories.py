@@ -80,6 +80,8 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
         QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
+        QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
+        QtCore.QObject.connect(self.ui.pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)
         QtCore.QObject.connect(self.ui.pushGenerateStarttime, QtCore.SIGNAL("clicked()"), self.sGenerateStarttime)
         QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateStoptime)
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
@@ -542,12 +544,16 @@ class UiAccesories():
     """                 """
     """ ACTIONS         """
     """                 """                  
+    def sEnableStartcell(self):
+        print "s"                                                            
+        self.datastore.Set("enable_startcell", 0x01, "SET")                    
+    def sEnableFinishcell(self):
+        print "f"                                                            
+        self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
     def sGenerateStarttime(self):                                                            
-        self.datastore.Set("generate_starttime", 0x01, "SET")                    
-        
+        self.datastore.Set("generate_starttime", 0x01, "SET")                            
     def sGenerateStoptime(self):                                                        
-        self.datastore.Set("generate_finishtime", 0x00, "SET")                   
-        
+        self.datastore.Set("generate_finishtime", 0x00, "SET")                           
     def sQuitTiming(self):                                                                
         self.datastore.Set("quit_timing", 0x00, "SET")                   
         

@@ -88,8 +88,8 @@ DEF_DATA = {
                                },
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
-                                                        "laps"          : 2, 
-                                                        "best_laptime"  : 2                                              
+                                                        "laps"          : 0, 
+                                                        "best_laptime"  : 0                                              
                                                         }
                                               }  
                                },         
@@ -176,6 +176,14 @@ DEF_DATA = {
                                              "refresh_countdown": 0 
                                              },                                
                                 },
+        "enable_startcell" :  { "SET"     : { "value": False, 
+                                              "changed": False,                                             
+                                            },
+                               },
+        "enable_finishcell" : { "SET"   : { "value": False, 
+                                            "changed": False,                                             
+                                            },
+                               },
         "generate_starttime" :  {"name"    : "generate starttime",                                                                 
                                 "SET"     : { "value": False, 
                                               "changed": False,                                             

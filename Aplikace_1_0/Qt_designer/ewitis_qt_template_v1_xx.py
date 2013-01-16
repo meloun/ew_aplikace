@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sat Jan 05 15:35:14 2013
+# Created: Wed Jan 16 19:34:49 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -993,17 +993,25 @@ class Ui_MainWindow(object):
         self.groupTerminal_7.setTitle(QtGui.QApplication.translate("MainWindow", "R A C E   A C T I O N S", None, QtGui.QApplication.UnicodeUTF8))
         self.groupTerminal_7.setObjectName(_fromUtf8("groupTerminal_7"))
         self.pushQuitTiming = QtGui.QPushButton(self.groupTerminal_7)
-        self.pushQuitTiming.setGeometry(QtCore.QRect(30, 90, 91, 40))
+        self.pushQuitTiming.setGeometry(QtCore.QRect(30, 180, 91, 40))
         self.pushQuitTiming.setText(QtGui.QApplication.translate("MainWindow", "QUIT", None, QtGui.QApplication.UnicodeUTF8))
         self.pushQuitTiming.setObjectName(_fromUtf8("pushQuitTiming"))
         self.pushGenerateStarttime = QtGui.QPushButton(self.groupTerminal_7)
-        self.pushGenerateStarttime.setGeometry(QtCore.QRect(30, 40, 91, 40))
+        self.pushGenerateStarttime.setGeometry(QtCore.QRect(30, 130, 91, 40))
         self.pushGenerateStarttime.setText(QtGui.QApplication.translate("MainWindow", " START TIME", None, QtGui.QApplication.UnicodeUTF8))
         self.pushGenerateStarttime.setObjectName(_fromUtf8("pushGenerateStarttime"))
         self.pushGenerateStoptime = QtGui.QPushButton(self.groupTerminal_7)
-        self.pushGenerateStoptime.setGeometry(QtCore.QRect(130, 40, 91, 40))
+        self.pushGenerateStoptime.setGeometry(QtCore.QRect(130, 130, 91, 40))
         self.pushGenerateStoptime.setText(QtGui.QApplication.translate("MainWindow", "FINISH TIME", None, QtGui.QApplication.UnicodeUTF8))
         self.pushGenerateStoptime.setObjectName(_fromUtf8("pushGenerateStoptime"))
+        self.pushEnableStartcell = QtGui.QPushButton(self.groupTerminal_7)
+        self.pushEnableStartcell.setGeometry(QtCore.QRect(30, 40, 91, 40))
+        self.pushEnableStartcell.setText(QtGui.QApplication.translate("MainWindow", "ENABLE START", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushEnableStartcell.setObjectName(_fromUtf8("pushEnableStartcell"))
+        self.pushEnableFinishcell = QtGui.QPushButton(self.groupTerminal_7)
+        self.pushEnableFinishcell.setGeometry(QtCore.QRect(130, 40, 91, 40))
+        self.pushEnableFinishcell.setText(QtGui.QApplication.translate("MainWindow", "ENABLE FINISH", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushEnableFinishcell.setObjectName(_fromUtf8("pushEnableFinishcell"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tabTerminal = QtGui.QWidget()
         self.tabTerminal.setObjectName(_fromUtf8("tabTerminal"))

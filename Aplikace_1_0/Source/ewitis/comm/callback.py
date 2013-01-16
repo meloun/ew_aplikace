@@ -98,12 +98,16 @@ def callback(command, data):
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):        
         return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_START_CELL"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_FINISH_CELL"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["QUIT_TIMING"]["cmd"] | 0x80)):        
+        return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_STARTTIME"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_FINISHTIME"]["cmd"] | 0x80)):        
         return data    
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["QUIT_TIMING"]["cmd"] | 0x80)):        
-        return data
     else:
         for cmd_string, cmd_nr in DEF_COMMANDS.DEF_ERRORS.items():
             if(command == cmd_nr):
