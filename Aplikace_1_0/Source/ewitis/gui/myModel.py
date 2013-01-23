@@ -507,7 +507,7 @@ class myTable():
     def sFilterRegExp(self):    
         regExp = QtCore.QRegExp(self.params.gui['filter'].text(), QtCore.Qt.CaseInsensitive, QtCore.QRegExp.RegExp)
         self.proxy_model.setFilterRegExp(regExp)
-        self.update_counter()
+        self.updateTabCounter()
         #self.params['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))
               
                  
@@ -812,12 +812,20 @@ class myTable():
             except:
                 pass            
         
-        #update counter
-        self.update_counter()
+        #update gui counter
+        self.updateTabCounter()
+        
+        #update db couner
+        self.updateDbCounter()
+        #print "db counter", self.params.datastore.Get("count")
                 
         
-    def update_counter(self):        
+    def updateTabCounter(self):        
         self.params.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))
+        
+    def updateDbCounter(self):        
+        self.params.datastore.SetItem("count", [self.params.name,], self.getDbCount())
+            
                          
     def getDbRow(self, id):
                  
@@ -833,11 +841,14 @@ class myTable():
             
         return tabRow
     
-    def getDbRows(self):
-                                 
-        dbRows = self.params.db.getAll(self.params.name)
-                      
-        return dbRows        
+    def getDbRows(self):                                 
+        dbRows = self.params.db.getAll(self.params.name)                      
+        return dbRows
+            
+    def getDbCount(self):                                 
+        count = self.params.db.getCount(self.params.name)
+        print self.params.name, ": ", count                      
+        return count        
     
     def delete(self, id):
 

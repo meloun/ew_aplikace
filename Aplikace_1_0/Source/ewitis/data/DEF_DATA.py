@@ -56,7 +56,7 @@ DEF_DATA = {
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Chomutov Tour 2012"}  
+                                "GET_SET"  : {"value":u"Mercedes Benz Ski4Fun Cup 2013"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":0}  
@@ -66,9 +66,10 @@ DEF_DATA = {
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
-                               },                   
+                               },
+        "download_from_last" : {"GET_SET"  : {"value": 0} },                   
         "times_view_limit"   : {"name"     : "times view limit",
-                                "GET_SET"  : {"value": 100}  
+                                "GET_SET"  : {"value": 0}  
                                },
         "show"               : {"GET_SET"  : {"value": {
                                                         "starttimes"       : 2, 
@@ -106,7 +107,12 @@ DEF_DATA = {
         "dir_export_www"     : {"name"     : "dir_export_www",
                                 "GET_SET"  : {"value":u"export/www/"}  
                                },
-            
+        # DATABASE
+        "count"              : {"GET_SET"  : {"value": {"Runs"          : 0,
+                                                        "Times"         : 0                                                                                                       
+                                                       }
+                                              }
+                                },  
         
 
         # TERMINAL DATA

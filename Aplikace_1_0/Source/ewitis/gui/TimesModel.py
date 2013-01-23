@@ -435,7 +435,7 @@ class TimesModel(myModel.myModel):
                 '''toDo: misto try catch, Get bude vracet None'''                                   
                 start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
             except:                         
-                print "E:neexistuje startime"
+                print "E: Times: no startime nr.",start_nr,", for time", dbTime 
                 aux_rawtime = None
                 start_time = None
                                                     
@@ -450,7 +450,7 @@ class TimesModel(myModel.myModel):
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
         
         *Ret:*
-            pole čísel závodníků u kterých se nepodařilo časy updatovat   
+            pole časů u kterých se nepodařilo časy updatovat   
         """
         ret_ko_times = []
         
@@ -477,7 +477,7 @@ class TimesModel(myModel.myModel):
                 try:                
                     self.calc_update_time(dbTime, start_nr)
                 except:
-                    ret_ko_times.append(start_nr)
+                    ret_ko_times.append(dbTime['id'])
                            
         return ret_ko_times
     
@@ -494,7 +494,7 @@ class TimesModel(myModel.myModel):
         
         ko_nrs = self.calc_update_times()
         if(ko_nrs != []):
-            print "E:",self.params.name+" Update error", "Some times have no start times"+str(ko_nrs)
+            print "E:",self.params.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs)
             
         ko_nrs = self.update_laptimes()        
         if(ko_nrs != []):
@@ -744,10 +744,11 @@ class Times(myModel.myTable):
     def update(self, run_id = None):
         ztime = time.clock()                      
         self.model.update(run_id = run_id)                        
-        print "Times: update time:",time.clock() - ztime
+        print "I: Times: update:",time.clock() - ztime,"s"
         #myModel.myTable.update(self)
         self.setColumnWidth()
-        self.update_counter()
+        self.updateTabCounter()
+        self.updateDbCounter()
             
 
     # REMOVE ROW      

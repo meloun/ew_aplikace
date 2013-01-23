@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Wed Jan 16 19:34:49 2013
+# Created: Wed Jan 23 21:52:16 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1054, 582)
+        MainWindow.resize(1012, 582)
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
@@ -890,7 +890,7 @@ class Ui_MainWindow(object):
         self.checkAInfoLaptime.setChecked(True)
         self.checkAInfoLaptime.setObjectName(_fromUtf8("checkAInfoLaptime"))
         self.label_17 = QtGui.QLabel(self.groupTerminal_6)
-        self.label_17.setGeometry(QtCore.QRect(20, 300, 91, 16))
+        self.label_17.setGeometry(QtCore.QRect(20, 290, 91, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.label_17.setFont(font)
@@ -904,7 +904,7 @@ class Ui_MainWindow(object):
         self.label_20.setText(QtGui.QApplication.translate("MainWindow", "Additional Info", None, QtGui.QApplication.UnicodeUTF8))
         self.label_20.setObjectName(_fromUtf8("label_20"))
         self.spinTimesViewLimit = QtGui.QSpinBox(self.groupTerminal_6)
-        self.spinTimesViewLimit.setGeometry(QtCore.QRect(120, 300, 61, 22))
+        self.spinTimesViewLimit.setGeometry(QtCore.QRect(100, 290, 61, 22))
         self.spinTimesViewLimit.setMaximum(10000)
         self.spinTimesViewLimit.setObjectName(_fromUtf8("spinTimesViewLimit"))
         self.checkAInfoBestLaptime = QtGui.QCheckBox(self.groupTerminal_6)
@@ -981,6 +981,11 @@ class Ui_MainWindow(object):
         self.label_21.setFont(font)
         self.label_21.setText(QtGui.QApplication.translate("MainWindow", "Export", None, QtGui.QApplication.UnicodeUTF8))
         self.label_21.setObjectName(_fromUtf8("label_21"))
+        self.checkDownloadFromLast = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkDownloadFromLast.setGeometry(QtCore.QRect(20, 310, 201, 17))
+        self.checkDownloadFromLast.setText(QtGui.QApplication.translate("MainWindow", "start download from last time and run", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkDownloadFromLast.setChecked(False)
+        self.checkDownloadFromLast.setObjectName(_fromUtf8("checkDownloadFromLast"))
         self.horizontalLayout.addWidget(self.groupTerminal_5)
         spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
@@ -995,22 +1000,27 @@ class Ui_MainWindow(object):
         self.pushQuitTiming = QtGui.QPushButton(self.groupTerminal_7)
         self.pushQuitTiming.setGeometry(QtCore.QRect(30, 180, 91, 40))
         self.pushQuitTiming.setText(QtGui.QApplication.translate("MainWindow", "QUIT", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushQuitTiming.setShortcut(QtGui.QApplication.translate("MainWindow", "Alt+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.pushQuitTiming.setObjectName(_fromUtf8("pushQuitTiming"))
         self.pushGenerateStarttime = QtGui.QPushButton(self.groupTerminal_7)
         self.pushGenerateStarttime.setGeometry(QtCore.QRect(30, 130, 91, 40))
         self.pushGenerateStarttime.setText(QtGui.QApplication.translate("MainWindow", " START TIME", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushGenerateStarttime.setShortcut(QtGui.QApplication.translate("MainWindow", "Alt+S", None, QtGui.QApplication.UnicodeUTF8))
         self.pushGenerateStarttime.setObjectName(_fromUtf8("pushGenerateStarttime"))
         self.pushGenerateStoptime = QtGui.QPushButton(self.groupTerminal_7)
         self.pushGenerateStoptime.setGeometry(QtCore.QRect(130, 130, 91, 40))
         self.pushGenerateStoptime.setText(QtGui.QApplication.translate("MainWindow", "FINISH TIME", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushGenerateStoptime.setShortcut(QtGui.QApplication.translate("MainWindow", "Alt+F", None, QtGui.QApplication.UnicodeUTF8))
         self.pushGenerateStoptime.setObjectName(_fromUtf8("pushGenerateStoptime"))
         self.pushEnableStartcell = QtGui.QPushButton(self.groupTerminal_7)
         self.pushEnableStartcell.setGeometry(QtCore.QRect(30, 40, 91, 40))
         self.pushEnableStartcell.setText(QtGui.QApplication.translate("MainWindow", "ENABLE START", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushEnableStartcell.setShortcut(QtGui.QApplication.translate("MainWindow", "Alt+E", None, QtGui.QApplication.UnicodeUTF8))
         self.pushEnableStartcell.setObjectName(_fromUtf8("pushEnableStartcell"))
         self.pushEnableFinishcell = QtGui.QPushButton(self.groupTerminal_7)
         self.pushEnableFinishcell.setGeometry(QtCore.QRect(130, 40, 91, 40))
         self.pushEnableFinishcell.setText(QtGui.QApplication.translate("MainWindow", "ENABLE FINISH", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushEnableFinishcell.setShortcut(QtGui.QApplication.translate("MainWindow", "Alt+X", None, QtGui.QApplication.UnicodeUTF8))
         self.pushEnableFinishcell.setObjectName(_fromUtf8("pushEnableFinishcell"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tabTerminal = QtGui.QWidget()
@@ -1412,7 +1422,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1054, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1012, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuDatabase = QtGui.QMenu(self.menubar)
         self.menuDatabase.setTitle(QtGui.QApplication.translate("MainWindow", "Database", None, QtGui.QApplication.UnicodeUTF8))

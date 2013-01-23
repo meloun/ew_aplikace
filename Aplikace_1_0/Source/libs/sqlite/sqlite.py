@@ -70,7 +70,7 @@ class sqlite_db(object):
     def getCount(self, tablename):
         query = "SELECT COUNT(*) from " + tablename
         res = self.query(query)
-        return res.fetchone()
+        return res.fetchone()[0]
         
     def getAll(self, tablename):
         query = "SELECT * from " + tablename        

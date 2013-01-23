@@ -173,7 +173,8 @@ class TimesOrder():
                 
                 
         query = query + \
-            " (times.user_id == " +str(dbTime['user_id'])+ ")"
+            " (times.user_id == " +str(dbTime['user_id'])+ ") AND "\
+            " (times.cell != 1)"
         
         
         if(mode == self.IS_WORST_TIME):

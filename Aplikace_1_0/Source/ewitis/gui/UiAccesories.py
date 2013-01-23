@@ -47,6 +47,9 @@ class UiAccesories():
         #export
         QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
+        
+        #start download from last time and run 
+        QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
 
         #table TIMES
         #order_evaluation
@@ -545,14 +548,19 @@ class UiAccesories():
     """ ACTIONS         """
     """                 """                  
     def sEnableStartcell(self):                                                             
+        print "A: enable start cell"                                                                                                                            
         self.datastore.Set("enable_startcell", 0x01, "SET")                    
     def sEnableFinishcell(self):                                                                    
+        print "A: enable finish cell"                                                                                                                            
         self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
-    def sGenerateStarttime(self):                                                            
+    def sGenerateStarttime(self):
+        print "A: generate starttime"                                                                                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                            
     def sGenerateStoptime(self):                                                        
+        print "A: generate stoptime"                                                                                                                            
         self.datastore.Set("generate_finishtime", 0x00, "SET")                           
-    def sQuitTiming(self):                                                                
+    def sQuitTiming(self):
+        print "A: generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
         
            

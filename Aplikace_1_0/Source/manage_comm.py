@@ -30,21 +30,23 @@ DEFAULT_COMM_SHARED_MEMORY = {
                               "baudrate": 38400                              
 }
 
-#CMD_SET_BACKLIGHT       =   0x10
-#CMD_GET_RUN_PAR_INDEX   =   0x30
-#CMD_GET_TIME_PAR_INDEX  =   0x32
 
-
-class ManageComm(Thread):
-    #def __init__(self, conf_file="ewitis.conf", ShaMem_comm = DEFAULT_COMM_SHARED_MEMORY):        
+class ManageComm(Thread):            
     def __init__(self, dstore):
         """ INIT VALUES """
         
         Thread.__init__(self)        
-        self.datastore = dstore                
+        self.datastore = dstore
+        
+        #set start download indexes
         self.index_runs = 0
         self.index_times = 0
-        self.order = 0                 
+        if(self.datastore.Get("download_from_last") == 2):      
+            if(self.datastore.Get("count")['Runs'] - 1) > 0:          
+                self.index_runs = self.datastore.Get("count")['Runs'] - 1
+            if(self.datastore.Get("count")['Times'] - 1) > 0:
+                self.index_times = self.datastore.Get("count")['Times'] - 1        
+                                                                                      
                                                         
         ''' LOAD USER CONFIGURATION - port, baudrate '''            
         #USER_CONF = conf.load(self.conf_file, {"port": "COM8", "baudrate": 38400})
@@ -147,14 +149,19 @@ class ManageComm(Thread):
             """ GET NEW RUN """                                                                                   
             aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)          
             
+            
+            
             """ STORE NEW TIME TO THE DATABASE """
-            #print "aux_time['error']: ",aux_time['error'], type(aux_time['error'])                                                             
+            #print "aux_time['error']: ",aux_time['error'], type(aux_time['error'])
+            if(aux_time['error'] == 0 or aux_run['error'] == 0):
+                print"================="
+                                                                             
             if(aux_time['error'] == 0):
                                     
                 '''update CSV file'''                                
                 aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id'])+ ";" + str(aux_time['cell']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')
                                 
-                print "I:Comm: receive time: "+aux_csv_string
+                print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
                 #print struct.pack('<I', aux_time['user_id']).encode('hex')
                                 
                 '''save to database'''                                
@@ -167,7 +174,7 @@ class ManageComm(Thread):
 #                except sqlite3.IntegrityError as err:                                
 #                    print "I:DB: Time already exist", err
                 except pysqlite2.dbapi2.IntegrityError:                                
-                    print "I:DB: Time already exist"
+                    print "I: DB: time already exists"
                                                                         
                 
                 '''all for this run has been successfully done, take next'''                   
@@ -184,7 +191,7 @@ class ManageComm(Thread):
                                     
                 '''update CSV file'''                   
                 aux_csv_string = str(aux_run['id']) + ";" + str(aux_run['name_id']) + ";"
-                print "I:Comm: receive run: " + aux_csv_string               
+                print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
                 
                 '''save to database'''
                 keys = ["state","id", "starttime_id", "date", "name_id"]
@@ -196,12 +203,10 @@ class ManageComm(Thread):
 #                except sqlite3.IntegrityError:
 #                    print "I: DB: run already exist"
                 except pysqlite2.dbapi2.IntegrityError:                                
-                    print "I:DB: Time already exist"   
+                    print "I: DB: run already exists"   
                                 
                 '''all for this run has been successfully done, take next'''   
-                self.index_runs += 1
-                self.order += 1
-                                                
+                self.index_runs += 1                                                                
                                                             
             else:
                 pass
@@ -267,15 +272,13 @@ class ManageComm(Thread):
     
     
                 """ enable start-cell """                
-                if(self.datastore.IsChanged("enable_startcell")):
-                    print "s"                                        
+                if(self.datastore.IsChanged("enable_startcell")):                                        
                     user_id = self.datastore.Get("enable_startcell", "SET")                
                     ret = self.send_receive_frame("ENABLE_START_CELL")
                     self.datastore.ResetChangedFlag("enable_startcell")
                     
                 """ enable finish-cell """                
-                if(self.datastore.IsChanged("enable_finishcell")):
-                    print "f"                                        
+                if(self.datastore.IsChanged("enable_finishcell")):                        
                     user_id = self.datastore.Get("enable_finishcell", "SET")                
                     ret = self.send_receive_frame("ENABLE_FINISH_CELL")
                     self.datastore.ResetChangedFlag("enable_finishcell")
