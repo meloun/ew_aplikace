@@ -219,6 +219,40 @@ class ManageComm(Thread):
              - get&store new cells states
              - get&store new measure states                        
             """
+            
+            """ enable start-cell """                
+            if(self.datastore.IsChanged("enable_startcell")):                                        
+                user_id = self.datastore.Get("enable_startcell", "SET")                
+                ret = self.send_receive_frame("ENABLE_START_CELL")
+                self.datastore.ResetChangedFlag("enable_startcell")
+                
+            """ enable finish-cell """                
+            if(self.datastore.IsChanged("enable_finishcell")):                        
+                user_id = self.datastore.Get("enable_finishcell", "SET")                
+                ret = self.send_receive_frame("ENABLE_FINISH_CELL")
+                self.datastore.ResetChangedFlag("enable_finishcell")
+                                    
+            """ generate starttime """                
+            if(self.datastore.IsChanged("generate_starttime")):                                        
+                user_id = self.datastore.Get("generate_starttime", "SET")                
+                ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
+                self.datastore.ResetChangedFlag("generate_starttime")
+                
+            """ generate finishtime """
+            if(self.datastore.IsChanged("generate_finishtime")):                                
+                user_id = self.datastore.Get("generate_finishtime", "SET")                
+                ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
+                self.datastore.ResetChangedFlag("generate_finishtime")
+                    
+            """ quit timing """
+            if(self.datastore.IsChanged("quit_timing")):                                                                                     
+                ret = self.send_receive_frame("QUIT_TIMING")
+                self.datastore.ResetChangedFlag("quit_timing")
+                
+            """ quit timing """
+            if(self.datastore.IsChanged("clear_database")):                                                                                     
+                ret = self.send_receive_frame("QUIT_TIMING")
+                self.datastore.ResetChangedFlag("quit_timing")
                         
                                                      
             if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions) or (self.datastore.Get("active_tab") == TAB.device):                                
@@ -269,36 +303,7 @@ class ManageComm(Thread):
                     #print "COMM2", aux_data.encode('hex')                                                                                        
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_data)                
                     self.datastore.ResetChangedFlag("timing_settings")  
-    
-    
-                """ enable start-cell """                
-                if(self.datastore.IsChanged("enable_startcell")):                                        
-                    user_id = self.datastore.Get("enable_startcell", "SET")                
-                    ret = self.send_receive_frame("ENABLE_START_CELL")
-                    self.datastore.ResetChangedFlag("enable_startcell")
-                    
-                """ enable finish-cell """                
-                if(self.datastore.IsChanged("enable_finishcell")):                        
-                    user_id = self.datastore.Get("enable_finishcell", "SET")                
-                    ret = self.send_receive_frame("ENABLE_FINISH_CELL")
-                    self.datastore.ResetChangedFlag("enable_finishcell")
-                                        
-                """ generate starttime """                
-                if(self.datastore.IsChanged("generate_starttime")):                                        
-                    user_id = self.datastore.Get("generate_starttime", "SET")                
-                    ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
-                    self.datastore.ResetChangedFlag("generate_starttime")
-                    
-                """ generate finishtime """
-                if(self.datastore.IsChanged("generate_finishtime")):                                
-                    user_id = self.datastore.Get("generate_finishtime", "SET")                
-                    ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
-                    self.datastore.ResetChangedFlag("generate_finishtime")
-                        
-                """ quit timing """
-                if(self.datastore.IsChanged("quit_timing")):                                                                                     
-                    ret = self.send_receive_frame("QUIT_TIMING")
-                    self.datastore.ResetChangedFlag("quit_timing")    
+        
                                     
                 """ get timing-settings """            
                 aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")

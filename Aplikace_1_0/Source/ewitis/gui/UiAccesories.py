@@ -28,7 +28,15 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("triggered()"), self.sRefresh)
         QtCore.QObject.connect(self.ui.aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)        
         QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
-        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)                   
+        QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
+        
+        #actions toolbar
+        QtCore.QObject.connect(self.ui.aActionsEnable, QtCore.SIGNAL("triggered(bool)"), self.sEnableActions)
+        QtCore.QObject.connect(self.ui.aEnableStart, QtCore.SIGNAL("triggered()"), self.sEnableStartcell)
+        QtCore.QObject.connect(self.ui.aGenerateStarttime, QtCore.SIGNAL("triggered()"), self.sGenerateStarttime)
+        QtCore.QObject.connect(self.ui.aGenerateFinishtime, QtCore.SIGNAL("triggered()"), self.sGenerateFinishtime)        
+        QtCore.QObject.connect(self.ui.aEnableFinish, QtCore.SIGNAL("triggered()"), self.sEnableFinishcell)
+        QtCore.QObject.connect(self.ui.aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)                   
         
         #tab RUN-TIMES#
         
@@ -83,11 +91,14 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
         QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
+        
+        #actions
         QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
         QtCore.QObject.connect(self.ui.pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)
         QtCore.QObject.connect(self.ui.pushGenerateStarttime, QtCore.SIGNAL("clicked()"), self.sGenerateStarttime)
-        QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateStoptime)
+        QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
+        QtCore.QObject.connect(self.ui.pushClearDatabase, QtCore.SIGNAL("clicked()"), self.sClearDatabase)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
         
     def configGui(self):
@@ -304,14 +315,19 @@ class UiAccesories():
             else:            
                 self.ui.lineLanguage.setText("- -")
         
-
-                    
-    #=======================================================================
-    # SHOW MESSAGE -     
-    #=======================================================================
-    # dialog, status bar
-    # warning(OK), info(OK), warning_dialog(Yes, Cancel), input_integer(integer, OK)      
-    def showMessage(self, title, message, msgtype='warning', dialog=True, statusbar=True, value=0):        
+                         
+    def showMessage(self, title, message, msgtype='warning', dialog=True, statusbar=True, value=0):
+        """
+        zobrazuje dialogy a updatuje status bary
+        
+        *Dialogy:*
+            warning(OK), info(OK), warning_dialog(Yes, Cancel), input_integer(integer, OK)
+            
+        *Status bary:*
+            statusbar - zarovnaný vlevo, zobrazí hlášku z parametru
+            statusbar_msg - zarovnaný vpravo, zobrazuje stav závodu - not active, running, ...
+                
+        """        
         
         #DIALOG
         if(dialog):                                
@@ -345,7 +361,7 @@ class UiAccesories():
                 
         if(dialog == True):            
             name_string = self.datastore.GetName(name)            
-            if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
+            if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
                 return
                 
         self.datastore.Set(name, value)
@@ -546,7 +562,16 @@ class UiAccesories():
         
     """                 """
     """ ACTIONS         """
-    """                 """                  
+    """                 """
+    
+    def sEnableActions(self, state):
+        print "A: enable actions"        
+        self.ui.aEnableStart.setEnabled(state)
+        self.ui.aGenerateStarttime.setEnabled(state)
+        self.ui.aGenerateFinishtime.setEnabled(state)
+        self.ui.aEnableFinish.setEnabled(state)
+        self.ui.aQuitTiming.setEnabled(state)
+                          
     def sEnableStartcell(self):                                                             
         print "A: enable start cell"                                                                                                                            
         self.datastore.Set("enable_startcell", 0x01, "SET")                    
@@ -556,11 +581,16 @@ class UiAccesories():
     def sGenerateStarttime(self):
         print "A: generate starttime"                                                                                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                            
-    def sGenerateStoptime(self):                                                        
-        print "A: generate stoptime"                                                                                                                            
+    def sGenerateFinishtime(self):                                                        
+        print "A: generate finishtime"                                                                                                                            
         self.datastore.Set("generate_finishtime", 0x00, "SET")                           
     def sQuitTiming(self):
         print "A: generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
+    def sClearDatabase(self):
+        print "A: Clear Database"                                                                                                                                                                                            
+        self.datastore.Set("clear_database", 0x00, "SET")
+        
+                           
         
            

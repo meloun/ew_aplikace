@@ -17,12 +17,14 @@ Autosummary
    ewitis.gui.TimesModel
    ewitis.gui.UsersModel
    ewitis.gui.CategoriesModel
-   
+
+  
 Toctree
 
 .. toctree::
    :maxdepth: 2
    
+   api
    modules/manage_gui
    modules/manage_comm
    modules/myModel

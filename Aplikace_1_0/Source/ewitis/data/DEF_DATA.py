@@ -56,10 +56,10 @@ DEF_DATA = {
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Mercedes Benz Ski4Fun Cup 2013"}  
+                                "GET_SET"  : {"value":u"Česká pojišťovna Ski4Fun Cup 2013"}  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":0}  
+                                "GET_SET"  : {"value":2}  
                                },
         "order_evaluation"   : {"name"     : "order evaluation",
                                 "GET_SET"  : {"value": OrderEvaluation.SLALOM}  
@@ -183,15 +183,15 @@ DEF_DATA = {
                                              "refresh_countdown": 0 
                                              },                                
                                 },
-        "enable_startcell" :  { "SET"     : { "value": False, 
+        "enable_startcell"    : { "SET"     : { "value": False, 
                                               "changed": False,                                             
                                             },
                                },
-        "enable_finishcell" : { "SET"   : { "value": False, 
+        "enable_finishcell"   : { "SET"   : { "value": False, 
                                             "changed": False,                                             
                                             },
                                },
-        "generate_starttime" :  {"name"    : "generate starttime",                                                                 
+        "generate_starttime"  : {"name"    : "generate starttime",                                                                 
                                 "SET"     : { "value": False, 
                                               "changed": False,                                             
                                             },
@@ -201,7 +201,12 @@ DEF_DATA = {
                                               "changed": False,                                             
                                             },
                                 },
-        "quit_timing" :         {"name"  : "quit timing",                                                                 
+        "quit_timing"         : {"name"  : "quit timing",                                                                 
+                                  "SET"   : { "value": False, 
+                                              "changed": False,                                             
+                                            },
+                                },
+        "clear_database"      : {"name"  : "clear database",                                                                 
                                   "SET"   : { "value": False, 
                                               "changed": False,                                             
                                             },

@@ -10,6 +10,7 @@ import ewitis.gui.UsersModel as UsersModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
+from ewitis.data.DEF_DATA import *
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
 import time
@@ -573,6 +574,7 @@ class Times(myModel.myTable):
         exportRow = []
         exportHeader = []
         
+        #print "tabRow: ", tabRow['id'], ":", tabRow['order']
         '''get user'''
         tabHeader = self.params.tabUser.proxy_model.header()                                                  
         tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr']) 
@@ -603,7 +605,8 @@ class Times(myModel.myTable):
             exportHeader.append(u"Top okruh")
             exportRow.append(tabRow['best_laptime'])
         
-        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                         
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''
+        #print "exportRow: ", exportRow                         
         return (exportHeader, exportRow) 
 
                     
@@ -624,11 +627,21 @@ class Times(myModel.myTable):
 
         '''EXPORT TOTAL'''                                       
         for tabRow in self.proxy_model.dicts():
-            dbTime = self.getDbRow(tabRow['id'])            
-            if(self.model.order.IsLastUsertime(dbTime)):                                   
+            dbTime = self.getDbRow(tabRow['id'])
+            print "id:", tabRow['id'],
+            
+            if(dbTime['user_id'] == 0):
+                continue
+                        
+            #if(self.model.order.IsLastUsertime(dbTime)):
+            if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
+                print ": yes"                                    
                 exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)                                                                                                                                       
                 exportRows.append(exportRow[1])
-                exportHeader = exportRow[0] 
+                exportHeader = exportRow[0]
+            else:
+                print ": no" 
                     
             
         '''natvrdo pred girem'''        
@@ -652,7 +665,9 @@ class Times(myModel.myTable):
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
-                if(self.model.order.IsLastUsertime(dbTime)): 
+                #if(self.model.order.IsLastUsertime(dbTime)):
+                if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):  
                     if (tabRow['category'] == dbCategory['name']):
                         exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)                                                                                                                                       
                         exportRows.append(exportRow[1])
@@ -681,7 +696,10 @@ class Times(myModel.myTable):
             exportRows = []                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])            
-                if(self.model.order.IsLastUsertime(dbTime)): 
+                #if(self.model.order.IsLastUsertime(dbTime)):
+                if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
+                     
                     tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
                     if (tabCategory[dbCGroup['label']] == 1):
                         exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)                                                                                                                                       

@@ -846,12 +846,10 @@ class myTable():
         return dbRows
             
     def getDbCount(self):                                 
-        count = self.params.db.getCount(self.params.name)
-        print self.params.name, ": ", count                      
+        count = self.params.db.getCount(self.params.name)                              
         return count        
     
     def delete(self, id):
-
         self.params.db.delete(self.params.name, id)                          
         self.model.update()
         
