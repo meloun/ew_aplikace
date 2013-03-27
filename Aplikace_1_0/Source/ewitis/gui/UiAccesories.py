@@ -99,6 +99,8 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
         QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
         QtCore.QObject.connect(self.ui.pushClearDatabase, QtCore.SIGNAL("clicked()"), self.sClearDatabase)
+        QtCore.QObject.connect(self.ui.pushEnableScanTags, QtCore.SIGNAL("clicked()"), self.sEnableScanTags)
+        QtCore.QObject.connect(self.ui.pushDisableScanTags, QtCore.SIGNAL("clicked()"), self.sDisableScanTags)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
         
     def configGui(self):
@@ -573,23 +575,29 @@ class UiAccesories():
         self.ui.aQuitTiming.setEnabled(state)
                           
     def sEnableStartcell(self):                                                             
-        print "A: enable start cell"                                                                                                                            
+        print "A: Enable start cell"                                                                                                                            
         self.datastore.Set("enable_startcell", 0x01, "SET")                    
     def sEnableFinishcell(self):                                                                    
-        print "A: enable finish cell"                                                                                                                            
+        print "A: Enable finish cell"                                                                                                                            
         self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
     def sGenerateStarttime(self):
-        print "A: generate starttime"                                                                                                                            
+        print "A: Generate starttime"                                                                                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                            
     def sGenerateFinishtime(self):                                                        
         print "A: generate finishtime"                                                                                                                            
         self.datastore.Set("generate_finishtime", 0x00, "SET")                           
     def sQuitTiming(self):
-        print "A: generate quit time"                                                                                                                                                                                            
+        print "A: Generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
     def sClearDatabase(self):
         print "A: Clear Database"                                                                                                                                                                                            
         self.datastore.Set("clear_database", 0x00, "SET")
+    def sEnableScanTags(self):
+        print "A: Enable Scan Tags"                                                                                                                                                                                            
+        self.datastore.Set("enable_scan_tags", 0x00, "SET")
+    def sDisableScanTags(self):
+        print "A: Disable Scan Tags"                                                                                                                                                                                            
+        self.datastore.Set("disable_scan_tags", 0x00, "SET")
         
                            
         

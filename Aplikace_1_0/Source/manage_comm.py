@@ -249,10 +249,13 @@ class ManageComm(Thread):
                 ret = self.send_receive_frame("QUIT_TIMING")
                 self.datastore.ResetChangedFlag("quit_timing")
                 
-            """ quit timing """
+            """ clear database """
             if(self.datastore.IsChanged("clear_database")):                                                                                     
-                ret = self.send_receive_frame("QUIT_TIMING")
-                self.datastore.ResetChangedFlag("quit_timing")
+                ret = self.send_receive_frame("CLEAR_DATABASE")
+                self.datastore.ResetChangedFlag("clear_database")
+                print "I: Comm: clearing database, please wait.. "
+                time.sleep(19)
+                print "I: Comm: database should be empty now"
                         
                                                      
             if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions) or (self.datastore.Get("active_tab") == TAB.device):                                
