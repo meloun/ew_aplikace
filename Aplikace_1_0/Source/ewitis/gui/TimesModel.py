@@ -628,7 +628,7 @@ class Times(myModel.myTable):
         '''EXPORT TOTAL'''                                       
         for tabRow in self.proxy_model.dicts():
             dbTime = self.getDbRow(tabRow['id'])
-            print "id:", tabRow['id'],
+            #d print "id:", tabRow['id'],
             
             if(dbTime['user_id'] == 0):
                 continue
@@ -636,12 +636,12 @@ class Times(myModel.myTable):
             #if(self.model.order.IsLastUsertime(dbTime)):
             if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
-                print ": yes"                                    
+                #d print ": yes"                                    
                 exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)                                                                                                                                       
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0]
-            else:
-                print ": no" 
+            #else:
+                #d print ": no" 
                     
             
         '''natvrdo pred girem'''        

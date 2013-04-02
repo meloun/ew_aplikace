@@ -28,7 +28,8 @@ DEF_COMMANDS = {
             "ENABLE_START_CELL"         : {'cmd':0x41, 'length':0},
             "ENABLE_FINISH_CELL"        : {'cmd':0x42, 'length':0},
             "GENERATE_STARTTIME"        : {'cmd':0x43, 'length':4},
-            "GENERATE_FINISHTIME"       : {'cmd':0x44, 'length':4}                                                                                                    
+            "GENERATE_FINISHTIME"       : {'cmd':0x44, 'length':4},                                                                                                    
+            "SET_TAGS_READING"          : {'cmd':0x45, 'length':1}                                                                                                    
             
 }
 DEF_ERRORS = {

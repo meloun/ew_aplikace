@@ -83,11 +83,15 @@ def callback(command, data):
         aux_timing_settings = {}
         
         if( len(data) == 8):
-            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
-            aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'],aux_timing_settings['tags_reading_enable'], = struct.unpack("<BBBBhBB", data)
+            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
+            aux_timing_settings['filter_tagtime'], aux_timing_settings['filter_minlaptime'],\
+            aux_timing_settings['filter_maxlapnumber'], aux_timing_settings['tags_reading_enable'],\
+            = struct.unpack("<BBBBhBB", data)
         else:
-            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],  aux_timing_settings['filter_tagtime'],\
-            aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'], = struct.unpack("<BBBBhB", data)
+            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
+            aux_timing_settings['filter_tagtime'],aux_timing_settings['filter_minlaptime'],\
+            aux_timing_settings['filter_maxlapnumber'],\
+            = struct.unpack("<BBBBhB", data)
                 
                                                         
         return aux_timing_settings
@@ -109,6 +113,8 @@ def callback(command, data):
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_FINISHTIME"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["CLEAR_DATABASE"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TAGS_READING"]["cmd"] | 0x80)):        
         return data    
     else:
         for cmd_string, cmd_nr in DEF_COMMANDS.DEF_ERRORS.items():

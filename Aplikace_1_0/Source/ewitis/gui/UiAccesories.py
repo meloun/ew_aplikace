@@ -13,7 +13,7 @@ class UiAccesories():
         self.ui = source.ui
         self.datastore = source.datastore
         #self.showmessage = source.UishowMessage
-        self.source = source
+        self.source = source        
         
     def createSlots(self): 
                 
@@ -21,7 +21,7 @@ class UiAccesories():
         #common
         #TIMERs
         self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(10); 
+        self.timer1s.start(500); #500ms
         QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
         QtCore.QObject.connect(self.ui.aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)
         QtCore.QObject.connect(self.ui.tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged)
@@ -36,7 +36,10 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.aGenerateStarttime, QtCore.SIGNAL("triggered()"), self.sGenerateStarttime)
         QtCore.QObject.connect(self.ui.aGenerateFinishtime, QtCore.SIGNAL("triggered()"), self.sGenerateFinishtime)        
         QtCore.QObject.connect(self.ui.aEnableFinish, QtCore.SIGNAL("triggered()"), self.sEnableFinishcell)
-        QtCore.QObject.connect(self.ui.aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)                   
+        QtCore.QObject.connect(self.ui.aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
+        QtCore.QObject.connect(self.ui.aEnableTagsReading, QtCore.SIGNAL("triggered()"), self.sEnableScanTags)
+        QtCore.QObject.connect(self.ui.aDisableTagsReading, QtCore.SIGNAL("triggered()"), self.sDisableScanTags)
+        QtCore.QObject.connect(self.ui.aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)                   
         
         #tab RUN-TIMES#
         
@@ -106,8 +109,6 @@ class UiAccesories():
     def configGui(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
-        #self.ui.statusbar_msg2 = QtGui.QLabel("bacha jedu")        
-        #self.ui.statusbar.addWidget(self.ui.statusbar_msg2)
         self.showMessage("Race", self.datastore.Get("race_name"), False)            
     
     def sRaceNameChanged(self, s):
@@ -124,19 +125,26 @@ class UiAccesories():
         
     def updateTab(self, tab = None, mode = UPDATE_MODE.all):
         """ 
-        """        
+        """
         if(tab == None):
             #common for all tabs
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
-                """ PORT NAME """
+                
+                """ port name """
                 self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
                 self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
                 
-                """ PORT CONNECT """                            
+                """ port conect """                            
                 self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port_enable")])                                                                                                                    
                 self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
                 self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
                 self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
+                
+                #enable/disable tags reading
+                self.updateToolbarActions()                    
+                
+                """ right status bar """
+                self.showMessage('','', 'right_statusbar', statusbar = False)        
             
         #print "update tab", tab
         if(tab == TAB.run_times):
@@ -192,7 +200,16 @@ class UiAccesories():
             if(timing_settings_get['filter_maxlapnumber'] != None):                                    
                 self.ui.lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
             else:            
-                self.ui.lineMaxlapnumber.setText("- -")                 
+                self.ui.lineMaxlapnumber.setText("- -")
+                                 
+            """ Tags Readidg Enable """
+            if(timing_settings_get['tags_reading_enable'] == True):
+                self.ui.lineTagsReadingEn.setText("ON")
+            elif(timing_settings_get['tags_reading_enable'] == False):
+                self.ui.lineTagsReadingEn.setText("OFF")
+            else:
+                self.ui.lineBacklight.setText("- -")
+                 
                                                         
             """ Measurement State"""                       
             self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
@@ -225,7 +242,33 @@ class UiAccesories():
             self.ui.spinTimesViewLimit.setValue(self.datastore.Get("times_view_limit"))
             
                                               
-        
+        elif(tab == TAB.actions):
+            """ TIMING SETTINGS"""
+            timing_settings_get = self.datastore.Get("timing_settings", "GET")
+            
+            #rfid => no enabel start and finish
+            if(self.datastore.Get("rfid") == 0):                
+                self.ui.pushEnableStartcell.setEnabled(True)
+                self.ui.pushEnableFinishcell.setEnabled(True)
+            elif(self.datastore.Get("rfid") == 2):
+                self.ui.pushEnableStartcell.setEnabled(False)
+                self.ui.pushEnableFinishcell.setEnabled(False)
+                
+                
+            #enable/disable tags reading
+            if(timing_settings_get['tags_reading_enable'] == True):
+                self.ui.pushEnableScanTags.setEnabled(False)
+                self.ui.pushDisableScanTags.setEnabled(True)
+            elif(timing_settings_get['tags_reading_enable'] == False):
+                self.ui.pushEnableScanTags.setEnabled(True)
+                self.ui.pushDisableScanTags.setEnabled(False)
+            else:
+                self.ui.pushEnableScanTags.setEnabled(False)
+                self.ui.pushDisableScanTags.setEnabled(False)
+                
+            
+            
+            
         elif(tab == TAB.device):
             
             """ TERMINAL INFO """
@@ -242,7 +285,7 @@ class UiAccesories():
             if(aux_terminal_info['battery'] != None):
                 self.ui.lineBattery.setText(str(aux_terminal_info['battery'])+" %")                        
             else:
-                self.ui.lineBacklight.setText("-- %")                                
+                self.ui.lineBattery.setText("-- %")                                
             
             """ backlight """        
             if(aux_terminal_info['backlight'] == True):
@@ -316,7 +359,49 @@ class UiAccesories():
                 self.ui.lineLanguage.setText(self.ui.comboLanguage.currentText())                    
             else:            
                 self.ui.lineLanguage.setText("- -")
+                
+
+    def updateToolbarActions(self, state = None):
+                
+        if(state == None):            
+            state = self.ui.aActionsEnable.isChecked()       
+       
+        #enable start, enable finish cell
+        if(state == False):
+            self.ui.aEnableStart.setEnabled(False)
+            self.ui.aEnableFinish.setEnabled(False)
+        elif(self.datastore.Get("rfid") == 0):        
+            self.ui.aEnableStart.setEnabled(state)
+            self.ui.aEnableFinish.setEnabled(state)
+        else:#if(self.datastore.Get("rfid") == 2):
+            self.ui.aEnableStart.setEnabled(False)
+            self.ui.aEnableFinish.setEnabled(False)
+       
+        #Enable and Disable Tags Reading     
+        timing_settings_get = self.datastore.Get("timing_settings", "GET")
+        if(state == False):
+            self.ui.aEnableTagsReading.setEnabled(False)
+            self.ui.aDisableTagsReading.setEnabled(False)                            
+        elif(timing_settings_get['tags_reading_enable'] == True):
+            self.ui.aEnableTagsReading.setEnabled(False)
+            self.ui.aDisableTagsReading.setEnabled(True)
+        elif(timing_settings_get['tags_reading_enable'] == False):
+            self.ui.aEnableTagsReading.setEnabled(True)
+            self.ui.aDisableTagsReading.setEnabled(False)
+        else:
+            self.ui.aEnableTagsReading.setEnabled(False)
+            self.ui.aDisableTagsReading.setEnabled(False)
+
+        #generate start and finish time        
+        self.ui.aGenerateStarttime.setEnabled(state)
+        self.ui.aGenerateFinishtime.setEnabled(state)
         
+        #quit timinq
+        self.ui.aQuitTiming.setEnabled(state)
+        
+        #clear database
+        self.ui.aClearDatabase.setEnabled(state)
+                    
                          
     def showMessage(self, title, message, msgtype='warning', dialog=True, statusbar=True, value=0):
         """
@@ -347,6 +432,10 @@ class UiAccesories():
                 if ok:
                     return i
                 return None
+            elif(msgtype=='right_statusbar'):
+                #all time update                 
+                timing_settings_get = self.datastore.Get("timing_settings", "GET")
+                self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
             
         #STATUSBAR        
         if(statusbar):
@@ -355,6 +444,7 @@ class UiAccesories():
             self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
             self.ui.statusbar.showMessage(title+" : " + message)
         
+                                                                                                                             
         return True
         
     def sGuiSet(self, name, value, tab, dialog = False):
@@ -384,8 +474,9 @@ class UiAccesories():
         self.updateTab(tab)
         
          
-    def sTimer(self):        
-        self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui)        
+    def sTimer(self):               
+        self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui) 
+        self.updateTab(None, UPDATE_MODE.gui)       
            
     def sTabChanged(self, nr):                
         self.datastore.Set("active_tab", nr)        
@@ -567,12 +658,8 @@ class UiAccesories():
     """                 """
     
     def sEnableActions(self, state):
-        print "A: enable actions"        
-        self.ui.aEnableStart.setEnabled(state)
-        self.ui.aGenerateStarttime.setEnabled(state)
-        self.ui.aGenerateFinishtime.setEnabled(state)
-        self.ui.aEnableFinish.setEnabled(state)
-        self.ui.aQuitTiming.setEnabled(state)
+        print "A: enable actions: ", state
+        self.updateToolbarActions(state)
                           
     def sEnableStartcell(self):                                                             
         print "A: Enable start cell"                                                                                                                            
@@ -590,14 +677,16 @@ class UiAccesories():
         print "A: Generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
     def sClearDatabase(self):
+        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype='warning_dialog') != True):            
+            return
         print "A: Clear Database"                                                                                                                                                                                            
         self.datastore.Set("clear_database", 0x00, "SET")
     def sEnableScanTags(self):
         print "A: Enable Scan Tags"                                                                                                                                                                                            
-        self.datastore.Set("enable_scan_tags", 0x00, "SET")
+        self.datastore.Set("tags_reading", 0x01, "SET")
     def sDisableScanTags(self):
         print "A: Disable Scan Tags"                                                                                                                                                                                            
-        self.datastore.Set("disable_scan_tags", 0x00, "SET")
+        self.datastore.Set("tags_reading", 0x00, "SET")
         
                            
         

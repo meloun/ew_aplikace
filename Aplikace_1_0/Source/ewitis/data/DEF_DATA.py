@@ -35,7 +35,7 @@ class OrderEvaluation:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "app_version"        : {"GET_SET"  : {"value":u"v0.61"}},
+        "app_version"        : {"GET_SET"  : {"value":u"v1.08"}},
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -56,7 +56,7 @@ DEF_DATA = {
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Česká pojišťovna Ski4Fun Cup 2013"}  
+                                "GET_SET"  : {"value":u"Becker Cup 2013 - Touškov"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":2}  
@@ -169,7 +169,8 @@ DEF_DATA = {
                                                        "name_id": 4,
                                                        "filter_tagtime": 5,
                                                        "filter_minlaptime": 60,
-                                                       "filter_maxlapnumber": 0,                                                       
+                                                       "filter_maxlapnumber": 0, 
+                                                       "tags_reading_enable": None,                                                      
                                                        },
                                               "changed": False
                                             },
@@ -178,7 +179,8 @@ DEF_DATA = {
                                                        "name_id": 04,
                                                        "filter_tagtime": None,
                                                        "filter_minlaptime": None,
-                                                       "filter_maxlapnumber": None,                                                       
+                                                       "filter_maxlapnumber": None,
+                                                       "tags_reading_enable": None,                                                       
                                                        },
                                              "refresh_countdown": 0 
                                              },                                
@@ -211,13 +213,8 @@ DEF_DATA = {
                                              "changed" : False,                                             
                                            },
                                 },
-        "enable_scan_tags"    : {"name"  : "enable scan tags",                                                                 
+        "tags_reading"        : {"name"  : "disable scan tags",                                                                 
                                  "SET"   : { "value"  : False, 
-                                              "changed": False,                                             
-                                           },
-                                },
-        "disable_scan_tags"   : {"name"  : "disable scan tags",                                                                 
-                                  "SET"  : { "value"  : False, 
                                               "changed": False,                                             
                                            },
                                 },

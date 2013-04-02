@@ -256,9 +256,20 @@ class ManageComm(Thread):
                 print "I: Comm: clearing database, please wait.. "
                 time.sleep(19)
                 print "I: Comm: database should be empty now"
-                        
+                
+            """ enable/disable tags reading """
+            if(self.datastore.IsChanged("tags_reading")):         
+                on_off = self.datastore.Get("tags_reading", "SET")                                                                                               
+                ret = self.send_receive_frame("SET_TAGS_READING", on_off)
+                self.datastore.ResetChangedFlag("tags_reading")
+                if(on_off):
+                    print "I: Comm: Enable tags reading"
+                else:
+                    print "I: Comm: Disable tags reading"
+                
                                                      
-            if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions) or (self.datastore.Get("active_tab") == TAB.device):                                
+            if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions)\
+                or (self.datastore.Get("active_tab") == TAB.device):                                
                 """
                 SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
                  - set new backlight state
@@ -308,16 +319,16 @@ class ManageComm(Thread):
                     self.datastore.ResetChangedFlag("timing_settings")  
         
                                     
-                """ get timing-settings """            
-                aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
-                aux_timing_setting["name_id"] = 4
-                
-                #print aux_timing_setting            
-                """ store terminal-states to the datastore """ 
-                if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-                else:
-                    print "not ready for refresh", aux_timing_setting   
+            """ get timing-settings """            
+            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
+            aux_timing_setting["name_id"] = 4
+            
+            #print aux_timing_setting            
+            """ store terminal-states to the datastore """ 
+            if(self.datastore.IsReadyForRefresh("timing_settings")):           
+                self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+            else:
+                print "not ready for refresh", aux_timing_setting   
                                                                                   
 
                 
