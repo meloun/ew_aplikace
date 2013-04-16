@@ -99,10 +99,10 @@ USERS['database'] = {
                     "symbol"        :     {"index": 9,      "name": "symbol",           },
                     "paid"          :     {"index": 10,     "name": "paid",             },
                     "note"          :     {"index": 11,     "name": "note",             },
-                    "user_field_1"  :     {"index": 12,     "name": "user_field_1",     },
-                    "user_field_2"  :     {"index": 13,     "name": "user_field_2",     },
-                    "user_field_3"  :     {"index": 14,     "name": "user_field_3",     },    
-                    "user_field_4"  :     {"index": 15,     "name": "user_field_4",     },                                                                                        
+                    "o1"            :     {"index": 12,     "name": "o1",     },
+                    "o2"            :     {"index": 13,     "name": "o2",     },
+                    "o3"            :     {"index": 14,     "name": "o3",     },    
+                    "o4"            :     {"index": 15,     "name": "o4",     },                                                                                        
                   }
 
 """ table collumn for times, mode race """ 
@@ -118,10 +118,10 @@ USERS['table'] = { "id"            :     {"index": 0,   "name": "id",          "
                    "symbol"        :     {"index": 9,   "name": "symbol",      "width":None, },
                    "paid"          :     {"index": 10,  "name": "paid",        "width":None, },
                    "note"          :     {"index": 11,  "name": "note",        "width":None, },
-                   "user_field_1"  :     {"index": 12,  "name": "#1",          "width":None, },
-                   "user_field_2"  :     {"index": 13,  "name": "#2",          "width":None, },
-                   "user_field_3"  :     {"index": 14,  "name": "#3",          "width":None, },    
-                   "user_field_4"  :     {"index": 15,  "name": "#4",          "width":10,   },                                                                    
+                   "o1"            :     {"index": 12,  "name": "o1",          "width":None, },
+                   "o2"            :     {"index": 13,  "name": "o2",          "width":None, },
+                   "o3"            :     {"index": 14,  "name": "o3",          "width":None, },    
+                   "o4"            :     {"index": 15,  "name": "o4",          "width":10,   },                                                                    
               }
 
 

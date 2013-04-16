@@ -58,6 +58,10 @@ class UiAccesories():
         #export
         QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_3"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_4"], state, TAB.race_settings))
         
         #start download from last time and run 
         QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
@@ -221,6 +225,10 @@ class UiAccesories():
             #export
             self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
             self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
+            self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
+            self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
+            self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
+            self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
             
             #order evaluation
             self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))

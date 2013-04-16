@@ -303,11 +303,12 @@ class ManageComm(Thread):
                                                                                     
                 """ get terminal-info """                     
                 aux_terminal_info = self.send_receive_frame("GET_TERMINAL_INFO")                         
-                """ store terminal-info to the datastore """ 
-                if(self.datastore.IsReadyForRefresh("terminal_info")):           
-                    self.datastore.Set("terminal_info", aux_terminal_info, "GET")
-                else:
-                    print "not ready for refresh", aux_terminal_info               
+                """ store terminal-info to the datastore """
+                if not('error' in aux_terminal_info): 
+                    if(self.datastore.IsReadyForRefresh("terminal_info")):           
+                        self.datastore.Set("terminal_info", aux_terminal_info, "GET")
+                    else:
+                        print "not ready for refresh", aux_terminal_info               
                 
                 """ logic mode """
                 if(self.datastore.IsChanged("timing_settings")):
@@ -325,10 +326,11 @@ class ManageComm(Thread):
             
             #print aux_timing_setting            
             """ store terminal-states to the datastore """ 
-            if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-            else:
-                print "not ready for refresh", aux_timing_setting   
+            if not('error' in aux_timing_setting):
+                if(self.datastore.IsReadyForRefresh("timing_settings")):            
+                    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                else:
+                    print "not ready for refresh", aux_timing_setting   
                                                                                   
 
                 

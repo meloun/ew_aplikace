@@ -376,7 +376,7 @@ class myTable():
     """
     
     """
-    (eTOTAL, eCATEGORY, eGROUP) = range(0,3) 
+    (eTOTAL, eCATEGORY, eGROUP, eLAPS) = range(0,4) 
     def  __init__(self, params):                
                         
         #

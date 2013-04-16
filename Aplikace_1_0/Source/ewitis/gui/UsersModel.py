@@ -116,8 +116,9 @@ class UsersModel(myModel.myModel):
     def table2dbRow(self, tabUser, item = None):                              
             
         #1to1 keys just copy
+        print "tabUser", tabUser
         dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
-        
+                
         '''category_id'''        
         dbCategory = self.params.tabCategories.getDbCategoryParName(tabUser['category']) 
         

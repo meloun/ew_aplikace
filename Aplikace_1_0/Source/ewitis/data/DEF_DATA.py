@@ -91,7 +91,11 @@ DEF_DATA = {
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
                                                         "laps"          : 0, 
-                                                        "best_laptime"  : 0                                              
+                                                        "best_laptime"  : 0,
+                                                        "option_1"      : 2,
+                                                        "option_2"      : 2,
+                                                        "option_3"      : 2,
+                                                        "option_4"      : 0                                                                                                      
                                                         }
                                               }  
                                },         

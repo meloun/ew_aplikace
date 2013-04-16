@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sun Mar 31 13:10:48 2013
+# Created: Tue Apr 16 20:19:02 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -998,10 +998,30 @@ class Ui_MainWindow(object):
         self.label_21.setText(QtGui.QApplication.translate("MainWindow", "Export", None, QtGui.QApplication.UnicodeUTF8))
         self.label_21.setObjectName(_fromUtf8("label_21"))
         self.checkDownloadFromLast = QtGui.QCheckBox(self.groupTerminal_5)
-        self.checkDownloadFromLast.setGeometry(QtCore.QRect(20, 310, 201, 17))
+        self.checkDownloadFromLast.setGeometry(QtCore.QRect(20, 400, 201, 17))
         self.checkDownloadFromLast.setText(QtGui.QApplication.translate("MainWindow", "start download from last time and run", None, QtGui.QApplication.UnicodeUTF8))
         self.checkDownloadFromLast.setChecked(False)
         self.checkDownloadFromLast.setObjectName(_fromUtf8("checkDownloadFromLast"))
+        self.checkExportOption_1 = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkExportOption_1.setGeometry(QtCore.QRect(80, 290, 111, 17))
+        self.checkExportOption_1.setText(QtGui.QApplication.translate("MainWindow", "Option #1", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkExportOption_1.setChecked(False)
+        self.checkExportOption_1.setObjectName(_fromUtf8("checkExportOption_1"))
+        self.checkExportOption_2 = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkExportOption_2.setGeometry(QtCore.QRect(80, 310, 111, 17))
+        self.checkExportOption_2.setText(QtGui.QApplication.translate("MainWindow", "Option #2", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkExportOption_2.setChecked(False)
+        self.checkExportOption_2.setObjectName(_fromUtf8("checkExportOption_2"))
+        self.checkExportOption_3 = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkExportOption_3.setGeometry(QtCore.QRect(80, 330, 111, 17))
+        self.checkExportOption_3.setText(QtGui.QApplication.translate("MainWindow", "Option #3", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkExportOption_3.setChecked(False)
+        self.checkExportOption_3.setObjectName(_fromUtf8("checkExportOption_3"))
+        self.checkExportOption_4 = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkExportOption_4.setGeometry(QtCore.QRect(80, 350, 111, 17))
+        self.checkExportOption_4.setText(QtGui.QApplication.translate("MainWindow", "Option #4", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkExportOption_4.setChecked(False)
+        self.checkExportOption_4.setObjectName(_fromUtf8("checkExportOption_4"))
         self.horizontalLayout.addWidget(self.groupTerminal_5)
         spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
