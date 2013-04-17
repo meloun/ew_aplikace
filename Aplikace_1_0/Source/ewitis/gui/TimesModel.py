@@ -71,6 +71,7 @@ class TimesParameters(myModel.myParameters):
         self.gui['delete'] = source.ui.TimesDelete
         self.gui['aDirectWwwExport'] = source.ui.aDirectWwwExport
         self.gui['aDirectExportCategories'] = source.ui.aDirectExportCategories 
+        self.gui['aDirectExportLaptimes'] = source.ui.aDirectExportLaptimes 
         
         #SPECIAL
         #self.gui['show_all'] = source.ui.TimesShowAll
@@ -563,9 +564,11 @@ class Times(myModel.myTable):
         #export direct www
         QtCore.QObject.connect(self.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sExport_directWWW)
         
-        #export www button        
-        if (self.params.gui['aDirectExportCategories'] != None):            
-            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))                   
+        #export direct categories        
+        if (self.params.gui['aDirectExportCategories'] != None):                                   
+            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))
+                               
+        QtCore.QObject.connect(self.params.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)                   
 
             
     ''''''
@@ -759,9 +762,20 @@ class Times(myModel.myTable):
                     aux_csv.save(exportRows)
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
-                    
-                    
-                    
+                                        
+        return         
+                                                                                                                 
+                
+    def sExportLaptimesDirect(self):        
+        #title
+        title = "Table '"+self.params.name + "' CSV Export Laptimes" 
+        
+        #get filename, gui dialog 
+        #dirname = QtGui.QFileDialog.getExistingDirectory(self.params.gui['view'], title)
+        dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)                 
+        if(dirname == ""):
+            return                      
+        
         '''LAPS PAR CATEGORY'''                        
         dbCategories = self.params.tabCategories.getDbRows()  
         tableRows = self.proxy_model.dicts()                            
@@ -822,9 +836,11 @@ class Times(myModel.myTable):
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                          
-        return                                                                                                                   
-                
-
+        return  
+        
+        
+        
+        
     def sExport(self):                      
         import os        
         

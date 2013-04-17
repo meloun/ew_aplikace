@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Tue Apr 16 20:19:02 2013
+# Created: Wed Apr 17 22:18:04 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -1644,6 +1644,11 @@ class Ui_MainWindow(object):
         self.aClearDatabase.setText(QtGui.QApplication.translate("MainWindow", "Clear Database", None, QtGui.QApplication.UnicodeUTF8))
         self.aClearDatabase.setToolTip(QtGui.QApplication.translate("MainWindow", "Clear Database", None, QtGui.QApplication.UnicodeUTF8))
         self.aClearDatabase.setObjectName(_fromUtf8("aClearDatabase"))
+        self.aDirectExportLaptimes = QtGui.QAction(MainWindow)
+        self.aDirectExportLaptimes.setText(QtGui.QApplication.translate("MainWindow", "Direct Export Laptimes", None, QtGui.QApplication.UnicodeUTF8))
+        self.aDirectExportLaptimes.setToolTip(QtGui.QApplication.translate("MainWindow", "Direct Export Laptimes", None, QtGui.QApplication.UnicodeUTF8))
+        self.aDirectExportLaptimes.setShortcut(QtGui.QApplication.translate("MainWindow", "F10", None, QtGui.QApplication.UnicodeUTF8))
+        self.aDirectExportLaptimes.setObjectName(_fromUtf8("aDirectExportLaptimes"))
         self.menuDatabase.addAction(self.actionLoad)
         self.menuDatabase.addAction(self.actionSave)
         self.menuDatabase.addAction(self.actionSave_as)
@@ -1654,6 +1659,7 @@ class Ui_MainWindow(object):
         self.menuActions.addAction(self.actionHelp)
         self.menuActions.addAction(self.aDirectExportCategories)
         self.menuActions.addAction(self.aDirectWwwExport)
+        self.menuActions.addAction(self.aDirectExportLaptimes)
         self.menubar.addAction(self.menuDatabase.menuAction())
         self.menubar.addAction(self.menuSettings.menuAction())
         self.menubar.addAction(self.menuActions.menuAction())
