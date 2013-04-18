@@ -62,6 +62,15 @@ class TimesUtils():
                                    
         return time
     
+    @staticmethod 
+    def times_difference(timestring1, timestring2):
+        t1 = TimesUtils.timestring2time(timestring1)
+        t2 = TimesUtils.timestring2time(timestring2)        
+        timestring = TimesUtils.time2timestring(t1 - t2)
+        #if(t1<t2)
+        #    time_string = "-"+time_string
+        return timestring
+    
     
 class TimesStarts():
     def __init__(self, db):                              
@@ -720,7 +729,8 @@ class TimesLaptime():
         #print "query laptime: ", query                      
         res = self.db.query(query).fetchone()
         if res == None:
-            return None        
+            #return None
+            return dbTime['time']         
         return dbTime['time_raw'] - res['time_raw']    
         
     def GetBest(self, dbTime):

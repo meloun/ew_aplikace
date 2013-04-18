@@ -68,6 +68,7 @@ class TimesParameters(myModel.myParameters):
         self.gui['export'] = source.ui.TimesExport
         self.gui['export_www'] = source.ui.TimesWwwExport
         self.gui['import'] = None 
+        self.gui['recalculate'] = source.ui.TimesRecalculate
         self.gui['delete'] = source.ui.TimesDelete
         self.gui['aDirectWwwExport'] = source.ui.aDirectWwwExport
         self.gui['aDirectExportCategories'] = source.ui.aDirectExportCategories 
@@ -338,14 +339,8 @@ class TimesModel(myModel.myModel):
         #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
                
         '''get start-time'''        
-        if(tabTime['cell'] == 1):                
-#                if(self.utils.start_times==None):
-#                    start_time = {id:0, 'time_raw':0}
-#                elif not(dbTime['run_id'] in self.utils.start_times):
-#                    start_time = {id:0, 'time_raw':0}
-#                else:
-#                    #start_time = self.utils.start_times[dbTime['run_id']][0]
-#                    start_time = self.starts.GetFirst(dbTime['run_id'])
+        if(tabTime['cell'] == 1):                            
+            #toDo: je tohle nutné? start_time se nikde nepoužije
             try:                                         
                 start_time = self.starts.GetFirst(dbTime['run_id'])
             except (TypeError,KeyError):            
@@ -400,7 +395,7 @@ class TimesModel(myModel.myModel):
              
             if laptime != None:                                                        
                 '''ulozeni do db'''
-                print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
+                #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
                 dbTime['laptime'] = laptime                                                       
                 self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()
     def update_laptimes(self):
@@ -556,11 +551,15 @@ class Times(myModel.myTable):
         #MODE EDIT/REFRESH        
         self.system = 0
         
+        self.winner = {}
+        
     def createSlots(self):
         
         #standart slots
         myModel.myTable.createSlots(self)
         
+        QtCore.QObject.connect(self.params.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
+         
         #export direct www
         QtCore.QObject.connect(self.params.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sExport_directWWW)
         
@@ -568,15 +567,37 @@ class Times(myModel.myTable):
         if (self.params.gui['aDirectExportCategories'] != None):                                   
             QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))
                                
-        QtCore.QObject.connect(self.params.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)                   
-
-            
-    ''''''
-    def tabRow2exportRow(self, tabRow, mode):        
+        QtCore.QObject.connect(self.params.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)
+        
+                                
+   
+    def sRecalculate(self, run_id):
+        print "A: Times: Recalculating.. run id:", run_id
+        query = \
+                " UPDATE times" +\
+                    " SET time = Null, laptime = Null" +\
+                    " WHERE (times.cell != 1 ) AND (times.time != 0) AND (times.run_id = \""+str(run_id)+"\")"
+                        
+        res = self.params.db.query(query)
+                        
+        self.params.db.commit()
+        print "A: Times: Recalculating.. press F5 to finish"
+        return res
+                 
+    ''''''                   
+    def tabRow2exportRow(self, tabRow, mode):                        
                                                            
         exportRow = []
         exportHeader = []
         
+        #save the winner
+        #print "1:",tabRow
+        if 'order' in tabRow:
+            if(tabRow['order'] != ''):
+                if ((mode == Times.eTOTAL) and (int(tabRow['order']) == 1)) or \
+                    ((mode == Times.eCATEGORY) and (int(tabRow['order_cat']) == 1)):
+                    self.winner = tabRow                    
+            
         #print "tabRow: ", tabRow['id'], ":", tabRow['order']
         '''get user'''
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
@@ -584,19 +605,21 @@ class Times(myModel.myTable):
             tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub"]                        
+            #exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub"]                        
+            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Klub"]                        
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
             exportRow.append(tabRow['name'])
-            exportRow.append(tabUser['birthday'])                                       
+            #exportRow.append(tabUser['birthday'])                                       
             exportRow.append(tabUser['club'])            
         elif(mode == Times.eCATEGORY):                                       
-            exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub"]
+            #exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub"]
+            exportHeader = [u"Pořadí", u"Číslo",  u"Jméno", u"Klub"]
             exportRow.append(tabRow['order_cat']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['name'])
-            exportRow.append(tabUser['birthday'])                                       
+            #exportRow.append(tabUser['birthday'])                                       
             exportRow.append(tabUser['club'])            
         elif(mode == Times.eLAPS):                                                      
             #header                                       
@@ -605,7 +628,9 @@ class Times(myModel.myTable):
             exportRow.append(tabRow[0]['nr'])
             exportRow.append(tabRow[0]['name'])            
             for t in tabRow:
-                exportRow.append(t['time'])            
+                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
+                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ... 
+                            
             #row a header musí mít stejnou délku     
             for i in range(len(exportHeader) - len(tabRow) - 2):
                 exportRow.append("")                                                                       
@@ -614,20 +639,20 @@ class Times(myModel.myTable):
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
             # user_field_1             
             if self.params.datastore.GetItem("export", ["option_1"]) == 2:
-                exportHeader.append(u"#1")
-                exportRow.append(tabUser['user_field_1'])
+                exportHeader.append(u"Stát")
+                exportRow.append(tabUser['o1'])
             # user_field_2             
             if self.params.datastore.GetItem("export", ["option_2"]) == 2:
-                exportHeader.append(u"#2")
-                exportRow.append(tabUser['user_field_2'])
+                exportHeader.append(u"Motorka")
+                exportRow.append(tabUser['o2'])
             # user_field_3             
             if self.params.datastore.GetItem("export", ["option_3"]) == 2:
-                exportHeader.append(u"#3")
-                exportRow.append(tabUser['user_field_3'])
+                exportHeader.append(u"FMN")
+                exportRow.append(tabUser['o3'])
             # user_field_4             
             if self.params.datastore.GetItem("export", ["option_4"]) == 2:
-                exportHeader.append(u"#4")
-                exportRow.append(tabUser['user_field_4'])
+                exportHeader.append(u"o4")
+                exportRow.append(tabUser['o4'])
             # laps             
             if self.params.datastore.GetItem("export", ["laps"]) == 2:
                 exportHeader.append(u"Okruhy")
@@ -639,12 +664,40 @@ class Times(myModel.myTable):
             
             #time
             exportHeader.append(u"Čas")    
-            exportRow.append(tabRow['time'])                
+            exportRow.append(tabRow['time'])
+            
+            #ztráta
+            exportHeader.append(u"Ztráta")
+            ztrata = ""            
+            if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+                if self.winner['lap'] == tabRow['lap']:                
+                    ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+                elif tabRow['lap']!='' and tabRow['lap']!=None:
+                    ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+                    if ztrata == 1:
+                        ztrata = str(ztrata) + " kolo"
+                    elif ztrata < 5:
+                        ztrata = str(ztrata) + " kola"
+                    else:
+                        ztrata = str(ztrata) + " kol"     
+            exportRow.append(ztrata)
+            
+            
+#                        t['ztráta'] =  self.timeutils.times_difference(t['time'], exportRows[0]['time'])
+#                        print "čas", t['ztráta']
+#                    else:
+#                        t['ztráta'] = t['time'] - exportRows[0]['lap']
+#                        print "lap", t['ztráta']          
+                            
+            #body
+            exportHeader.append(u"Body")    
+            exportRow.append("")                
                 
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''
-        #print "exportRow: ", exportRow                         
-        return (exportHeader, exportRow) 
+        #print "exportRow: ", exportRow
+        #print "2:",exportRow                         
+        return (exportHeader, exportRow)
 
                     
     #=======================================================================
@@ -660,14 +713,15 @@ class Times(myModel.myTable):
         if(dirname == ""):
             return              
 
-        exportRows = []        
+        exportRows = []
+        self.winner = {}        
 
         '''EXPORT TOTAL'''                                       
         for tabRow in self.proxy_model.dicts():
             dbTime = self.getDbRow(tabRow['id'])
             #d print "id:", tabRow['id'],
             
-            if(dbTime['user_id'] == 0):
+            if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
                 continue
                         
             #if(self.model.order.IsLastUsertime(dbTime)):
@@ -685,7 +739,8 @@ class Times(myModel.myTable):
         #exportHeader = ["Pořadí", "Pořadí K", "Kategorie" , "Číslo", "Jméno", "Ročník", "Klub", "Čas"]  
             
         '''write to csv file'''
-        if(exportRows != []):                        
+        if(exportRows != []):
+            print "export total, ", len(exportRows),"times"                        
             exportRows.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
             exportRows.insert(1, len(exportHeader)*["",])
             exportRows.insert(2, exportHeader)
@@ -699,23 +754,25 @@ class Times(myModel.myTable):
         '''EXPORT CATEGORIES'''                        
         dbCategories = self.params.tabCategories.getDbRows()                      
         for dbCategory in dbCategories:
-            exportRows = []                                     
+            exportRows = []
+            self.winner = {}                                     
             for tabRow in self.proxy_model.dicts():
-                dbTime = self.getDbRow(tabRow['id'])                            
+                dbTime = self.getDbRow(tabRow['id'])
+                
+                if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
+                    continue
+                                            
                 if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):  
                     if (tabRow['category'] == dbCategory['name']):
                         exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)                                                                                                                                       
                         exportRows.append(exportRow[1])
-                        exportHeader = exportRow[0]
-                        
-
-                                                                                                                                                                   
+                        exportHeader = exportRow[0]                                                                                                                                                                                           
                         
             
             '''write to csv file'''
             if(exportRows != []):
-                print "Export: category:", dbCategory['name'], ":",len(exportRows),"times"
+                print "export category", dbCategory['name'], ":",len(exportRows),"times"                                                     
                 exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
                 exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)
@@ -733,10 +790,14 @@ class Times(myModel.myTable):
         index_category = self.params.TABLE_COLLUMN_DEF["category"]["index"]                
         dbCategories = self.params.tabCategories.getDbRows()
         for dbCGroup in dbCGroups:                                              
-            exportRows = []                        
+            exportRows = []
+            self.winner = {}                        
             for tabRow in self.proxy_model.dicts():
-                dbTime = self.getDbRow(tabRow['id'])            
-                #if(self.model.order.IsLastUsertime(dbTime)):
+                dbTime = self.getDbRow(tabRow['id'])
+                
+                if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
+                    continue
+                            
                 if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
                      
@@ -766,8 +827,9 @@ class Times(myModel.myTable):
         return         
                                                                                                                  
                 
-    def sExportLaptimesDirect(self):        
-        #title
+    def sExportLaptimesDirect(self):
+                
+        #title        
         title = "Table '"+self.params.name + "' CSV Export Laptimes" 
         
         #get filename, gui dialog 
@@ -792,11 +854,12 @@ class Times(myModel.myTable):
             
             #rows for csv export 
             exportRows = []
+            self.winner = {}
                                                                                                                                    
             for nr in range(len(tableRows)): #loop A                                                              
                 '''pro každou kategorii přes všechny zbylé časy'''
                 if(len(tableRows) == 0):                    
-                    break
+                    break                
                     
                 exportRow = []
                 
@@ -826,6 +889,12 @@ class Times(myModel.myTable):
                     
             if(exportRows != []):
                 print "Export: laps par category:", dbCategory['name'], ":", len(exportRows),"times"
+                
+                #srovnat podle čísla                
+                from operator import itemgetter
+                exportRows = sorted(exportRows, key = itemgetter(0))
+                
+                #save to csv file                
                 exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
                 exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)    

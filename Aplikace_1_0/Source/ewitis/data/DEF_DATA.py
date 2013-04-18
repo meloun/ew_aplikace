@@ -35,7 +35,7 @@ class OrderEvaluation:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "app_version"        : {"GET_SET"  : {"value":u"v1.08"}},
+        "app_version"        : {"GET_SET"  : {"value":u"v1.10"}},
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -56,13 +56,13 @@ DEF_DATA = {
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Becker Cup 2013 - Touškov"}  
+                                "GET_SET"  : {"value":u"Cross Country Open 2013 - Šiklův Mlýn"}  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":2}  
                                },
         "order_evaluation"   : {"name"     : "order evaluation",
-                                "GET_SET"  : {"value": OrderEvaluation.SLALOM}  
+                                "GET_SET"  : {"value": OrderEvaluation.RACE}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
@@ -90,8 +90,8 @@ DEF_DATA = {
                                },
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
-                                                        "laps"          : 0, 
-                                                        "best_laptime"  : 0,
+                                                        "laps"          : 2, 
+                                                        "best_laptime"  : 2,
                                                         "option_1"      : 2,
                                                         "option_2"      : 2,
                                                         "option_3"      : 2,
