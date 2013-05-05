@@ -18,6 +18,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 def callback(command, data):
     
     #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
+    
     # GET TIME PAR INDEX
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIME_PAR_INDEX"]["cmd"] | 0x80)):
         ''' GET_TIME_PAR_IDNEX => TIME struct (16b) + 2b error
@@ -32,7 +33,7 @@ def callback(command, data):
         #    aux_time['time_raw'] = aux_time['time_raw'] + 255800
 
         #add data
-        aux_time['time'] = None#utils.time_to_string(aux_time['time_raw'])        
+        aux_time['time'] = None        
                                                                                
         return aux_time
     
@@ -44,12 +45,12 @@ def callback(command, data):
         aux_run = {}
         aux_datetime = {}        
         aux_run['error'], aux_run['state'], aux_run['id'],  aux_run['starttime_id'], \
-        aux_datetime['sec'], aux_datetime['min'],aux_datetime['hour'],aux_datetime['day'],aux_datetime['month'],aux_datetime['year'],\
+        aux_datetime['sec'], aux_datetime['min'], aux_datetime['hour'], aux_datetime['day'], aux_datetime['month'], aux_datetime['year'],\
         aux_run['name_id'] = struct.unpack("<HBIIBBBBBBB", data)
         
         #add data      
         #aux_run['datetime'] =  '{0}.{1} {2}  {3}:{4}:{5}'.format(aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])
-        aux_run['datetime'] = '%d.%d. %d %02d:%02d:%02d' % (aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000,aux_datetime['hour'],aux_datetime['min'],aux_datetime['sec'])                                                                                  
+        aux_run['datetime'] = '%d.%d. %d %02d:%02d:%02d' % (aux_datetime['day'], aux_datetime['month'], int(aux_datetime['year'])+2000, aux_datetime['hour'], aux_datetime['min'], aux_datetime['sec'])                                                                                  
         return aux_run
     
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TERMINAL_INFO"]["cmd"] | 0x80)):
@@ -60,10 +61,12 @@ def callback(command, data):
         aux_time = {}
         
         if( len(data) == 12):
+            #terminal
             aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
             aux_terminal_info['language'], aux_time['sec'], aux_time['min'], aux_time['hour'], aux_time['day'], aux_time['dayweek'], \
             aux_time['month'], aux_time['year']= struct.unpack("<BBBBBBBBBBBB", data)
         else:
+            #blackbox
             aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
             aux_terminal_info['language'] = struct.unpack("<BBBBB", data)
         
@@ -83,11 +86,13 @@ def callback(command, data):
         aux_timing_settings = {}
         
         if( len(data) == 8):
+            #blackbox
             aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
             aux_timing_settings['filter_tagtime'], aux_timing_settings['filter_minlaptime'],\
             aux_timing_settings['filter_maxlapnumber'], aux_timing_settings['tags_reading_enable'],\
             = struct.unpack("<BBBBhBB", data)
         else:
+            #terminal            
             aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
             aux_timing_settings['filter_tagtime'],aux_timing_settings['filter_minlaptime'],\
             aux_timing_settings['filter_maxlapnumber'],\

@@ -30,6 +30,9 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
         QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
         
+        QtCore.QObject.connect(self.ui.aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True, TAB.run_times))
+        QtCore.QObject.connect(self.ui.aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False, TAB.run_times))
+        
         #actions toolbar
         QtCore.QObject.connect(self.ui.aActionsEnable, QtCore.SIGNAL("triggered(bool)"), self.sEnableActions)
         QtCore.QObject.connect(self.ui.aEnableStart, QtCore.SIGNAL("triggered()"), self.sEnableStartcell)
@@ -46,7 +49,11 @@ class UiAccesories():
         #times
         QtCore.QObject.connect(self.ui.timesShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["starttimes"], state, TAB.run_times))
         QtCore.QObject.connect(self.ui.timesShowAllTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["alltimes"], state, TAB.run_times))
-        QtCore.QObject.connect(self.ui.timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))
+        QtCore.QObject.connect(self.ui.timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))        
+        #time hw add/remove          
+        QtCore.QObject.connect(self.ui.TimesAddHw, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
+        QtCore.QObject.connect(self.ui.TimesRemoveHw, QtCore.SIGNAL("clicked()"), self.sRemoveHwTime)
+         
 
         #tab RACE SETTINGS#
         
@@ -62,6 +69,10 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_3"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_4"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
         
         #start download from last time and run 
         QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
@@ -113,7 +124,8 @@ class UiAccesories():
     def configGui(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
-        self.showMessage("Race", self.datastore.Get("race_name"), False)            
+        self.showMessage("Race", self.datastore.Get("race_name"), False) 
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("app_version"), None, QtGui.QApplication.UnicodeUTF8))                   
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -130,6 +142,7 @@ class UiAccesories():
     def updateTab(self, tab = None, mode = UPDATE_MODE.all):
         """ 
         """
+
         if(tab == None):
             #common for all tabs
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
@@ -143,8 +156,13 @@ class UiAccesories():
                 self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
                 self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
                 self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
+                        
+                """ communicacation enabled/disabled """
+                state = self.datastore.Get("communication_en", "GET_SET")
+                self.ui.aEnableCommunication.setEnabled(not state)
+                self.ui.aDisableCommunication.setEnabled(state)
                 
-                #enable/disable tags reading
+                #actions Toolbar (enable/disable icons)
                 self.updateToolbarActions()                    
                 
                 """ right status bar """
@@ -157,6 +175,8 @@ class UiAccesories():
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.R.update()
                 self.source.T.update()
+            
+            print "run_time: ",self.datastore.Get("run_time")
                 
         elif(tab == TAB.users):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
@@ -176,6 +196,7 @@ class UiAccesories():
                 
         elif(tab == TAB.race_settings):    
             """ TIMING SETTINGS"""
+        
             timing_settings_get = self.datastore.Get("timing_settings", "GET")
             timing_settings_set = self.datastore.Get("timing_settings", "SET")
             
@@ -219,16 +240,25 @@ class UiAccesories():
             self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
                 
             #APPLICATION
-            self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
+            if(self.datastore.IsChanged("race_name")):
+                self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
+                self.datastore.ResetChangedFlag("race_name")
             self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
             self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
             #export
             self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
             self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
+            #export - options
             self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
             self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
             self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
             self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
+            if(self.datastore.IsChanged("export")):
+                self.ui.lineOption1Name.setText(self.datastore.Get("export")["option_1_name"])
+                self.ui.lineOption2Name.setText(self.datastore.Get("export")["option_2_name"])
+                self.ui.lineOption3Name.setText(self.datastore.Get("export")["option_3_name"])
+                self.ui.lineOption4Name.setText(self.datastore.Get("export")["option_4_name"])
+                self.datastore.ResetChangedFlag("export")
             
             #order evaluation
             self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))
@@ -455,7 +485,7 @@ class UiAccesories():
                                                                                                                              
         return True
         
-    def sGuiSet(self, name, value, tab, dialog = False):
+    def sGuiSet(self, name, value, tab, dialog = False):        
         if value == self.datastore.Get(name):
             return
                 
@@ -484,7 +514,9 @@ class UiAccesories():
          
     def sTimer(self):               
         self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui) 
-        self.updateTab(None, UPDATE_MODE.gui)       
+        self.updateTab(None, UPDATE_MODE.gui)
+        aux_time = self.datastore.Get("run_time")
+        self.datastore.Set("run_time", aux_time+1)       
            
     def sTabChanged(self, nr):                
         self.datastore.Set("active_tab", nr)        
@@ -662,13 +694,18 @@ class UiAccesories():
         self.updateTab(TAB.race_settings, UPDATE_MODE.gui)
         
     """                 """
+    """ TIMES           """
+    """                 """
+    def sRemoveHwTime(self, id):                                                             
+        print "A: Remove hw time"                                                                                                                            
+        self.datastore.Set("remove_hw_time", id, "SET")
+    
+    """                 """
     """ ACTIONS         """
     """                 """
-    
     def sEnableActions(self, state):
         print "A: enable actions: ", state
-        self.updateToolbarActions(state)
-                          
+        self.updateToolbarActions(state)                                                              
     def sEnableStartcell(self):                                                             
         print "A: Enable start cell"                                                                                                                            
         self.datastore.Set("enable_startcell", 0x01, "SET")                    
@@ -679,7 +716,7 @@ class UiAccesories():
         print "A: Generate starttime"                                                                                                                            
         self.datastore.Set("generate_starttime", 0x01, "SET")                            
     def sGenerateFinishtime(self):                                                        
-        print "A: generate finishtime"                                                                                                                            
+        print "A: Generate finishtime"                                                                                                                            
         self.datastore.Set("generate_finishtime", 0x00, "SET")                           
     def sQuitTiming(self):
         print "A: Generate quit time"                                                                                                                                                                                            

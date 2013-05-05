@@ -64,7 +64,7 @@ class CategoriesModel(myModel.myModel):
     def getDefaultTableRow(self): 
         category = myModel.myModel.getDefaultTableRow(self)                
         category['name'] = "unknown"        
-        category['start_nr'] = 0
+        category['start_nr'] = 1
         return category 
                     
 class CategoriesProxyModel(myModel.myProxyModel):

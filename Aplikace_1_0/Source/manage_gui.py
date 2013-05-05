@@ -34,7 +34,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         """ GUI """
         QtGui.QWidget.__init__(self, parent)        
         self.ui = Ui_App.Ui_MainWindow()
-        self.ui.setupUi(self)            
+        self.ui.setupUi(self)                    
         
         #=======================================================================
         # DATASTORE

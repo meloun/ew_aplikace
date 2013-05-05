@@ -45,6 +45,9 @@ DEF_DATA = {
         "port_baudrate"      : {"name"     : "Port baudrate",
                                 "GET_SET"  : {"value": 38400}
                                },
+        "communication_en"   : {"name"     : "Commucation Enabled",
+                                "GET_SET"  : {"value": True}
+                               },
 
         "active_tab"         : {"GET_SET"  : {"value":0}},
         "active_row"         : {"GET_SET"  : {"value":0}},
@@ -56,7 +59,16 @@ DEF_DATA = {
         
             
         "race_name"          : {"name"     : "race_name",
-                                "GET_SET"  : {"value":u"Cross Country Open 2013 - Šiklův Mlýn"}  
+                                "GET_SET"  : {
+                                              "value":u"Fichtl Cup Vstiš",
+                                              "changed": True
+                                              },
+                                  
+                               },        
+        "run_time"           : {"GET_SET"  : {
+                                              "value":0,
+                                              "changed": True
+                                              },                                  
                                },        
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":2}  
@@ -92,11 +104,16 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "laps"          : 2, 
                                                         "best_laptime"  : 2,
-                                                        "option_1"      : 2,
-                                                        "option_2"      : 2,
-                                                        "option_3"      : 2,
-                                                        "option_4"      : 0                                                                                                      
-                                                        }
+                                                        "option_1"      : 0,
+                                                        "option_2"      : 0,
+                                                        "option_3"      : 0,
+                                                        "option_4"      : 0,                                                                                                      
+                                                        "option_1_name" : "o1",
+                                                        "option_2_name" : "o2",
+                                                        "option_3_name" : "o3",
+                                                        "option_4_name" : "o4"                                                                                                      
+                                                        },
+                                              "changed": True
                                               }  
                                },         
         "user_actions"       : {"name"     : "user_actions",
@@ -189,6 +206,10 @@ DEF_DATA = {
                                              "refresh_countdown": 0 
                                              },                                
                                 },
+        "remove_hw_time"      : { "SET"  : { "value": 0,        #0 or id for removing 
+                                             "changed": False,                                             
+                                           },
+                                },  
         "enable_startcell"    : { "SET"  : { "value": False, 
                                               "changed": False,                                             
                                            },

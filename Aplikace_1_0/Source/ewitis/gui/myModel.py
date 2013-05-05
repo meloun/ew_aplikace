@@ -418,8 +418,8 @@ class myTable():
         QtCore.QObject.connect(self.params.gui['view'].selectionModel(), QtCore.SIGNAL("selectionChanged(QItemSelection, QItemSelection)"), self.sSelectionChanged)
                          
         #TIMERs
-        self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(1000);
+        #self.timer1s = QtCore.QTimer(); 
+        #self.timer1s.start(1000);
         
         #MODE EDIT/REFRESH        
         self.table_mode = MODE_EDIT                     
@@ -427,11 +427,7 @@ class myTable():
         self.createSlots()
         
         #update "Counter"
-        self.sFilterRegExp()
-        
-        #TIMERs
-        self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(1000);
+        self.sFilterRegExp()        
         
     def sSelectionChanged(self, selected, deselected):
         #if selected:
@@ -457,7 +453,7 @@ class myTable():
         print "I: ",self.params.name," vytvarim sloty.."
         
         #TIMEOUT
-        QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.slot_Timer1s)
+        #QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.slot_Timer1s)
         
         # CLEAR FILTER BUTTON -> CLEAR FILTER
         QtCore.QObject.connect(self.params.gui['filterclear'], QtCore.SIGNAL("clicked()"), self.sFilterClear)

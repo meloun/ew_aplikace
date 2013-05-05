@@ -130,10 +130,12 @@ class ManageComm(Thread):
                 if(self.datastore.Get("port_enable", "GET_SET") == False):
                     self.stop()                                       
                     return
-            #print self.datastore.Get("port_enable", "GET_SET")                
-            
-            #print "COMM: ",self.ShaMem_comm["enable"]                                 
-            
+                            
+                                         
+            #communication enabled?
+            if(self.datastore.Get("communication_en", "GET_SET") == False):                
+                continue
+                
             """
             DATABASE PART
             

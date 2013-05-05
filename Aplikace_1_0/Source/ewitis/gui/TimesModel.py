@@ -196,7 +196,7 @@ class TimesModel(myModel.myModel):
             tabTime['name'] = ''
         elif(dbTime["user_id"] == 0):
             tabTime['name'] = 'undefined'
-        else:           
+        else:                       
             tabTime['name'] = tabUser['name'].upper() +' '+tabUser['first_name']        
         
         '''CATEGORY'''                                                                                
@@ -558,6 +558,8 @@ class Times(myModel.myTable):
         #standart slots
         myModel.myTable.createSlots(self)
         
+        
+        #button Recalculate
         QtCore.QObject.connect(self.params.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
          
         #export direct www
@@ -605,21 +607,21 @@ class Times(myModel.myTable):
             tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            #exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub"]                        
-            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Klub"]                        
+            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub"]                        
+            #exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Klub"]                        
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
             exportRow.append(tabRow['name'])
-            #exportRow.append(tabUser['birthday'])                                       
+            exportRow.append(tabUser['birthday'])                                       
             exportRow.append(tabUser['club'])            
         elif(mode == Times.eCATEGORY):                                       
-            #exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub"]
-            exportHeader = [u"Pořadí", u"Číslo",  u"Jméno", u"Klub"]
+            exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub"]
+            #exportHeader = [u"Pořadí", u"Číslo",  u"Jméno", u"Klub"]
             exportRow.append(tabRow['order_cat']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['name'])
-            #exportRow.append(tabUser['birthday'])                                       
+            exportRow.append(tabUser['birthday'])                                       
             exportRow.append(tabUser['club'])            
         elif(mode == Times.eLAPS):                                                      
             #header                                       
@@ -639,19 +641,19 @@ class Times(myModel.myTable):
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
             # user_field_1             
             if self.params.datastore.GetItem("export", ["option_1"]) == 2:
-                exportHeader.append(u"Stát")
+                exportHeader.append(self.params.datastore.GetItem("export", ["option_1_name"]))
                 exportRow.append(tabUser['o1'])
             # user_field_2             
             if self.params.datastore.GetItem("export", ["option_2"]) == 2:
-                exportHeader.append(u"Motorka")
+                exportHeader.append(self.params.datastore.GetItem("export", ["option_2_name"]))
                 exportRow.append(tabUser['o2'])
             # user_field_3             
             if self.params.datastore.GetItem("export", ["option_3"]) == 2:
-                exportHeader.append(u"FMN")
+                exportHeader.append(self.params.datastore.GetItem("export", ["option_3_name"]))
                 exportRow.append(tabUser['o3'])
             # user_field_4             
             if self.params.datastore.GetItem("export", ["option_4"]) == 2:
-                exportHeader.append(u"o4")
+                exportHeader.append(self.params.datastore.GetItem("export", ["option_4_name"]))
                 exportRow.append(tabUser['o4'])
             # laps             
             if self.params.datastore.GetItem("export", ["laps"]) == 2:
@@ -666,21 +668,21 @@ class Times(myModel.myTable):
             exportHeader.append(u"Čas")    
             exportRow.append(tabRow['time'])
             
-            #ztráta
-            exportHeader.append(u"Ztráta")
-            ztrata = ""            
-            if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
-                if self.winner['lap'] == tabRow['lap']:                
-                    ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
-                elif tabRow['lap']!='' and tabRow['lap']!=None:
-                    ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
-                    if ztrata == 1:
-                        ztrata = str(ztrata) + " kolo"
-                    elif ztrata < 5:
-                        ztrata = str(ztrata) + " kola"
-                    else:
-                        ztrata = str(ztrata) + " kol"     
-            exportRow.append(ztrata)
+#            #ztráta
+#            exportHeader.append(u"Ztráta")
+#            ztrata = ""            
+#            if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+#                if self.winner['lap'] == tabRow['lap']:                
+#                    ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+#                elif tabRow['lap']!='' and tabRow['lap']!=None:
+#                    ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+#                    if ztrata == 1:
+#                        ztrata = str(ztrata) + " kolo"
+#                    elif ztrata < 5:
+#                        ztrata = str(ztrata) + " kola"
+#                    else:
+#                        ztrata = str(ztrata) + " kol"     
+#            exportRow.append(ztrata)
             
             
 #                        t['ztráta'] =  self.timeutils.times_difference(t['time'], exportRows[0]['time'])
@@ -690,8 +692,8 @@ class Times(myModel.myTable):
 #                        print "lap", t['ztráta']          
                             
             #body
-            exportHeader.append(u"Body")    
-            exportRow.append("")                
+            #exportHeader.append(u"Body")    
+            #exportRow.append("")                
                 
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''

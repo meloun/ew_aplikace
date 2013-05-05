@@ -83,6 +83,27 @@ class UsersModel(myModel.myModel):
         user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
         user['category_id'] = 0
         user['id'] = 0                  
+        return user
+     
+    def getDefaultDbRow(self, dbTag): 
+        user = {}                
+        user['id'] = 0
+        user['nr'] = dbTag['user_nr']
+        user['name'] = "USER: "+ str(dbTag['user_nr'])+ ", TAG: "+str(dbTag['printed_nr'])#+" id:"+ str(dbTag['tag_id'])
+        user['first_name'] = ""
+        user['first_name'] = ""                
+        user['category_id'] = 0
+        user['club'] = ""
+        user['birthday'] = ""
+        user['sex'] = ""
+        user['email'] = ""
+        user['symbol'] = ""
+        user['paid'] = ""
+        user['note'] = ""
+        user['o1'] = ""
+        user['o2'] = ""
+        user['o3'] = ""
+        user['o4'] = ""                                          
         return user 
     
     #===============================================================
@@ -174,8 +195,8 @@ class Users(myModel.myTable):
         
            
         #TIMERs
-        self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(1000);        
+        #self.timer1s = QtCore.QTimer(); 
+        #self.timer1s.start(1000);        
             
     def getDbUserParNr(self, nr):
                  
@@ -201,7 +222,10 @@ class Users(myModel.myTable):
             return None
         
         '''get user par number'''
-        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()        
+        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()
+        
+        if(db_user == None):
+            return self.model.getDefaultDbRow(dbTag)        
                         
         return db_user
     

@@ -163,6 +163,9 @@ class Datastore():
         #set flag "changed" for section SET
         if (section == "SET"):
             self.data[name][section]['changed'] = True
+        if (section == "GET_SET"):
+            if 'changed' in self.data[name][section]:
+                self.data[name][section]['changed'] = True
             
         self.datalock.release() 
     
@@ -175,13 +178,18 @@ class Datastore():
         Vynuluje flag 'changed'
         volá se po provedení reakce na změnu, typicky poslání do terminálu  
         """
-        self.data[name]['SET']['changed'] = False
+        if 'GET_SET' in self.data[name]:
+            self.data[name]['GET_SET']['changed'] = False
+        else:
+            self.data[name]['SET']['changed'] = False
         
     def IsChanged(self, name):
         """
         Jen pro SET section                
         slouží ke zjištění zda nastala změna, flag "changed" == True  
-        """        
+        """
+        if 'GET_SET' in self.data[name]:
+            return self.data[name]['GET_SET']['changed']           
         return self.data[name]['SET']['changed']          
                
     
