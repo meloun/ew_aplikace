@@ -15,7 +15,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #===============================================================================
 # CALLBACK
 #===============================================================================
-def callback(command, data):
+def unpack_receivedata(command, data):
     
     #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     
@@ -60,15 +60,13 @@ def callback(command, data):
         aux_terminal_info = {}
         aux_time = {}
         
-        if( len(data) == 12):
-            #terminal
-            aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
-            aux_terminal_info['language'], aux_time['sec'], aux_time['min'], aux_time['hour'], aux_time['day'], aux_time['dayweek'], \
-            aux_time['month'], aux_time['year']= struct.unpack("<BBBBBBBBBBBB", data)
-        else:
-            #blackbox
-            aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
-            aux_terminal_info['language'] = struct.unpack("<BBBBB", data)
+        #if( len(data) == 12):        
+        aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
+        aux_terminal_info['language'], aux_time['sec'], aux_time['min'], aux_time['hour'], aux_time['day'], aux_time['dayweek'], \
+        aux_time['month'], aux_time['year']= struct.unpack("<BBBBBBBBBBBB", data)
+#        else:
+#            aux_terminal_info['number_of_cells'], aux_terminal_info['battery'], aux_terminal_info['backlight'],  aux_speaker, \
+#            aux_terminal_info['language'] = struct.unpack("<BBBBB", data)
         
         aux_terminal_info['speaker'] = {}
         aux_terminal_info['speaker']['keys'] = bool(aux_speaker & 0x01)
@@ -85,21 +83,33 @@ def callback(command, data):
         ''' 
         aux_timing_settings = {}
         
-        if( len(data) == 8):
-            #blackbox
-            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
-            aux_timing_settings['filter_tagtime'], aux_timing_settings['filter_minlaptime'],\
-            aux_timing_settings['filter_maxlapnumber'], aux_timing_settings['tags_reading_enable'],\
-            = struct.unpack("<BBBBhBB", data)
-        else:
-            #terminal            
-            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
-            aux_timing_settings['filter_tagtime'],aux_timing_settings['filter_minlaptime'],\
-            aux_timing_settings['filter_maxlapnumber'],\
-            = struct.unpack("<BBBBhB", data)
+        #if( len(data) == 8):        
+        aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
+        aux_timing_settings['filter_tagtime'], aux_timing_settings['filter_minlaptime'],\
+        aux_timing_settings['filter_maxlapnumber'], aux_timing_settings['tags_reading_enable'],\
+        = struct.unpack("<BBBBhBB", data)
+#        else:                 
+#            aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
+#            aux_timing_settings['filter_tagtime'],aux_timing_settings['filter_minlaptime'],\
+#            aux_timing_settings['filter_maxlapnumber'],\
+#            = struct.unpack("<BBBBhB", data)
                 
                                                         
         return aux_timing_settings
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]["cmd"] | 0x80)):
+        ''' GET_DIAGNOSTIC RESPONSE
+            | nr1 (1B) | nr2 (1B)| .. | nrx (1B) | 
+        ''' 
+        aux_diagnostic = {}
+        
+        #values = struct.unpack('<bb', senddata) #[3,0, .. 5]         
+        
+        values = struct.unpack('<'+len(data)*'b', data) #[3,0, .. 5]
+        keys = ['nr{0}'.format(x) for x in range(1, len(values)+1)] #['nr1','nr2' .. 'nr3']
+        aux_diagnostic = dict(zip(keys, values))
+        
+        return aux_diagnostic                       
+        
         
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]["cmd"] | 0x80)):        
         return data
@@ -128,3 +138,33 @@ def callback(command, data):
 
     print "E: callback: cmd: " + str(command) +","+ data
     return {'error':command} 
+
+def pack_senddata(command, data):
+    
+    """ pack data for sending (from dict or number to string) """    
+
+    if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]):        
+        # SET SPEAKER
+        aux_data = struct.pack('BBB',int(data["keys"]), int(data["timing"]), int(data["system"]))
+                                                                                         
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]):        
+        # SET TIMING SETTINGS
+        aux_data = struct.pack('<BBBhB', data['logic_mode'], data['name_id'], data['filter_tagtime'],\
+                               data['filter_minlaptime'], data['filter_maxlapnumber'])
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]):        
+        # GET DIAGNOSTIC         
+        aux_data = struct.pack('<BB', data['start_error_id'], data['count_errors'])
+        
+    # NUMBER    
+    elif(len(data) == 1):
+        aux_data = struct.pack('B', data)
+    elif(len(data) == 2):
+        aux_data = struct.pack('H', data)
+    elif(len(data) == 4):
+        aux_data = struct.pack('L', data)
+        
+    return aux_data
+
+        
+       
+    

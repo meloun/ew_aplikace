@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
+    <width>1137</width>
     <height>653</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Časomíra Ewitis, Aplikace v1.xx</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>gui/icons/ewitis_favicon.ico</normaloff>gui/icons/ewitis_favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -323,6 +327,49 @@
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="TimesAddHw">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/list-add-hw.png</normaloff>gui/icons/list-add-hw.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="TimesRemoveHw">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/list-remove-hw.png</normaloff>gui/icons/list-remove-hw.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="shortcut">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="TimesImport">
              <property name="enabled">
               <bool>false</bool>
@@ -385,6 +432,29 @@
              <property name="icon">
               <iconset>
                <normaloff>gui/icons/internet-web-browser.png</normaloff>gui/icons/internet-web-browser.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="TimesRecalculate">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/view-refresh_red.png</normaloff>gui/icons/view-refresh_red.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2178,6 +2248,138 @@
             <bool>false</bool>
            </property>
           </widget>
+          <widget class="QLineEdit" name="lineOption1Name">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>290</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Option #1 name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineOption2Name">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>310</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Option #2 name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineOption3Name">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>330</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Option #3 name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineOption4Name">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>350</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Option #4 name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
          </widget>
         </item>
         <item>
@@ -2195,7 +2397,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="tabActions">
        <attribute name="title">
         <string>Actions</string>
        </attribute>
@@ -3540,7 +3742,132 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="tabDiagnostic">
+       <attribute name="title">
+        <string>Diagnostic</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_9">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>261</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>U A R T</string>
+        </property>
+        <widget class="QLabel" name="label_27">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>40</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>#01  Uart0 Buffer Overflow :</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineBacklight_6">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>40</y>
+           <width>41</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>08</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_35">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>60</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>#02  Uart1 Buffer Overflow :</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineBacklight_9">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>60</y>
+           <width>41</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabAbout">
        <attribute name="title">
         <string>About</string>
        </attribute>
@@ -3554,7 +3881,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1116</width>
+     <width>1137</width>
      <height>21</height>
     </rect>
    </property>
@@ -3582,6 +3909,7 @@
     <addaction name="actionHelp"/>
     <addaction name="aDirectExportCategories"/>
     <addaction name="aDirectWwwExport"/>
+    <addaction name="aDirectExportLaptimes"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -3620,6 +3948,9 @@
    <addaction name="aConnectPort"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -3629,6 +3960,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="aEnableCommunication"/>
+   <addaction name="aDisableCommunication"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="enabled">
@@ -3891,6 +4224,44 @@
    </property>
    <property name="toolTip">
     <string>Clear Database</string>
+   </property>
+  </action>
+  <action name="aDirectExportLaptimes">
+   <property name="text">
+    <string>Direct Export Laptimes</string>
+   </property>
+   <property name="toolTip">
+    <string>Direct Export Laptimes</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
+   </property>
+  </action>
+  <action name="aDisableCommunication">
+   <property name="icon">
+    <iconset>
+     <normaloff>gui/icons/usb_red48_2.png</normaloff>gui/icons/usb_red48_2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Disable communication</string>
+   </property>
+   <property name="toolTip">
+    <string>Disable communication</string>
+   </property>
+  </action>
+  <action name="aEnableCommunication">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>gui/icons/usb_green48.png</normaloff>gui/icons/usb_green48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable Communication</string>
+   </property>
+   <property name="toolTip">
+    <string>Enable Communication</string>
    </property>
   </action>
  </widget>

@@ -53,7 +53,7 @@ class ManageComm(Thread):
         
         
         ''' CONNECT TO EWITIS '''                
-        self.protokol = serialprotocol.SerialProtocol( callback.callback, port=self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))
+        self.protokol = serialprotocol.SerialProtocol( callback.unpack_receivedata, port=self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))
         #print self.datastore.Get("port_name", "GET_SET")
         print "COMM: zakladam instanci.."                        
         
@@ -332,8 +332,20 @@ class ManageComm(Thread):
                 if(self.datastore.IsReadyForRefresh("timing_settings")):            
                     self.datastore.Set("timing_settings", aux_timing_setting, "GET")
                 else:
-                    print "not ready for refresh", aux_timing_setting   
-                                                                                  
+                    print "not ready for refresh", aux_timing_setting
+                    
+            """ get diagnostic """            
+            cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
+            aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
+                            
+            print "aux_diagnostic", aux_diagnostic
+                        
+            """ store terminal-states to the datastore """ 
+            #if(self.datastore.IsReadyForRefresh("timing_settings")):           
+            #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+            #else:
+            #    print "not ready for refresh", aux_timing_setting     
+                                                                              
 
                 
 

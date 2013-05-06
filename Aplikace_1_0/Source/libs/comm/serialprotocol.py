@@ -240,7 +240,7 @@ class SerialProtocol():
             
                                         
         '''call user callback to parse data to dict structure'''
-        aux_dict = self.callback(aux_frame['cmd'], aux_frame['data'])
+        aux_dict = self.callback(aux_frame['cmd'], aux_frame['data'], data)
         
         '''ADD COMMON data and errors'''
         

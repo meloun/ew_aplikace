@@ -11,13 +11,15 @@ Created on 1.2.2012
 DEF_COMMANDS = {
                 
             #terminal => aplikace
-            "GET_CELL_INFO"             : {'cmd':0x10, 'length':1},                                      
+            "GET_DIAGNOSTIC"            : {'cmd':0x08, 'length':2},                                      
             "GET_TERMINAL_INFO"         : {'cmd':0x20, 'length':0},                                      
+            "GET_CELL_INFO"             : {'cmd':0x21, 'length':1},                                      
             "GET_TIMING_SETTINGS"       : {'cmd':0x22, 'length':0},                                      
             "GET_RUN_PAR_INDEX"         : {'cmd':0x30, 'length':2},                                      
             "GET_TIME_PAR_INDEX"        : {'cmd':0x32, 'length':2},
                                       
             #aplikace => terminal                                                  
+            "CLEAR_DIAGNOSTIC"          : {'cmd':0x09, 'length':2},                                      
             "SET_BACKLIGHT"             : {'cmd':0x10, 'length':1},                                      
             "SET_SPEAKER"               : {'cmd':0x11, 'length':3},                                      
             "SET_TIME"                  : {'cmd':0x12, 'length':7},                                      
@@ -31,6 +33,14 @@ DEF_COMMANDS = {
             "GENERATE_FINISHTIME"       : {'cmd':0x44, 'length':4},                                                                                                    
             "SET_TAGS_READING"          : {'cmd':0x45, 'length':1}                                                                                                    
             
+}
+DEF_COMMAND_GROUP = {
+                     
+            "diagnostic": {
+                           "development" : {'start':0 , 'count':10 },
+                           "kernel"      : {'start':10, 'count':10 },
+                           "uart"        : {'start':20, 'count':10 }
+                           }                                       
 }
 DEF_ERRORS = {
                 
