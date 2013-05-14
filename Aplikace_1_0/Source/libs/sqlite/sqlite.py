@@ -5,6 +5,7 @@ Created on 01.06.2010
 @author: MELICHARL
 '''
 #from sqlite3 import dbapi2 as sqlite
+import sys
 from pysqlite2 import dbapi2 as sqlite
 import time
 
@@ -53,7 +54,8 @@ class sqlite_db(object):
         self.db.row_factory = sqlite.Row
         
     def commit(self):        
-        res = self.db.commit()                                          
+        res = self.db.commit()
+        #print "COMMIT:  "                                          
         return res 
             
     def query(self, query):
@@ -61,8 +63,17 @@ class sqlite_db(object):
         query = utils.getUtf8String(query)
         
         #z1 = time.clock()                
-        #◙print "  ",query
+        #print "QUERY:  ",query
+        #try:
         last_result = self.db.execute(query)
+        #except (sqlite.OperationalError)  as (strerror):            
+        #    print "E: pysqlite2._sqlite.OperationalError", strerror
+        #    print "query: ", query
+        #    return None
+        #except:
+        #    print "E: query fatal error", sys.exc_info()[0]
+        #    print "query: ", query
+        #    return None
         #print "  - sql take:", (time.clock()-z1)
                         
         return last_result
@@ -229,17 +240,17 @@ class sqlite_db(object):
         query = "delete from " + tablename + " where id = " + str(id)
         
         res = self.query(query)
-        self.db.commit()
+        self.commit()
         
     def deleteAll(self, tablename):
         query = "delete from " + tablename        
         res = self.query(query)
-        self.db.commit()
+        self.commit()
         
     def deleteParX(self, tablename, parameter, value):
         query = "delete from " + tablename + " where " + parameter +" = " + str(value)          
         res = self.query(query)
-        self.db.commit()        
+        self.commit()        
         
         
     #=============
@@ -280,7 +291,7 @@ class sqlite_db(object):
             except:
                 state['ko'] += 1 #increment errors for error message
 
-        self.db.commit()                        
+        self.commit()                        
         
         return state             
         

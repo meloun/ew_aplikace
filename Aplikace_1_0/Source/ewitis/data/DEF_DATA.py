@@ -35,7 +35,7 @@ class OrderEvaluation:
 DEF_DATA = {
                
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "app_version"        : {"GET_SET"  : {"value":u"v1.10"}},
+        "app_version"        : {"GET_SET"  : {"value":u"v1.12"}},
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },

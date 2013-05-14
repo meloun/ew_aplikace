@@ -30,8 +30,8 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
         QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
         
-        QtCore.QObject.connect(self.ui.aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True, TAB.run_times))
-        QtCore.QObject.connect(self.ui.aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False, TAB.run_times))
+        QtCore.QObject.connect(self.ui.aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True))
+        QtCore.QObject.connect(self.ui.aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False))
         
         #actions toolbar
         QtCore.QObject.connect(self.ui.aActionsEnable, QtCore.SIGNAL("triggered(bool)"), self.sEnableActions)
@@ -176,7 +176,7 @@ class UiAccesories():
                 self.source.R.update()
                 self.source.T.update()
             
-            print "run_time: ",self.datastore.Get("run_time")
+            #print "run_time: ",self.datastore.Get("run_time")
                 
         elif(tab == TAB.users):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
@@ -485,7 +485,7 @@ class UiAccesories():
                                                                                                                              
         return True
         
-    def sGuiSet(self, name, value, tab, dialog = False):        
+    def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == self.datastore.Get(name):
             return
                 
@@ -515,8 +515,8 @@ class UiAccesories():
     def sTimer(self):               
         self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui) 
         self.updateTab(None, UPDATE_MODE.gui)
-        aux_time = self.datastore.Get("run_time")
-        self.datastore.Set("run_time", aux_time+1)       
+        #aux_time = self.datastore.Get("run_time")
+        #self.datastore.Set("run_time", aux_time+1)       
            
     def sTabChanged(self, nr):                
         self.datastore.Set("active_tab", nr)        

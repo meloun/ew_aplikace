@@ -15,7 +15,7 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #===============================================================================
 # CALLBACK
 #===============================================================================
-def unpack_receivedata(command, data):
+def unpack_receivedata(command, data, senddata):
     
     #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     

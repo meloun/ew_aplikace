@@ -120,17 +120,22 @@ class ManageComm(Thread):
                                                                                     
         while(1):
                                   
-            #wait 1 second, test if thread should be terminated
-            for i in range(20): 
+            #wait X millisecond, test if thread should be terminated
+            ztime = time.clock()
+            for i in range(10): 
                 
-                #              
+                #wait              
                 time.sleep(0.01)
+                
+                #wait longer(for terminal - no info yet)                    
+                #time.sleep(0.01)
                 
                 #terminate thread?                                 
                 if(self.datastore.Get("port_enable", "GET_SET") == False):
                     self.stop()                                       
                     return
-                            
+                
+            #print "I: Comm: waiting:",time.clock() - ztime,"s"                            
                                          
             #communication enabled?
             if(self.datastore.Get("communication_en", "GET_SET") == False):                
@@ -334,17 +339,19 @@ class ManageComm(Thread):
                 else:
                     print "not ready for refresh", aux_timing_setting
                     
-            """ get diagnostic """            
-            cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-            aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
+            """ get diagnostic """
+            #if(self.datastore.Get('rfid') == 2):
+            if(0):          
+                cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
+                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
                             
-            print "aux_diagnostic", aux_diagnostic
+                print "aux_diagnostic", aux_diagnostic
                         
-            """ store terminal-states to the datastore """ 
-            #if(self.datastore.IsReadyForRefresh("timing_settings")):           
-            #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-            #else:
-            #    print "not ready for refresh", aux_timing_setting     
+                """ store terminal-states to the datastore """ 
+                #if(self.datastore.IsReadyForRefresh("timing_settings")):           
+                #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                #else:
+                #    print "not ready for refresh", aux_timing_setting     
                                                                               
 
                 
