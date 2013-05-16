@@ -181,7 +181,7 @@ class sqlite_db(object):
         '''sestaveni a provedeni dotazu'''
         query = u"replace into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         res = self.db.query(query)
-        #self.db.commit()
+        self.db.commit()
         return res
     
     
@@ -229,7 +229,7 @@ class sqlite_db(object):
               
         res = self.query(query)
         if commit == True:      
-            self.db.commit()            
+            self.commit()            
         return res
         
 
@@ -237,8 +237,7 @@ class sqlite_db(object):
     # DELETE
     ###########                
     def delete(self, tablename, id):
-        query = "delete from " + tablename + " where id = " + str(id)
-        
+        query = "delete from " + tablename + " where id = " + str(id)        
         res = self.query(query)
         self.commit()
         

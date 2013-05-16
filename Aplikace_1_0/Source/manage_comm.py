@@ -175,8 +175,7 @@ class ManageComm(Thread):
                 keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
                 values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
                 import pysqlite2 
-                try: 
-                    #self.tableTimes.insert_from_lists(keys, values)
+                try:                     
                     self.db.insert_from_lists("times", keys, values)
 #                except sqlite3.IntegrityError as err:                                
 #                    print "I:DB: Time already exist", err
@@ -204,8 +203,7 @@ class ManageComm(Thread):
                 keys = ["state","id", "starttime_id", "date", "name_id"]
                 values = [aux_run['state'], aux_run['id'], aux_run['starttime_id'], aux_run['datetime'], aux_run['name_id']] 
                 
-                try:
-                    #self.tableRuns.insert_from_lists(keys, values)
+                try:                    
                     self.db.insert_from_lists("runs", keys, values)
 #                except sqlite3.IntegrityError:
 #                    print "I: DB: run already exist"

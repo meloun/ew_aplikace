@@ -60,7 +60,7 @@ DEF_DATA = {
             
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
-                                              "value":u"Fichtl Cup Vstiš",
+                                              "value":u"Fichtl Cup Dolce",
                                               "changed": True
                                               },
                                   
@@ -102,16 +102,21 @@ DEF_DATA = {
                                },
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
+                                                        "year"          : 2, 
+                                                        "club"          : 2, 
                                                         "laps"          : 2, 
-                                                        "best_laptime"  : 2,
+                                                        "best_laptime"  : 0,
                                                         "option_1"      : 0,
                                                         "option_2"      : 0,
                                                         "option_3"      : 0,
-                                                        "option_4"      : 0,                                                                                                      
+                                                        "option_4"      : 0,
                                                         "option_1_name" : "o1",
                                                         "option_2_name" : "o2",
                                                         "option_3_name" : "o3",
-                                                        "option_4_name" : "o4"                                                                                                      
+                                                        "option_4_name" : "o4",
+                                                        "gap"           : 0,                                                                                                      
+                                                        "points"        : 0,                                                                                                      
+                                                        "points_rule"   : "31 - (2 * %order%)"                                                                                                      
                                                         },
                                               "changed": True
                                               }  

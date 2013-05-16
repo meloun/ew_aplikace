@@ -329,10 +329,10 @@ class TimesModel(myModel.myModel):
                 return None
             
             #in onelap race user can have ONLY 1 TIME
-            if(self.params.datastore.Get('onelap_race') == True):
-                if(self.lap.GetLaps(dbTime) != 0):
-                    self.params.showmessage(self.params.name+": Update error", "This user has already time!")
-                    return None 
+            #if(self.params.datastore.Get('onelap_race') == True):
+            #    if(self.lap.GetLaps(dbTime) != 0):
+            #        self.params.showmessage(self.params.name+": Update error", "This user has already time!")
+            #        return None 
                             
         ''' TIME '''                                                            
         #try:                                                         
@@ -574,6 +574,8 @@ class Times(myModel.myTable):
                                 
    
     def sRecalculate(self, run_id):
+        if (self.params.showmessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", msgtype='warning_dialog') != True):            
+            return
         print "A: Times: Recalculating.. run id:", run_id
         query = \
                 " UPDATE times" +\
@@ -607,22 +609,16 @@ class Times(myModel.myTable):
             tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Ročník", u"Klub"]                        
-            #exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno", u"Klub"]                        
+            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno"]                                                            
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
-            exportRow.append(tabRow['name'])
-            exportRow.append(tabUser['birthday'])                                       
-            exportRow.append(tabUser['club'])            
+            exportRow.append(tabRow['name'])           
         elif(mode == Times.eCATEGORY):                                       
-            exportHeader = [u"Pořadí", u"Číslo", u"Jméno", u"Ročník", u"Klub"]
-            #exportHeader = [u"Pořadí", u"Číslo",  u"Jméno", u"Klub"]
+            exportHeader = [u"Pořadí", u"Číslo", u"Jméno"]            
             exportRow.append(tabRow['order_cat']+".")
             exportRow.append(tabRow['nr'])
-            exportRow.append(tabRow['name'])
-            exportRow.append(tabUser['birthday'])                                       
-            exportRow.append(tabUser['club'])            
+            exportRow.append(tabRow['name'])           
         elif(mode == Times.eLAPS):                                                      
             #header                                       
             exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
@@ -639,6 +635,12 @@ class Times(myModel.myTable):
         
             
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
+            if self.params.datastore.GetItem("export", ["year"]) == 2:
+                exportHeader.append(u"Ročník")
+                exportRow.append(tabUser['birthday'])
+            if self.params.datastore.GetItem("export", ["club"]) == 2:                                       
+                exportHeader.append(u"Klub")
+                exportRow.append(tabUser['club']) 
             # user_field_1             
             if self.params.datastore.GetItem("export", ["option_1"]) == 2:
                 exportHeader.append(self.params.datastore.GetItem("export", ["option_1_name"]))
@@ -668,32 +670,27 @@ class Times(myModel.myTable):
             exportHeader.append(u"Čas")    
             exportRow.append(tabRow['time'])
             
-#            #ztráta
-#            exportHeader.append(u"Ztráta")
-#            ztrata = ""            
-#            if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
-#                if self.winner['lap'] == tabRow['lap']:                
-#                    ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
-#                elif tabRow['lap']!='' and tabRow['lap']!=None:
-#                    ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
-#                    if ztrata == 1:
-#                        ztrata = str(ztrata) + " kolo"
-#                    elif ztrata < 5:
-#                        ztrata = str(ztrata) + " kola"
-#                    else:
-#                        ztrata = str(ztrata) + " kol"     
-#            exportRow.append(ztrata)
-            
-            
-#                        t['ztráta'] =  self.timeutils.times_difference(t['time'], exportRows[0]['time'])
-#                        print "čas", t['ztráta']
-#                    else:
-#                        t['ztráta'] = t['time'] - exportRows[0]['lap']
-#                        print "lap", t['ztráta']          
+            #ztráta
+            if self.params.datastore.GetItem("export", ["gap"]) == 2:
+                exportHeader.append(u"Ztráta")
+                ztrata = ""            
+                if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+                    if self.winner['lap'] == tabRow['lap']:                
+                        ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+                    elif tabRow['lap']!='' and tabRow['lap']!=None:
+                        ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+                        if ztrata == 1:
+                            ztrata = str(ztrata) + " kolo"
+                        elif ztrata < 5:
+                            ztrata = str(ztrata) + " kola"
+                        else:
+                            ztrata = str(ztrata) + " kol"     
+                exportRow.append(ztrata)                                 
                             
             #body
-            #exportHeader.append(u"Body")    
-            #exportRow.append("")                
+            if self.params.datastore.GetItem("export", ["points"]) == 2:
+                exportHeader.append(u"Body")    
+                exportRow.append("")                
                 
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''

@@ -289,7 +289,8 @@ class TimesOrder():
                 query_order = query_order + \
                         " HAVING count(*) == " + str(lap)                        
                     
-            if(self.datastore.Get('onelap_race') == 0) and (self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            #if(self.datastore.Get('onelap_race') == 0) and (self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            if(self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
                 
@@ -354,7 +355,8 @@ class TimesOrder():
                 query_order = query_order + \
                     " HAVING count(*) == " + str(lap)
         
-            if(self.datastore.Get('onelap_race') == 0) and (self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            #if(self.datastore.Get('onelap_race') == 0) and (self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            if(self.datastore.Get('order_evaluation') != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
                 
@@ -438,20 +440,20 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == 0):
-                    query_order = query_order + \
-                        " UNION "+\
-                        " SELECT user_id FROM times" +\
-                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                        " INNER JOIN users ON tags.user_nr = users.nr "+\
-                            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                            " AND (times.user_id != 0 )"+\
-                            " AND (times.time != 0 )"+\
-                            " AND (times.cell != 1 )"+\
-                            " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                            " GROUP BY user_id"+\
-                            " HAVING count(*) > "+str(lap)
+                #if(self.datastore.Get('onelap_race') == 0):
+                query_order = query_order + \
+                    " UNION "+\
+                    " SELECT user_id FROM times" +\
+                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+                    " INNER JOIN users ON tags.user_nr = users.nr "+\
+                        " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
+                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
+                        " AND (times.user_id != 0 )"+\
+                        " AND (times.time != 0 )"+\
+                        " AND (times.cell != 1 )"+\
+                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
+                        " GROUP BY user_id"+\
+                        " HAVING count(*) > "+str(lap)
                 query_order = query_order + ")"                   
             else:                
                 query_order = \
@@ -470,8 +472,8 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"+\
                         " HAVING count(*) == "+str(lap)
-                if(self.datastore.Get('onelap_race') == 0):                    
-                    query_order = query_order +\
+                #if(self.datastore.Get('onelap_race') == 0):                    
+                query_order = query_order +\
                         " UNION "+\
                         " SELECT user_id FROM times" +\
                         " INNER JOIN users ON times.user_id = users.id"+\
@@ -506,8 +508,8 @@ class TimesOrder():
                             " AND (times.cell != 1 )"+\
                             " GROUP BY user_id"+\
                             " HAVING count(*) == " + str(lap)
-                if(self.datastore.Get('onelap_race') == 0):
-                        query_order = query_order +\
+                #if(self.datastore.Get('onelap_race') == 0):
+                query_order = query_order +\
                         " UNION "+\
                         " SELECT user_id FROM times" +\
                             " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\

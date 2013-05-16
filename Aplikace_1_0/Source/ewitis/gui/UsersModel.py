@@ -155,7 +155,7 @@ class UsersModel(myModel.myModel):
         #if 'category_id' in importRow:
         #    del importRow['category_id']
         tabCategory = self.params.tabCategories.getTabCategoryParName(importRow['category_id'])
-        print tabCategory
+        #print tabCategory
         importRow['category_id'] = tabCategory['id']
         return importRow
         

@@ -60,9 +60,11 @@ class UiAccesories():
         #race settings                        
         QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
         QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
-        QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))
+        #QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))
         
         #export
+        QtCore.QObject.connect(self.ui.checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
+        QtCore.QObject.connect(self.ui.checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["club"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
@@ -73,6 +75,9 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), TAB.race_settings))
         QtCore.QObject.connect(self.ui.lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
         QtCore.QObject.connect(self.ui.lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportPoints, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["points_rule"], utils.toUnicode(name), TAB.race_settings))
         
         #start download from last time and run 
         QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
@@ -244,8 +249,10 @@ class UiAccesories():
                 self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
                 self.datastore.ResetChangedFlag("race_name")
             self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
-            self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
+            #self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
             #export
+            self.ui.checkExportYear.setCheckState(self.datastore.Get("export")["year"])                                
+            self.ui.checkExportClub.setCheckState(self.datastore.Get("export")["club"])                                
             self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
             self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
             #export - options
@@ -253,11 +260,14 @@ class UiAccesories():
             self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
             self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
             self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
+            self.ui.checkExportGap.setCheckState(self.datastore.Get("export")["gap"])
+            self.ui.checkExportPoints.setCheckState(self.datastore.Get("export")["points"])
             if(self.datastore.IsChanged("export")):
                 self.ui.lineOption1Name.setText(self.datastore.Get("export")["option_1_name"])
                 self.ui.lineOption2Name.setText(self.datastore.Get("export")["option_2_name"])
                 self.ui.lineOption3Name.setText(self.datastore.Get("export")["option_3_name"])
                 self.ui.lineOption4Name.setText(self.datastore.Get("export")["option_4_name"])
+                self.ui.linePointsRule.setText(self.datastore.Get("export")["points_rule"])
                 self.datastore.ResetChangedFlag("export")
             
             #order evaluation
@@ -719,6 +729,8 @@ class UiAccesories():
         print "A: Generate finishtime"                                                                                                                            
         self.datastore.Set("generate_finishtime", 0x00, "SET")                           
     def sQuitTiming(self):
+        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype='warning_dialog') != True):            
+            return
         print "A: Generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
     def sClearDatabase(self):
