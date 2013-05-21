@@ -18,6 +18,8 @@ import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.CategoriesModel as CategoriesModel
 import ewitis.gui.CGroupsModel as CGroupsModel
 import ewitis.gui.TagsModel as TagsModel
+import ewitis.gui.AlltagsModel as AlltagsModel
+import ewitis.gui.PointsModel as PointsModel
 import libs.sqlite.sqlite as sqlite
 from ewitis.data.DEF_DATA import *
 import libs.datastore.datastore as datastore
@@ -72,7 +74,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         # TABLES
         #=======================================================================
-        
+        self.tablePoints = PointsModel.Points(PointsModel.PointsParameters(self))
+        self.tableAlltags = AlltagsModel.Alltags(AlltagsModel.AlltagsParameters(self))
         self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
         self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
         self.CG = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters(self))

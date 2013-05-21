@@ -50,7 +50,7 @@ class sqlite_db(object):
         return d       
         
     def connect(self):
-        self.db = sqlite.connect(self.db_name)        
+        self.db = sqlite.connect(self.db_name, 10)        
         self.db.row_factory = sqlite.Row
         
     def commit(self):        

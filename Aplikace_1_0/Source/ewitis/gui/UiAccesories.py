@@ -141,11 +141,16 @@ class UiAccesories():
         self.updateTab(TAB.categories)
         self.updateTab(TAB.cgroups)
         self.updateTab(TAB.tags)
+        self.updateTab(TAB.alltags)
+        self.updateTab(TAB.points)
         self.updateTab(TAB.device)
         self.updateTab(TAB.race_settings)
         
     def updateTab(self, tab = None, mode = UPDATE_MODE.all):
         """ 
+        - all
+        - gui
+        - table
         """
 
         if(tab == None):
@@ -198,6 +203,14 @@ class UiAccesories():
         elif(tab == TAB.tags):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tableTags.update()
+                
+        elif(tab == TAB.alltags):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.tableAlltags.update()
+                
+        elif(tab == TAB.points):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.tablePoints.update()
                 
         elif(tab == TAB.race_settings):    
             """ TIMING SETTINGS"""
