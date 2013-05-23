@@ -19,6 +19,16 @@ def unpack_receivedata(command, data, senddata):
     
     #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     
+    # HW & FW VERSIONS
+    if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_HW_SW_VERSION"]["cmd"] | 0x80)):    
+        aux_versions = {}
+        aux_versions['hw1'], aux_versions['hw2'], aux_versions['fw1'],  aux_versions['fw2']\
+        = struct.unpack("<2s2s2s2s", data)        
+        
+        aux_versions = {"hw":aux_versions['hw1']+'.'+aux_versions['hw2'],"fw":aux_versions['fw1']+'.'+aux_versions['fw2']} 
+        return aux_versions
+        
+        
     # GET TIME PAR INDEX
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIME_PAR_INDEX"]["cmd"] | 0x80)):
         ''' GET_TIME_PAR_IDNEX => TIME struct (16b) + 2b error

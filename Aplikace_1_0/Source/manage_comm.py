@@ -71,6 +71,7 @@ class ManageComm(Thread):
         length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']
         
         #pack data (to string)
+        #pack_senddata(command, data)
         if(length == 1):
             data = struct.pack('B', data)
         elif(length == 2):
@@ -141,9 +142,24 @@ class ManageComm(Thread):
             if(self.datastore.Get("communication_en", "GET_SET") == False):                
                 continue
                 
-            """
-            DATABASE PART
+            """ 
+            GET HW-SW-VERSION 
+                only once (after start sw,hw = none)
+            """            
+            if(self.datastore.Get("versions")["hw"] == None) or (self.datastore.Get("versions")["fw"] == None):
+                
+                aux_version = self.send_receive_frame("GET_HW_SW_VERSION")
+                                
+                if ('error' in aux_version): 
+                    print "E: Comm: no Hw and Fw versions om device"                
+                    continue #no other commands as long as no version
+                
+                self.datastore.SetItem("versions", ["hw"], aux_version["hw"])
+                self.datastore.SetItem("versions", ["fw"], aux_version["fw"])
+            """ end of hw-sw-version """
             
+            """
+            RUNS & TIMES & DATABASE PART
              - get new time
              - get new run
              - store new time to the databasae
@@ -154,8 +170,7 @@ class ManageComm(Thread):
             aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)                                                
             
             """ GET NEW RUN """                                                                                   
-            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)          
-            
+            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)                      
             
             
             """ STORE NEW TIME TO THE DATABASE """
@@ -165,9 +180,8 @@ class ManageComm(Thread):
                                                                              
             if(aux_time['error'] == 0):
                                     
-                '''update CSV file'''                                
-                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id'])+ ";" + str(aux_time['cell']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')
-                                
+                '''console ouput'''                                
+                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id'])+ ";" + str(aux_time['cell']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')                                
                 print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
                 #print struct.pack('<I', aux_time['user_id']).encode('hex')
                                 
@@ -187,15 +201,14 @@ class ManageComm(Thread):
                 self.index_times += 1                                                                
                                                             
             else:
-                pass
-                #print "I:Comm: no new time"  
+                pass # no new time  
                 
         
             """ STORE NEW RUN TO THE DATABASE """ 
             #print "error", aux_run              
             if(aux_run['error'] == 0):
                                     
-                '''update CSV file'''                   
+                '''console output'''                   
                 aux_csv_string = str(aux_run['id']) + ";" + str(aux_run['name_id']) + ";"
                 print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
                 
@@ -214,15 +227,19 @@ class ManageComm(Thread):
                 self.index_runs += 1                                                                
                                                             
             else:
-                pass
-                #print "I:Comm: no new run"
-                
+                pass # no new run
+            
+            """ end of Run & Times & Database """    
                 
             """
-            GET&STORE NEW VALUES FROM TERMINAL TO THE DATASTORE            
-             - get&store new terminal states
-             - get&store new cells states
-             - get&store new measure states                        
+            ACTIONS            
+             - enable/disable startcell
+             - enable/disable finishcell
+             - generate starttime
+             - generate finishtime
+             - quit timing                        
+             - clear database                        
+             - enable/disable tags reading
             """
             
             """ enable start-cell """                
@@ -271,16 +288,20 @@ class ManageComm(Thread):
                     print "I: Comm: Enable tags reading"
                 else:
                     print "I: Comm: Disable tags reading"
-                
+            
+            """ end of ACTIONS """
+            
+            """
+            tab RACE SETTINGS & tab ACTIONS & tab DEVICE            
+             - set backlight
+             - set speaker
+             - set language
+             - get terminal info
+             - set timing settings                                                                          
+            """    
                                                      
             if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions)\
                 or (self.datastore.Get("active_tab") == TAB.device):                                
-                """
-                SEND REQUESTED COMMANDS TO THE TERMINAL (FROM DATASTORE)            
-                 - set new backlight state
-                 - set new time
-                 - set language                        
-                """
                 
                 """ set backlight """
                 if(self.datastore.IsChanged("backlight")):                                
@@ -315,7 +336,7 @@ class ManageComm(Thread):
                     else:
                         print "not ready for refresh", aux_terminal_info               
                 
-                """ logic mode """
+                """ set timing settings """
                 if(self.datastore.IsChanged("timing_settings")):
                     aux_timing_settings = self.datastore.Get("timing_settings", "SET")                
                     aux_data = struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
@@ -324,6 +345,30 @@ class ManageComm(Thread):
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_data)                
                     self.datastore.ResetChangedFlag("timing_settings")  
         
+            
+            """
+            tab DIAGNOSTIC                        
+             - get diagnostic                                    
+            """
+            if(self.datastore.Get("active_tab") == TAB.diagnostic):        
+                """ get diagnostic """
+                #if(self.datastore.Get('rfid') == 2):
+                if(0):          
+                    cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
+                    aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
+                                
+                    print "aux_diagnostic", aux_diagnostic
+                            
+                    """ store terminal-states to the datastore """ 
+                    #if(self.datastore.IsReadyForRefresh("timing_settings")):           
+                    #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                    #else:
+                    #    print "not ready for refresh", aux_timing_setting     
+            
+            """
+            ALL TABs            
+             - get timing settings                                    
+            """
                                     
             """ get timing-settings """            
             aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
@@ -337,20 +382,10 @@ class ManageComm(Thread):
                 else:
                     print "not ready for refresh", aux_timing_setting
                     
-            """ get diagnostic """
-            #if(self.datastore.Get('rfid') == 2):
-            if(0):          
-                cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
-                            
-                print "aux_diagnostic", aux_diagnostic
-                        
-                """ store terminal-states to the datastore """ 
-                #if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-                #else:
-                #    print "not ready for refresh", aux_timing_setting     
-                                                                              
+            """
+            ALL SETs            
+             - potom bude parametr refreh v datastore zbytecny                                    
+            """                                                                                  
 
                 
 

@@ -76,8 +76,10 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
         QtCore.QObject.connect(self.ui.lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportPoints, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["points_rule"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_race"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_categories"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_groups"], state, TAB.race_settings))
+        
         
         #start download from last time and run 
         QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
@@ -130,7 +132,7 @@ class UiAccesories():
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.showMessage("Race", self.datastore.Get("race_name"), False) 
-        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("app_version"), None, QtGui.QApplication.UnicodeUTF8))                   
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))                   
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -269,18 +271,19 @@ class UiAccesories():
             self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
             self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
             #export - options
-            self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
-            self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
-            self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
-            self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
-            self.ui.checkExportGap.setCheckState(self.datastore.Get("export")["gap"])
-            self.ui.checkExportPoints.setCheckState(self.datastore.Get("export")["points"])
             if(self.datastore.IsChanged("export")):
+                self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
+                self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
+                self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
+                self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
+                self.ui.checkExportGap.setCheckState(self.datastore.Get("export")["gap"])
                 self.ui.lineOption1Name.setText(self.datastore.Get("export")["option_1_name"])
                 self.ui.lineOption2Name.setText(self.datastore.Get("export")["option_2_name"])
                 self.ui.lineOption3Name.setText(self.datastore.Get("export")["option_3_name"])
-                self.ui.lineOption4Name.setText(self.datastore.Get("export")["option_4_name"])
-                self.ui.linePointsRule.setText(self.datastore.Get("export")["points_rule"])
+                self.ui.lineOption4Name.setText(self.datastore.Get("export")["option_4_name"])                
+                self.ui.checkExportPointsRace.setCheckState(self.datastore.Get("export")["points_race"])
+                self.ui.checkExportPointsCategories.setCheckState(self.datastore.Get("export")["points_categories"])
+                self.ui.checkExportPointsGroups.setCheckState(self.datastore.Get("export")["points_groups"])
                 self.datastore.ResetChangedFlag("export")
             
             #order evaluation
@@ -331,6 +334,21 @@ class UiAccesories():
             
             
         elif(tab == TAB.device):
+            
+            """ HW & FW VERSION """
+            aux_versions = self.datastore.Get("versions")
+            
+            if(aux_versions['hw'] != None):                                        
+                self.ui.lineHwVersion.setText(str(aux_versions['hw']))  
+            else:
+                self.ui.lineHwVersion.setText("- -")
+                 
+            if(aux_versions['fw'] != None):                                        
+                self.ui.lineFwVersion.setText(str(aux_versions['fw']))  
+            else:
+                self.ui.lineFwVersion.setText("- -") 
+            
+            
             
             """ TERMINAL INFO """
             aux_terminal_info = self.datastore.Get("terminal_info", "GET")

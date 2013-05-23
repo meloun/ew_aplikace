@@ -99,10 +99,11 @@ class sqlite_db(object):
         return res.fetchone()    
     
     def getParX(self, tablename, parameter, value, limit = None):
-        query = u"select * from " + tablename + " where " + parameter +" = '" + unicode(value) + "'"
+        query = u"select * from " + tablename + " where \"" + parameter +"\" = '" + unicode(value) + "'"
         query = query + " ORDER BY id DESC " 
         if (limit != None) and (limit != 0):
-            query = query + " LIMIT "+str(limit)        
+            query = query + " LIMIT "+str(limit)
+        #print  "getParX :", query       
         res = self.query(query)
         return res
     

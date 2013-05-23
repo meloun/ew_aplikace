@@ -102,21 +102,22 @@ DEF_DATA = {
                                },
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
-                                                        "year"          : 2, 
-                                                        "club"          : 2, 
-                                                        "laps"          : 2, 
-                                                        "best_laptime"  : 0,
-                                                        "option_1"      : 0,
-                                                        "option_2"      : 0,
-                                                        "option_3"      : 0,
-                                                        "option_4"      : 0,
-                                                        "option_1_name" : "o1",
-                                                        "option_2_name" : "o2",
-                                                        "option_3_name" : "o3",
-                                                        "option_4_name" : "o4",
-                                                        "gap"           : 0,                                                                                                      
-                                                        "points"        : 0,                                                                                                      
-                                                        "points_rule"   : "31 - (2 * %order%)"                                                                                                      
+                                                        "year"              : 2, 
+                                                        "club"              : 2, 
+                                                        "laps"              : 2, 
+                                                        "best_laptime"      : 0,
+                                                        "option_1"          : 0,
+                                                        "option_2"          : 0,
+                                                        "option_3"          : 0,
+                                                        "option_4"          : 0,
+                                                        "option_1_name"     : "o1",
+                                                        "option_2_name"     : "o2",
+                                                        "option_3_name"     : "o3",
+                                                        "option_4_name"     : "o4",
+                                                        "gap"               : 0,                                                                                                      
+                                                        "points_race"            : 2,                                                                                                      
+                                                        "points_categories" : 2,                                                                                                      
+                                                        "points_groups"     : 2,                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  
@@ -141,7 +142,7 @@ DEF_DATA = {
                                 },  
         
 
-        # TERMINAL DATA
+        # TERMINAL DATA SET
         "backlight"          : {"name"    : "backlight",                                                                 
                                 "SET"     : {"value": 0x01, 
                                              "changed": False,                                             
@@ -165,7 +166,17 @@ DEF_DATA = {
         "language"           : {"name"    : "language",                                
                                 "SET"     : {"value": Languages.CZECH,
                                              "changed": False}, 
-                               },                                               
+                               },
+            
+        # TERMINAL DATA GET
+            
+        "versions"           : {"name"    : "versions",                                                                 
+                                "GET_SET" : {"value": { "hw" : None,
+                                                        "fw" : None,
+                                                        "app": "v2.16"
+                                                       },                                                                                                                    
+                                             },
+                                },                                               
         "terminal_info"      : {"name"    : "terminal info",
                                 "GET"     : {"value": {"number_of_cells": None,
                                                        "battery": None,

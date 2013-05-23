@@ -77,12 +77,16 @@ class Points(myModel.myTable):
         #default table constructor
         myModel.myTable.__init__(self, params)         
     
-    def getDbPointParOrder(self, order):                 
+    def getDbPointParOrder(self, order):
+        
+        if (order == 0) or (order == ""):
+            return None
+                         
         dbPoint = self.params.db.getParX("Points", "order", order, limit = 1).fetchone()                                
         return dbPoint
     
-    def getTabPointParOrder(self, order):                                 
-        dbPoint = self.getDbPointParUserNr(order)                             
+    def getTabPointParOrder(self, order):                                           
+        dbPoint = self.getDbPointParOrder(order)                             
         tabPoint = self.model.db2tableRow(dbPoint)                                   
         return tabPoint       
                         

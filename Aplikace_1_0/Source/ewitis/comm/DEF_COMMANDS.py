@@ -11,6 +11,7 @@ Created on 1.2.2012
 DEF_COMMANDS = {
                 
             #terminal => aplikace
+            "GET_HW_SW_VERSION"         : {'cmd':0x04, 'length':0},                                      
             "GET_DIAGNOSTIC"            : {'cmd':0x08, 'length':2},                                      
             "GET_TERMINAL_INFO"         : {'cmd':0x20, 'length':0},                                      
             "GET_CELL_INFO"             : {'cmd':0x21, 'length':1},                                      

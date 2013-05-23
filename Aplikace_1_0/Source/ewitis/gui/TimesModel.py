@@ -33,6 +33,7 @@ class TimesParameters(myModel.myParameters):
         self.tabUser = source.U        
         self.tabCategories = source.C
         self.tabCGroups = source.CG 
+        self.tabPoints = source.tablePoints 
                 
         
         #=======================================================================
@@ -687,10 +688,19 @@ class Times(myModel.myTable):
                             ztrata = str(ztrata) + " kol"     
                 exportRow.append(ztrata)                                 
                             
-            #body
-            if self.params.datastore.GetItem("export", ["points"]) == 2:
-                exportHeader.append(u"Body")    
-                exportRow.append("")                
+            #body - total, categories, groups
+            if(mode == Times.eTOTAL) and (self.params.datastore.GetItem("export", ["points_race"]) == 2):
+                exportHeader.append(u"Body")
+                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])    
+                exportRow.append(str(tabPoints['points']))                
+            elif(mode == Times.eCATEGORY) and (self.params.datastore.GetItem("export", ["points_categories"]) == 2):
+                exportHeader.append(u"Body")
+                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order_cat'])    
+                exportRow.append(str(tabPoints['points']))                
+            elif(mode == Times.eGROUPS) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
+                exportHeader.append(u"Body")
+                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])    
+                exportRow.append(str(tabPoints['points']))                
                 
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''
@@ -746,9 +756,11 @@ class Times(myModel.myTable):
             filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:
+                print "save: ", exportRows
                 aux_csv.save(exportRows)
             except IOError:
                 self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                
                                              
         '''EXPORT CATEGORIES'''                        
         dbCategories = self.params.tabCategories.getDbRows()                      
