@@ -15,17 +15,25 @@ import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 #===============================================================================
 # CALLBACK
 #===============================================================================
-def unpack_receivedata(command, data, senddata):
+def unpack_data(command, data, senddata):
     
     #print "callback", hex(command),hex(command-0x80) if command>0x80 else hex(command), data.encode('hex'), len(data)
     
     # HW & FW VERSIONS
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_HW_SW_VERSION"]["cmd"] | 0x80)):    
         aux_versions = {}
-        aux_versions['hw1'], aux_versions['hw2'], aux_versions['fw1'],  aux_versions['fw2']\
-        = struct.unpack("<2s2s2s2s", data)        
+        aux_versions['hw1'], aux_versions['hw2'],aux_versions['hw3'], aux_versions['fw1'],  aux_versions['fw2']\
+        = struct.unpack("<cc2s2s2s", data)        
         
-        aux_versions = {"hw":aux_versions['hw1']+'.'+aux_versions['hw2'],"fw":aux_versions['fw1']+'.'+aux_versions['fw2']} 
+        #some sugar
+        if aux_versions['hw1']== 'T':
+            aux_versions['hw1'] = 'Terminal'
+        elif aux_versions['hw1']== 'B':
+            aux_versions['hw1'] = 'Blackbox'
+        #    
+        aux_versions = {"hw": aux_versions['hw1']+' '+aux_versions['hw2']+'.'+aux_versions['hw3'],
+                        "fw":aux_versions['fw1']+'.'+aux_versions['fw2']
+                        } 
         return aux_versions
         
         
@@ -149,10 +157,14 @@ def unpack_receivedata(command, data, senddata):
     print "E: callback: cmd: " + str(command) +","+ data
     return {'error':command} 
 
-def pack_senddata(command, data):
+def pack_data(command_key, data):
     
-    """ pack data for sending (from dict or number to string) """    
+    """ pack data for sending (from dict or number to string) """
+    
+    command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
+    length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']    
 
+    print command, data, type(data)
     if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]):        
         # SET SPEAKER
         aux_data = struct.pack('BBB',int(data["keys"]), int(data["timing"]), int(data["system"]))
@@ -166,12 +178,14 @@ def pack_senddata(command, data):
         aux_data = struct.pack('<BB', data['start_error_id'], data['count_errors'])
         
     # NUMBER    
-    elif(len(data) == 1):
+    elif(length == 1):
         aux_data = struct.pack('B', data)
-    elif(len(data) == 2):
+    elif(length == 2):
         aux_data = struct.pack('H', data)
-    elif(len(data) == 4):
+    elif(length == 4):
         aux_data = struct.pack('L', data)
+    else:
+        aux_data = data
         
     return aux_data
 

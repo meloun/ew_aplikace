@@ -7,6 +7,7 @@ Created on 10.06.2010
 import serial
 import time
 import struct
+import pysqlite2 
 import libs.dicts.dicts as dicts
 import libs.file.file as file
 import libs.db.db_json as db
@@ -19,17 +20,9 @@ import libs.conf.conf as conf
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 from ewitis.data.DEF_ENUM_STRINGS import * 
-import libs.datastore.datastore as datastore
-import ewitis.data.DEF_DATA as DEF_DATA
+#import libs.datastore.datastore as datastore
+#import ewitis.data.DEF_DATA as DEF_DATA
 from threading import Thread
-
-#COMM Shared Memory
-DEFAULT_COMM_SHARED_MEMORY = { 
-                              "enable" : False,
-                              "port": "COM5",
-                              "baudrate": 38400                              
-}
-
 
 class ManageComm(Thread):            
     def __init__(self, dstore):
@@ -53,8 +46,7 @@ class ManageComm(Thread):
         
         
         ''' CONNECT TO EWITIS '''                
-        self.protokol = serialprotocol.SerialProtocol( callback.unpack_receivedata, port=self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))
-        #print self.datastore.Get("port_name", "GET_SET")
+        self.protokol = serialprotocol.SerialProtocol( callback.pack_data, callback.unpack_data, port = self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))        
         print "COMM: zakladam instanci.."                        
         
     def __del__(self):
@@ -72,16 +64,20 @@ class ManageComm(Thread):
         
         #pack data (to string)
         #pack_senddata(command, data)
-        if(length == 1):
-            data = struct.pack('B', data)
-        elif(length == 2):
-            data = struct.pack('H', data)
-        elif(length == 4):
-            data = struct.pack('L', data)
+#        if(length == 1):
+#            data = struct.pack('B', data)
+#        elif(length == 2):
+#            data = struct.pack('H', data)
+#        elif(length == 4):
+#            data = struct.pack('L', data)
+#                      
                       
-                      
-        try:                                               
-            return self.protokol.send_receive_frame(command, data)                                                                             
+        try:
+            #return self.protokol.send_receive_frame(command, data)
+            data = callback.pack_data(command_key, data)
+            receivedata = self.protokol.send_receive_frame(command, data)                                                
+            '''call user callback to parse data to dict structure'''
+            return callback.unpack_data(receivedata['cmd'], receivedata['data'], data)                                                                             
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             return {"error":0xFF} 
@@ -90,8 +86,7 @@ class ManageComm(Thread):
             print "E:SendReceiveError - {0}()".format(strerror)
             return {"error":0xFF} 
                                                             
-    def run(self):  
-        import pysqlite2      
+    def run(self):       
         print "COMM: zakladam vlakno.."       
         
         ''' CONNECT TO EWITIS '''        
@@ -187,8 +182,7 @@ class ManageComm(Thread):
                                 
                 '''save to database'''                                
                 keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
-                values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]
-                import pysqlite2 
+                values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]                 
                 try:                     
                     self.db.insert_from_lists("times", keys, values)
 #                except sqlite3.IntegrityError as err:                                
@@ -229,7 +223,9 @@ class ManageComm(Thread):
             else:
                 pass # no new run
             
-            """ end of Run & Times & Database """    
+            """ end of Run & Times & Database """
+            
+            continue    
                 
             """
             ACTIONS            
@@ -314,7 +310,7 @@ class ManageComm(Thread):
                 if(self.datastore.IsChanged("speaker")):
                     print "NASTAVUJI"                                                                             
                     aux_speaker = self.datastore.Get("speaker", "SET")                                
-                    aux_data = struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                                     
+                    aux_data = aux_speaker #struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                                                          
                     ret = self.send_receive_frame("SET_SPEAKER", aux_data)
                     self.datastore.ResetChangedFlag("speaker")                
                                             
@@ -339,8 +335,8 @@ class ManageComm(Thread):
                 """ set timing settings """
                 if(self.datastore.IsChanged("timing_settings")):
                     aux_timing_settings = self.datastore.Get("timing_settings", "SET")                
-                    aux_data = struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
-                               aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
+                    aux_data = aux_timing_settings #struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
+                    #           aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
                     #print "COMM2", aux_data.encode('hex')                                                                                        
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_data)                
                     self.datastore.ResetChangedFlag("timing_settings")  

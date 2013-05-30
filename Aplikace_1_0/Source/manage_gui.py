@@ -10,6 +10,13 @@ import manage_comm
 import PyQt4
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+
+import libs.sqlite.sqlite as sqlite
+
+#from ewitis.data.DEF_DATA import *
+#import libs.datastore.datastore as datastore
+import ewitis.data.dstore as dstore
+
 import ewitis.gui.Ui_App as Ui_App
 import ewitis.gui.myModel as myModel
 import ewitis.gui.RunsModel as RunsModel
@@ -20,9 +27,7 @@ import ewitis.gui.CGroupsModel as CGroupsModel
 import ewitis.gui.TagsModel as TagsModel
 import ewitis.gui.AlltagsModel as AlltagsModel
 import ewitis.gui.PointsModel as PointsModel
-import libs.sqlite.sqlite as sqlite
-from ewitis.data.DEF_DATA import *
-import libs.datastore.datastore as datastore
+
 import ewitis.gui.UiAccesories as UiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import *
 import libs.utils.utils as utils
@@ -41,7 +46,8 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         # DATASTORE
         #=======================================================================                
-        self.datastore = datastore.Datastore(DEF_DATA)                
+        #self.datastore = datastore.Datastore(DEF_DATA)                
+        self.datastore = dstore.Dstore(DEF_DATA)                     
         
 
         #=======================================================================

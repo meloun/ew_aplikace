@@ -63,9 +63,10 @@ class SerialProtocol():
     """    
     """
     
-    def __init__(self, xcallback, port = None, baudrate = 9600):
+    def __init__(self, pack_callback, unpack_callback, port = None, baudrate = 9600):
                 
-        self.callback = xcallback
+        self.pack = pack_callback
+        self.callback = unpack_callback
         self.port = port
         self.baudrate = baudrate        
         self.seq_id = 1                    
@@ -202,6 +203,9 @@ class SerialProtocol():
         '''clear buffers'''
         self.ser.flushInput()
         self.ser.flushOutput()
+        
+        '''pack data to string'''
+        #data = self.pack(cmd, data)                            
                 
         for attempt in range(3):
             
@@ -244,7 +248,8 @@ class SerialProtocol():
         
         '''ADD COMMON data and errors'''
         
-        return aux_dict
+        #return aux_dict
+        return aux_frame
         
                 
 if __name__ == "__main__":
