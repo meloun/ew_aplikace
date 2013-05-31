@@ -1,8 +1,9 @@
-#Thu May 30 15:48:55 CEST 2013
+#Fri May 31 17:16:49 CEST 2013
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
 encoding//ewitis/comm/callback.py=utf-8
+encoding//ewitis/comm/manage_comm.py=utf-8
 encoding//ewitis/data/DEF_DATA.py=utf-8
 encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8
@@ -28,6 +29,5 @@ encoding//libs/test/convert.py=utf-8
 encoding//libs/test/error_unpacking.py=utf-8
 encoding//libs/utils/utils.py=utf-8
 encoding/manage.py=utf-8
-encoding/manage_comm.py=utf-8
 encoding/manage_gui.py=utf-8
 encoding/test.py=utf-8

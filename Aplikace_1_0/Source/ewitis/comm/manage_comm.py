@@ -7,7 +7,6 @@ Created on 10.06.2010
 import serial
 import time
 import struct
-import pysqlite2 
 import libs.dicts.dicts as dicts
 import libs.file.file as file
 import libs.db.db_json as db
@@ -20,8 +19,6 @@ import libs.conf.conf as conf
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 from ewitis.data.DEF_ENUM_STRINGS import * 
-#import libs.datastore.datastore as datastore
-#import ewitis.data.DEF_DATA as DEF_DATA
 from threading import Thread
 
 class ManageComm(Thread):            
@@ -46,7 +43,7 @@ class ManageComm(Thread):
         
         
         ''' CONNECT TO EWITIS '''                
-        self.protokol = serialprotocol.SerialProtocol( callback.pack_data, callback.unpack_data, port = self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))        
+        self.protokol = serialprotocol.SerialProtocol( port = self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))        
         print "COMM: zakladam instanci.."                        
         
     def __del__(self):
@@ -59,32 +56,30 @@ class ManageComm(Thread):
     def send_receive_frame(self, command_key, data="", length = None):
         """ ošetřená vysílací, přijímací metoda """
         
-        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
-        length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']
-        
-        #pack data (to string)
-        #pack_senddata(command, data)
-#        if(length == 1):
-#            data = struct.pack('B', data)
-#        elif(length == 2):
-#            data = struct.pack('H', data)
-#        elif(length == 4):
-#            data = struct.pack('L', data)
-#                      
+        if command_key != "GET_HW_SW_VERSION":
+            if not(DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox() \
+                   or DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and self.datastore.IsTerminal()):
+            
+                #this command is not defined for this device
+                print "E: command not defined for this device"                                
+                return {"error":0xFF}
+            
+        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                             
                       
         try:
-            #return self.protokol.send_receive_frame(command, data)
-            data = callback.pack_data(command_key, data)
+            '''pack data to the string'''
+            data = callback.pack_data(command_key, data)            
+            '''send and receive data'''
             receivedata = self.protokol.send_receive_frame(command, data)                                                
-            '''call user callback to parse data to dict structure'''
-            return callback.unpack_data(receivedata['cmd'], receivedata['data'], data)                                                                             
+            '''unpack data to dict structure'''
+            data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)                                                                              
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
-            return {"error":0xFF} 
-            #continue
+            data = {"error":0xFF}             
         except (serial.SerialException) as (strerror):
             print "E:SendReceiveError - {0}()".format(strerror)
-            return {"error":0xFF} 
+            data = {"error":0xFF} 
+        return data
                                                             
     def run(self):       
         print "COMM: zakladam vlakno.."       
@@ -144,6 +139,7 @@ class ManageComm(Thread):
             if(self.datastore.Get("versions")["hw"] == None) or (self.datastore.Get("versions")["fw"] == None):
                 
                 aux_version = self.send_receive_frame("GET_HW_SW_VERSION")
+                print "version:", aux_version
                                 
                 if ('error' in aux_version): 
                     print "E: Comm: no Hw and Fw versions om device"                
@@ -167,65 +163,26 @@ class ManageComm(Thread):
             """ GET NEW RUN """                                                                                   
             aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)                      
             
-            
-            """ STORE NEW TIME TO THE DATABASE """
-            #print "aux_time['error']: ",aux_time['error'], type(aux_time['error'])
+                        
             if(aux_time['error'] == 0 or aux_run['error'] == 0):
-                print"================="
-                                                                             
+                print"================="                                                                             
+                    
+            """ STORE NEW TIME TO THE DATABASE """
             if(aux_time['error'] == 0):
-                                    
-                '''console ouput'''                                
-                aux_csv_string = str(aux_time['id']) + ";" + hex(aux_time['user_id'])+ ";" + str(aux_time['cell']) + ";" + str(aux_time['run_id']) + ";" + str(aux_time['time_raw']).replace(',', '.')                                
-                print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
-                #print struct.pack('<I', aux_time['user_id']).encode('hex')
-                                
-                '''save to database'''                                
-                keys = ["state","id", "run_id", "user_id", "cell", "time_raw", "time"]
-                values = [aux_time['state'], aux_time['id'],aux_time['run_id'], aux_time['user_id'], aux_time['cell'], aux_time['time_raw'], aux_time['time']]                 
-                try:                     
-                    self.db.insert_from_lists("times", keys, values)
-#                except sqlite3.IntegrityError as err:                                
-#                    print "I:DB: Time already exist", err
-                except pysqlite2.dbapi2.IntegrityError:                                
-                    print "I: DB: time already exists"
-                                                                        
-                
-                '''all for this run has been successfully done, take next'''                   
-                self.index_times += 1                                                                
-                                                            
+                self.AddTimeToDb(aux_time)                                                                                                                           
+                self.index_times += 1 # done, take next                                                                             
             else:
-                pass # no new time  
-                
+                pass # no new time                  
         
-            """ STORE NEW RUN TO THE DATABASE """ 
-            #print "error", aux_run              
-            if(aux_run['error'] == 0):
-                                    
-                '''console output'''                   
-                aux_csv_string = str(aux_run['id']) + ";" + str(aux_run['name_id']) + ";"
-                print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
-                
-                '''save to database'''
-                keys = ["state","id", "starttime_id", "date", "name_id"]
-                values = [aux_run['state'], aux_run['id'], aux_run['starttime_id'], aux_run['datetime'], aux_run['name_id']] 
-                
-                try:                    
-                    self.db.insert_from_lists("runs", keys, values)
-#                except sqlite3.IntegrityError:
-#                    print "I: DB: run already exist"
-                except pysqlite2.dbapi2.IntegrityError:                                
-                    print "I: DB: run already exists"   
-                                
-                '''all for this run has been successfully done, take next'''   
-                self.index_runs += 1                                                                
-                                                            
+            """ STORE NEW RUN TO THE DATABASE """
+            if(aux_run['error'] == 0):                       
+                self.AddRunToDb(aux_run)                                                                              
+                self.index_runs += 1 # done, take next                                                                                                                            
             else:
                 pass # no new run
             
             """ end of Run & Times & Database """
-            
-            continue    
+                            
                 
             """
             ACTIONS            
@@ -294,31 +251,26 @@ class ManageComm(Thread):
              - set language
              - get terminal info
              - set timing settings                                                                          
-            """    
-                                                     
+            """                                                         
             if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions)\
                 or (self.datastore.Get("active_tab") == TAB.device):                                
                 
                 """ set backlight """
                 if(self.datastore.IsChanged("backlight")):                                
-                    data = self.datastore.Get("backlight", "SET")                
-                    #ret = self.send_receive_frame(DEF_COMMANDS.DEF_COMMANDS["SET"]["backlight"], struct.pack('B', data))
+                    data = self.datastore.Get("backlight", "SET")                                    
                     ret = self.send_receive_frame("SET_BACKLIGHT", data)
                     self.datastore.ResetChangedFlag("backlight")                                   
                 
                 """ set speaker """
                 if(self.datastore.IsChanged("speaker")):
                     print "NASTAVUJI"                                                                             
-                    aux_speaker = self.datastore.Get("speaker", "SET")                                
-                    aux_data = aux_speaker #struct.pack('BBB',int(aux_speaker["keys"]), int(aux_speaker["timing"]), int(aux_speaker["system"]))                                                                          
-                    ret = self.send_receive_frame("SET_SPEAKER", aux_data)
+                    aux_speaker = self.datastore.Get("speaker", "SET")                                                                                                                              
+                    ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
                     self.datastore.ResetChangedFlag("speaker")                
                                             
                 """ set language """                                    
                 if(self.datastore.IsChanged("language")):
-                    data = self.datastore.Get("language", "SET")
-                    print "COMM", data                                                                                        
-                                                                        
+                    data = self.datastore.Get("language", "SET")                                                                                                                                                                               
                     ret = self.send_receive_frame("SET_LANGUAGE", data)                    
                     self.datastore.ResetChangedFlag("language")                                   
                                 
@@ -330,15 +282,12 @@ class ManageComm(Thread):
                     if(self.datastore.IsReadyForRefresh("terminal_info")):           
                         self.datastore.Set("terminal_info", aux_terminal_info, "GET")
                     else:
-                        print "not ready for refresh", aux_terminal_info               
+                        print "I: COMM: terminal info: not ready for refresh", aux_terminal_info               
                 
                 """ set timing settings """
                 if(self.datastore.IsChanged("timing_settings")):
-                    aux_timing_settings = self.datastore.Get("timing_settings", "SET")                
-                    aux_data = aux_timing_settings #struct.pack('<BBBhB', aux_timing_settings['logic_mode'], aux_timing_settings['name_id'], aux_timing_settings['filter_tagtime'],\
-                    #           aux_timing_settings['filter_minlaptime'], aux_timing_settings['filter_maxlapnumber'])                                 
-                    #print "COMM2", aux_data.encode('hex')                                                                                        
-                    ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_data)                
+                    aux_timing_settings = self.datastore.Get("timing_settings", "SET")                                                                                                         
+                    ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
                     self.datastore.ResetChangedFlag("timing_settings")  
         
             
@@ -348,18 +297,17 @@ class ManageComm(Thread):
             """
             if(self.datastore.Get("active_tab") == TAB.diagnostic):        
                 """ get diagnostic """
-                #if(self.datastore.Get('rfid') == 2):
-                if(0):          
-                    cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-                    aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
+                #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
+                cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
+                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
                                 
-                    print "aux_diagnostic", aux_diagnostic
+                print "aux_diagnostic", aux_diagnostic
                             
-                    """ store terminal-states to the datastore """ 
-                    #if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                    #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
-                    #else:
-                    #    print "not ready for refresh", aux_timing_setting     
+                """ store terminal-states to the datastore """ 
+                #if(self.datastore.IsReadyForRefresh("timing_settings")):           
+                #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                #else:
+                #    print "not ready for refresh", aux_timing_setting     
             
             """
             ALL TABs            
@@ -367,7 +315,7 @@ class ManageComm(Thread):
             """
                                     
             """ get timing-settings """            
-            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")
+            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")            
             aux_timing_setting["name_id"] = 4
             
             #print aux_timing_setting            
@@ -376,15 +324,56 @@ class ManageComm(Thread):
                 if(self.datastore.IsReadyForRefresh("timing_settings")):            
                     self.datastore.Set("timing_settings", aux_timing_setting, "GET")
                 else:
-                    print "not ready for refresh", aux_timing_setting
+                    print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting                    
                     
             """
             ALL SETs            
              - potom bude parametr refreh v datastore zbytecny                                    
-            """                                                                                  
+            """
+            
+            
+    def AddTimeToDb(self, time):                       
+                                    
+        '''console ouput'''                                
+        aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + str(time['run_id']) + ";" + str(time['time_raw']).replace(',', '.')                                
+        print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
+        #print struct.pack('<I', time['user_id']).encode('hex')
+                        
+        '''alltag filter - activ only when rfid race and tag filter checked'''
+        if(self.datastore.Get("rfid") == 2) and (self.datastore.Get("tag_filter") == 2):                
+            ''' check tag id from table alltags'''                 
+            dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()
+            if(dbTag == None):                
+                print "I: DB: this tag is NOT in table Alltags", time['user_id']
+                return False #tag not found
+                                        
+        '''save to database'''        
+        keys = ["state", "id", "run_id", "user_id", "cell", "time_raw", "time"]
+        values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw'], time['time']]
+        ret = self.db.insert_from_lists("times", keys, values)
+        
+        '''return'''
+        if ret == False:            
+            print "I: DB: time already exists"                                                                            
+        return ret                         
 
-                
-
+    def AddRunToDb(self, run):                
+                                                    
+        '''console output'''                   
+        aux_csv_string = str(run['id']) + ";" + str(run['name_id']) + ";"
+        print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
+        
+        '''save to database'''        
+        keys = ["state","id", "starttime_id", "date", "name_id"]
+        values = [run['state'], run['id'], run['starttime_id'], run['datetime'], run['name_id']]             
+        ret = self.db.insert_from_lists("runs", keys, values)        
+        
+        '''return'''
+        if ret == False:            
+            print "I: DB: time already exists"                                                                            
+        return ret 
+                        
+        return ret
                 
 if __name__ == "__main__":    
     print "main manage_com()"

@@ -164,7 +164,7 @@ def pack_data(command_key, data):
     command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
     length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']    
 
-    print command, data, type(data)
+    #print "pack data: ", command, data, type(data)
     if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]):        
         # SET SPEAKER
         aux_data = struct.pack('BBB',int(data["keys"]), int(data["timing"]), int(data["system"]))

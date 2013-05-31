@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Thu May 23 18:49:14 2013
+# Created: Fri May 31 18:52:39 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -1117,7 +1117,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.groupTerminal_5.sizePolicy().hasHeightForWidth())
         self.groupTerminal_5.setSizePolicy(sizePolicy)
         self.groupTerminal_5.setMinimumSize(QtCore.QSize(620, 0))
-        self.groupTerminal_5.setToolTip(QtGui.QApplication.translate("MainWindow", "Race: show worst/last times, Slalom: show best/first times", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupTerminal_5.setToolTip(_fromUtf8(""))
         self.groupTerminal_5.setAutoFillBackground(False)
         self.groupTerminal_5.setTitle(QtGui.QApplication.translate("MainWindow", "A P P L I C A T I O N", None, QtGui.QApplication.UnicodeUTF8))
         self.groupTerminal_5.setObjectName(_fromUtf8("groupTerminal_5"))
@@ -1187,13 +1187,13 @@ class Ui_MainWindow(object):
         self.checkShowOnlyTimesWithOrder.setObjectName(_fromUtf8("checkShowOnlyTimesWithOrder"))
         self.checkShowStartTimes = QtGui.QCheckBox(self.groupTerminal_6)
         self.checkShowStartTimes.setGeometry(QtCore.QRect(70, 80, 161, 17))
-        self.checkShowStartTimes.setToolTip(QtGui.QApplication.translate("MainWindow", "asdfasdf", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkShowStartTimes.setToolTip(_fromUtf8(""))
         self.checkShowStartTimes.setText(QtGui.QApplication.translate("MainWindow", "start times", None, QtGui.QApplication.UnicodeUTF8))
         self.checkShowStartTimes.setChecked(True)
         self.checkShowStartTimes.setObjectName(_fromUtf8("checkShowStartTimes"))
         self.checkShowTimesFromAllRuns = QtGui.QCheckBox(self.groupTerminal_6)
         self.checkShowTimesFromAllRuns.setGeometry(QtCore.QRect(70, 120, 161, 17))
-        self.checkShowTimesFromAllRuns.setToolTip(QtGui.QApplication.translate("MainWindow", "asdfasdf", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkShowTimesFromAllRuns.setToolTip(_fromUtf8(""))
         self.checkShowTimesFromAllRuns.setText(QtGui.QApplication.translate("MainWindow", "times from all runs", None, QtGui.QApplication.UnicodeUTF8))
         self.checkShowTimesFromAllRuns.setChecked(False)
         self.checkShowTimesFromAllRuns.setObjectName(_fromUtf8("checkShowTimesFromAllRuns"))
@@ -1370,6 +1370,12 @@ class Ui_MainWindow(object):
         self.checkExportPointsGroups.setText(QtGui.QApplication.translate("MainWindow", "Points for Groups", None, QtGui.QApplication.UnicodeUTF8))
         self.checkExportPointsGroups.setChecked(False)
         self.checkExportPointsGroups.setObjectName(_fromUtf8("checkExportPointsGroups"))
+        self.checkTagFilter = QtGui.QCheckBox(self.groupTerminal_5)
+        self.checkTagFilter.setGeometry(QtCore.QRect(20, 110, 70, 17))
+        self.checkTagFilter.setToolTip(QtGui.QApplication.translate("MainWindow", "only tags from table Alltags are used", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkTagFilter.setText(QtGui.QApplication.translate("MainWindow", "TAG Filter", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkTagFilter.setChecked(True)
+        self.checkTagFilter.setObjectName(_fromUtf8("checkTagFilter"))
         self.horizontalLayout.addWidget(self.groupTerminal_5)
         spacerItem2 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)

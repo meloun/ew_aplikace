@@ -3,8 +3,9 @@
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
 from ewitis.data.DEF_ENUM_STRINGS import * 
+#import manage_comm
+import ewitis.comm.manage_comm as manage_comm
 import libs.utils.utils as utils 
-import manage_comm
 
 
 class UiAccesories():
@@ -60,7 +61,8 @@ class UiAccesories():
         #race settings                        
         QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
         QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
-        #QtCore.QObject.connect(self.ui.checkOneLapRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("onelap_race", state, TAB.race_settings, True))
+        QtCore.QObject.connect(self.ui.checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("tag_filter", state, TAB.race_settings))        
+
         
         #export
         QtCore.QObject.connect(self.ui.checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
@@ -264,7 +266,7 @@ class UiAccesories():
                 self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
                 self.datastore.ResetChangedFlag("race_name")
             self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
-            #self.ui.checkOneLapRace.setCheckState(self.datastore.Get("onelap_race"))
+            self.ui.checkTagFilter.setCheckState(self.datastore.Get("tag_filter"))                                  
             #export
             self.ui.checkExportYear.setCheckState(self.datastore.Get("export")["year"])                                
             self.ui.checkExportClub.setCheckState(self.datastore.Get("export")["club"])                                

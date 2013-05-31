@@ -6,15 +6,11 @@
 
 import sys
 import time
-import manage_comm
 import PyQt4
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
 import libs.sqlite.sqlite as sqlite
-
-#from ewitis.data.DEF_DATA import *
-#import libs.datastore.datastore as datastore
 import ewitis.data.dstore as dstore
 
 import ewitis.gui.Ui_App as Ui_App
@@ -45,8 +41,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         #=======================================================================
         # DATASTORE
-        #=======================================================================                
-        #self.datastore = datastore.Datastore(DEF_DATA)                
+        #=======================================================================                                       
         self.datastore = dstore.Dstore(DEF_DATA)                     
         
 

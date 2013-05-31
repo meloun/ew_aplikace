@@ -4,7 +4,6 @@ Created on 01.06.2010
 
 @author: MELICHARL
 '''
-#from sqlite3 import dbapi2 as sqlite
 import sys
 from pysqlite2 import dbapi2 as sqlite
 import time
@@ -50,12 +49,12 @@ class sqlite_db(object):
         return d       
         
     def connect(self):
-        self.db = sqlite.connect(self.db_name, 10)        
+        self.db = sqlite.connect(self.db_name, 5)        
         self.db.row_factory = sqlite.Row
         
     def commit(self):        
         res = self.db.commit()
-        #print "COMMIT:  "                                          
+        print "COMMIT:  "                                          
         return res 
             
     def query(self, query):
@@ -63,7 +62,7 @@ class sqlite_db(object):
         query = utils.getUtf8String(query)
         
         #z1 = time.clock()                
-        #print "QUERY:  ",query
+        print "QUERY:  ",query
         #try:
         last_result = self.db.execute(query)
         #except (sqlite.OperationalError)  as (strerror):            
@@ -140,6 +139,7 @@ class sqlite_db(object):
     
     def insert_from_lists(self, tablename, keys, values, commit = True):
                 
+        ret = True
         
         '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
         values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])        
@@ -155,11 +155,17 @@ class sqlite_db(object):
         query = query.replace('\'None\'', 'Null')
         #print "qq2", query
         
-        res = self.query(query)
+        try:
+            self.query(query)
+        except sqlite.IntegrityError:
+            ret = False  #this entry probably already exist
+        except:
+            print "E: DB: insert from lists, some error"
+            ret = False
         
         if(commit == True):
             self.commit()
-        return res
+        return ret
     
     '''vlozeni jednoho zaznamu z dict'''
     def insert_from_dict(self, tablename, dict,  commit = True):                

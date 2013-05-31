@@ -9,7 +9,7 @@ from ewitis.data.DEF_DATA import *
 
 '''čísla záložek v TAB widgetu'''
 class TAB:
-    run_times, users, categories, cgroups, tags, alltags, points, race_settings, actions, device, diagnostic = range(0,11)
+    run_times, users, categories, cgroups, tags, alltags, points, race_settings, actions, device, diagnostic, about = range(0,12)
 
 class UPDATE_MODE:
     all, tables, gui = range(0,3)

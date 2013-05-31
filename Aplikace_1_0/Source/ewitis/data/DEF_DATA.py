@@ -34,8 +34,7 @@ class OrderEvaluation:
 
 DEF_DATA = {
                
-        # LOKÁLNÍ DATA (neposílájí se do terminálu)
-        "app_version"        : {"GET_SET"  : {"value":u"v1.14"}},
+        # LOKÁLNÍ DATA (neposílájí se do terminálu)        
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -73,6 +72,7 @@ DEF_DATA = {
         "rfid"               : {"name"     : "rfid",
                                 "GET_SET"  : {"value":2}  
                                },
+        "tag_filter"         : {"GET_SET"  : {"value":2}},
         "order_evaluation"   : {"name"     : "order evaluation",
                                 "GET_SET"  : {"value": OrderEvaluation.RACE}  
                                },

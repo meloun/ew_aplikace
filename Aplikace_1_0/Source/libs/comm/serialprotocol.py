@@ -63,10 +63,8 @@ class SerialProtocol():
     """    
     """
     
-    def __init__(self, pack_callback, unpack_callback, port = None, baudrate = 9600):
-                
-        self.pack = pack_callback
-        self.callback = unpack_callback
+    def __init__(self, port = None, baudrate = 9600):
+
         self.port = port
         self.baudrate = baudrate        
         self.seq_id = 1                    
@@ -198,14 +196,11 @@ class SerialProtocol():
         *toDo:*
             při čekání na odpověď se nějak komicky na počet bajtů..
             self.ser.inWaiting() >= len(data) + FRAMELENGTH_NO_DATA
-        """
+        """                
         
         '''clear buffers'''
         self.ser.flushInput()
-        self.ser.flushOutput()
-        
-        '''pack data to string'''
-        #data = self.pack(cmd, data)                            
+        self.ser.flushOutput()                                                    
                 
         for attempt in range(3):
             
@@ -239,16 +234,8 @@ class SerialProtocol():
                 print "E:SendReceiveError - {1}({0}) , try again..".format(errno, strerror)
                                                   
         else:                       
-            raise SendReceiveError(100,"no valid response")
-            
-            
-                                        
-        '''call user callback to parse data to dict structure'''
-        aux_dict = self.callback(aux_frame['cmd'], aux_frame['data'], data)
-        
-        '''ADD COMMON data and errors'''
-        
-        #return aux_dict
+            raise SendReceiveError(100,"no valid response")                                                                                
+                
         return aux_frame
         
                 
