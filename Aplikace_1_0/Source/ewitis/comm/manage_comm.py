@@ -15,7 +15,6 @@ import libs.sqlite.sqlite as sqlite
 import libs.html.htmltags as htmltags
 import libs.html.html as html
 import libs.utils.utils as utils
-import libs.conf.conf as conf
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 from ewitis.data.DEF_ENUM_STRINGS import * 
@@ -142,7 +141,7 @@ class ManageComm(Thread):
                 print "version:", aux_version
                                 
                 if ('error' in aux_version): 
-                    print "E: Comm: no Hw and Fw versions om device"                
+                    print "E: Comm: no Hw and Fw versions on device"                
                     continue #no other commands as long as no version
                 
                 self.datastore.SetItem("versions", ["hw"], aux_version["hw"])

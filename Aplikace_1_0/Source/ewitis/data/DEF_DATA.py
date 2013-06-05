@@ -125,6 +125,16 @@ DEF_DATA = {
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
                                },
+        "directories"        : {"name"     : "directories",
+                                "GET_SET"  : {"value": { 
+                                                        "import"        :   u"import/",
+                                                        "export"        :   u"export/",                                                        
+                                                        "import_csv"    :   u"import/csv/",                                                
+                                                        "export_csv"    :   u"export/csv/",                                               
+                                                        "export_www"    :   u"export/www/"                                                
+                                                        },
+                                              },
+                                }, 
         "dir_import_csv"     : {"name"     : "dir_import_csv",
                                 "GET_SET"  : {"value":"import/csv/"}  
                                },
@@ -173,7 +183,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v2.16"
+                                                        "app": "v1.14"
                                                        },                                                                                                                    
                                              },
                                 },                                               

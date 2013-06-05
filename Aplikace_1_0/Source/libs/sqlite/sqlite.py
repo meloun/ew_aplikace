@@ -53,8 +53,7 @@ class sqlite_db(object):
         self.db.row_factory = sqlite.Row
         
     def commit(self):        
-        res = self.db.commit()
-        print "COMMIT:  "                                          
+        res = self.db.commit()                                                  
         return res 
             
     def query(self, query):
@@ -62,7 +61,7 @@ class sqlite_db(object):
         query = utils.getUtf8String(query)
         
         #z1 = time.clock()                
-        print "QUERY:  ",query
+        #print "QUERY:  ",query
         #try:
         last_result = self.db.execute(query)
         #except (sqlite.OperationalError)  as (strerror):            
