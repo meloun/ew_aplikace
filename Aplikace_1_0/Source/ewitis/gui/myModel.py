@@ -211,20 +211,13 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             except:
                 pass #tento sloupec v tabulce neexistuje                             
         return dbRow
-       
-    def table2exportRow(self, tabRow):
-        """
-        konverze TABLE radku do DATABASE radku       
-        pokud existuje sloupec z tabulky i v databazi, zkopiruje se
-        """     
-        exportRow = {}
-        return exportRow
     
     def import2dbRow(self, importRow):
         return importRow
     
     def table2exportRow(self, tableRow):
-        return tableRow                        
+        exportRow = []
+        return exportRow                        
         
     def getDefaultTableRow(self):
         """
