@@ -6,8 +6,8 @@ Created on 16.9.2009
 
 
 '''
-try: import simplejson as json
-except ImportError: import json
+import simplejson as json
+import codecs
 
 class Db():
     ''' classdocs '''
@@ -17,8 +17,12 @@ class Db():
         try:
             self.load()
         except IOError:
-            print "E: DB: No file, restored from default-file"
-            self.restore(filename_restore)            
+            try:
+                print "E: DB: No file, restoring from default-file.."
+                self.restore(filename_restore)
+            except:
+                print "E: DB: No file for restoring.."
+                        
         
     def load(self):
         return json.load(codecs.open(self.filename, 'r', 'utf-8'))
@@ -32,18 +36,17 @@ class Db():
         data = json.load(codecs.open(filename_from, 'r', 'utf-8'))
         self.dump(data)       
         
-if __name__ == '__main__':
-    import codecs, json
+if __name__ == '__main__':    
     
 #    data =  {"a":{u'klíč1':u"čeština1", u'klíč2':u"maďarština1", u'klíč3':u"francouština1"},
 #             "b":{u'klíč1':u"čeština2", u'klíč3':u"maďarština2", u'klíč6':u"francouština2"}
-#            } 
-    db_json = Db('filename.txt', 'file_in.txt')
+#            }
+    from ewitis.data.DEF_DATA import *
+ 
+    db_json = Db('filename.json', 'file_in2.txt')
+    db_json.dump(DEF_DATA)
     #db_json.restore('file_in.txt')
     #data = db_json.load()
-    #print data
-    #data['b'] = u"lubošekíšáýčříý"
-    #db_json.dump(data)
        
 #    data = json.load(codecs.open('file_in.txt', 'r', 'utf-8'))
 #    json.dump(data, codecs.open('file_out.txt', 'w', 'utf-8'), ensure_ascii=False, indent=4)

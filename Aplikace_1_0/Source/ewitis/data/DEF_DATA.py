@@ -34,7 +34,9 @@ class OrderEvaluation:
 
 DEF_DATA = {
                
-        # LOKÁLNÍ DATA (neposílájí se do terminálu)        
+        
+        # LOKÁLNÍ DATA (neposílájí se do terminálu)
+                       
         "port_enable"        : {"name"     : "Port enable",
                                 "GET_SET"  : {"value": False}
                                },
@@ -47,16 +49,8 @@ DEF_DATA = {
         "communication_en"   : {"name"     : "Commucation Enabled",
                                 "GET_SET"  : {"value": True}
                                },
-
         "active_tab"         : {"GET_SET"  : {"value":0}},
-        "active_row"         : {"GET_SET"  : {"value":0}},
-        
-        
-        #show flags for times table
-        #"show_alltimes"      : {"GET_SET"  : {"value": 0}},        
-        #"show_starttimes"    : {"GET_SET"  : {"value": 2}},     
-        
-            
+        "active_row"         : {"GET_SET"  : {"value":0}},                                     
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
                                               "value":u"Fichtl Cup Dolce",
@@ -144,30 +138,27 @@ DEF_DATA = {
         "dir_export_www"     : {"name"     : "dir_export_www",
                                 "GET_SET"  : {"value":u"export/www/"}  
                                },
-        # DATABASE
+            
+        # DATABASE"
+        
         "count"              : {"GET_SET"  : {"value": {"Runs"          : 0,
-                                                        "Times"         : 0                                                                                                       
-                                                       }
+                                                        "Times"         : 0},
                                               }
                                 },  
         
-
-        # TERMINAL DATA SET
+        # TERMINAL DATA SET"
+        
         "backlight"          : {"name"    : "backlight",                                                                 
                                 "SET"     : {"value": 0x01, 
-                                             "changed": False,                                             
-                                             },
-                               },
-                
+                                             "changed": False},
+                               },                
         "speaker"            : {"name"    : "speaker",                                                                 
                                 "SET"     : {"value":{"keys": False, "timing": True, "system":True},
-                                             "changed": False,                                             
-                                             },
+                                             "changed": False},
                                },                                                                                                       
         "speaker2"           : {"name"    : "speaker",                                                                 
                                 "SET"     : {"value": {"keys": False, "dict1a": {"dict2a":2, "dict2b":3}, "dict1b":3},
-                                             "changed": False,                                             
-                                             },
+                                             "changed": False},
                                },                                                                                                       
         "datetime"           : {"name"    : "datetime",                                                                
                                 "SET"     : {"value": {"year":1999, "month":8, "day":13, "hour":15, "minutes":5, "seconds":7, "dayweek":5},
@@ -178,13 +169,13 @@ DEF_DATA = {
                                              "changed": False}, 
                                },
             
-        # TERMINAL DATA GET
+        
+        # TERMINAL DATA GET"
             
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v1.14"
-                                                       },                                                                                                                    
+                                                        "app": "v1.14"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -217,8 +208,7 @@ DEF_DATA = {
                                                        "filter_tagtime": 5,
                                                        "filter_minlaptime": 60,
                                                        "filter_maxlapnumber": 0, 
-                                                       "tags_reading_enable": None,                                                      
-                                                       },
+                                                       "tags_reading_enable": None},
                                               "changed": False
                                             },
                                 "GET"    :  {"value": {"logic_mode": 1,
@@ -227,46 +217,37 @@ DEF_DATA = {
                                                        "filter_tagtime": None,
                                                        "filter_minlaptime": None,
                                                        "filter_maxlapnumber": None,
-                                                       "tags_reading_enable": None,                                                       
-                                                       },
+                                                       "tags_reading_enable": None},
                                              "refresh_countdown": 0 
                                              },                                
                                 },
-        "remove_hw_time"      : { "SET"  : { "value": 0,        #0 or id for removing 
-                                             "changed": False,                                             
-                                           },
-                                },  
+        "remove_hw_time"      : { "SET"  : { "value": 0, 
+                                             "changed": False},
+                                 },  
         "enable_startcell"    : { "SET"  : { "value": False, 
-                                              "changed": False,                                             
-                                           },
-                               },
+                                             "changed": False},
+                                 },
         "enable_finishcell"   : { "SET"  : { "value": False, 
-                                            "changed": False,                                             
-                                           },
-                               },
+                                             "changed": False},
+                                 },
         "generate_starttime"  : {"name"  : "generate starttime",                                                                 
                                  "SET"   : { "value": False, 
-                                              "changed": False,                                             
-                                           },
-                                },
+                                              "changed": False},
+                                 },
         "generate_finishtime" : {"name"  : "generate finishtime",                                                                 
                                  "SET"   : { "value"   : False, 
-                                              "changed": False,                                             
-                                           },
-                                },
+                                             "changed": False},
+                                 },
         "quit_timing"         : {"name"  : "quit timing",                                                                 
                                  "SET"   : { "value"   : False, 
-                                              "changed": False,                                             
-                                           },
-                                },
+                                             "changed": False},
+                                 },
         "clear_database"      : {"name"  : "clear database",                                                                 
                                  "SET"   : { "value"   : False, 
-                                             "changed" : False,                                             
-                                           },
-                                },
+                                             "changed" : False},
+                                 },
         "tags_reading"        : {"name"  : "disable scan tags",                                                                 
                                  "SET"   : { "value"  : False, 
-                                              "changed": False,                                             
-                                           },
-                                },
+                                             "changed": False},
+                                 },
         }
