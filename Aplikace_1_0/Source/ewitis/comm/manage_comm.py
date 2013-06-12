@@ -340,11 +340,12 @@ class ManageComm(Thread):
                         
         '''alltag filter - activ only when rfid race and tag filter checked'''
         if(self.datastore.Get("rfid") == 2) and (self.datastore.Get("tag_filter") == 2):                
-            ''' check tag id from table alltags'''                 
-            dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()
-            if(dbTag == None):                
-                print "I: DB: this tag is NOT in table Alltags", time['user_id']
-                return False #tag not found
+            ''' check tag id from table alltags'''
+            if(time['user_id'] != 0) and (time['user_id'] != 1):            
+                dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()
+                if(dbTag == None):                
+                    print "I: DB: this tag is NOT in table Alltags", time['user_id']
+                    return False #tag not found
                                         
         '''save to database'''        
         keys = ["state", "id", "run_id", "user_id", "cell", "time_raw", "time"]

@@ -221,7 +221,7 @@ ALLTAGS['database'] = {
 ALLTAGS['table'] =    {
                        "id"          :     {"index": 0,  "name": "id",           "width": WIDTH_NUMBER_4DIGIT     },
                        "tag_id"      :     {"index": 1,  "name": "tag_id",       "width": 160                     },                                                                
-                       "printed_nr"  :     {"index": 2,  "name": "printed_nr",   "width": WIDTH_NUMBER_4DIGIT     },                                                
+                       "printed_nr"  :     {"index": 2,  "name": "printed_nr",   "width": 100                     },                                                
                        "description" :     {"index": 3,  "name": "description",  "width": 300                     }                                                
                        } 
 """
