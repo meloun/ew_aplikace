@@ -79,6 +79,7 @@ print HTML(head+BODY(title+table))
 """
 
 import cStringIO
+import libs.utils.utils as utils
 
 class TAG:
     """Generic class for tags"""
@@ -106,7 +107,10 @@ class TAG:
             w(">")
         if self.tag in ONE_LINE:
             w('\n')
-        w(str(self.inner_HTML))
+        #w(str(self.inner_HTML))                
+        #@LM: unicode needs to be encoded                
+        w(str(utils.getUtf8String(self.inner_HTML)))
+        
         for child in self.children:
             w(str(child))
         if self.tag in CLOSING_TAGS:

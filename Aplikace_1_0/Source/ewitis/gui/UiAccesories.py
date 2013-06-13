@@ -52,7 +52,7 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.timesShowAllTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show", ["alltimes"], state, TAB.run_times))
         QtCore.QObject.connect(self.ui.timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))        
         #time hw add/remove          
-        QtCore.QObject.connect(self.ui.TimesAddHw, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
+        QtCore.QObject.connect(self.ui.TimesAddHw, QtCore.SIGNAL("clicked()"), self.sGenerateUserFinishtime)
         QtCore.QObject.connect(self.ui.TimesRemoveHw, QtCore.SIGNAL("clicked()"), self.sRemoveHwTime)
          
 
@@ -757,10 +757,22 @@ class UiAccesories():
         self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
     def sGenerateStarttime(self):
         print "A: Generate starttime"                                                                                                                            
-        self.datastore.Set("generate_starttime", 0x01, "SET")                            
+        self.datastore.Set("generate_starttime", 0x01, "SET")                                    
     def sGenerateFinishtime(self):                                                        
         print "A: Generate finishtime"                                                                                                                            
-        self.datastore.Set("generate_finishtime", 0x00, "SET")                           
+        self.datastore.Set("generate_finishtime", 0x00, "SET")
+    def sGenerateUserFinishtime(self):
+        
+        #dialog - get user nr
+        user_nr = self.showMessage("Generate Finish Time","User Nr: ", msgtype="input_integer", value = 0)                
+        if user_nr == None:
+            return
+        #get user par nr
+        tabUser = self.source.tableTags.getTabTagParUserNr(user_nr)
+               
+        print "A: Generate finishtime from user ", user_nr, tabUser                                                                                                                            
+        self.datastore.Set("generate_finishtime", tabUser['tag_id'], "SET")
+                                   
     def sQuitTiming(self):
         if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype='warning_dialog') != True):            
             return

@@ -9,7 +9,6 @@ setup(
         r'C:\programs\Python271\Lib\site-packages\PyQt4\plugins\imageformats\qico4.dll'
         ])],
     console=[{          
-       "script" : "manage_gui.py",
-       "icon_resources": [(1, "ewitis_favicon.ico")]
+       "script" : "manage_gui.py"       
     }]
 ) 

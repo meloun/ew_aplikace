@@ -53,7 +53,7 @@ DEF_DATA = {
         "active_row"         : {"GET_SET"  : {"value":0}},                                     
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
-                                              "value":u"Fichtl Cup Dolce",
+                                              "value":u"Sázavský Blizák 2013",
                                               "changed": True
                                               },
                                   
@@ -98,7 +98,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "year"              : 2, 
                                                         "club"              : 2, 
-                                                        "laps"              : 2, 
+                                                        "laps"              : 0, 
                                                         "best_laptime"      : 0,
                                                         "option_1"          : 0,
                                                         "option_2"          : 0,
@@ -109,9 +109,9 @@ DEF_DATA = {
                                                         "option_3_name"     : "o3",
                                                         "option_4_name"     : "o4",
                                                         "gap"               : 0,                                                                                                      
-                                                        "points_race"            : 2,                                                                                                      
-                                                        "points_categories" : 2,                                                                                                      
-                                                        "points_groups"     : 2,                                                                                                                                                                                                                                                                    
+                                                        "points_race"       : 0,                                                                                                      
+                                                        "points_categories" : 0,                                                                                                      
+                                                        "points_groups"     : 0,                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  
@@ -130,13 +130,13 @@ DEF_DATA = {
                                               },
                                 }, 
         "dir_import_csv"     : {"name"     : "dir_import_csv",
-                                "GET_SET"  : {"value":"import/csv/"}  
+                                "GET_SET"  : {"value":  u"import/csv/"}  
                                },
         "dir_export_csv"     : {"name"     : "dir_export_csv",
-                                "GET_SET"  : {"value":u"export/csv/"}  
+                                "GET_SET"  : {"value":  u"export/csv/"}  
                                },
         "dir_export_www"     : {"name"     : "dir_export_www",
-                                "GET_SET"  : {"value":u"export/www/"}  
+                                "GET_SET"  : {"value":  u"export/www/"}  
                                },
             
         # DATABASE"

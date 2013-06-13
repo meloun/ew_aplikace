@@ -697,7 +697,7 @@ class Times(myModel.myTable):
                 exportHeader.append(u"Body")
                 tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order_cat'])    
                 exportRow.append(str(tabPoints['points']))                
-            elif(mode == Times.eGROUPS) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
+            elif(mode == Times.eGROUP) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
                 exportHeader.append(u"Body")
                 tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])    
                 exportRow.append(str(tabPoints['points']))                

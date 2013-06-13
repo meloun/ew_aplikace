@@ -136,8 +136,7 @@ class UsersModel(myModel.myModel):
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
     def table2dbRow(self, tabUser, item = None):                              
             
-        #1to1 keys just copy
-        print "tabUser", tabUser
+        #1to1 keys just copy        
         dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
                 
         '''category_id'''        

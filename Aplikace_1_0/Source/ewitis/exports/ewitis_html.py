@@ -41,8 +41,8 @@ if __name__ == "__main__":
             ]
     list = ["a","b"]
     
-    html_page = ewitis_html("index.htm", "TITLES", ["st1", "st2"], ["sc1","sc2"])
+    html_page = Page_table("index.htm", "TITLES", styles= ["css/results.css",], lists = [["st1", "st2"],["st1", "st2"]], keys = ["sc1","sc2"])
     
     print html_page.get_head()
-    html_page.save(["jedna","dva"])
+    html_page.save()
     
