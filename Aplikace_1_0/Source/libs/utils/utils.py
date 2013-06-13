@@ -22,7 +22,8 @@ def getUtf8String(item):
     #print "1",type(item)
     if type(item) is unicode:        
         item = item.encode('utf-8')        
-    #if type(item) is str:
+    if type(item) is str:
+        return item
     #    item = (item).encode('utf-8')
     if type(item) is Qt.QString:        
         item = str(item.toUtf8())
