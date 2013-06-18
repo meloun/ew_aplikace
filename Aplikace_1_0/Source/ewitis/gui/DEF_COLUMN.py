@@ -244,3 +244,30 @@ POINTS['table'] =    {
                       "description" :    {"index": 3,  "name": "description",  "width": 160                    },                        
                       } 
 
+"""
+RACE INFO
+"""
+RACE_INFO = {}
+""" database columns """
+RACE_INFO['database'] = {
+                      "id"          :    {"index": 0,  "name": "id",            },
+                      "name"        :    {"index": 1,  "name": "id",            },                      
+                      "start_list"  :    {"index": 2,  "name": "start_list",    },                                                                 
+                      "dns"         :    {"index": 3,  "name": "dns"   ,        },
+                      "dsq"         :    {"index": 4,  "name": "dsq",           },
+                      "dnf"         :    {"index": 5,  "name": "dnf",           },
+                      "finished"    :    {"index": 6,  "name": "finished",      },
+                      "awaited"     :    {"index": 7,  "name": "awaited",       },
+                      }
+""" table collumns """
+RACE_INFO['table'] =    {
+                      "id"          :    {"index": 0,  "name": "id",            "width": WIDTH_NUMBER_4DIGIT},
+                      "name"        :    {"index": 1,  "name": "id",            "width": 300},
+                      "start_list"  :    {"index": 2,  "name": "start_list",    "width": 2*WIDTH_NUMBER_4DIGIT},                                                                 
+                      "dns"         :    {"index": 3,  "name": "dns"   ,        "width": WIDTH_NUMBER_4DIGIT},
+                      "dsq"         :    {"index": 4,  "name": "dsq",           "width": WIDTH_NUMBER_4DIGIT},
+                      "dnf"         :    {"index": 5,  "name": "dnf",           "width": WIDTH_NUMBER_4DIGIT},
+                      "finished"    :    {"index": 6,  "name": "finished",      "width": 2*WIDTH_NUMBER_4DIGIT},
+                      "awaited"     :    {"index": 7,  "name": "awaited",       "width": WIDTH_NUMBER_4DIGIT},                       
+                      } 
+

@@ -215,6 +215,9 @@ class UiAccesories():
         elif(tab == TAB.points):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tablePoints.update()
+        elif(tab == TAB.race_info):                                
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                self.source.tableRaceInfo.update()
                 
         elif(tab == TAB.race_settings):    
             """ TIMING SETTINGS"""

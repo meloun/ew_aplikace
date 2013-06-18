@@ -455,17 +455,20 @@ class myTable():
         QtCore.QObject.connect(self.params.gui['filter'], QtCore.SIGNAL("textChanged (const QString & )"), self.sFilterRegExp)
         
         # ADD ROW BUTTON
-        QtCore.QObject.connect(self.params.gui['add'], QtCore.SIGNAL("clicked()"), self.sAdd)
+        if (self.params.gui['add'] != None):
+            QtCore.QObject.connect(self.params.gui['add'], QtCore.SIGNAL("clicked()"), self.sAdd)
         
         # REMOVE ROW BUTTON
-        QtCore.QObject.connect(self.params.gui['remove'], QtCore.SIGNAL("clicked()"), self.sDelete)
+        if (self.params.gui['remove'] != None):
+            QtCore.QObject.connect(self.params.gui['remove'], QtCore.SIGNAL("clicked()"), self.sDelete)
         
         # IMPORT BUTTON -> CHANGE TABLE
         if (self.params.gui['import'] != None):
             QtCore.QObject.connect(self.params.gui['import'], QtCore.SIGNAL("clicked()"), self.sImport)   
             
         # EXPORT BUTTON
-        QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
+        if (self.params.gui['export'] != None):
+            QtCore.QObject.connect(self.params.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
         
         # EXPORT WWW BUTTON
         #if(self.params.guidata.measure_mode != GuiData.MODE_TRAINING_BASIC):
@@ -473,7 +476,8 @@ class myTable():
             QtCore.QObject.connect(self.params.gui['export_www'], QtCore.SIGNAL("clicked()"), self.sExport_www)
         
         # DELETE BUTTON -> EMPTY TABLE
-        QtCore.QObject.connect(self.params.gui['delete'], QtCore.SIGNAL("clicked()"), self.sDeleteAll)
+        if (self.params.gui['delete'] != None):
+            QtCore.QObject.connect(self.params.gui['delete'], QtCore.SIGNAL("clicked()"), self.sDeleteAll)
         
         #self.sFilterRegExp(filter, table, label_counter)        
                              
@@ -803,10 +807,11 @@ class myTable():
         
         #update gui counter
         self.updateTabCounter()
-        
+       
+        #
         #update db couner
         self.updateDbCounter()
-        #print "db counter", self.params.datastore.Get("count")
+        #print "db counter:",self.params.name, self.params.datastore.Get("count")
                 
         
     def updateTabCounter(self):        
