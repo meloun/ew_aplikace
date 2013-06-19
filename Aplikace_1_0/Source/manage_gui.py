@@ -78,13 +78,13 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         self.tablePoints = PointsModel.Points(PointsModel.PointsParameters(self))
         self.tableAlltags = AlltagsModel.Alltags(AlltagsModel.AlltagsParameters(self))
-        self.tableRaceInfo = RaceInfoModel.RaceInfo(RaceInfoModel.RaceInfoParameters(self))
         self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
         self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
         self.CG = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters(self))
         self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
         self.T = TimesModel.Times( TimesModel.TimesParameters(self))
         self.R = RunsModel.Runs( RunsModel.RunsParameters(self))      
+        self.tableRaceInfo = RaceInfoModel.RaceInfo(RaceInfoModel.RaceInfoParameters(self))
                         
         #doplneni 
         self.T.params.tabRuns = self.R                

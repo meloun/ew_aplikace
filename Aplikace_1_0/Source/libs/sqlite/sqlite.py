@@ -114,6 +114,8 @@ class sqlite_db(object):
         
         #list of conditions in format ["id = 5","id = 8",..]
         for condition in conditions:
+            if (type(condition[1]) is str):
+                condition[1] = "\'"+ condition[1] + "\'"
             conditions_list.append(condition[0]+" = " + (condition[1]))
         
         #separate conditions with 'operator' - AND, OR, ..

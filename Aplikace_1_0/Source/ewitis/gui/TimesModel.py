@@ -984,7 +984,44 @@ class Times(myModel.myTable):
             return  
         
         #delete run with additional message
-        myModel.myTable.sDelete(self)                                                         
+        myModel.myTable.sDelete(self)
+                                                                                                                                  
+    #
+    def getCount(self, run_id, dbCategory = None, minimal_laps = None):
+        run_id_esc = str(run_id)                                       
+        
+        query = "SELECT COUNT(*) FROM(\
+                    SELECT COUNT(times.id) from times"
+        
+        if(self.params.datastore.Get('rfid') == 2):
+            query = query + \
+                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
+                    " INNER JOIN users ON tags.user_nr = users.nr "
+        else:
+            query = query + \
+                    " INNER JOIN users ON times.user_id = users.id"
+            
+        query = query + \
+                    " WHERE (times.run_id = "+run_id_esc+")"\
+                        " AND (users.state != \"dns\")"\
+                        " AND (users.state != \"dnf\")"\
+                        " AND (users.state != \"dnq\")"
+        if dbCategory:
+            category_id_esc = str(dbCategory["id"])                        
+            query = query + \
+                        " AND (users.category_id = "+category_id_esc+")"
+        query = query + \
+                    " GROUP by times.user_id"
+                    
+        if minimal_laps:
+            query = query + \
+                    " HAVING count(*) >= " + str(minimal_laps)
+                    
+        query = query + ")"     
+        
+        #print query
+        res = self.params.db.query(query)
+        return res.fetchone()[0]                                                            
         
                                     
                                                                                             

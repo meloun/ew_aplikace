@@ -259,6 +259,21 @@ class Users(myModel.myTable):
             dbUser = self.getDbUserParNr(nr)
             return dbUser['id']
         
+    #
+    def getCount(self, state = None, dbCategory = None):
+        
+        if state!=None and dbCategory!=None:
+            res = self.params.db.getParXX("users", [["state", state], ["category_id", str(dbCategory["id"])]], "AND")                                                                                        
+        elif state!=None and dbCategory==None:
+            res = self.params.db.getParX("users", "state", state)
+        elif state==None and dbCategory!=None:
+            res = self.params.db.getParX("users", "category_id", str(dbCategory["id"]))
+        else:
+            res = self.getDbRows()             
+        
+        row_dicts = self.params.db.cursor2dicts(res)                      
+        return len(row_dicts)
+        
        
 
 
