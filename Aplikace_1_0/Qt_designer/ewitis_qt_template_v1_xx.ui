@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1137</width>
+    <width>1277</width>
     <height>653</height>
    </rect>
   </property>
@@ -1803,6 +1803,306 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tabRaceInfo">
+       <attribute name="title">
+        <string>Race Info</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <property name="horizontalSpacing">
+         <number>0</number>
+        </property>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="RaceInfoFilterClear">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
+          </property>
+          <property name="autoRepeat">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="8">
+         <widget class="QGroupBox" name="groupBox_7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="RaceInfoAdd">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/list-add.png</normaloff>gui/icons/list-add.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RaceInfoRemove">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/list-remove.png</normaloff>gui/icons/list-remove.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RaceInfoImport">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/import.png</normaloff>gui/icons/import.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RaceInfoExport">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/export.png</normaloff>gui/icons/export.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RaceInfoDelete">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>gui/icons/emptytrash.png</normaloff>gui/icons/emptytrash.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="9">
+         <widget class="QTreeView" name="RaceInfoProxyView">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>3</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="8">
+         <widget class="QLabel" name="RaceInfoCounter">
+          <property name="text">
+           <string>0/0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLineEdit" name="RaceInfoFilterLineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6">
+         <widget class="QLineEdit" name="abc">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>99:99:99,99</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QSpinBox" name="spinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_58">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Limits for finished time: Laps  </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5">
+         <widget class="QLabel" name="label_59">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>    or  Time  </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="7">
+         <widget class="QLabel" name="label_60">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>40</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>                 </string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tabTimingSettings">
        <attribute name="title">
         <string>Race Settings</string>
@@ -2190,7 +2490,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>90</y>
+             <y>70</y>
              <width>70</width>
              <height>17</height>
             </rect>
@@ -2516,7 +2816,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>210</y>
+             <y>170</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -2532,7 +2832,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>230</y>
+             <y>190</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2548,7 +2848,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>170</y>
+             <y>130</y>
              <width>51</width>
              <height>16</height>
             </rect>
@@ -2582,7 +2882,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>250</y>
+             <y>210</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2598,7 +2898,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>270</y>
+             <y>230</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2614,7 +2914,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>290</y>
+             <y>250</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2630,7 +2930,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>310</y>
+             <y>270</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2646,7 +2946,7 @@
            <property name="geometry">
             <rect>
              <x>190</x>
-             <y>250</y>
+             <y>210</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2679,7 +2979,7 @@
            <property name="geometry">
             <rect>
              <x>190</x>
-             <y>270</y>
+             <y>230</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2712,7 +3012,7 @@
            <property name="geometry">
             <rect>
              <x>190</x>
-             <y>290</y>
+             <y>250</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2745,7 +3045,7 @@
            <property name="geometry">
             <rect>
              <x>190</x>
-             <y>310</y>
+             <y>270</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2778,7 +3078,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>420</y>
+             <y>380</y>
              <width>101</width>
              <height>16</height>
             </rect>
@@ -2796,7 +3096,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>440</y>
+             <y>400</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2817,7 +3117,7 @@
            <property name="geometry">
             <rect>
              <x>210</x>
-             <y>440</y>
+             <y>400</y>
              <width>70</width>
              <height>22</height>
             </rect>
@@ -2830,7 +3130,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>330</y>
+             <y>290</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2846,7 +3146,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>350</y>
+             <y>310</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -2862,7 +3162,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>190</y>
+             <y>150</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -2878,7 +3178,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>170</y>
+             <y>130</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -2894,7 +3194,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>370</y>
+             <y>330</y>
              <width>131</width>
              <height>17</height>
             </rect>
@@ -2910,7 +3210,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>390</y>
+             <y>350</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -2926,7 +3226,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>110</y>
+             <y>90</y>
              <width>70</width>
              <height>17</height>
             </rect>
@@ -2939,6 +3239,22 @@
            </property>
            <property name="checked">
             <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkExportToDefaultDirectories">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>450</y>
+             <width>221</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>export to default directories (no dialog)</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </widget>
@@ -6192,22 +6508,22 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1137</width>
+     <width>1277</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuDatabase">
-    <property name="title">
-     <string>Database</string>
-    </property>
-    <addaction name="actionLoad"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
-   </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuLoad_Configuration">
+     <property name="title">
+      <string>Load</string>
+     </property>
+     <addaction name="aSettingsLoadRfid"/>
+     <addaction name="aSettingsLoadIr"/>
+    </widget>
+    <addaction name="menuLoad_Configuration"/>
    </widget>
    <widget class="QMenu" name="menuActions">
     <property name="title">
@@ -6227,7 +6543,6 @@
      <string>Help</string>
     </property>
    </widget>
-   <addaction name="menuDatabase"/>
    <addaction name="menuSettings"/>
    <addaction name="menuActions"/>
    <addaction name="menuHelp"/>
@@ -6573,6 +6888,16 @@
    </property>
    <property name="toolTip">
     <string>Enable Communication</string>
+   </property>
+  </action>
+  <action name="aSettingsLoadRfid">
+   <property name="text">
+    <string>RFID template</string>
+   </property>
+  </action>
+  <action name="aSettingsLoadIr">
+   <property name="text">
+    <string>IR template</string>
    </property>
   </action>
  </widget>
