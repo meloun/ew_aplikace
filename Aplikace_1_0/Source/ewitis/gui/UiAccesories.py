@@ -2,7 +2,8 @@
 
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
-from ewitis.data.DEF_ENUM_STRINGS import * 
+from ewitis.data.DEF_ENUM_STRINGS import *
+import ewitis.gui.TimesUtils as TimesUtils 
 #import manage_comm
 import ewitis.comm.manage_comm as manage_comm
 import libs.utils.utils as utils 
@@ -56,6 +57,12 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.TimesRemoveHw, QtCore.SIGNAL("clicked()"), self.sRemoveHwTime)
          
 
+        #tab RACE INFO#        
+        QtCore.QObject.connect(self.ui.spinLimitLaps, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_laps"], laps, TAB.race_info))
+        #QtCore.QObject.connect(self.ui.lineLimitTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda time: self.sGuiSetItem("race_info", ["limit_time"], utils.toUnicode(time), TAB.race_info))
+        QtCore.QObject.connect(self.ui.lineLimitTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda time: self.sLimitTime(time))
+        
+        
         #tab RACE SETTINGS#
         
         #race settings                        
@@ -654,7 +661,18 @@ class UiAccesories():
         
     def sAbout(self):                           
         QtGui.QMessageBox.information(self.source, "About", "Ewitis  - Electronic wireless timing \n\ninfo@ewitis.cz\nwww.ewitis.cz\n\n v0.2\n\n (c) 2011")                                                
-                     
+
+    def sLimitTime(self, time_string):
+        #print name, keys, value        
+        try:
+            time = TimesUtils.TimesUtils.timestring2time(time_string)
+            print time, type(time)
+            self.datastore.SetItem("race_info", ["limit_time"], time) 
+        except TimesUtils.TimeFormat_Error:
+            print "E: TimeFormat Error"                                                                                                            
+               
+        self.updateTab(TAB.race_info)
+                             
     def sTerminalBacklight(self):
         
         '''získání a nastavení nové SET hodnoty'''

@@ -50,7 +50,15 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": True}
                                },
         "active_tab"         : {"GET_SET"  : {"value":0}},
-        "active_row"         : {"GET_SET"  : {"value":0}},                                     
+        "active_row"         : {"GET_SET"  : {"value":0}},
+        
+        
+        "race_info"          : {"GET_SET"  : {"value": {
+                                                "limit_laps"       : 1, 
+                                                "limit_time "      : "99:99:99,99"                                                
+                                                }
+                                      }
+                        },                                     
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
                                               "value":u"Sázavský Blizák 2013",

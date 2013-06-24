@@ -55,7 +55,7 @@ class TimesUtils():
         except:
             raise TimeFormat_Error
         
-        if (hours > 59) or (minutes > 59) or (seconds > 59):
+        if (hours > 99) or (minutes > 59) or (seconds > 59):
             raise TimeFormat_Error                 
         
         time = ((hours*60*60)+(minutes*60) + seconds)*100 + tens_ms
