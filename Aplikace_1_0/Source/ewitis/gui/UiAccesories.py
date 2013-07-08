@@ -59,8 +59,10 @@ class UiAccesories():
 
         #tab RACE INFO#        
         QtCore.QObject.connect(self.ui.spinLimitLaps, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_laps"], laps, TAB.race_info))
-        #QtCore.QObject.connect(self.ui.lineLimitTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda time: self.sGuiSetItem("race_info", ["limit_time"], utils.toUnicode(time), TAB.race_info))
-        QtCore.QObject.connect(self.ui.lineLimitTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda time: self.sLimitTime(time))
+        QtCore.QObject.connect(self.ui.spinLimitTimeHours, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "hours"], laps, TAB.race_info))
+        QtCore.QObject.connect(self.ui.spinLimitTimeMinutes, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "minutes"], laps, TAB.race_info))
+        QtCore.QObject.connect(self.ui.spinLimitTimeSeconds, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "seconds"], laps, TAB.race_info))
+        QtCore.QObject.connect(self.ui.spinLimitTimeMiliseconds, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "milliseconds_x10"], laps, TAB.race_info))
         
         
         #tab RACE SETTINGS#
@@ -222,9 +224,16 @@ class UiAccesories():
         elif(tab == TAB.points):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tablePoints.update()
+                
         elif(tab == TAB.race_info):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tableRaceInfo.update()
+            self.ui.spinLimitLaps.setValue(self.datastore.Get("race_info")["limit_laps"])
+            limit_time = self.datastore.Get("race_info")["limit_time"]                      
+            self.ui.spinLimitTimeHours.setValue(limit_time["hours"])                      
+            self.ui.spinLimitTimeMinutes.setValue(limit_time["minutes"])                      
+            self.ui.spinLimitTimeSeconds.setValue(limit_time["seconds"])                      
+            self.ui.spinLimitTimeMiliseconds.setValue(limit_time["milliseconds_x10"])                      
                 
         elif(tab == TAB.race_settings):    
             """ TIMING SETTINGS"""
@@ -662,16 +671,23 @@ class UiAccesories():
     def sAbout(self):                           
         QtGui.QMessageBox.information(self.source, "About", "Ewitis  - Electronic wireless timing \n\ninfo@ewitis.cz\nwww.ewitis.cz\n\n v0.2\n\n (c) 2011")                                                
 
-    def sLimitTime(self, time_string):
-        #print name, keys, value        
-        try:
-            time = TimesUtils.TimesUtils.timestring2time(time_string)
-            print time, type(time)
-            self.datastore.SetItem("race_info", ["limit_time"], time) 
-        except TimesUtils.TimeFormat_Error:
-            print "E: TimeFormat Error"                                                                                                            
-               
-        self.updateTab(TAB.race_info)
+#    def sLimitTime(self, time_string):
+#        #print name, keys, value        
+#        try:
+#            time = TimesUtils.TimesUtils.timestring2time(time_string)
+#            print time, type(time)
+#            self.datastore.SetItem("race_info", ["limit_time"], time) 
+#        except TimesUtils.TimeFormat_Error:
+#            print "E: TimeFormat Error"                                                                                                            
+#               
+#        self.updateTab(TAB.race_info)
+    def sLimitTime(self):
+        hours = self.ui.spinLimitTimeHours.value()
+        minutes = self.ui.spinLimitTimeMinutes.value()
+        seconds = self.ui.spinLimitTimeSeconds.value()
+        miliseconds = self.ui.spinLimitTimeMiliseconds.value()*10        
+        print hours, minutes, seconds, miliseconds
+
                              
     def sTerminalBacklight(self):
         

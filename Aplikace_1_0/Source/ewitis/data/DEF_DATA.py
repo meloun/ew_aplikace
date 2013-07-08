@@ -54,8 +54,12 @@ DEF_DATA = {
         
         
         "race_info"          : {"GET_SET"  : {"value": {
-                                                "limit_laps"       : 1, 
-                                                "limit_time "      : "99:99:99,99"                                                
+                                                "limit_laps"      : 1, 
+                                                "limit_time"      : {"hours"             :99,
+                                                                      "minutes"          :59,
+                                                                      "seconds"          :59,
+                                                                      "milliseconds_x10" :99
+                                                                      }                                               
                                                 }
                                       }
                         },                                     

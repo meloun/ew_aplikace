@@ -27,12 +27,21 @@ class TimesUtils():
         time = time % (100*60)
         seconds = time / (100)
         
-        milliseconds = time % (100)
+        milliseconds_x10 = time % (100)
         
-        return '%02d:%02d:%02d,%02d' %(hours, minutes, seconds, milliseconds)
+        return '%02d:%02d:%02d,%02d' %(hours, minutes, seconds, milliseconds_x10)
         
         
-  
+    @staticmethod 
+    def timemembers2time(hours, minutes, seconds, milliseconds_x10):
+        if (hours > 99) or (minutes > 59) or (seconds > 59):
+            raise TimeFormat_Error
+        time = ((hours*60*60)+(minutes*60) + seconds)*100 + milliseconds_x10
+        return time
+    
+    @staticmethod 
+    def timestruct2time(timestruct):        
+        return TimesUtils.timenumbers2time(timestruct["hours"],timestruct["minutes"], timestruct["seconds"],timestruct["milliseconds_x10"])
     
     @staticmethod 
     def timestring2time(timestring):       
@@ -51,16 +60,16 @@ class TimesUtils():
             hours = int(timestring[0])
             minutes = int(timestring[1])
             seconds = int(time_seconds[0])
-            tens_ms = int(time_seconds[1])
+            milliseconds_x10 = int(time_seconds[1])
         except:
             raise TimeFormat_Error
-        
-        if (hours > 99) or (minutes > 59) or (seconds > 59):
-            raise TimeFormat_Error                 
-        
-        time = ((hours*60*60)+(minutes*60) + seconds)*100 + tens_ms
+                                         
+        TimesUtils.timemembers2time(hours, minutes, seconds, milliseconds_x10)
                                    
         return time
+    
+
+        
     
     @staticmethod 
     def times_difference(timestring1, timestring2):
