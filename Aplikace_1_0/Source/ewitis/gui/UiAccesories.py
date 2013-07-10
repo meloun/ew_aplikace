@@ -65,7 +65,7 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.spinLimitTimeMiliseconds, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "milliseconds_x10"], laps, TAB.race_info))
         
         
-        #tab RACE SETTINGS#
+        ##tab RACE SETTINGS##
         
         #race settings                        
         QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
@@ -91,6 +91,13 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_categories"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_groups"], state, TAB.race_settings))
         
+        #points
+        QtCore.QObject.connect(self.ui.checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("points", ["table"], state, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("points", ["rule"], utils.toUnicode(name), TAB.race_settings))
+        QtCore.QObject.connect(self.ui.spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["minimum"], laps, TAB.race_settings))
+        QtCore.QObject.connect(self.ui.spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["maximum"], laps, TAB.race_settings))
+        
+
         
         #start download from last time and run 
         QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
@@ -307,9 +314,20 @@ class UiAccesories():
                 self.ui.checkExportPointsGroups.setCheckState(self.datastore.Get("export")["points_groups"])
                 self.datastore.ResetChangedFlag("export")
             
+            #points
+            points = self.datastore.Get("points")
+            self.ui.checkPoinstsFromTable.setCheckState(points["table"])
+            self.ui.linePointsRule.setText(points["rule"])            
+            self.ui.spinPointsMinimum.setValue(points["minimum"])
+            self.ui.spinPointsMaximum.setValue(points["maximum"])            
+            self.ui.linePointsRule.setEnabled(not(points['table']))
+            self.ui.spinPointsMinimum.setEnabled(not(points['table'])) 
+            self.ui.spinPointsMaximum.setEnabled(not(points['table']))                       
+                
+                
+            ##TIMES##
             #order evaluation
-            self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))
-            #print "G",self.datastore.Get("order_evaluation")
+            self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))            
             
             #show
             self.ui.checkShowOnlyTimesWithOrder.setCheckState(self.datastore.Get("show")["times_with_order"])

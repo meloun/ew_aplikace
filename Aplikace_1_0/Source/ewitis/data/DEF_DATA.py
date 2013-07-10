@@ -121,9 +121,19 @@ DEF_DATA = {
                                                         "option_3_name"     : "o3",
                                                         "option_4_name"     : "o4",
                                                         "gap"               : 0,                                                                                                      
-                                                        "points_race"       : 0,                                                                                                      
-                                                        "points_categories" : 0,                                                                                                      
-                                                        "points_groups"     : 0,                                                                                                                                                                                                                                                                    
+                                                        "points_race"       : 2,                                                                                                      
+                                                        "points_categories" : 2,                                                                                                      
+                                                        "points_groups"     : 2,                                                                                                                                                                                                                                                                    
+                                                        },
+                                              "changed": True
+                                              }  
+                               },         
+        "points"             : {"name"     : "points",
+                                "GET_SET"  : {"value": {
+                                                        "table"             : 2, 
+                                                        "rule"              : "abs(time - %00:01:30,00%)", 
+                                                        "minimum"           : 0, 
+                                                        "maximum"           : 9999                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  

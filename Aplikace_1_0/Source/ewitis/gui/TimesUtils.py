@@ -44,7 +44,7 @@ class TimesUtils():
         return TimesUtils.timenumbers2time(timestruct["hours"],timestruct["minutes"], timestruct["seconds"],timestruct["milliseconds_x10"])
     
     @staticmethod 
-    def timestring2time(timestring):       
+    def timestring2time(timestring):               
         
         #split to hours(01), minutes(02) and seconds(35,42)
         timestring = timestring.split(":")                                         
@@ -64,7 +64,7 @@ class TimesUtils():
         except:
             raise TimeFormat_Error
                                          
-        TimesUtils.timemembers2time(hours, minutes, seconds, milliseconds_x10)
+        time = TimesUtils.timemembers2time(hours, minutes, seconds, milliseconds_x10)
                                    
         return time
     

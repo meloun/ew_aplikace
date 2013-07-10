@@ -4,6 +4,7 @@ import sys
 import time
 from PyQt4 import QtCore, QtGui
 import ewitis.gui.myModel as myModel
+import ewitis.gui.TimesUtils as TimesUtils
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
@@ -63,7 +64,7 @@ class PointsModel(myModel.myModel):
         row = myModel.myModel.getDefaultTableRow(self)                                
         return row 
                     
-class PointsProxyModel(myModel.myProxyModel):
+class PointsProxyModel(myModel.myProxyModel):    
     def __init__(self, params):                        
         
         #default proxy-model constructor
@@ -72,10 +73,46 @@ class PointsProxyModel(myModel.myProxyModel):
 
 # view <- proxymodel <- model 
 class Points(myModel.myTable):
+    (eTOTAL, eCATEGORY, eGROUP) = range(0,3)
     def  __init__(self, params):                                             
          
         #default table constructor
-        myModel.myTable.__init__(self, params)         
+        myModel.myTable.__init__(self, params)
+    
+    def evaluate(self, rule, order, timestring, minimum = 0, maximum = 9999):
+        points = 0
+
+        #rule
+        rule = rule.lower()
+        
+        time = TimesUtils.TimesUtils.timestring2time(timestring)
+        
+        aux_split = rule.split('%')
+        ruletime_string =  aux_split[1] if (len(aux_split) == 3) else None
+        ruletime = TimesUtils.TimesUtils.timestring2time(ruletime_string)        
+        
+        #make expression
+        if ruletime:            
+            rule = aux_split[0]+str(ruletime)+aux_split[2]            
+        expression_string = rule.replace("order", str(order))
+        expression_string = expression_string.replace("time", str(time))       
+        
+        #evaluate
+        try:
+            #print expression_string
+            points = eval(expression_string)        
+        except SyntaxError:
+            print "E: invalid string for evaluation", expression_string
+        
+        #restrict               
+        if points < minimum:
+            points = minimum
+        if points > maximum:
+            points = maximum                     
+        
+        #print "points", points
+        return points
+
     
     def getDbPointParOrder(self, order):
         
@@ -88,6 +125,23 @@ class Points(myModel.myTable):
     def getTabPointParOrder(self, order):                                           
         dbPoint = self.getDbPointParOrder(order)                             
         tabPoint = self.model.db2tableRow(dbPoint)                                   
+        return tabPoint
+    
+    def getPoints(self, tabTime, mode):
+        if(mode == self.eTOTAL):
+            order = tabTime['order']
+        elif(mode == self.eCATEGORY):
+            order = tabTime['order_cat']
+        elif(mode == self.eGROUP):
+            order = tabTime['order']
+            
+        points = self.params.datastore.Get("points")
+        tabPoint = {}
+        if(points["table"] == 2):
+            tabPoint = self.getTabPointParOrder(order)
+        else:                        
+            tabPoint['points'] = self.evaluate(points['rule'], order, tabTime['time'], points['minimum'], points['maximum'])
+        
         return tabPoint       
                         
 

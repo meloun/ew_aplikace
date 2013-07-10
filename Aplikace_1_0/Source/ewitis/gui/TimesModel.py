@@ -7,6 +7,7 @@ from PyQt4 import QtCore, QtGui, Qt
 from libs.myqt import gui
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
+import ewitis.gui.PointsModel as PointsModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -365,7 +366,7 @@ class TimesModel(myModel.myModel):
                 try:
                                         
                     if(item.column() == self.params.TABLE_COLLUMN_DEF['time']['index']):
-                        '''změna času=>změna času v db'''             
+                        '''změna času=>změna času v db'''            
                         dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
                     
                     '''počítaný čas se vždy maže a spočte se při updatu znova'''    
@@ -691,15 +692,18 @@ class Times(myModel.myTable):
             #body - total, categories, groups
             if(mode == Times.eTOTAL) and (self.params.datastore.GetItem("export", ["points_race"]) == 2):
                 exportHeader.append(u"Body")
-                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])    
+                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])
+                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eTOTAL)    
                 exportRow.append(str(tabPoints['points']))                
             elif(mode == Times.eCATEGORY) and (self.params.datastore.GetItem("export", ["points_categories"]) == 2):
                 exportHeader.append(u"Body")
-                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order_cat'])    
+                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order_cat'])
+                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eCATEGORY)    
                 exportRow.append(str(tabPoints['points']))                
             elif(mode == Times.eGROUP) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
                 exportHeader.append(u"Body")
-                tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])    
+                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])
+                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eTOTAL)    
                 exportRow.append(str(tabPoints['points']))                
                 
         
