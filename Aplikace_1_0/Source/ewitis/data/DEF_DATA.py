@@ -65,22 +65,22 @@ DEF_DATA = {
                         },                                     
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
-                                              "value":u"Sázavský Blizák 2013",
+                                              "value":u"Carlsbad Classic 2013",
                                               "changed": True
                                               },
                                   
                                },        
         "run_time"           : {"GET_SET"  : {
-                                              "value":0,
-                                              "changed": True
+                                              "value"   : 0,
+                                              "changed" : True
                                               },                                  
                                },        
         "rfid"               : {"name"     : "rfid",
-                                "GET_SET"  : {"value":2}  
+                                "GET_SET"  : {"value"   : 0}  
                                },
-        "tag_filter"         : {"GET_SET"  : {"value":2}},
+        "tag_filter"         : {"GET_SET"  : {"value"   : 2}},
         "order_evaluation"   : {"name"     : "order evaluation",
-                                "GET_SET"  : {"value": OrderEvaluation.RACE}  
+                                "GET_SET"  : {"value"   : OrderEvaluation.RACE}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
@@ -97,7 +97,7 @@ DEF_DATA = {
                                               }
                                 },
         "additional_info"    : {"name"     : "additinal info",
-                                "GET_SET"  : {"value": {"enabled"       : 0,
+                                "GET_SET"  : {"value": {"enabled"       : 2,
                                                         "order"         : 2,
                                                         "order_in_cat"  : 2,
                                                         "lap"           : 2,                                               
@@ -130,10 +130,10 @@ DEF_DATA = {
                                },         
         "points"             : {"name"     : "points",
                                 "GET_SET"  : {"value": {
-                                                        "table"             : 2, 
+                                                        "table"             : 0, 
                                                         "rule"              : "abs(time - %00:01:30,00%)", 
                                                         "minimum"           : 0, 
-                                                        "maximum"           : 9999                                                                                                                                                                                                                                                                    
+                                                        "maximum"           : 500                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  
@@ -197,7 +197,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v1.14"},                                                                                                                    
+                                                        "app": "v1.16"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

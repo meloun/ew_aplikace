@@ -128,6 +128,10 @@ class Points(myModel.myTable):
         return tabPoint
     
     def getPoints(self, tabTime, mode):
+        
+        if(tabTime['cell'] != 250):
+            return None
+        
         if(mode == self.eTOTAL):
             order = tabTime['order']
         elif(mode == self.eCATEGORY):
@@ -142,7 +146,7 @@ class Points(myModel.myTable):
         else:                        
             tabPoint['points'] = self.evaluate(points['rule'], order, tabTime['time'], points['minimum'], points['maximum'])
         
-        return tabPoint       
+        return tabPoint['points']       
                         
 
                             

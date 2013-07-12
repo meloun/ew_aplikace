@@ -56,11 +56,11 @@ class ManageComm(Thread):
         """ ošetřená vysílací, přijímací metoda """
         
         if command_key != "GET_HW_SW_VERSION":
-            if not(DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox() \
-                   or DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and self.datastore.IsTerminal()):
+            if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox()) \
+                   or (DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and self.datastore.IsTerminal())):
             
                 #this command is not defined for this device
-                print "E: command not defined for this device"                                
+                print "E: command not defined for this device", command_key                                
                 return {"error":0xFF}
             
         command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                             
@@ -300,7 +300,7 @@ class ManageComm(Thread):
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
                 aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
                                 
-                print "aux_diagnostic", aux_diagnostic
+                #print "aux_diagnostic", aux_diagnostic
                             
                 """ store terminal-states to the datastore """ 
                 #if(self.datastore.IsReadyForRefresh("timing_settings")):           

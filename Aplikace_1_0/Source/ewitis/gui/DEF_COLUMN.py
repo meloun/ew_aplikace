@@ -70,8 +70,10 @@ TIMES['table_race'] =   {
                            "lap"        : {"index": 9,  "name": "lap",          "width": 50,                     "write":1  },                                                                          
                            "laptime"    : {"index": 10, "name": "laptime",      "width": 80,                     "write":1  },                                                                          
                            "best_laptime":{"index": 11, "name": "best_laptime", "width": 80,                     "write":1  },                                                                          
+                           "points"     : {"index": 12, "name": "points",       "width": 60,    "write":1  },                                                                          
+                           "points_cat" : {"index": 13, "name": "points_cat",   "width": 60,    "write":1  },                                                                          
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"    : {"index": 12, "name": "timeraw",      "width": 100,                    "write":1  },                        
+                           "timeraw"    : {"index": 14, "name": "timeraw",      "width": 100,                    "write":1  },                        
                         
                         }
 """

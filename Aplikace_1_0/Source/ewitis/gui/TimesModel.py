@@ -219,7 +219,7 @@ class TimesModel(myModel.myModel):
         
         '''LAPTIMEs'''        
         tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))                
-        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                       
+        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                            
         
         '''ORDER'''                
         #z1 = time.clock()                                                
@@ -232,6 +232,11 @@ class TimesModel(myModel.myModel):
         #print "- order in category takes: ",(time.clock() - z1)    
                                                                                           
         #print "TIME take: ",(time.clock() - ztimeT)
+        
+        '''POINTS'''
+        if (self.params.datastore.Get("additional_info")["enabled"] == 2):        
+            tabTime['points'] = self.params.tabPoints.getPoints(tabTime, PointsModel.Points.eTOTAL)        
+            tabTime['points_cat'] = self.params.tabPoints.getPoints(tabTime, PointsModel.Points.eCATEGORY)
         return tabTime
                                                                                    
     def sModelChanged(self, item):
@@ -611,7 +616,7 @@ class Times(myModel.myTable):
             tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Kategorie", u"Jméno"]                                                            
+            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
             exportRow.append(tabRow['order']+".")
             exportRow.append(tabRow['nr'])
             exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
@@ -691,21 +696,14 @@ class Times(myModel.myTable):
                             
             #body - total, categories, groups
             if(mode == Times.eTOTAL) and (self.params.datastore.GetItem("export", ["points_race"]) == 2):
-                exportHeader.append(u"Body")
-                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])
-                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eTOTAL)    
-                exportRow.append(str(tabPoints['points']))                
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points']))                
             elif(mode == Times.eCATEGORY) and (self.params.datastore.GetItem("export", ["points_categories"]) == 2):
-                exportHeader.append(u"Body")
-                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order_cat'])
-                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eCATEGORY)    
-                exportRow.append(str(tabPoints['points']))                
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points_cat']))                 
             elif(mode == Times.eGROUP) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
-                exportHeader.append(u"Body")
-                #tabPoints = self.params.tabPoints.getTabPointParOrder(tabRow['order'])
-                tabPoints = self.params.tabPoints.getPoints(tabRow, PointsModel.Points.eTOTAL)    
-                exportRow.append(str(tabPoints['points']))                
-                
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points']))                
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''
         #print "exportRow: ", exportRow
