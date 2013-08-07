@@ -1,0 +1,360 @@
+{
+    "enable_startcell": {
+        "SET": {
+            "changed": false,
+            "value": false
+        }
+    },
+    "cell_info": {
+        "name": "cell info",
+        "GET": {
+            "value": {
+                "baterry": 99,
+                "status": {
+                    "ping error": true,
+                    "battery empty": true,
+                    "IR signal missinng": true,
+                    "ack error": true,
+                    "cell on": true,
+                    "new error": true
+                },
+                "address": 10
+            }
+        }
+    },
+    "dir_import_csv": {
+        "GET_SET": {
+            "value": "import/csv/"
+        },
+        "name": "dir_import_csv"
+    },
+    "order_evaluation": {
+        "GET_SET": {
+            "value": 0
+        },
+        "name": "order evaluation"
+    },
+    "race_name": {
+        "GET_SET": {
+            "changed": true,
+            "value": "Fichtl Cup Dolce"
+        },
+        "name": "race_name"
+    },
+    "show": {
+        "GET_SET": {
+            "value": {
+                "times_with_order": 0,
+                "starttimes": 2,
+                "alltimes": 0
+            }
+        }
+    },
+    "dir_export_www": {
+        "GET_SET": {
+            "value": "export/www/"
+        },
+        "name": "dir_export_www"
+    },
+    "terminal_info": {
+        "name": "terminal info",
+        "GET": {
+            "refresh_countdown": 0,
+            "value": {
+                "language": null,
+                "battery": null,
+                "datetime": {
+                    "dayweek": 5,
+                    "hour": 15,
+                    "seconds": 7,
+                    "month": 8,
+                    "year": 1999,
+                    "minutes": 5,
+                    "day": 13
+                },
+                "speaker": {
+                    "keys": null,
+                    "timing": null,
+                    "system": null
+                },
+                "number_of_cells": null,
+                "backlight": null
+            }
+        }
+    },
+    "rfid": {
+        "GET_SET": {
+            "value": 2
+        },
+        "name": "rfid"
+    },
+    "generate_starttime": {
+        "SET": {
+            "changed": false,
+            "value": false
+        },
+        "name": "generate starttime"
+    },
+    "tags_reading": {
+        "SET": {
+            "changed": false,
+            "value": false
+        },
+        "name": "disable scan tags"
+    },
+    "tag_filter": {
+        "GET_SET": {
+            "value": 2
+        }
+    },
+    "port_name": {
+        "GET_SET": {
+            "value": "COM5"
+        },
+        "name": "Port name"
+    },
+    "run_time": {
+        "GET_SET": {
+            "changed": true,
+            "value": 0
+        }
+    },
+    "user_actions": {
+        "GET_SET": {
+            "value": 0
+        },
+        "name": "user_actions"
+    },
+    "active_tab": {
+        "GET_SET": {
+            "value": 0
+        }
+    },
+    "timing_settings": {
+        "SET": {
+            "changed": false,
+            "value": {
+                "logic_mode": 1,
+                "filter_maxlapnumber": 0,
+                "filter_minlaptime": 60,
+                "measurement_state": 0,
+                "name_id": 4,
+                "filter_tagtime": 5,
+                "tags_reading_enable": null
+            }
+        },
+        "name": "logic timing_settings",
+        "GET": {
+            "refresh_countdown": 0,
+            "value": {
+                "logic_mode": 1,
+                "filter_maxlapnumber": null,
+                "filter_minlaptime": null,
+                "measurement_state": 0,
+                "name_id": 4,
+                "filter_tagtime": null,
+                "tags_reading_enable": null
+            }
+        }
+    },
+    "remove_hw_time": {
+        "SET": {
+            "changed": false,
+            "value": 0
+        }
+    },
+    "datetime": {
+        "SET": {
+            "changed": false,
+            "value": {
+                "dayweek": 5,
+                "hour": 15,
+                "seconds": 7,
+                "month": 8,
+                "year": 1999,
+                "minutes": 5,
+                "day": 13
+            }
+        },
+        "name": "datetime"
+    },
+    "additional_info": {
+        "GET_SET": {
+            "value": {
+                "best_laptime": 2,
+                "enabled": 0,
+                "laptime": 2,
+                "order_in_cat": 2,
+                "lap": 2,
+                "order": 2
+            }
+        },
+        "name": "additinal info"
+    },
+    "backlight": {
+        "SET": {
+            "changed": false,
+            "value": 1
+        },
+        "name": "backlight"
+    },
+    "generate_finishtime": {
+        "SET": {
+            "changed": false,
+            "value": false
+        },
+        "name": "generate finishtime"
+    },
+    "count": {
+        "GET_SET": {
+            "value": {
+                "Runs": 0,
+                "Times": 0
+            }
+        }
+    },
+    "times_view_limit": {
+        "GET_SET": {
+            "value": 0
+        },
+        "name": "times view limit"
+    },
+    "speaker2": {
+        "SET": {
+            "changed": false,
+            "value": {
+                "keys": false,
+                "dict1a": {
+                    "dict2a": 2,
+                    "dict2b": 3
+                },
+                "dict1b": 3
+            }
+        },
+        "name": "speaker"
+    },
+    "language": {
+        "SET": {
+            "changed": false,
+            "value": 0
+        },
+        "name": "language"
+    },
+    "onelap_race": {
+        "GET_SET": {
+            "value": 0
+        },
+        "name": "onelap race"
+    },
+    "versions": {
+        "GET_SET": {
+            "value": {
+                "app": "v1.14",
+                "hw": null,
+                "fw": null
+            }
+        },
+        "name": "versions"
+    },
+    "communication_en": {
+        "GET_SET": {
+            "value": true
+        },
+        "name": "Commucation Enabled"
+    },
+    "clear_database": {
+        "SET": {
+            "changed": false,
+            "value": false
+        },
+        "name": "clear database"
+    },
+    "quit_timing": {
+        "SET": {
+            "changed": false,
+            "value": false
+        },
+        "name": "quit timing"
+    },
+    "dir_export_csv": {
+        "GET_SET": {
+            "value": "export/csv/"
+        },
+        "name": "dir_export_csv"
+    },
+    "port_enable": {
+        "GET_SET": {
+            "value": false
+        },
+        "name": "Port enable"
+    },
+    "port_baudrate": {
+        "GET_SET": {
+            "value": 38400
+        },
+        "name": "Port baudrate"
+    },
+    "speaker": {
+        "SET": {
+            "changed": false,
+            "value": {
+                "keys": false,
+                "timing": true,
+                "system": true
+            }
+        },
+        "name": "speaker"
+    },
+    "active_row": {
+        "GET_SET": {
+            "value": 0
+        }
+    },
+    "export": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "best_laptime": 0,
+                "points_categories": 2,
+                "option_4_name": "o4",
+                "club": 2,
+                "laps": 2,
+                "option_2_name": "o2",
+                "gap": 0,
+                "option_3_name": "o3",
+                "option_1_name": "o1",
+                "year": 2,
+                "option_2": 0,
+                "option_3": 0,
+                "option_1": 0,
+                "points_race": 2,
+                "points_groups": 2,
+                "option_4": 0
+            }
+        },
+        "name": "export"
+    },
+    "enable_finishcell": {
+        "SET": {
+            "changed": false,
+            "value": false
+        }
+    },
+    "download_from_last": {
+        "GET_SET": {
+            "value": 0
+        }
+    },
+    "directories": {
+        "GET_SET": {
+            "value": {
+                "import_csv": "import/csv/",
+                "import": "import/",
+                "export_www": "export/www/",
+                "export": "export/",
+                "export_csv": "export/csv/"
+            }
+        },
+        "name": "directories"
+    }
+}

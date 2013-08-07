@@ -65,7 +65,7 @@ DEF_DATA = {
                         },                                     
         "race_name"          : {"name"     : "race_name",
                                 "GET_SET"  : {
-                                              "value":u"Carlsbad Classic 2013",
+                                              "value":u"Formula Student 2013",
                                               "changed": True
                                               },
                                   
@@ -121,16 +121,16 @@ DEF_DATA = {
                                                         "option_3_name"     : "o3",
                                                         "option_4_name"     : "o4",
                                                         "gap"               : 0,                                                                                                      
-                                                        "points_race"       : 2,                                                                                                      
-                                                        "points_categories" : 2,                                                                                                      
-                                                        "points_groups"     : 2,                                                                                                                                                                                                                                                                    
+                                                        "points_race"       : 0,                                                                                                      
+                                                        "points_categories" : 0,                                                                                                      
+                                                        "points_groups"     : 0,                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  
                                },         
         "points"             : {"name"     : "points",
                                 "GET_SET"  : {"value": {
-                                                        "table"             : 0, 
+                                                        "table"             : 2, 
                                                         "rule"              : "abs(time - %00:01:30,00%)", 
                                                         "minimum"           : 0, 
                                                         "maximum"           : 500                                                                                                                                                                                                                                                                    
@@ -197,7 +197,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v1.16"},                                                                                                                    
+                                                        "app": "v1.17"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

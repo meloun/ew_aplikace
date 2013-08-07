@@ -3,6 +3,7 @@
 
 import sys
 import time
+import os
 from PyQt4 import QtCore, QtGui, Qt
 from libs.myqt import gui
 import ewitis.gui.myModel as myModel
@@ -14,6 +15,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 from ewitis.data.DEF_DATA import *
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
+import libs.timeutils.timeutils as timeutils
 import time
 
 '''
@@ -574,7 +576,7 @@ class Times(myModel.myTable):
         
         #export direct categories        
         if (self.params.gui['aDirectExportCategories'] != None):                                   
-            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportCategoriesDirect('col_nr_export'))
+            QtCore.QObject.connect(self.params.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportResultsDirect('col_nr_export'))
                                
         QtCore.QObject.connect(self.params.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)
         
@@ -711,20 +713,40 @@ class Times(myModel.myTable):
         return (exportHeader, exportRow)
 
                     
+    
+    def ExportMerge(self, rows, header, headerdata = ["",""]):
+            aux_rows = rows[:]
+            #aux_rows.insert(0, [self.params.datastore.Get('race_name'),] + (len(header)-1) * ["",])
+            #aux_rows.insert(1, len(header)*["",])
+            #aux_rows.insert(2, header)            
+            aux_rows.insert(0, [headerdata[0],] + ["",]*(len(header)-2) + [headerdata[1],])
+            aux_rows.insert(1, [self.params.datastore.Get('race_name'),] + (len(header)-1) * ["",])    
+            aux_rows.insert(2, header)            
+            return aux_rows
     #=======================================================================
     # SLOTS
     #=======================================================================
-    def sExportCategoriesDirect(self, col_nr_export):                       
+    
+    # F11 - konečné výsledky, 1 čas na řádek
+    def sExportResultsDirect(self, col_nr_export):                       
         #title
         title = "Table '"+self.params.name + "' CSV Export Categories" 
         
-        #get filename, gui dialog 
-        #dirname = QtGui.QFileDialog.getExistingDirectory(self.params.gui['view'], title)
-        dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)                 
+        #get filename, gui dialog         
+        #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+self.params.datastore.Get('race_name')+"/")
+        try:
+            os.makedirs(dirname)
+        except OSError:
+            dirname = "export/"
+                                         
         if(dirname == ""):
-            return              
+            return                              
 
         exportRows = []
+        exportRows_Alltimes = []
+        
+        exported = {}
         self.winner = {}        
 
         '''EXPORT TOTAL'''                                       
@@ -734,16 +756,19 @@ class Times(myModel.myTable):
             
             if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
                 continue
-                        
-            #if(self.model.order.IsLastUsertime(dbTime)):
+            
+            #                        
+            exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)
+            
+            #all times export - add all
+            exportRows_Alltimes.append(exportRow[1])
+            exportHeader_Alltimes = exportRow[0] 
+            
+            #times export - add last/best (race/slalom)                                                                                                                                       
             if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
-                #d print ": yes"                                    
-                exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)                                                                                                                                       
+                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                                                    
                 exportRows.append(exportRow[1])
-                exportHeader = exportRow[0]
-            #else:
-                #d print ": no" 
+                exportHeader = exportRow[0]                         
                     
             
         '''natvrdo pred girem'''        
@@ -751,15 +776,31 @@ class Times(myModel.myTable):
             
         '''write to csv file'''
         if(exportRows != []):
-            print "export total, ", len(exportRows),"times"                        
-            exportRows.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
-            exportRows.insert(1, len(exportHeader)*["",])
-            exportRows.insert(2, exportHeader)
+            #print "export total, ", len(exportRows),"times"
+            exported["total"] =  len(exportRows)
+            exportRows =  self.ExportMerge(exportRows, exportHeader)                                  
+            #exportRows.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
+            #exportRows.insert(1, len(exportHeader)*["",])
+            #exportRows.insert(2, exportHeader)
             filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
-            try:
-                print "save: ", exportRows
+            try:                
                 aux_csv.save(exportRows)
+            except IOError:
+                self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                        
+        '''Alltimes - write to csv file'''
+        if(exportRows_Alltimes != []):
+            #print "export total alltimes, ", len(exportRows_Alltimes),"times"
+            exported["(at) total"] =  len(exportRows_Alltimes)                       
+            #exportRows_Alltimes.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader_Alltimes)-1) * ["",])
+            #exportRows_Alltimes.insert(1, len(exportHeader_Alltimes)*["",])
+            #exportRows_Alltimes.insert(2, exportHeader_Alltimes)
+            exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes)
+            filename = utils.get_filename("at_"+self.params.datastore.Get('race_name')+".csv")            
+            aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
+            try:                
+                aux_csv.save(exportRows_Alltimes)
             except IOError:
                 self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
                 
@@ -767,7 +808,8 @@ class Times(myModel.myTable):
         '''EXPORT CATEGORIES'''                        
         dbCategories = self.params.tabCategories.getDbRows()                      
         for dbCategory in dbCategories:
-            exportRows = []
+            exportRows = []             
+            exportRows_Alltimes = []
             self.winner = {}                                     
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])
@@ -775,6 +817,14 @@ class Times(myModel.myTable):
                 if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
                     continue
                                             
+                if (tabRow['category'] != dbCategory['name']):
+                    continue
+                                
+                #all times export - add all
+                exportRows_Alltimes.append(exportRow[1])
+                exportHeader_Alltimes = exportRow[0] 
+            
+                #times export - add last/best (race/slalom)            
                 if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):  
                     if (tabRow['category'] == dbCategory['name']):
@@ -784,15 +834,26 @@ class Times(myModel.myTable):
                         
             
             '''write to csv file'''
-            if(exportRows != []):
-                print "export category", dbCategory['name'], ":",len(exportRows),"times"                                                     
-                exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
-                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
-                exportRows.insert(2, exportHeader)
+            if(exportRows != []):                
+                exported["(c_) " + dbCategory['name']] = len(exportRows)                                                                     
+                exportRows =  self.ExportMerge(exportRows, exportHeader, ["Kategorie: "+dbCategory['name'], dbCategory['description']])                
+                
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
                 try:                                                                                             
                     aux_csv.save(exportRows)
+                except IOError:
+                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                                                      
+            '''Alltimes - write to csv file'''
+            if(exportRows_Alltimes != []):                
+                exported["(c_at_) " + dbCategory['name']] = len(exportRows_Alltimes)                                                     
+                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes, ["Kategorie: "+dbCategory['name'], dbCategory['description']])               
+                                
+                filename = utils.get_filename("c_at_"+dbCategory['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
+                try:                                                                                             
+                    aux_csv.save(exportRows_Alltimes)
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
                                    
@@ -804,13 +865,23 @@ class Times(myModel.myTable):
         dbCategories = self.params.tabCategories.getDbRows()
         for dbCGroup in dbCGroups:                                              
             exportRows = []
+            exportRows_Alltimes = []
             self.winner = {}                        
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])
                 
                 if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
                     continue
-                            
+
+                tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])
+                if (tabCategory[dbCGroup['label']] != 1):
+                    continue
+                                            
+                #all times export - add all
+                exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)
+                exportRows_Alltimes.append(exportRow[1])
+                exportHeader_Alltimes = exportRow[0] 
+                
                 if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
                      
@@ -823,20 +894,34 @@ class Times(myModel.myTable):
             
                     
             '''write to csv file'''
-            if(exportRows != []):
-                print "export cgroups", dbCGroup['label'], ":",len(exportRows),"times"                
-                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])
+            if(exportRows != []):                
+                exported["(g_) "+dbCGroup['label']] = len(exportRows)                
                 
-                exportRows.insert(0, ["Skupina: "+dbCGroup['name'],] + ["",]*(len(exportHeader)-2) + [dbCGroup['description'],])
-                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
-                exportRows.insert(2, exportHeader)                                                
+                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])                
+                exportRows =  self.ExportMerge(exportRows, exportHeader, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
                 filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
                     self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
-                                        
+                    
+            '''Alltimes - write to csv file'''
+            if(exportRows_Alltimes != []):                
+                exported["(g_at_) "+dbCGroup['label']] = len(exportRows_Alltimes)                                                
+                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
+                filename = utils.get_filename(dbCGroup['label']+"_at_"+dbCGroup['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
+                try:                                                                                             
+                    aux_csv.save(exportRows_Alltimes)
+                except IOError:
+                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+
+        
+        exported_string = ""
+        for key in sorted(exported.keys()):
+            exported_string += key + " : " + str(exported[key])+" times\n"        
+        self.params.showmessage(self.params.name+" Exported", exported_string, msgtype='info')                                        
         return         
                                                                                                                  
                 

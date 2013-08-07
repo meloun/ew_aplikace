@@ -1,0 +1,12 @@
+{
+    "b": {
+        "klíč6": "francouština2", 
+        "klíč1": "čeština2", 
+        "klíč3": "maďarština2"
+    }, 
+    "abc1": {
+        "klíč1": "čeština1", 
+        "klíč2": "maďarština1", 
+        "klíč3": "francouština1"
+    }
+}

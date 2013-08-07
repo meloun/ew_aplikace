@@ -156,7 +156,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
 #            z1 = time.clock()
 #            print "1: update"
 #            time.sleep(1)                                                                        
-            self.update()
+            #self.update()
 #            time.sleep(1)
 #            print "2: update", (time.clock() - z1)                                                                        
     
@@ -347,9 +347,10 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     
                     '''uložit aktivní řádek do datastore'''
                     self.params.datastore.Set("active_row", topLeft.row())
+                    #print "aktivni radek je ted: ", topLeft.row(), self.params.datastore.Get("active_row")
                     
                     '''update model'''                                                                 
-                    #self.model.update()
+                    self.model.update()
 
                     '''editovat sloupec nad aktivním řádkem'''                         
                     myindex = self.index(self.params.datastore.Get("active_row")-1, topLeft.column())                    
@@ -592,14 +593,16 @@ class myTable():
         
         #adding records to DB                        
         for row in rows:                                                                                                                                    
-            try:
+            #try:
                 #add 1 record
-                importRow = dict(zip(keys, row)) 
-                dbRow = self.model.import2dbRow(importRow)                     
-                self.params.db.insert_from_dict(self.params.name, dbRow, commit = False)                                      
-                state['ok'] += 1            
-            except:
+            importRow = dict(zip(keys, row)) 
+            dbRow = self.model.import2dbRow(importRow)                     
+            if( self.params.db.insert_from_dict(self.params.name, dbRow, commit = False) == True):                                      
+                state['ok'] += 1
+            else:            
                 state['ko'] += 1 #increment errors for error message
+            #except:
+            #    state['ko'] += 1 #increment errors for error message
 
         self.params.db.commit()                        
         self.model.update()

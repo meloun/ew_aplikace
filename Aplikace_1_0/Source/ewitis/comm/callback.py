@@ -163,17 +163,17 @@ def pack_data(command_key, data):
     
     command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
     length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']    
-
+    
     #print "pack data: ", command, data, type(data)
-    if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]):        
+    if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]['cmd']):        
         # SET SPEAKER
         aux_data = struct.pack('BBB',int(data["keys"]), int(data["timing"]), int(data["system"]))
                                                                                          
-    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]):        
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]['cmd']):        
         # SET TIMING SETTINGS
         aux_data = struct.pack('<BBBhB', data['logic_mode'], data['name_id'], data['filter_tagtime'],\
-                               data['filter_minlaptime'], data['filter_maxlapnumber'])
-    elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]):        
+                               data['filter_minlaptime'], data['filter_maxlapnumber'])        
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
         # GET DIAGNOSTIC         
         aux_data = struct.pack('<BB', data['start_error_id'], data['count_errors'])
         
