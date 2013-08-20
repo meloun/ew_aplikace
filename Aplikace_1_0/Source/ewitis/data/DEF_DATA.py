@@ -80,7 +80,7 @@ DEF_DATA = {
                                },
         "tag_filter"         : {"GET_SET"  : {"value"   : 2}},
         "order_evaluation"   : {"name"     : "order evaluation",
-                                "GET_SET"  : {"value"   : OrderEvaluation.RACE}  
+                                "GET_SET"  : {"value"   : OrderEvaluation.SLALOM}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "GET_SET"  : {"value": 0}  
@@ -108,9 +108,10 @@ DEF_DATA = {
                                },
         "export"             : {"name"     : "export",
                                 "GET_SET"  : {"value": {
-                                                        "year"              : 2, 
+                                                        "year"              : 0, 
                                                         "club"              : 2, 
                                                         "laps"              : 0, 
+                                                        "laptime"           : 0,
                                                         "best_laptime"      : 0,
                                                         "option_1"          : 0,
                                                         "option_2"          : 0,
@@ -197,7 +198,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v1.17"},                                                                                                                    
+                                                        "app": "v1.20"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

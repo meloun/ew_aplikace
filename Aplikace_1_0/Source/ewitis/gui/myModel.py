@@ -670,6 +670,11 @@ class myTable():
             #dbRow = self.getDbRow(tabRow['id'])            
             #if(self.model.order.IsLastUsertime(dbRow, tabRow['lap'])):
             exportRow = self.tabRow2exportRow(tabRow, myTable.eTOTAL)
+            
+            #workaround FORMULE
+            #exportRow[1].append(tabRow['laptime']) 
+            #exportRow[0].append(u'Čas kola')
+            
             exportRows.append(exportRow[1])
             exportHeader = exportRow[0]              
         

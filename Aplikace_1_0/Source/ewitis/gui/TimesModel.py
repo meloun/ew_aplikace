@@ -670,6 +670,10 @@ class Times(myModel.myTable):
             if self.params.datastore.GetItem("export", ["laps"]) == 2:
                 exportHeader.append(u"Okruhy")
                 exportRow.append(tabRow['lap'])
+            # laptime             
+            if self.params.datastore.GetItem("export", ["laptime"]) == 2:
+                exportHeader.append(u'Čas kola')
+                exportRow.append(tabRow['laptime'])
             # best laptime             
             if self.params.datastore.GetItem("export", ["best_laptime"]) == 2:
                 exportHeader.append(u"Top okruh")
@@ -820,15 +824,17 @@ class Times(myModel.myTable):
                 if (tabRow['category'] != dbCategory['name']):
                     continue
                                 
-                #all times export - add all
+                #
+                exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)
+                
+                #all times export - add all                
                 exportRows_Alltimes.append(exportRow[1])
                 exportHeader_Alltimes = exportRow[0] 
             
                 #times export - add last/best (race/slalom)            
                 if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                     (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):  
-                    if (tabRow['category'] == dbCategory['name']):
-                        exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)                                                                                                                                       
+                    if (tabRow['category'] == dbCategory['name']):                                                                                                                                                               
                         exportRows.append(exportRow[1])
                         exportHeader = exportRow[0]                                                                                                                                                                                           
                         
@@ -923,18 +929,28 @@ class Times(myModel.myTable):
             exported_string += key + " : " + str(exported[key])+" times\n"        
         self.params.showmessage(self.params.name+" Exported", exported_string, msgtype='info')                                        
         return         
-                                                                                                                 
+
                 
     def sExportLaptimesDirect(self):
-                
-        #title        
-        title = "Table '"+self.params.name + "' CSV Export Laptimes" 
-        
-        #get filename, gui dialog 
-        #dirname = QtGui.QFileDialog.getExistingDirectory(self.params.gui['view'], title)
-        dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)                 
+        #get filename, gui dialog
+        #title = "Table '"+self.params.name + "' CSV Export Laptimes"                 
+        #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+self.params.datastore.Get('race_name')+"_laptimes/")
+        try:
+            os.makedirs(dirname)
+        except OSError:
+            dirname = "export/"
+                             
         if(dirname == ""):
-            return                      
+            return  
+        
+        self.sExportLaptimesCategories(dirname)
+        self.sExportLaptimesGroups(dirname)
+        
+    def sExportLaptimesCategories(self, dirname):            
+                                  
+        if(dirname == ""):
+            return                
         
         '''LAPS PAR CATEGORY'''                        
         dbCategories = self.params.tabCategories.getDbRows()  
@@ -942,7 +958,7 @@ class Times(myModel.myTable):
         for dbCategory in dbCategories:
             """ 
             - přes všechny kategorie
-                - přes každé čísla #loop A
+                - přes každé číslo #loop A
                     - vyberu číslo/závodníka, jehož časy budou na novém řádku    #loop A1
                     - přes všechny časy, ukládám časy s tímto číslem (exportRow) #loop A2                    
                 - všechny uložené časy transponuju do řádku (exportRow)
@@ -996,7 +1012,106 @@ class Times(myModel.myTable):
                 exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
                 exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)    
-                filename = utils.get_filename("c_l_"+dbCategory['name']+".csv")
+                filename = utils.get_filename("c_laps_"+dbCategory['name']+".csv")
+                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
+                try:                                                                                             
+                    aux_csv.save(exportRows)
+                except IOError:
+                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                                                         
+        return  
+    
+    #GROUPS
+    def sExportLaptimesGroups(self, dirname):
+                             
+        if(dirname == ""):
+            return                      
+        
+        '''LAPS PAR GROUPS'''                        
+        dbGroups = self.params.tabCGroups.getDbRows()  
+        tableRows = self.proxy_model.dicts()                            
+        for dbGroup in dbGroups:            
+            """ 
+            - přes všechny kategorie
+                - přes každé číslo #loop A
+                    - vyberu číslo/závodníka, jehož časy budou na novém řádku    #loop A1
+                    - přes všechny časy, ukládám časy s tímto číslem (exportRow) #loop A2                    
+                - všechny uložené časy transponuju do řádku (exportRow)
+                - transponovaný řádek ukládám (exportRows)
+            - řádky uložím do csv a jdu na další kategorii                                 
+            """
+            
+            #rows for csv export 
+            exportRows = []
+            self.winner = {}
+                                                                                                                                   
+            for nr in range(len(tableRows)): #loop A                                                              
+                '''pro každou kategorii přes všechny zbylé časy'''
+                if(len(tableRows) == 0):                    
+                    break                
+                    
+                exportRow = []
+                              
+                #první číslo
+                nr_user = None
+                for t in tableRows: #loop A1
+                    
+                    dbTime = self.getDbRow(t['id'])
+                    if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):                        
+                        continue
+                    
+                    if (t['nr'] == None) or (int(t['nr']) == 0):                        
+                        continue
+                    
+                    tabCategory = self.params.tabCategories.getTabCategoryParName(t['category'])
+                    if (tabCategory[dbGroup['label']] != 1):                        
+                        continue
+                    
+                    #mam číslo                                  
+                    nr_user = t['nr']                                                                
+                    break 
+                                        
+                if(nr_user == None):                    
+                    break #no user for this group
+                                
+                
+                '''mám číslo, hledám jeho další časy'''
+                for tabRow in tableRows: #A2
+                    tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])
+                    if (tabCategory[dbGroup['label']] != 1):                        
+                        continue
+                                                                                                     
+                    if(tabRow['nr'] != nr_user):                        
+                        continue
+                   
+                    #add row
+                    exportRow.append(tabRow) 
+                        
+                                            
+                #for i in range(len(tableRows)): #A2                                                                                 
+                #    if (tableRows[i]['category'] == dbGroup['name']) and (tableRows[i]['nr'] == nr_user):
+                #        exportRow.append(tableRows[i])                        
+                                                
+                '''pokud jsem našel exportuji a mažu z tabulky'''                
+                if(exportRow != []):                    
+                    for t in exportRow:
+                        tableRows.remove(t)                         
+                    exportRow = self.tabRow2exportRow(exportRow, Times.eLAPS)                    
+                    exportRows.append(exportRow[1])
+                    exportHeader = exportRow[0]
+                    
+            if(exportRows != []):
+                print "Export: laps par group:", dbGroup['name'], ":", len(exportRows),"times"
+                
+                #srovnat podle čísla                
+                #from operator import itemgetter
+                #exportRows = sorted(exportRows, key = itemgetter(0))
+                
+                #save to csv file                
+                exportRows.insert(0, ["Skupina: "+dbGroup['name'],] + ["",]*(len(exportHeader)-2) + [dbGroup['description'],])
+                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
+                exportRows.insert(2, exportHeader)    
+                filename = utils.get_filename("g_laps_"+dbGroup['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
                 try:                                                                                             
                     aux_csv.save(exportRows)

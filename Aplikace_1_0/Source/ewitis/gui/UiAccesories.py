@@ -8,6 +8,11 @@ import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.comm.manage_comm as manage_comm
 import libs.utils.utils as utils 
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
 
 class UiAccesories():
     def __init__(self, source):
@@ -77,6 +82,7 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["club"], state, TAB.race_settings))                                
         QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
+        QtCore.QObject.connect(self.ui.checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laptime"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
@@ -149,8 +155,9 @@ class UiAccesories():
     def configGui(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
+        self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                           
         self.showMessage("Race", self.datastore.Get("race_name"), False) 
-        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))                   
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -554,6 +561,15 @@ class UiAccesories():
                 #all time update                 
                 timing_settings_get = self.datastore.Get("timing_settings", "GET")
                 self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
+                if timing_settings_get['measurement_state']== MeasurementState.not_active:
+                    self.ui.statusbar_msg.setStyleSheet("background:red;")                    
+                elif timing_settings_get['measurement_state']== MeasurementState.prepared:
+                    self.ui.statusbar_msg.setStyleSheet("background:orange;")                    
+                elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
+                    self.ui.statusbar_msg.setStyleSheet("background:green;")
+                elif timing_settings_get['measurement_state']== MeasurementState.finished:
+                    self.ui.statusbar_msg.setStyleSheet("background:red;")
+                    
             
         #STATUSBAR        
         if(statusbar):
