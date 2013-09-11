@@ -41,7 +41,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": False}
                                },
         "port_name"          : {"name"     : "Port name",
-                                "GET_SET"  : {"value": "COM5"}
+                                "GET_SET"  : {"value": "COM7"}
                                },
         "port_baudrate"      : {"name"     : "Port baudrate",
                                 "GET_SET"  : {"value": 38400}
@@ -138,7 +138,15 @@ DEF_DATA = {
                                                         },
                                               "changed": True
                                               }  
-                               },         
+                               },
+        "diagnostic"         : {"GET_SET"  : {"value": {
+                                                        "communication": "blabla",
+                                                        "no_new_run_cnt": 0,
+                                                        "no_new_time_cnt": 0,
+                                                        },
+                                              "changed": True
+                                              }
+                                },         
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
                                },

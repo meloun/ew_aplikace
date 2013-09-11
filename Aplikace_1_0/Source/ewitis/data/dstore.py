@@ -4,6 +4,25 @@ from ewitis.data.DEF_DATA import *
 
 class Dstore(datastore.Datastore):
     
+    def __init__(self, db = None, data = None):
+        self.db = db
+        if self.db != None:
+            datastore.Datastore.__init__(self, DEF_DATA)
+        else:
+            datastore.Datastore.__init__(self, data)
+        
+    def Set(self, name, value, section = "GET_SET"):
+        datastore.Datastore.Set(self, name, value, section)
+#        if self.db != None:
+#            self.db.dump(self.data)
+        #print "DSTORE:setItem:", self.data
+        
+    def SetItem(self, name, keys, value, section = "GET_SET"):
+        datastore.Datastore.SetItem(self, name, keys, value, section)
+#        if self.db != None:
+#            self.db.dump(self.data)
+        #print "DSTORE:setItem:", self.data
+                    
     def IsTerminal(self):
         return self.IsDevice("Terminal")
     

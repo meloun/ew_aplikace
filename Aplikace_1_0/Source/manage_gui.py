@@ -11,6 +11,7 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 
 import libs.sqlite.sqlite as sqlite
+import libs.db.db_json as db_json
 import ewitis.data.dstore as dstore
 
 import ewitis.gui.Ui_App as Ui_App
@@ -42,15 +43,20 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         #=======================================================================
         # DATASTORE
-        #=======================================================================                                       
-        self.datastore = dstore.Dstore(DEF_DATA)                     
+        #=======================================================================
+   
+        #init config db 
+        self.db_work = db_json.Db('conf/conf_work.json', DEF_DATA)                                                                       
+        #create datastore
+        self.datastore = dstore.Dstore(self.db_work)
+        print "DSTORE:", self.datastore.data                             
+        #self.datastore = dstore.Dstore(data = DEF_DATA)                     
         
-
         #=======================================================================
         # FIRST CONSOLE OUTPUT
         #=======================================================================
         print "*****************************************"
-        print "* Ewitis application, ", self.datastore.Get("app_version"), "rfid" if self.datastore.Get("rfid") else "ir"
+        print "* Ewitis application, ", self.datastore.Get("versions")["app"], "rfid" if self.datastore.Get("rfid") else "ir"
         print "*****************************************" 
         codepage.codepage()
                                                            

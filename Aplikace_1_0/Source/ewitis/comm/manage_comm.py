@@ -30,6 +30,8 @@ class ManageComm(Thread):
         #set start download indexes
         self.index_runs = 0
         self.index_times = 0
+        self.no_new_times = 0
+        self.no_new_runs = 0
         if(self.datastore.Get("download_from_last") == 2):      
             if(self.datastore.Get("count")['Runs'] - 1) > 0:          
                 self.index_runs = self.datastore.Get("count")['Runs'] - 1
@@ -164,7 +166,19 @@ class ManageComm(Thread):
             
                         
             if(aux_time['error'] == 0 or aux_run['error'] == 0):
-                print"================="                                                                             
+                print"================="
+
+            if None:           
+                aux_diagnostic = self.datastore.Get("diagnostic")                
+                if(aux_time['error'] != 0):
+                    self.datastore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
+                    
+                if(aux_run['error'] != 0):
+                    self.datastore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
+                
+                #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"no new times (100)<br>")
+                                                                             
+                                                                            
                     
             """ STORE NEW TIME TO THE DATABASE """
             if(aux_time['error'] == 0):

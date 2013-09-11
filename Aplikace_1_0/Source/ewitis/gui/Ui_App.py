@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Tue Aug 20 20:35:08 2013
+# Created: Wed Sep 11 21:31:30 2013
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -2804,6 +2804,24 @@ class Ui_MainWindow(object):
         self.lineBacklight_56.setAlignment(QtCore.Qt.AlignCenter)
         self.lineBacklight_56.setReadOnly(True)
         self.lineBacklight_56.setObjectName(_fromUtf8("lineBacklight_56"))
+        self.textDiagCommunication = QtGui.QTextEdit(self.tabDiagnostic)
+        self.textDiagCommunication.setEnabled(True)
+        self.textDiagCommunication.setGeometry(QtCore.QRect(890, 40, 291, 551))
+        self.textDiagCommunication.setStyleSheet(_fromUtf8(""))
+        self.textDiagCommunication.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.textDiagCommunication.setReadOnly(True)
+        self.textDiagCommunication.setHtml(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">bold</span><span style=\" font-size:8pt;\"> normal</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.textDiagCommunication.setCursorWidth(0)
+        self.textDiagCommunication.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.textDiagCommunication.setObjectName(_fromUtf8("textDiagCommunication"))
+        self.label_65 = QtGui.QLabel(self.tabDiagnostic)
+        self.label_65.setGeometry(QtCore.QRect(890, 20, 131, 16))
+        self.label_65.setText(QtGui.QApplication.translate("MainWindow", "C O M M U N I C A T I O N", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_65.setObjectName(_fromUtf8("label_65"))
         self.tabWidget.addTab(self.tabDiagnostic, _fromUtf8(""))
         self.tabManual = QtGui.QWidget()
         self.tabManual.setObjectName(_fromUtf8("tabManual"))
@@ -3035,7 +3053,7 @@ class Ui_MainWindow(object):
         self.toolBar_2.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(11)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

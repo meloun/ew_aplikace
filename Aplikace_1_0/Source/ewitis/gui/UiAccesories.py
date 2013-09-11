@@ -20,7 +20,11 @@ class UiAccesories():
         self.ui = source.ui
         self.datastore = source.datastore
         #self.showmessage = source.UishowMessage
-        self.source = source        
+        self.source = source
+
+        #tabs are not init yet - False for all
+        self.init = [False for tab in range(TAB.nr_tabs)]        
+                                                
         
     def createSlots(self): 
                 
@@ -100,6 +104,7 @@ class UiAccesories():
         #points
         QtCore.QObject.connect(self.ui.checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("points", ["table"], state, TAB.race_settings))
         QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("points", ["rule"], utils.toUnicode(name), TAB.race_settings))
+        #QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))
         QtCore.QObject.connect(self.ui.spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["minimum"], laps, TAB.race_settings))
         QtCore.QObject.connect(self.ui.spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["maximum"], laps, TAB.race_settings))
         
@@ -157,7 +162,7 @@ class UiAccesories():
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                           
         self.showMessage("Race", self.datastore.Get("race_name"), False) 
-        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))                
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -179,7 +184,7 @@ class UiAccesories():
         - gui
         - table
         """
-
+        
         if(tab == None):
             #common for all tabs
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
@@ -295,7 +300,8 @@ class UiAccesories():
             self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
                 
             #APPLICATION
-            if(self.datastore.IsChanged("race_name")):
+            if(self.datastore.IsChanged("race_name") or (self.init[tab] == False)):
+                #print "RACE CHANGED"
                 self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
                 self.datastore.ResetChangedFlag("race_name")
             self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
@@ -306,7 +312,7 @@ class UiAccesories():
             self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
             self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
             #export - options
-            if(self.datastore.IsChanged("export")):
+            if(self.datastore.IsChanged("export") or (self.init[tab] == False)):
                 self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
                 self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
                 self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
@@ -324,12 +330,18 @@ class UiAccesories():
             #points
             points = self.datastore.Get("points")
             self.ui.checkPoinstsFromTable.setCheckState(points["table"])
-            self.ui.linePointsRule.setText(points["rule"])            
+            
+            if(self.datastore.IsChanged("points") or (self.init[tab] == False)):
+                #print "RULE CHANGED"                
+                self.ui.linePointsRule.setText(points["rule"])
+                self.datastore.ResetChangedFlag("points")
+            
+            #self.ui.linePointsRule.setText(points["rule"])            
             self.ui.spinPointsMinimum.setValue(points["minimum"])
             self.ui.spinPointsMaximum.setValue(points["maximum"])            
             self.ui.linePointsRule.setEnabled(not(points['table']))
             self.ui.spinPointsMinimum.setEnabled(not(points['table'])) 
-            self.ui.spinPointsMaximum.setEnabled(not(points['table']))                       
+            self.ui.spinPointsMaximum.setEnabled(not(points['table']))                                   
                 
                 
             ##TIMES##
@@ -484,6 +496,17 @@ class UiAccesories():
                 self.ui.lineLanguage.setText(self.ui.comboLanguage.currentText())                    
             else:            
                 self.ui.lineLanguage.setText("- -")
+        elif(tab == TAB.diagnostic):
+            aux_diagnostic = self.datastore.Get("diagnostic")            
+            if aux_diagnostic["communication"] != "":
+                self.ui.textDiagCommunication.insertHtml(aux_diagnostic["communication"])
+                self.datastore.SetItem("diagnostic", ["communication"], "")                         
+                vsb = self.ui.textDiagCommunication.verticalScrollBar()
+                vsb.setValue(vsb.maximum())            
+                self.ui.textDiagCommunication.ensureCursorVisible()                    
+        
+        if tab != None:            
+            self.init[tab] = True
                 
 
     def updateToolbarActions(self, state = None):

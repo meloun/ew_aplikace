@@ -29,3 +29,8 @@
 2012-11-01 14:36:36,361 - WARNING  - warn message
 2012-11-01 14:36:36,361 - ERROR    - error message
 2012-11-01 14:36:36,361 - CRITICAL - critical message
+2013-09-11 20:26:35,289 - DEBUG    - debug message
+2013-09-11 20:26:35,328 - INFO     - info message
+2013-09-11 20:26:35,328 - WARNING  - warn message
+2013-09-11 20:26:35,328 - ERROR    - error message
+2013-09-11 20:26:35,328 - CRITICAL - critical message

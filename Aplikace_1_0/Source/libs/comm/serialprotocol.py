@@ -69,9 +69,9 @@ class SerialProtocol():
         self.baudrate = baudrate        
         self.seq_id = 1                    
         
-    def xor(self, string):
+    def xor(self, string, init = 0):
         """checksumm"""
-        xor = 0        
+        xor = init        
         for i in range(len(string)):            
             xor ^= ord(string[i])
         return xor
@@ -131,7 +131,7 @@ class SerialProtocol():
         self.ser.write(aux_string)        
         #return self.seq_id
         
-    def receive_frame(self):
+    def receive_frame_old(self):
         """
         přijme jeden frame,
         
@@ -182,6 +182,68 @@ class SerialProtocol():
             state = eWAIT_FOR_STARTBIT            
             return frame
         raise Receive_Error()
+
+    def receive_frame (self):
+        """
+        přijme jeden frame,
+       
+        *return:*
+          poskládaný frame                 
+       
+        """
+                       
+        frame = {}                     
+        znak = ''                  
+
+        #1. start byte
+        while (znak != START_BYTE):
+            znak = self.ser.read()
+            if len(znak) == 0:
+                raise Receive_Error(1, "timeout: no start byte" ) #timeout, no start byte in stream
+        xor = self.xor(znak)        
+                                           
+        #2.byte - sequence       
+        znak = self.ser.read()
+        if len(znak) == 0:
+            raise Receive_Error(2, "timeout: no sequence" ) #timeout, no sequence byte
+        xor = self.xor(znak, xor)           
+        frame[ 'seq_id'] = ord(znak)
+           
+        #3.byte - command       
+        znak = self.ser.read()
+        if len(znak) == 0:
+            raise Receive_Error(3, "timeout: no command" ) #timeout, no command
+        xor = self.xor(znak, xor)
+        frame[ 'cmd'] = ord(znak)
+                   
+        #4.byte - data length           
+        znak = self.ser.read()
+        if len(znak) == 0:
+            raise Receive_Error(4, "timeout: no data length" ) #timeout, length
+        xor = self.xor(znak, xor)
+        frame[ 'datalength'] = ord(znak)                   
+                                                     
+        #5.byte - data
+        if( self.ser.inWaiting() < frame['datalength' ]):
+            print"E: NEDOSTATEK DAT! (cekam..)"            
+        frame[ 'data'] = self .ser.read(frame['datalength'])       
+        if len(frame[ 'data']) != frame[ 'datalength']:
+            raise Receive_Error(5, "timeout: no enough data" ) #timeout, no enough data
+        xor = self.xor(frame[ 'data'], xor)                           
+           
+        #last byte - xor                   
+        znak = self.ser.read()
+        if len(znak) == 0:
+            raise Receive_Error(6, "timeout: no checksum" ) #timeout, no xor
+       
+        #calc xor
+        if ord(znak) != xor:            
+            raise Receive_Error(10, "timeout: no valid checksum" ) #timeout, wrong xor
+                   
+        #return frame                  
+        return frame 
+
+    
     
     def send_receive_frame(self, cmd, data):        
         """
@@ -225,6 +287,7 @@ class SerialProtocol():
             '''receive answer'''
             try:                                 
                 aux_frame = self.receive_frame()
+                #aux_frame = self.receive_frame_old()
                 if(aux_frame['seq_id'] != self.seq_id):                                        
                     raise SendReceiveError(1, "no match sequence ids")
                 

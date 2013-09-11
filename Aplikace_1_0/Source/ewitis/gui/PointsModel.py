@@ -83,26 +83,28 @@ class Points(myModel.myTable):
         points = 0
 
         #rule
-        rule = rule.lower()
+        rule = rule.lower()    
         
-        time = TimesUtils.TimesUtils.timestring2time(timestring)
-        
+        #convert %rule-timestring% to ruletime(number)
         aux_split = rule.split('%')
-        ruletime_string =  aux_split[1] if (len(aux_split) == 3) else None
-        ruletime = TimesUtils.TimesUtils.timestring2time(ruletime_string)        
-        
-        #make expression
-        if ruletime:            
-            rule = aux_split[0]+str(ruletime)+aux_split[2]            
+        if(len(aux_split) == 3): #3 parts => ruletime exist, on 2.position                
+            try:
+                ruletime = TimesUtils.TimesUtils.timestring2time(aux_split[1]) #timestring=>time        
+            except TimesUtils.TimeFormat_Error:
+                return None                    
+            #glue expression again                        
+            rule = aux_split[0]+str(ruletime)+aux_split[2]
+
+        #replace keywords with time values                            
         expression_string = rule.replace("order", str(order))
-        expression_string = expression_string.replace("time", str(time))       
+        expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring)))       
         
         #evaluate
-        try:
-            #print expression_string
+        try:            
             points = eval(expression_string)        
-        except SyntaxError:
-            print "E: invalid string for evaluation", expression_string
+        except (SyntaxError,TypeError):
+            #print "I: invalid string for evaluation", expression_string
+            return None        
         
         #restrict               
         if points < minimum:
