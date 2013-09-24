@@ -5,7 +5,6 @@ import sys
 import time
 import os
 from PyQt4 import QtCore, QtGui, Qt
-from libs.myqt import gui
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.PointsModel as PointsModel
@@ -179,8 +178,14 @@ class TimesModel(myModel.myModel):
         if(tabTime['cell'] == 1) or (tabTime['nr']==0) or tabCategory==None: #start time?                           
             tabTime['start_nr'] = 1 #decrement 1.starttime
         else:                                
-            tabTime['start_nr'] = tabCategory['start_nr']        
-        
+            tabTime['start_nr'] = tabCategory['start_nr']
+                    
+        '''STATUS'''        
+        if (dbTime['cell'] == 1) or (dbTime["user_id"] == 0):
+            tabTime['status'] = ''        
+        else:                       
+            tabTime['status'] = tabUser['status']
+            
         '''TIME
             dbtime 2 tabletime'''                                               
         
@@ -256,16 +261,46 @@ class TimesModel(myModel.myModel):
                    - nulového času'''                                  
                 
                 if(int(tabRow['cell']) == 1):                            
-                    self.params.showmessage(self.params.name+" Update error", "Cannot assign user to start time!")
+                    self.params.uia.showMessage(self.params.name+" Update error", "Cannot assign user to start time!")
                     self.update()       
                     return 
 #                elif(tabRow['time'] == '00:00:00,00'):
 #                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
 #                   self.update()
 #                   return
-                                                   
+            elif(item.column() == self.params.TABLE_COLLUMN_DEF['status']['index']):
+                '''ZMĚNA STATUSu'''
+                '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dnq'                                
+                   - tento state se zapíše k danému uživately => users.state 
+                '''
                 
-        
+                #check rights and format
+                if(int(tabRow['cell']) == 1):
+                    self.params.uia.showMessage("Status update error", "Status can NOT be set to starttime")
+                    return                
+                elif(int(tabRow['nr']) == 0):   
+                    self.params.uia.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
+                    return                
+                elif tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
+                    self.params.uia.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
+                    return
+                
+                #get DB-USER
+                dbRow = self.params.tabUser.getDbUserParNr(tabRow['nr'])  
+                if(dbRow == None):
+                    self.params.uia.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                
+                    return None
+                                                                                                                                                                                     
+                #convert sqlite row to dict
+                dbUser = {}
+                for key in dbRow.keys():
+                    dbUser[key] = dbRow[key]                   
+                dbUser['status'] = tabRow['status']
+                 
+                #update status                
+                self.params.db.update_from_dict(self.params.tabUser.params.name, dbUser)                
+                return
+                                                                           
         myModel.myModel.sModelChanged(self, item)
   
 
@@ -304,13 +339,13 @@ class TimesModel(myModel.myModel):
             ''' get DB-USER'''
             dbUser = self.params.tabUser.getDbUserParNr(tabTime['nr'])                                                      
             if(dbUser == None):
-                self.params.showmessage(self.params.name+" Update error", "Cant find user with nr. "+ tabTime['nr'])                
+                self.params.uia.showMessage(self.params.name+" Update error", "Cant find user with nr. "+ tabTime['nr'])                
                 return None
                                       
             '''get DB-CATEGORY'''             
             dbCategory = self.params.tabCategories.getDbRow(dbUser['category_id'])
             if(dbCategory == None):
-                self.params.showmessage(self.params.name+" Update error", "Cant find category for this user.")                
+                self.params.uia.showMessage(self.params.name+" Update error", "Cant find category for this user.")                
                 return None
             
             '''při změně čísla nejsou v tabTime správné user údaje'''
@@ -323,10 +358,10 @@ class TimesModel(myModel.myModel):
             try:                                
                 aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
             except IndexError:                        
-                self.params.showmessage(self.params.name+": Update error", str(nr_start)+".th start-time is necessary for users from this category!")
+                self.params.uia.showMessage(self.params.name+": Update error", str(nr_start)+".th start-time is necessary for users from this category!")
                 return None
             except:
-                self.params.showmessage(self.params.name+": Update error", "Cant find start time for this category.")
+                self.params.uia.showMessage(self.params.name+": Update error", "Cant find start time for this category.")
                 return None
                 
             ''' get user id'''
@@ -334,7 +369,7 @@ class TimesModel(myModel.myModel):
                         
             if(dbTime['user_id'] == None):
                 '''user not found => nothing to save'''
-                self.params.showmessage(self.params.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
+                self.params.uia.showMessage(self.params.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
             
             #in onelap race user can have ONLY 1 TIME
@@ -380,7 +415,7 @@ class TimesModel(myModel.myModel):
                     dbTime['time'] = None
                     
                 except TimesUtils.TimeFormat_Error:
-                    self.params.showmessage(self.params.name+" Update error", "Wrong Time format!")                
+                    self.params.uia.showMessage(self.params.name+" Update error", "Wrong Time format!")                
                 
             
         
@@ -583,7 +618,7 @@ class Times(myModel.myTable):
                                 
    
     def sRecalculate(self, run_id):
-        if (self.params.showmessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", msgtype='warning_dialog') != True):            
+        if (self.params.uia.showmessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
         print "A: Times: Recalculating.. run id:", run_id
         query = \
@@ -732,7 +767,14 @@ class Times(myModel.myTable):
     #=======================================================================
     
     # F11 - konečné výsledky, 1 čas na řádek
-    def sExportResultsDirect(self, col_nr_export):                       
+    def sExportResultsDirect(self, col_nr_export):
+        
+        #ret = QtGui.QMessageBox.question(self.params.uia.source, "Results Export", "Choose format of results", "NOT finally results", "Finally results","Cancel",  escapeButtonNumber = 2)
+        ret = QtGui.QMessageBox.question(self.params.uia.source, "Results Export", "Choose format of results", QtGui.QMessageBox.Yes, QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Cancel)
+        print "button", ret
+        if ret == 2:
+            return
+                               
         #title
         title = "Table '"+self.params.name + "' CSV Export Categories" 
         
@@ -791,7 +833,7 @@ class Times(myModel.myTable):
             try:                
                 aux_csv.save(exportRows)
             except IOError:
-                self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                self.params.uia.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
                         
         '''Alltimes - write to csv file'''
         if(exportRows_Alltimes != []):
@@ -806,7 +848,7 @@ class Times(myModel.myTable):
             try:                
                 aux_csv.save(exportRows_Alltimes)
             except IOError:
-                self.params.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                self.params.uia.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
                 
                                              
         '''EXPORT CATEGORIES'''                        
@@ -849,7 +891,7 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    self.params.uia.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                       
             '''Alltimes - write to csv file'''
             if(exportRows_Alltimes != []):                
@@ -861,7 +903,7 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows_Alltimes)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
+                    self.params.uia.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
                                    
                     
         '''EXPORT GROUPS'''
@@ -910,7 +952,7 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    self.params.uia.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
                     
             '''Alltimes - write to csv file'''
             if(exportRows_Alltimes != []):                
@@ -921,13 +963,13 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows_Alltimes)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    self.params.uia.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
 
         
         exported_string = ""
         for key in sorted(exported.keys()):
             exported_string += key + " : " + str(exported[key])+" times\n"        
-        self.params.showmessage(self.params.name+" Exported", exported_string, msgtype='info')                                        
+        self.params.uia.showMessage(self.params.name+" Exported", exported_string, MSGTYPE.info)                                        
         return         
 
                 
@@ -1017,7 +1059,7 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    self.params.uia.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                          
         return  
     
@@ -1116,7 +1158,7 @@ class Times(myModel.myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    self.params.showmessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    self.params.uia.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                          
         return  
         
@@ -1129,7 +1171,8 @@ class Times(myModel.myTable):
         col_nr_export = 'col_nr_export_raw'
         
         '''get filename, gui dialog, save path to datastore'''        
-        filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
+        #filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
+        filename =  self.params.uia.myQFileDialog.getSaveFileName("Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
                                  
         if(filename == ""):
             return                            
@@ -1153,7 +1196,7 @@ class Times(myModel.myTable):
             try:                                     
                 aux_csv.save(exportRows)
             except IOError:
-                self.params.showmessage(self.params.name+" Export warning", "Permission denied!")
+                self.params.uia.showmessage(self.params.name+" Export warning", "Permission denied!")
                                
                     
     #toDo: sloucit s myModel konstruktorem        
@@ -1176,13 +1219,13 @@ class Times(myModel.myTable):
             rows = self.params.gui['view'].selectionModel().selectedRows()                        
             id = self.proxy_model.data(rows[0]).toString()
         except:
-            self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
+            self.params.uia.showMessage(self.params.name+" Delete error", "Cant be deleted")
             return
             
         #first start time? => cant be updated               
         #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
         if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
-            self.params.showmessage(self.params.name+" Delete warning", "First start time cant be deleted!")
+            self.params.uia.showMessage(self.params.name+" Delete warning", "First start time cant be deleted!")
             return  
         
         #delete run with additional message

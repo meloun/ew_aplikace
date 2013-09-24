@@ -1,28 +1,14 @@
 # -*- coding: utf-8 -*-
-import libs.datastore.datastore as datastore
-from ewitis.data.DEF_DATA import *
+import libs.datastore.permanent_datastore as datastore
 
-class Dstore(datastore.Datastore):
+
+class Dstore(datastore.PermanentDatastore):
     
     def __init__(self, db = None, data = None):
-        self.db = db
-        if self.db != None:
-            datastore.Datastore.__init__(self, DEF_DATA)
-        else:
-            datastore.Datastore.__init__(self, data)
         
-    def Set(self, name, value, section = "GET_SET"):
-        datastore.Datastore.Set(self, name, value, section)
-#        if self.db != None:
-#            self.db.dump(self.data)
-        #print "DSTORE:setItem:", self.data
-        
-    def SetItem(self, name, keys, value, section = "GET_SET"):
-        datastore.Datastore.SetItem(self, name, keys, value, section)
-#        if self.db != None:
-#            self.db.dump(self.data)
-        #print "DSTORE:setItem:", self.data
-                    
+        #init
+        datastore.PermanentDatastore.__init__(self, db, data)
+                            
     def IsTerminal(self):
         return self.IsDevice("Terminal")
     
@@ -37,7 +23,8 @@ class Dstore(datastore.Datastore):
         return False
 
 
-if __name__ == "__main__":        
+if __name__ == "__main__":
+    from ewitis.data.DEF_DATA import *        
     mydatastore = Dstore(DEF_DATA)
     print mydatastore.Get("versions")
     print mydatastore.IsTerminal()           

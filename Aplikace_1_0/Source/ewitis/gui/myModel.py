@@ -13,6 +13,8 @@ import libs.sqlite.sqlite as sqlite
 import libs.db_csv.db_csv as Db_csv
 import libs.datastore.datastore as datastore
 import libs.utils.utils as utils 
+import libs.utils.utils as utils
+from ewitis.gui.UiAccesories import MSGTYPE 
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
@@ -28,14 +30,15 @@ class myParameters():
     def __init__(self, source):
         
         #callback METHOD,  for showing dialogs, messages
-        self.showmessage = source.UiAccesories.showMessage
+        
+        #ui accesories
+        self.uia = source.UiAccesories        
     
         #db for acces
-        self.db = source.db                        
-        
-        self.datastore = source.datastore
-        
-        self.myQFileDialog = source.myQFileDialog
+        self.db = source.db
+                                
+        #datastore
+        self.datastore = source.datastore                
 
 class myAbstractModel():
     def __init__(self): 
@@ -149,7 +152,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
                 try:                                                        
                     self.params.db.update_from_dict(self.params.name, dbRow)                
                 except:                
-                    self.params.showmessage(self.params.name+" Update", "Error!")                
+                    self.params.uia.showMessage(self.params.name+" Update", "Error!")                
                 
             #update model
             #time.sleep(2)
@@ -508,15 +511,15 @@ class myTable():
         
         #get ID for default record
         row = self.model.getDefaultTableRow()        
-        #print row                
-        my_id = self.params.showmessage(title,"ID: ", msgtype="input_integer", value = row['id'])                
+        #print row                        
+        my_id = self.params.uia.showMessage(title,"ID: ", MSGTYPE.get_integer, row['id'])                
         if my_id == None:
             return
 
         #this ID exist?                
         res = self.params.db.getParId(self.params.name, my_id)            
         if(res):
-            self.params.showmessage(title,"Record with this ID already exist!")
+            self.params.uia.showMessage(title,"Record with this ID already exist!")
             return
      
         row['id'] = my_id        
@@ -526,7 +529,7 @@ class myTable():
         dbRow = self.model.table2dbRow(row)        
         if(dbRow != None):        
             self.params.db.insert_from_dict(self.params.name, dbRow)            
-            self.params.showmessage(title,"succesfully (id="+str(my_id)+")", dialog = False)
+            self.params.uia.showMessage(title,"succesfully (id="+str(my_id)+")", MSGTYPE.statusbar)
 
         self.update()                    
         #self.params.datastore.Set("user_actions", True)  
@@ -542,20 +545,22 @@ class myTable():
             rows = self.params.gui['view'].selectionModel().selectedRows()                        
             id = self.proxy_model.data(rows[0]).toString()
         except:
-            self.params.showmessage(title, "Nelze smazat")
+            self.params.uia.showMessage(title, "Nelze smazat")
             return
             
         #confirm dialog and delete
         if (label != ""):
             label="\n\n("+label+")"        
-        if (self.params.showmessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, msgtype='warning_dialog')):                        
-            self.delete(id)                                                                                            
+        if (self.params.uia.showMessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, MSGTYPE.warning_dialog)):                        
+            self.delete(id)
+            self.params.uia.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
                             
     def sImport(self):
         """import"""                                   
                                            
         #gui dialog        
-        filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        #filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = self.params.uia.myQFileDialog.getOpenFileName("Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
         
         #cancel or close window
         if(filename == ""):                 
@@ -575,14 +580,14 @@ class myTable():
                     
         #check csv file format - emty file
         if(rows==[]):                
-            self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+            self.params.uia.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
             return
         
         #check csv file format - wrong format                                
         header = rows.pop(0)
         for i in range(3): 
             if not(header[i] in keys):
-                self.params.showmessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+                self.params.uia.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
                 return
 
         #counters
@@ -605,7 +610,7 @@ class myTable():
         self.model.update()
         self.sImportDialog(state)
         #except:
-        #    self.params.showmessage(self.params.name+" CSV Import", "Error")
+        #    self.params.uia.showMessage(self.params.name+" CSV Import", "Error")
                                                     
                 
                                 
@@ -614,9 +619,9 @@ class myTable():
         title = "Table '"+self.params.name + "' CSV Import"
         
         if(state['ko'] != 0) :
-            self.params.showmessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
+            self.params.uia.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
         else:
-            self.params.showmessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", msgtype='info')                                               
+            self.params.uia.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                               
         
     # EXPORT
     # WEB (or DB) => CSV FILE
@@ -628,7 +633,8 @@ class myTable():
 
                 
         #get filename, gui dialog         
-        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        #filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = self.params.uia.myQFileDialog.getSaveFileName("Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
         if(filename == ""):
             return              
         
@@ -638,9 +644,9 @@ class myTable():
         #export to csv file
         #try:                        
         self.export_csv(filename, source)                                
-        self.params.showmessage(title, "Succesfully", dialog=False)            
+        self.params.uia.showMessage(title, "Succesfully")            
         #except:            
-        #    self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file")
+        #    self.params.uia.showMessage(title, "NOT succesfully \n\nCannot write into the file")
                    
              
     # EXPORT WWW    
@@ -648,7 +654,7 @@ class myTable():
     def sExport_www(self): 
         
         #get filename, gui dialog         
-        filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
+        filename = self.params.uia.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
         if(filename == ""):
             return                
          
@@ -682,9 +688,9 @@ class myTable():
         try:                                                
             html_page = ew_html.Page_table(filename, title = self.params.datastore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
             html_page.save()                             
-            self.params.showmessage(title, "Succesfully ("+filename+")", dialog=False)            
+            self.params.uia.showMessage(title, "Succesfully ("+filename+")", dialog=False)            
         except IOError:            
-           self.params.showmessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+           self.params.uia.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                                          
                         
     # DELETE BUTTON          
@@ -694,7 +700,7 @@ class myTable():
         title = "Table '"+self.params.name + "' Delete"
         
         #confirm dialog and delete
-        if (self.params.showmessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", msgtype='warning_dialog')):
+        if (self.params.uia.showMessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?")):
             self.deleteAll()                                            
     
                   

@@ -59,6 +59,25 @@ class RaceInfoParameters(myModel.myParameters):
                 
 
 class RaceInfoModel(myModel.myModel):
+    """
+    RaceInfo table
+    
+    states:
+        - race (default)    
+        - dns (manually set)
+        - dnq (manually set)
+        - dnf (manually set)
+        - finished (time received)
+    
+    NOT finally results:
+        - only finished
+    
+    Finally results:
+        - finished = with time
+        - race + dnf = DNF
+        - dns = DNS
+        - dnq = DNQ                
+    """
     def __init__(self, params):                        
         
         #create MODEL and his structure
@@ -70,15 +89,17 @@ class RaceInfoModel(myModel.myModel):
         category = myModel.myModel.getDefaultTableRow(self)                
         category['name'] = "unknown"        
         return category 
-    
+        
     def update(self, parameter=None, value=None, conditions=None, operation=None):
         """
         update model z databaze
           
         update() => update cele tabulky
         update(parameter, value) => vsechny radky s parametrem = value
-        update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
+        update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1]                 
         """
+        
+        print "aslfdkjalkfs"
         
         #run_id                
         run_id = self.params.tabTimes.model.run_id
@@ -90,19 +111,24 @@ class RaceInfoModel(myModel.myModel):
         self.removeRows(0, self.rowCount())                                                                                                                                              
         
         row_id = 1
-        
-        #race        
-        row = {}
-        row["id"] = row_id
-        row["name"] = "Run id:"+ str(run_id)
-        row["start_list"] = self.params.tabUser.getCount()  
-        row["ok"] = self.params.tabUser.getCount("ok")  
-        row["dns"] = self.params.tabUser.getCount("dns")  
-        row["dnq"] = self.params.tabUser.getCount("dnq")  
-        row["dnf"] = self.params.tabUser.getCount("dnf")              
-        row["finished"] = self.params.tabTimes.getCount(run_id)
-        row["awaited"] = row["start_list"] - row["dns"] - row["dnq"] - row["dnf"] - row["finished"]            
-        row_table = self.db2tableRow(row)
+                        
+        #row_table = self.db2tableRow(row)
+        row_table = {}
+        row_table["id"] = row_id
+        row_table["name"] = "Run id:"+ str(run_id)
+        row_table["startlist"] = self.params.tabUser.getCount()  
+        row_table["dns"] = self.params.tabUser.getCount("dns")          
+        row_table["finished"] = self.params.tabUser.getCount("finished")
+        row_table["dsq"] = self.params.tabUser.getCount("dsq")  
+        row_table["dnf"] = self.params.tabUser.getCount("dnf")
+        row_table["race"] = self.params.tabUser.getCount("race")              
+                                            
+        if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
+            row_table["check"] = "ok"
+        else:
+            row_table["check"] = "ko"
+            print row_table["race"], type(row_table["race"])
+            
         self.addRow(row_table)
         row_id =  row_id + 1
         
@@ -110,28 +136,25 @@ class RaceInfoModel(myModel.myModel):
         dbCategories = self.params.tabCategories.getDbRows()                      
         for dbCategory in dbCategories:                                                                                            
             
-            row = {}
-            row["id"] = row_id
-            row["name"] = dbCategory["name"]
-            row["start_list"] = self.params.tabUser.getCount(dbCategory = dbCategory)  
-            row["ok"] = self.params.tabUser.getCount("ok", dbCategory)  
-            row["dns"] = self.params.tabUser.getCount("dns", dbCategory)  
-            row["dnq"] = self.params.tabUser.getCount("dnq", dbCategory)  
-            row["dnf"] = self.params.tabUser.getCount("dnf", dbCategory)              
-            row["finished"] = self.params.tabTimes.getCount(run_id, dbCategory)
-            row["awaited"] = row["start_list"] - row["dns"] - row["dnq"] - row["dnf"] - row["finished"]            
-            row_table = self.db2tableRow(row)
+            #row_table = self.db2tableRow(row)
+            row_table = {}
+            row_table["id"] = row_id
+            row_table["name"] = dbCategory["name"]                        
+            row_table["startlist"] = self.params.tabUser.getCount(dbCategory = dbCategory)  
+            row_table["dns"] = self.params.tabUser.getCount("dns", dbCategory)              
+            row_table["finished"] = self.params.tabUser.getCount("finish", dbCategory)
+            row_table["dsq"] = self.params.tabUser.getCount("dsq", dbCategory)  
+            row_table["dnf"] = self.params.tabUser.getCount("dnf", dbCategory)              
+            row_table["race"] = self.params.tabUser.getCount("race", dbCategory)
+            
+            if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
+                row_table["check"] = "ok"
+            else:
+                row_table["check"] = "ko"                          
+                  
             self.addRow(row_table)
-            row_id =  row_id + 1
-            #print row_table           
-
+            row_id =  row_id + 1                     
         
-#        for row_dict in row_dicts:            
-#            #call table-specific function, return "table-row"                                           
-#            row_table = self.db2tableRow(row_dict)                                                                                                                                                     
-#            #add row to the table             
-#            self.addRow(row_table)
-
         #enable user actions                                                                                                                                                                                                           
         self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")-1)
         

@@ -79,6 +79,8 @@ class Datastore():
         self.datalock = RLock(False)
         
         self.REFRESH_COUNTDOWN = 0x01
+        
+        print "PP: ", self.GetAllPermanents()
     
     def ResetValue(self, name, key1 = None, key2 = None):
         '''
@@ -190,7 +192,31 @@ class Datastore():
         """
         if 'GET_SET' in self.data[name]:
             return self.data[name]['GET_SET']['changed']           
-        return self.data[name]['SET']['changed']          
+        return self.data[name]['SET']['changed']
+              
+    def IsPermanent(self, name):
+        """                        
+        slouží ke zjištění zda je datapoint určen k trvalému ulolžení  
+        """
+        if 'permanent' in self.data[name]:
+            return self.data[name]['permanent']           
+        return False
+    
+    def GetAllPermanents(self):
+        """                        
+        slouží ke zjištění zda je datapoint určen k trvalému ulolžení  
+        """
+        permanents = {}
+        for k,v in self.data.items():            
+            if self.IsPermanent(k) == True:
+                permanents[k] = v
+                         
+        return permanents
+
+    def Update(self, update_dict):
+        if update_dict != None:
+            self.data.update(update_dict)
+        return self.data            
                
     
     """

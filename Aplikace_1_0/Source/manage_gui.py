@@ -30,7 +30,6 @@ import ewitis.gui.UiAccesories as UiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import *
 import libs.utils.utils as utils
 import libs.test.codepage as codepage  
-from libs.myqt import gui
   
 class wrapper_gui_ewitis(QtGui.QMainWindow):        
     def __init__(self, parent = None):
@@ -44,13 +43,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         # DATASTORE
         #=======================================================================
-   
-        #init config db 
-        self.db_work = db_json.Db('conf/conf_work.json', DEF_DATA)                                                                       
-        #create datastore
-        self.datastore = dstore.Dstore(self.db_work)
-        print "DSTORE:", self.datastore.data                             
-        #self.datastore = dstore.Dstore(data = DEF_DATA)                     
+        self.datastore = dstore.Dstore('conf/conf_work.json', DEF_DATA)                     
         
         #=======================================================================
         # FIRST CONSOLE OUTPUT
@@ -72,7 +65,7 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #=======================================================================
         # GUI
         #=======================================================================
-        self.myQFileDialog = gui.myDialog(self.datastore)                         
+        #self.myQFileDialog = gui.myDialog(self.datastore)                         
         #slots, update etc.                                                                                                                     
         self.UiAccesories = UiAccesories.UiAccesories(self)                            
         self.UiAccesories.createSlots()                
@@ -101,9 +94,9 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         
         #nastaveni prvniho dostupneho portu
         try:
-            self.datastore.Set("port_name", "GET_SET", serial_utils.enumerate_serial_ports().next())        
+            self.datastore.SetItem("port", ["name"], serial_utils.enumerate_serial_ports().next())        
         except:            
-            self.datastore.Set("port_name", "GET_SET", "---")
+            self.datastore.SetItem("port", ["name"], "---")
         #print self.datastore.data
         
         self.UiAccesories.updateGui()                                                      

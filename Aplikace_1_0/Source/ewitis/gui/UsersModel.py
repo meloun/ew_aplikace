@@ -79,6 +79,7 @@ class UsersModel(myModel.myModel):
     def getDefaultTableRow(self): 
         user = myModel.myModel.getDefaultTableRow(self)                
         user['nr'] = 0
+        user['status'] = "race"
         user['name'] = "unknown"
         user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
         user['category_id'] = 0
@@ -89,6 +90,7 @@ class UsersModel(myModel.myModel):
         user = {}                
         user['id'] = 0
         user['nr'] = dbTag['user_nr']
+        user['race'] = "race"
         user['name'] = "USER: "+ str(dbTag['user_nr'])+ ", TAG: "+str(dbTag['printed_nr'])#+" id:"+ str(dbTag['tag_id'])
         user['first_name'] = ""
         user['first_name'] = ""                
@@ -135,6 +137,10 @@ class UsersModel(myModel.myModel):
     #GUI: "id", "nr", "name", "first_name", "category", "address"   
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
     def table2dbRow(self, tabUser, item = None):                              
+
+        if tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
+            self.params.showmessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
+            return None                
             
         #1to1 keys just copy        
         dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
@@ -195,7 +201,8 @@ class Users(myModel.myTable):
            
         #TIMERs
         #self.timer1s = QtCore.QTimer(); 
-        #self.timer1s.start(1000);        
+        #self.timer1s.start(1000);
+            
             
     def getDbUserParNr(self, nr):
                  
@@ -203,10 +210,10 @@ class Users(myModel.myTable):
                         
         return db_user
     
-    def getTabUserParNr(self, id):
+    def getTabUserParNr(self, nr):
                              
         #get db row
-        dbRow = self.getDbUserParNr(id)        
+        dbRow = self.getDbUserParNr(nr)        
         
         tabRow = self.model.db2tableRow(dbRow)                
             
@@ -260,13 +267,13 @@ class Users(myModel.myTable):
             return dbUser['id']
         
     #
-    def getCount(self, state = None, dbCategory = None):
+    def getCount(self, status = None, dbCategory = None):
         
-        if state!=None and dbCategory!=None:
-            res = self.params.db.getParXX("users", [["state", state], ["category_id", str(dbCategory["id"])]], "AND")                                                                                        
-        elif state!=None and dbCategory==None:
-            res = self.params.db.getParX("users", "state", state)
-        elif state==None and dbCategory!=None:
+        if status!=None and dbCategory!=None:
+            res = self.params.db.getParXX("users", [["status", status], ["category_id", str(dbCategory["id"])]], "AND")                                                                                        
+        elif status!=None and dbCategory==None:
+            res = self.params.db.getParX("users", "status", status)
+        elif status==None and dbCategory!=None:
             res = self.params.db.getParX("users", "category_id", str(dbCategory["id"]))
         else:
             res = self.getDbRows()             

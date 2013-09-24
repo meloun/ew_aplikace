@@ -43,8 +43,9 @@ class ManageComm(Thread):
         #USER_CONF = conf.load(self.conf_file, {"port": "COM8", "baudrate": 38400})
         
         
-        ''' CONNECT TO EWITIS '''                
-        self.protokol = serialprotocol.SerialProtocol( port = self.datastore.Get("port_name", "GET_SET"), baudrate=self.datastore.Get("port_baudrate", "GET_SET"))        
+        ''' CONNECT TO EWITIS '''
+        aux_port = self.datastore.Get("port")                
+        self.protokol = serialprotocol.SerialProtocol( port = aux_port["name"], baudrate = aux_port["baudrate"])        
         print "COMM: zakladam instanci.."                        
         
     def __del__(self):
@@ -90,7 +91,8 @@ class ManageComm(Thread):
             self.protokol.open_port()
         except serial.SerialException:
             print "E: Cant open port"
-            self.datastore.Set("port_enable", False)                        
+            #self.datastore.Set("port_enable", False)                        
+            self.datastore.SetItem("port", ["opened"], False)                        
             return            
             #raise serial.SerialException
         
@@ -102,12 +104,14 @@ class ManageComm(Thread):
             '''connect to db'''  
             self.db.connect()
         except:
-            self.datastore.Set("port_enable", False)
+            #self.datastore.Set("port_enable", False)
+            self.datastore.SetItem("port", ["opened"], False)
             print "E: Database"
         
         
         """communication established"""
-        self.datastore.Set("port_enable", True)
+        #self.datastore.Set("port_enable", True)
+        self.datastore.SetItem("port", ["opened"], True)
             
                                                                                     
         while(1):
@@ -123,14 +127,15 @@ class ManageComm(Thread):
                 #time.sleep(0.01)
                 
                 #terminate thread?                                 
-                if(self.datastore.Get("port_enable", "GET_SET") == False):
+                #if(self.datastore.Get("port_enable", "GET_SET") == False):
+                if self.datastore.Get("port")["opened"] == False:
                     self.stop()                                       
                     return
                 
             #print "I: Comm: waiting:",time.clock() - ztime,"s"                            
                                          
             #communication enabled?
-            if(self.datastore.Get("communication_en", "GET_SET") == False):                
+            if(self.datastore.Get("port")["enabled"] == False):                
                 continue
                 
             """ 

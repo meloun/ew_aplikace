@@ -2,11 +2,11 @@
 
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
+from libs.myqt.mydialogs import *
+import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import *
-import ewitis.gui.TimesUtils as TimesUtils 
-#import manage_comm
+import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.comm.manage_comm as manage_comm
-import libs.utils.utils as utils 
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -14,16 +14,54 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 
-class UiAccesories():
+class MSGTYPE:
+    warning, info, warning_dialog, question_dialog, get_integer, right_statusbar, statusbar, ii = range(0,8)
+    
+    
+class UiaDialogs(MyDialogs):
+    def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
+        print "UIA showmsg", msgtype
+        #right statusbar
+        if(msgtype == MSGTYPE.right_statusbar):            
+            #all time update
+            #print "right status bar"
+            self.update_right_statusbar(title, message)                 
+            timing_settings_get = self.datastore.Get("timing_settings", "GET")
+            self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
+            if timing_settings_get['measurement_state']== MeasurementState.not_active:
+                self.ui.statusbar_msg.setStyleSheet("background:red;")                    
+            elif timing_settings_get['measurement_state']== MeasurementState.prepared:
+                self.ui.statusbar_msg.setStyleSheet("background:orange;")                    
+            elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
+                self.ui.statusbar_msg.setStyleSheet("background:green;")
+            elif timing_settings_get['measurement_state']== MeasurementState.finished:
+                self.ui.statusbar_msg.setStyleSheet("background:red;")
+                    
+            
+        #STATUSBAR        
+        elif (msgtype == MSGTYPE.warning) or (msgtype == MSGTYPE.info) or (msgtype == MSGTYPE.statusbar):
+            print "statusbar"
+            #self.update_statusbar(title, message)
+            #print title, message
+            timing_settings_get = self.datastore.Get("timing_settings", "GET")                       
+            self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
+            self.ui.statusbar.showMessage(title+" : " + message)        
+        return MyDialogs.showMessage(self, title, message, msgtype, *params)
+   
+class UiAccesories(UiaDialogs):
     def __init__(self, source):
         
         self.ui = source.ui
-        self.datastore = source.datastore
-        #self.showmessage = source.UishowMessage
+        self.datastore = source.datastore        
         self.source = source
 
         #tabs are not init yet - False for all
-        self.init = [False for tab in range(TAB.nr_tabs)]        
+        self.init = [False for tab in range(TAB.nr_tabs)]
+                
+        MyDialogs.__init__(self, self.source)                
+        
+        #self.myQFileDialog = self.myDialog(self.source)
+        #self.showMessage = self.myQFileDialog.showMessage        
                                                 
         
     def createSlots(self): 
@@ -41,8 +79,8 @@ class UiAccesories():
         QtCore.QObject.connect(self.ui.aShortcuts, QtCore.SIGNAL("triggered()"), self.sShortcuts)                
         QtCore.QObject.connect(self.ui.actionAbout, QtCore.SIGNAL("triggered()"), self.sAbout)
         
-        QtCore.QObject.connect(self.ui.aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True))
-        QtCore.QObject.connect(self.ui.aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False))
+        QtCore.QObject.connect(self.ui.aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSetItem("port", ["enabled"], True))
+        QtCore.QObject.connect(self.ui.aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("port", ["enabled"], False))
         
         #actions toolbar
         QtCore.QObject.connect(self.ui.aActionsEnable, QtCore.SIGNAL("triggered(bool)"), self.sEnableActions)
@@ -161,7 +199,7 @@ class UiAccesories():
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                           
-        self.showMessage("Race", self.datastore.Get("race_name"), False) 
+        self.showMessage("Race", self.datastore.Get("race_name"), MSGTYPE.statusbar) 
         self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))                
     
     def sRaceNameChanged(self, s):
@@ -190,17 +228,19 @@ class UiAccesories():
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
                 
                 """ port name """
-                self.ui.aSetPort.setText(self.datastore.Get("port_name"))                    
-                self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
+                self.ui.aSetPort.setText(self.datastore.Get("port")["name"])                    
+                #self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
+                self.ui.aSetPort.setEnabled(not(self.datastore.Get("port")["opened"]))
                 
                 """ port conect """                            
-                self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port_enable")])                                                                                                                    
+                #self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port_enable")])                                                                                                                    
+                self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port")["opened"]])                                                                                                                    
                 self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
                 self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
                 self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
                         
                 """ communicacation enabled/disabled """
-                state = self.datastore.Get("communication_en", "GET_SET")
+                state = self.datastore.Get("port")['enabled']
                 self.ui.aEnableCommunication.setEnabled(not state)
                 self.ui.aDisableCommunication.setEnabled(state)
                 
@@ -208,7 +248,7 @@ class UiAccesories():
                 self.updateToolbarActions()                    
                 
                 """ right status bar """
-                self.showMessage('','', 'right_statusbar', statusbar = False)        
+                self.showMessage('','', MSGTYPE.right_statusbar)        
             
         #print "update tab", tab
         if(tab == TAB.run_times):
@@ -548,61 +588,7 @@ class UiAccesories():
         self.ui.aQuitTiming.setEnabled(state)
         
         #clear database
-        self.ui.aClearDatabase.setEnabled(state)
-                    
-                         
-    def showMessage(self, title, message, msgtype='warning', dialog=True, statusbar=True, value=0):
-        """
-        zobrazuje dialogy a updatuje status bary
-        
-        *Dialogy:*
-            warning(OK), info(OK), warning_dialog(Yes, Cancel), input_integer(integer, OK)
-            
-        *Status bary:*
-            statusbar - zarovnaný vlevo, zobrazí hlášku z parametru
-            statusbar_msg - zarovnaný vpravo, zobrazuje stav závodu - not active, running, ...
-                
-        """        
-        
-        #DIALOG
-        if(dialog):                                
-            if(msgtype=='warning'):
-                QtGui.QMessageBox.warning(self.source, title, message)            
-            elif(msgtype=='info'):
-                QtGui.QMessageBox.information(self.source, title, message)
-            elif(msgtype=='warning_dialog'):
-                ret = QtGui.QMessageBox.warning(self.source, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)                
-                if (ret != QtGui.QMessageBox.Yes):
-                    return False
-                message = "succesfully"
-            elif(msgtype=='input_integer'):
-                i, ok = QtGui.QInputDialog.getInteger(self.source, title, message, value=value)
-                if ok:
-                    return i
-                return None
-            elif(msgtype=='right_statusbar'):
-                #all time update                 
-                timing_settings_get = self.datastore.Get("timing_settings", "GET")
-                self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
-                if timing_settings_get['measurement_state']== MeasurementState.not_active:
-                    self.ui.statusbar_msg.setStyleSheet("background:red;")                    
-                elif timing_settings_get['measurement_state']== MeasurementState.prepared:
-                    self.ui.statusbar_msg.setStyleSheet("background:orange;")                    
-                elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
-                    self.ui.statusbar_msg.setStyleSheet("background:green;")
-                elif timing_settings_get['measurement_state']== MeasurementState.finished:
-                    self.ui.statusbar_msg.setStyleSheet("background:red;")
-                    
-            
-        #STATUSBAR        
-        if(statusbar):
-            print title, message
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")                       
-            self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
-            self.ui.statusbar.showMessage(title+" : " + message)
-        
-                                                                                                                             
-        return True
+        self.ui.aClearDatabase.setEnabled(state)                                                     
         
     def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == self.datastore.Get(name):
@@ -610,7 +596,7 @@ class UiAccesories():
                 
         if(dialog == True):            
             name_string = self.datastore.GetName(name)            
-            if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
+            if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
         self.datastore.Set(name, value)
@@ -624,7 +610,7 @@ class UiAccesories():
                 
         if(dialog == True):            
             name_string = self.datastore.GetName(name)            
-            if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", msgtype='warning_dialog') != True):            
+            if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
         self.datastore.SetItem(name, keys, value)        
@@ -683,13 +669,15 @@ class UiAccesories():
         title = "Port connect"
                                             
         #comm runs?        
-        if(self.datastore.Get("port_enable") == True):                           
+        #if(self.datastore.Get("port_enable") == True):                           
+        if(self.datastore.Get("port")["opened"] == True):                           
             
             # KILL COMMUNICATION - thread, etc..
-            self.datastore.Set("port_enable", False)                    
-            self.showMessage(title, self.datastore.Get("port_name")+" disconnected", dialog = False)                       
+            #self.datastore.Set("port_enable", False)                    
+            self.datastore.SetItem("port", ["opened"], False)                    
+            self.showMessage(title, self.datastore.Get("port_name")+" disconnected", MSGTYPE.statusbar)                       
         else:            
-            self.showMessage(title, self.datastore.Get("port_name")+" connected", dialog = False)                                 
+            self.showMessage(title, self.datastore.Get("port_name")+" connected", MSGTYPE.statusbar)                                 
                         
             # CREATE COMMUNICATION - thread, etc..                                    
                                  
@@ -701,7 +689,8 @@ class UiAccesories():
             
             #already connected?                                
             #flag down => cant connect
-            if(self.datastore.Get("port_enable") == False):             
+            #if(self.datastore.Get("port_enable") == False):
+            if(self.datastore.Get("port")["opened"] == False):                 
                 title = "Port connect"                                
                 self.showMessage(title, self.datastore.Get("port_name")+" cant connect")                
                                 
@@ -717,7 +706,7 @@ class UiAccesories():
                          
         nr_tab = self.datastore.Get("active_tab")        
         self.updateTab(nr_tab)                       
-        self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), dialog = False)
+        self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
         
         #enable user actions        
         self.datastore.Set("user_actions", self.datastore.Get("user_actions")-1)

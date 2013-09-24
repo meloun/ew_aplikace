@@ -1,0 +1,90 @@
+{
+    "order_evaluation": {
+        "GET_SET": {
+            "value": 1
+        },
+        "permanent": true,
+        "name": "order evaluation"
+    },
+    "onelap_race": {
+        "GET_SET": {
+            "value": 0
+        },
+        "permanent": true,
+        "name": "onelap race"
+    },
+    "rfid": {
+        "GET_SET": {
+            "value": 0
+        },
+        "permanent": true,
+        "name": "rfid"
+    },
+    "tag_filter": {
+        "GET_SET": {
+            "value": 2
+        },
+        "permanent": true
+    },
+    "points": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "table": 2,
+                "minimum": 0,
+                "maximum": 500,
+                "rule": "abs(time - %00:01:30,00%)"
+            }
+        },
+        "permanent": true,
+        "name": "points"
+    },
+    "export": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "best_laptime": 0,
+                "points_categories": 0,
+                "option_4_name": "o4",
+                "club": 2,
+                "laps": 0,
+                "option_2_name": "o2",
+                "gap": 0,
+                "option_3_name": "o3",
+                "laptime": 0,
+                "option_1_name": "o1",
+                "year": 0,
+                "option_2": 0,
+                "option_3": 0,
+                "option_1": 0,
+                "points_race": 0,
+                "points_groups": 0,
+                "option_4": 0
+            }
+        },
+        "permanent": true,
+        "name": "export"
+    },
+    "race_name": {
+        "GET_SET": {
+            "changed": true,
+            "value": "Formula Student 2013"
+        },
+        "permanent": true,
+        "name": "race_name"
+    },
+    "additional_info": {
+        "GET_SET": {
+            "value": {
+                "best_laptime": 2,
+                "enabled": 2,
+                "laptime": 2,
+                "order_in_cat": 2,
+                "lap": 2,
+                "order": 2
+            }
+        },
+        "permanent": true,
+        "name": "additinal info"
+    }
+}

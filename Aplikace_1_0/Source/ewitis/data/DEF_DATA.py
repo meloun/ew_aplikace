@@ -35,19 +35,15 @@ class OrderEvaluation:
 DEF_DATA = {
                
         
-        # LOKÁLNÍ DATA (neposílájí se do terminálu)
-                       
-        "port_enable"        : {"name"     : "Port enable",
-                                "GET_SET"  : {"value": False}
-                               },
-        "port_name"          : {"name"     : "Port name",
-                                "GET_SET"  : {"value": "COM7"}
-                               },
-        "port_baudrate"      : {"name"     : "Port baudrate",
-                                "GET_SET"  : {"value": 38400}
-                               },
-        "communication_en"   : {"name"     : "Commucation Enabled",
-                                "GET_SET"  : {"value": True}
+        # LOKÁLNÍ DATA (neposílájí se do terminálu)                       
+        "port"               : {"name"     : "port",
+                                "GET_SET"  : {"value": {
+                                                        "opened": False,
+                                                        "enabled": True,
+                                                        "name": "COM7",
+                                                        "baudrate": 38400
+                                                        }
+                                              }
                                },
         "active_tab"         : {"GET_SET"  : {"value":0}},
         "active_row"         : {"GET_SET"  : {"value":0}},
@@ -64,6 +60,7 @@ DEF_DATA = {
                                       }
                         },                                     
         "race_name"          : {"name"     : "race_name",
+                                "permanent": True,
                                 "GET_SET"  : {
                                               "value":u"Formula Student 2013",
                                               "changed": True
@@ -76,13 +73,17 @@ DEF_DATA = {
                                               },                                  
                                },        
         "rfid"               : {"name"     : "rfid",
+                                "permanent": True,
                                 "GET_SET"  : {"value"   : 0}  
                                },
-        "tag_filter"         : {"GET_SET"  : {"value"   : 2}},
+        "tag_filter"         : {"permanent": True,
+                                "GET_SET"  : {"value"   : 2}},
         "order_evaluation"   : {"name"     : "order evaluation",
+                                "permanent": True,
                                 "GET_SET"  : {"value"   : OrderEvaluation.SLALOM}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
+                                "permanent": True,
                                 "GET_SET"  : {"value": 0}  
                                },
         "download_from_last" : {"GET_SET"  : {"value": 0} },                   
@@ -97,6 +98,7 @@ DEF_DATA = {
                                               }
                                 },
         "additional_info"    : {"name"     : "additinal info",
+                                "permanent": True,
                                 "GET_SET"  : {"value": {"enabled"       : 2,
                                                         "order"         : 2,
                                                         "order_in_cat"  : 2,
@@ -107,6 +109,7 @@ DEF_DATA = {
                                               }  
                                },
         "export"             : {"name"     : "export",
+                                "permanent": True,
                                 "GET_SET"  : {"value": {
                                                         "year"              : 0, 
                                                         "club"              : 2, 
@@ -130,6 +133,7 @@ DEF_DATA = {
                                               }  
                                },         
         "points"             : {"name"     : "points",
+                                "permanent": True,
                                 "GET_SET"  : {"value": {
                                                         "table"             : 2, 
                                                         "rule"              : "abs(time - %00:01:30,00%)", 
@@ -140,7 +144,7 @@ DEF_DATA = {
                                               }  
                                },
         "diagnostic"         : {"GET_SET"  : {"value": {
-                                                        "communication": "blabla",
+                                                        "communication": "",
                                                         "no_new_run_cnt": 0,
                                                         "no_new_time_cnt": 0,
                                                         },
@@ -206,7 +210,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v1.20"},                                                                                                                    
+                                                        "app": "v1.30"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

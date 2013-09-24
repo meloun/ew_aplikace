@@ -1,4 +1,4 @@
-#Tue Jul 09 18:24:21 CEST 2013
+#Thu Sep 12 20:27:53 CEST 2013
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -6,7 +6,6 @@ encoding//ewitis/comm/callback.py=utf-8
 encoding//ewitis/comm/manage_comm.py=utf-8
 encoding//ewitis/data/DEF_DATA.py=utf-8
 encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
-encoding//ewitis/data/_DEF_DATA.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8
 encoding//ewitis/exports/ewitis_html.py=utf-8
 encoding//ewitis/gui/RaceInfoModel.py=utf-8
@@ -20,6 +19,7 @@ encoding//ewitis/gui/UsersModel.py=utf-8
 encoding//ewitis/gui/myModel.py=utf-8
 encoding//libs/comm/serialprotocol.py=utf-8
 encoding//libs/datastore/datastore.py=utf-8
+encoding//libs/datastore/permanent_datastore.py=utf-8
 encoding//libs/db/_db_json.py=utf-8
 encoding//libs/db/db_json.py=utf-8
 encoding//libs/db_csv/db_csv.py=utf-8
