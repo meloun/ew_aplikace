@@ -19,8 +19,10 @@ class MSGTYPE:
     
     
 class UiaDialogs(MyDialogs):
+    def __init__(self):
+        MyDialogs.__init__(self)
     def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
-        print "UIA showmsg", msgtype
+        #print "UIA showmsg", msgtype
         #right statusbar
         if(msgtype == MSGTYPE.right_statusbar):            
             #all time update
@@ -40,7 +42,7 @@ class UiaDialogs(MyDialogs):
             
         #STATUSBAR        
         elif (msgtype == MSGTYPE.warning) or (msgtype == MSGTYPE.info) or (msgtype == MSGTYPE.statusbar):
-            print "statusbar"
+            #print "statusbar"
             #self.update_statusbar(title, message)
             #print title, message
             timing_settings_get = self.datastore.Get("timing_settings", "GET")                       
@@ -55,13 +57,13 @@ class UiAccesories(UiaDialogs):
         self.datastore = source.datastore        
         self.source = source
 
+                        
         #tabs are not init yet - False for all
         self.init = [False for tab in range(TAB.nr_tabs)]
+
+        #init dialog                                
+        UiaDialogs.__init__(self)
                 
-        MyDialogs.__init__(self, self.source)                
-        
-        #self.myQFileDialog = self.myDialog(self.source)
-        #self.showMessage = self.myQFileDialog.showMessage        
                                                 
         
     def createSlots(self): 
@@ -617,7 +619,7 @@ class UiAccesories(UiaDialogs):
         self.updateTab(tab)
         
          
-    def sTimer(self):               
+    def sTimer(self):                   
         self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui) 
         self.updateTab(None, UPDATE_MODE.gui)
         #aux_time = self.datastore.Get("run_time")

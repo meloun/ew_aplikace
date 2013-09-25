@@ -97,9 +97,7 @@ class RaceInfoModel(myModel.myModel):
         update() => update cele tabulky
         update(parameter, value) => vsechny radky s parametrem = value
         update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1]                 
-        """
-        
-        print "aslfdkjalkfs"
+        """                
         
         #run_id                
         run_id = self.params.tabTimes.model.run_id

@@ -16,6 +16,7 @@ class MyDialogs(Qt.QFileDialog):
     def __init__(self, parent = None):
         self.parent = parent            
         self.dirs = {}
+        Qt.QFileDialog.__init__(self, parent)
         
     def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
         """
@@ -29,7 +30,7 @@ class MyDialogs(Qt.QFileDialog):
             statusbar - zarovnaný vlevo, zobrazí hlášku z parametru
                 
         """
-        print "MD showmsg", msgtype                
+        #print "MD showmsg", msgtype                
         #Warning                                        
         if(msgtype == MSGTYPE.warning):
             QtGui.QMessageBox.warning(self.parent, title, message)
@@ -65,8 +66,8 @@ class MyDialogs(Qt.QFileDialog):
                 
         #integer
         elif(msgtype == MSGTYPE.get_integer):
-            print params
-            print params[0]             
+            #print params
+            #print params[0]             
             i, ok = QtGui.QInputDialog.getInteger(self.parent, title, message, value = params[0])
             if ok:
                 return i

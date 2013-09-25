@@ -80,7 +80,7 @@ class Datastore():
         
         self.REFRESH_COUNTDOWN = 0x01
         
-        print "PP: ", self.GetAllPermanents()
+        #print "Permanents: ", self.GetAllPermanents()
     
     def ResetValue(self, name, key1 = None, key2 = None):
         '''
