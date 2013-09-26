@@ -5,6 +5,7 @@ import sys
 import time
 import os
 from PyQt4 import QtCore, QtGui, Qt
+from ewitis.gui.UiAccesories import MSGTYPE
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
 import ewitis.gui.PointsModel as PointsModel
@@ -132,7 +133,7 @@ class TimesModel(myModel.myModel):
     def getDefaultTableRow(self): 
         row = myModel.myModel.getDefaultTableRow(self)
         row['cell'] = 1                  
-        row['nr'] = 0 #musi byt cislo!                    
+        row['nr'] = 0 #musi byt cislo!                                              
         row['time_raw'] = 0
         row['start_nr'] = 1               
         return row                 
@@ -252,7 +253,13 @@ class TimesModel(myModel.myModel):
         
             #print "radek",item.row()
             tabRow = self.row_dict(item.row())
-                    
+            dbRow = self.table2dbRow(tabRow, item)
+            dbUser = self.params.tabUser.getDbUserParNr(tabRow['nr'])
+            #get DB-USER                  
+            if(dbRow == None):
+                self.params.uia.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                
+                return None
+                
             if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
                
                 '''ZMĚNA ČÍSLA'''
@@ -263,7 +270,8 @@ class TimesModel(myModel.myModel):
                 if(int(tabRow['cell']) == 1):                            
                     self.params.uia.showMessage(self.params.name+" Update error", "Cannot assign user to start time!")
                     self.update()       
-                    return 
+                    return
+                                                                                                
 #                elif(tabRow['time'] == '00:00:00,00'):
 #                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
 #                   self.update()
@@ -281,27 +289,43 @@ class TimesModel(myModel.myModel):
                 elif(int(tabRow['nr']) == 0):   
                     self.params.uia.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
                     return                
-                elif tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
+                elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
                     self.params.uia.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
                     return
-                
-                #get DB-USER
-                dbRow = self.params.tabUser.getDbUserParNr(tabRow['nr'])  
-                if(dbRow == None):
-                    self.params.uia.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                
-                    return None
-                                                                                                                                                                                     
+                                                                                                                                                                                                     
                 #convert sqlite row to dict
-                dbUser = {}
-                for key in dbRow.keys():
-                    dbUser[key] = dbRow[key]                   
+                #dbUser2 = {}
+                #for key in dbUser.keys():
+                #    dbUser2[key] = dbUser[key]
+                    
+                dbUser = self.params.db.row2dict(dbUser)                
                 dbUser['status'] = tabRow['status']
+                                
                  
-                #update status                
+                #update status
+                print "zapisuju novej status", dbUser                
                 self.params.db.update_from_dict(self.params.tabUser.params.name, dbUser)                
                 return
+
                                                                            
-        myModel.myModel.sModelChanged(self, item)
+            ###################
+            # MODEL CHANGED
+            ###################            
+            myModel.myModel.sModelChanged(self, item)        
+
+                    
+            #update status
+            if self.IsFinishTime(dbRow) == True:
+                                                                                                                                                                                     
+                #convert sqlite row to dict                    
+                dbUser = self.params.db.row2dict(dbUser)                                    
+                                       
+                dbUser['status'] = 'finished'
+                 
+                #update status                
+                self.params.db.update_from_dict(self.params.tabUser.params.name, dbUser)
+                print "finishtime", dbUser 
+                 
   
 
                 
@@ -429,7 +453,15 @@ class TimesModel(myModel.myModel):
                                                                                                                                                                                                                                                                                                                              
         return dbTime    
         
-
+    def IsFinishTime(self, dbTime):
+        '''
+        splňuje závodník podmínky pro "finished"?
+            - (počet kol větší než X) nebo (čas větší než Y)
+        '''
+        if self.lap.GetLaps(dbTime) >= self.params.datastore.Get('race_info')['limit_laps']:
+            return True
+        return False
+        
     def update_laptime(self, dbTime):
         
         if(dbTime['laptime'] == None):            
@@ -632,8 +664,9 @@ class Times(myModel.myTable):
         print "A: Times: Recalculating.. press F5 to finish"
         return res
                  
+    
     ''''''                   
-    def tabRow2exportRow(self, tabRow, mode):                        
+    def tabRow2exportRow(self, tabRow, mode, status = 'race'):                        
                                                            
         exportRow = []
         exportHeader = []
@@ -651,6 +684,9 @@ class Times(myModel.myTable):
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
             tabHeader = self.params.tabUser.proxy_model.header()                                                  
             tabUser = self.params.tabUser.getTabUserParNr(tabRow['nr'])
+            if tabUser['status'] != status:
+                print "export: zahazuju radek: status", tabRow
+                return None
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
             exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
@@ -769,10 +805,9 @@ class Times(myModel.myTable):
     # F11 - konečné výsledky, 1 čas na řádek
     def sExportResultsDirect(self, col_nr_export):
         
-        #ret = QtGui.QMessageBox.question(self.params.uia.source, "Results Export", "Choose format of results", "NOT finally results", "Finally results","Cancel",  escapeButtonNumber = 2)
-        ret = QtGui.QMessageBox.question(self.params.uia.source, "Results Export", "Choose format of results", QtGui.QMessageBox.Yes, QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Cancel)
-        print "button", ret
-        if ret == 2:
+        ret = self.params.uia.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")        
+                
+        if ret == False: #cancel button
             return
                                
         #title
@@ -806,13 +841,17 @@ class Times(myModel.myTable):
             #                        
             exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)
             
+            if exportRow == None:
+                continue
+            
             #all times export - add all
             exportRows_Alltimes.append(exportRow[1])
             exportHeader_Alltimes = exportRow[0] 
             
             #times export - add last/best (race/slalom)                                                                                                                                       
-            if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                                                    
+            #if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+            #        (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
+            if self.order.IsToShow(dbTime) == True:                                                    
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0]                         
                     
@@ -824,10 +863,7 @@ class Times(myModel.myTable):
         if(exportRows != []):
             #print "export total, ", len(exportRows),"times"
             exported["total"] =  len(exportRows)
-            exportRows =  self.ExportMerge(exportRows, exportHeader)                                  
-            #exportRows.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
-            #exportRows.insert(1, len(exportHeader)*["",])
-            #exportRows.insert(2, exportHeader)
+            exportRows =  self.ExportMerge(exportRows, exportHeader)            
             filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
@@ -868,14 +904,17 @@ class Times(myModel.myTable):
                                 
                 #
                 exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)
+                if exportRow == None:
+                    continue
                 
                 #all times export - add all                
                 exportRows_Alltimes.append(exportRow[1])
                 exportHeader_Alltimes = exportRow[0] 
             
                 #times export - add last/best (race/slalom)            
-                if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):  
+                #if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                #    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
+                if self.order.IsToShow(dbTime) == True:  
                     if (tabRow['category'] == dbCategory['name']):                                                                                                                                                               
                         exportRows.append(exportRow[1])
                         exportHeader = exportRow[0]                                                                                                                                                                                           
@@ -927,6 +966,9 @@ class Times(myModel.myTable):
                                             
                 #all times export - add all
                 exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)
+                if exportRow == None:
+                    continue
+                
                 exportRows_Alltimes.append(exportRow[1])
                 exportHeader_Alltimes = exportRow[0] 
                 

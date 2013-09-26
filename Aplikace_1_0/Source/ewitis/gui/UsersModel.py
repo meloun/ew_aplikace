@@ -138,8 +138,8 @@ class UsersModel(myModel.myModel):
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
     def table2dbRow(self, tabUser, item = None):                              
 
-        if tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
-            self.params.showmessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
+        if tabUser['status'] != 'finished' and tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
+            self.params.uia.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
             return None                
             
         #1to1 keys just copy        
@@ -150,7 +150,7 @@ class UsersModel(myModel.myModel):
         
         if(dbCategory == None):
             '''category not found => nothing to save'''
-            self.params.showmessage(self.params.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
+            self.params.uia.showMessage(self.params.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
             return None
         dbUser['category_id'] = dbCategory['id']
                                                                                           
@@ -264,8 +264,9 @@ class Users(myModel.myTable):
         else:       
             '''id'''
             dbUser = self.getDbUserParNr(nr)
-            return dbUser['id']
+            return dbUser['id']    
         
+                
     #
     def getCount(self, status = None, dbCategory = None):
         
@@ -278,7 +279,7 @@ class Users(myModel.myTable):
         else:
             res = self.getDbRows()             
         
-        row_dicts = self.params.db.cursor2dicts(res)                      
+        row_dicts = self.params.db.cursor2dicts(res)                              
         return len(row_dicts)
         
        

@@ -6,8 +6,8 @@ Created on 01.06.2010
 '''
 import sys
 from pysqlite2 import dbapi2 as sqlite
+#from sqlite3 import dbapi2 as sqlite #older, less patches, slowly
 import time
-
 import libs.db_csv.db_csv as Db_csv
 import libs.utils.utils as utils
 
@@ -21,17 +21,17 @@ class sqlite_db(object):
         self.db_name = db_name 
         
     def cursor2list(self, cursor):
-        list = []
+        mylist = []
         for row in cursor:
-            list.append(self.dict_factory(cursor, row))
-        return list
+            mylist.append(self.dict_factory(cursor, row))
+        return mylist
     
-    def cursor2dicts(self, cursor):
-        list = []
-        for row in cursor:
-            dict = self.dict_factory(cursor, row)
-            list.append(dict)
-        return list
+    def cursor2dicts(self, cursor):        
+        mylist = []
+        for row in cursor:            
+            mydict = self.dict_factory(cursor, row)            
+            mylist.append(mydict)
+        return mylist
             
                  
         
@@ -41,11 +41,18 @@ class sqlite_db(object):
         d = []        
         return d  
     
+    def row2dict(self, row):
+        return dict(zip(row.keys(), row))
+      
     #convert "db-row" to dict (to dict can be added record)
     def dict_factory(self, cursor, row):
         d = {}
+        
+        #d = self.row2dict(row)
+            
         for idx, col in enumerate(cursor.description):
             d[col[0]] = row[idx]
+        
         return d       
         
     def connect(self):
@@ -78,7 +85,7 @@ class sqlite_db(object):
        
     def getCount(self, tablename):
         query = "SELECT COUNT(*) from " + tablename
-        res = self.query(query)
+        res = self.query(query)        
         return res.fetchone()[0]
         
     def getAll(self, tablename):

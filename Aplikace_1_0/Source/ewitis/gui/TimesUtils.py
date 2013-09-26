@@ -11,9 +11,11 @@ class TimesUtils():
     def __init__(self):
         pass                        
     
-    #time_raw => time
     @staticmethod
     def time2timestring(time):
+        '''
+        321561546 => 12:01:02,11
+        '''
         
         if (time == None):
             return None
@@ -34,18 +36,26 @@ class TimesUtils():
         
     @staticmethod 
     def timemembers2time(hours, minutes, seconds, milliseconds_x10):
+        '''
+        12,01,02,11 => "12:01:02,11"
+        '''
         if (hours > 99) or (minutes > 59) or (seconds > 59):
             raise TimeFormat_Error
         time = ((hours*60*60)+(minutes*60) + seconds)*100 + milliseconds_x10
         return time
     
     @staticmethod 
-    def timestruct2time(timestruct):        
+    def timestruct2time(timestruct):
+        '''
+        {12,01,02,11} => "12:01:02,11"
+        '''        
         return TimesUtils.timenumbers2time(timestruct["hours"],timestruct["minutes"], timestruct["seconds"],timestruct["milliseconds_x10"])
     
     @staticmethod 
-    def timestring2time(timestring):               
-        
+    def timestring2time(timestring):
+        '''               
+        "12:01:02,11" => 545464683
+        '''
         #split to hours(01), minutes(02) and seconds(35,42)
         timestring = timestring.split(":")                                         
         if (len(timestring)) != 3 : #check: 2x colon?
@@ -66,13 +76,13 @@ class TimesUtils():
                                          
         time = TimesUtils.timemembers2time(hours, minutes, seconds, milliseconds_x10)
                                    
-        return time
-    
-
-        
+        return time        
     
     @staticmethod 
     def times_difference(timestring1, timestring2):
+        '''
+        "00:01:03,15", "00:01:02,11" => "00:00:01,04"
+        '''
         t1 = TimesUtils.timestring2time(timestring1)
         t2 = TimesUtils.timestring2time(timestring2)        
         timestring = TimesUtils.time2timestring(t1 - t2)
@@ -82,6 +92,11 @@ class TimesUtils():
     
     
 class TimesStarts():
+    '''
+    tabulka startovních časů
+        - Get()
+        - Update() - volá se v TimesModel.update()    
+    '''
     def __init__(self, db):                              
         self.db = db                        
         self.Update()                                             
@@ -91,26 +106,28 @@ class TimesStarts():
     def GetFirst(self, run_id):
         return self.start_times[run_id][0]    
     def Get(self, run_id, nr):                     
-        return self.start_times[run_id][nr-1]
+        return self.start_times[run_id][nr-1]                          
     
-                      
-    
-    #getStartTimer - return all start times of 
+     
     def Update(self):
+        '''
+        najde všechny startovací časy a uloží
+        '''
         
+        #
+        start_times = {}
+                
         #
         query = \
                 " SELECT * FROM times" +\
                     " WHERE (times.cell = 1 )"+\
                     " ORDER BY times.run_id"                                                        
-        #
-        start_times={}
         
         #get all start times
         times = self.db.query(query)
                 
         #convert to dicts                             
-        times = self.db.cursor2dicts(times)
+        #@1times = self.db.cursor2dicts(times)
         
         #{3:[time, time, time], 4:[time, time]}
         for time in times:                        
@@ -123,49 +140,22 @@ class TimesStarts():
         self.start_times = start_times
         
 class TimesOrder():
+    '''
+    Pořadí závodníka v závodě/kategorii
+        - IsLastTime()
+        - IsBestTime()
+        - IsToShow()
+        - Get()
+    '''    
     IS_BEST_TIME, IS_WORST_TIME = range(0,2)
     
-    def __init__(self, db, datastore):        
-                  
+    def __init__(self, db, datastore):                          
         self.db = db
-        self.datastore = datastore   
-    
-    def IsLastUsertime_old(self, dbTime):
-        '''
-        jde momentálně o poslední čas daného závodníka?
-        '''
-               
-        if(dbTime['time'] == None):
-            return True
-              
-        if(dbTime['time'] == 0):
-            return True
-            
-        if(dbTime['cell'] == 1):            
-            return True                                        
-
-        if(dbTime['user_id'] == 0):
-            return True  
-                
-        query_order = \
-        " SELECT COUNT(times.id) FROM times" +\
-            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-            " AND (times.user_id == " +str(dbTime['user_id'])+ ")"+\
-            " AND (times.time_raw > " + str(dbTime['time_raw']) + ")"            
-        
-        #print "islastusertime:", query_order
-        res_cnt = self.db.query(query_order).fetchone()[0]                                                         
-
-        if(res_cnt == 0):
-            return True
-                      
-        return False
-    
-
+        self.datastore = datastore        
     
     def IsUserTime(self, dbTime, mode):
         '''
-        jde momentálně o poslední čas daného závodníka?
+        jde momentálně o poslední/nejlepší čas daného závodníka?
         '''
                
         if(dbTime['time'] == None):
@@ -201,9 +191,8 @@ class TimesOrder():
         elif(mode == self.IS_BEST_TIME):
             query = query + \
             " AND (times.time_raw < " + str(dbTime['time_raw']) + ")"
-                        
-                
-        res_cnt = self.db.query(query).fetchone()[0]                                                         
+                                                        
+        res_cnt = self.db.query(query).fetchone()[0]                                                                                                                                 
 
         #print "isusertime:",res_cnt, query            
         if(res_cnt == 0):
@@ -228,6 +217,7 @@ class TimesOrder():
                  
     def Get(self, dbTime, lap, category_id = None):
         """
+        vrací pořadí závodníka v závodě/kategorii
         """       
                     
         # zobrazovat pořadí? (kontrola checkboxů)        
@@ -259,15 +249,13 @@ class TimesOrder():
             
             '''ORDER IN THE SAME CATEGORY'''        
             
-            #shlukovat do skupin podle zavodníků
+            #do skupin podle zavodníků (group by)
             query_order = \
             "SELECT COUNT(*) FROM("+\
                 " SELECT user_id FROM times"
 
-            """
-            ir:    user_id == users.id
-            rfid:  user_id == tag_id
-            """                  
+            #ir:    bez tabulky tags  => user_id == users.id
+            #rfid:  přes tabulku tags => user_id == tag_id
             if(self.datastore.Get('rfid') == 2):
                 query_order = query_order + \
                 " INNER JOIN tags ON times.user_id = tags.tag_id"+\
@@ -398,234 +386,20 @@ class TimesOrder():
             res_order = None                            
 
         return res_order
-     
-    def Get_old(self, dbTime, lap, category_id = None):
-        """
-        RFID Race: 
-            true: user_id v tabulce times obsahuje tag_id
-            false: user_id prima relace do tabulky users 
-        One Lap Race:
-            true: závodník má jen jeden čas
-            false: je nutno zohlednit závodníky s horšímy časy ale větším počtem kol
-        1user 1order:
-            true:
-        """
-        
-        if (self.datastore.Get("additional_info")["enabled"] == 0):                 
-            return None
-        if (category_id == None) and (self.datastore.Get("additional_info")["order"] == 0):
-            return None
-        if (category_id != None) and (self.datastore.Get("additional_info")["order_in_cat"] == 0):
-            return None
-        
-        if(dbTime['time'] == None):
-            return None
-              
-        if(dbTime['time'] == 0):
-            return None
-            
-        if(dbTime['cell'] == 1):            
-            return None                                        
-
-        if(dbTime['user_id'] == 0):
-            return None            
-        
-        if category_id != None:     
-            
-            '''ORDER IN THE SAME CATEGORY'''        
-                           
-            if(self.datastore.Get('rfid') == 2):                
-                query_order = \
-                "SELECT COUNT(*) FROM("+\
-                    " SELECT user_id FROM times" +\
-                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                    " INNER JOIN users ON tags.user_nr = users.nr "+\
-                        " WHERE (times.time < " + str(dbTime['time']) + ")"+\
-                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                        " AND (times.user_id != 0)"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)
-                #if(self.datastore.Get('onelap_race') == 0):
-                query_order = query_order + \
-                    " UNION "+\
-                    " SELECT user_id FROM times" +\
-                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                    " INNER JOIN users ON tags.user_nr = users.nr "+\
-                        " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                        " AND (times.user_id != 0 )"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) > "+str(lap)
-                query_order = query_order + ")"                   
-            else:                
-                query_order = \
-                "SELECT COUNT(*) FROM("+\
-                    "SELECT user_id FROM times" +\
-                    " INNER JOIN users ON times.user_id = users.id"+\
-                        " WHERE (times.time < " + str(dbTime['time']) + ")"#+\
-                        #" AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                if(self.datastore.Get('show')['alltimes'] == 0):
-                    query_order = query_order + " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
-                query_order = query_order + \
-                        " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                        " AND (times.user_id != 0)"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
-                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                        " GROUP BY user_id"+\
-                        " HAVING count(*) == "+str(lap)
-                #if(self.datastore.Get('onelap_race') == 0):                    
-                query_order = query_order +\
-                        " UNION "+\
-                        " SELECT user_id FROM times" +\
-                        " INNER JOIN users ON times.user_id = users.id"+\
-                            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                            " AND (times.user_id != 0)"+\
-                            " AND (times.time != 0 )"+\
-                            " AND (times.cell != 1 )"+\
-                            " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-                            " GROUP BY user_id"+\
-                            " HAVING count(*) > "+str(lap)
-                query_order = query_order + ")"
-            
-            #print "query_order: ",self.datastore.Get('onelap_race') ,query_order                                 
-                        
-                                                                                          
-        
-        else:                    
-            '''ORDER IN ALL RUN'''
-            if(self.datastore.Get('rfid') == 2):  
-                query_order = \
-                    "SELECT COUNT(*) FROM("+\
-                        "SELECT user_id FROM times" +\
-                            " WHERE (times.time < " + str(dbTime['time']) + ")"#+\
-                            #" AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                if(self.datastore.Get('show')['alltimes'] == 0):
-                    query_order = query_order + " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
-                query_order = query_order + \
-                            " AND (times.user_id != " +str(dbTime['user_id'])+ ")"+\
-                            " AND (times.user_id != 0)"+\
-                            " AND (times.time != 0 )"+\
-                            " AND (times.cell != 1 )"+\
-                            " GROUP BY user_id"+\
-                            " HAVING count(*) == " + str(lap)
-                #if(self.datastore.Get('onelap_race') == 0):
-                query_order = query_order +\
-                        " UNION "+\
-                        " SELECT user_id FROM times" +\
-                            " WHERE (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
-                            " AND (times.user_id != 0)"+\
-                            " AND (times.time != 0 )"+\
-                            " AND (times.cell != 1 )"+\
-                            " GROUP BY user_id"+\
-                            " HAVING count(*) > "+str(lap)
-                query_order = query_order + ")"
-            else:
-                query_order = \
-                    "SELECT COUNT(user_id) FROM times"+\
-                        " WHERE (times.time < " + str(dbTime['time']) + ")"                            
-                if(self.datastore.Get('show')['alltimes'] == 0):
-                    query_order = query_order + " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
-                query_order = query_order + \
-                        " AND (times.user_id != 0)"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"                                                            
-            print "query_order: ",query_order                                             
-                                                       
-        try:
-            print query_order
-            res_order = self.db.query(query_order).fetchone()[0]
-            #res_order_2 = self.db.query(query_order_2).fetchone()[0]
-           
-            #print "query_order2: ",query_order_2 
-            #print str(res_order)+","+str(res_order_2)
-            res_order = res_order + 1 #+ res_order_2        
-        except:
-            res_order = None                            
-
-        return res_order 
-#    def Get_old(self, dbTime, category_id = None):
-#        
-#        if(self.datastore.Get("additinal_info") == False):            
-#            return None
-#        
-#        if(dbTime['time'] == None):
-#            return None
-#              
-#        if(dbTime['time'] == 0):
-#            return None
-#            
-#        if(dbTime['cell'] == 1):            
-#            return None                                        
-#    
-#        if category_id != None:     
-#            
-#            '''ORDER IN THE SAME CATEGORY'''        
-#                           
-#            if(self.datastore.Get('rfid') == True):                
-#                query_order = \
-#                    " SELECT COUNT(times.id) FROM times" +\
-#                        " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-#                        " INNER JOIN users ON tags.user_nr = users.nr "+\
-#                        " WHERE (times.time < " +str(dbTime['time'])+ ")"+\
-#                        " AND (times.time != 0 )"+\
-#                        " AND (times.cell != 1 )"+\
-#                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-#                        " AND (times.run_id=" +str(dbTime['run_id'])+ ")"
-#            else:
-#                query_order = \
-#                    "SELECT COUNT(*) FROM times" +\
-#                        " INNER JOIN users ON times.user_id = users.id"+\
-#                        " INNER JOIN categories ON users.category_id = categories.id "+\
-#                        " WHERE (times.time < " +str(dbTime['time'])+ ")"+\
-#                        " AND (times.time != 0 )"+\
-#                        " AND (times.cell != 1 )"+\
-#                        " AND (users.category_id=\"" +str(category_id)+ "\")"+\
-#                        " AND (times.run_id=\"" +str(dbTime['run_id'])+ "\")"
-#                        
-#                        #" AND (categories.name=\"" +str(category)+ "\")"+\
-#        
-#        else:
-#            
-#            '''ORDER IN ALL RUN'''
-#            
-#            query_order = \
-#                "SELECT COUNT(times.id) FROM times" +\
-#                    " WHERE (times.time<" + str(dbTime['time']) + ")"+\
-#                    " AND (times.time != 0 )"+\
-#                    " AND (times.cell != 1 )"+\
-#                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
-#                               
-#
-#        #import time                     
-#        
-#        #print "..1", time.time()
-#        res_order = self.db.query(query_order).fetchone()[0]+1
-#        #print "..2", time.time() 
-#               
-#        #res_count = self.db.query(query_count).fetchone()[0]        
-#        #return {"start":res_order, "end":res_order+res_count-1}              
-#        return res_order
-    
-                
-
     
 class TimesLap():
+    '''
+    počty kol
+        - Get(dbTime) - kolikáté kolo daného závodníka je tento čas
+        - GetLaps() - počet kol daného závodníka
+    '''
     def __init__(self, db, datastore):                          
         self.db = db
         self.datastore = datastore
         
     def Get(self, dbTime):
         '''
-        spočítá kolikáté kolo daného závodníka je tento čas
+        kolikáté kolo daného závodníka je tento čas
         '''        
         
         if(self.datastore.Get("additional_info")['enabled'] == 0):            
@@ -661,15 +435,15 @@ class TimesLap():
                 " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\
                 " AND (times.cell != 1)"
      
-        #print "query lap: ", query          
-        count = self.db.query(query).fetchone()[0]+1
+        #print "query lap: ", query
+        #print self.db.query(query).fetchone()          
+        count = self.db.query(query).fetchone()[0]+1        
         return count
     
     def GetLaps(self, dbTime):
         '''
-        vrátí počet kol daného uživatele
-        '''
-                
+        počet kol daného závodníka
+        '''                
                 
         if(dbTime['cell'] == 1):
             return None                    
@@ -685,10 +459,15 @@ class TimesLap():
                     " AND (times.cell != 1)"
      
         #print query          
-        count = self.db.query(query).fetchone()[0]
+        count = self.db.query(query).fetchone()[0]        
         return count        
     
 class TimesLaptime():
+    '''
+        - Get() - laptime, tzn. čas kola
+        - GetBest() - nejlepší čas kola
+    '''
+    
     def __init__(self, db, datastore):                          
         self.db = db
         self.datastore = datastore
@@ -777,8 +556,9 @@ class TimesLaptime():
                     " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"
         res = self.db.query(query).fetchone()                
         if res == None:
-            return None
-        return res[0]
+            return None        
+        #return res[0]
+        return res['min(laptime)']
         
         
                     

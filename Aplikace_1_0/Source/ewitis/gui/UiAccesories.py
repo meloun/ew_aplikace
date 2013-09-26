@@ -12,11 +12,7 @@ try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     _fromUtf8 = lambda s: s
-
-
-class MSGTYPE:
-    warning, info, warning_dialog, question_dialog, get_integer, right_statusbar, statusbar, ii = range(0,8)
-    
+   
     
 class UiaDialogs(MyDialogs):
     def __init__(self):
@@ -656,8 +652,8 @@ class UiAccesories(UiaDialogs):
         
         
         if (ok and item):                                  
-            self.datastore.Set("port_name", str(item))
-            self.showMessage(title, str(item), dialog = False)
+            self.datastore.SetItem("port", ["name"], str(item))
+            self.showMessage(title, str(item))
         
         self.updateTab()
         
@@ -677,9 +673,9 @@ class UiAccesories(UiaDialogs):
             # KILL COMMUNICATION - thread, etc..
             #self.datastore.Set("port_enable", False)                    
             self.datastore.SetItem("port", ["opened"], False)                    
-            self.showMessage(title, self.datastore.Get("port_name")+" disconnected", MSGTYPE.statusbar)                       
+            self.showMessage(title, self.datastore.Get("port")["name"]+" disconnected", MSGTYPE.statusbar)                       
         else:            
-            self.showMessage(title, self.datastore.Get("port_name")+" connected", MSGTYPE.statusbar)                                 
+            self.showMessage(title, self.datastore.Get("port")["name"]+" connected", MSGTYPE.statusbar)                                 
                         
             # CREATE COMMUNICATION - thread, etc..                                    
                                  
@@ -694,7 +690,7 @@ class UiAccesories(UiaDialogs):
             #if(self.datastore.Get("port_enable") == False):
             if(self.datastore.Get("port")["opened"] == False):                 
                 title = "Port connect"                                
-                self.showMessage(title, self.datastore.Get("port_name")+" cant connect")                
+                self.showMessage(title, self.datastore.Get("port")["name"]+" cant connect")                
                                 
         self.updateGui()                     
         
@@ -859,12 +855,12 @@ class UiAccesories(UiaDialogs):
         self.datastore.Set("generate_finishtime", tabUser['tag_id'], "SET")
                                    
     def sQuitTiming(self):
-        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype='warning_dialog') != True):            
+        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
         print "A: Generate quit time"                                                                                                                                                                                            
         self.datastore.Set("quit_timing", 0x00, "SET")                   
     def sClearDatabase(self):
-        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype='warning_dialog') != True):            
+        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
         print "A: Clear Database"                                                                                                                                                                                            
         self.datastore.Set("clear_database", 0x00, "SET")

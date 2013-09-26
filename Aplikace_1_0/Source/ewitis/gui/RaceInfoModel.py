@@ -125,7 +125,7 @@ class RaceInfoModel(myModel.myModel):
             row_table["check"] = "ok"
         else:
             row_table["check"] = "ko"
-            print row_table["race"], type(row_table["race"])
+            #print row_table["race"], type(row_table["race"])
             
         self.addRow(row_table)
         row_id =  row_id + 1
@@ -177,6 +177,7 @@ class RaceInfo(myModel.myTable):
     #v modelu tahle funkce šahá do db, raceinfo nema tabulku v db        
     def updateDbCounter(self):
         pass
+    
         
                             
 

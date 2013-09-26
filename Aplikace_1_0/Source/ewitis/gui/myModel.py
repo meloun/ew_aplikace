@@ -700,7 +700,7 @@ class myTable():
         title = "Table '"+self.params.name + "' Delete"
         
         #confirm dialog and delete
-        if (self.params.uia.showMessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?")):
+        if (self.params.uia.showMessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", msgtype = MSGTYPE.warning_dialog)):
             self.deleteAll()                                            
     
                   

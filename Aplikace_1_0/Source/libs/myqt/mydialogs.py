@@ -30,40 +30,33 @@ class MyDialogs(Qt.QFileDialog):
             statusbar - zarovnaný vlevo, zobrazí hlášku z parametru
                 
         """
-        #print "MD showmsg", msgtype                
+        ret = False
+                           
         #Warning                                        
         if(msgtype == MSGTYPE.warning):
             QtGui.QMessageBox.warning(self.parent, title, message)
         #Info            
         elif(msgtype == MSGTYPE.info):
             QtGui.QMessageBox.information(self.parent, title, message)
-        #warning dialog
-        elif(msgtype == MSGTYPE.warning_dialog):            
+        #warning or question dialog
+        elif(msgtype == MSGTYPE.warning_dialog) or (msgtype == MSGTYPE.question_dialog):
+            
+            #warning msgbox or qustion msgbox                
+            MsgBox = QtGui.QMessageBox.warning if (msgtype == MSGTYPE.warning_dialog) else QtGui.QMessageBox.question            
+            
             if not params:                
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)                
-                if ret != QtGui.QMessageBox.Yes:
-                    return False
+                ret = MsgBox(self.parent, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)                                
             elif len(params) == 1:                
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, params[0], "Cancel", escapeButtonNumber=1)
-                if ret == 1:
-                    return False
+                ret = MsgBox(self.parent, title, message, params[0], "Cancel", escapeButtonNumber=1)
             elif len(params) == 2:                
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, params[0], params[1], "Cancel", escapeButtonNumber=2)
-                if ret == 2:
-                    return False                                             
-        #question dialog
-        elif(msgtype == MSGTYPE.question_dialog):                        
-            if not params:
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)
-            elif len(params) == 1:
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, params[0], "Cancel", escapeButtonNumber=1)
-                if ret == 1:
-                    return False
-            elif len(params) == 2:
-                ret = QtGui.QMessageBox.warning(self.parent, title, message, params[0], params[1], "Cancel", escapeButtonNumber=2)
-                if ret == 2:
-                    return False
+                ret = MsgBox(self.parent, title, message, params[0], params[1], "Cancel", escapeButtonNumber=2)
                 
+            #button cancel pressed
+            if (ret == QtGui.QMessageBox.Cancel) or (ret == len(params)):
+                ret = False
+            elif(ret == QtGui.QMessageBox.Yes):
+                ret = True
+                                                                                       
         #integer
         elif(msgtype == MSGTYPE.get_integer):
             #print params
@@ -71,9 +64,9 @@ class MyDialogs(Qt.QFileDialog):
             i, ok = QtGui.QInputDialog.getInteger(self.parent, title, message, value = params[0])
             if ok:
                 return i
-            return None            
-                                                                                                                             
-        return True
+            return None        
+                                                                                                    
+        return ret
     
     def update_statusbar(self, title, message):
         pass
