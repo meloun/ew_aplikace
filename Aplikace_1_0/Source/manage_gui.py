@@ -93,6 +93,11 @@ class wrapper_gui_ewitis(QtGui.QMainWindow):
         #self.updateTables()                        
         
         #nastaveni prvniho dostupneho portu
+        print "dostupné porty: ",
+        for port in serial_utils.enumerate_serial_ports():
+            print port,
+        print ""
+            
         try:
             self.datastore.SetItem("port", ["name"], serial_utils.enumerate_serial_ports().next())        
         except:            

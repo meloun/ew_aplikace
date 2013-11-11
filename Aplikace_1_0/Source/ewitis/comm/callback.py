@@ -174,8 +174,8 @@ def pack_data(command_key, data):
         aux_data = struct.pack('<BBBhB', data['logic_mode'], data['name_id'], data['filter_tagtime'],\
                                data['filter_minlaptime'], data['filter_maxlapnumber'])        
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
-        # GET DIAGNOSTIC         
-        aux_data = struct.pack('<BB', data['start_error_id'], data['count_errors'])
+        # GET DIAGNOSTIC        
+        aux_data = struct.pack('<BB', data['start'], data['count'])
         
     # NUMBER    
     elif(length == 1):

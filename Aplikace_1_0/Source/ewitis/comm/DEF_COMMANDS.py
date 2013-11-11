@@ -17,8 +17,8 @@ DEF_COMMANDS = {
     "GET_TERMINAL_INFO"         : {'cmd':0x20,  'length':0,     'blackbox': True,    'terminal': True},                                      
     "GET_CELL_INFO"             : {'cmd':0x21,  'length':1,     'blackbox': True,    'terminal': True},                                      
     "GET_TIMING_SETTINGS"       : {'cmd':0x22,  'length':0,     'blackbox': True,    'terminal': True},                                      
-    "GET_RUN_PAR_INDEX"         : {'cmd':0x30,  'length':2,     'blackbox': True,    'terminal': True},                                      
-    "GET_TIME_PAR_INDEX"        : {'cmd':0x32,  'length':2,     'blackbox': True,    'terminal': True},
+    "GET_RUN_PAR_INDEX"         : {'cmd':0x30,  'length':2,     'blackbox': True,    'terminal': True, 'cyclic': False},                                      
+    "GET_TIME_PAR_INDEX"        : {'cmd':0x32,  'length':2,     'blackbox': True,    'terminal': True, 'cyclic': False},
                               
     #aplikace => terminal : "actions"                                                  
     "COMM_SYNCHRONIZATION"      : {'cmd':0x01,  'length':0,     'blackbox': True,    'terminal': True},
@@ -38,8 +38,7 @@ DEF_COMMANDS = {
     "GENERATE_STARTTIME"        : {'cmd':0x43,  'length':4,     'blackbox': True,    'terminal': True},
     "GENERATE_FINISHTIME"       : {'cmd':0x44,  'length':4,     'blackbox': True,    'terminal': True},                                                                                                    
     "SET_TAGS_READING"          : {'cmd':0x45,  'length':1,     'blackbox': True,    'terminal': False},                                                                                                    
-    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':4,     'blackbox': True,    'terminal': False}                                                                                                    
-            
+    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':4,     'blackbox': True,    'terminal': False}                                                                                                               
 }
 DEF_COMMAND_GROUP = {
                      
@@ -63,5 +62,14 @@ DEF_ERRORS = {
     "COMMAND_NO_EFFECT"         : 0x09,
     "RESPONSE_PENDING"          : 0x78        
 }
+
+def IsCyclic(key):
+    if key == "GET_TIME_PAR_INDEX":
+        return True
+    elif key == "GET_RUN_PAR_INDEX":
+        return True
+    elif key == "GET_TIMING_SETTINGS":
+        return True
+    return False
 
         

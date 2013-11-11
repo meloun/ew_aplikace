@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import libs.datastore.permanent_datastore as datastore
+import time
+import datetime
 
 
 class Dstore(datastore.PermanentDatastore):
@@ -21,6 +23,24 @@ class Dstore(datastore.PermanentDatastore):
             if name in hw_version:
                 return True
         return False
+    
+    def AddDiagnostic(self, cmd, data, color = "red", desc = None):
+        
+        #format
+        aux_cmd = '%02x' % cmd
+        aux_data = ":".join(c.encode('hex') for c in data)
+        
+        #prepare string
+        mytime = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]        
+        added_string = "<font color='grey' size='2'>"+ mytime +": </font>"          
+        added_string += "<font color='" +color+ "'><b>"+aux_cmd+"</b> " +aux_data+ "</font>"
+        if desc != None :
+            added_string += "<font color='grey' size='2'>("+desc.lower()+")</font>"
+        
+            
+        #write to datastore            
+        aux_diagnostic = self.Get("diagnostic")
+        self.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+added_string+"<BR>")
 
 
 if __name__ == "__main__":

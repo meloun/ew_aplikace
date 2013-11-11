@@ -6,6 +6,7 @@ Created on 10.06.2010
 
 import serial
 import time
+import datetime
 import struct
 import libs.dicts.dicts as dicts
 import libs.file.file as file
@@ -56,8 +57,7 @@ class ManageComm(Thread):
         print "COMM: koncim vlakno.."
         
     def send_receive_frame(self, command_key, data="", length = None):
-        """ ošetřená vysílací, přijímací metoda """
-        
+        """ ošetřená vysílací, přijímací metoda """                
         if command_key != "GET_HW_SW_VERSION":
             if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox()) \
                    or (DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and self.datastore.IsTerminal())):
@@ -71,16 +71,28 @@ class ManageComm(Thread):
         try:
             '''pack data to the string'''
             data = callback.pack_data(command_key, data)            
-            '''send and receive data'''
+            '''requet diagnostic'''            
+            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):                
+                self.datastore.AddDiagnostic(command, data, 'green', command_key)
+            '''send and receive data'''            
             receivedata = self.protokol.send_receive_frame(command, data)                                                
             '''unpack data to dict structure'''
-            data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)                                                                              
+            data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
+            '''response diagnostic'''
+            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2): #or (DEF_COMMANDS.IsCyclic(command_key)== False):                                    
+                self.datastore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
-            data = {"error":0xFF}             
-        except (serial.SerialException) as (strerror):
+            data = {"error":0xFF}
+            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):
+                self.datastore.AddDiagnostic(command, data, 'red', command_key+": SendReceiveError")             
+        except (serial.SerialException) as (strerror):            
             print "E:SendReceiveError - {0}()".format(strerror)
-            data = {"error":0xFF} 
+            data = {"error":0xFF}
+            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):
+                self.datastore.AddDiagnostic(command, data, 'red', command_key+": SerialException")
+
+ 
         return data
                                                             
     def run(self):       
@@ -132,7 +144,7 @@ class ManageComm(Thread):
                     self.stop()                                       
                     return
                 
-            #print "I: Comm: waiting:",time.clock() - ztime,"s"                            
+            #print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
                                          
             #communication enabled?
             if(self.datastore.Get("port")["enabled"] == False):                
@@ -162,8 +174,8 @@ class ManageComm(Thread):
              - store new time to the databasae
              - store new run to the databasae
             """
-            
-            """ GET NEW TIME """                                                      
+                        
+            """ GET NEW TIME """                                                                  
             aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)                                                
             
             """ GET NEW RUN """                                                                                   
@@ -173,15 +185,18 @@ class ManageComm(Thread):
             if(aux_time['error'] == 0 or aux_run['error'] == 0):
                 print"================="
 
-            if None:           
-                aux_diagnostic = self.datastore.Get("diagnostic")                
-                if(aux_time['error'] != 0):
-                    self.datastore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
-                    
-                if(aux_run['error'] != 0):
-                    self.datastore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
+            """ GET NEW RUN """           
+            aux_diagnostic = self.datastore.Get("diagnostic")                
+            if(aux_time['error'] != 0):
+                self.datastore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
                 
-                #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"no new times (100)<br>")
+            if(aux_run['error'] != 0):
+                self.datastore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
+            
+            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='red'>no new times (100)</font><br>")
+            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='green'>no new times (100)</font><br>")
+            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")
+            
                                                                              
                                                                             
                     
@@ -317,7 +332,7 @@ class ManageComm(Thread):
                 """ get diagnostic """
                 #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group['start'], cmd_group['count'])
+                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group)
                                 
                 #print "aux_diagnostic", aux_diagnostic
                             

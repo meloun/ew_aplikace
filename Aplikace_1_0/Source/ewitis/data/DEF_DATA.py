@@ -40,7 +40,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "opened": False,
                                                         "enabled": True,
-                                                        "name": "COM7",
+                                                        "name": "COM8",
                                                         "baudrate": 38400
                                                         }
                                               }
@@ -145,6 +145,7 @@ DEF_DATA = {
                                },
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "communication": "",
+                                                        "log_cyclic": 2,
                                                         "no_new_run_cnt": 0,
                                                         "no_new_time_cnt": 0,
                                                         },

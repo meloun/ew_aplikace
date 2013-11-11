@@ -182,6 +182,9 @@ class UiAccesories(UiaDialogs):
         QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
         
+        #diagnostic
+        QtCore.QObject.connect(self.ui.checkLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
+        
         #actions
         QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
         QtCore.QObject.connect(self.ui.pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)
@@ -192,6 +195,8 @@ class UiAccesories(UiaDialogs):
         QtCore.QObject.connect(self.ui.pushEnableScanTags, QtCore.SIGNAL("clicked()"), self.sEnableScanTags)
         QtCore.QObject.connect(self.ui.pushDisableScanTags, QtCore.SIGNAL("clicked()"), self.sDisableScanTags)
         #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
+        
+        
         
     def configGui(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
@@ -535,13 +540,17 @@ class UiAccesories(UiaDialogs):
             else:            
                 self.ui.lineLanguage.setText("- -")
         elif(tab == TAB.diagnostic):
+            pass
+        elif(tab == TAB.communication):
             aux_diagnostic = self.datastore.Get("diagnostic")            
             if aux_diagnostic["communication"] != "":
+                self.ui.textDiagCommunication.moveCursor(QtGui.QTextCursor.End)
                 self.ui.textDiagCommunication.insertHtml(aux_diagnostic["communication"])
+                self.ui.textDiagCommunication.moveCursor(QtGui.QTextCursor.End)
                 self.datastore.SetItem("diagnostic", ["communication"], "")                         
-                vsb = self.ui.textDiagCommunication.verticalScrollBar()
-                vsb.setValue(vsb.maximum())            
-                self.ui.textDiagCommunication.ensureCursorVisible()                    
+                #vsb = self.ui.textDiagCommunication.verticalScrollBar()
+                #vsb.setValue(vsb.maximum())            
+                #self.ui.textDiagCommunication.ensureCursorVisible()                    
         
         if tab != None:            
             self.init[tab] = True
@@ -653,7 +662,7 @@ class UiAccesories(UiaDialogs):
         
         if (ok and item):                                  
             self.datastore.SetItem("port", ["name"], str(item))
-            self.showMessage(title, str(item))
+            self.showMessage(title, str(item), MSGTYPE.statusbar)
         
         self.updateTab()
         
