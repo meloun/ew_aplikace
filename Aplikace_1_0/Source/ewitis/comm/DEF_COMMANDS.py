@@ -72,4 +72,8 @@ def IsCyclic(key):
         return True
     return False
 
+def GetSorted(key='cmd'):
+    return sorted(DEF_COMMANDS.iteritems(), key=lambda (x, y): y['cmd'])
+def Get(index):
+    return GetSorted()[index]     
         

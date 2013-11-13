@@ -7,6 +7,7 @@ import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import *
 import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.comm.manage_comm as manage_comm
+import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -182,8 +183,11 @@ class UiAccesories(UiaDialogs):
         QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
         
-        #diagnostic
-        QtCore.QObject.connect(self.ui.checkLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
+        #communication
+        QtCore.QObject.connect(self.ui.checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
+        QtCore.QObject.connect(self.ui.comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sCommCommand)
+        QtCore.QObject.connect(self.ui.pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)
+        
         
         #actions
         QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
@@ -203,7 +207,25 @@ class UiAccesories(UiaDialogs):
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                           
         self.showMessage("Race", self.datastore.Get("race_name"), MSGTYPE.statusbar) 
-        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))                
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
+        
+        '''tab Communication'''
+        '''init combobox command'''
+        aux_commands = []        
+        for key, value in DEF_COMMANDS.GetSorted():
+            #prepare item name
+            aux_cmd_key = "%02X" % value['cmd']            
+            aux_cmd = "x"+aux_cmd_key+" "+key.lower() + " " + str(value['length'])+"b"            
+            if(value['terminal']):
+                aux_cmd += " B"              
+            if(value['terminal']):
+                aux_cmd += " T"
+            #add item                        
+            aux_commands.append(aux_cmd)
+        #set item from a list        
+        self.ui.comboCommCommand.addItems(aux_commands)
+        #clear log        
+        self.sCommClearLog()        
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -542,15 +564,19 @@ class UiAccesories(UiaDialogs):
         elif(tab == TAB.diagnostic):
             pass
         elif(tab == TAB.communication):
-            aux_diagnostic = self.datastore.Get("diagnostic")            
-            if aux_diagnostic["communication"] != "":
-                self.ui.textDiagCommunication.moveCursor(QtGui.QTextCursor.End)
-                self.ui.textDiagCommunication.insertHtml(aux_diagnostic["communication"])
-                self.ui.textDiagCommunication.moveCursor(QtGui.QTextCursor.End)
+            aux_diagnostic = self.datastore.Get("diagnostic")
+            #set checkbox
+            self.ui.checkCommLogCyclic.setCheckState(aux_diagnostic['log_cyclic'])            
+            #log request?            
+            if aux_diagnostic["communication"] != "":                                        
+                if len(self.ui.textCommLog.toPlainText()) > 90000:                    
+                    self.sCommClearLog()
+                self.ui.textCommLog.insertHtml(aux_diagnostic["communication"])
+                self.ui.textCommLog.moveCursor(QtGui.QTextCursor.End)
                 self.datastore.SetItem("diagnostic", ["communication"], "")                         
-                #vsb = self.ui.textDiagCommunication.verticalScrollBar()
+                #vsb = self.ui.textCommLog.verticalScrollBar()
                 #vsb.setValue(vsb.maximum())            
-                #self.ui.textDiagCommunication.ensureCursorVisible()                    
+                #self.ui.textCommLog.ensureCursorVisible()                    
         
         if tab != None:            
             self.init[tab] = True
@@ -772,6 +798,15 @@ class UiAccesories(UiaDialogs):
         '''reset GET hodnoty'''
         self.datastore.ResetValue("terminal_info", 'language')                                                                
         self.updateTab(TAB.device, UPDATE_MODE.gui)
+        
+    def sCommCommand(self, index):        
+        print DEF_COMMANDS.Get(index)
+        '''získání a nastavení nové SET hodnoty'''                                
+        #self.datastore.Set("language", index, "SET")               
+        
+        '''reset GET hodnoty'''
+        #self.datastore.ResetValue("terminal_info", 'language')                                                                
+        #self.updateTab(TAB.device, UPDATE_MODE.gui)
     
     """                 """
     """ RACE SETTINGS """
@@ -825,6 +860,16 @@ class UiAccesories(UiaDialogs):
         #print "sComboOrderEvaluation", index                                                               
         self.datastore.Set("order_evaluation", index)                                                                                                    
         self.updateTab(TAB.race_settings, UPDATE_MODE.gui)
+    
+    """                 """
+    """ COMMUNICATION   """
+    """                 """    
+    def sCommClearLog(self):
+        self.ui.textCommLog.clear()
+        self.datastore.InitDiagnostic()                
+        
+        
+        
         
     """                 """
     """ TIMES           """
@@ -879,6 +924,8 @@ class UiAccesories(UiaDialogs):
     def sDisableScanTags(self):
         print "A: Disable Scan Tags"                                                                                                                                                                                            
         self.datastore.Set("tags_reading", 0x00, "SET")
+        
+    
         
                            
         

@@ -145,7 +145,7 @@ DEF_DATA = {
                                },
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "communication": "",
-                                                        "log_cyclic": 2,
+                                                        "log_cyclic": 0,
                                                         "no_new_run_cnt": 0,
                                                         "no_new_time_cnt": 0,
                                                         },

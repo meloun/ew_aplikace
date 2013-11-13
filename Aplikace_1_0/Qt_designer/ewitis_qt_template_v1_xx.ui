@@ -6872,7 +6872,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
            <item row="1" column="0" colspan="2">
-            <widget class="QComboBox" name="comboBox">
+            <widget class="QComboBox" name="comboCommCommand">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -6901,7 +6901,7 @@
             </spacer>
            </item>
            <item row="3" column="0">
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="lineCommData">
              <property name="inputMask">
               <string>HH HH HH HH HH HH HH HH HH HH;0</string>
              </property>
@@ -6938,7 +6938,7 @@
             </spacer>
            </item>
            <item row="5" column="0">
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pushCommSend">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -7017,7 +7017,7 @@
             </spacer>
            </item>
            <item row="2" column="0" rowspan="6" colspan="6">
-            <widget class="QTextEdit" name="textDiagCommunication">
+            <widget class="QTextEdit" name="textCommLog">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -7046,7 +7046,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="8" column="4">
-            <widget class="QCheckBox" name="checkLogCyclic">
+            <widget class="QCheckBox" name="checkCommLogCyclic">
              <property name="toolTip">
               <string>get run, get time, get timing settings</string>
              </property>
@@ -7056,7 +7056,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="8" column="5">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pushCommClearLog">
              <property name="text">
               <string>Clear log</string>
              </property>
