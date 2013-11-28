@@ -167,6 +167,28 @@ class ManageComm(Thread):
                 self.datastore.SetItem("versions", ["fw"], aux_version["fw"])
             """ end of hw-sw-version """
             
+            """ 
+            SEND COMMAND 
+                diagnostic purpose
+            """ 
+            if(self.datastore.Get("diagnostic")["sendcommandkey"] != None):
+                
+                
+                print "COMM: sendcommand:", self.datastore.Get("diagnostic")["sendcommandkey"], self.datastore.Get("diagnostic")["senddata"]
+                aux_response = self.send_receive_frame(self.datastore.Get("diagnostic")["sendcommandkey"], str(self.datastore.Get("diagnostic")["senddata"]))
+                print "COMM: sendcommand response:", aux_response
+                                
+                if ('error' in aux_version): 
+                    print "COMM: sendcommand response: ERROR"                                     
+                
+                #smazat request
+                self.datastore.SetItem("diagnostic", ["sendcommandkey"], None)
+                                
+                #set response (text to label)
+                #self.datastore.SetItem("diagnostic", ["sendresponse"], aux_response)
+                                
+            
+            
             """
             RUNS & TIMES & DATABASE PART
              - get new time

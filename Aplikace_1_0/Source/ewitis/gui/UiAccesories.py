@@ -184,8 +184,9 @@ class UiAccesories(UiaDialogs):
         QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
         
         #communication
+        QtCore.QObject.connect(self.ui.comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)
+        QtCore.QObject.connect(self.ui.pushCommSend, QtCore.SIGNAL("clicked()"), self.sSendCommand)
         QtCore.QObject.connect(self.ui.checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
-        QtCore.QObject.connect(self.ui.comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sCommCommand)
         QtCore.QObject.connect(self.ui.pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)
         
         
@@ -224,6 +225,8 @@ class UiAccesories(UiaDialogs):
             aux_commands.append(aux_cmd)
         #set item from a list        
         self.ui.comboCommCommand.addItems(aux_commands)
+        #update lineedit length
+        self.sComboCommand(0)
         #clear log        
         self.sCommClearLog()        
     
@@ -636,7 +639,7 @@ class UiAccesories(UiaDialogs):
         self.updateTab(tab)
         
         
-    def sGuiSetItem(self, name, keys, value, tab, dialog = False):
+    def sGuiSetItem(self, name, keys, value, tab = None, dialog = False):
         #print name, keys, value
         if value == self.datastore.GetItem(name, keys):
             return
@@ -863,13 +866,30 @@ class UiAccesories(UiaDialogs):
     
     """                 """
     """ COMMUNICATION   """
-    """                 """    
+    """                 """
+    def sComboCommand(self, index):        
+        cmd = DEF_COMMANDS.GetSorted()[index]
+        cmd_length = cmd[1]['length']
+        
+        #update senddata lenfth        
+        self.ui.lineCommData.setInputMask((cmd_length * "HH ")+";0")             
+            
+    def sSendCommand(self):
+        
+        cmd_index = self.ui.comboCommCommand.currentIndex()
+        cmd_key = DEF_COMMANDS.GetSorted()[cmd_index][0]
+        data = self.ui.lineCommData.displayText ().replace(" ", "")
+        
+        #set to datastore
+        self.sGuiSetItem("diagnostic", ["sendcommandkey"], cmd_key)                        
+        self.sGuiSetItem("diagnostic", ["senddata"], data)
+        
+        print "send command:", cmd_key, data
+        
+                                
     def sCommClearLog(self):
         self.ui.textCommLog.clear()
-        self.datastore.InitDiagnostic()                
-        
-        
-        
+        self.datastore.InitDiagnostic()                                
         
     """                 """
     """ TIMES           """

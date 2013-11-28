@@ -144,6 +144,9 @@ DEF_DATA = {
                                               }  
                                },
         "diagnostic"         : {"GET_SET"  : {"value": {
+                                                        "sendcommandkey": None,
+                                                        "senddata": 0,
+                                                        "sendresponse": "",
                                                         "communication": "",
                                                         "log_cyclic": 0,
                                                         "no_new_run_cnt": 0,
