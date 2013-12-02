@@ -579,7 +579,8 @@ class UiAccesories(UiaDialogs):
                 self.datastore.SetItem("diagnostic", ["communication"], "")                         
                 #vsb = self.ui.textCommLog.verticalScrollBar()
                 #vsb.setValue(vsb.maximum())            
-                #self.ui.textCommLog.ensureCursorVisible()                    
+                #self.ui.textCommLog.ensureCursorVisible()            
+            self.ui.labelCommResponse.setText(aux_diagnostic["sendresponse"])
         
         if tab != None:            
             self.init[tab] = True
@@ -878,13 +879,13 @@ class UiAccesories(UiaDialogs):
         
         cmd_index = self.ui.comboCommCommand.currentIndex()
         cmd_key = DEF_COMMANDS.GetSorted()[cmd_index][0]
-        data = self.ui.lineCommData.displayText ().replace(" ", "")
+        data = str(self.ui.lineCommData.displayText ().replace(" ", ""))
         
         #set to datastore
         self.sGuiSetItem("diagnostic", ["sendcommandkey"], cmd_key)                        
         self.sGuiSetItem("diagnostic", ["senddata"], data)
         
-        print "send command:", cmd_key, data
+        #print "send command:", cmd_key, data
         
                                 
     def sCommClearLog(self):

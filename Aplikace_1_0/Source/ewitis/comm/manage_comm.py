@@ -8,6 +8,7 @@ import serial
 import time
 import datetime
 import struct
+import json
 import libs.dicts.dicts as dicts
 import libs.file.file as file
 import libs.db.db_json as db
@@ -56,7 +57,7 @@ class ManageComm(Thread):
         self.protokol.close_port()
         print "COMM: koncim vlakno.."
         
-    def send_receive_frame(self, command_key, data="", length = None):
+    def send_receive_frame(self, command_key, data="", length = None, diagnostic = True):
         """ ošetřená vysílací, přijímací metoda """                
         if command_key != "GET_HW_SW_VERSION":
             if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox()) \
@@ -72,25 +73,27 @@ class ManageComm(Thread):
             '''pack data to the string'''
             data = callback.pack_data(command_key, data)            
             '''requet diagnostic'''            
-            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):                
+            if diagnostic == True:                
                 self.datastore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''            
             receivedata = self.protokol.send_receive_frame(command, data)                                                
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
-            '''response diagnostic'''
-            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2): #or (DEF_COMMANDS.IsCyclic(command_key)== False):                                    
+            '''response diagnostic'''            
+            if diagnostic == True:                                    
                 self.datastore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             data = {"error":0xFF}
-            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):
-                self.datastore.AddDiagnostic(command, data, 'red', command_key+": SendReceiveError")             
+            #if(self.datastore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
+            if diagnostic == True:
+                self.datastore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")             
         except (serial.SerialException) as (strerror):            
             print "E:SendReceiveError - {0}()".format(strerror)
             data = {"error":0xFF}
-            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):# or (DEF_COMMANDS.IsCyclic(command_key)== False):
-                self.datastore.AddDiagnostic(command, data, 'red', command_key+": SerialException")
+            #if(self.datastore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
+            if diagnostic == True:
+                self.datastore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
 
  
         return data
@@ -149,6 +152,11 @@ class ManageComm(Thread):
             #communication enabled?
             if(self.datastore.Get("port")["enabled"] == False):                
                 continue
+            
+            #add diagnostic? 
+            diagnostic = False
+            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):                
+                diagnostic = True  
                 
             """ 
             GET HW-SW-VERSION 
@@ -172,11 +180,9 @@ class ManageComm(Thread):
                 diagnostic purpose
             """ 
             if(self.datastore.Get("diagnostic")["sendcommandkey"] != None):
-                
-                
-                print "COMM: sendcommand:", self.datastore.Get("diagnostic")["sendcommandkey"], self.datastore.Get("diagnostic")["senddata"]
-                aux_response = self.send_receive_frame(self.datastore.Get("diagnostic")["sendcommandkey"], str(self.datastore.Get("diagnostic")["senddata"]))
-                print "COMM: sendcommand response:", aux_response
+                                
+                #send command                
+                aux_response = self.send_receive_frame(self.datastore.Get("diagnostic")["sendcommandkey"], (self.datastore.Get("diagnostic")["senddata"]).decode('hex'))                                
                                 
                 if ('error' in aux_version): 
                     print "COMM: sendcommand response: ERROR"                                     
@@ -184,8 +190,8 @@ class ManageComm(Thread):
                 #smazat request
                 self.datastore.SetItem("diagnostic", ["sendcommandkey"], None)
                                 
-                #set response (text to label)
-                #self.datastore.SetItem("diagnostic", ["sendresponse"], aux_response)
+                #set response (text to label)                
+                self.datastore.SetItem("diagnostic", ["sendresponse"], json.dumps(aux_response, indent = 4))
                                 
             
             
@@ -195,13 +201,14 @@ class ManageComm(Thread):
              - get new run
              - store new time to the databasae
              - store new run to the databasae
-            """
+            """          
+              
                         
             """ GET NEW TIME """                                                                  
-            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times)                                                
+            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times, diagnostic = diagnostic)                                                
             
             """ GET NEW RUN """                                                                                   
-            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs)                      
+            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = diagnostic)                      
             
                         
             if(aux_time['error'] == 0 or aux_run['error'] == 0):
@@ -370,7 +377,7 @@ class ManageComm(Thread):
             """
                                     
             """ get timing-settings """            
-            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS")            
+            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = diagnostic)            
             aux_timing_setting["name_id"] = 4
             
             #print aux_timing_setting            

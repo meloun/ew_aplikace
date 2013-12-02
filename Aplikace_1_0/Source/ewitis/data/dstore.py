@@ -30,10 +30,10 @@ class Dstore(datastore.PermanentDatastore):
         
     def AddDiagnostic(self, cmd, data, color = "red", desc = None):
         
-        #format
+        #format        
         if type(cmd) is int:
             cmd = '%02x' % cmd
-            data = ":".join(c.encode('hex') for c in data)
+            data = ":".join(c.encode('hex') for c in data)        
         
         #prepare string
         mytime = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]        

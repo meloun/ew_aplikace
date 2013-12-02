@@ -63,15 +63,6 @@ DEF_ERRORS = {
     "RESPONSE_PENDING"          : 0x78        
 }
 
-def IsCyclic(key):
-    if key == "GET_TIME_PAR_INDEX":
-        return True
-    elif key == "GET_RUN_PAR_INDEX":
-        return True
-    elif key == "GET_TIMING_SETTINGS":
-        return True
-    return False
-
 def GetSorted(key='cmd'):
     return sorted(DEF_COMMANDS.iteritems(), key=lambda (x, y): y['cmd'])
 def Get(index):

@@ -160,6 +160,8 @@ def unpack_data(command, data, senddata):
 def pack_data(command_key, data):
     
     """ pack data for sending (from dict or number to string) """
+    if(type(data)==str):
+        return data
     
     command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
     length = DEF_COMMANDS.DEF_COMMANDS[command_key]['length']    
@@ -180,7 +182,7 @@ def pack_data(command_key, data):
     # NUMBER    
     elif(length == 1):
         aux_data = struct.pack('B', data)
-    elif(length == 2):
+    elif(length == 2):        
         aux_data = struct.pack('H', data)
     elif(length == 4):
         aux_data = struct.pack('L', data)
