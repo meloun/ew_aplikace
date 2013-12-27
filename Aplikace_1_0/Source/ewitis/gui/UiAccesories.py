@@ -3,11 +3,13 @@
 from PyQt4 import QtCore, QtGui 
 from threading import Thread,RLock
 from libs.myqt.mydialogs import *
+from ewitis.gui.tabCells import *
 import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import *
 import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.comm.manage_comm as manage_comm
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
+from ewitis.data.dstore import dstore
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -25,7 +27,7 @@ class UiaDialogs(MyDialogs):
             #all time update
             #print "right status bar"
             self.update_right_statusbar(title, message)                 
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")
+            timing_settings_get = dstore.Get("timing_settings", "GET")
             self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
             if timing_settings_get['measurement_state']== MeasurementState.not_active:
                 self.ui.statusbar_msg.setStyleSheet("background:red;")                    
@@ -42,18 +44,15 @@ class UiaDialogs(MyDialogs):
             #print "statusbar"
             #self.update_statusbar(title, message)
             #print title, message
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")                       
+            timing_settings_get = dstore.Get("timing_settings", "GET")                       
             self.ui.statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
             self.ui.statusbar.showMessage(title+" : " + message)        
         return MyDialogs.showMessage(self, title, message, msgtype, *params)
    
 class UiAccesories(UiaDialogs):
-    def __init__(self, source):
+    def __init__(self, ui):
         
-        self.ui = source.ui
-        self.datastore = source.datastore        
-        self.source = source
-
+        self.ui = ui                        
                         
         #tabs are not init yet - False for all
         self.init = [False for tab in range(TAB.nr_tabs)]
@@ -68,9 +67,9 @@ class UiAccesories(UiaDialogs):
         """SLOTY"""
         #common
         #TIMERs
-        self.timer1s = QtCore.QTimer(); 
-        self.timer1s.start(500); #500ms
-        QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
+        #self.timer1s = QtCore.QTimer(); 
+        #self.timer1s.start(500); #500ms
+        #QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.sTimer)
         QtCore.QObject.connect(self.ui.aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)
         QtCore.QObject.connect(self.ui.tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged)
         QtCore.QObject.connect(self.ui.aRefresh, QtCore.SIGNAL("triggered()"), self.sRefresh)
@@ -111,104 +110,103 @@ class UiAccesories(UiaDialogs):
         QtCore.QObject.connect(self.ui.spinLimitTimeMiliseconds, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("race_info", ["limit_time", "milliseconds_x10"], laps, TAB.race_info))
         
         
-        ##tab RACE SETTINGS##
-        
-        #race settings                        
-        QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
-        QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
-        QtCore.QObject.connect(self.ui.checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("tag_filter", state, TAB.race_settings))        
+#         ##tab RACE SETTINGS##
+#         
+#         #race settings                        
+#         QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
+#         QtCore.QObject.connect(self.ui.checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("rfid", state, TAB.race_settings, True))        
+#         QtCore.QObject.connect(self.ui.checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("tag_filter", state, TAB.race_settings))        
 
         
-        #export
-        QtCore.QObject.connect(self.ui.checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(self.ui.checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["club"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(self.ui.checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_3"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_4"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(self.ui.lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(self.ui.lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(self.ui.lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_race"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_categories"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_groups"], state, TAB.race_settings))
-        
-        #points
-        QtCore.QObject.connect(self.ui.checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("points", ["table"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("points", ["rule"], utils.toUnicode(name), TAB.race_settings))
-        #QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(self.ui.spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["minimum"], laps, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["maximum"], laps, TAB.race_settings))
-        
-
-        
-        #start download from last time and run 
-        QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
-
-        #table TIMES
-        #order_evaluation
-        QtCore.QObject.connect(self.ui.comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
-                                                
-        #show
-        QtCore.QObject.connect(self.ui.checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["starttimes"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
-        
-        #additional info
-        QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(self.ui.checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
+#        #export
+#        QtCore.QObject.connect(self.ui.checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
+#        QtCore.QObject.connect(self.ui.checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["club"], state, TAB.race_settings))                                
+#        QtCore.QObject.connect(self.ui.checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
+#        QtCore.QObject.connect(self.ui.checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["laptime"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_3"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["option_4"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_race"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_categories"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("export", ["points_groups"], state, TAB.race_settings))
+#        
+#        #points
+#        QtCore.QObject.connect(self.ui.checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("points", ["table"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSetItem("points", ["rule"], utils.toUnicode(name), TAB.race_settings))
+#        #QtCore.QObject.connect(self.ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["minimum"], laps, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: self.sGuiSetItem("points", ["maximum"], laps, TAB.race_settings))
+#        
+#
+#        
+#        #start download from last time and run 
+#        QtCore.QObject.connect(self.ui.checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
+#
+#        #table TIMES
+#        #order_evaluation
+#        QtCore.QObject.connect(self.ui.comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
+#                                                
+#        #show
+#        QtCore.QObject.connect(self.ui.checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["starttimes"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
+#        
+#        #additional info
+#        QtCore.QObject.connect(self.ui.checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: self.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
+#        QtCore.QObject.connect(self.ui.checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
         
         #view limit
-        QtCore.QObject.connect(self.ui.spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))        
+#        QtCore.QObject.connect(self.ui.spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))        
                                         
 
-        QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
-        #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
-        QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
-        QtCore.QObject.connect(self.ui.pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
-        QtCore.QObject.connect(self.ui.pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))
-        QtCore.QObject.connect(self.ui.comboLanguage, QtCore.SIGNAL("activated(int)"), self.sComboLanguage)
-        QtCore.QObject.connect(self.ui.comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode)        
+#        QtCore.QObject.connect(self.ui.pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)       
+#        #QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), labmda: self.sTerminalSpeakerKeys(1))
+#        QtCore.QObject.connect(self.ui.pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
+#        QtCore.QObject.connect(self.ui.pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
+#        QtCore.QObject.connect(self.ui.pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))
+#        QtCore.QObject.connect(self.ui.comboLanguage, QtCore.SIGNAL("activated(int)"), self.sComboLanguage)
+#        QtCore.QObject.connect(self.ui.comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode)        
         
-        QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
-        QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
-        QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
-        
-        #communication
-        QtCore.QObject.connect(self.ui.comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)
-        QtCore.QObject.connect(self.ui.pushCommSend, QtCore.SIGNAL("clicked()"), self.sSendCommand)
-        QtCore.QObject.connect(self.ui.checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
-        QtCore.QObject.connect(self.ui.pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)
-        
-        
-        #actions
-        QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
-        QtCore.QObject.connect(self.ui.pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)
-        QtCore.QObject.connect(self.ui.pushGenerateStarttime, QtCore.SIGNAL("clicked()"), self.sGenerateStarttime)
-        QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
-        QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
-        QtCore.QObject.connect(self.ui.pushClearDatabase, QtCore.SIGNAL("clicked()"), self.sClearDatabase)
-        QtCore.QObject.connect(self.ui.pushEnableScanTags, QtCore.SIGNAL("clicked()"), self.sEnableScanTags)
-        QtCore.QObject.connect(self.ui.pushDisableScanTags, QtCore.SIGNAL("clicked()"), self.sDisableScanTags)
-        #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
-        
-        
+#        QtCore.QObject.connect(self.ui.spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
+#        QtCore.QObject.connect(self.ui.spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
+#        QtCore.QObject.connect(self.ui.spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
+#        
+#        #communication
+#        QtCore.QObject.connect(self.ui.comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)
+#        QtCore.QObject.connect(self.ui.pushCommSend, QtCore.SIGNAL("clicked()"), self.sSendCommand)
+#        QtCore.QObject.connect(self.ui.checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, TAB.communication))
+#        QtCore.QObject.connect(self.ui.pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)
+     
+#        #actions
+#        QtCore.QObject.connect(self.ui.pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
+#        QtCore.QObject.connect(self.ui.pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)
+#        QtCore.QObject.connect(self.ui.pushGenerateStarttime, QtCore.SIGNAL("clicked()"), self.sGenerateStarttime)
+#        QtCore.QObject.connect(self.ui.pushGenerateStoptime, QtCore.SIGNAL("clicked()"), self.sGenerateFinishtime)
+#        QtCore.QObject.connect(self.ui.pushQuitTiming, QtCore.SIGNAL("clicked()"), self.sQuitTiming)
+#        QtCore.QObject.connect(self.ui.pushClearDatabase, QtCore.SIGNAL("clicked()"), self.sClearDatabase)
+#        QtCore.QObject.connect(self.ui.pushEnableScanTags, QtCore.SIGNAL("clicked()"), self.sEnableScanTags)
+#        QtCore.QObject.connect(self.ui.pushDisableScanTags, QtCore.SIGNAL("clicked()"), self.sDisableScanTags)
+#        #QtCore.QObject.connect(self.ui.pushSetTimingSettings, QtCore.SIGNAL("clicked()"), lambda: self.sSetTimingSettings(self.GetGuiTimingSettings()))
+#        
+#        
         
     def configGui(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                           
-        self.showMessage("Race", self.datastore.Get("race_name"), MSGTYPE.statusbar) 
-        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+self.source.datastore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
+        self.showMessage("Race", dstore.Get("race_name"), MSGTYPE.statusbar) 
+        self.source.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+dstore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
         
         '''tab Communication'''
         '''init combobox command'''
@@ -228,7 +226,12 @@ class UiAccesories(UiaDialogs):
         #update lineedit length
         self.sComboCommand(0)
         #clear log        
-        self.sCommClearLog()        
+        self.sCommClearLog()
+        
+        '''tab Cells'''
+        self.cellgroup = [None]*2
+        self.cellgroup[0] = CellGroup(self.ui, 1)        
+        self.cellgroup[1] = CellGroup(self.ui, 2)
     
     def sRaceNameChanged(self, s):
         print "1:Race changed", s
@@ -243,6 +246,7 @@ class UiAccesories(UiaDialogs):
         self.updateTab(TAB.points)
         self.updateTab(TAB.device)
         self.updateTab(TAB.race_settings)
+        self.cellgroup[0].Update() 
         
     def updateTab(self, tab = None, mode = UPDATE_MODE.all):
         """ 
@@ -256,19 +260,19 @@ class UiAccesories(UiaDialogs):
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
                 
                 """ port name """
-                self.ui.aSetPort.setText(self.datastore.Get("port")["name"])                    
-                #self.ui.aSetPort.setEnabled(not(self.datastore.Get("port_enable")))
-                self.ui.aSetPort.setEnabled(not(self.datastore.Get("port")["opened"]))
+                self.ui.aSetPort.setText(dstore.Get("port")["name"])                    
+                #self.ui.aSetPort.setEnabled(not(dstore.Get("port_enable")))
+                self.ui.aSetPort.setEnabled(not(dstore.Get("port")["opened"]))
                 
                 """ port conect """                            
-                #self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port_enable")])                                                                                                                    
-                self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not self.datastore.Get("port")["opened"]])                                                                                                                    
-                self.ui.timesShowStartTimes.setCheckState(self.datastore.Get("show")['starttimes'])
-                self.ui.timesShowAllTimes.setCheckState(self.datastore.Get("show")['alltimes'])
-                self.ui.timesShowAdditionalInfo.setCheckState(self.datastore.Get("additional_info")['enabled'])
+                #self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not dstore.Get("port_enable")])                                                                                                                    
+                self.ui.aConnectPort.setText(STRINGS.PORT_CONNECT[not dstore.Get("port")["opened"]])                                                                                                                    
+                self.ui.timesShowStartTimes.setCheckState(dstore.Get("show")['starttimes'])
+                self.ui.timesShowAllTimes.setCheckState(dstore.Get("show")['alltimes'])
+                self.ui.timesShowAdditionalInfo.setCheckState(dstore.Get("additional_info")['enabled'])
                         
                 """ communicacation enabled/disabled """
-                state = self.datastore.Get("port")['enabled']
+                state = dstore.Get("port")['enabled']
                 self.ui.aEnableCommunication.setEnabled(not state)
                 self.ui.aDisableCommunication.setEnabled(state)
                 
@@ -286,7 +290,7 @@ class UiAccesories(UiaDialogs):
                 self.source.R.update()
                 self.source.T.update()
             
-            #print "run_time: ",self.datastore.Get("run_time")
+            #print "run_time: ",dstore.Get("run_time")
                 
         elif(tab == TAB.users):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
@@ -315,8 +319,8 @@ class UiAccesories(UiaDialogs):
         elif(tab == TAB.race_info):                                
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
                 self.source.tableRaceInfo.update()
-            self.ui.spinLimitLaps.setValue(self.datastore.Get("race_info")["limit_laps"])
-            limit_time = self.datastore.Get("race_info")["limit_time"]                      
+            self.ui.spinLimitLaps.setValue(dstore.Get("race_info")["limit_laps"])
+            limit_time = dstore.Get("race_info")["limit_time"]                      
             self.ui.spinLimitTimeHours.setValue(limit_time["hours"])                      
             self.ui.spinLimitTimeMinutes.setValue(limit_time["minutes"])                      
             self.ui.spinLimitTimeSeconds.setValue(limit_time["seconds"])                      
@@ -325,8 +329,8 @@ class UiAccesories(UiaDialogs):
         elif(tab == TAB.race_settings):    
             """ TIMING SETTINGS"""
         
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")
-            timing_settings_set = self.datastore.Get("timing_settings", "SET")
+            timing_settings_get = dstore.Get("timing_settings", "GET")
+            timing_settings_set = dstore.Get("timing_settings", "SET")
             
             """ logic mode """  
             if(timing_settings_get['logic_mode'] != None):
@@ -368,41 +372,41 @@ class UiAccesories(UiaDialogs):
             self.ui.labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
                 
             #APPLICATION
-            if(self.datastore.IsChanged("race_name") or (self.init[tab] == False)):
+            if(dstore.IsChanged("race_name") or (self.init[tab] == False)):
                 #print "RACE CHANGED"
-                self.ui.lineRaceName.setText(self.datastore.Get("race_name"))
-                self.datastore.ResetChangedFlag("race_name")
-            self.ui.checkRfidRace.setCheckState(self.datastore.Get("rfid"))                                  
-            self.ui.checkTagFilter.setCheckState(self.datastore.Get("tag_filter"))                                  
+                self.ui.lineRaceName.setText(dstore.Get("race_name"))
+                dstore.ResetChangedFlag("race_name")
+            self.ui.checkRfidRace.setCheckState(dstore.Get("rfid"))                                  
+            self.ui.checkTagFilter.setCheckState(dstore.Get("tag_filter"))                                  
             #export
-            self.ui.checkExportYear.setCheckState(self.datastore.Get("export")["year"])                                
-            self.ui.checkExportClub.setCheckState(self.datastore.Get("export")["club"])                                
-            self.ui.checkExportLaps.setCheckState(self.datastore.Get("export")["laps"])                                
-            self.ui.checkExportBestLaptime.setCheckState(self.datastore.Get("export")["best_laptime"])
+            self.ui.checkExportYear.setCheckState(dstore.Get("export")["year"])                                
+            self.ui.checkExportClub.setCheckState(dstore.Get("export")["club"])                                
+            self.ui.checkExportLaps.setCheckState(dstore.Get("export")["laps"])                                
+            self.ui.checkExportBestLaptime.setCheckState(dstore.Get("export")["best_laptime"])
             #export - options
-            if(self.datastore.IsChanged("export") or (self.init[tab] == False)):
-                self.ui.checkExportOption_1.setCheckState(self.datastore.Get("export")["option_1"])
-                self.ui.checkExportOption_2.setCheckState(self.datastore.Get("export")["option_2"])
-                self.ui.checkExportOption_3.setCheckState(self.datastore.Get("export")["option_3"])
-                self.ui.checkExportOption_4.setCheckState(self.datastore.Get("export")["option_4"])
-                self.ui.checkExportGap.setCheckState(self.datastore.Get("export")["gap"])
-                self.ui.lineOption1Name.setText(self.datastore.Get("export")["option_1_name"])
-                self.ui.lineOption2Name.setText(self.datastore.Get("export")["option_2_name"])
-                self.ui.lineOption3Name.setText(self.datastore.Get("export")["option_3_name"])
-                self.ui.lineOption4Name.setText(self.datastore.Get("export")["option_4_name"])                
-                self.ui.checkExportPointsRace.setCheckState(self.datastore.Get("export")["points_race"])
-                self.ui.checkExportPointsCategories.setCheckState(self.datastore.Get("export")["points_categories"])
-                self.ui.checkExportPointsGroups.setCheckState(self.datastore.Get("export")["points_groups"])
-                self.datastore.ResetChangedFlag("export")
+            if(dstore.IsChanged("export") or (self.init[tab] == False)):
+                self.ui.checkExportOption_1.setCheckState(dstore.Get("export")["option_1"])
+                self.ui.checkExportOption_2.setCheckState(dstore.Get("export")["option_2"])
+                self.ui.checkExportOption_3.setCheckState(dstore.Get("export")["option_3"])
+                self.ui.checkExportOption_4.setCheckState(dstore.Get("export")["option_4"])
+                self.ui.checkExportGap.setCheckState(dstore.Get("export")["gap"])
+                self.ui.lineOption1Name.setText(dstore.Get("export")["option_1_name"])
+                self.ui.lineOption2Name.setText(dstore.Get("export")["option_2_name"])
+                self.ui.lineOption3Name.setText(dstore.Get("export")["option_3_name"])
+                self.ui.lineOption4Name.setText(dstore.Get("export")["option_4_name"])                
+                self.ui.checkExportPointsRace.setCheckState(dstore.Get("export")["points_race"])
+                self.ui.checkExportPointsCategories.setCheckState(dstore.Get("export")["points_categories"])
+                self.ui.checkExportPointsGroups.setCheckState(dstore.Get("export")["points_groups"])
+                dstore.ResetChangedFlag("export")
             
             #points
-            points = self.datastore.Get("points")
+            points = dstore.Get("points")
             self.ui.checkPoinstsFromTable.setCheckState(points["table"])
             
-            if(self.datastore.IsChanged("points") or (self.init[tab] == False)):
+            if(dstore.IsChanged("points") or (self.init[tab] == False)):
                 #print "RULE CHANGED"                
                 self.ui.linePointsRule.setText(points["rule"])
-                self.datastore.ResetChangedFlag("points")
+                dstore.ResetChangedFlag("points")
             
             #self.ui.linePointsRule.setText(points["rule"])            
             self.ui.spinPointsMinimum.setValue(points["minimum"])
@@ -414,33 +418,33 @@ class UiAccesories(UiaDialogs):
                 
             ##TIMES##
             #order evaluation
-            self.ui.comboOrderEvaluation.setCurrentIndex(self.datastore.Get("order_evaluation"))            
+            self.ui.comboOrderEvaluation.setCurrentIndex(dstore.Get("order_evaluation"))            
             
             #show
-            self.ui.checkShowOnlyTimesWithOrder.setCheckState(self.datastore.Get("show")["times_with_order"])
-            self.ui.checkShowStartTimes.setCheckState(self.datastore.Get("show")["starttimes"])
-            self.ui.checkShowTimesFromAllRuns.setCheckState(self.datastore.Get("show")["alltimes"])                   
+            self.ui.checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])
+            self.ui.checkShowStartTimes.setCheckState(dstore.Get("show")["starttimes"])
+            self.ui.checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
             
             #aditional info
-            self.ui.checkAInfoEnabled.setCheckState(self.datastore.Get("additional_info")['enabled'])
-            self.ui.checkAInfoOrder.setCheckState(self.datastore.Get("additional_info")['order'])
-            self.ui.checkAInfoOrderInCategory.setCheckState(self.datastore.Get("additional_info")['order_in_cat'])
-            self.ui.checkAInfoLaps.setCheckState(self.datastore.Get("additional_info")['lap'])
-            self.ui.checkAInfoLaptime.setCheckState(self.datastore.Get("additional_info")['laptime'])
+            self.ui.checkAInfoEnabled.setCheckState(dstore.Get("additional_info")['enabled'])
+            self.ui.checkAInfoOrder.setCheckState(dstore.Get("additional_info")['order'])
+            self.ui.checkAInfoOrderInCategory.setCheckState(dstore.Get("additional_info")['order_in_cat'])
+            self.ui.checkAInfoLaps.setCheckState(dstore.Get("additional_info")['lap'])
+            self.ui.checkAInfoLaptime.setCheckState(dstore.Get("additional_info")['laptime'])
             
             #view limit
-            self.ui.spinTimesViewLimit.setValue(self.datastore.Get("times_view_limit"))
+            self.ui.spinTimesViewLimit.setValue(dstore.Get("times_view_limit"))
             
                                               
         elif(tab == TAB.actions):
             """ TIMING SETTINGS"""
-            timing_settings_get = self.datastore.Get("timing_settings", "GET")
+            timing_settings_get = dstore.Get("timing_settings", "GET")
             
             #rfid => no enabel start and finish
-            if(self.datastore.Get("rfid") == 0):                
+            if(dstore.Get("rfid") == 0):                
                 self.ui.pushEnableStartcell.setEnabled(True)
                 self.ui.pushEnableFinishcell.setEnabled(True)
-            elif(self.datastore.Get("rfid") == 2):
+            elif(dstore.Get("rfid") == 2):
                 self.ui.pushEnableStartcell.setEnabled(False)
                 self.ui.pushEnableFinishcell.setEnabled(False)
                 
@@ -462,7 +466,7 @@ class UiAccesories(UiaDialogs):
         elif(tab == TAB.device):
             
             """ HW & FW VERSION """
-            aux_versions = self.datastore.Get("versions")
+            aux_versions = dstore.Get("versions")
             
             if(aux_versions['hw'] != None):                                        
                 self.ui.lineHwVersion.setText(str(aux_versions['hw']))  
@@ -477,7 +481,7 @@ class UiAccesories(UiaDialogs):
             
             
             """ TERMINAL INFO """
-            aux_terminal_info = self.datastore.Get("terminal_info", "GET")
+            aux_terminal_info = dstore.Get("terminal_info", "GET")
             
             """ number of cells """
             if(aux_terminal_info['number_of_cells'] != None):
@@ -567,7 +571,7 @@ class UiAccesories(UiaDialogs):
         elif(tab == TAB.diagnostic):
             pass
         elif(tab == TAB.communication):
-            aux_diagnostic = self.datastore.Get("diagnostic")
+            aux_diagnostic = dstore.Get("diagnostic")
             #set checkbox
             self.ui.checkCommLogCyclic.setCheckState(aux_diagnostic['log_cyclic'])            
             #log request?            
@@ -576,7 +580,7 @@ class UiAccesories(UiaDialogs):
                     self.sCommClearLog()
                 self.ui.textCommLog.insertHtml(aux_diagnostic["communication"])
                 self.ui.textCommLog.moveCursor(QtGui.QTextCursor.End)
-                self.datastore.SetItem("diagnostic", ["communication"], "")                         
+                dstore.SetItem("diagnostic", ["communication"], "")                         
                 #vsb = self.ui.textCommLog.verticalScrollBar()
                 #vsb.setValue(vsb.maximum())            
                 #self.ui.textCommLog.ensureCursorVisible()            
@@ -595,15 +599,15 @@ class UiAccesories(UiaDialogs):
         if(state == False):
             self.ui.aEnableStart.setEnabled(False)
             self.ui.aEnableFinish.setEnabled(False)
-        elif(self.datastore.Get("rfid") == 0):        
+        elif(dstore.Get("rfid") == 0):        
             self.ui.aEnableStart.setEnabled(state)
             self.ui.aEnableFinish.setEnabled(state)
-        else:#if(self.datastore.Get("rfid") == 2):
+        else:#if(dstore.Get("rfid") == 2):
             self.ui.aEnableStart.setEnabled(False)
             self.ui.aEnableFinish.setEnabled(False)
        
         #Enable and Disable Tags Reading     
-        timing_settings_get = self.datastore.Get("timing_settings", "GET")
+        timing_settings_get = dstore.Get("timing_settings", "GET")
         if(state == False):
             self.ui.aEnableTagsReading.setEnabled(False)
             self.ui.aDisableTagsReading.setEnabled(False)                            
@@ -628,40 +632,40 @@ class UiAccesories(UiaDialogs):
         self.ui.aClearDatabase.setEnabled(state)                                                     
         
     def sGuiSet(self, name, value, tab = None, dialog = False):        
-        if value == self.datastore.Get(name):
+        if value == dstore.Get(name):
             return
                 
         if(dialog == True):            
-            name_string = self.datastore.GetName(name)            
+            name_string = dstore.GetName(name)            
             if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
-        self.datastore.Set(name, value)
+        dstore.Set(name, value)
         self.updateTab(tab)
         
         
     def sGuiSetItem(self, name, keys, value, tab = None, dialog = False):
         #print name, keys, value
-        if value == self.datastore.GetItem(name, keys):
+        if value == dstore.GetItem(name, keys):
             return
                 
         if(dialog == True):            
-            name_string = self.datastore.GetName(name)            
+            name_string = dstore.GetName(name)            
             if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
-        self.datastore.SetItem(name, keys, value)        
+        dstore.SetItem(name, keys, value)        
         self.updateTab(tab)
         
          
     def sTimer(self):                   
         self.updateTab(self.ui.tabWidget.currentIndex(), UPDATE_MODE.gui) 
         self.updateTab(None, UPDATE_MODE.gui)
-        #aux_time = self.datastore.Get("run_time")
-        #self.datastore.Set("run_time", aux_time+1)       
+        #aux_time = dstore.Get("run_time")
+        #dstore.Set("run_time", aux_time+1)       
            
     def sTabChanged(self, nr):                
-        self.datastore.Set("active_tab", nr)        
+        dstore.Set("active_tab", nr)        
         self.updateTab(nr, UPDATE_MODE.all)
                                      
     # sPortSet() -> set the port 
@@ -691,7 +695,7 @@ class UiAccesories(UiaDialogs):
         
         
         if (ok and item):                                  
-            self.datastore.SetItem("port", ["name"], str(item))
+            dstore.SetItem("port", ["name"], str(item))
             self.showMessage(title, str(item), MSGTYPE.statusbar)
         
         self.updateTab()
@@ -706,19 +710,19 @@ class UiAccesories(UiaDialogs):
         title = "Port connect"
                                             
         #comm runs?        
-        #if(self.datastore.Get("port_enable") == True):                           
-        if(self.datastore.Get("port")["opened"] == True):                           
+        #if(dstore.Get("port_enable") == True):                           
+        if(dstore.Get("port")["opened"] == True):                           
             
             # KILL COMMUNICATION - thread, etc..
-            #self.datastore.Set("port_enable", False)                    
-            self.datastore.SetItem("port", ["opened"], False)                    
-            self.showMessage(title, self.datastore.Get("port")["name"]+" disconnected", MSGTYPE.statusbar)                       
+            #dstore.Set("port_enable", False)                    
+            dstore.SetItem("port", ["opened"], False)                    
+            self.showMessage(title, dstore.Get("port")["name"]+" disconnected", MSGTYPE.statusbar)                       
         else:            
-            self.showMessage(title, self.datastore.Get("port")["name"]+" connected", MSGTYPE.statusbar)                                 
+            self.showMessage(title, dstore.Get("port")["name"]+" connected", MSGTYPE.statusbar)                                 
                         
             # CREATE COMMUNICATION - thread, etc..                                    
                                  
-            self.myManageComm = manage_comm.ManageComm(self.datastore)
+            self.myManageComm = manage_comm.ManageComm(dstore)
             self.myManageComm.start()
             
             # wait to stable shared memory 
@@ -726,10 +730,10 @@ class UiAccesories(UiaDialogs):
             
             #already connected?                                
             #flag down => cant connect
-            #if(self.datastore.Get("port_enable") == False):
-            if(self.datastore.Get("port")["opened"] == False):                 
+            #if(dstore.Get("port_enable") == False):
+            if(dstore.Get("port")["opened"] == False):                 
                 title = "Port connect"                                
-                self.showMessage(title, self.datastore.Get("port")["name"]+" cant connect")                
+                self.showMessage(title, dstore.Get("port")["name"]+" cant connect")                
                                 
         self.updateGui()                     
         
@@ -739,14 +743,14 @@ class UiAccesories(UiaDialogs):
         title = "Manual Refresh"
         
         #disable user actions        
-        self.datastore.Set("user_actions", self.datastore.Get("user_actions")+1)
+        dstore.Set("user_actions", dstore.Get("user_actions")+1)
                          
-        nr_tab = self.datastore.Get("active_tab")        
+        nr_tab = dstore.Get("active_tab")        
         self.updateTab(nr_tab)                       
         self.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
         
         #enable user actions        
-        self.datastore.Set("user_actions", self.datastore.Get("user_actions")-1)
+        dstore.Set("user_actions", dstore.Get("user_actions")-1)
         
     def sShortcuts(self):                           
         QtGui.QMessageBox.information(self.source, "Shortcuts", "F5 - manual refresh\nF12 - direct www export")
@@ -759,193 +763,195 @@ class UiAccesories(UiaDialogs):
 #        try:
 #            time = TimesUtils.TimesUtils.timestring2time(time_string)
 #            print time, type(time)
-#            self.datastore.SetItem("race_info", ["limit_time"], time) 
+#            dstore.SetItem("race_info", ["limit_time"], time) 
 #        except TimesUtils.TimeFormat_Error:
 #            print "E: TimeFormat Error"                                                                                                            
 #               
 #        self.updateTab(TAB.race_info)
-    def sLimitTime(self):
-        hours = self.ui.spinLimitTimeHours.value()
-        minutes = self.ui.spinLimitTimeMinutes.value()
-        seconds = self.ui.spinLimitTimeSeconds.value()
-        miliseconds = self.ui.spinLimitTimeMiliseconds.value()*10        
-        print hours, minutes, seconds, miliseconds
-
-                             
-    def sTerminalBacklight(self):
-        
-        '''získání a nastavení nové SET hodnoty'''
-        aux_terminal_info = self.datastore.Get("terminal_info", "GET")                        
-        self.datastore.Set("backlight", not(aux_terminal_info["backlight"]), "SET")        
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("terminal_info", 'backlight')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-                                                 
-    def sTerminalSpeaker(self, key):
-        
-        '''získání a nastavení nové SET hodnoty'''
-        aux_terminal_info = self.datastore.Get("terminal_info", "GET")
-        aux_speaker = aux_terminal_info['speaker'].copy()       
-        aux_speaker[key] = not(aux_speaker[key])                 
-        self.datastore.Set("speaker", aux_speaker, "SET")
-
-        '''reset GET hodnoty'''                
-        self.datastore.ResetValue("terminal_info", 'speaker', key)                                                          
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-                             
-    def sComboLanguage(self, index):
-        print "SLOT", index
-        '''získání a nastavení nové SET hodnoty'''                                
-        self.datastore.Set("language", index, "SET")               
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("terminal_info", 'language')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-        
-    def sCommCommand(self, index):        
-        print DEF_COMMANDS.Get(index)
-        '''získání a nastavení nové SET hodnoty'''                                
-        #self.datastore.Set("language", index, "SET")               
-        
-        '''reset GET hodnoty'''
-        #self.datastore.ResetValue("terminal_info", 'language')                                                                
-        #self.updateTab(TAB.device, UPDATE_MODE.gui)
+#    def sLimitTime(self):
+#        hours = self.ui.spinLimitTimeHours.value()
+#        minutes = self.ui.spinLimitTimeMinutes.value()
+#        seconds = self.ui.spinLimitTimeSeconds.value()
+#        miliseconds = self.ui.spinLimitTimeMiliseconds.value()*10        
+#        print hours, minutes, seconds, miliseconds
+#
+#                             
+#    def sTerminalBacklight(self):
+#        
+#        '''získání a nastavení nové SET hodnoty'''
+#        aux_terminal_info = dstore.Get("terminal_info", "GET")                        
+#        dstore.Set("backlight", not(aux_terminal_info["backlight"]), "SET")        
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("terminal_info", 'backlight')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#                                                 
+#    def sTerminalSpeaker(self, key):
+#        
+#        '''získání a nastavení nové SET hodnoty'''
+#        aux_terminal_info = dstore.Get("terminal_info", "GET")
+#        aux_speaker = aux_terminal_info['speaker'].copy()       
+#        aux_speaker[key] = not(aux_speaker[key])                 
+#        dstore.Set("speaker", aux_speaker, "SET")
+#
+#        '''reset GET hodnoty'''                
+#        dstore.ResetValue("terminal_info", 'speaker', key)                                                          
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#                             
+#    def sComboLanguage(self, index):
+#        print "SLOT", index
+#        '''získání a nastavení nové SET hodnoty'''                                
+#        dstore.Set("language", index, "SET")               
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("terminal_info", 'language')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#        
+#    def sCommCommand(self, index):        
+#        print DEF_COMMANDS.Get(index)
+#        '''získání a nastavení nové SET hodnoty'''                                
+#        #dstore.Set("language", index, "SET")               
+#        
+#        '''reset GET hodnoty'''
+#        #dstore.ResetValue("terminal_info", 'language')                                                                
+#        #self.updateTab(TAB.device, UPDATE_MODE.gui)
     
-    """                 """
-    """ RACE SETTINGS """
-    """                 """            
-    def sComboTimingMode(self, index):
-        print "sComboTimingMode", index                
-        '''získání a nastavení nové SET hodnoty'''
-        aux_timing_settings = self.datastore.Get("timing_settings", "GET").copy()
-        aux_timing_settings["logic_mode"] = index + 1                               
-        self.datastore.Set("timing_settings", aux_timing_settings, "SET")            
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("timing_settings", 'logic_mode')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#    """                 """
+#    """ RACE SETTINGS """
+#    """                 """            
+#    def sComboTimingMode(self, index):
+#        print "sComboTimingMode", index                
+#        '''získání a nastavení nové SET hodnoty'''
+#        aux_timing_settings = dstore.Get("timing_settings", "GET").copy()
+#        aux_timing_settings["logic_mode"] = index + 1                               
+#        dstore.Set("timing_settings", aux_timing_settings, "SET")            
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("timing_settings", 'logic_mode')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#    
+#    
+#    def sFilterTagtime(self, value):
+#        print "sFilterTagTime", value
+#        '''získání a nastavení nové SET hodnoty'''
+#        timing_settings = dstore.Get("timing_settings", "GET").copy()
+#        timing_settings["filter_tagtime"]  = value                                      
+#        dstore.Set("timing_settings", timing_settings, "SET")            
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("timing_settings", 'filter_tagtime')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#    
+#    def sFilterMinlaptime(self, value):
+#        print "sFilterMinlaptime", value
+#        '''získání a nastavení nové SET hodnoty'''
+#        timing_settings = dstore.Get("timing_settings", "GET").copy()
+#        timing_settings["filter_minlaptime"]  = value                                      
+#        dstore.Set("timing_settings", timing_settings, "SET")            
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#        
+#    def sFilterMaxlapnumber(self, value):
+#        print "sFilterMaxlapnumber", value
+#        '''získání a nastavení nové SET hodnoty'''
+#        timing_settings = dstore.Get("timing_settings", "GET").copy()
+#        timing_settings["filter_maxlapnumber"]  = value                                      
+#        dstore.Set("timing_settings", timing_settings, "SET")            
+#        
+#        '''reset GET hodnoty'''
+#        dstore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
+#        self.updateTab(TAB.device, UPDATE_MODE.gui)
+#
+#    def sComboOrderEvaluation(self, index):
+#        #print "sComboOrderEvaluation", index                                                               
+#        dstore.Set("order_evaluation", index)                                                                                                    
+#        self.updateTab(TAB.race_settings, UPDATE_MODE.gui)
     
-    
-    def sFilterTagtime(self, value):
-        print "sFilterTagTime", value
-        '''získání a nastavení nové SET hodnoty'''
-        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_tagtime"]  = value                                      
-        self.datastore.Set("timing_settings", timing_settings, "SET")            
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("timing_settings", 'filter_tagtime')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-    
-    def sFilterMinlaptime(self, value):
-        print "sFilterMinlaptime", value
-        '''získání a nastavení nové SET hodnoty'''
-        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_minlaptime"]  = value                                      
-        self.datastore.Set("timing_settings", timing_settings, "SET")            
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-        
-    def sFilterMaxlapnumber(self, value):
-        print "sFilterMaxlapnumber", value
-        '''získání a nastavení nové SET hodnoty'''
-        timing_settings = self.datastore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_maxlapnumber"]  = value                                      
-        self.datastore.Set("timing_settings", timing_settings, "SET")            
-        
-        '''reset GET hodnoty'''
-        self.datastore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-
-    def sComboOrderEvaluation(self, index):
-        #print "sComboOrderEvaluation", index                                                               
-        self.datastore.Set("order_evaluation", index)                                                                                                    
-        self.updateTab(TAB.race_settings, UPDATE_MODE.gui)
-    
-    """                 """
-    """ COMMUNICATION   """
-    """                 """
-    def sComboCommand(self, index):        
-        cmd = DEF_COMMANDS.GetSorted()[index]
-        cmd_length = cmd[1]['length']
-        
-        #update senddata lenfth        
-        self.ui.lineCommData.setInputMask((cmd_length * "HH ")+";0")             
-            
-    def sSendCommand(self):
-        
-        cmd_index = self.ui.comboCommCommand.currentIndex()
-        cmd_key = DEF_COMMANDS.GetSorted()[cmd_index][0]
-        data = str(self.ui.lineCommData.displayText ().replace(" ", ""))
-        
-        #set to datastore
-        self.sGuiSetItem("diagnostic", ["sendcommandkey"], cmd_key)                        
-        self.sGuiSetItem("diagnostic", ["senddata"], data)
-        
-        #print "send command:", cmd_key, data
-        
-                                
-    def sCommClearLog(self):
-        self.ui.textCommLog.clear()
-        self.datastore.InitDiagnostic()                                
+#    """                 """
+#    """ COMMUNICATION   """
+#    """                 """
+#    def sComboCommand(self, index):        
+#        cmd = DEF_COMMANDS.GetSorted()[index]
+#        cmd_length = cmd[1]['length']
+#        
+#        #update senddata lenfth        
+#        self.ui.lineCommData.setInputMask((cmd_length * "HH ")+";0")             
+#            
+#    def sSendCommand(self):
+#        
+#        cmd_index = self.ui.comboCommCommand.currentIndex()
+#        cmd_key = DEF_COMMANDS.GetSorted()[cmd_index][0]
+#        data = str(self.ui.lineCommData.displayText ().replace(" ", ""))
+#        
+#        #set to datastore
+#        self.sGuiSetItem("diagnostic", ["sendcommandkey"], cmd_key)                        
+#        self.sGuiSetItem("diagnostic", ["senddata"], data)
+#        
+#        #print "send command:", cmd_key, data
+#        
+#                                
+#    def sCommClearLog(self):
+#        self.ui.textCommLog.clear()
+#        dstore.InitDiagnostic()                                
         
     """                 """
     """ TIMES           """
     """                 """
     def sRemoveHwTime(self, id):                                                             
         print "A: Remove hw time"                                                                                                                            
-        self.datastore.Set("remove_hw_time", id, "SET")
+        dstore.Set("remove_hw_time", id, "SET")
     
-    """                 """
-    """ ACTIONS         """
-    """                 """
-    def sEnableActions(self, state):
-        print "A: enable actions: ", state
-        self.updateToolbarActions(state)                                                              
-    def sEnableStartcell(self):                                                             
-        print "A: Enable start cell"                                                                                                                            
-        self.datastore.Set("enable_startcell", 0x01, "SET")                    
-    def sEnableFinishcell(self):                                                                    
-        print "A: Enable finish cell"                                                                                                                            
-        self.datastore.Set("enable_finishcell", 0x01, "SET")                                                               
-    def sGenerateStarttime(self):
-        print "A: Generate starttime"                                                                                                                            
-        self.datastore.Set("generate_starttime", 0x01, "SET")                                    
-    def sGenerateFinishtime(self):                                                        
-        print "A: Generate finishtime"                                                                                                                            
-        self.datastore.Set("generate_finishtime", 0x00, "SET")
-    def sGenerateUserFinishtime(self):
-        
-        #dialog - get user nr
-        user_nr = self.showMessage("Generate Finish Time","User Nr: ", msgtype="input_integer", value = 0)                
-        if user_nr == None:
-            return
-        #get user par nr
-        tabUser = self.source.tableTags.getTabTagParUserNr(user_nr)
-               
-        print "A: Generate finishtime from user ", user_nr, tabUser                                                                                                                            
-        self.datastore.Set("generate_finishtime", tabUser['tag_id'], "SET")
-                                   
-    def sQuitTiming(self):
-        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
-            return
-        print "A: Generate quit time"                                                                                                                                                                                            
-        self.datastore.Set("quit_timing", 0x00, "SET")                   
-    def sClearDatabase(self):
-        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
-            return
-        print "A: Clear Database"                                                                                                                                                                                            
-        self.datastore.Set("clear_database", 0x00, "SET")
-    def sEnableScanTags(self):
-        print "A: Enable Scan Tags"                                                                                                                                                                                            
-        self.datastore.Set("tags_reading", 0x01, "SET")
-    def sDisableScanTags(self):
-        print "A: Disable Scan Tags"                                                                                                                                                                                            
-        self.datastore.Set("tags_reading", 0x00, "SET")
-        
+#    """                 """
+#    """ ACTIONS         """
+#    """                 """
+#    def sEnableActions(self, state):
+#        print "A: enable actions: ", state
+#        self.updateToolbarActions(state)                                                              
+#    def sEnableStartcell(self):                                                             
+#        print "A: Enable start cell"                                                                                                                            
+#        dstore.Set("enable_startcell", 0x01, "SET")                    
+#    def sEnableFinishcell(self):                                                                    
+#        print "A: Enable finish cell"                                                                                                                            
+#        dstore.Set("enable_finishcell", 0x01, "SET")                                                               
+#    def sGenerateStarttime(self):
+#        print "A: Generate starttime"                                                                                                                            
+#        dstore.Set("generate_starttime", 0x01, "SET")                                    
+#    def sGenerateFinishtime(self):                                                        
+#        print "A: Generate finishtime"                                                                                                                            
+#        dstore.Set("generate_finishtime", 0x00, "SET")
+#    def sGenerateUserFinishtime(self):
+#        
+#        #dialog - get user nr
+#        user_nr = self.showMessage("Generate Finish Time","User Nr: ", msgtype="input_integer", value = 0)                
+#        if user_nr == None:
+#            return
+#        #get user par nr
+#        tabUser = self.source.tableTags.getTabTagParUserNr(user_nr)
+#               
+#        print "A: Generate finishtime from user ", user_nr, tabUser                                                                                                                            
+#        dstore.Set("generate_finishtime", tabUser['tag_id'], "SET")
+#                                   
+#    def sQuitTiming(self):
+#        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+#            return
+#        print "A: Generate quit time"                                                                                                                                                                                            
+#        dstore.Set("quit_timing", 0x00, "SET")                   
+#    def sClearDatabase(self):
+#        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+#            return
+#        print "A: Clear Database"                                                                                                                                                                                            
+#        dstore.Set("clear_database", 0x00, "SET")
+#    def sEnableScanTags(self):
+#        print "A: Enable Scan Tags"                                                                                                                                                                                            
+#        dstore.Set("tags_reading", 0x01, "SET")
+#    def sDisableScanTags(self):
+#        print "A: Disable Scan Tags"                                                                                                                                                                                            
+#        dstore.Set("tags_reading", 0x00, "SET")
+
+#abc = UiAccesories(QtGui.QMainWindow())
+
     
         
                            

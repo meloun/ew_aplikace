@@ -3,6 +3,7 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.Ui import Ui
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -10,7 +11,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
       
 class CGroupsParameters(myModel.myParameters):
        
-    def __init__(self, source):
+    def __init__(self):
                                 
         #table and db table name
         self.name = "CGroups"  
@@ -22,29 +23,29 @@ class CGroupsParameters(myModel.myParameters):
         self.TABLE_COLLUMN_DEF = DEF_COLUMN.CGROUPS['table']
                 
         #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                                            
+        #myModel.myParameters.__init__(self, source)                                                                                            
         
         #=======================================================================
         # GUI
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.CGroupsProxyView        
+        self.gui['view'] = Ui().CGroupsProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.CGroupsFilterLineEdit
-        self.gui['filterclear'] = source.ui.CGroupsFilterClear
+        self.gui['filter'] = Ui().CGroupsFilterLineEdit
+        self.gui['filterclear'] = Ui().CGroupsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.CGroupsAdd
-        self.gui['remove'] =  source.ui.CGroupsRemove
-        self.gui['export'] = source.ui.CGroupsExport
+        self.gui['add'] = Ui().CGroupsAdd
+        self.gui['remove'] =  Ui().CGroupsRemove
+        self.gui['export'] = Ui().CGroupsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.CGroupsImport 
-        self.gui['delete'] = source.ui.CGroupsDelete
+        self.gui['import'] = Ui().CGroupsImport 
+        self.gui['delete'] = Ui().CGroupsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.CGroupsCounter
+        self.gui['counter'] = Ui().CGroupsCounter
         
         #=======================================================================
         # classes
@@ -83,7 +84,7 @@ class CGroups(myModel.myTable):
         
     def getDbCGroupParLabel(self, label):
                  
-        dbCGroup = self.params.db.getParX("CGroups", "label", label).fetchone()        
+        dbCGroup = db.getParX("CGroups", "label", label).fetchone()        
                         
         return dbCGroup   
         

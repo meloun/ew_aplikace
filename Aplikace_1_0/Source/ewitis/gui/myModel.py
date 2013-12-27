@@ -7,14 +7,17 @@
 
 import time
 from PyQt4 import Qt, QtCore, QtGui
+from ewitis.gui.UiAccesories2 import uiAccesories
+
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
+from ewitis.gui.UiAccesories import MSGTYPE 
+
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
-import libs.sqlite.sqlite as sqlite
-import libs.db_csv.db_csv as Db_csv
-import libs.datastore.datastore as datastore
 import libs.utils.utils as utils 
-import libs.utils.utils as utils
-from ewitis.gui.UiAccesories import MSGTYPE 
+
+
 
 TABLE_RUNS, TABLE_TIMES, TABLE_USERS = range(3)
 MODE_EDIT, MODE_LOCK, MODE_REFRESH = range(3)
@@ -27,19 +30,11 @@ class myParameters():
     *Args:*
         Source(QMainWindow): postupuje gui, database, table a další   
     """
-    def __init__(self, source):
-        
-        #callback METHOD,  for showing dialogs, messages
+    def __init__(self, source):                
         
         #ui accesories
         self.uia = source.UiAccesories        
     
-        #db for acces
-        self.db = source.db
-                                
-        #datastore
-        self.datastore = source.datastore                
-
 class myAbstractModel():
     def __init__(self): 
         pass 
@@ -138,7 +133,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         """                                  
         
         #user change, no auto update        
-        if(self.params.datastore.Get("user_actions") == 0):                                                                                                
+        if(dstore.Get("user_actions") == 0):                                                                                                
                         
             #ziskat zmeneny radek, slovnik{}
             tabRow = self.row_dict(item.row())#self.getTableRow(item.row())                                                                                                  
@@ -150,9 +145,9 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             if (dbRow != None):                                                                                         
                 #update DB
                 try:                                                        
-                    self.params.db.update_from_dict(self.params.name, dbRow)                
+                    db.update_from_dict(self.params.name, dbRow)                
                 except:                
-                    self.params.uia.showMessage(self.params.name+" Update", "Error!")                
+                    uiAccesories.showMessage(self.params.name+" Update", "Error!")                
                 
             #update model
             #time.sleep(2)
@@ -235,7 +230,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         #pokud existuje sloupec id, naplnit ho nejvyssim id
         if row.has_key('id'):
             try:
-                row['id'] = self.params.db.getMax(self.params.name, 'id') + 1
+                row['id'] = db.getMax(self.params.name, 'id') + 1
             except:
                 row['id'] = 0                        
         return row        
@@ -281,19 +276,19 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         #print self.params.name+": model update (s)"
        
         #disable user actions        
-        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")+1)          
+        dstore.Set("user_actions", dstore.Get("user_actions")+1)          
                       
         #smazat vsechny radky
         self.removeRows(0, self.rowCount())          
         
         #ziskat radky z databaze DB
         if ((parameter == None) and (conditions == None)):                
-            rows = self.params.db.getAll(self.params.name)
+            rows = db.getAll(self.params.name)
         elif (conditions == None):
-            rows = self.params.db.getParX(self.params.name, parameter, value, self.params.datastore.Get("times_view_limit"))
-            #rows = self.params.db.getParX(self.params.name, parameter, value)
+            rows = db.getParX(self.params.name, parameter, value, dstore.Get("times_view_limit"))
+            #rows = db.getParX(self.params.name, parameter, value)
         elif (conditions!=[]):
-            rows = self.params.db.getParXX(self.params.name, conditions, operation, self.params.datastore.Get("times_view_limit"))
+            rows = db.getParXX(self.params.name, conditions, operation, dstore.Get("times_view_limit"))
         else:
             rows = []
                                    
@@ -303,8 +298,8 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
 #        for row in rows:
 #                        
 #            #convert "db-row" to dict (in dict can be added record)
-#            row_dicts.append(self.params.db.dict_factory(rows, row))
-        row_dicts = self.params.db.cursor2dicts(rows)                                                
+#            row_dicts.append(db.dict_factory(rows, row))
+        row_dicts = db.cursor2dicts(rows)                                                
             
                             
         for row_dict in row_dicts:            
@@ -314,7 +309,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             self.addRow(row_table)
 
         #enable user actions                                                                                                                                                                                                   
-        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")-1)                                                                          
+        dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                          
             
 
 class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
@@ -339,7 +334,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
     def IsColumnAutoEditable(self, column):
         return False
     def sModelChanged(self,  topLeft, bottomRight):
-        if(self.params.datastore.Get("user_actions") == 0):                  
+        if(dstore.Get("user_actions") == 0):                  
             if(topLeft == bottomRight):                
             
                 '''změna jednoho prvku'''
@@ -349,14 +344,14 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     '''editovat sloupec nad aktivním řádkem'''
                     
                     '''uložit aktivní řádek do datastore'''
-                    self.params.datastore.Set("active_row", topLeft.row())
-                    #print "aktivni radek je ted: ", topLeft.row(), self.params.datastore.Get("active_row")
+                    dstore.Set("active_row", topLeft.row())
+                    #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")
                     
                     '''update model'''                                                                 
                     self.model.update()
 
                     '''editovat sloupec nad aktivním řádkem'''                         
-                    myindex = self.index(self.params.datastore.Get("active_row")-1, topLeft.column())                    
+                    myindex = self.index(dstore.Get("active_row")-1, topLeft.column())                    
                     if(myindex.isValid() == True):                        
                         self.params.gui['view'].edit(myindex)
 
@@ -512,27 +507,27 @@ class myTable():
         #get ID for default record
         row = self.model.getDefaultTableRow()        
         #print row                        
-        my_id = self.params.uia.showMessage(title,"ID: ", MSGTYPE.get_integer, row['id'])                
+        my_id = uiAccesories.showMessage(title,"ID: ", MSGTYPE.get_integer, row['id'])                
         if my_id == None:
             return
 
         #this ID exist?                
-        res = self.params.db.getParId(self.params.name, my_id)            
+        res = db.getParId(self.params.name, my_id)            
         if(res):
-            self.params.uia.showMessage(title,"Record with this ID already exist!")
+            uiAccesories.showMessage(title,"Record with this ID already exist!")
             return
      
         row['id'] = my_id        
                     
-        #self.params.datastore.Set("user_actions", False)  
+        #dstore.Set("user_actions", False)  
                               
         dbRow = self.model.table2dbRow(row)        
         if(dbRow != None):        
-            self.params.db.insert_from_dict(self.params.name, dbRow)            
-            self.params.uia.showMessage(title,"succesfully (id="+str(my_id)+")", MSGTYPE.statusbar)
+            db.insert_from_dict(self.params.name, dbRow)            
+            uiAccesories.showMessage(title,"succesfully (id="+str(my_id)+")", MSGTYPE.statusbar)
 
         self.update()                    
-        #self.params.datastore.Set("user_actions", True)  
+        #dstore.Set("user_actions", True)  
         
     # REMOVE ROW               
     def sDelete(self, label=""):                
@@ -545,22 +540,22 @@ class myTable():
             rows = self.params.gui['view'].selectionModel().selectedRows()                        
             id = self.proxy_model.data(rows[0]).toString()
         except:
-            self.params.uia.showMessage(title, "Nelze smazat")
+            uiAccesories.showMessage(title, "Nelze smazat")
             return
             
         #confirm dialog and delete
         if (label != ""):
             label="\n\n("+label+")"        
-        if (self.params.uia.showMessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, MSGTYPE.warning_dialog)):                        
+        if (uiAccesories.showMessage(title, "Are you sure you want to delete 1 record from table '"+self.params.name+"' ? \n (id="+str(id)+")"+label, MSGTYPE.warning_dialog)):                        
             self.delete(id)
-            self.params.uia.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
+            uiAccesories.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
                             
     def sImport(self):
         """import"""                                   
                                            
         #gui dialog        
         #filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        filename = self.params.uia.myQFileDialog.getOpenFileName("Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = uiAccesories.myQFileDialog.getOpenFileName("Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
         
         #cancel or close window
         if(filename == ""):                 
@@ -580,14 +575,14 @@ class myTable():
                     
         #check csv file format - emty file
         if(rows==[]):                
-            self.params.uia.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+            uiAccesories.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
             return
         
         #check csv file format - wrong format                                
         header = rows.pop(0)
         for i in range(3): 
             if not(header[i] in keys):
-                self.params.uia.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+                uiAccesories.showMessage(self.params.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
                 return
 
         #counters
@@ -599,18 +594,18 @@ class myTable():
                 #add 1 record
             importRow = dict(zip(keys, row)) 
             dbRow = self.model.import2dbRow(importRow)                     
-            if( self.params.db.insert_from_dict(self.params.name, dbRow, commit = False) == True):                                      
+            if( db.insert_from_dict(self.params.name, dbRow, commit = False) == True):                                      
                 state['ok'] += 1
             else:            
                 state['ko'] += 1 #increment errors for error message
             #except:
             #    state['ko'] += 1 #increment errors for error message
 
-        self.params.db.commit()                        
+        db.commit()                        
         self.model.update()
         self.sImportDialog(state)
         #except:
-        #    self.params.uia.showMessage(self.params.name+" CSV Import", "Error")
+        #    uiAccesories.showMessage(self.params.name+" CSV Import", "Error")
                                                     
                 
                                 
@@ -619,9 +614,9 @@ class myTable():
         title = "Table '"+self.params.name + "' CSV Import"
         
         if(state['ko'] != 0) :
-            self.params.uia.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
+            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
         else:
-            self.params.uia.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                               
+            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                               
         
     # EXPORT
     # WEB (or DB) => CSV FILE
@@ -634,7 +629,7 @@ class myTable():
                 
         #get filename, gui dialog         
         #filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        filename = self.params.uia.myQFileDialog.getSaveFileName("Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = uiAccesories.myQFileDialog.getSaveFileName("Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
         if(filename == ""):
             return              
         
@@ -644,9 +639,9 @@ class myTable():
         #export to csv file
         #try:                        
         self.export_csv(filename, source)                                
-        self.params.uia.showMessage(title, "Succesfully")            
+        uiAccesories.showMessage(title, "Succesfully")            
         #except:            
-        #    self.params.uia.showMessage(title, "NOT succesfully \n\nCannot write into the file")
+        #    uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file")
                    
              
     # EXPORT WWW    
@@ -654,7 +649,7 @@ class myTable():
     def sExport_www(self): 
         
         #get filename, gui dialog         
-        filename = self.params.uia.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
+        filename = uiAccesories.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
         if(filename == ""):
             return                
          
@@ -666,7 +661,7 @@ class myTable():
     def sExport_directWWW(self, filename = None):
 
         if filename == None:
-            filename = utils.get_filename("export/www/"+self.params.name+"_"+self.params.datastore.Get('race_name')+".htm")
+            filename = utils.get_filename("export/www/"+self.params.name+"_"+dstore.Get('race_name')+".htm")
             
         exportRows = []
         for tabRow in self.proxy_model.dicts():
@@ -686,11 +681,11 @@ class myTable():
          
         #export to HTML file
         try:                                                
-            html_page = ew_html.Page_table(filename, title = self.params.datastore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
+            html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
             html_page.save()                             
-            self.params.uia.showMessage(title, "Succesfully ("+filename+")", dialog=False)            
+            uiAccesories.showMessage(title, "Succesfully ("+filename+")", dialog=False)            
         except IOError:            
-           self.params.uia.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+           uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                                          
                         
     # DELETE BUTTON          
@@ -700,7 +695,7 @@ class myTable():
         title = "Table '"+self.params.name + "' Delete"
         
         #confirm dialog and delete
-        if (self.params.uia.showMessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", msgtype = MSGTYPE.warning_dialog)):
+        if (uiAccesories.showMessage(title, "Are you sure you want to delete table '"+self.params.name+"' ?", msgtype = MSGTYPE.warning_dialog)):
             self.deleteAll()                                            
     
                   
@@ -725,7 +720,7 @@ class myTable():
                 conditions.append(['id', id])
                             
             #get db as tuples; save into file in csv format
-            rows = self.params.db.getParXX(self.params.name, conditions, 'OR')
+            rows = db.getParXX(self.params.name, conditions, 'OR')
             print "dicts", dict(zip(self.proxy_model.header(),self.proxy_model.lists()))
             aux_csv.save(rows)
             
@@ -752,11 +747,11 @@ class myTable():
                 userlist = []             
                 
                 #get time per id
-                time = self.params.db.getParId("times", list[id_index])                                
+                time = db.getParId("times", list[id_index])                                
                                 
                 #get user per user_id                                                
-                #user = self.params.db.getParId("users", time[user_id_index])
-                user = self.params.db.getParId("users", time[user_id_index])
+                #user = db.getParId("users", time[user_id_index])
+                user = db.getParId("users", time[user_id_index])
                                
                 
                 if user != None:
@@ -822,19 +817,19 @@ class myTable():
         #
         #update db couner
         self.updateDbCounter()
-        #print "db counter:",self.params.name, self.params.datastore.Get("count")
+        #print "db counter:",self.params.name, dstore.Get("count")
                 
         
     def updateTabCounter(self):        
         self.params.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))
         
     def updateDbCounter(self):        
-        self.params.datastore.SetItem("count", [self.params.name,], self.getDbCount())
+        dstore.SetItem("count", [self.params.name,], self.getDbCount())
             
                          
     def getDbRow(self, id):
                  
-        dbRow = self.params.db.getParX(self.params.name, "id", id).fetchone()                            
+        dbRow = db.getParX(self.params.name, "id", id).fetchone()                            
         return dbRow
     
     def getTabRow(self, id):
@@ -847,20 +842,20 @@ class myTable():
         return tabRow
     
     def getDbRows(self):                                 
-        dbRows = self.params.db.getAll(self.params.name)                      
+        dbRows = db.getAll(self.params.name)                      
         return dbRows
             
     def getDbCount(self):                                 
-        count = self.params.db.getCount(self.params.name)                              
+        count = db.getCount(self.params.name)                              
         return count        
     
     def delete(self, id):
-        self.params.db.delete(self.params.name, id)                          
+        db.delete(self.params.name, id)                          
         self.model.update()
         
     def deleteAll(self):
         #print "table deleteall"
-        self.params.db.deleteAll(self.params.name)
+        db.deleteAll(self.params.name)
         self.model.update()
         
                                         

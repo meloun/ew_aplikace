@@ -4,144 +4,112 @@
 #
 #
 
-import sys
-import time
-import PyQt4
-from PyQt4 import QtCore
+
 from PyQt4 import QtGui
+from ewitis.data.dstore import dstore
+from ewitis.gui.Ui import appWindow
+import libs.test.codepage as codepage  
+from ewitis.gui.UiAccesories2 import uiAccesories
+from ewitis.gui.tabRaceSettings import tabRaceSettings
+from ewitis.gui.tabActions import tabActions
+from ewitis.gui.tabDevice import tabDevice
+from ewitis.gui.tabCells import tabCells
+from ewitis.gui.tabCommunication import tabCommunication
+from ewitis.gui.tabDiagnostic import tabDiagnostic
+from ewitis.gui.tabManual import tabManual
+from ewitis.gui.tabAbout import tabAbout
 
-import libs.sqlite.sqlite as sqlite
-import libs.db.db_json as db_json
-import ewitis.data.dstore as dstore
-
-import ewitis.gui.Ui_App as Ui_App
-import ewitis.gui.myModel as myModel
-import ewitis.gui.RunsModel as RunsModel
-import ewitis.gui.TimesModel as TimesModel
-import ewitis.gui.UsersModel as UsersModel
+import ewitis.gui.PointsModel as PointsModel
+import ewitis.gui.AlltagsModel as AlltagsModel
+import ewitis.gui.TagsModel as TagsModel
 import ewitis.gui.CategoriesModel as CategoriesModel
 import ewitis.gui.CGroupsModel as CGroupsModel
-import ewitis.gui.TagsModel as TagsModel
-import ewitis.gui.AlltagsModel as AlltagsModel
-import ewitis.gui.RaceInfoModel as RaceInfoModel
-import ewitis.gui.PointsModel as PointsModel
-
-import ewitis.gui.UiAccesories as UiAccesories
-from ewitis.data.DEF_ENUM_STRINGS import *
-import libs.utils.utils as utils
-import libs.test.codepage as codepage  
   
-class wrapper_gui_ewitis(QtGui.QMainWindow):        
-    def __init__(self, parent = None):
-        import libs.comm.serial_utils as serial_utils                                     
-        
-        """ GUI """
-        QtGui.QWidget.__init__(self, parent)        
-        self.ui = Ui_App.Ui_MainWindow()
-        self.ui.setupUi(self)                    
-        
-        #=======================================================================
-        # DATASTORE
-        #=======================================================================
-        self.datastore = dstore.Dstore('conf/conf_work.json', DEF_DATA)                     
-        
+  
+class Init():        
+    def __init__(self):
+                                            
         #=======================================================================
         # FIRST CONSOLE OUTPUT
         #=======================================================================
         print "*****************************************"
-        print "* Ewitis application, ", self.datastore.Get("versions")["app"], "rfid" if self.datastore.Get("rfid") else "ir"
+        print "* Ewitis application, ", dstore.Get("versions")["app"], "rfid" if dstore.Get("rfid") else "ir"
         print "*****************************************" 
         codepage.codepage()
-                                                           
-        #=======================================================================
-        # DATABASE
-        #=======================================================================
-        try:           
-            self.db = sqlite.sqlite_db("db/test_db.sqlite")                
-            self.db.connect()
-        except:
-            print "E: GUI: Database"
-                        
-        #=======================================================================
-        # GUI
-        #=======================================================================
-        #self.myQFileDialog = gui.myDialog(self.datastore)                         
-        #slots, update etc.                                                                                                                     
-        self.UiAccesories = UiAccesories.UiAccesories(self)                            
-        self.UiAccesories.createSlots()                
-        self.UiAccesories.configGui()        
-        
-                     
-        #=======================================================================
-        # TABLES
-        #=======================================================================
-        self.tablePoints = PointsModel.Points(PointsModel.PointsParameters(self))
-        self.tableAlltags = AlltagsModel.Alltags(AlltagsModel.AlltagsParameters(self))
-        self.tableTags = TagsModel.Tags(TagsModel.TagsParameters(self))
-        self.C = CategoriesModel.Categories(CategoriesModel.CategoriesParameters(self))
-        self.CG = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters(self))
-        self.U = UsersModel.Users( UsersModel.UsersParameters(self))                               
-        self.T = TimesModel.Times( TimesModel.TimesParameters(self))
-        self.R = RunsModel.Runs( RunsModel.RunsParameters(self))      
-        self.tableRaceInfo = RaceInfoModel.RaceInfo(RaceInfoModel.RaceInfoParameters(self))
-                        
-        #doplneni 
-        self.T.params.tabRuns = self.R                
-        
-        '''Update'''
-        self.R.update()
-        #self.updateTables()                        
-        
-        #nastaveni prvniho dostupneho portu
-        print "dostupné porty: ",
-        for port in serial_utils.enumerate_serial_ports():
-            print port,
-        print ""
-            
-        try:
-            self.datastore.SetItem("port", ["name"], serial_utils.enumerate_serial_ports().next())        
-        except:            
-            self.datastore.SetItem("port", ["name"], "---")
-        #print self.datastore.data
-        
-        self.UiAccesories.updateGui()                                                      
-             
-    def __del__(self):
-        print "GUI: mazu instanci.."                                                                         
-         
-    def start(self):
-        self.app = QtGui.QApplication(sys.argv)
-        self.myapp = wrapper_gui_ewitis()
-        self.myapp.show()    
-        sys.exit(self.app.exec_())            
-                                                                                     
-class manage_gui():
-    def __init__(self):
-        #self.app = QtGui.QApplication(sys.argv)
-        self.myapp = wrapper_gui_ewitis()
-    def start(self):                    
-        self.myapp.show()    
-        sys.exit(self.app.exec_())            
-    
+                                                                                                                                                                                                                                                       
+  
 if __name__ == "__main__":    
-    import threading
     import sys
     
-    #sys.setdefaultencoding('utf-8')
-    #myManageGui = manage_gui()
-    #myManageGui.start()
-            
+    #create app
+    app = QtGui.QApplication(sys.argv)
     
-    def gui_start():        
-        app = QtGui.QApplication(sys.argv)        
-        myapp = wrapper_gui_ewitis()           
-        myapp.show()
-        sys.exit(app.exec_())
+    #window with widgets
+    appWindow.Init()
     
-    gui_start()
-        
-    print "MANAGE GUI"
-    #thread_gui = threading.Thread(target = gui_start)
-    #thread_gui.start()
+    #gui datastore methods (with dialogs)
+    uiAccesories.Init()
+    
+    #gui datastore methods (with dialogs)
+    
+    #tabs: init
+    tabCells.init()
+    
+    #tables
+    tablePoints = PointsModel.Points(PointsModel.PointsParameters())
+    tableAlltags = AlltagsModel.Alltags(AlltagsModel.AlltagsParameters())
+    tableTags = TagsModel.Tags(TagsModel.TagsParameters())
+    tableCategories = CategoriesModel.Categories(CategoriesModel.CategoriesParameters())
+    tableCategoryGroups = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters())
+    
+
+    
+    #tabs: add slots
+    tabRaceSettings.addSlots()
+    tabActions.addSlots()
+    tabDevice.addSlots()
+    tabCells.addSlots()
+    tabCommunication.addSlots()
+    tabManual.addSlots()
+    tabAbout.addSlots()
+    tabDiagnostic.addSlots()
+    
+    #tabs: update test
+    tabRaceSettings.update()
+    tabDevice.update()
+    tabCommunication.update()
+    tabActions.update()
+    
+    #tables update test
+    tablePoints.update()
+    tableAlltags.update()
+    tableTags.update()
+    tableCategories.update()
+    tableCategoryGroups.update()
+    
+
+       
+    Init()
+    
+    #show window
+    appWindow.show()
+    
+    #end of app    
+    sys.exit(app.exec_())
+    
+    #should never happend        
+    print "FATAL ERROR: end of gui"    
+    
+    
+#     import sys
+#     from ewitis.gui.Ui_App import Ui_MainWindow
+#     app = QtGui.QApplication(sys.argv)
+#     MainWindow = QtGui.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     Gui()
+#     MainWindow.show()
+#     sys.exit(app.exec_())        
+
     
     

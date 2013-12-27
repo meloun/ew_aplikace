@@ -3,6 +3,7 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.Ui import Ui
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -10,7 +11,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
       
 class TagsParameters(myModel.myParameters):
        
-    def __init__(self, source):
+    def __init__(self):
                                 
         #table and db table name
         self.name = "Tags"  
@@ -22,29 +23,29 @@ class TagsParameters(myModel.myParameters):
         self.TABLE_COLLUMN_DEF = DEF_COLUMN.TAGS['table']
                 
         #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                                            
+        #myModel.myParameters.__init__(self, source)                                                                                            
         
         #=======================================================================
         # GUI
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.TagsProxyView        
+        self.gui['view'] = Ui().TagsProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.TagsFilterLineEdit
-        self.gui['filterclear'] = source.ui.TagsFilterClear
+        self.gui['filter'] = Ui().TagsFilterLineEdit
+        self.gui['filterclear'] = Ui().TagsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.TagsAdd
-        self.gui['remove'] =  source.ui.TagsRemove
-        self.gui['export'] = source.ui.TagsExport
+        self.gui['add'] = Ui().TagsAdd
+        self.gui['remove'] =  Ui().TagsRemove
+        self.gui['export'] = Ui().TagsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.TagsImport 
-        self.gui['delete'] = source.ui.TagsDelete
+        self.gui['import'] = Ui().TagsImport 
+        self.gui['delete'] = Ui().TagsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.TagsCounter
+        self.gui['counter'] = Ui().TagsCounter
         
         #=======================================================================
         # classes
@@ -83,20 +84,20 @@ class Tags(myModel.myTable):
         
     def getDbTagParTagId(self, tag_id):
                  
-        dbTag = self.params.db.getParX("tags", "tag_id", tag_id, limit = 1).fetchone()        
+        dbTag = db.getParX("tags", "tag_id", tag_id, limit = 1).fetchone()        
                         
         return dbTag   
     
     def getDbTagParUserNr(self, user_nr):
                  
-        dbTag = self.params.db.getParX("tags", "user_nr", user_nr, limit = 1).fetchone()        
+        dbTag = db.getParX("tags", "user_nr", user_nr, limit = 1).fetchone()        
                         
         return dbTag
     
     def getTabTagParUserNr(self, user_nr):
                  
         
-        #dbTag = self.params.db.getParX("tags", "user_nr", user_nr).fetchone()
+        #dbTag = db.getParX("tags", "user_nr", user_nr).fetchone()
         dbTag = self.getDbTagParUserNr(user_nr)        
                      
         tabTag = self.model.db2tableRow(dbTag)   

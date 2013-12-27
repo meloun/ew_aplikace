@@ -47,7 +47,12 @@ class Dstore(datastore.PermanentDatastore):
         aux_diagnostic = self.Get("diagnostic")
         self.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+added_string+"<BR>")
 
+#create datastore
+from ewitis.data.DEF_DATA import DEF_DATA
+print "I: Dstore init"
+dstore = Dstore('conf/conf_work.json', DEF_DATA)
 
+#test
 if __name__ == "__main__":
     from ewitis.data.DEF_DATA import *        
     mydatastore = Dstore(DEF_DATA)

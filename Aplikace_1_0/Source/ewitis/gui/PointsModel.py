@@ -3,6 +3,9 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.Ui import Ui
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
 import ewitis.gui.myModel as myModel
 import ewitis.gui.TimesUtils as TimesUtils
 import libs.db_csv.db_csv as Db_csv
@@ -11,7 +14,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
       
 class PointsParameters(myModel.myParameters):
        
-    def __init__(self, source):
+    def __init__(self):
                                 
         #table and db table name
         self.name = "Points"  
@@ -23,29 +26,29 @@ class PointsParameters(myModel.myParameters):
         self.TABLE_COLLUMN_DEF = DEF_COLUMN.POINTS['table']
                 
         #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                                            
+        #myModel.myParameters.__init__(self, source)                                                                                            
         
         #=======================================================================
         # GUI
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.PointsProxyView        
+        self.gui['view'] = Ui().PointsProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.PointsFilterLineEdit
-        self.gui['filterclear'] = source.ui.PointsFilterClear
+        self.gui['filter'] = Ui().PointsFilterLineEdit
+        self.gui['filterclear'] = Ui().PointsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.PointsAdd
-        self.gui['remove'] =  source.ui.PointsRemove
-        self.gui['export'] = source.ui.PointsExport
+        self.gui['add'] = Ui().PointsAdd
+        self.gui['remove'] =  Ui().PointsRemove
+        self.gui['export'] = Ui().PointsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.PointsImport 
-        self.gui['delete'] = source.ui.PointsDelete
+        self.gui['import'] = Ui().PointsImport 
+        self.gui['delete'] = Ui().PointsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.PointsCounter
+        self.gui['counter'] = Ui().PointsCounter
         
         #=======================================================================
         # classes
@@ -121,7 +124,7 @@ class Points(myModel.myTable):
         if (order == 0) or (order == ""):
             return None
                          
-        dbPoint = self.params.db.getParX("Points", "order", order, limit = 1).fetchone()                                
+        dbPoint = db.getParX("Points", "order", order, limit = 1).fetchone()                                
         return dbPoint
     
     def getTabPointParOrder(self, order):                                           
@@ -141,7 +144,7 @@ class Points(myModel.myTable):
         elif(mode == self.eGROUP):
             order = tabTime['order']
             
-        points = self.params.datastore.Get("points")
+        points = dstore.Get("points")
         tabPoint = {}
         if(points["table"] == 2):
             tabPoint = self.getTabPointParOrder(order)

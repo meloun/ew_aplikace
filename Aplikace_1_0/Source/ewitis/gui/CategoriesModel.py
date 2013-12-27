@@ -3,6 +3,9 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.Ui import Ui
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -10,7 +13,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
       
 class CategoriesParameters(myModel.myParameters):
        
-    def __init__(self, source):
+    def __init__(self):
                                 
         #table and db table name
         self.name = "Categories"  
@@ -22,29 +25,29 @@ class CategoriesParameters(myModel.myParameters):
         self.TABLE_COLLUMN_DEF = DEF_COLUMN.CATEGORIES['table']
                 
         #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                                            
+        #myModel.myParameters.__init__(self, source)                                                                                            
         
         #=======================================================================
         # GUI
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.CategoriesProxyView        
+        self.gui['view'] = Ui().CategoriesProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.CategoriesFilterLineEdit
-        self.gui['filterclear'] = source.ui.CategoriesFilterClear
+        self.gui['filter'] = Ui().CategoriesFilterLineEdit
+        self.gui['filterclear'] = Ui().CategoriesFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.CategoriesAdd
-        self.gui['remove'] =  source.ui.CategoriesRemove
-        self.gui['export'] = source.ui.CategoriesExport
+        self.gui['add'] = Ui().CategoriesAdd
+        self.gui['remove'] =  Ui().CategoriesRemove
+        self.gui['export'] = Ui().CategoriesExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.CategoriesImport 
-        self.gui['delete'] = source.ui.CategoriesDelete
+        self.gui['import'] = Ui().CategoriesImport 
+        self.gui['delete'] = Ui().CategoriesDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.CategoriesCounter
+        self.gui['counter'] = Ui().CategoriesCounter
         
         #=======================================================================
         # classes
@@ -83,7 +86,7 @@ class Categories(myModel.myTable):
     
         
     def getDbCategoryFirst(self):        
-        return self.params.db.getFirst("categories")
+        return db.getFirst("categories")
     def getTabCategoryFirst(self):                  
         dbCategory = self.getDbCategoryFirst()        
         tabCategory = self.model.db2tableRow(dbCategory)                                   
@@ -91,7 +94,7 @@ class Categories(myModel.myTable):
         
     def getDbCategoryParName(self, name):
                  
-        dbCategory = self.params.db.getParX("categories", "name", name).fetchone()        
+        dbCategory = db.getParX("categories", "name", name).fetchone()        
                         
         return dbCategory
     
@@ -106,7 +109,7 @@ class Categories(myModel.myTable):
     
     def getDbCategoriesParGroupLabel(self, group_label):
                  
-        dbCategories = self.params.db.getParX("categories", group_label, "1")        
+        dbCategories = db.getParX("categories", group_label, "1")        
                         
         return dbCategories
     

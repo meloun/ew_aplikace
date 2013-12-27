@@ -3,6 +3,7 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.Ui import Ui
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -10,7 +11,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
       
 class AlltagsParameters(myModel.myParameters):
        
-    def __init__(self, source):
+    def __init__(self):
                                 
         #table and db table name
         self.name = "Alltags"  
@@ -22,29 +23,29 @@ class AlltagsParameters(myModel.myParameters):
         self.TABLE_COLLUMN_DEF = DEF_COLUMN.ALLTAGS['table']
                 
         #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                                            
+        #myModel.myParameters.__init__(self, source)                                                                                            
         
         #=======================================================================
         # GUI
         #=======================================================================
         #VIEW   
         self.gui = {}     
-        self.gui['view'] = source.ui.AlltagsProxyView        
+        self.gui['view'] = Ui().AlltagsProxyView        
         
         #FILTER
-        self.gui['filter'] = source.ui.AlltagsFilterLineEdit
-        self.gui['filterclear'] = source.ui.AlltagsFilterClear
+        self.gui['filter'] = Ui().AlltagsFilterLineEdit
+        self.gui['filterclear'] = Ui().AlltagsFilterClear
         
         #GROUPBOX
-        self.gui['add'] = source.ui.AlltagsAdd
-        self.gui['remove'] =  source.ui.AlltagsRemove
-        self.gui['export'] = source.ui.AlltagsExport
+        self.gui['add'] = Ui().AlltagsAdd
+        self.gui['remove'] =  Ui().AlltagsRemove
+        self.gui['export'] = Ui().AlltagsExport
         self.gui['export_www'] = None
-        self.gui['import'] = source.ui.AlltagsImport 
-        self.gui['delete'] = source.ui.AlltagsDelete
+        self.gui['import'] = Ui().AlltagsImport 
+        self.gui['delete'] = Ui().AlltagsDelete
         
         #COUNTER
-        self.gui['counter'] = source.ui.AlltagsCounter
+        self.gui['counter'] = Ui().AlltagsCounter
         
         #=======================================================================
         # classes
@@ -81,7 +82,7 @@ class Alltags(myModel.myTable):
         
     def getDbTagParTagId(self, tag_id):
                  
-        dbTag = self.params.db.getParX("alltags", "tag_id", tag_id, limit = 1).fetchone()        
+        dbTag = db.getParX("alltags", "tag_id", tag_id, limit = 1).fetchone()        
                         
         return dbTag   
            

@@ -20,6 +20,9 @@ class sqlite_db(object):
     def __init__(self, db_name):        
         self.db_name = db_name 
         
+    def hallo(self):
+        print "hallo"
+        
     def cursor2list(self, cursor):
         mylist = []
         for row in cursor:
@@ -150,10 +153,12 @@ class sqlite_db(object):
         ret = True
         
         '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
-        values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])        
+        values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
+        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])      
         #mystring =   u",".join([u" "+unicode(k)+u"='"+unicode(v)+u"'" for k,v in zip(keys, values)])    
         
-        keys_str = u",".join(keys)
+        #keys_str = u",".join(keys)
+        #print mystring
             
         #print keys_str
         #print values_str
@@ -161,15 +166,15 @@ class sqlite_db(object):
         '''sestaveni a provedeni dotazu'''
         query = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         query = query.replace('\'None\'', 'Null')
-        #print "qq2", query
+        print "qq2", query
         
         try:
             self.query(query)
         except sqlite.IntegrityError:
             ret = False  #this entry probably already exist
-        except:
-            print "E: DB: insert from lists, some error"
-            ret = False
+        #except:
+        #    print "E: DB: insert from lists, some error"
+        ret = False
         
         if(commit == True):
             self.commit()

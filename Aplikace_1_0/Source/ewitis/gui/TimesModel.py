@@ -5,6 +5,7 @@ import sys
 import time
 import os
 from PyQt4 import QtCore, QtGui, Qt
+from ewitis.data.db import db
 from ewitis.gui.UiAccesories import MSGTYPE
 import ewitis.gui.myModel as myModel
 import ewitis.gui.UsersModel as UsersModel
@@ -16,6 +17,7 @@ from ewitis.data.DEF_DATA import *
 import ewitis.gui.TimesSlots as Slots
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
+from ewitis.data.dstore import dstore
 import time
 
 '''
@@ -106,13 +108,13 @@ class TimesModel(myModel.myModel):
         #self.utils = TimesUtils.TimesUtils()
         
         #
-        self.starts = TimesUtils.TimesStarts(self.params.db)
-        self.order = TimesUtils.TimesOrder(self.params.db, self.params.datastore)
-        self.lap = TimesUtils.TimesLap(self.params.db, self.params.datastore)
-        self.laptime = TimesUtils.TimesLaptime(self.params.db, self.params.datastore)
+        self.starts = TimesUtils.TimesStarts()
+        self.order = TimesUtils.TimesOrder()
+        self.lap = TimesUtils.TimesLap()
+        self.laptime = TimesUtils.TimesLaptime()
                                                            
         #update with first run        
-        first_run = self.params.db.getFirst("runs")
+        first_run = db.getFirst("runs")
         if(first_run != None):
             self.run_id = first_run['id']
         else:
@@ -147,12 +149,12 @@ class TimesModel(myModel.myModel):
         #ztimeT = time.clock()
         #print "TIME", dbTime['id']                                
         
-        if(self.params.datastore.Get('show')['times_with_order'] == 2):
+        if(dstore.Get('show')['times_with_order'] == 2):
             if(self.order.IsToShow(dbTime) == False):
                 return None
                                              
         '''hide all zero time?'''                    
-        if(self.params.datastore.Get('show')['starttimes'] == False):                            
+        if(dstore.Get('show')['starttimes'] == False):                            
             if (dbTime["cell"] == 1):                
                 return None                      
         
@@ -221,7 +223,7 @@ class TimesModel(myModel.myModel):
         #z1 = time.clock()
         #@workaround: potrebuju lap pro poradi => lap.Get() nerezohlednuje ("additional_info")['lap']                
         aux_lap = self.lap.Get(dbTime)          
-        if  self.params.datastore.Get("additional_info")['lap']:           
+        if  dstore.Get("additional_info")['lap']:           
             tabTime['lap'] = aux_lap
         #print "- Lap takes: ",(time.clock() - z1)
         
@@ -242,14 +244,14 @@ class TimesModel(myModel.myModel):
         #print "TIME take: ",(time.clock() - ztimeT)
         
         '''POINTS'''
-        if (self.params.datastore.Get("additional_info")["enabled"] == 2):        
+        if (dstore.Get("additional_info")["enabled"] == 2):        
             tabTime['points'] = self.params.tabPoints.getPoints(tabTime, PointsModel.Points.eTOTAL)        
             tabTime['points_cat'] = self.params.tabPoints.getPoints(tabTime, PointsModel.Points.eCATEGORY)
         return tabTime
                                                                                    
     def sModelChanged(self, item):
                 
-        if(self.params.datastore.Get("user_actions") == 0):                              
+        if(dstore.Get("user_actions") == 0):                              
         
             #print "radek",item.row()
             tabRow = self.row_dict(item.row())
@@ -298,13 +300,13 @@ class TimesModel(myModel.myModel):
                 #for key in dbUser.keys():
                 #    dbUser2[key] = dbUser[key]
                     
-                dbUser = self.params.db.row2dict(dbUser)                
+                dbUser = db.row2dict(dbUser)                
                 dbUser['status'] = tabRow['status']
                                 
                  
                 #update status
                 print "zapisuju novej status", dbUser                
-                self.params.db.update_from_dict(self.params.tabUser.params.name, dbUser)                
+                db.update_from_dict(self.params.tabUser.params.name, dbUser)                
                 return
 
                                                                            
@@ -318,13 +320,13 @@ class TimesModel(myModel.myModel):
             if self.IsFinishTime(dbRow) == True:
                                                                                                                                                                                      
                 #convert sqlite row to dict                    
-                dbUser = self.params.db.row2dict(dbUser)                                    
+                dbUser = db.row2dict(dbUser)                                    
                                        
                 dbUser['status'] = 'finished'
                  
                 #update status                
-                self.params.db.update_from_dict(self.params.tabUser.params.name, dbUser)
-                print "finishtime", dbUser 
+                db.update_from_dict(self.params.tabUser.params.name, dbUser)
+                #print "finishtime", dbUser 
                  
   
 
@@ -343,9 +345,9 @@ class TimesModel(myModel.myModel):
                 
         '''RUN_ID'''
         #if(self.showall):
-        if(self.params.datastore.Get('show')['alltimes'] == 2):
+        if(dstore.Get('show')['alltimes'] == 2):
             '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
-            aux_dbtime = self.params.db.getParId("times",tabTime['id'])            
+            aux_dbtime = db.getParId("times",tabTime['id'])            
             dbTime['run_id'] = aux_dbtime['run_id']            
         else:
             dbTime['run_id'] = self.run_id
@@ -397,7 +399,7 @@ class TimesModel(myModel.myModel):
                 return None
             
             #in onelap race user can have ONLY 1 TIME
-            #if(self.params.datastore.Get('onelap_race') == True):
+            #if(dstore.Get('onelap_race') == True):
             #    if(self.lap.GetLaps(dbTime) != 0):
             #        self.params.showmessage(self.params.name+": Update error", "This user has already time!")
             #        return None 
@@ -458,7 +460,7 @@ class TimesModel(myModel.myModel):
         splňuje závodník podmínky pro "finished"?
             - (počet kol větší než X) nebo (čas větší než Y)
         '''
-        if self.lap.GetLaps(dbTime) >= self.params.datastore.Get('race_info')['limit_laps']:
+        if self.lap.GetLaps(dbTime) >= dstore.Get('race_info')['limit_laps']:
             return True
         return False
         
@@ -473,7 +475,7 @@ class TimesModel(myModel.myModel):
                 '''ulozeni do db'''
                 #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
                 dbTime['laptime'] = laptime                                                       
-                self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()
+                db.update_from_dict(self.params.name, dbTime) #commit v update()
     def update_laptimes(self):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
@@ -483,8 +485,8 @@ class TimesModel(myModel.myModel):
         """
         ret_ko_times = []
         
-        dbTimes = self.params.db.getAll(self.params.name)
-        dbTimes = self.params.db.cursor2dicts(dbTimes)
+        dbTimes = db.getAll(self.params.name)
+        dbTimes = db.cursor2dicts(dbTimes)
         
         for dbTime in dbTimes:
             
@@ -515,7 +517,7 @@ class TimesModel(myModel.myModel):
             '''odecteni startovaciho casu a ulozeni do db'''
             #print dbTime['time_raw']
             dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']                                                       
-            self.params.db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
+            db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
             
                 
     def calc_update_times(self):
@@ -527,8 +529,8 @@ class TimesModel(myModel.myModel):
         """
         ret_ko_times = []
         
-        dbTimes = self.params.db.getAll(self.params.name)
-        dbTimes = self.params.db.cursor2dicts(dbTimes)
+        dbTimes = db.getAll(self.params.name)
+        dbTimes = db.cursor2dicts(dbTimes)
         
         for dbTime in dbTimes:
             
@@ -573,12 +575,12 @@ class TimesModel(myModel.myModel):
         if(ko_nrs != []):
             print "E:",self.params.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs)
             
-        self.params.db.commit()
+        db.commit()
             
         
         
         #update times        
-        if self.params.datastore.Get('show')['alltimes'] == 2:                        
+        if dstore.Get('show')['alltimes'] == 2:                        
             #get run ids
             conditions = []
             ids = self.params.tabRuns.proxy_model.ids()
@@ -593,7 +595,7 @@ class TimesModel(myModel.myModel):
             #update for selected run        
             #myModel.myModel.update(self, "run_id", self.run_id)            
             myModel.myModel.update(self, "run_id", self.run_id)
-        #self.params.db.commit()            
+        #db.commit()            
                                                                                        
 
 class TimesProxyModel(myModel.myProxyModel):
@@ -658,9 +660,9 @@ class Times(myModel.myTable):
                     " SET time = Null, laptime = Null" +\
                     " WHERE (times.cell != 1 ) AND (times.time != 0) AND (times.run_id = \""+str(run_id)+"\")"
                         
-        res = self.params.db.query(query)
+        res = db.query(query)
                         
-        self.params.db.commit()
+        db.commit()
         print "A: Times: Recalculating.. press F5 to finish"
         return res
                  
@@ -715,38 +717,38 @@ class Times(myModel.myTable):
         
             
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
-            if self.params.datastore.GetItem("export", ["year"]) == 2:
+            if dstore.GetItem("export", ["year"]) == 2:
                 exportHeader.append(u"Ročník")
                 exportRow.append(tabUser['birthday'])
-            if self.params.datastore.GetItem("export", ["club"]) == 2:                                       
+            if dstore.GetItem("export", ["club"]) == 2:                                       
                 exportHeader.append(u"Klub")
                 exportRow.append(tabUser['club']) 
             # user_field_1             
-            if self.params.datastore.GetItem("export", ["option_1"]) == 2:
-                exportHeader.append(self.params.datastore.GetItem("export", ["option_1_name"]))
+            if dstore.GetItem("export", ["option_1"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_1_name"]))
                 exportRow.append(tabUser['o1'])
             # user_field_2             
-            if self.params.datastore.GetItem("export", ["option_2"]) == 2:
-                exportHeader.append(self.params.datastore.GetItem("export", ["option_2_name"]))
+            if dstore.GetItem("export", ["option_2"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_2_name"]))
                 exportRow.append(tabUser['o2'])
             # user_field_3             
-            if self.params.datastore.GetItem("export", ["option_3"]) == 2:
-                exportHeader.append(self.params.datastore.GetItem("export", ["option_3_name"]))
+            if dstore.GetItem("export", ["option_3"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_3_name"]))
                 exportRow.append(tabUser['o3'])
             # user_field_4             
-            if self.params.datastore.GetItem("export", ["option_4"]) == 2:
-                exportHeader.append(self.params.datastore.GetItem("export", ["option_4_name"]))
+            if dstore.GetItem("export", ["option_4"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_4_name"]))
                 exportRow.append(tabUser['o4'])
             # laps             
-            if self.params.datastore.GetItem("export", ["laps"]) == 2:
+            if dstore.GetItem("export", ["laps"]) == 2:
                 exportHeader.append(u"Okruhy")
                 exportRow.append(tabRow['lap'])
             # laptime             
-            if self.params.datastore.GetItem("export", ["laptime"]) == 2:
+            if dstore.GetItem("export", ["laptime"]) == 2:
                 exportHeader.append(u'Čas kola')
                 exportRow.append(tabRow['laptime'])
             # best laptime             
-            if self.params.datastore.GetItem("export", ["best_laptime"]) == 2:
+            if dstore.GetItem("export", ["best_laptime"]) == 2:
                 exportHeader.append(u"Top okruh")
                 exportRow.append(tabRow['best_laptime'])
             
@@ -755,7 +757,7 @@ class Times(myModel.myTable):
             exportRow.append(tabRow['time'])
             
             #ztráta
-            if self.params.datastore.GetItem("export", ["gap"]) == 2:
+            if dstore.GetItem("export", ["gap"]) == 2:
                 exportHeader.append(u"Ztráta")
                 ztrata = ""            
                 if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
@@ -772,13 +774,13 @@ class Times(myModel.myTable):
                 exportRow.append(ztrata)                                 
                             
             #body - total, categories, groups
-            if(mode == Times.eTOTAL) and (self.params.datastore.GetItem("export", ["points_race"]) == 2):
+            if(mode == Times.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):
                 exportHeader.append(u"Body")                                    
                 exportRow.append(str(tabRow['points']))                
-            elif(mode == Times.eCATEGORY) and (self.params.datastore.GetItem("export", ["points_categories"]) == 2):
+            elif(mode == Times.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):
                 exportHeader.append(u"Body")                                    
                 exportRow.append(str(tabRow['points_cat']))                 
-            elif(mode == Times.eGROUP) and (self.params.datastore.GetItem("export", ["points_groups"]) == 2):
+            elif(mode == Times.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
                 exportHeader.append(u"Body")                                    
                 exportRow.append(str(tabRow['points']))                
         
@@ -791,11 +793,11 @@ class Times(myModel.myTable):
     
     def ExportMerge(self, rows, header, headerdata = ["",""]):
             aux_rows = rows[:]
-            #aux_rows.insert(0, [self.params.datastore.Get('race_name'),] + (len(header)-1) * ["",])
+            #aux_rows.insert(0, [dstore.Get('race_name'),] + (len(header)-1) * ["",])
             #aux_rows.insert(1, len(header)*["",])
             #aux_rows.insert(2, header)            
             aux_rows.insert(0, [headerdata[0],] + ["",]*(len(header)-2) + [headerdata[1],])
-            aux_rows.insert(1, [self.params.datastore.Get('race_name'),] + (len(header)-1) * ["",])    
+            aux_rows.insert(1, [dstore.Get('race_name'),] + (len(header)-1) * ["",])    
             aux_rows.insert(2, header)            
             return aux_rows
     #=======================================================================
@@ -815,7 +817,7 @@ class Times(myModel.myTable):
         
         #get filename, gui dialog         
         #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
-        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+self.params.datastore.Get('race_name')+"/")
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.Get('race_name')+"/")
         try:
             os.makedirs(dirname)
         except OSError:
@@ -849,8 +851,8 @@ class Times(myModel.myTable):
             exportHeader_Alltimes = exportRow[0] 
             
             #times export - add last/best (race/slalom)                                                                                                                                       
-            #if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-            #        (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
+            #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+            #        (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
             if self.order.IsToShow(dbTime) == True:                                                    
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0]                         
@@ -864,27 +866,27 @@ class Times(myModel.myTable):
             #print "export total, ", len(exportRows),"times"
             exported["total"] =  len(exportRows)
             exportRows =  self.ExportMerge(exportRows, exportHeader)            
-            filename = utils.get_filename("_"+self.params.datastore.Get('race_name')+".csv")            
+            filename = utils.get_filename("_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
                 aux_csv.save(exportRows)
             except IOError:
-                self.params.uia.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                self.params.uia.showmessage(self.params.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
                         
         '''Alltimes - write to csv file'''
         if(exportRows_Alltimes != []):
             #print "export total alltimes, ", len(exportRows_Alltimes),"times"
             exported["(at) total"] =  len(exportRows_Alltimes)                       
-            #exportRows_Alltimes.insert(0, [self.params.datastore.Get('race_name'),] + (len(exportHeader_Alltimes)-1) * ["",])
+            #exportRows_Alltimes.insert(0, [dstore.Get('race_name'),] + (len(exportHeader_Alltimes)-1) * ["",])
             #exportRows_Alltimes.insert(1, len(exportHeader_Alltimes)*["",])
             #exportRows_Alltimes.insert(2, exportHeader_Alltimes)
             exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes)
-            filename = utils.get_filename("at_"+self.params.datastore.Get('race_name')+".csv")            
+            filename = utils.get_filename("at_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
                 aux_csv.save(exportRows_Alltimes)
             except IOError:
-                self.params.uia.showmessage(self.params.name+" Export warning", "File "+self.params.datastore.Get('race_name')+".csv"+"\nPermission denied!")
+                self.params.uia.showmessage(self.params.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
                 
                                              
         '''EXPORT CATEGORIES'''                        
@@ -912,8 +914,8 @@ class Times(myModel.myTable):
                 exportHeader_Alltimes = exportRow[0] 
             
                 #times export - add last/best (race/slalom)            
-                #if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                #    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
+                #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                #    (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
                 if self.order.IsToShow(dbTime) == True:  
                     if (tabRow['category'] == dbCategory['name']):                                                                                                                                                               
                         exportRows.append(exportRow[1])
@@ -972,8 +974,8 @@ class Times(myModel.myTable):
                 exportRows_Alltimes.append(exportRow[1])
                 exportHeader_Alltimes = exportRow[0] 
                 
-                if(self.params.datastore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (self.params.datastore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
+                if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                    (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
                      
                     tabCategory = self.params.tabCategories.getTabCategoryParName(tabRow['category'])                 
                     if (tabCategory[dbCGroup['label']] == 1):
@@ -987,7 +989,7 @@ class Times(myModel.myTable):
             if(exportRows != []):                
                 exported["(g_) "+dbCGroup['label']] = len(exportRows)                
                 
-                #exportRows.insert(0, [self.params.datastore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])                
+                #exportRows.insert(0, [dstore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])                
                 exportRows =  self.ExportMerge(exportRows, exportHeader, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
                 filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -1019,7 +1021,7 @@ class Times(myModel.myTable):
         #get filename, gui dialog
         #title = "Table '"+self.params.name + "' CSV Export Laptimes"                 
         #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
-        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+self.params.datastore.Get('race_name')+"_laptimes/")
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.Get('race_name')+"_laptimes/")
         try:
             os.makedirs(dirname)
         except OSError:
@@ -1094,7 +1096,7 @@ class Times(myModel.myTable):
                 
                 #save to csv file                
                 exportRows.insert(0, ["Kategorie: "+dbCategory['name'],] + ["",]*(len(exportHeader)-2) + [dbCategory['description'],])
-                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
+                exportRows.insert(1, [dstore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)    
                 filename = utils.get_filename("c_laps_"+dbCategory['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -1193,7 +1195,7 @@ class Times(myModel.myTable):
                 
                 #save to csv file                
                 exportRows.insert(0, ["Skupina: "+dbGroup['name'],] + ["",]*(len(exportHeader)-2) + [dbGroup['description'],])
-                exportRows.insert(1, [self.params.datastore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
+                exportRows.insert(1, [dstore.Get('race_name'),] + (len(exportHeader)-1) * ["",])
                 exportRows.insert(2, exportHeader)    
                 filename = utils.get_filename("g_laps_"+dbGroup['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -1231,8 +1233,8 @@ class Times(myModel.myTable):
              
         '''write to csv file'''
         if(exportRows != []):
-            print "export race", self.params.datastore.Get('race_name'), ":",len(exportRows),"times"
-            first_header = [self.params.datastore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+            print "export race", dstore.Get('race_name'), ":",len(exportRows),"times"
+            first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
             exportRows.insert(0, exportHeader)
             aux_csv = Db_csv.Db_csv(filename) #create csv class
             try:                                     
@@ -1280,7 +1282,7 @@ class Times(myModel.myTable):
         query = "SELECT COUNT(*) FROM(\
                     SELECT COUNT(times.id) from times"
         
-        if(self.params.datastore.Get('rfid') == 2):
+        if(dstore.Get('rfid') == 2):
             query = query + \
                     " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                     " INNER JOIN users ON tags.user_nr = users.nr "
@@ -1307,7 +1309,7 @@ class Times(myModel.myTable):
         query = query + ")"     
         
         #print query
-        res = self.params.db.query(query)
+        res = db.query(query)
         return res.fetchone()[0]                                                            
         
                                     

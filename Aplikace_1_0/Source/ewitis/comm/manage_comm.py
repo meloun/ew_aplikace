@@ -11,7 +11,6 @@ import struct
 import json
 import libs.dicts.dicts as dicts
 import libs.file.file as file
-import libs.db.db_json as db
 import libs.comm.serialprotocol as serialprotocol
 import libs.sqlite.sqlite as sqlite
 import libs.html.htmltags as htmltags
@@ -19,6 +18,10 @@ import libs.html.html as html
 import libs.utils.utils as utils
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
+
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
+
 from ewitis.data.DEF_ENUM_STRINGS import * 
 from threading import Thread
 
@@ -34,11 +37,11 @@ class ManageComm(Thread):
         self.index_times = 0
         self.no_new_times = 0
         self.no_new_runs = 0
-        if(self.datastore.Get("download_from_last") == 2):      
-            if(self.datastore.Get("count")['Runs'] - 1) > 0:          
-                self.index_runs = self.datastore.Get("count")['Runs'] - 1
-            if(self.datastore.Get("count")['Times'] - 1) > 0:
-                self.index_times = self.datastore.Get("count")['Times'] - 1        
+        if(dstore.Get("download_from_last") == 2):      
+            if(dstore.Get("count")['Runs'] - 1) > 0:          
+                self.index_runs = dstore.Get("count")['Runs'] - 1
+            if(dstore.Get("count")['Times'] - 1) > 0:
+                self.index_times = dstore.Get("count")['Times'] - 1        
                                                                                       
                                                         
         ''' LOAD USER CONFIGURATION - port, baudrate '''            
@@ -46,7 +49,7 @@ class ManageComm(Thread):
         
         
         ''' CONNECT TO EWITIS '''
-        aux_port = self.datastore.Get("port")                
+        aux_port = dstore.Get("port")                
         self.protokol = serialprotocol.SerialProtocol( port = aux_port["name"], baudrate = aux_port["baudrate"])        
         print "COMM: zakladam instanci.."                        
         
@@ -60,8 +63,8 @@ class ManageComm(Thread):
     def send_receive_frame(self, command_key, data="", length = None, diagnostic = True):
         """ ošetřená vysílací, přijímací metoda """                
         if command_key != "GET_HW_SW_VERSION":
-            if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and self.datastore.IsBlackbox()) \
-                   or (DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and self.datastore.IsTerminal())):
+            if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and dstore.IsBlackbox()) \
+                   or (DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and dstore.IsTerminal())):
             
                 #this command is not defined for this device
                 print "E: command not defined for this device", command_key                                
@@ -74,26 +77,26 @@ class ManageComm(Thread):
             data = callback.pack_data(command_key, data)            
             '''requet diagnostic'''            
             if diagnostic == True:                
-                self.datastore.AddDiagnostic(command, data, 'green', command_key)
+                dstore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''            
             receivedata = self.protokol.send_receive_frame(command, data)                                                
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
             '''response diagnostic'''            
             if diagnostic == True:                                    
-                self.datastore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
+                dstore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             data = {"error":0xFF}
-            #if(self.datastore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
+            #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
             if diagnostic == True:
-                self.datastore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")             
+                dstore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")             
         except (serial.SerialException) as (strerror):            
             print "E:SendReceiveError - {0}()".format(strerror)
             data = {"error":0xFF}
-            #if(self.datastore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
+            #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
             if diagnostic == True:
-                self.datastore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
+                dstore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
 
  
         return data
@@ -106,8 +109,8 @@ class ManageComm(Thread):
             self.protokol.open_port()
         except serial.SerialException:
             print "E: Cant open port"
-            #self.datastore.Set("port_enable", False)                        
-            self.datastore.SetItem("port", ["opened"], False)                        
+            #dstore.Set("port_enable", False)                        
+            dstore.SetItem("port", ["opened"], False)                        
             return            
             #raise serial.SerialException
         
@@ -119,14 +122,14 @@ class ManageComm(Thread):
             '''connect to db'''  
             self.db.connect()
         except:
-            #self.datastore.Set("port_enable", False)
-            self.datastore.SetItem("port", ["opened"], False)
+            #dstore.Set("port_enable", False)
+            dstore.SetItem("port", ["opened"], False)
             print "E: Database"
         
         
         """communication established"""
-        #self.datastore.Set("port_enable", True)
-        self.datastore.SetItem("port", ["opened"], True)
+        #dstore.Set("port_enable", True)
+        dstore.SetItem("port", ["opened"], True)
             
                                                                                     
         while(1):
@@ -142,27 +145,27 @@ class ManageComm(Thread):
                 #time.sleep(0.01)
                 
                 #terminate thread?                                 
-                #if(self.datastore.Get("port_enable", "GET_SET") == False):
-                if self.datastore.Get("port")["opened"] == False:
+                #if(dstore.Get("port_enable", "GET_SET") == False):
+                if dstore.Get("port")["opened"] == False:
                     self.stop()                                       
                     return
                 
             #print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
                                          
             #communication enabled?
-            if(self.datastore.Get("port")["enabled"] == False):                
+            if(dstore.Get("port")["enabled"] == False):                
                 continue
             
             #add diagnostic? 
             diagnostic = False
-            if(self.datastore.Get("diagnostic")["log_cyclic"] == 2):                
+            if(dstore.Get("diagnostic")["log_cyclic"] == 2):                
                 diagnostic = True  
                 
             """ 
             GET HW-SW-VERSION 
                 only once (after start sw,hw = none)
             """            
-            if(self.datastore.Get("versions")["hw"] == None) or (self.datastore.Get("versions")["fw"] == None):
+            if(dstore.Get("versions")["hw"] == None) or (dstore.Get("versions")["fw"] == None):
                 
                 aux_version = self.send_receive_frame("GET_HW_SW_VERSION")
                 print "version:", aux_version
@@ -171,27 +174,27 @@ class ManageComm(Thread):
                     print "E: Comm: no Hw and Fw versions on device"                
                     continue #no other commands as long as no version
                 
-                self.datastore.SetItem("versions", ["hw"], aux_version["hw"])
-                self.datastore.SetItem("versions", ["fw"], aux_version["fw"])
+                dstore.SetItem("versions", ["hw"], aux_version["hw"])
+                dstore.SetItem("versions", ["fw"], aux_version["fw"])
             """ end of hw-sw-version """
             
             """ 
             SEND COMMAND 
                 diagnostic purpose
             """ 
-            if(self.datastore.Get("diagnostic")["sendcommandkey"] != None):
+            if(dstore.Get("diagnostic")["sendcommandkey"] != None):
                                 
                 #send command                
-                aux_response = self.send_receive_frame(self.datastore.Get("diagnostic")["sendcommandkey"], (self.datastore.Get("diagnostic")["senddata"]).decode('hex'))                                
+                aux_response = self.send_receive_frame(dstore.Get("diagnostic")["sendcommandkey"], (dstore.Get("diagnostic")["senddata"]).decode('hex'))                                
                                 
                 if ('error' in aux_version): 
                     print "COMM: sendcommand response: ERROR"                                     
                 
                 #smazat request
-                self.datastore.SetItem("diagnostic", ["sendcommandkey"], None)
+                dstore.SetItem("diagnostic", ["sendcommandkey"], None)
                                 
                 #set response (text to label)                
-                self.datastore.SetItem("diagnostic", ["sendresponse"], json.dumps(aux_response, indent = 4))
+                dstore.SetItem("diagnostic", ["sendresponse"], json.dumps(aux_response, indent = 4))
                                 
             
             
@@ -215,16 +218,16 @@ class ManageComm(Thread):
                 print"================="
 
             """ GET NEW RUN """           
-            aux_diagnostic = self.datastore.Get("diagnostic")                
+            aux_diagnostic = dstore.Get("diagnostic")                
             if(aux_time['error'] != 0):
-                self.datastore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
+                dstore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
                 
             if(aux_run['error'] != 0):
-                self.datastore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
+                dstore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
             
-            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='red'>no new times (100)</font><br>")
-            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='green'>no new times (100)</font><br>")
-            #self.datastore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")
+            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='red'>no new times (100)</font><br>")
+            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='green'>no new times (100)</font><br>")
+            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")
             
                                                                              
                                                                             
@@ -258,47 +261,47 @@ class ManageComm(Thread):
             """
             
             """ enable start-cell """                
-            if(self.datastore.IsChanged("enable_startcell")):                                        
-                user_id = self.datastore.Get("enable_startcell", "SET")                
+            if(dstore.IsChanged("enable_startcell")):                                        
+                user_id = dstore.Get("enable_startcell", "SET")                
                 ret = self.send_receive_frame("ENABLE_START_CELL")
-                self.datastore.ResetChangedFlag("enable_startcell")
+                dstore.ResetChangedFlag("enable_startcell")
                 
             """ enable finish-cell """                
-            if(self.datastore.IsChanged("enable_finishcell")):                        
-                user_id = self.datastore.Get("enable_finishcell", "SET")                
+            if(dstore.IsChanged("enable_finishcell")):                        
+                user_id = dstore.Get("enable_finishcell", "SET")                
                 ret = self.send_receive_frame("ENABLE_FINISH_CELL")
-                self.datastore.ResetChangedFlag("enable_finishcell")
+                dstore.ResetChangedFlag("enable_finishcell")
                                     
             """ generate starttime """                
-            if(self.datastore.IsChanged("generate_starttime")):                                        
-                user_id = self.datastore.Get("generate_starttime", "SET")                
+            if(dstore.IsChanged("generate_starttime")):                                        
+                user_id = dstore.Get("generate_starttime", "SET")                
                 ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
-                self.datastore.ResetChangedFlag("generate_starttime")
+                dstore.ResetChangedFlag("generate_starttime")
                 
             """ generate finishtime """
-            if(self.datastore.IsChanged("generate_finishtime")):                                
-                user_id = self.datastore.Get("generate_finishtime", "SET")                
+            if(dstore.IsChanged("generate_finishtime")):                                
+                user_id = dstore.Get("generate_finishtime", "SET")                
                 ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
-                self.datastore.ResetChangedFlag("generate_finishtime")
+                dstore.ResetChangedFlag("generate_finishtime")
                     
             """ quit timing """
-            if(self.datastore.IsChanged("quit_timing")):                                                                                     
+            if(dstore.IsChanged("quit_timing")):                                                                                     
                 ret = self.send_receive_frame("QUIT_TIMING")
-                self.datastore.ResetChangedFlag("quit_timing")
+                dstore.ResetChangedFlag("quit_timing")
                 
             """ clear database """
-            if(self.datastore.IsChanged("clear_database")):                                                                                     
+            if(dstore.IsChanged("clear_database")):                                                                                     
                 ret = self.send_receive_frame("CLEAR_DATABASE")
-                self.datastore.ResetChangedFlag("clear_database")
+                dstore.ResetChangedFlag("clear_database")
                 print "I: Comm: clearing database, please wait.. "
                 time.sleep(19)
                 print "I: Comm: database should be empty now"
                 
             """ enable/disable tags reading """
-            if(self.datastore.IsChanged("tags_reading")):         
-                on_off = self.datastore.Get("tags_reading", "SET")                                                                                               
+            if(dstore.IsChanged("tags_reading")):         
+                on_off = dstore.Get("tags_reading", "SET")                                                                                               
                 ret = self.send_receive_frame("SET_TAGS_READING", on_off)
-                self.datastore.ResetChangedFlag("tags_reading")
+                dstore.ResetChangedFlag("tags_reading")
                 if(on_off):
                     print "I: Comm: Enable tags reading"
                 else:
@@ -314,50 +317,50 @@ class ManageComm(Thread):
              - get terminal info
              - set timing settings                                                                          
             """                                                         
-            if(self.datastore.Get("active_tab") == TAB.race_settings) or (self.datastore.Get("active_tab") == TAB.actions)\
-                or (self.datastore.Get("active_tab") == TAB.device):                                
+            if(dstore.Get("active_tab") == TAB.race_settings) or (dstore.Get("active_tab") == TAB.actions)\
+                or (dstore.Get("active_tab") == TAB.device):                                
                 
                 """ set backlight """
-                if(self.datastore.IsChanged("backlight")):                                
-                    data = self.datastore.Get("backlight", "SET")                                    
+                if(dstore.IsChanged("backlight")):                                
+                    data = dstore.Get("backlight", "SET")                                    
                     ret = self.send_receive_frame("SET_BACKLIGHT", data)
-                    self.datastore.ResetChangedFlag("backlight")                                   
+                    dstore.ResetChangedFlag("backlight")                                   
                 
                 """ set speaker """
-                if(self.datastore.IsChanged("speaker")):
+                if(dstore.IsChanged("speaker")):
                     print "NASTAVUJI"                                                                             
-                    aux_speaker = self.datastore.Get("speaker", "SET")                                                                                                                              
+                    aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
                     ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
-                    self.datastore.ResetChangedFlag("speaker")                
+                    dstore.ResetChangedFlag("speaker")                
                                             
                 """ set language """                                    
-                if(self.datastore.IsChanged("language")):
-                    data = self.datastore.Get("language", "SET")                                                                                                                                                                               
+                if(dstore.IsChanged("language")):
+                    data = dstore.Get("language", "SET")                                                                                                                                                                               
                     ret = self.send_receive_frame("SET_LANGUAGE", data)                    
-                    self.datastore.ResetChangedFlag("language")                                   
+                    dstore.ResetChangedFlag("language")                                   
                                 
                                                                                     
                 """ get terminal-info """                     
                 aux_terminal_info = self.send_receive_frame("GET_TERMINAL_INFO")                         
                 """ store terminal-info to the datastore """
                 if not('error' in aux_terminal_info): 
-                    if(self.datastore.IsReadyForRefresh("terminal_info")):           
-                        self.datastore.Set("terminal_info", aux_terminal_info, "GET")
+                    if(dstore.IsReadyForRefresh("terminal_info")):           
+                        dstore.Set("terminal_info", aux_terminal_info, "GET")
                     else:
                         print "I: COMM: terminal info: not ready for refresh", aux_terminal_info               
                 
                 """ set timing settings """
-                if(self.datastore.IsChanged("timing_settings")):
-                    aux_timing_settings = self.datastore.Get("timing_settings", "SET")                                                                                                         
+                if(dstore.IsChanged("timing_settings")):
+                    aux_timing_settings = dstore.Get("timing_settings", "SET")                                                                                                         
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
-                    self.datastore.ResetChangedFlag("timing_settings")  
+                    dstore.ResetChangedFlag("timing_settings")  
         
             
             """
             tab DIAGNOSTIC                        
              - get diagnostic                                    
             """
-            if(self.datastore.Get("active_tab") == TAB.diagnostic):        
+            if(dstore.Get("active_tab") == TAB.diagnostic):        
                 """ get diagnostic """
                 #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
@@ -366,8 +369,8 @@ class ManageComm(Thread):
                 #print "aux_diagnostic", aux_diagnostic
                             
                 """ store terminal-states to the datastore """ 
-                #if(self.datastore.IsReadyForRefresh("timing_settings")):           
-                #    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                #if(dstore.IsReadyForRefresh("timing_settings")):           
+                #    dstore.Set("timing_settings", aux_timing_setting, "GET")
                 #else:
                 #    print "not ready for refresh", aux_timing_setting     
             
@@ -383,8 +386,8 @@ class ManageComm(Thread):
             #print aux_timing_setting            
             """ store terminal-states to the datastore """ 
             if not('error' in aux_timing_setting):
-                if(self.datastore.IsReadyForRefresh("timing_settings")):            
-                    self.datastore.Set("timing_settings", aux_timing_setting, "GET")
+                if(dstore.IsReadyForRefresh("timing_settings")):            
+                    dstore.Set("timing_settings", aux_timing_setting, "GET")
                 else:
                     print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting                    
                     
@@ -402,7 +405,7 @@ class ManageComm(Thread):
         #print struct.pack('<I', time['user_id']).encode('hex')
                         
         '''alltag filter - activ only when rfid race and tag filter checked'''
-        if(self.datastore.Get("rfid") == 2) and (self.datastore.Get("tag_filter") == 2):                
+        if(dstore.Get("rfid") == 2) and (dstore.Get("tag_filter") == 2):                
             ''' check tag id from table alltags'''
             if(time['user_id'] != 0) and (time['user_id'] != 1):            
                 dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()

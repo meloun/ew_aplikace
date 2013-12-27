@@ -114,6 +114,26 @@ def unpack_data(command, data, senddata):
                 
                                                         
         return aux_timing_settings
+    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_INFO"]["cmd"] | 0x80)):
+        ''' GET_CELL_INFO
+            | battery (1B) | flags (1B)| address (1B) | task (1B) | diagnostic1 (2B) | diagnostic2(1B) | 
+        ''' 
+        aux_cell_info = {}        
+                
+        aux_cell_info['battery'], aux_flags, aux_cell_info['address'],\
+        aux_cell_info['task'], aux_cell_info['diagnostic1'], aux_timing_settings['diagnostic2']\
+        = struct.unpack("<BBBBBB", data)
+        
+        #flags
+        aux_cell_info['ir_signal'] = bool(aux_flags & 0x01)
+        aux_cell_info['synchronized_once'] = bool(aux_flags & 0x02)
+        aux_cell_info['synchronized'] = bool(aux_flags & 0x04)
+        aux_cell_info['active'] = bool(aux_flags & 0x80)
+                             
+                                                        
+        return aux_cell_info
+    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]["cmd"] | 0x80)):
         ''' GET_DIAGNOSTIC RESPONSE
             | nr1 (1B) | nr2 (1B)| .. | nrx (1B) | 

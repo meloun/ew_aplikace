@@ -1,4 +1,4 @@
-#Mon Dec 02 22:24:32 CET 2013
+#Sun Dec 15 17:41:03 CET 2013
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -13,10 +13,20 @@ encoding//ewitis/gui/RunsModel.py=utf-8
 encoding//ewitis/gui/TimesModel.py=utf-8
 encoding//ewitis/gui/TimesSlots.py=utf-8
 encoding//ewitis/gui/TimesUtils.py=utf-8
+encoding//ewitis/gui/Ui.py=utf-8
 encoding//ewitis/gui/UiAccesories.py=utf-8
+encoding//ewitis/gui/UiAccesories2.py=utf-8
 encoding//ewitis/gui/Ui_App.py=utf-8
 encoding//ewitis/gui/UsersModel.py=utf-8
 encoding//ewitis/gui/myModel.py=utf-8
+encoding//ewitis/gui/tabAbout.py=utf-8
+encoding//ewitis/gui/tabActions.py=utf-8
+encoding//ewitis/gui/tabCells.py=utf-8
+encoding//ewitis/gui/tabCommunication.py=utf-8
+encoding//ewitis/gui/tabDevice.py=utf-8
+encoding//ewitis/gui/tabDiagnostic.py=utf-8
+encoding//ewitis/gui/tabManual.py=utf-8
+encoding//ewitis/gui/tabRaceSettings.py=utf-8
 encoding//libs/comm/serialprotocol.py=utf-8
 encoding//libs/datastore/datastore.py=utf-8
 encoding//libs/datastore/permanent_datastore.py=utf-8
@@ -29,6 +39,7 @@ encoding//libs/html/htmltags.py=utf-8
 encoding//libs/log/log.py=utf-8
 encoding//libs/myqt/gui.py=utf-8
 encoding//libs/myqt/mydialogs.py=utf-8
+encoding//libs/pyuic_export/wrapper.py=utf-8
 encoding//libs/sqlite/sqlite.py=utf-8
 encoding//libs/test/cStringIO.py=utf-8
 encoding//libs/test/codepage.py=utf-8

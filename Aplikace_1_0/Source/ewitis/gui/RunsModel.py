@@ -7,6 +7,8 @@
 
 import sys
 from PyQt4 import QtCore, QtGui
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
 import ewitis.gui.myModel as myModel
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
@@ -81,7 +83,7 @@ class RunsModel(myModel.myModel):
     def db2tableRow(self, run):                        
         
         #get USER
-        user = self.params.db.getParX("users", "id", run["name_id"]).fetchone()
+        user = db.getParX("users", "id", run["name_id"]).fetchone()
         
         #exist user?
         if user == None:
@@ -135,8 +137,8 @@ class Runs(myModel.myTable):
     # SLOTS
     #=======================================================================        
     def sSelectionChanged(self, selected, deselected):    
-        #print "Runs: selection changed", self.params.datastore.Get("user_actions"), selected            
-        if(selected) and (self.params.datastore.Get("user_actions") == 0):                            
+        #print "Runs: selection changed", dstore.Get("user_actions"), selected            
+        if(selected) and (dstore.Get("user_actions") == 0):                            
                 self.updateTimes()  #update TIMES table
                    
     # CLEAR FILTER BUTTON -> CLEAR FILTER        

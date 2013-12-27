@@ -68,7 +68,7 @@
     "race_name": {
         "GET_SET": {
             "changed": true,
-            "value": "Formula Student 2013"
+            "value": "Formula Student 20134"
         },
         "permanent": true,
         "name": "race_name"

@@ -4,10 +4,11 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.data.db import db
+from ewitis.data.dstore import dstore
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-#import libs.datastore.datastore as datastore
         
 class UsersParameters(myModel.myParameters):
        
@@ -171,7 +172,7 @@ class UsersModel(myModel.myModel):
 #        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):
 #            if(item.column() == 1):                                
 #                nr = item.data(0).toString() #get row
-#                user = self.params.db.getParX("users", "nr", nr).fetchone()
+#                user = db.getParX("users", "nr", nr).fetchone()
 #                if(user != None):
 #                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
 #                    self.update()
@@ -206,7 +207,7 @@ class Users(myModel.myTable):
             
     def getDbUserParNr(self, nr):
                  
-        db_user = self.params.db.getParX("users", "nr", nr, limit = 1).fetchone()        
+        db_user = db.getParX("users", "nr", nr, limit = 1).fetchone()        
                         
         return db_user
     
@@ -228,7 +229,7 @@ class Users(myModel.myTable):
             return None
         
         '''get user par number'''
-        db_user = self.params.db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()
+        db_user = db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()
         
         if(db_user == None):
             return self.model.getDefaultDbRow(dbTag)        
@@ -237,7 +238,7 @@ class Users(myModel.myTable):
     
     def getDbUserParIdOrTagId(self, id):        
              
-        if(self.params.datastore.Get("rfid") == 2):                    
+        if(dstore.Get("rfid") == 2):                    
             '''tag id'''            
             dbUser = self.getDbUserParTagId(id)
         else:                
@@ -257,7 +258,7 @@ class Users(myModel.myTable):
     
     def getIdOrTagIdParNr(self, nr):
         
-        if(self.params.datastore.Get("rfid") == 2):    
+        if(dstore.Get("rfid") == 2):    
             '''tag id'''
             dbTag = self.params.tableTags.getDbTagParUserNr(nr)                        
             return dbTag['tag_id']
@@ -271,15 +272,15 @@ class Users(myModel.myTable):
     def getCount(self, status = None, dbCategory = None):
         
         if status!=None and dbCategory!=None:
-            res = self.params.db.getParXX("users", [["status", status], ["category_id", str(dbCategory["id"])]], "AND")                                                                                        
+            res = db.getParXX("users", [["status", status], ["category_id", str(dbCategory["id"])]], "AND")                                                                                        
         elif status!=None and dbCategory==None:
-            res = self.params.db.getParX("users", "status", status)
+            res = db.getParX("users", "status", status)
         elif status==None and dbCategory!=None:
-            res = self.params.db.getParX("users", "category_id", str(dbCategory["id"]))
+            res = db.getParX("users", "category_id", str(dbCategory["id"]))
         else:
             res = self.getDbRows()             
         
-        row_dicts = self.params.db.cursor2dicts(res)                              
+        row_dicts = db.cursor2dicts(res)                              
         return len(row_dicts)
         
        

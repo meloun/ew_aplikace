@@ -3,6 +3,7 @@
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from ewitis.data.dstore import dstore
 import ewitis.gui.myModel as myModel
 import libs.db_csv.db_csv as Db_csv
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
@@ -103,7 +104,7 @@ class RaceInfoModel(myModel.myModel):
         run_id = self.params.tabTimes.model.run_id
         
         #disable user actions        
-        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")+1)          
+        dstore.Set("user_actions", dstore.Get("user_actions")+1)          
                       
         #smazat vsechny radky
         self.removeRows(0, self.rowCount())                                                                                                                                              
@@ -154,7 +155,7 @@ class RaceInfoModel(myModel.myModel):
             row_id =  row_id + 1                     
         
         #enable user actions                                                                                                                                                                                                           
-        self.params.datastore.Set("user_actions", self.params.datastore.Get("user_actions")-1)
+        dstore.Set("user_actions", dstore.Get("user_actions")-1)
         
         
                     

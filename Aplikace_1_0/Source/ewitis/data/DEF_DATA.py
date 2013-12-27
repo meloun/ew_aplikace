@@ -185,6 +185,7 @@ DEF_DATA = {
                                               }
                                 },  
         
+        
         # TERMINAL DATA SET"
         
         "backlight"          : {"name"    : "backlight",                                                                 
@@ -195,10 +196,7 @@ DEF_DATA = {
                                 "SET"     : {"value":{"keys": False, "timing": True, "system":True},
                                              "changed": False},
                                },                                                                                                       
-        "speaker2"           : {"name"    : "speaker",                                                                 
-                                "SET"     : {"value": {"keys": False, "dict1a": {"dict2a":2, "dict2b":3}, "dict1b":3},
-                                             "changed": False},
-                               },                                                                                                       
+                                                                                 
         "datetime"           : {"name"    : "datetime",                                                                
                                 "SET"     : {"value": {"year":1999, "month":8, "day":13, "hour":15, "minutes":5, "seconds":7, "dayweek":5},
                                              "changed": False},
@@ -207,6 +205,7 @@ DEF_DATA = {
                                 "SET"     : {"value": Languages.CZECH,
                                              "changed": False}, 
                                },
+
             
         
         # TERMINAL DATA GET"
@@ -238,6 +237,30 @@ DEF_DATA = {
                                                                    "ack error": True,
                                                                    "IR signal missinng": True},
                                                        },
+                                             },
+                               },
+        "cells_info"         : {"name"    : "cell info", 
+                                "GET"     : {"value": [                                                       
+                                                       { #cell 1
+                                                           "battery": None,
+                                                           "ir_signal": None,
+                                                           "active": None,
+                                                           "synchronized_once": None,
+                                                           "synchronized": None,
+                                                           "task": None,
+                                                           "diagnostic1": None,
+                                                           "diagnostic2": None
+                                                       },{ #cell 2
+                                                           "battery": None,
+                                                           "ir_signal": None,
+                                                           "active": None,
+                                                           "synchronized_once": None,
+                                                           "synchronized": None,
+                                                           "task": None,
+                                                           "diagnostic1": None,
+                                                           "diagnostic2": None
+                                                       },                                                       
+                                                       ]
                                              },
                                },
         "timing_settings"    : {"name"    : "logic timing_settings",                                
