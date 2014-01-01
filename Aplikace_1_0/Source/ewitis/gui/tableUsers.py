@@ -1,88 +1,29 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
-
-import sys
-import time
-from PyQt4 import QtCore, QtGui
+from ewitis.gui.aTab import MyTab
+from ewitis.gui.aTableModel import myModel, myProxyModel 
+from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
-import ewitis.gui.myModel as myModel
-import libs.db_csv.db_csv as Db_csv
-import ewitis.gui.DEF_COLUMN as DEF_COLUMN
+from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.tableTags import tableTags
+from ewitis.gui.UiAccesories import uiAccesories
         
-class UsersParameters(myModel.myParameters):
-       
-    def __init__(self, source):
-                                
-        #table and db table name
-        self.name = "Users"  
-        
-        self.tableTags = source.tableTags
-        self.tabCategories = source.C
-        
-        #self.datastore = source.datastore
-        
-        #=======================================================================
-        # KEYS DEFINITION
-        #======================================================================= 
-        #toDo: predat jen DEF_COLUMN.USERS, zbytek v myModel
-        self.DB_COLLUMN_DEF = DEF_COLUMN.USERS['database']
-        self.TABLE_COLLUMN_DEF = DEF_COLUMN.USERS['table']
-                                  
-
-                
-        #create MODEL and his structure
-        myModel.myParameters.__init__(self, source)                                                                            
-        
-        #=======================================================================
-        # GUI
-        #=======================================================================
-        #VIEW   
-        self.gui = {}     
-        self.gui['view'] = source.ui.UsersProxyView
-        
-        
-        #FILTER
-        self.gui['filter'] = source.ui.UsersFilterLineEdit
-        self.gui['filterclear'] = source.ui.UsersFilterClear
-        
-        #GROUPBOX
-        self.gui['add'] = source.ui.UsersAdd
-        self.gui['remove'] =  source.ui.UsersRemove
-        self.gui['export'] = source.ui.UsersExport
-        self.gui['export_www'] = None
-        self.gui['import'] = source.ui.UsersImport 
-        self.gui['delete'] = source.ui.UsersDelete
-        
-        #COUNTER
-        self.gui['counter'] = source.ui.UsersCounter
-        
-        #=======================================================================
-        # classes
-        #=======================================================================        
-        self.classModel = UsersModel                              
-        self.classProxyModel = UsersProxyModel
-                
-
-class UsersModel(myModel.myModel):
-    def __init__(self, params):                        
-        
-        #create MODEL and his structure
-        myModel.myModel.__init__(self, params)
-                    
-
-        
+               
+class UsersModel(myModel):
+    def __init__(self, table):                                        
+        myModel.__init__(self, table)
+                        
     #first collumn is NOT editable      
     def flags(self, index):
-        return myModel.myModel.flags(self, index)
+        return myModel.flags(self, index)
     
         
     def getDefaultTableRow(self): 
-        user = myModel.myModel.getDefaultTableRow(self)                
+        user = myModel.getDefaultTableRow(self)                
         user['nr'] = 0
         user['status'] = "race"
         user['name'] = "unknown"
-        user['category'] = self.params.tabCategories.getTabCategoryFirst()['name']
+        user['category'] = tableCategories.getTabCategoryFirst()['name']
         user['category_id'] = 0
         user['id'] = 0                  
         return user
@@ -117,13 +58,13 @@ class UsersModel(myModel.myModel):
     def db2tableRow(self, dbUser):                                        
         
         #1to1 keys just copy
-        tabUser = myModel.myModel.db2tableRow(self, dbUser) 
+        tabUser = myModel.db2tableRow(self, dbUser) 
         
         '''get category'''
         if dbUser == None:
-            tabCategory = self.params.tabCategories.model.getDefaultTableRow()
+            tabCategory = tableCategories.model.getDefaultTableRow()
         else:
-            tabCategory = self.params.tabCategories.getTabRow(dbUser['category_id'])        
+            tabCategory = tableCategories.getTabRow(dbUser['category_id'])        
         
         tabUser['category'] = tabCategory['name']
                         
@@ -140,18 +81,18 @@ class UsersModel(myModel.myModel):
     def table2dbRow(self, tabUser, item = None):                              
 
         if tabUser['status'] != 'finished' and tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
-            self.params.uia.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
+            uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
             return None                
             
         #1to1 keys just copy        
-        dbUser = myModel.myModel.table2dbRow(self, tabUser, item)
+        dbUser = myModel.table2dbRow(self, tabUser, item)
                 
         '''category_id'''        
-        dbCategory = self.params.tabCategories.getDbCategoryParName(tabUser['category']) 
+        dbCategory = tableCategories.getDbCategoryParName(tabUser['category']) 
         
         if(dbCategory == None):
             '''category not found => nothing to save'''
-            self.params.uia.showMessage(self.params.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
+            uiAccesories.showMessage(self.table.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
             return None
         dbUser['category_id'] = dbCategory['id']
                                                                                           
@@ -160,7 +101,7 @@ class UsersModel(myModel.myModel):
     def import2dbRow(self, importRow):                    
         #if 'category_id' in importRow:
         #    del importRow['category_id']
-        tabCategory = self.params.tabCategories.getTabCategoryParName(importRow['category_id'])
+        tabCategory = tableCategories.getTabCategoryParName(importRow['category_id'])
         #print tabCategory
         importRow['category_id'] = tabCategory['id']
         return importRow
@@ -175,15 +116,13 @@ class UsersModel(myModel.myModel):
 #                user = db.getParX("users", "nr", nr).fetchone()
 #                if(user != None):
 #                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
-#                    self.update()
+#                    self.Update()
 #                    return None
 #        myModel.myModel.sModelChanged(self, item)
                  
-class UsersProxyModel(myModel.myProxyModel):
-    def __init__(self, params):                        
-        
-        #create PROXYMODEL
-        myModel.myProxyModel.__init__(self, params)
+class UsersProxyModel(myProxyModel):
+    def __init__(self, table):                                
+        myProxyModel.__init__(self, table)
         
     def IsColumnAutoEditable(self, column):
         if column == 1:
@@ -194,11 +133,9 @@ class UsersProxyModel(myModel.myProxyModel):
 
 
 # view <- proxymodel <- model 
-class Users(myModel.myTable):
-    def  __init__(self, params):                            
-        
-        myModel.myTable.__init__(self, params)
-        
+class Users(myTable):
+    def  __init__(self):                                    
+        myTable.__init__(self, "Users")
            
         #TIMERs
         #self.timer1s = QtCore.QTimer(); 
@@ -223,7 +160,7 @@ class Users(myModel.myTable):
     def getDbUserParTagId(self, tag_id):
         
         '''get tag because of number'''
-        dbTag = self.params.tableTags.getDbTagParTagId(tag_id) 
+        dbTag = tableTags.getDbTagParTagId(tag_id) 
                  
         if (dbTag == None):
             return None
@@ -260,7 +197,7 @@ class Users(myModel.myTable):
         
         if(dstore.Get("rfid") == 2):    
             '''tag id'''
-            dbTag = self.params.tableTags.getDbTagParUserNr(nr)                        
+            dbTag = tableTags.getDbTagParUserNr(nr)                        
             return dbTag['tag_id']
         else:       
             '''id'''
@@ -283,7 +220,8 @@ class Users(myModel.myTable):
         row_dicts = db.cursor2dicts(res)                              
         return len(row_dicts)
         
-       
+tableUsers = Users()
+tabUsers = MyTab(tables = [tableUsers,])         
 
 
         

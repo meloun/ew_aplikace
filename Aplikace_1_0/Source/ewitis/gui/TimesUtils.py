@@ -97,7 +97,7 @@ class TimesStarts():
     '''
     tabulka startovních časů
         - Get()
-        - Update() - volá se v TimesModel.update()    
+        - Update() - volá se v TimesModel.Update()    
     '''
     def __init__(self):                                                            
         self.Update()                                             

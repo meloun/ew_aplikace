@@ -12,11 +12,10 @@ from ewitis.data.DEF_ENUM_STRINGS import *
 class MSGTYPE:
     warning, info, warning_dialog, question_dialog, get_integer, right_statusbar, statusbar = range(0,7)
       
-class MyDialogs(Qt.QFileDialog):
+class MyDialogs():
     def __init__(self, parent = None):
         self.parent = parent            
-        self.dirs = {}
-        Qt.QFileDialog.__init__(self, parent)
+        self.dirs = {}        
         
     def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
         """
@@ -58,9 +57,7 @@ class MyDialogs(Qt.QFileDialog):
                 ret = True
                                                                                        
         #integer
-        elif(msgtype == MSGTYPE.get_integer):
-            #print params
-            #print params[0]             
+        elif(msgtype == MSGTYPE.get_integer):           
             i, ok = QtGui.QInputDialog.getInteger(self.parent, title, message, value = params[0])
             if ok:
                 return i
@@ -75,7 +72,7 @@ class MyDialogs(Qt.QFileDialog):
         pass
     
     def getDirectoryParId(self, dir_id):
-        #directorypath = self.datastore.Get(dir_id)
+        #directorypath = dstore.Get(dir_id)
         if not dir_id in self.dirs:
             directorypath = QtCore.QDir().currentPath()
         else:
@@ -84,14 +81,14 @@ class MyDialogs(Qt.QFileDialog):
     
     def setDirectoryParId(self, dir_id, path):
         self.dirs[dir_id] = path
-        #self.datastore.Set(dir_id, path)        
+        #dstore.Set(dir_id, path)        
     
           
     def getExistingDirectory(self, caption, inputdir = None):        
         if(inputdir == None):
             return Qt.QFileDialog.getExistingDirectory(self.parent, caption)            
         dirname = Qt.QFileDialog.getExistingDirectory(self.parent, caption, self.getDirectoryParName(inputdir) )          
-        #self.datastore.Set("dir_getdir", os.path.dirname(str(CurrentDir.absoluteFilePath(filename))))       
+        #dstore.Set("dir_getdir", os.path.dirname(str(CurrentDir.absoluteFilePath(filename))))       
         return dirname
      
     def getOpenFileName(self, caption, dir_id, myfilter, filename):                 
@@ -111,6 +108,24 @@ class MyDialogs(Qt.QFileDialog):
             self.setDirectoryParId(dir_id, os.path.dirname(str(CurrentDir.absoluteFilePath(filename))))              
         return filename 
 
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    mydialogs = MyDialogs()
+    def sButtonek():
+        mydialogs.showMessage("a", "b")
+        mydialogs.getExistingDirectory("caption")
+        print "ted"
+    mainWindow = QtGui.QMainWindow()
+    mybutton = QtGui.QPushButton(mainWindow)
+    mybutton.setText("butonek")
+    
+    #test dialog
+    QtCore.QObject.connect(mybutton, QtCore.SIGNAL("clicked()"), sButtonek)
+    
+    
+    
+    mainWindow.show()
+    sys.exit(app.exec_())
 
               
 

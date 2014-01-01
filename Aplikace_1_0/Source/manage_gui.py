@@ -9,7 +9,7 @@ from PyQt4 import QtGui
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import appWindow
 import libs.test.codepage as codepage  
-from ewitis.gui.UiAccesories2 import uiAccesories
+from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabActions import tabActions
 from ewitis.gui.tabDevice import tabDevice
@@ -19,11 +19,12 @@ from ewitis.gui.tabDiagnostic import tabDiagnostic
 from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout
 
-import ewitis.gui.PointsModel as PointsModel
-import ewitis.gui.AlltagsModel as AlltagsModel
-import ewitis.gui.TagsModel as TagsModel
-import ewitis.gui.CategoriesModel as CategoriesModel
-import ewitis.gui.CGroupsModel as CGroupsModel
+import ewitis.gui.tabPoints as tabPoints
+import ewitis.gui.tabAlltags as tabAlltags
+import ewitis.gui.tabTags as tabTags
+import ewitis.gui.tabCategories as tabCategories
+import ewitis.gui.tabCGroups as tabCGroups
+import ewitis.gui.tabUsers as tabUsers
   
   
 class Init():        
@@ -56,11 +57,12 @@ if __name__ == "__main__":
     tabCells.init()
     
     #tables
-    tablePoints = PointsModel.Points(PointsModel.PointsParameters())
-    tableAlltags = AlltagsModel.Alltags(AlltagsModel.AlltagsParameters())
-    tableTags = TagsModel.Tags(TagsModel.TagsParameters())
-    tableCategories = CategoriesModel.Categories(CategoriesModel.CategoriesParameters())
-    tableCategoryGroups = CGroupsModel.CGroups(CGroupsModel.CGroupsParameters())
+    tablePoints = tabPoints.Points(tabPoints.PointsParameters())
+    tableAlltags = tabAlltags.Alltags(tabAlltags.AlltagsParameters())
+    tableTags = tabTags.Tags(tabTags.TagsParameters())
+    tableCategories = tabCategories.Categories(tabCategories.CategoriesParameters())
+    tableCategoryGroups = tabCGroups.CGroups(tabCGroups.CGroupsParameters())
+    #tableUsers = tabUsers.Users(tabUsers.UsersParameters())
     
 
     

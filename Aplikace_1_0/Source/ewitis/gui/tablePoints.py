@@ -1,86 +1,28 @@
 #!/usr/bin/env python
 
-import sys
-import time
-from PyQt4 import QtCore, QtGui
-from ewitis.gui.Ui import Ui
+from ewitis.gui.aTab import MyTab
+from ewitis.gui.aTableModel import myModel, myProxyModel 
+from ewitis.gui.aTable import myTable
+
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
-import ewitis.gui.myModel as myModel
 import ewitis.gui.TimesUtils as TimesUtils
-import libs.db_csv.db_csv as Db_csv
-import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-
-      
-class PointsParameters(myModel.myParameters):
-       
-    def __init__(self):
-                                
-        #table and db table name
-        self.name = "Points"  
-        
-        #=======================================================================
-        # KEYS DEFINITION
-        #======================================================================= 
-        self.DB_COLLUMN_DEF = DEF_COLUMN.POINTS['database']
-        self.TABLE_COLLUMN_DEF = DEF_COLUMN.POINTS['table']
-                
-        #create MODEL and his structure
-        #myModel.myParameters.__init__(self, source)                                                                                            
-        
-        #=======================================================================
-        # GUI
-        #=======================================================================
-        #VIEW   
-        self.gui = {}     
-        self.gui['view'] = Ui().PointsProxyView        
-        
-        #FILTER
-        self.gui['filter'] = Ui().PointsFilterLineEdit
-        self.gui['filterclear'] = Ui().PointsFilterClear
-        
-        #GROUPBOX
-        self.gui['add'] = Ui().PointsAdd
-        self.gui['remove'] =  Ui().PointsRemove
-        self.gui['export'] = Ui().PointsExport
-        self.gui['export_www'] = None
-        self.gui['import'] = Ui().PointsImport 
-        self.gui['delete'] = Ui().PointsDelete
-        
-        #COUNTER
-        self.gui['counter'] = Ui().PointsCounter
-        
-        #=======================================================================
-        # classes
-        #=======================================================================        
-        self.classModel = PointsModel                              
-        self.classProxyModel = PointsProxyModel
-                
-
-class PointsModel(myModel.myModel):
-    def __init__(self, params):                        
-        
-        #create MODEL and his structure
-        myModel.myModel.__init__(self, params)
-                                            
-    def getDefaultTableRow(self): 
-        row = myModel.myModel.getDefaultTableRow(self)                                
-        return row 
+     
+             
+class PointsModel(myModel):
+    def __init__(self, table):                                     
+        myModel.__init__(self, table)        
                     
-class PointsProxyModel(myModel.myProxyModel):    
-    def __init__(self, params):                        
-        
-        #default proxy-model constructor
-        myModel.myProxyModel.__init__(self, params)  
+class PointsProxyModel(myProxyModel):    
+    def __init__(self, table):                        
+        myProxyModel.__init__(self, table)  
         
 
 # view <- proxymodel <- model 
-class Points(myModel.myTable):
+class Points(myTable):
     (eTOTAL, eCATEGORY, eGROUP) = range(0,3)
-    def  __init__(self, params):                                             
-         
-        #default table constructor
-        myModel.myTable.__init__(self, params)
+    def  __init__(self):                                                     
+        myTable.__init__(self, "Points")
     
     def evaluate(self, rule, order, timestring, minimum = 0, maximum = 9999):
         points = 0
@@ -154,7 +96,8 @@ class Points(myModel.myTable):
         return tabPoint['points']       
                         
 
-                            
+tablePoints = Points()
+tabPoints = MyTab(tables = [tablePoints,])                          
 
 
         

@@ -57,7 +57,7 @@ TIMES['table_training'] = {
                          }                             
 
 """ table collumn for times, mode race """
-TIMES['table_race'] =   {
+TIMES['table'] =   {
                            "id"         : {"index": 0,  "name": "id",           "width": WIDTH_NUMBER_4DIGIT,    "write":1  },
                            "nr"         : {"index": 1,  "name": "nr",           "width": WIDTH_NUMBER_4DIGIT,    "write":1  },
                            "cell"       : {"index": 2,  "name": "cell",         "width": 35,                     "write":1  },
@@ -252,9 +252,9 @@ POINTS['table'] =    {
 """
 RACE INFO
 """
-RACE_INFO = {}
+RACEINFO = {}
 """ database columns """
-RACE_INFO['database'] = {
+RACEINFO['database'] = {
                       "id"          :    {"index": 0,  "name": "id",            },
                       "name"        :    {"index": 1,  "name": "id",            },                      
                       "startlist"   :    {"index": 2,  "name": "startlist",     },                                                                                       
@@ -265,7 +265,7 @@ RACE_INFO['database'] = {
                       "race"        :    {"index": 7,  "name": "race",          },
                       }
 """ table collumns """
-RACE_INFO['table'] =    {
+RACEINFO['table'] =    {
                       "id"          :    {"index": 0,  "name": "id",            "width": WIDTH_NUMBER_4DIGIT},
                       "name"        :    {"index": 1,  "name": "id",            "width": 300},
                       "startlist"   :    {"index": 2,  "name": "startlist",     "width": 2*WIDTH_NUMBER_4DIGIT},
