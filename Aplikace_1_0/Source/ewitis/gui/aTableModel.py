@@ -324,7 +324,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")
                     
                     '''update model'''                                                                 
-                    self.model.update()
+                    self.model.Update()
 
                     '''editovat sloupec nad aktivním řádkem'''                         
                     myindex = self.index(dstore.Get("active_row")-1, topLeft.column())                    

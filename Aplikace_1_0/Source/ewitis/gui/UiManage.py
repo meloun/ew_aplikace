@@ -6,14 +6,12 @@ Created on 2.1.2014
 '''
 
 
-import sys, time
+import sys
 from PyQt4 import QtGui, QtCore
 
 from ewitis.gui.Ui import Ui
 from ewitis.gui.Ui import appWindow    
 from ewitis.gui.UiAccesories import uiAccesories
-from ewitis.data.dstore import dstore
-from ewitis.gui.UiAccesories import MSGTYPE 
 
 #tabs
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
@@ -24,13 +22,11 @@ from ewitis.gui.tableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tableCategories import tabCategories
 from ewitis.gui.tableUsers import tabUsers
-from ewitis.gui.tabRunsTimes import tabRunTimes
+from ewitis.gui.tableRuns import tabRunTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabActions import tabActions
 from ewitis.gui.tabDevice import tabDevice
-from ewitis.gui.tabCells import tabCells
-from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabDiagnostic import tabDiagnostic
 
 from ewitis.gui.MenusBars import bars
@@ -39,15 +35,15 @@ from ewitis.gui.MenusBars import bars
 class TAB:
     nr_tabs = 16
     runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, actions,\
-    device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+    device, diagnostic, cells, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
-              race_settings:"RaceSettings", actions:"Actions", device:"Device", cells: "Cells",\
-              diagnostic: "Diagnostic", communication: "Communication",  \
-              manual: "Manual", about: "About",    \
+              race_settings:"RaceSettings", actions:"Actions", device:"Device", diagnostic: "Diagnostic" \
             }
 
-        
+
+    
+    
 def Init():                            
     
     #create app window with all gui items
@@ -73,11 +69,7 @@ def InitTabs():
     tabRaceInfo.Init()
     tabCategories.Init()
     tabUsers.Init()
-    tabRunTimes.Init()
-    tabActions.Init()    
-    tabCells.Init()
-    #tabDevice.Init()        
-    tabCommunication.Init()    
+    tabRunTimes.Init()    
     bars.Init()    
     
 def UpdateTabs():
@@ -89,15 +81,10 @@ def UpdateTabs():
     tabCategories.Update()
     tabUsers.Update()
     tabRunTimes.Update()
-    tabActions.Update()   
-    tabCells.Update()
-    #tabDevice.Update()        
-    tabCommunication.Update()     
     
 def GetCurrentTab():
     tabIndex = Ui().tabWidget.currentIndex()
     tabName = TAB.NAME[tabIndex]
-    print tabName, tabIndex
     tab = getattr(sys.modules[__name__], "tab"+tabName)
     return tab
             
@@ -111,9 +98,6 @@ def CreateSlots():
     timer1.start(500); #500ms
     QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)
     
-    #refresh
-    QtCore.QObject.connect(Ui().aRefresh, QtCore.SIGNAL("triggered()"), sRefresh)
-    
     #tab changed
     QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
     
@@ -125,24 +109,11 @@ def sTabChanged(nr):
                     
     #update current tab
     #print "tab changed", nr                  
-    GetCurrentTab().Update(UPDATE_MODE.gui)
+    GetCurrentTab().Update(UPDATE_MODE.all)
     
     
     #update common gui 
-    #self.updateTab(None, UPDATE_MODE.gui)
-                                                                             
-      
-def sRefresh():
-    title = "Manual Refresh"        
-    
-    #disable user actions        
-    dstore.Set("user_actions", dstore.Get("user_actions")+1)
-                                     
-    GetCurrentTab().Update(UPDATE_MODE.all)                       
-    uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
-    
-    #enable user actions        
-    dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                        
+    #self.updateTab(None, UPDATE_MODE.gui)                                                                         
 
 
          
@@ -160,4 +131,9 @@ if __name__ == "__main__":
     #show app        
     appWindow.show()    
     sys.exit(app.exec_())
+
+
+
+
+
 

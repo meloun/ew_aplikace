@@ -197,7 +197,7 @@ class Datastore():
     def IsPermanent(self, name):
         """                        
         slouží ke zjištění zda je datapoint určen k trvalému ulolžení  
-        """
+        """        
         if 'permanent' in self.data[name]:
             return self.data[name]['permanent']           
         return False

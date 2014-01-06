@@ -11,9 +11,9 @@ class MyTab():
     """
     
     """
-    def  __init__(self, tables = [], guiitems = []):
+    def  __init__(self, tables = [], items = []):
         self.tables = tables
-        self.items = guiitems
+        self.items = items
         
     def Init(self):
         for table in self.tables:
@@ -24,10 +24,13 @@ class MyTab():
         
     def Update(self, mode = UPDATE_MODE.all):
         
-        if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
-            for table in self.tables:
-                table.Update()
-                
+        #update tables
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+            for table in self.tables:
+                table.Update()                                
+
+        #update gui                
+        if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
             for item in self.items:
                 item.Update()
+                

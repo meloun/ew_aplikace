@@ -2,8 +2,8 @@
 
 
 from libs.myqt.mydialogs import *
-from ewitis.gui.Ui import Ui 
 from ewitis.data.dstore import dstore 
+from ewitis.gui.Ui import Ui
  
 
 try:
@@ -15,11 +15,12 @@ except AttributeError:
 class UiaDialogs(MyDialogs):
     def __init__(self):
         MyDialogs.__init__(self)                   
-    def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):        
+    def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
+        print "showMessage", title, message        
         #right statusbar
         if(msgtype == MSGTYPE.right_statusbar):            
             #all time update
-            #print "right status bar"
+            print "right status bar"
             self.update_right_statusbar(title, message)                 
             timing_settings_get = dstore.Get("timing_settings", "GET")
             Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
@@ -31,16 +32,13 @@ class UiaDialogs(MyDialogs):
                 Ui().statusbar_msg.setStyleSheet("background:green;")
             elif timing_settings_get['measurement_state']== MeasurementState.finished:
                 Ui().statusbar_msg.setStyleSheet("background:red;")
-                    
-            
+                                                
         #STATUSBAR        
-        elif (msgtype == MSGTYPE.warning) or (msgtype == MSGTYPE.info) or (msgtype == MSGTYPE.statusbar):
-            #print "statusbar"
-            #self.update_statusbar(title, message)
-            #print title, message
+        elif (msgtype == MSGTYPE.warning) or (msgtype == MSGTYPE.info) or (msgtype == MSGTYPE.statusbar):                                
             timing_settings_get = dstore.Get("timing_settings", "GET")                       
-            #Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
-            Ui().statusbar.showMessage(title+" : " + message)        
+            Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
+            Ui().statusbar.showMessage(title+" : " + message)
+            print "NASTAVUJU", title, message        
         return MyDialogs.showMessage(self, title, message, msgtype, *params)
    
 class UiAccesories(UiaDialogs):
@@ -50,6 +48,7 @@ class UiAccesories(UiaDialogs):
     
     def Init(self):
         UiaDialogs.__init__(self)
+        self.showMessage("Race", dstore.Get("race_name"), MSGTYPE.statusbar)
                                                                                                     
     def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == dstore.Get(name):
@@ -64,7 +63,7 @@ class UiAccesories(UiaDialogs):
         #self.updateTab(tab)
         
         
-    def sGuiSetItem(self, name, keys, value, tab = None, dialog = False):        
+    def sGuiSetItem(self, name, keys, value, callback = None, dialog = False):        
         if value == dstore.GetItem(name, keys):
             return
                 
@@ -73,8 +72,9 @@ class UiAccesories(UiaDialogs):
             if (self.showmessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
-        dstore.SetItem(name, keys, value)        
-        #self.updateTab(tab)
+        dstore.SetItem(name, keys, value)
+        if callback != None:        
+            callback()
 
 #instance
 uiAccesories = UiAccesories()  

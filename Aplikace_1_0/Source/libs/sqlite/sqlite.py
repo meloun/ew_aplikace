@@ -166,15 +166,15 @@ class sqlite_db(object):
         '''sestaveni a provedeni dotazu'''
         query = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         query = query.replace('\'None\'', 'Null')
-        print "qq2", query
+        #print "qq2", query
         
         try:
             self.query(query)
         except sqlite.IntegrityError:
             ret = False  #this entry probably already exist
-        #except:
-        #    print "E: DB: insert from lists, some error"
-        ret = False
+        except:
+            print "E: DB: insert from lists, some error"
+            ret = False
         
         if(commit == True):
             self.commit()

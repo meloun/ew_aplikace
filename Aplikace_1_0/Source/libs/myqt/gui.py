@@ -12,7 +12,7 @@ from ewitis.data.dstore import dstore
     
 class myDialog(Qt.QFileDialog):
     def __init__(self, datastore):
-        self.datastore = datastore
+        self.datastore = dstore
     def getExistingDirectory(self, parent, caption, datastore_inputdir = None):
         
         if(datastore_inputdir == None):

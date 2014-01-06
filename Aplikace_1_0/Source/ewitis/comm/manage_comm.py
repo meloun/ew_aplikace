@@ -19,7 +19,7 @@ import libs.utils.utils as utils
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 
-from ewitis.data.db import db
+#from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 
 from ewitis.data.DEF_ENUM_STRINGS import * 
@@ -30,7 +30,6 @@ class ManageComm(Thread):
         """ INIT VALUES """
         
         Thread.__init__(self)        
-        self.datastore = dstore
         
         #set start download indexes
         self.index_runs = 0
@@ -436,7 +435,7 @@ class ManageComm(Thread):
         
         '''return'''
         if ret == False:            
-            print "I: DB: time already exists"                                                                            
+            print "I: DB: run already exists"                                                                            
         return ret 
                         
         return ret

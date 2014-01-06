@@ -19,9 +19,11 @@ class TabDevice():
         Constructor
         '''        
         print "tabDevice: constructor"
-
         
-    def addSlots(self):
+    def Init(self):
+        self.CreateSlots()
+                
+    def CreateSlots(self):
         QtCore.QObject.connect(Ui().pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)              
         QtCore.QObject.connect(Ui().pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
         QtCore.QObject.connect(Ui().pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
@@ -68,8 +70,9 @@ class TabDevice():
         dstore.ResetValue("terminal_info", 'language')                                                                
         self.updateTab(TAB.device, UPDATE_MODE.gui)
         
-    def sCommCommand(self, index):        
-        print DEF_COMMANDS.Get(index)
+    def sCommCommand(self, index):
+        print index        
+        #print DEF_COMMANDS.Get(index)
         '''získání a nastavení nové SET hodnoty'''                                
         #dstore.Set("language", index, "SET")               
         

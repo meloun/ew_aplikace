@@ -199,7 +199,7 @@ class TimesModel(myModel):
                 uiAccesories.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                
                 return None
                 
-            if(item.column() == self.params.TABLE_COLLUMN_DEF['nr']['index']):
+            if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):
                
                 '''ZMĚNA ČÍSLA'''
                 '''přiřazení uživatele nelze u času                
@@ -208,7 +208,7 @@ class TimesModel(myModel):
                 
                 if(int(tabRow['cell']) == 1):                            
                     uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
-                    self.update()       
+                    self.Update()       
                     return
                                                                                                 
 #                elif(tabRow['time'] == '00:00:00,00'):
@@ -412,7 +412,7 @@ class TimesModel(myModel):
                 '''ulozeni do db'''
                 #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
                 dbTime['laptime'] = laptime                                                       
-                db.update_from_dict(self.params.name, dbTime) #commit v update()
+                db.update_from_dict(self.table.name, dbTime) #commit v update()
     def update_laptimes(self):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
@@ -454,7 +454,7 @@ class TimesModel(myModel):
             '''odecteni startovaciho casu a ulozeni do db'''
             #print dbTime['time_raw']
             dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']                                                       
-            db.update_from_dict(self.params.name, dbTime) #commit v update()                                           
+            db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
             
                 
     def calc_update_times(self):
@@ -486,10 +486,10 @@ class TimesModel(myModel):
                     start_nr = tabCategory['start_nr']        
                                                         
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                try:                
-                    self.calc_update_time(dbTime, start_nr)
-                except:
-                    ret_ko_times.append(dbTime['id'])
+                #try:                
+                self.calc_update_time(dbTime, start_nr)
+                #except:
+                #    ret_ko_times.append(dbTime['id'])
                            
         return ret_ko_times
     
@@ -503,8 +503,9 @@ class TimesModel(myModel):
             
         #update start times        
         self.starts.Update()        
-        
+                
         ko_nrs = self.calc_update_times()
+        
         if(ko_nrs != []):
             print "E:",self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs)
             
@@ -756,7 +757,7 @@ class Times(myTable):
             return
                                
         #title
-        title = "Table '"+self.params.name + "' CSV Export Categories" 
+        title = "Table '"+self.name + "' CSV Export Categories" 
         
         #get filename, gui dialog         
         #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
@@ -814,7 +815,7 @@ class Times(myTable):
             try:                
                 aux_csv.save(exportRows)
             except IOError:
-                uiAccesories.showMessage(self.params.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
+                uiAccesories.showMessage(self.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
                         
         '''Alltimes - write to csv file'''
         if(exportRows_Alltimes != []):
@@ -829,11 +830,11 @@ class Times(myTable):
             try:                
                 aux_csv.save(exportRows_Alltimes)
             except IOError:
-                uiAccesories.showMessage(self.params.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
+                uiAccesories.showMessage(self.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
                 
                                              
         '''EXPORT CATEGORIES'''                        
-        dbCategories = self.params.tabCategories.getDbRows()                      
+        dbCategories = tableCategories.getDbRows()                      
         for dbCategory in dbCategories:
             exportRows = []             
             exportRows_Alltimes = []
@@ -875,7 +876,7 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                       
             '''Alltimes - write to csv file'''
             if(exportRows_Alltimes != []):                
@@ -887,7 +888,7 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows_Alltimes)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
                                    
                     
         '''EXPORT GROUPS'''
@@ -939,7 +940,7 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                     
             '''Alltimes - write to csv file'''
             if(exportRows_Alltimes != []):                
@@ -950,13 +951,13 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows_Alltimes)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
 
         
         exported_string = ""
         for key in sorted(exported.keys()):
             exported_string += key + " : " + str(exported[key])+" times\n"        
-        uiAccesories.showMessage(self.params.name+" Exported", exported_string, MSGTYPE.info)                                        
+        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)                                        
         return         
 
                 
@@ -982,7 +983,7 @@ class Times(myTable):
             return                
         
         '''LAPS PAR CATEGORY'''                        
-        dbCategories = self.params.tabCategories.getDbRows()  
+        dbCategories = tableCategories.getDbRows()  
         tableRows = self.proxy_model.dicts()                            
         for dbCategory in dbCategories:
             """ 
@@ -1046,7 +1047,7 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                          
         return  
     
@@ -1057,7 +1058,7 @@ class Times(myTable):
             return                      
         
         '''LAPS PAR GROUPS'''                        
-        dbGroups = self.params.tabCGroups.getDbRows()  
+        dbGroups = tableCGroups.getDbRows()  
         tableRows = self.proxy_model.dicts()                            
         for dbGroup in dbGroups:            
             """ 
@@ -1145,7 +1146,7 @@ class Times(myTable):
                 try:                                                                                             
                     aux_csv.save(exportRows)
                 except IOError:
-                    uiAccesories.showMessage(self.params.name+" Export warning", "File "+filename+"\nPermission denied!")
+                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                                                          
         return  
         
@@ -1159,12 +1160,12 @@ class Times(myTable):
         
         '''get filename, gui dialog, save path to datastore'''        
         #filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
-        filename =  uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
+        filename =  uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv") 
                                  
         if(filename == ""):
             return                            
 
-        title = "Table '"+self.params.name + "' CSV Export Categories" 
+        title = "Table '"+self.name + "' CSV Export Categories" 
         exportRows = []        
 
         '''EXPORT ALL TIMES'''                                                        
@@ -1216,7 +1217,7 @@ class Times(myTable):
             return  
         
         #delete run with additional message
-        myModel.myTable.sDelete(self)
+        myTable.sDelete(self)
                                                                                                                                   
     #
     def getCount(self, run_id, dbCategory = None, minimal_laps = None):

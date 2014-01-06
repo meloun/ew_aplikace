@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.aTab import MyTab 
 from ewitis.gui.aTableModel import myModel, myProxyModel 
 from ewitis.gui.aTable import myTable
 from ewitis.gui.tableTimes import tableTimes
@@ -131,7 +132,8 @@ class Runs(myTable):
         tableTimes.deleteAll()
         
         
-tableRuns = Runs()          
+tableRuns = Runs()
+          
         
                                    
          

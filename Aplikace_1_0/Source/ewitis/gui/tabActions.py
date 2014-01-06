@@ -20,8 +20,10 @@ class TabActions():
         '''        
         print "tabActions: constructor"
 
-        
-    def addSlots(self):
+    def Init(self):
+        self.createSlots()        
+            
+    def createSlots(self):
         #actions
         QtCore.QObject.connect(Ui().pushEnableStartcell, QtCore.SIGNAL("clicked()"), self.sEnableStartcell)
         QtCore.QObject.connect(Ui().pushEnableFinishcell, QtCore.SIGNAL("clicked()"), self.sEnableFinishcell)

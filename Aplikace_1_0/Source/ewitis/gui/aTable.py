@@ -6,12 +6,11 @@ Created on 28.12.2013
 '''
 from PyQt4 import Qt, QtCore, QtGui
 from ewitis.gui.Ui import Ui
-from ewitis.gui.UiAccesories import *
+from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import libs.utils.utils as utils
 from ewitis.data.dstore import dstore
-from ewitis.data.db import db
-from ewitis.gui.UiAccesories import MSGTYPE 
+from ewitis.data.db import db  
 from ewitis.gui.aTableModel import * 
 
 import libs.db_csv.db_csv as Db_csv
@@ -57,8 +56,9 @@ class myTable():
         #COUNTER
         self.gui['counter'] = None #getattr(Ui(), self.name+"Counter") #Ui().PointsCounter
     
-    def InitModels(self):        
-        module = __import__("table"+self.name)
+    def InitModels(self): 
+        print __name__       
+        module = __import__("table"+self.name, globals=globals())
         
         #create PROXY MODEL               
         self.proxy_model = getattr(module, self.name+"ProxyModel")(self) #self.params.classProxyModel(self.gui)        
@@ -504,6 +504,7 @@ class myTable():
         #update db couner
         self.updateDbCounter()
         #print "db counter:",self.params.name, dstore.Get("count")
+          
                 
         
     def updateTabCounter(self):

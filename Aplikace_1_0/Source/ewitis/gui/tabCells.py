@@ -7,6 +7,7 @@ Created on 8.12.2013
 
 import sys
 from PyQt4 import QtCore, QtGui
+from ewitis.gui.aTab import MyTab, UPDATE_MODE
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
@@ -18,6 +19,8 @@ class CellGroup ():
     def __init__(self,  nr):
         '''
         Constructor
+        group items as class members
+        format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
         '''
         ui = Ui()
         
@@ -36,11 +39,11 @@ class CellGroup ():
         self.lineCellCounter3 = getattr(ui, "lineCellCounter3_"+str(nr))
         self.pushCellClearCounters = getattr(ui, "pushCellClearCounters_"+str(nr))
         self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
+    
+    def Init(self):        
+        self.createSlots()
         
-        #add slots
-        #self.addSlots()
-        
-    def addSlots(self):                
+    def CreateSlots(self):                
         QtCore.QObject.connect(self.checkbox, QtCore.SIGNAL("stateChanged(int)"), self.sCheckbox)
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sSlot)
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), self.sSlot)
@@ -67,9 +70,10 @@ class CellGroup ():
         self.pushCellClearCounters.setEnabled(state)
         self.pushCellPing.setEnabled(state)
     
-    def Update(self):        
+    def Update(self):
+        
+        #get data from datastore        
         cell_info = dstore.Get("cells_info", "GET")[self.nr-1]
-
 
         #task
         if(cell_info['task'] != None):
@@ -139,7 +143,7 @@ class CellGroup ():
         else:
             self.lineCellCounter3.setText("- -")
 
-class TabCells():
+class TabCells(MyTab):
     
     def __init__(self):
         '''
@@ -147,19 +151,16 @@ class TabCells():
         '''        
         print "tabCells: constructor"
         
-    def init(self):
-        '''tab Cells'''
-        self.cellgroup = [None]*2
-        self.cellgroup[0] = CellGroup(1)        
-        self.cellgroup[1] = CellGroup(2)
+    def Init(self):
+        '''tab Cells'''        
+        self.cellgroups = [None]*2
+        for i in range(0,2):            
+            self.cellgroups[i] = CellGroup(i+1)
+            self.cellgroups[i].CreateSlots()                            
         
-    def addSlots(self):
-        self.cellgroup[0].addSlots
-        self.cellgroup[1].addSlots
-        
-    def Update(self):
-        self.cellgroup[0].Update()
-        self.cellgroup[1].Update()
+    def Update(self, mode = UPDATE_MODE.all):
+        for i in range(0,2):
+            self.cellgroups[i].Update()        
     
          
 tabCells = TabCells()
@@ -177,16 +178,5 @@ if __name__ == "__main__":
     print "title: ", GroupWithCheckbox_1.groupbox.title()
     print "title: ", GroupWithCheckbox_1.lineCellIrSinal.text()
 
-#class SuperClass(object):
-#    def __init__(self):
-#        self.var = 1
-#
-#class SubClass(SuperClass):
-#    def getVar(self):
-#        return self.var
-#    
-#super_instance = SuperClass()
-#super_instance.__class__ = SubClass
-#print super_instance.getVar()
 
         

@@ -9,7 +9,7 @@ from ewitis.gui.tableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tableCategories import tabCategories
 from ewitis.gui.tableUsers import tabUsers
-from ewitis.gui.tabRunTimes import tabRunTimes
+from ewitis.gui.tableRuns import tabRunTimes
 
   
 
