@@ -24,7 +24,7 @@ from ewitis.gui.tableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tableCategories import tabCategories
 from ewitis.gui.tableUsers import tabUsers
-from ewitis.gui.tabRunsTimes import tabRunTimes
+from ewitis.gui.tabRunsTimes import tabRunsTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabActions import tabActions
@@ -32,6 +32,8 @@ from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.tabCells import tabCells
 from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabDiagnostic import tabDiagnostic
+from ewitis.gui.tabManual import tabManual
+from ewitis.gui.tabAbout import tabAbout
 
 from ewitis.gui.MenusBars import bars
 
@@ -40,14 +42,15 @@ class TAB:
     nr_tabs = 16
     runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, actions,\
     device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
-    NAME =  {runs_times:"RunTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
+    NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
               race_settings:"RaceSettings", actions:"Actions", device:"Device", cells: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
             }
-
-        
+    
+timer1 = QtCore.QTimer();
+       
 def Init():                            
     
     #create app window with all gui items
@@ -73,11 +76,12 @@ def InitTabs():
     tabRaceInfo.Init()
     tabCategories.Init()
     tabUsers.Init()
-    tabRunTimes.Init()
+    tabRunsTimes.Init()
     tabActions.Init()    
     tabCells.Init()
     #tabDevice.Init()        
-    tabCommunication.Init()    
+    tabCommunication.Init()
+    tabManual.Init()    
     bars.Init()    
     
 def UpdateTabs():
@@ -88,16 +92,18 @@ def UpdateTabs():
     tabRaceInfo.Update()
     tabCategories.Update()
     tabUsers.Update()
-    tabRunTimes.Update()
+    tabRunsTimes.Update()
     tabActions.Update()   
     tabCells.Update()
     #tabDevice.Update()        
-    tabCommunication.Update()     
+    tabCommunication.Update()
+    tabManual.Update() 
+    tabAbout.Update()  
+    bars.Update()    
     
 def GetCurrentTab():
     tabIndex = Ui().tabWidget.currentIndex()
-    tabName = TAB.NAME[tabIndex]
-    print tabName, tabIndex
+    tabName = TAB.NAME[tabIndex]    
     tab = getattr(sys.modules[__name__], "tab"+tabName)
     return tab
             
@@ -107,9 +113,9 @@ def UpdateTab(mode = UPDATE_MODE.all):
 def CreateSlots():
     
     #timer 500ms
-    timer1 = QtCore.QTimer(); 
+    global  timer1
     timer1.start(500); #500ms
-    QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)
+    QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)    
     
     #refresh
     QtCore.QObject.connect(Ui().aRefresh, QtCore.SIGNAL("triggered()"), sRefresh)
@@ -117,20 +123,23 @@ def CreateSlots():
     #tab changed
     QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
     
-def sTimer():             
-    #update current tab                  
+def sTimer():    
+             
+    #update current tab           
     GetCurrentTab().Update(UPDATE_MODE.gui)
+    
+    #toolbars, statusbars
+    bars.Update()
     
 def sTabChanged(nr):
                     
     #update current tab
-    #print "tab changed", nr                  
+    tabIndex = Ui().tabWidget.currentIndex()
+    tabName = TAB.NAME[tabIndex]
+    print tabName
+                    
     GetCurrentTab().Update(UPDATE_MODE.gui)
-    
-    
-    #update common gui 
-    #self.updateTab(None, UPDATE_MODE.gui)
-                                                                             
+                                                             
       
 def sRefresh():
     title = "Manual Refresh"        

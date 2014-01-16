@@ -23,20 +23,20 @@ class UiaDialogs(MyDialogs):
             print "right status bar"
             self.update_right_statusbar(title, message)                 
             timing_settings_get = dstore.Get("timing_settings", "GET")
-            Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
-            if timing_settings_get['measurement_state']== MeasurementState.not_active:
-                Ui().statusbar_msg.setStyleSheet("background:red;")                    
-            elif timing_settings_get['measurement_state']== MeasurementState.prepared:
-                Ui().statusbar_msg.setStyleSheet("background:orange;")                    
-            elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
-                Ui().statusbar_msg.setStyleSheet("background:green;")
-            elif timing_settings_get['measurement_state']== MeasurementState.finished:
-                Ui().statusbar_msg.setStyleSheet("background:red;")
+#            Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
+#            if timing_settings_get['measurement_state']== MeasurementState.not_active:
+#                Ui().statusbar_msg.setStyleSheet("background:red;")                    
+#            elif timing_settings_get['measurement_state']== MeasurementState.prepared:
+#                Ui().statusbar_msg.setStyleSheet("background:orange;")                    
+#            elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
+#                Ui().statusbar_msg.setStyleSheet("background:green;")
+#            elif timing_settings_get['measurement_state']== MeasurementState.finished:
+#                Ui().statusbar_msg.setStyleSheet("background:red;")
                                                 
         #STATUSBAR        
         elif (msgtype == MSGTYPE.warning) or (msgtype == MSGTYPE.info) or (msgtype == MSGTYPE.statusbar):                                
-            timing_settings_get = dstore.Get("timing_settings", "GET")                       
-            Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
+            #timing_settings_get = dstore.Get("timing_settings", "GET")                       
+            #Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                                                                             
             Ui().statusbar.showMessage(title+" : " + message)
             print "NASTAVUJU", title, message        
         return MyDialogs.showMessage(self, title, message, msgtype, *params)

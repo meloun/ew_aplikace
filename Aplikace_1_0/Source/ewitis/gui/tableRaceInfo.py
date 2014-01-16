@@ -3,6 +3,9 @@ from PyQt4 import QtCore
 from ewitis.gui.aTab import MyTab
 from ewitis.gui.aTableModel import myModel, myProxyModel 
 from ewitis.gui.aTable import myTable
+from ewitis.gui.tableUsers import tableUsers
+from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.tableRuns import tableRuns
 from ewitis.data.dstore import dstore
             
 class RaceInfoModel(myModel):
@@ -42,12 +45,10 @@ class RaceInfoModel(myModel):
         Update() => update cele tabulky
         Update(parameter, value) => vsechny radky s parametrem = value
         Update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1]                 
-        """
-                        
-        return
+        """                                
     
-        #run_id                
-        run_id = 0 #tableTimes.model.run_id
+        #run_id                      
+        run_id = tableRuns.run_id
         
         #disable user actions        
         dstore.Set("user_actions", dstore.Get("user_actions")+1)          
@@ -61,12 +62,12 @@ class RaceInfoModel(myModel):
         row_table = {}
         row_table["id"] = row_id
         row_table["name"] = "Run id:"+ str(run_id)
-        row_table["startlist"] = self.tabUser.getCount()  
-        row_table["dns"] = self.tabUser.getCount("dns")          
-        row_table["finished"] = self.tabUser.getCount("finished")
-        row_table["dsq"] = self.tabUser.getCount("dsq")  
-        row_table["dnf"] = self.tabUser.getCount("dnf")
-        row_table["race"] = self.tabUser.getCount("race")              
+        row_table["startlist"] = tableUsers.getCount()  
+        row_table["dns"] = tableUsers.getCount("dns")          
+        row_table["finished"] = tableUsers.getCount("finished")
+        row_table["dsq"] = tableUsers.getCount("dsq")  
+        row_table["dnf"] = tableUsers.getCount("dnf")
+        row_table["race"] = tableUsers.getCount("race")              
                                             
         if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
             row_table["check"] = "ok"
@@ -77,19 +78,19 @@ class RaceInfoModel(myModel):
         row_id =  row_id + 1
         
         #categories
-        dbCategories = self.tabCategories.getDbRows()                      
+        dbCategories = tableCategories.getDbRows()                      
         for dbCategory in dbCategories:                                                                                            
             
             #row_table = self.db2tableRow(row)
             row_table = {}
             row_table["id"] = row_id
             row_table["name"] = dbCategory["name"]                        
-            row_table["startlist"] = self.tabUser.getCount(dbCategory = dbCategory)  
-            row_table["dns"] = self.tabUser.getCount("dns", dbCategory)              
-            row_table["finished"] = self.tabUser.getCount("finish", dbCategory)
-            row_table["dsq"] = self.tabUser.getCount("dsq", dbCategory)  
-            row_table["dnf"] = self.tabUser.getCount("dnf", dbCategory)              
-            row_table["race"] = self.tabUser.getCount("race", dbCategory)
+            row_table["startlist"] = tableUsers.getCount(dbCategory = dbCategory)  
+            row_table["dns"] = tableUsers.getCount("dns", dbCategory)              
+            row_table["finished"] = tableUsers.getCount("finish", dbCategory)
+            row_table["dsq"] = tableUsers.getCount("dsq", dbCategory)  
+            row_table["dnf"] = tableUsers.getCount("dnf", dbCategory)              
+            row_table["race"] = tableUsers.getCount("race", dbCategory)
             
             if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
                 row_table["check"] = "ok"
@@ -122,7 +123,7 @@ class RaceInfo(myTable):
         pass
     
 tableRaceInfo = RaceInfo()
-tabRaceInfo = MyTab(tables = [tableRaceInfo,])         
+tabRaceInfo = MyTab(items = [tableRaceInfo,])         
                             
 
 

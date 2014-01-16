@@ -14,7 +14,6 @@ from ewitis.gui.tableAlltags import tableAlltags
 from ewitis.gui.tableTags import tableTags
 from ewitis.gui.tablePoints import tablePoints
 from ewitis.gui.tableCGroups import tableCGroups
-from ewitis.gui.tableRaceInfo import tableRaceInfo
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
 
@@ -612,7 +611,7 @@ class Times(myTable):
                  
     
     ''''''                   
-    def tabRow2exportRow(self, tabRow, mode, status = 'race'):                        
+    def tabRow2exportRow(self, tabRow, mode, status = 'finished'):                        
                                                            
         exportRow = []
         exportHeader = []
@@ -797,7 +796,7 @@ class Times(myTable):
             #times export - add last/best (race/slalom)                                                                                                                                       
             #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
             #        (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
-            if self.order.IsToShow(dbTime) == True:                                                    
+            if self.model.order.IsToShow(dbTime) == True:                                                    
                 exportRows.append(exportRow[1])
                 exportHeader = exportRow[0]                         
                     
@@ -860,7 +859,7 @@ class Times(myTable):
                 #times export - add last/best (race/slalom)            
                 #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
                 #    (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
-                if self.order.IsToShow(dbTime) == True:  
+                if self.model.order.IsToShow(dbTime) == True:  
                     if (tabRow['category'] == dbCategory['name']):                                                                                                                                                               
                         exportRows.append(exportRow[1])
                         exportHeader = exportRow[0]                                                                                                                                                                                           

@@ -9,7 +9,7 @@ from ewitis.gui.tableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tableCategories import tabCategories
 from ewitis.gui.tableUsers import tabUsers
-from ewitis.gui.tableRuns import tabRunTimes
+from ewitis.gui.tabRunsTimes import tabRunsTimes
 
   
 
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     tabRaceInfo.Init()
     tabCategories.Init()
     tabUsers.Init()
-    tabRunTimes.Init()    
+    tabRunsTimes.Init()    
     
     tabAlltags.Update()
     tabTags.Update()
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     tabRaceInfo.Update()
     tabCategories.Update()
     tabUsers.Update()
-    tabRunTimes.Update()    
+    tabRunsTimes.Update()    
         
     appWindow.show()    
     sys.exit(app.exec_())

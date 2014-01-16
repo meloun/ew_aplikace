@@ -148,6 +148,7 @@ class TabRaceSettings():
         
         
     def Update(self, mode = UPDATE_MODE.all):
+                
         """ TIMING SETTINGS"""
         
         timing_settings_get = dstore.Get("timing_settings", "GET")

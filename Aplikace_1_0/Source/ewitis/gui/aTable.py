@@ -471,6 +471,8 @@ class myTable():
             
             
     def Update(self, parameter = None, value = None, selectionback = True):                        
+        
+        print "update table", self.name
                                     
         #get row-selection
         if(selectionback==True):

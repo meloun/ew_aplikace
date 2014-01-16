@@ -52,6 +52,18 @@ class Bars():
         Ui().aEnableCommunication.setEnabled(not state)
         Ui().aDisableCommunication.setEnabled(state)
         
+        #
+        timing_settings_get = dstore.Get("timing_settings", "GET")
+        Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
+        if timing_settings_get['measurement_state']== MeasurementState.not_active:
+            Ui().statusbar_msg.setStyleSheet("background:red;")                    
+        elif timing_settings_get['measurement_state']== MeasurementState.prepared:
+            Ui().statusbar_msg.setStyleSheet("background:orange;")                    
+        elif timing_settings_get['measurement_state']== MeasurementState.time_is_running:
+            Ui().statusbar_msg.setStyleSheet("background:green;")
+        elif timing_settings_get['measurement_state']== MeasurementState.finished:
+            Ui().statusbar_msg.setStyleSheet("background:red;")
+        
 
     #########    
     # SLOTS

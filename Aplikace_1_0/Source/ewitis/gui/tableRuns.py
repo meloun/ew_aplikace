@@ -66,10 +66,11 @@ class Runs(myTable):
                 
         #set default sorting
         self.gui['view'].sortByColumn(0, QtCore.Qt.DescendingOrder)
-    
-        
+            
         #MODE EDIT/REFRESH        
-        self.system = 0                       
+        self.system = 0
+        
+        self.run_id = 0                       
                                
         #set selection to first row
         self.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)                
@@ -103,10 +104,12 @@ class Runs(myTable):
     #=======================================================================    
     # function for update table TIMES according to selection in RUNS
     def updateTimes(self):         
-                         
+
+        print "UT"
+                                 
         #get index of selected ID (from tableRuns)         
-        rows = self.gui['view'].selectionModel().selectedRows() #default collumn = 0
-                                      
+        rows = self.gui['view'].selectionModel().selectedRows() #default collumn = 0        
+                                                              
         #update table times with run_id
         try:             
             #ziskani id z vybraneho radku                                         
@@ -115,7 +118,9 @@ class Runs(myTable):
             #get TIMES from database & add them to the table                        
             tableTimes.Update(run_id = self.run_id)                                     
         except:
-            print "I: Times: nelze aktualizovat! id:", self.run_id        
+            print "I: Times: nelze aktualizovat! id:", self.run_id
+        
+        print "Rid",self.run_id        
         
     # REMOVE ROW               
     def sDelete(self):

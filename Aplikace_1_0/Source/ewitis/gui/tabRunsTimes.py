@@ -32,7 +32,7 @@ class ActionToolbar():
         QtCore.QObject.connect(Ui().aDisableTagsReading, QtCore.SIGNAL("triggered()"), self.sDisableScanTags)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
         
-    def Update(self, state = None):            
+    def Update(self, state = None):                
                 
         if(state == None):            
             state = Ui().aActionsEnable.isChecked()       
@@ -121,4 +121,4 @@ class ActionToolbar():
         dstore.Set("tags_reading", 0x00, "SET")
     
 actionToolbar = ActionToolbar()
-tabRunTimes = MyTab(tables = [tableRuns, tableTimes], items = [actionToolbar,])  
+tabRunsTimes = MyTab(tables = [tableRuns, tableTimes], items = [actionToolbar,])  
