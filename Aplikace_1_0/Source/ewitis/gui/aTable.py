@@ -32,7 +32,7 @@ class myTable():
         self.TABLE_COLLUMN_DEF = getattr(DEF_COLUMN,  self.name.upper())['table']  
         self.EXPORT_COLLUMN_DEF  = getattr(DEF_COLUMN,  self.name.upper())['table']       
         
-    def InitGui(self):
+    def InitGui(self, sImport = True):
         
         #============        
         # GUI
@@ -49,8 +49,11 @@ class myTable():
         self.gui['add'] = getattr(Ui(), self.name+"Add") #Ui().PointsAdd
         self.gui['remove'] = getattr(Ui(), self.name+"Remove")# Ui().PointsRemove
         self.gui['export'] = getattr(Ui(), self.name+"Export") #Ui().PointsExport
-        self.gui['export_www'] = None
-        self.gui['import'] = None #getattr(Ui(), self.name+"Import") #Ui().PointsImport 
+        self.gui['export_www'] = None        
+        try:
+            self.gui['import'] = getattr(Ui(), self.name+"Import") #Ui().PointsImport
+        except AttributeError:
+            self.gui['import'] = None         
         self.gui['delete'] = getattr(Ui(), self.name+"Delete") #Ui().PointsDelete
         
         #COUNTER
@@ -237,14 +240,14 @@ class myTable():
             uiAccesories.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
                             
     def sImport(self):
-        """import"""                                   
+        """import"""                                         
                                            
         #gui dialog        
         #filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        filename = uiAccesories.getOpenFileName("Import CSV to table "+self.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = uiAccesories.getOpenFileName("Import CSV to table "+self.name,"dir_import_csv","Csv Files (*.csv)", self.name+".csv")                
         
         #cancel or close window
-        if(filename == ""):                 
+        if(filename == ""):                        
             return        
                   
         #IMPORT CSV TO DATABASE
@@ -252,7 +255,7 @@ class myTable():
             
         #get sorted keys
         keys = []
-        for list in sorted(self.params.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
+        for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
             keys.append(list[0])
             
         #create csv        
@@ -265,7 +268,8 @@ class myTable():
             return
         
         #check csv file format - wrong format                                
-        header = rows.pop(0)
+        #header = rows.pop(0)
+        header = aux_csv.header()
         for i in range(3): 
             if not(header[i] in keys):
                 uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
@@ -277,10 +281,9 @@ class myTable():
         #adding records to DB                        
         for row in rows:                                                                                                                                    
             #try:
-                #add 1 record
-            importRow = dict(zip(keys, row)) 
-            dbRow = self.model.import2dbRow(importRow)                     
-            if( db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
+                #add 1 record            
+            dbRow = self.model.import2dbRow(row)                     
+            if(db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
                 state['ok'] += 1
             else:            
                 state['ko'] += 1 #increment errors for error message
@@ -315,7 +318,7 @@ class myTable():
                 
         #get filename, gui dialog         
         #filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        filename = uiAccesories.myQFileDialog.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv")                
         if(filename == ""):
             return              
         
@@ -395,7 +398,7 @@ class myTable():
             
             #get table as lists; save into file in csv format
             #print self.proxy_model.header()                 
-            aux_csv.save(self.proxy_model.lists(), keys = self.proxy_model.header()) 
+            aux_csv.save(self.proxy_model.lists(), self.proxy_model.header()) 
         
         #FROM DB
         elif(source == 'db'):

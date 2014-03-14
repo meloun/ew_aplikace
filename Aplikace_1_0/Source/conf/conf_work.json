@@ -6,12 +6,13 @@
         "permanent": true,
         "name": "order evaluation"
     },
-    "onelap_race": {
+    "race_name": {
         "GET_SET": {
-            "value": 0
+            "changed": false,
+            "value": "Formula Student 2013"
         },
         "permanent": true,
-        "name": "onelap race"
+        "name": "race_name"
     },
     "rfid": {
         "GET_SET": {
@@ -26,9 +27,15 @@
         },
         "permanent": true
     },
+    "starttime_evaluation": {
+        "GET_SET": {
+            "value": 0
+        },
+        "permanent": true
+    },
     "points": {
         "GET_SET": {
-            "changed": true,
+            "changed": false,
             "value": {
                 "table": 2,
                 "minimum": 0,
@@ -41,18 +48,18 @@
     },
     "export": {
         "GET_SET": {
-            "changed": true,
+            "changed": false,
             "value": {
                 "best_laptime": 0,
                 "points_categories": 0,
-                "option_4_name": "o4",
                 "club": 2,
                 "laps": 0,
                 "option_2_name": "o2",
                 "gap": 0,
-                "option_3_name": "o3",
+                "option_4_name": "o4",
                 "laptime": 0,
                 "option_1_name": "o1",
+                "option_3_name": "o3",
                 "year": 0,
                 "option_2": 0,
                 "option_3": 0,
@@ -65,13 +72,12 @@
         "permanent": true,
         "name": "export"
     },
-    "race_name": {
+    "onelap_race": {
         "GET_SET": {
-            "changed": true,
-            "value": "Formula Student 20134"
+            "value": 0
         },
         "permanent": true,
-        "name": "race_name"
+        "name": "onelap race"
     },
     "additional_info": {
         "GET_SET": {

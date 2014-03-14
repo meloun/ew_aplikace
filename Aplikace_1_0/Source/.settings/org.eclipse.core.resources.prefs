@@ -1,4 +1,4 @@
-#Thu Jan 16 19:39:52 CET 2014
+#Mon Feb 17 21:15:52 CET 2014
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -9,6 +9,7 @@ encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8
 encoding//ewitis/exports/ewitis_html.py=utf-8
 encoding//ewitis/gui/TimesSlots.py=utf-8
+encoding//ewitis/gui/TimesStartTimes.py=utf-8
 encoding//ewitis/gui/TimesUtils.py=utf-8
 encoding//ewitis/gui/Ui.py=utf-8
 encoding//ewitis/gui/UiAccesories.py=utf-8
@@ -45,12 +46,15 @@ encoding//libs/datastore/permanent_datastore.py=utf-8
 encoding//libs/db/_db_json.py=utf-8
 encoding//libs/db/db_json.py=utf-8
 encoding//libs/db_csv/db_csv.py=utf-8
+encoding//libs/db_csv/db_csv2.py=utf-8
+encoding//libs/db_csv/pd.py=utf-8
 encoding//libs/file/file.py=utf-8
 encoding//libs/html/html.py=utf-8
 encoding//libs/html/htmltags.py=utf-8
 encoding//libs/log/log.py=utf-8
 encoding//libs/myqt/gui.py=utf-8
 encoding//libs/myqt/mydialogs.py=utf-8
+encoding//libs/pandas/pandas_sql_tests.py=utf-8
 encoding//libs/pyuic_export/wrapper.py=utf-8
 encoding//libs/sqlite/sqlite.py=utf-8
 encoding//libs/test/cStringIO.py=utf-8

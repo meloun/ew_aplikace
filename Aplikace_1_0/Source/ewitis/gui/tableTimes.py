@@ -27,6 +27,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
+import ewitis.gui.TimesStartTimes as TimesStarts
 
 
 '''
@@ -38,13 +39,12 @@ F12 - direct WWW export
 '''        
 class TimesModel(myModel):
     def __init__(self, table):                        
-        myModel.__init__(self, table)
-                    
-        #add utils function
-        #self.utils = TimesUtils.TimesUtils()
+        myModel.__init__(self, table)                
         
         #
-        self.starts = TimesUtils.TimesStarts()
+        #self.starts = TimesUtils.TimesStarts()
+        self.starts2 = TimesStarts.TimesStarts()
+        
         self.order = TimesUtils.TimesOrder()
         self.lap = TimesUtils.TimesLap()
         self.laptime = TimesUtils.TimesLaptime()
@@ -190,13 +190,18 @@ class TimesModel(myModel):
         if(dstore.Get("user_actions") == 0):                              
         
             #print "radek",item.row()
+            
+            #get changed row
             tabRow = self.row_dict(item.row())
             dbRow = self.table2dbRow(tabRow, item)
-            dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
+                        
             #get DB-USER                  
-            if(dbRow == None):
-                uiAccesories.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                
+            dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
+            
+            if(dbRow == None):                
+                #osetreno uz v table2row, zakomentovavam # uiAccesories.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                              
                 return None
+                
                 
             if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):
                
@@ -205,16 +210,18 @@ class TimesModel(myModel):
                    - startovací buňky
                    - nulového času'''                                  
                 
-                if(int(tabRow['cell']) == 1):                            
+                #startovací buňka a start time via category
+                if(int(tabRow['cell']) == 1) and (dstore.Get("starttime_evaluation") == StarttimeEvaluation.VIA_CATEGORY):                                                              
                     uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
                     self.Update()       
-                    return
-                                                                                                
+                    return                                                                                                
 #                elif(tabRow['time'] == '00:00:00,00'):
 #                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
 #                   self.update()
 #                   return
+
             elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):
+                
                 '''ZMĚNA STATUSu'''
                 '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dnq'                                
                    - tento state se zapíše k danému uživately => users.state 
@@ -279,8 +286,7 @@ class TimesModel(myModel):
         #1to1 keys, just copy        
         dbTime = myModel.table2dbRow(self, tabTime, item)
                 
-        '''RUN_ID'''
-        #if(self.showall):
+        '''RUN_ID'''        
         if(dstore.Get('show')['alltimes'] == 2):
             '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
             aux_dbtime = db.getParId("times",tabTime['id'])            
@@ -316,9 +322,11 @@ class TimesModel(myModel):
             #tabTime['name'] = dbUser['name'] +' ' + dbUser['first_name']                        
             
             '''TEST if is here enought START-TIMES'''                        
-            nr_start = dbCategory['start_nr']            
+            nr_start = dbCategory['start_nr']
+            
             try:                                
-                aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
+                #aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
+                aux_start_time = self.starts2.Get(nr_start)               
             except IndexError:                        
                 uiAccesories.showMessage(self.table.name+": Update error", str(nr_start)+".th start-time is necessary for users from this category!")
                 return None
@@ -348,9 +356,11 @@ class TimesModel(myModel):
         if(tabTime['cell'] == 1):                            
             #toDo: je tohle nutné? start_time se nikde nepoužije
             try:                                         
-                start_time = self.starts.GetFirst(dbTime['run_id'])
+                #start_time = self.starts.GetFirst(dbTime['run_id'])
+                start_time = self.starts2.GetFirst(dbTime['run_id'])
             except (TypeError,KeyError):            
-                start_time = self.starts.GetDefault()                
+                #start_time = self.starts.GetDefault()                
+                start_time = self.starts2.GetDefault()                
         else:
             '''čas může být v tabulce None, třeba pokud nemá všechny startovací běhy k dispozici
                    potom se čas naupdatuje, nechává se současný v databázi'''
@@ -361,11 +371,13 @@ class TimesModel(myModel):
                 tabUser = tableUsers.getTabUserParNr(tabTime['nr'])                            
                 category = tableCategories.getDbCategoryParName(tabUser['category'])                
                 try:                                        
-                    start_time = self.starts.Get(dbTime['run_id'], category['start_nr'])                    
+                    #start_time = self.starts.Get(dbTime['run_id'], category['start_nr'])                    
+                    start_time = self.starts2.Get(category['start_nr'])                    
                 except TypeError:
                     '''žádný startovací čas => vezmi default (1.čas vůbec)'''                    
-                    start_time = self.starts.GetFirst(dbTime['run_id']) 
-                                
+                    #start_time = self.starts.GetFirst(dbTime['run_id']) 
+                    start_time = self.starts2.GetFirst() 
+                                               
                 '''table-time => db-time'''
                 try:
                                         
@@ -442,17 +454,21 @@ class TimesModel(myModel):
         if(dbTime['time'] == None):            
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-            try:
-                '''toDo: misto try catch, Get bude vracet None'''                                   
-                start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
-            except:                         
-                print "E: Times: no startime nr.",start_nr,", for time", dbTime 
-                aux_rawtime = None
-                start_time = None
-                                                    
-            '''odecteni startovaciho casu a ulozeni do db'''
-            #print dbTime['time_raw']
-            dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']                                                       
+            if dbTime['cell'] != 0:
+                try:
+                    '''toDo: misto try catch, Get bude vracet None'''                                   
+                    #start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
+                    start_time = self.starts2.Get(start_nr)                                
+                    '''odecteni startovaciho casu a ulozeni do db'''
+                    if(dbTime['time_raw'] < start_time['time_raw']):
+                        print "E: Times: strartime started later as this time!", dbTime 
+                    else:                       
+                        dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+                except:                         
+                    print "E: Times: no startime nr.",start_nr,", for time", dbTime 
+            else:
+                dbTime['time'] = dbTime['time_raw']
+                                                                                                                           
             db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
             
                 
@@ -501,7 +517,8 @@ class TimesModel(myModel):
             self.run_id = run_id #update run_id
             
         #update start times        
-        self.starts.Update()        
+        #self.starts.Update()        
+        self.starts2.Update(self.run_id)        
                 
         ko_nrs = self.calc_update_times()
         

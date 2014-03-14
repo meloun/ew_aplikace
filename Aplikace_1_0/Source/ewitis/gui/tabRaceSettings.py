@@ -21,8 +21,10 @@ class TabRaceSettings():
         Constructor
         '''        
         print "tabRaceSettings: constructor"
-        self.init = False                     
-        #self.addSlots()
+        self.init = False
+        
+    def Init(self):                     
+        self.addSlots()
         
     def addSlots(self):
         ##tab RACE SETTINGS##
@@ -74,8 +76,12 @@ class TabRaceSettings():
 
         QtCore.QObject.connect(Ui().spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))
         #table TIMES
-        #order_evaluation
-        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
+        #order evaluation
+        #QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
+        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSet("order_evaluation", index, TAB.race_settings))
+        
+        #starttime evaluation
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSet("starttime_evaluation", index, TAB.race_settings))
                                                 
         #show
         QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
@@ -94,7 +100,7 @@ class TabRaceSettings():
         
     """                 """
     """ EXPLICIT SLOTS  """
-    """                 """            
+    """                 """           
     def sComboTimingMode(self, index):
         print "sComboTimingMode", index                
         '''získání a nastavení nové SET hodnoty'''
@@ -104,7 +110,7 @@ class TabRaceSettings():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'logic_mode')                                                                
-        self.Update(TAB.device, UPDATE_MODE.gui)
+        self.Update(UPDATE_MODE.gui)
     
     
     def sFilterTagtime(self, value):
@@ -116,7 +122,7 @@ class TabRaceSettings():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'filter_tagtime')                                                                
-        self.Update(TAB.device, UPDATE_MODE.gui)
+        self.Update(UPDATE_MODE.gui)
     
     def sFilterMinlaptime(self, value):
         print "sFilterMinlaptime", value
@@ -127,7 +133,7 @@ class TabRaceSettings():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
-        self.Update(TAB.device, UPDATE_MODE.gui)
+        self.Update(UPDATE_MODE.gui)
         
     def sFilterMaxlapnumber(self, value):
         print "sFilterMaxlapnumber", value
@@ -138,7 +144,7 @@ class TabRaceSettings():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
-        self.Update(TAB.device, UPDATE_MODE.gui)
+        self.Update(UPDATE_MODE.gui)
 
     def sComboOrderEvaluation(self, index):
         #print "sComboOrderEvaluation", index                                                               
@@ -241,6 +247,9 @@ class TabRaceSettings():
         ##TIMES##
         #order evaluation
         Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get("order_evaluation"))            
+        #starttime evaluation
+        #print "start eval",dstore.Get("starttime_evaluation")
+        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("starttime_evaluation"))            
         
         #show
         Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])

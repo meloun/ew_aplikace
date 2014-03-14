@@ -22,6 +22,8 @@ class sqlite_db(object):
         
     def hallo(self):
         print "hallo"
+    def getDb(self):
+        return self.db
         
     def cursor2list(self, cursor):
         mylist = []

@@ -103,9 +103,7 @@ class Runs(myTable):
     # UPDATE TIMES
     #=======================================================================    
     # function for update table TIMES according to selection in RUNS
-    def updateTimes(self):         
-
-        print "UT"
+    def updateTimes(self):                 
                                  
         #get index of selected ID (from tableRuns)         
         rows = self.gui['view'].selectionModel().selectedRows() #default collumn = 0        
@@ -118,9 +116,7 @@ class Runs(myTable):
             #get TIMES from database & add them to the table                        
             tableTimes.Update(run_id = self.run_id)                                     
         except:
-            print "I: Times: nelze aktualizovat! id:", self.run_id
-        
-        print "Rid",self.run_id        
+            print "I: Times: nelze aktualizovat! id:", self.run_id                    
         
     # REMOVE ROW               
     def sDelete(self):

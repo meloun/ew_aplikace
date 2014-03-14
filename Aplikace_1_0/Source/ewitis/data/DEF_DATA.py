@@ -30,6 +30,8 @@ class Languages:
     CZECH, ENGLISH = range(0,2)    
 class OrderEvaluation:
     RACE, SLALOM = range(0,2)    
+class StarttimeEvaluation:
+    VIA_CATEGORY, VIA_USER = range(0,2)    
     
 
 DEF_DATA = {
@@ -81,6 +83,9 @@ DEF_DATA = {
         "order_evaluation"   : {"name"     : "order evaluation",
                                 "permanent": True,
                                 "GET_SET"  : {"value"   : OrderEvaluation.SLALOM}  
+                               },
+        "starttime_evaluation": {"permanent": True,
+                                "GET_SET"  : {"value"   : StarttimeEvaluation.VIA_CATEGORY}  
                                },
         "onelap_race"        : {"name"     : "onelap race",
                                 "permanent": True,
