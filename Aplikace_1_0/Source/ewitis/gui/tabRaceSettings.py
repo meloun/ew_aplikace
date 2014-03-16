@@ -267,5 +267,6 @@ class TabRaceSettings():
         Ui().spinTimesViewLimit.setValue(dstore.Get("times_view_limit"))
         
         self.init = True
+        return True
     
 tabRaceSettings = TabRaceSettings() 

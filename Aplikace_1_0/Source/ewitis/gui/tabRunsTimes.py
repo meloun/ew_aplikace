@@ -72,6 +72,7 @@ class ActionToolbar():
         
         #clear database
         Ui().aClearDatabase.setEnabled(state)
+        return True
     
     """        """
     """ SLOTS  """

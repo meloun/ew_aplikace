@@ -509,6 +509,7 @@ class myTable():
         #update db couner
         self.updateDbCounter()
         #print "db counter:",self.params.name, dstore.Get("count")
+        return True
           
                 
         

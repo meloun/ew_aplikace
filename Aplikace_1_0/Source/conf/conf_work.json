@@ -29,7 +29,7 @@
     },
     "starttime_evaluation": {
         "GET_SET": {
-            "value": 0
+            "value": 1
         },
         "permanent": true
     },
@@ -54,19 +54,19 @@
                 "points_categories": 0,
                 "club": 2,
                 "laps": 0,
-                "option_2_name": "o2",
+                "year": 0,
                 "gap": 0,
                 "option_4_name": "o4",
                 "laptime": 0,
-                "option_1_name": "o1",
                 "option_3_name": "o3",
-                "year": 0,
+                "option_4": 0,
+                "option_2_name": "o2",
                 "option_2": 0,
                 "option_3": 0,
                 "option_1": 0,
                 "points_race": 0,
                 "points_groups": 0,
-                "option_4": 0
+                "option_1_name": "o1"
             }
         },
         "permanent": true,

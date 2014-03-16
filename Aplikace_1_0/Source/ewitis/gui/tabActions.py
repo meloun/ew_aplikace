@@ -106,6 +106,8 @@ class TabActions():
             Ui().pushEnableScanTags.setEnabled(False)
             Ui().pushDisableScanTags.setEnabled(False)
             
+        return True
+            
 
 
         

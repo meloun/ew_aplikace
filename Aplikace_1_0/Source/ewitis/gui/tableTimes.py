@@ -189,7 +189,7 @@ class TimesModel(myModel):
                 
         if(dstore.Get("user_actions") == 0):                              
         
-            #print "radek",item.row()
+            #print "radek",item.row()            
             
             #get changed row
             tabRow = self.row_dict(item.row())
@@ -237,12 +237,7 @@ class TimesModel(myModel):
                 elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
                     uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
                     return
-                                                                                                                                                                                                     
-                #convert sqlite row to dict
-                #dbUser2 = {}
-                #for key in dbUser.keys():
-                #    dbUser2[key] = dbUser[key]
-                    
+                                                                                                                                                                                                                    
                 dbUser = db.row2dict(dbUser)                
                 dbUser['status'] = tabRow['status']
                                 
@@ -255,7 +250,9 @@ class TimesModel(myModel):
                                                                            
             ###################
             # MODEL CHANGED
-            ###################            
+            ###################
+            
+            #zápis do db + commit            
             myModel.sModelChanged(self, item)        
 
                     
@@ -275,6 +272,8 @@ class TimesModel(myModel):
 
                 
     def table2dbRow(self, tabTime, item = None): 
+        
+        start_time = None
                                             
         #get selected id
         #try:                     
@@ -283,16 +282,11 @@ class TimesModel(myModel):
         #except:
         #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
             
-        #1to1 keys, just copy        
-        dbTime = myModel.table2dbRow(self, tabTime, item)
+        '''0. 1to1 keys, just copy - jen id a cell'''        
+        dbTime = myModel.table2dbRow(self, tabTime, item)        
                 
-        '''RUN_ID'''        
-        if(dstore.Get('show')['alltimes'] == 2):
-            '''get time['run_id'] from DB, , in showall-mode i dont know what run is it'''            
-            aux_dbtime = db.getParId("times",tabTime['id'])            
-            dbTime['run_id'] = aux_dbtime['run_id']            
-        else:
-            dbTime['run_id'] = self.run_id
+        '''1. RUN_ID'''
+        dbTime['run_id'] = self.run_id
                         
         '''first start time? => cant be updated
             toDo:asi by za určitých okolností měl jít'''       
@@ -300,7 +294,7 @@ class TimesModel(myModel):
 #            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
 #            return None        
         
-        '''USER NR => USER ID'''                        
+        ''' 1. USER NR => USER ID'''                        
         if(int(tabTime['nr']) == 0):
             dbTime['user_id'] = 0                     
         else:                                                
@@ -317,23 +311,10 @@ class TimesModel(myModel):
                 return None
             
             '''při změně čísla nejsou v tabTime správné user údaje'''
-            '''toDo:sloučit name a first name'''
+            '''toDo: sloučit name a first name'''
             #tabTime['category'] = dbCategory['name']
-            #tabTime['name'] = dbUser['name'] +' ' + dbUser['first_name']                        
-            
-            '''TEST if is here enought START-TIMES'''                        
-            nr_start = dbCategory['start_nr']
-            
-            try:                                
-                #aux_start_time = self.starts.Get(dbTime['run_id'], nr_start)
-                aux_start_time = self.starts2.Get(nr_start)               
-            except IndexError:                        
-                uiAccesories.showMessage(self.table.name+": Update error", str(nr_start)+".th start-time is necessary for users from this category!")
-                return None
-            except:
-                uiAccesories.showMessage(self.table.name+": Update error", "Cant find start time for this category.")
-                return None
-                
+            #tabTime['name'] = dbUser['name'] +' ' + dbUser['first_name']            
+                                                
             ''' get user id'''
             dbTime['user_id'] = tableUsers.getIdOrTagIdParNr(tabTime['nr'])            
                         
@@ -342,54 +323,60 @@ class TimesModel(myModel):
                 uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
             
-            #in onelap race user can have ONLY 1 TIME
-            #if(dstore.Get('onelap_race') == True):
-            #    if(self.lap.GetLaps(dbTime) != 0):
-            #        self.params.showmessage(self.params.name+": Update error", "This user has already time!")
-            #        return None 
+        '''2. START-TIME'''
+        if(int(dbTime['cell']) == 1) or (int(tabTime['nr']) == 0):            
+            start_time = self.starts2.GetFirst()
+        else:
+            try:            
+                if(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_CATEGORY):
+                    start_time = self.starts2.Get(dbCategory['start_nr'])                    
+                elif(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_USER):
+                    #starttime se počítá z user_id(odvozeno od čísla v tabRow) a timeraw (převádím na číslo)                
+                    tabTimeraw = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])                  
+                    start_time = self.starts2.GetLast({"user_id": dbUser['id'], "time_raw": tabTimeraw})                                 
+                else:
+                    print "E: Fatal Error: Starttime, "
+                    return None                                   
+            except IndexError:                        
+                uiAccesories.showMessage(self.table.name+": Update error", str(dbCategory['start_nr'])+".th start-time is necessary for users from this category!")
+                return None
+            except:        
+                '''žádný startovací čas => vezmi default (1.čas vůbec)'''                            
+                uiAccesories.showMessage(self.table.name+": Update error", "Cant find start time for this category.")                
+                return None            
+        
+        #in onelap race user can have ONLY 1 TIME
+        #if(dstore.Get('onelap_race') == True):
+        #    if(self.lap.GetLaps(dbTime) != 0):
+        #        self.params.showmessage(self.params.name+": Update error", "This user has already time!")
+        #        return None 
                             
         ''' TIME '''                                                            
         #try:                                                         
         #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
                
         '''get start-time'''        
-        if(tabTime['cell'] == 1):                            
-            #toDo: je tohle nutné? start_time se nikde nepoužije
-            try:                                         
-                #start_time = self.starts.GetFirst(dbTime['run_id'])
-                start_time = self.starts2.GetFirst(dbTime['run_id'])
-            except (TypeError,KeyError):            
-                #start_time = self.starts.GetDefault()                
-                start_time = self.starts2.GetDefault()                
-        else:
+        if(tabTime['cell'] != 1):
             '''čas může být v tabulce None, třeba pokud nemá všechny startovací běhy k dispozici
                    potom se čas naupdatuje, nechává se současný v databázi'''
             '''toDo: nevracet string ale pravou hodnotu z getTableRow'''
-            if(tabTime['time'] != None) and (tabTime['time'] != u''):
+            '''table-time => db-time'''
+            if(item.column() == self.table.TABLE_COLLUMN_DEF['time']['index']):
+            #if(tabTime['time'] != None) and (tabTime['time'] != u''):
                 
                 ''' z categories vezmu start_nr a pak jdu do start-times pro start-time'''                
                 tabUser = tableUsers.getTabUserParNr(tabTime['nr'])                            
-                category = tableCategories.getDbCategoryParName(tabUser['category'])                
-                try:                                        
-                    #start_time = self.starts.Get(dbTime['run_id'], category['start_nr'])                    
-                    start_time = self.starts2.Get(category['start_nr'])                    
-                except TypeError:
-                    '''žádný startovací čas => vezmi default (1.čas vůbec)'''                    
-                    #start_time = self.starts.GetFirst(dbTime['run_id']) 
-                    start_time = self.starts2.GetFirst() 
+                category = tableCategories.getDbCategoryParName(tabUser['category'])
                                                
-                '''table-time => db-time'''
-                try:
-                                        
-                    if(item.column() == self.table.TABLE_COLLUMN_DEF['time']['index']):
-                        '''změna času=>změna času v db'''            
-                        dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
-                    
-                    '''počítaný čas se vždy maže a spočte se při updatu znova'''    
-                    dbTime['time'] = None
-                    
+                ''' změna času => změna času v db '''            
+                try:                                        
+                    dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
                 except TimesUtils.TimeFormat_Error:
                     uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")                
+                
+        '''počítaný čas se vždy maže a spočte se při updatu znova'''         
+        dbTime['time'] = None
+                
                 
             
         
@@ -454,18 +441,24 @@ class TimesModel(myModel):
         if(dbTime['time'] == None):            
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-            if dbTime['cell'] != 0:
-                try:
-                    '''toDo: misto try catch, Get bude vracet None'''                                   
-                    #start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
-                    start_time = self.starts2.Get(start_nr)                                
-                    '''odecteni startovaciho casu a ulozeni do db'''
-                    if(dbTime['time_raw'] < start_time['time_raw']):
-                        print "E: Times: strartime started later as this time!", dbTime 
-                    else:                       
-                        dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
-                except:                         
-                    print "E: Times: no startime nr.",start_nr,", for time", dbTime 
+            if dbTime['cell'] != 1:
+                #try:
+                '''toDo: misto try catch, Get bude vracet None'''             
+                if(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_CATEGORY):
+                    start_time = self.starts2.Get(start_nr)                    
+                elif(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_USER):
+                    start_time = self.starts2.GetLast(dbTime)                    
+                else:
+                    print "E: Fatal Error: Starttime, "
+                    return None                                
+                                                 
+                '''odecteni startovaciho casu a ulozeni do db'''
+                if(dbTime['time_raw'] < start_time['time_raw']):
+                    print "E: Times: strartime started later as this time!", dbTime 
+                else:                       
+                    dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+                #except:                         
+                #    print "E: Times: no startime nr.",start_nr,", for time", dbTime 
             else:
                 dbTime['time'] = dbTime['time_raw']
                                                                                                                            
@@ -501,54 +494,39 @@ class TimesModel(myModel):
                     start_nr = tabCategory['start_nr']        
                                                         
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                #try:                
-                self.calc_update_time(dbTime, start_nr)
-                #except:
-                #    ret_ko_times.append(dbTime['id'])
+                try:                
+                    self.calc_update_time(dbTime, start_nr)
+                except:
+                    ret_ko_times.append(dbTime['id'])
                            
         return ret_ko_times
     
     #UPDATE TABLE        
     def Update(self, run_id = None):                  
         
-        #print self.params.name+": model update (t)"
+        ret = True
         
         if(run_id != None):                    
             self.run_id = run_id #update run_id
             
-        #update start times        
-        #self.starts.Update()        
+        #update start times      
         self.starts2.Update(self.run_id)        
                 
-        ko_nrs = self.calc_update_times()
-        
-        if(ko_nrs != []):
-            print "E:",self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs)
+        ko_nrs = self.calc_update_times()        
+        if(ko_nrs != []):            
+            uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+            ret = False
             
         ko_nrs = self.update_laptimes()        
         if(ko_nrs != []):
-            print "E:",self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs)
+            uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
+            ret = False
             
         db.commit()
-            
-        
-        
-        #update times        
-        if dstore.Get('show')['alltimes'] == 2:                        
-            #get run ids
-            conditions = []
-            ids = tableRuns.proxy_model.ids()
-                                            
-            #create list of lists, [["id",2],["id",6],..]
-            for id in ids:
-                conditions.append(['run_id', id])                                                      
-                                         
-            #update all times             
-            myModel.Update(self, conditions = conditions, operation = 'OR')            
-        else:            
-            #update for selected run                    
-            myModel.Update(self, "run_id", self.run_id)
-        #db.commit()            
+                          
+        myModel.Update(self, "run_id", self.run_id)
+        #db.commit()        
+        return ret            
                                                                                        
 
 class TimesProxyModel(myProxyModel):
@@ -1206,12 +1184,13 @@ class Times(myTable):
     #toDo: sloucit s myModel konstruktorem        
     def Update(self, run_id = None):
         ztime = time.clock()                      
-        self.model.Update(run_id = run_id)                        
+        ret = self.model.Update(run_id = run_id)                        
         print "I: Times: update:",time.clock() - ztime,"s"
         #myModel.myTable.Update(self)
         self.setColumnWidth()
         self.updateTabCounter()
         self.updateDbCounter()
+        return ret
             
 
     # REMOVE ROW      
@@ -1228,7 +1207,8 @@ class Times(myTable):
             
         #first start time? => cant be updated               
         #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
-        if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
+        #if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
+        if(int(id) == (self.starts2.GetFirst()['id'])):
             uiAccesories.showMessage(self.name+" Delete warning", "First start time cant be deleted!")
             return  
         

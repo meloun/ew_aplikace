@@ -160,7 +160,8 @@ class TabCells(MyTab):
         
     def Update(self, mode = UPDATE_MODE.all):
         for i in range(0,2):
-            self.cellgroups[i].Update()        
+            self.cellgroups[i].Update()
+        return True        
     
          
 tabCells = TabCells()

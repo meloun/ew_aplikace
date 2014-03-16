@@ -183,6 +183,8 @@ class TabDevice():
             Ui().comboLanguage.setCurrentIndex(aux_terminal_info['language'])            
             Ui().lineLanguage.setText(Ui().comboLanguage.currentText())                    
         else:            
-            Ui().lineLanguage.setText("- -")    
+            Ui().lineLanguage.setText("- -")
+            
+        return True    
         
 tabDevice = TabDevice()  

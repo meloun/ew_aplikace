@@ -59,7 +59,7 @@ class TabCommunication(MyTab):
             #vsb.setValue(vsb.maximum())            
             #Ui().textCommLog.ensureCursorVisible()            
         Ui().labelCommResponse.setText(aux_diagnostic["sendresponse"])
-
+        return True
         
     def CreateSlots(self):
         QtCore.QObject.connect(Ui().comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)

@@ -149,8 +149,9 @@ def sRefresh():
     #disable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
-    GetCurrentTab().Update(UPDATE_MODE.all)                       
-    uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
+    ret = GetCurrentTab().Update(UPDATE_MODE.all)    
+    if(ret == True):                       
+        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
     
     #enable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                        

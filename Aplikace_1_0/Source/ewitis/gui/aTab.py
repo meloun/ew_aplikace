@@ -23,14 +23,18 @@ class MyTab():
             
         
     def Update(self, mode = UPDATE_MODE.all):
+        ret1 = True
+        ret2 = True
         
         #update tables
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
             for table in self.tables:
-                table.Update()                                
+                ret1 = table.Update()                                
 
         #update gui                
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
             for item in self.items:
-                item.Update()
+                ret2 = item.Update()
+                        
+        return (ret1 and ret2)
                 
