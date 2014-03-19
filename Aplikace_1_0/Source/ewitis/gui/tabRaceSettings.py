@@ -78,15 +78,13 @@ class TabRaceSettings():
         #table TIMES
         #order evaluation
         #QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
-        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSet("order_evaluation", index, TAB.race_settings))
-        
-        #starttime evaluation
-        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSet("starttime_evaluation", index, TAB.race_settings))
+        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["order"], index, TAB.race_settings))                
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, TAB.race_settings))
                                                 
         #show
         QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
         QtCore.QObject.connect(Ui().checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["starttimes"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
+        #QtCore.QObject.connect(Ui().checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
         
         #additional info
         QtCore.QObject.connect(Ui().checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
@@ -148,7 +146,7 @@ class TabRaceSettings():
 
     def sComboOrderEvaluation(self, index):
         #print "sComboOrderEvaluation", index                                                               
-        dstore.Set("order_evaluation", index)                                                                                                    
+        dstore.SetItem("evaluation",['order'], index)                                                                                                    
         self.Update(UPDATE_MODE.gui)        
 
         
@@ -246,15 +244,15 @@ class TabRaceSettings():
             
         ##TIMES##
         #order evaluation
-        Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get("order_evaluation"))            
+        Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get('evaluation')['order'])            
         #starttime evaluation
-        #print "start eval",dstore.Get("starttime_evaluation")
-        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("starttime_evaluation"))            
+        #print "start eval",dstore.Get("evaluation")['starttime']
+        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])            
         
         #show
         Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])
         Ui().checkShowStartTimes.setCheckState(dstore.Get("show")["starttimes"])
-        Ui().checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
+        #Ui().checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
         
         #aditional info
         Ui().checkAInfoEnabled.setCheckState(dstore.Get("additional_info")['enabled'])

@@ -510,7 +510,7 @@ class TimesModel(myModel.myModel):
                 '''toDo: misto try catch, Get bude vracet None'''                                   
                 start_time = self.starts.Get(dbTime['run_id'], start_nr)                                
             except:                         
-                print "E: Times: no startime nr.",start_nr,", for time", dbTime 
+                print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
                 aux_rawtime = None
                 start_time = None
                                                     

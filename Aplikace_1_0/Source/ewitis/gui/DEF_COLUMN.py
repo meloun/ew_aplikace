@@ -26,7 +26,7 @@ RUNS['database'] = {
 """ table collumns """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "width": WIDTH_NUMBER_4DIGIT},                                
-                 "date"          :     {"index": 1,  "name": "date",        "width": 130},
+                 "date"          :     {"index": 1,  "name": "date",        "width": 100},
                  "name"          :     {"index": 2,  "name": "name",        "width": 100},                                
                  #"description"   :     {"index": 3,  "name": "description", "width":10}                                
                  }  

@@ -211,7 +211,7 @@ class TimesModel(myModel):
                    - nulového času'''                                  
                 
                 #startovací buňka a start time via category
-                if(int(tabRow['cell']) == 1) and (dstore.Get("starttime_evaluation") == StarttimeEvaluation.VIA_CATEGORY):                                                              
+                if(int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
                     uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
                     self.Update()       
                     return                                                                                                
@@ -328,9 +328,9 @@ class TimesModel(myModel):
             start_time = self.starts2.GetFirst()
         else:
             try:            
-                if(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_CATEGORY):
+                if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
                     start_time = self.starts2.Get(dbCategory['start_nr'])                    
-                elif(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_USER):
+                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                     #starttime se počítá z user_id(odvozeno od čísla v tabRow) a timeraw (převádím na číslo)                
                     tabTimeraw = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])                  
                     start_time = self.starts2.GetLast({"user_id": dbUser['id'], "time_raw": tabTimeraw})                                 
@@ -444,9 +444,9 @@ class TimesModel(myModel):
             if dbTime['cell'] != 1:
                 #try:
                 '''toDo: misto try catch, Get bude vracet None'''             
-                if(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_CATEGORY):
+                if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
                     start_time = self.starts2.Get(start_nr)                    
-                elif(dstore.Get('starttime_evaluation') == StarttimeEvaluation.VIA_USER):
+                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                     start_time = self.starts2.GetLast(dbTime)                    
                 else:
                     print "E: Fatal Error: Starttime, "
@@ -458,7 +458,7 @@ class TimesModel(myModel):
                 else:                       
                     dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
                 #except:                         
-                #    print "E: Times: no startime nr.",start_nr,", for time", dbTime 
+                #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
             else:
                 dbTime['time'] = dbTime['time_raw']
                                                                                                                            
@@ -912,8 +912,8 @@ class Times(myTable):
                 exportRows_Alltimes.append(exportRow[1])
                 exportHeader_Alltimes = exportRow[0] 
                 
-                if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
+                if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+                    (dstore.Get('evaluation')['order'] == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
                      
                     tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])                 
                     if (tabCategory[dbCGroup['label']] == 1):

@@ -173,15 +173,12 @@ class TimesOrder():
                 
         query = \
             " SELECT COUNT(times.id) FROM times" +\
-                " WHERE "
-                    
-        if(dstore.Get('show')['alltimes'] == 0):
-            query = query + \
-            " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"
+                " WHERE "                    
                 
                 
         query = query + \
-            " (times.user_id == " +str(dbTime['user_id'])+ ") AND "\
+            " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
+            " (times.user_id == " +str(dbTime['user_id'])+ ") AND "+\
             " (times.cell != 1)"
         
         
@@ -207,10 +204,10 @@ class TimesOrder():
         return self.IsUserTime(dbTime, self.IS_BEST_TIME)
     
     def IsToShow(self, dbTime):
-        if(dstore.Get('order_evaluation') == OrderEvaluation.RACE \
+        if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE \
            and self.IsLastUsertime(dbTime)):
             return True
-        elif(dstore.Get('order_evaluation') == OrderEvaluation.SLALOM \
+        elif(dstore.Get('evaluation')['order'] == OrderEvaluation.SLALOM \
              and self.IsBestUsertime(dbTime)):
             return True
         return False
@@ -265,14 +262,11 @@ class TimesOrder():
                 " INNER JOIN users ON times.user_id = users.id"
                 
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time']) + ")"
-            
-            if(dstore.Get('show')['alltimes'] == 0):
-                query_order = query_order + \
-                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
+                    " WHERE (times.time < " + str(dbTime['time']) + ")"            
                                     
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
+                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                         " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
             
             query_order = query_order + \
@@ -282,12 +276,12 @@ class TimesOrder():
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"
 
-            if(dstore.Get('order_evaluation') == OrderEvaluation.RACE):
+            if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE):
                 query_order = query_order + \
                         " HAVING count(*) == " + str(lap)                        
                     
             #if(dstore.Get('onelap_race') == 0) and (dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
-            if(dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            if(dstore.Get('evaluation')['order'] != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
                 
@@ -305,12 +299,9 @@ class TimesOrder():
                     
                 query_order = query_order + \
                         " WHERE"
-                        
-                if(dstore.Get('show')['alltimes'] == 0):
-                    query_order = query_order + \
-                            "(times.run_id=\""+str(dbTime['run_id'])+"\") AND"
                             
                 query_order = query_order + \
+                            "(times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                             " (times.user_id != " +str(dbTime['user_id'])+ ")"+\
                             " AND (times.user_id != 0 )"+\
                             " AND (times.time != 0 )"+\
@@ -330,14 +321,11 @@ class TimesOrder():
                 "SELECT user_id FROM times"
             
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time']) + ")"
-                        
-            if(dstore.Get('show')['alltimes'] == 0):
-                query_order = query_order + \
-                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"
+                    " WHERE (times.time < " + str(dbTime['time']) + ")"                        
 
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
+                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                     " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
                                 
             query_order = query_order + \
@@ -348,25 +336,22 @@ class TimesOrder():
             query_order = query_order + \
                     " GROUP BY user_id"
                 
-            if(dstore.Get('order_evaluation') == OrderEvaluation.RACE):
+            if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE):
                 query_order = query_order + \
                     " HAVING count(*) == " + str(lap)
         
             #if(dstore.Get('onelap_race') == 0) and (dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
-            if(dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+            if(dstore.Get('evaluation')['order'] != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
                 
                 query_order = query_order + \
                 " UNION "+\
                 " SELECT user_id FROM times" +\
-                    " WHERE"
-                    
-                if(dstore.Get('show')['alltimes'] == 0):
-                    query_order = query_order + \
-                    " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"
+                    " WHERE"                    
                                      
                 query_order = query_order +\
+                    " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                     " (times.user_id != 0)"+\
                     " AND (times.time != 0 )"+\
                     " AND (times.cell != 1 )"+\
@@ -423,13 +408,10 @@ class TimesLap():
         '''count of times - same race, same user, better time, exclude start time'''
         query = \
                 "SELECT COUNT(*) FROM times" +\
-                    " WHERE "
-                    
-        if(dstore.Get('show')['alltimes'] == 0):
-            query = query + \
-                " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"
+                    " WHERE "                
                     
         query = query + \
+                " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                 " (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
                 " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\
                 " AND (times.cell != 1)"
@@ -478,10 +460,7 @@ class TimesLaptime():
             return None 
         
         if dstore.Get("additional_info")['laptime'] == 0:
-            return None        
-        
-        if(dstore.Get('show')['alltimes'] == 2):
-            return None                         
+            return None                                       
         
         if(dbTime['time_raw'] == None):
             #print "laptime: neni time_raw", dbTime
@@ -503,11 +482,9 @@ class TimesLaptime():
         query = \
                 "SELECT time_raw FROM times" +\
                     " WHERE"
-        if(dstore.Get('show')['alltimes'] == 0):
-            query = query + \
-                    "(times.run_id ==" + str(dbTime['run_id'])+ ") AND"
                     
         query = query + \
+                    "(times.run_id ==" + str(dbTime['run_id'])+ ") AND"+\
                     " (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
                     " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\
                     " AND (times.cell != 1)"+\
@@ -530,10 +507,7 @@ class TimesLaptime():
             return None
         
         if dstore.Get("additional_info")['best_laptime'] == 0:
-            return None
-        
-        if(dstore.Get('show')['alltimes'] == 2):
-            return None         
+            return None              
                                
         if(dbTime['time_raw'] == None):            
             return None;

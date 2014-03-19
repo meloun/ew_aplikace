@@ -72,8 +72,9 @@ class UiAccesories(UiaDialogs):
                 return
                 
         dstore.SetItem(name, keys, value)
-        if callback != None:        
-            callback()
+        #self.updateTab(tab)
+        #if callback != None:      
+        #    callback()
 
 #instance
 uiAccesories = UiAccesories()  

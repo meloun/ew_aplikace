@@ -179,7 +179,7 @@ class myTable():
                  
     # CLEAR FILTER BUTTON -> CLEAR FILTER        
     def sFilterClear(self):    
-        self.params.gui['filter'].setText("")
+        self.gui['filter'].setText("")
                         
     # FILTER CHANGE -> CHANGE TABLE
     def sFilterRegExp(self):    

@@ -51,6 +51,7 @@ DEF_DATA = {
         "active_row"         : {"GET_SET"  : {"value":0}},
         
         
+        #tab Race Info
         "race_info"          : {"GET_SET"  : {"value": {
                                                 "limit_laps"      : 1, 
                                                 "limit_time"      : {"hours"             :99,
@@ -60,7 +61,16 @@ DEF_DATA = {
                                                                       }                                               
                                                 }
                                       }
-                        },                                     
+                        },
+        #tab RACE SETTINGS
+        "run_time"           : {"GET_SET"  : {
+                                      "value"   : 0,
+                                      "changed" : True
+                                      },                                  
+                       },        
+        #group timing setting: below
+                                    
+        #group timing setting: below                                             
         "race_name"          : {"name"     : "race_name",
                                 "permanent": True,
                                 "GET_SET"  : {
@@ -68,25 +78,22 @@ DEF_DATA = {
                                               "changed": True
                                               },
                                   
-                               },        
-        "run_time"           : {"GET_SET"  : {
-                                              "value"   : 0,
-                                              "changed" : True
-                                              },                                  
-                               },        
+                               },
+        "evaluation"         : {"permanent": True,
+                                "GET_SET"  : {"value": {
+                                                        "order" : OrderEvaluation.SLALOM, 
+                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY                                                                                                                                                      
+                                                        }
+                                              }
+                                },        
+        
         "rfid"               : {"name"     : "rfid",
                                 "permanent": True,
                                 "GET_SET"  : {"value"   : 0}  
                                },
         "tag_filter"         : {"permanent": True,
-                                "GET_SET"  : {"value"   : 2}},
-        "order_evaluation"   : {"name"     : "order evaluation",
-                                "permanent": True,
-                                "GET_SET"  : {"value"   : OrderEvaluation.SLALOM}  
-                               },
-        "starttime_evaluation": {"permanent": True,
-                                "GET_SET"  : {"value"   : StarttimeEvaluation.VIA_CATEGORY}  
-                               },
+                                "GET_SET"  : {"value"   : 2}},        
+
         "onelap_race"        : {"name"     : "onelap race",
                                 "permanent": True,
                                 "GET_SET"  : {"value": 0}  
