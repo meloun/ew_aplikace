@@ -183,13 +183,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             except:
                 pass #tento sloupec v tabulce neexistuje                             
         return dbRow
-    
-    def import2dbRow(self, importRow):
-        return importRow
-    
-    def table2exportRow(self, tableRow):
-        exportRow = []
-        return exportRow                        
+                          
         
     def getDefaultTableRow(self):
         """

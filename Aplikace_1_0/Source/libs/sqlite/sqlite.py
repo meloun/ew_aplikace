@@ -145,6 +145,11 @@ class sqlite_db(object):
         query = u"select max("+parameter+") from "+tablename        
         res = self.query(query)
         return res.fetchone()[0]
+    
+    def getCollumnNames(self, tablename):
+        query = u"select * from "+tablename        
+        res = self.query(query)
+        return list(map(lambda x: x[0], res.description))
 
     ###########
     # INSERT

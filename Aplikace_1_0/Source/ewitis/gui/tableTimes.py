@@ -567,19 +567,27 @@ class Times(myTable):
         self.gui['aDirectWwwExport'] = Ui().aDirectWwwExport
         self.gui['aDirectExportCategories'] = Ui().aDirectExportCategories 
         self.gui['aDirectExportLaptimes'] = Ui().aDirectExportLaptimes 
+        self.gui['times_db_export'] = Ui().TimesDbExport 
+        self.gui['times_db_import'] = Ui().TimesDbImport 
         
         
     def createSlots(self):
         
         #standart slots
         myTable.createSlots(self)
+                
+        #import table (db format)
+        QtCore.QObject.connect(self.gui['times_db_import'], QtCore.SIGNAL("clicked()"), lambda:myTable.sImport(self))
         
+        #export table (db format)
+        QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myTable.eDB, False))
         
         #button Recalculate
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
+        
          
         #export direct www
-        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), self.sExport_directWWW)
+        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myTable.eWWW, False))
         
         #export direct categories        
         if (self.gui['aDirectExportCategories'] != None):                                   
@@ -606,7 +614,7 @@ class Times(myTable):
                  
     
     ''''''                   
-    def tabRow2exportRow(self, tabRow, mode, status = 'finished'):                        
+    def tabRow2exportRow(self, tabRow, mode = myTable.eTOTAL, status = 'finished'):                        
                                                            
         exportRow = []
         exportHeader = []
@@ -626,7 +634,7 @@ class Times(myTable):
             tabUser = tableUsers.getTabUserParNr(tabRow['nr'])
             if tabUser['status'] != status:
                 print "export: zahazuju radek: status", tabRow
-                return None
+                return ([], [])
         
         if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
             exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
@@ -720,11 +728,12 @@ class Times(myTable):
                 exportRow.append(str(tabRow['points_cat']))                 
             elif(mode == Times.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
                 exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points']))                
+                exportRow.append(str(tabRow['points']))
+                
+        if exportRow == []:            
+            (exportHeader, exportRow) = myTable.tabRow2exportRow(self, tabRow, mode)                
         
-        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''
-        #print "exportRow: ", exportRow
-        #print "2:",exportRow                         
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
         return (exportHeader, exportRow)
 
                     
@@ -1147,15 +1156,12 @@ class Times(myTable):
         
         
         
-    def sExport(self):                      
-        import os        
+    def sExport(self):                              
         
-        col_nr_export = 'col_nr_export_raw'
+        print "I: ", self.name, ": export"
         
-        '''get filename, gui dialog, save path to datastore'''        
-        #filename =  self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv") 
-        filename =  uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv") 
-                                 
+        '''get filename, gui dialog, save path to datastore'''         
+        filename =  uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv")                                  
         if(filename == ""):
             return                            
 

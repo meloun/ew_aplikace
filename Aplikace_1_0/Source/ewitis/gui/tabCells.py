@@ -45,13 +45,29 @@ class CellGroup ():
         
     def CreateSlots(self):                
         QtCore.QObject.connect(self.checkbox, QtCore.SIGNAL("stateChanged(int)"), self.sCheckbox)
-        QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sSlot)
+        QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), self.sSlot)
         QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), self.sSlot)
 
     '''Slots'''        
     def sSlot(self, state=None):
         print "cellgroup" +str(self.nr)+": something happend - ", state
+    
+    def sComboCellTask(self, index):
+        print "sComboCellTask", index                
+        '''získání a nastavení nové SET hodnoty'''
+        aux_set_cells_info = {}
+        aux_set_cells_info["task"] = index                               
+        aux_set_cells_info["address"] = 0x01                               
+        aux_set_cells_info["fu1"] = 0x00                               
+        aux_set_cells_info["fu2"] = 0x00                               
+        aux_set_cells_info["fu3"] = 0x00                               
+        aux_set_cells_info["fu4"] = 0x00                               
+        dstore.Set("cells_info", aux_set_cells_info, "SET")            
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("timing_settings", 'logic_mode')                                                                
+        self.Update()
         
         
     def sCheckbox(self, state):
@@ -159,7 +175,7 @@ class TabCells(MyTab):
             self.cellgroups[i].CreateSlots()                            
         
     def Update(self, mode = UPDATE_MODE.all):
-        for i in range(0,2):
+        for i in range(0,1):
             self.cellgroups[i].Update()
         return True        
     

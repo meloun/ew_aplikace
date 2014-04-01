@@ -49,14 +49,14 @@ class TabActions():
         dstore.Set("enable_finishcell", 0x01, "SET")                                                               
     def sGenerateStarttime(self):
         print "A: Generate starttime"                                                                                                                            
-        dstore.Set("generate_starttime", 0x01, "SET")                                    
+        dstore.Set("generate_starttime", 0x00, "SET")                                    
     def sGenerateFinishtime(self):                                                        
         print "A: Generate finishtime"                                                                                                                            
         dstore.Set("generate_finishtime", 0x00, "SET")
     def sGenerateUserFinishtime(self):
         
         #dialog - get user nr
-        user_nr = self.showMessage("Generate Finish Time","User Nr: ", msgtype="input_integer", value = 0)                
+        user_nr = uiAccesories.showMessage("Generate Finish Time","User Nr: ", msgtype="input_integer", value = 0)                
         if user_nr == None:
             return
         #get user par nr
@@ -66,12 +66,12 @@ class TabActions():
         dstore.Set("generate_finishtime", tabUser['tag_id'], "SET")
                                    
     def sQuitTiming(self):
-        if (self.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+        if (uiAccesories.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
         print "A: Generate quit time"                                                                                                                                                                                            
         dstore.Set("quit_timing", 0x00, "SET")                   
     def sClearDatabase(self):
-        if (self.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
         print "A: Clear Database"                                                                                                                                                                                            
         dstore.Set("clear_database", 0x00, "SET")

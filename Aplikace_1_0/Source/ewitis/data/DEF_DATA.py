@@ -239,19 +239,18 @@ DEF_DATA = {
                                              "refresh_countdown": 0                                              
                                              },
                                },
-        "cell_info"          : {"name"    : "cell info", 
-                                "GET"     : {"value": {"address": 10,
-                                                       "baterry": 99,
-                                                       "status":  {"new error": True,
-                                                                   "cell on": True,
-                                                                   "battery empty": True,
-                                                                   "ping error": True,
-                                                                   "ack error": True,
-                                                                   "IR signal missinng": True},
+        "set_cell_info"      : {"name"    : "cell info", 
+                                "SET"     : {"value": {"address": None,
+                                                       "task": None,
+                                                       "fu1": None,
+                                                       "fu2": None,
+                                                       "fu3": None,
+                                                       "fu4": None
                                                        },
+                                             "changed": False
                                              },
                                },
-        "cells_info"         : {"name"    : "cell info", 
+        "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1
                                                            "battery": None,
@@ -259,20 +258,22 @@ DEF_DATA = {
                                                            "active": None,
                                                            "synchronized_once": None,
                                                            "synchronized": None,
+                                                           "address": 1,
                                                            "task": None,
                                                            "diagnostic1": None,
                                                            "diagnostic2": None
-                                                       },{ #cell 2
-                                                           "battery": None,
-                                                           "ir_signal": None,
-                                                           "active": None,
-                                                           "synchronized_once": None,
-                                                           "synchronized": None,
-                                                           "task": None,
-                                                           "diagnostic1": None,
-                                                           "diagnostic2": None
-                                                       },                                                       
-                                                       ]
+                                                       }                                              
+                                                       ],
+                                             "refresh_countdown": 0 ,
+                                             },
+                                "SET"     : {"value": {"address": None,
+                                                       "task": None,
+                                                       "fu1": None,
+                                                       "fu2": None,
+                                                       "fu3": None,
+                                                       "fu4": None
+                                                       },
+                                             "changed": False
                                              },
                                },
         "timing_settings"    : {"name"    : "logic timing_settings",                                

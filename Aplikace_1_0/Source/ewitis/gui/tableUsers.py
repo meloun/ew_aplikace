@@ -100,7 +100,7 @@ class UsersModel(myModel):
     
     def import2dbRow(self, importRow):                    
         #if 'category_id' in importRow:
-        #    del importRow['category_id']
+        #    del importRow['category_id']        
         tabCategory = tableCategories.getTabCategoryParName(importRow['category_id'])
         #print tabCategory
         importRow['category_id'] = tabCategory['id']

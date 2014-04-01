@@ -24,6 +24,7 @@ class Dstore(datastore.PermanentDatastore):
                 return True
         return False
     
+    
     def InitDiagnostic(self):
         self.SetItem("diagnostic", ["communication"], "")
         self.AddDiagnostic('Info', "Log cleared", 'black')

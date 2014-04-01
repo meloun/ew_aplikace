@@ -27,13 +27,17 @@ def unpack_data(command, data, senddata):
         
         #some sugar
         if aux_versions['hw1']== 'T':
-            aux_versions['hw1'] = 'Terminal'
+            aux_versions['hw1'] = 'Terminal'            
         elif aux_versions['hw1']== 'B':
-            aux_versions['hw1'] = 'Blackbox'
+            aux_versions['hw1'] = 'Blackbox'            
+            
+        
         #    
         aux_versions = {"hw": aux_versions['hw1']+' '+aux_versions['hw2']+'.'+aux_versions['hw3'],
-                        "fw":aux_versions['fw1']+'.'+aux_versions['fw2']
-                        } 
+                        "fw": aux_versions['fw1']+'.'+aux_versions['fw2'],                        
+                        "device": aux_versions['hw1']+aux_versions['fw1']                        
+                        }
+        print aux_versions
         return aux_versions
         
         
@@ -117,13 +121,15 @@ def unpack_data(command, data, senddata):
     
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_INFO"]["cmd"] | 0x80)):
         ''' GET_CELL_INFO
-            | battery (1B) | flags (1B)| address (1B) | task (1B) | diagnostic1 (2B) | diagnostic2(1B) | 
+            | battery (1B) | flags (1B)| address (1B) | task (1B) |
+             diagnostic_long_ok (2B) | diagnostic_long_ko(2B) | diagnostic_short_ok (1B) | diagnostic_short_ko(1B) | 
         ''' 
         aux_cell_info = {}        
                 
         aux_cell_info['battery'], aux_flags, aux_cell_info['address'],\
-        aux_cell_info['task'], aux_cell_info['diagnostic1'], aux_timing_settings['diagnostic2']\
-        = struct.unpack("<BBBBBB", data)
+        aux_cell_info['task'], aux_cell_info['diagnostic_long_ok'], aux_cell_info['diagnostic_long_ko'],\
+        aux_cell_info['diagnostic_short_ok'], aux_cell_info['diagnostic_short_ko']\
+        = struct.unpack("<BBBBhhBB", data)
         
         #flags
         aux_cell_info['ir_signal'] = bool(aux_flags & 0x01)
@@ -194,7 +200,12 @@ def pack_data(command_key, data):
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]['cmd']):        
         # SET TIMING SETTINGS
         aux_data = struct.pack('<BBBhB', data['logic_mode'], data['name_id'], data['filter_tagtime'],\
-                               data['filter_minlaptime'], data['filter_maxlapnumber'])        
+                               data['filter_minlaptime'], data['filter_maxlapnumber'])
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]['cmd']):
+        # SET CELL INFO
+        aux_data = struct.pack('<BBBBBB', data['address'], data['task'], data['fu1'],\
+                               data['fu2'], data['fu3'], data['fu4'])  
+          
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
         # GET DIAGNOSTIC        
         aux_data = struct.pack('<BB', data['start'], data['count'])

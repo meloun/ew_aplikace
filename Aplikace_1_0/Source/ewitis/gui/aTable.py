@@ -4,6 +4,7 @@ Created on 28.12.2013
 
 @author: Meloun
 '''
+import time
 from PyQt4 import Qt, QtCore, QtGui
 from ewitis.gui.Ui import Ui
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
@@ -22,7 +23,7 @@ class myTable():
     """
     
     """
-    (eTOTAL, eCATEGORY, eGROUP, eLAPS) = range(0,4) 
+    (eTABLE, eDB, eWWW, eTOTAL, eGROUP, eCATEGORY, eLAPS) = range(0,7) 
     def  __init__(self, name):                                                                
         self.name = name
         self.InitCollumns()
@@ -153,12 +154,12 @@ class myTable():
             
         # EXPORT BUTTON
         if (self.gui['export'] != None):
-            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), self.sExport)        
+            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(self, myTable.eTABLE, True))        
         
         # EXPORT WWW BUTTON
         #if(self.params.guidata.measure_mode != GuiData.MODE_TRAINING_BASIC):
         if (self.gui['export_www'] != None):
-            QtCore.QObject.connect(self.gui['export_www'], QtCore.SIGNAL("clicked()"), self.sExport_www)
+            QtCore.QObject.connect(self.gui['export_www'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(myTable.eWWW, True))
         
         # DELETE BUTTON -> EMPTY TABLE
         if (self.gui['delete'] != None):
@@ -242,8 +243,7 @@ class myTable():
     def sImport(self):
         """import"""                                         
                                            
-        #gui dialog        
-        #filename = self.params.myQFileDialog.getOpenFileName(self.params.gui['view'],"Import CSV to table "+self.params.name,"dir_import_csv","Csv Files (*.csv)", self.params.name+".csv")                
+        #gui dialog                        
         filename = uiAccesories.getOpenFileName("Import CSV to table "+self.name,"dir_import_csv","Csv Files (*.csv)", self.name+".csv")                
         
         #cancel or close window
@@ -251,14 +251,16 @@ class myTable():
             return        
                   
         #IMPORT CSV TO DATABASE
-        #try:            
+        #try:
+        print "collumns", db.getCollumnNames("times")            
             
         #get sorted keys
         keys = []
         for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
             keys.append(list[0])
+        print "keys", keys
             
-        #create csv        
+        #load csv        
         aux_csv = Db_csv.Db_csv(filename)
         rows =  aux_csv.load()
                     
@@ -268,11 +270,12 @@ class myTable():
             return
         
         #check csv file format - wrong format                                
-        #header = rows.pop(0)
-        header = aux_csv.header()
+        header = rows.pop(0)
+        #header = aux_csv.header()
         for i in range(3): 
             if not(header[i] in keys):
                 uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+                print header[i], keys
                 return
 
         #counters
@@ -281,8 +284,11 @@ class myTable():
         #adding records to DB                        
         for row in rows:                                                                                                                                    
             #try:
-                #add 1 record            
-            dbRow = self.model.import2dbRow(row)                     
+                #add 1 record
+            importRow = dict(zip(keys, row))
+            #
+            dbRow = self.importRow2dbRow(importRow)             
+            #dbRow = self.model.import2dbRow(importRow)                     
             if(db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
                 state['ok'] += 1
             else:            
@@ -305,76 +311,106 @@ class myTable():
         if(state['ko'] != 0) :
             uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
         else:
-            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                               
+            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                                       
+    '''
+    tabRow2exportRow()
+     - kopie 1:1
+     - z tabRow(dict) vytvoří dva listy - header a row
+    '''
+    def tabRow2exportRow(self, tabRow, mode):        
+        exportHeader = self.proxy_model.header()
+        exportRow = []
+          
+        #eTABLE
+        for headerItem in exportHeader:            
+            try:
+                if (mode == myTable.eTABLE) or (mode == myTable.eWWW):                                    
+                    exportRow.append(tabRow[headerItem])                              
+            except:
+                print "Export: Error:", mode
+        #eDB
+        if (mode == myTable.eDB):        
+            exportRow = self.getDbRow(tabRow['id'])
+            exportHeader = self.getDbCollumns()                                                                
+        return (exportHeader, exportRow)
+    
+    def importRow2dbRow(self, importRow):
+        print "importRow", type(importRow)        
+        return importRow
+    
+    '''
+    ExportTable()     
+     - z tabulky vytvoří dva listy - header(list) a rows(lists of lists) 
+    '''
+    def ExportTable(self, mode):
+        exportRows = []
+        exportHeader = []                
         
-    # EXPORT
-    # WEB (or DB) => CSV FILE
-    # what you see, is exported    
-    #def sExport(self, source='table'):                        
-    def sExport(self, source='table'):
+        '''table to 2 lists - header and rows(list of lists)'''                                                        
+        for tabRow in self.proxy_model.dicts():                            
+            (exportHeader, exportRow) = self.tabRow2exportRow(tabRow, mode)                                            
+            if (exportRow != []):                                            
+                exportRows.append(exportRow)                    
+                            
+        return (exportHeader, exportRows)  
+        
+    '''
+    sExport()    
+     - standartní slot pro export
+     - export aktuálního zobrazení tabulky, co vidíš to dostaneš
+     - 1.řádek header
+    '''
+    '''
+    sExport()    
+     - standartní slot pro export
+     - export aktuálního zobrazení tabulky, co vidíš to dostaneš
+     - 1.řádek header
+    '''      
+    def sExport(self, mode, dialog):
         
         print "I: ", self.name, ": export"
-
+        if (mode == myTable.eTABLE) or (mode == myTable.eDB):                
+            format = "Csv"
+        elif mode == myTable.eWWW:
+            format = "Htm"
+            
                 
-        #get filename, gui dialog         
-        #filename = self.params.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.params.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.params.name+".csv")                
-        filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv")                
-        if(filename == ""):
-            return              
-        
-        #title
-        title = "Table '"+self.name + "' CSV Export"                
-         
-        #export to csv file
-        #try:                        
-        self.export_csv(filename, source)                                
-        uiAccesories.showMessage(title, "Succesfully")            
-        #except:            
-        #    uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file")
-                   
-             
-    # EXPORT WWW    
-    # what you see, is exported    
-    def sExport_www(self): 
-        
-        #get filename, gui dialog         
-        filename = uiAccesories.myQFileDialog.getSaveFileName(self.params.gui['view'],"Export table "+self.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")                
+        '''get filename, gui dialog, save path to datastore'''                                 
+        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV", "dir_export_csv","Csv Files (*.csv)", self.name+".csv")                
+        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")
+        if dialog:         
+            filename = uiAccesories.getSaveFileName("Export table "+self.name+" to "+format.upper(),"dir_export_"+format.lower(), format.upper()+" Files (*."+format.lower()+")", self.name+"."+format.lower())
+        else:
+            filename = utils.get_filename("export/"+format.lower()+"/"+self.name+"_"+dstore.Get('race_name')+"."+format.lower())
+                     
         if(filename == ""):
             return                
-         
-        #export to HTML file        
-        self.sExport_directWWW(filename)
-                                                                        
-    
-    #default WWW export - without dialog to specific directory        
-    def sExport_directWWW(self, filename = None):
-
-        if filename == None:
-            filename = utils.get_filename("export/www/"+self.name+"_"+dstore.Get('race_name')+".htm")
-            
-        exportRows = []
-        for tabRow in self.proxy_model.dicts():
-            #dbRow = self.getDbRow(tabRow['id'])            
-            #if(self.model.order.IsLastUsertime(dbRow, tabRow['lap'])):
-            exportRow = self.tabRow2exportRow(tabRow, myTable.eTOTAL)
-            
-            #workaround FORMULE
-            #exportRow[1].append(tabRow['laptime']) 
-            #exportRow[0].append(u'Čas kola')
-            
-            exportRows.append(exportRow[1])
-            exportHeader = exportRow[0]              
+                
+        title = "Table '"+self.name + "'"+format.upper()+" Export"
         
-        #title
-        title = "Table '"+self.name + "' HTML Export"
-         
-        #export to HTML file
-        try:                                                
-            html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
-            html_page.save()                             
-            uiAccesories.showMessage(title, "Succesfully ("+filename+")", dialog=False)            
-        except IOError:            
-           uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+        '''table to 2 lists - header and rows(list of lists)'''
+        (exportHeader, exportRows) = self.ExportTable(mode)
+                
+        '''Write to the file'''
+        if format == "Csv":
+            '''write to csv file'''
+            if(exportRows != []) or (exportHeader!= []):
+                print "export race", dstore.Get('race_name'), ":",len(exportRows),"times"            
+                first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+                exportRows.insert(0, exportHeader)
+                aux_csv = Db_csv.Db_csv(filename)
+                try:                                     
+                    aux_csv.save(exportRows)
+                except IOError:
+                    uiAccesories.showMessage(self.name+" Export warning", "Permission denied!")
+        elif format == "Htm":        
+            '''write to HTML file'''
+            try:                                                                
+                html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
+                html_page.save()                             
+                uiAccesories.showMessage(title, "Succesfully ("+filename+")", msgtype = MSGTYPE.statusbar)            
+            except IOError:            
+                uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")                                           
                                          
                         
     # DELETE BUTTON          
@@ -385,91 +421,7 @@ class myTable():
         
         #confirm dialog and delete
         if (uiAccesories.showMessage(title, "Are you sure you want to delete table '"+self.name+"' ?", msgtype = MSGTYPE.warning_dialog)):
-            self.deleteAll()                                            
-    
-                  
-        
-    def export_csv(self, filename, source='table'):      
-                
-        aux_csv = Db_csv.Db_csv(filename) #create csv class        
-        
-        #FROM TABLE 
-        if(source == 'table'):                        
-            
-            #get table as lists; save into file in csv format
-            #print self.proxy_model.header()                 
-            aux_csv.save(self.proxy_model.lists(), self.proxy_model.header()) 
-        
-        #FROM DB
-        elif(source == 'db'):
-            ids = self.proxy_model.ids()
-    
-            conditions = []
-            for id in ids:
-                conditions.append(['id', id])
-                            
-            #get db as tuples; save into file in csv format
-            rows = db.getParXX(self.name, conditions, 'OR')
-            print "dicts", dict(zip(self.proxy_model.header(),self.proxy_model.lists()))
-            aux_csv.save(rows)
-            
-        #FROM DB
-        elif(source == 'raw'):
-            self.export_csv_raw(filename)
-            return
-            
-            #final lists for CSV export
-            raw = []
-            
-            #get list from table Times
-            tabLists = self.proxy_model.lists()                    
-            
-            #get indexes
-            user_id_index = self.DB_COLLUMN_DEF['user_id']['index']
-            id_index = self.TABLE_COLLUMN_DEF['id']['index']                                
-            name_index = self.TABLE_COLLUMN_DEF['name']['index']
-            category_index = self.TABLE_COLLUMN_DEF['category']['index']
-            
-            
-            #            
-            for list in tabLists:
-                userlist = []             
-                
-                #get time per id
-                time = db.getParId("times", list[id_index])                                
-                                
-                #get user per user_id                                                
-                #user = db.getParId("users", time[user_id_index])
-                user = db.getParId("users", time[user_id_index])
-                               
-                
-                if user != None:
-                                    
-                    #convert sqlite3.row to list                
-                    for item in user:
-                        userlist.append(item)                        
-                                        
-                    #pop name, category
-                    list.pop(category_index)
-                    list.pop(name_index)                                                            
-                                                        
-                    #get final row for export
-                    raw_row =  list + userlist
-
-                    #append row to final lists                                          
-                    raw.append(raw_row)
-                else:
-                    print "neco spatne",list       
-                    
-                #save to CSV
-                header = self.proxy_model.header()                
-                header.pop(category_index)
-                header.pop(name_index)    
-                
-                header2 = self.params.tabUser.proxy_model.header()
-                header2[0] = "user_id"                                                                     
-
-                aux_csv.save(raw, keys = (header + header2))
+            self.deleteAll()                                                                      
                                                              
             
             
@@ -521,6 +473,9 @@ class myTable():
         dstore.SetItem("count", [self.name,], self.getDbCount())
             
                          
+    def getDbCollumns(self):
+        return db.getCollumnNames(self.name)
+    
     def getDbRow(self, id):
                  
         dbRow = db.getParX(self.name, "id", id).fetchone()                            

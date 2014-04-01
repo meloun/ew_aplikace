@@ -5,7 +5,12 @@ Created on 14.4.2013
 '''
 
 array = [{"a":2, "b":3},{"a":3, "b":4},{"a":5, "b":6}]
+list = [1,2]
 
+(x,y) = list
+print "x",x 
+print "y",y 
+print type((x,y)), type(list)
 
 a = 3
 b = 2

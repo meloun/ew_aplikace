@@ -39,7 +39,7 @@ class Db_csv():
         
         for list in lists:
             for item in list:                                                                                               
-                my_string += item + u';'
+                my_string += str(item) + u';'
             my_string += "\n"            
                                         
         if encode != None:

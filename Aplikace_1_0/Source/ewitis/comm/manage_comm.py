@@ -25,6 +25,10 @@ from ewitis.data.dstore import dstore
 from ewitis.data.DEF_ENUM_STRINGS import * 
 from threading import Thread
 
+
+#prozatimni "define"
+OPTIKA_V2 = True
+
 class ManageComm(Thread):            
     def __init__(self, dstore):
         """ INIT VALUES """
@@ -62,11 +66,11 @@ class ManageComm(Thread):
     def send_receive_frame(self, command_key, data="", length = None, diagnostic = True):
         """ ošetřená vysílací, přijímací metoda """                
         if command_key != "GET_HW_SW_VERSION":
-            if not((DEF_COMMANDS.DEF_COMMANDS[command_key]['blackbox'] and dstore.IsBlackbox()) \
-                   or (DEF_COMMANDS.DEF_COMMANDS[command_key]['terminal'] and dstore.IsTerminal())):
+            device = dstore.Get("versions")["device"]
+            if(DEF_COMMANDS.DEF_COMMANDS[command_key][device] == False):
             
                 #this command is not defined for this device
-                print "E: command not defined for this device", command_key                                
+                #print "E: command not defined for this device", command_key                                
                 return {"error":0xFF}
             
         command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                             
@@ -74,7 +78,7 @@ class ManageComm(Thread):
         try:
             '''pack data to the string'''
             data = callback.pack_data(command_key, data)            
-            '''requet diagnostic'''            
+            '''request diagnostic'''            
             if diagnostic == True:                
                 dstore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''            
@@ -175,6 +179,7 @@ class ManageComm(Thread):
                 
                 dstore.SetItem("versions", ["hw"], aux_version["hw"])
                 dstore.SetItem("versions", ["fw"], aux_version["fw"])
+                dstore.SetItem("versions", ["device"], aux_version["device"])
             """ end of hw-sw-version """
             
             """ 
@@ -315,7 +320,7 @@ class ManageComm(Thread):
              - set language
              - get terminal info
              - set timing settings                                                                          
-            """                                                         
+            """                                                                   
             if(dstore.Get("active_tab") == TAB.race_settings) or (dstore.Get("active_tab") == TAB.actions)\
                 or (dstore.Get("active_tab") == TAB.device):                                
                 
@@ -348,9 +353,10 @@ class ManageComm(Thread):
                     else:
                         print "I: COMM: terminal info: not ready for refresh", aux_terminal_info               
                 
-                """ set timing settings """
-                if(dstore.IsChanged("timing_settings")):
-                    aux_timing_settings = dstore.Get("timing_settings", "SET")                                                                                                         
+                """ set timing settings """                
+                if(dstore.IsChanged("timing_settings")):                    
+                    aux_timing_settings = dstore.Get("timing_settings", "SET")
+                    print  "TS", aux_timing_settings                                                                                                         
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
                     dstore.ResetChangedFlag("timing_settings")  
         
@@ -380,15 +386,35 @@ class ManageComm(Thread):
                                     
             """ get timing-settings """            
             aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = diagnostic)            
-            aux_timing_setting["name_id"] = 4
-            
-            #print aux_timing_setting            
+            #aux_timing_setting["name_id"] = 4
+                                    
             """ store terminal-states to the datastore """ 
             if not('error' in aux_timing_setting):
                 if(dstore.IsReadyForRefresh("timing_settings")):            
                     dstore.Set("timing_settings", aux_timing_setting, "GET")
                 else:
-                    print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting                    
+                    print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
+                    
+            """ get cell info """
+            if OPTIKA_V2:
+                if(dstore.IsChanged("cells_info")):
+                    aux_cell_info = dstore.Get("cells_info", "SET")
+                    aux_cell_info["address"] = 0x01                                                                                                                                                                                                                                 
+                    print "NASTAVUJI CELLS INFO", aux_cell_info
+                    ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
+                    dstore.ResetChangedFlag("cells_info")                   
+                aux_cell_info_1 = self.send_receive_frame("GET_CELL_INFO", 0x01, diagnostic = diagnostic) 
+                #aux_cell_info_2 = self.send_receive_frame("GET_CELL_INFO", 0x02, diagnostic = diagnostic)
+                
+                print aux_cell_info_1
+                
+                """ store terminal-states to the datastore """ 
+                if not('error' in aux_cell_info_1):
+                    if(dstore.IsReadyForRefresh("cells_info")):            
+                        dstore.Set("timing_settings", aux_timing_setting, "GET")
+                    else:
+                        print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting            
+                                
                     
             """
             ALL SETs            

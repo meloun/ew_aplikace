@@ -64,7 +64,7 @@ class TabCommunication(MyTab):
     def CreateSlots(self):
         QtCore.QObject.connect(Ui().comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)
         QtCore.QObject.connect(Ui().pushCommSend, QtCore.SIGNAL("clicked()"), self.sSendCommand)
-        QtCore.QObject.connect(Ui().checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSetItem("diagnostic", ["log_cyclic"], state, self.Update()))
+        QtCore.QObject.connect(Ui().checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("diagnostic", ["log_cyclic"], state, self.Update()))
         QtCore.QObject.connect(Ui().pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)                 
             
           
