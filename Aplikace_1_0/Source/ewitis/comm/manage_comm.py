@@ -392,28 +392,31 @@ class ManageComm(Thread):
             if not('error' in aux_timing_setting):
                 if(dstore.IsReadyForRefresh("timing_settings")):            
                     dstore.Set("timing_settings", aux_timing_setting, "GET")
-                else:
-                    print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
+                #else:
+                #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
                     
             """ get cell info """
             if OPTIKA_V2:
-                if(dstore.IsChanged("cells_info")):
-                    aux_cell_info = dstore.Get("cells_info", "SET")
-                    aux_cell_info["address"] = 0x01                                                                                                                                                                                                                                 
-                    print "NASTAVUJI CELLS INFO", aux_cell_info
+                #SET CELL INFO
+                nr_changed_cell = dstore.IsChanged("cells_info")
+                if(nr_changed_cell):                                        
+                    aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell-1], "SET")                                                                                                                                                                                                                                                   
+                    print "COMM: set cell info", nr_changed_cell, aux_cell_info
                     ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
-                    dstore.ResetChangedFlag("cells_info")                   
-                aux_cell_info_1 = self.send_receive_frame("GET_CELL_INFO", 0x01, diagnostic = diagnostic) 
-                #aux_cell_info_2 = self.send_receive_frame("GET_CELL_INFO", 0x02, diagnostic = diagnostic)
+                    dstore.ResetChangedFlag("cells_info")
                 
-                print aux_cell_info_1
+                #GET CELL INFO
+                nr_cell = dstore.Get("nr_cells")                
+                aux_cells_info = [None] * nr_cell                
+                for i in range(0, dstore.Get("nr_cells")):                                       
+                    aux_cells_info[i] = self.send_receive_frame("GET_CELL_INFO", i+1, diagnostic = diagnostic)                                                 
                 
-                """ store terminal-states to the datastore """ 
-                if not('error' in aux_cell_info_1):
-                    if(dstore.IsReadyForRefresh("cells_info")):            
-                        dstore.Set("timing_settings", aux_timing_setting, "GET")
-                    else:
-                        print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting            
+                    """ store terminal-states to the datastore """ 
+                    if not('error' in aux_cells_info[i]):                    
+                        if(dstore.IsReadyForRefresh("cells_info")):             
+                            dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET")
+                        #else:
+                        #    print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
                                 
                     
             """

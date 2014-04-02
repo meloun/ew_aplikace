@@ -25,9 +25,9 @@ class PermanentDatastore(datastore.Datastore):
             self.db.dump(self.GetAllPermanents())                
             #print "DSTORE: Set()", self.data[name]
         
-    def SetItem(self, name, keys, value, section = "GET_SET"):        
+    def SetItem(self, name, keys, value, section = "GET_SET", changed = True):        
         #set item
-        datastore.Datastore.SetItem(self, name, keys, value, section)
+        datastore.Datastore.SetItem(self, name, keys, value, section, changed)
         
         #store permanents to the file
         if self.IsPermanent(name):

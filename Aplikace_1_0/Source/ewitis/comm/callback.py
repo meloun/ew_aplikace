@@ -161,6 +161,8 @@ def unpack_data(command, data, senddata):
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):        
         return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]["cmd"] | 0x80)):        
+        return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_START_CELL"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_FINISH_CELL"]["cmd"] | 0x80)):        

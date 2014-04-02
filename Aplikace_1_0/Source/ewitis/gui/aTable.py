@@ -213,7 +213,7 @@ class myTable():
                               
         dbRow = self.model.table2dbRow(row)        
         if(dbRow != None):        
-            db.insert_from_dict(self.params.name, dbRow)            
+            db.insert_from_dict(self.name, dbRow)            
             uiAccesories.showMessage(title,"succesfully (id="+str(my_id)+")", MSGTYPE.statusbar)
 
         self.Update()                    

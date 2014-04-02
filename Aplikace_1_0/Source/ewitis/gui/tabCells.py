@@ -34,9 +34,12 @@ class CellGroup ():
         self.lineCellActive = getattr(ui, "lineCellActive_"+str(nr))
         self.lineCellSynchronizedOnce = getattr(ui, "lineCellSynchronizedOnce_"+str(nr))
         self.lineCellSynchronized = getattr(ui, "lineCellSynchronized_"+str(nr))
-        self.lineCellCounter1 = getattr(ui, "lineCellCounter1_"+str(nr))
-        self.lineCellCounter2 = getattr(ui, "lineCellCounter2_"+str(nr))
-        self.lineCellCounter3 = getattr(ui, "lineCellCounter3_"+str(nr))
+        self.lineCellDiagLongOk = getattr(ui, "lineCellDiagLongOk_"+str(nr))
+        self.lineCellDiagLongKo = getattr(ui, "lineCellDiagLongKo_"+str(nr))
+        self.lineCellDiagLongRatio = getattr(ui, "lineCellDiagLongRatio_"+str(nr))
+        self.lineCellDiagShortOk = getattr(ui, "lineCellDiagShortOk_"+str(nr))
+        self.lineCellDiagShortKo = getattr(ui, "lineCellDiagShortKo_"+str(nr))
+        self.lineCellDiagShortRatio = getattr(ui, "lineCellDiagShortRatio_"+str(nr))
         self.pushCellClearCounters = getattr(ui, "pushCellClearCounters_"+str(nr))
         self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
     
@@ -53,26 +56,26 @@ class CellGroup ():
     def sSlot(self, state=None):
         print "cellgroup" +str(self.nr)+": something happend - ", state
     
-    def sComboCellTask(self, index):
-        print "sComboCellTask", index                
+    def sComboCellTask(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
-        aux_set_cells_info = {}
-        aux_set_cells_info["task"] = index                               
-        aux_set_cells_info["address"] = 0x01                               
-        aux_set_cells_info["fu1"] = 0x00                               
-        aux_set_cells_info["fu2"] = 0x00                               
-        aux_set_cells_info["fu3"] = 0x00                               
-        aux_set_cells_info["fu4"] = 0x00                               
-        dstore.Set("cells_info", aux_set_cells_info, "SET")            
+        cell_info = {}
+        cell_info["task"] = index                               
+        cell_info["address"] = self.nr                               
+        cell_info["fu1"] = 0x00                               
+        cell_info["fu2"] = 0x00                               
+        cell_info["fu3"] = 0x00                               
+        cell_info["fu4"] = 0x00                        
+        dstore.SetItem("cells_info", [self.nr-1], cell_info, "SET", changed = self.nr)                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", 'logic_mode')                                                                
+        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
         self.Update()
         
         
     def sCheckbox(self, state):
         
-        #enable/disable all widgets                
+        #enable/disable all widgets
+        self.checkbox.setChecked(state)                
         self.lineCellTask.setEnabled(state)
         self.comboCellTask.setEnabled(state)
         self.lineCellBattery.setEnabled(state)
@@ -80,20 +83,23 @@ class CellGroup ():
         self.lineCellActive.setEnabled(state)
         self.lineCellSynchronizedOnce.setEnabled(state)
         self.lineCellSynchronized.setEnabled(state)
-        self.lineCellCounter1.setEnabled(state)
-        self.lineCellCounter2.setEnabled(state)
-        self.lineCellCounter3.setEnabled(state)
+        self.lineCellDiagShortOk.setEnabled(state)
+        self.lineCellDiagShortKo.setEnabled(state)
+        self.lineCellDiagShortRatio.setEnabled(state)
+        self.lineCellDiagLongOk.setEnabled(state)
+        self.lineCellDiagLongKo.setEnabled(state)
+        self.lineCellDiagLongRatio.setEnabled(state)
         self.pushCellClearCounters.setEnabled(state)
         self.pushCellPing.setEnabled(state)
     
     def Update(self):
         
-        #get data from datastore        
+        #get cell info from datastore                                      
         cell_info = dstore.Get("cells_info", "GET")[self.nr-1]
 
         #task
         if(cell_info['task'] != None):
-            self.lineCellTask.setText(cell_info["task"])
+            self.lineCellTask.setText(self.comboCellTask.itemText(cell_info["task"]))
         else:
             self.lineCellTask.setText(" - - - ")
         
@@ -141,23 +147,39 @@ class CellGroup ():
             self.lineCellSynchronized.setText(" - - ")
             self.lineCellSynchronized.setStyleSheet("")                        
         
-        #diagnostic 1
-        if(cell_info['diagnostic1'] != None):                                    
-            self.lineCellCounter1.setText(str(cell_info['diagnostic1']))
+        #diagnostic shork ok
+        if(cell_info['diagnostic_short_ok'] != None):                                    
+            self.lineCellDiagShortOk.setText(str(cell_info['diagnostic_short_ok']))
         else:
-            self.lineCellCounter1.setText("- -")
+            self.lineCellDiagShortOk.setText("- -")
                                           
-        #diagnostic 2
-        if(cell_info['diagnostic2'] != None):                                    
-            self.lineCellCounter2.setText(str(cell_info['diagnostic2']))
+        #diagnostic short ko
+        if(cell_info['diagnostic_short_ko'] != None):                                    
+            self.lineCellDiagShortKo.setText(str(cell_info['diagnostic_short_ko']))
         else:
-            self.lineCellCounter2.setText("- -")
-            
+            self.lineCellDiagShortKo.setText("- -")            
         #diagnostic %
-        if(cell_info['diagnostic1'] != None) and (cell_info['diagnostic2'] != None):                                    
-            self.lineCellCounter3.setText(str(cell_info['diagnostic1']/cell_info['diagnostic2']))
+        if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (cell_info['diagnostic_short_ko'] != 0):                                    
+            self.lineCellDiagShortRatio.setText(str(cell_info['diagnostic_short_ok']/cell_info['diagnostic_short_ko']))
         else:
-            self.lineCellCounter3.setText("- -")
+            self.lineCellDiagShortRatio.setText("- -")
+            
+        #diagnostic shork ok
+        if(cell_info['diagnostic_long_ok'] != None):                                    
+            self.lineCellDiagLongOk.setText(str(cell_info['diagnostic_long_ok']))
+        else:
+            self.lineCellDiagLongOk.setText("- -")
+                                          
+        #diagnostic long ko
+        if(cell_info['diagnostic_long_ko'] != None):                                    
+            self.lineCellDiagLongKo.setText(str(cell_info['diagnostic_long_ko']))
+        else:
+            self.lineCellDiagLongKo.setText("- -")            
+        #diagnostic %
+        if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (cell_info['diagnostic_long_ko'] != 0):                                    
+            self.lineCellDiagLongRatio.setText(str(cell_info['diagnostic_long_ok']/cell_info['diagnostic_long_ko']))
+        else:
+            self.lineCellDiagLongRatio.setText("- -")
 
 class TabCells(MyTab):
     
@@ -168,14 +190,25 @@ class TabCells(MyTab):
         print "tabCells: constructor"
         
     def Init(self):
-        '''tab Cells'''        
-        self.cellgroups = [None]*2
-        for i in range(0,2):            
+        '''tab Cells'''
+        self.nr = 6
+        dstore.Set("nr_cells", self.nr)                      
+        self.cellgroups = [None]*self.nr
+        for i in range(0,self.nr):            
             self.cellgroups[i] = CellGroup(i+1)
-            self.cellgroups[i].CreateSlots()                            
+            self.cellgroups[i].CreateSlots()
+            
+        self.CreateSlots()
+        
+    def CreateSlots(self):                        
+        QtCore.QObject.connect(Ui().pushCellAllReadOnly, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(False))
+        QtCore.QObject.connect(Ui().pushCellAllEdit, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(True))
+    def sEnableAll(self, state):        
+        for i in range(0,self.nr):
+            self.cellgroups[i].sCheckbox(state)
         
     def Update(self, mode = UPDATE_MODE.all):
-        for i in range(0,1):
+        for i in range(0,self.nr):
             self.cellgroups[i].Update()
         return True        
     

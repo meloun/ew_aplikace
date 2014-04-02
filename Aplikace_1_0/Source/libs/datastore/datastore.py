@@ -87,13 +87,13 @@ class Datastore():
         only for GET section
         set value to None
         set refresh countdown => GET hodnota se neobnoví hned, ale až po odpočítání countdown 
-        '''
-        if(key1 and key2):
-            self.data[name]['GET']['value'][key1][key2] = None
-        elif(key1):
-            self.data[name]['GET']['value'][key1] = None
+        '''        
+        if(key1 != None) and (key2 != None):
+            self.data[name]['GET']['value'][key1][key2] = None            
+        elif(key1 != None):
+            self.data[name]['GET']['value'][key1] = None            
         else:
-            self.data[name]['GET']['value'] = None
+            self.data[name]['GET']['value'] = None            
             
         self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN                                
     
@@ -146,13 +146,14 @@ class Datastore():
     - metodou Get() se získají data pro obsluhu
     - metodou resetFlags() se flag smaže, volá se po obsloužení    
     """    
-    def SetItem(self, name, keys, value, section = "GET_SET"):
+    def SetItem(self, name, keys, value, section = "GET_SET", changed = True):
         '''
         Nastaví proměnnou typu "section" a flagy "flags"             
         '''
                        
         item = self.data[name][section]["value"]
     
+        
         for key in keys[:-1]:          
             if key in item:                
                 item = item[key]                
@@ -164,10 +165,10 @@ class Datastore():
         
         #set flag "changed" for section SET
         if (section == "SET"):
-            self.data[name][section]['changed'] = True
+            self.data[name][section]['changed'] = changed
         if (section == "GET_SET"):
             if 'changed' in self.data[name][section]:
-                self.data[name][section]['changed'] = True
+                self.data[name][section]['changed'] = changed
             
         self.datalock.release() 
     
@@ -245,7 +246,7 @@ class Datastore():
         item = self.data[name][section]["value"]
     
         for key in keys:          
-            if key not in item:
+            if (key not in item) and (type(key) != int):
                 return None
             item = item[key]                
 

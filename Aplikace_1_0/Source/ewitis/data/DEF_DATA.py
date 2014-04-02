@@ -239,20 +239,10 @@ DEF_DATA = {
                                              "refresh_countdown": 0                                              
                                              },
                                },
-        "set_cell_info"      : {"name"    : "cell info", 
-                                "SET"     : {"value": {"address": None,
-                                                       "task": None,
-                                                       "fu1": None,
-                                                       "fu2": None,
-                                                       "fu3": None,
-                                                       "fu4": None
-                                                       },
-                                             "changed": False
-                                             },
-                               },
+        "nr_cells"           : {"GET_SET"  : {"value"   : 0},},                          
         "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
-                                                       { #cell 1
+                                                       { #cell 1-2
                                                            "battery": None,
                                                            "ir_signal": None,
                                                            "active": None,
@@ -260,19 +250,23 @@ DEF_DATA = {
                                                            "synchronized": None,
                                                            "address": 1,
                                                            "task": None,
-                                                           "diagnostic1": None,
-                                                           "diagnostic2": None
+                                                           "diagnostic_short_ok": None,
+                                                           "diagnostic_short_ko": None,
+                                                           "diagnostic_long_ok": None,
+                                                           "diagnostic_long_ko": None
                                                        }                                              
-                                                       ],
+                                                       ]*16,
                                              "refresh_countdown": 0 ,
                                              },
-                                "SET"     : {"value": {"address": None,
-                                                       "task": None,
-                                                       "fu1": None,
-                                                       "fu2": None,
-                                                       "fu3": None,
-                                                       "fu4": None
-                                                       },
+                                "SET"     : {"value": [
+                                                       { #cell 1-2
+                                                            "address": None,
+                                                            "task": None,
+                                                            "fu1": None,
+                                                            "fu2": None,
+                                                            "fu3": None,
+                                                            "fu4": None
+                                                       }]*16,
                                              "changed": False
                                              },
                                },
