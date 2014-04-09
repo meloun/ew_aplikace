@@ -41,11 +41,15 @@ DEF_COMMANDS = {
     "CLEAR_DATABASE"            : {'cmd':0x34,  'length':0,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True},            
     "QUIT_TIMING"               : {'cmd':0x40,  'length':0,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True},
     "ENABLE_START_CELL"         : {'cmd':0x41,  'length':0,     'Blackbox 2': True,  'Blackbox 3': False, 'Blackbox 1': True,   'terminal': True},
+    "ENABLE_CELL"               : {'cmd':0x41,  'length':1,     'Blackbox 2': True,  'Blackbox 3': False, 'Blackbox 1': True,   'terminal': True},
     "ENABLE_FINISH_CELL"        : {'cmd':0x42,  'length':0,     'Blackbox 2': True,  'Blackbox 3': False, 'Blackbox 1': True,   'terminal': True},
     "GENERATE_STARTTIME"        : {'cmd':0x43,  'length':4,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True},
     "GENERATE_FINISHTIME"       : {'cmd':0x44,  'length':4,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True},                                                                                                    
     "SET_TAGS_READING"          : {'cmd':0x45,  'length':1,     'Blackbox 2': False, 'Blackbox 3': True,  'Blackbox 1': True,    'terminal': False},                                                                                                    
-    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':4,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': False}                                                                                                               
+    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':4,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': False},                                                                                                               
+    "GET_CELL_LAST_TIME"        : {'cmd':0x47,  'length':1,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True},                                                                                                   
+    "GENERATE_CELLTIME"         : {'cmd':0x48,  'length':5,     'Blackbox 2': True,  'Blackbox 3': True,  'Blackbox 1': True,    'terminal': True}
+                                                                                                       
 }
 DEF_COMMAND_GROUP = {
                      

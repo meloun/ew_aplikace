@@ -110,15 +110,15 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if(dstore.Get("user_actions") == 0):                                                                                                
                         
             #ziskat zmeneny radek, slovnik{}
-            tabRow = self.row_dict(item.row())#self.getTableRow(item.row())                                                                                                  
-            
+            tabRow = self.row_dict(item.row())#self.getTableRow(item.row())            
+                                                                                                                                      
             #prevest na databazovy radek, dbRow <- tableRow
-            dbRow = self.table2dbRow(tabRow, item)                                            
+            dbRow = self.table2dbRow(tabRow, item)                                                                                                       
                                         
             #exist row? 
             if (dbRow != None):                                                                                         
                 #update DB
-                try:                                                        
+                try:                                                                            
                     db.update_from_dict(self.table.name, dbRow)                
                 except:                
                     uiAccesories.showMessage(self.table.name+" Update", "Error!")                

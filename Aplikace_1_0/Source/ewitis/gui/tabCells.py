@@ -24,6 +24,7 @@ class CellGroup ():
         '''
         ui = Ui()
         
+        print "init",nr
         self.nr = nr                        
         self.groupbox = getattr(ui, "groupCell_"+str(nr))
         self.checkbox = getattr(ui, "checkCell_"+str(nr))
@@ -59,6 +60,8 @@ class CellGroup ():
     def sComboCellTask(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
         cell_info = {}
+        if index == 6:
+            index = 250
         cell_info["task"] = index                               
         cell_info["address"] = self.nr                               
         cell_info["fu1"] = 0x00                               
@@ -92,10 +95,26 @@ class CellGroup ():
         self.pushCellClearCounters.setEnabled(state)
         self.pushCellPing.setEnabled(state)
     
+    def GetInfo(self):
+        return dstore.Get("cells_info", "GET")[self.nr-1]
+    def GetTask(self):        
+        #print "d1",self.__dict__
+        return dstore.Get("cells_info", "GET")[self.nr-1]['task']
+    def TaskNr2Idx(self, task):
+        #take care about finish time
+        if task == 250:
+            task = 6
+        return task
+    def Idx2TaskNr(self, idx):
+        #take care about finish time
+        if idx == 6:
+            idx = 250
+        return idx  
+
     def Update(self):
         
         #get cell info from datastore                                      
-        cell_info = dstore.Get("cells_info", "GET")[self.nr-1]
+        cell_info = self.GetInfo()
 
         #task
         if(cell_info['task'] != None):
@@ -190,9 +209,8 @@ class TabCells(MyTab):
         print "tabCells: constructor"
         
     def Init(self):
-        '''tab Cells'''
-        self.nr = 6
-        dstore.Set("nr_cells", self.nr)                      
+        '''tab Cells'''        
+        self.nr  = dstore.Get("nr_cells")                      
         self.cellgroups = [None]*self.nr
         for i in range(0,self.nr):            
             self.cellgroups[i] = CellGroup(i+1)
@@ -206,6 +224,13 @@ class TabCells(MyTab):
     def sEnableAll(self, state):        
         for i in range(0,self.nr):
             self.cellgroups[i].sCheckbox(state)
+            
+    def IsCellWithTask(self, task):        
+        for cellgroup in self.cellgroups:            
+            if cellgroup.GetTask() == task:                
+                return True
+        return False                                    
+    
         
     def Update(self, mode = UPDATE_MODE.all):
         for i in range(0,self.nr):

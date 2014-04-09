@@ -77,7 +77,7 @@ class ManageComm(Thread):
                       
         try:
             '''pack data to the string'''
-            data = callback.pack_data(command_key, data)            
+            data = callback.pack_data(command_key, data)                        
             '''request diagnostic'''            
             if diagnostic == True:                
                 dstore.AddDiagnostic(command, data, 'green', command_key)
@@ -267,13 +267,15 @@ class ManageComm(Thread):
             """ enable start-cell """                
             if(dstore.IsChanged("enable_startcell")):                                        
                 user_id = dstore.Get("enable_startcell", "SET")                
-                ret = self.send_receive_frame("ENABLE_START_CELL")
+                #ret = self.send_receive_frame("ENABLE_START_CELL")
+                ret = self.send_receive_frame("ENABLE_CELL", 0x01)
                 dstore.ResetChangedFlag("enable_startcell")
                 
             """ enable finish-cell """                
             if(dstore.IsChanged("enable_finishcell")):                        
                 user_id = dstore.Get("enable_finishcell", "SET")                
-                ret = self.send_receive_frame("ENABLE_FINISH_CELL")
+                #ret = self.send_receive_frame("ENABLE_FINISH_CELL")
+                ret = self.send_receive_frame("ENABLE_CELL", 250)
                 dstore.ResetChangedFlag("enable_finishcell")
                                     
             """ generate starttime """                
@@ -285,7 +287,8 @@ class ManageComm(Thread):
             """ generate finishtime """
             if(dstore.IsChanged("generate_finishtime")):                                
                 user_id = dstore.Get("generate_finishtime", "SET")                
-                ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
+                #ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
+                ret = self.send_receive_frame("GENERATE_CELLTIME", {'task':250, 'user_id': 0x01})
                 dstore.ResetChangedFlag("generate_finishtime")
                     
             """ quit timing """
@@ -365,7 +368,8 @@ class ManageComm(Thread):
             tab DIAGNOSTIC                        
              - get diagnostic                                    
             """
-            if(dstore.Get("active_tab") == TAB.diagnostic):        
+            if(dstore.Get("active_tab") == TAB.diagnostic):
+                print "AA", dstore.Get("active_tab")        
                 """ get diagnostic """
                 #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']

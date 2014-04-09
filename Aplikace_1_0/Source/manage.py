@@ -138,7 +138,7 @@ def sTabChanged(nr):
     #update current tab
     tabIndex = Ui().tabWidget.currentIndex()
     tabName = TAB.NAME[tabIndex]
-    print tabName
+    print "new tab", tabName, tabIndex
     
     dstore.Set("active_tab", tabIndex)
     GetCurrentTab().Update(UPDATE_MODE.gui)

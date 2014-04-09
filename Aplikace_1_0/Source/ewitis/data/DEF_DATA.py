@@ -239,7 +239,7 @@ DEF_DATA = {
                                              "refresh_countdown": 0                                              
                                              },
                                },
-        "nr_cells"           : {"GET_SET"  : {"value"   : 0},},                          
+        "nr_cells"           : {"GET_SET"  : {"value"   : 8},},                          
         "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1-2
@@ -255,7 +255,7 @@ DEF_DATA = {
                                                            "diagnostic_long_ok": None,
                                                            "diagnostic_long_ko": None
                                                        }                                              
-                                                       ]*16,
+                                                       ]*10,
                                              "refresh_countdown": 0 ,
                                              },
                                 "SET"     : {"value": [

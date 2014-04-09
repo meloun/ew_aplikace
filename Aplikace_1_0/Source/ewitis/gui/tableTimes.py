@@ -63,7 +63,8 @@ class TimesModel(myModel):
         
         #id, name, category, addres NOT editable
 
-        if ((index.column() == 4) or (index.column() == 5) or (index.column() == 6)):
+        #if ((index.column() == 4) or (index.column() == 5) or (index.column() == 6)):
+        if ((index.column() == 5) or (index.column() == 6)):
             return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
         return myModel.flags(self, index)
@@ -189,7 +190,7 @@ class TimesModel(myModel):
                 
         if(dstore.Get("user_actions") == 0):                              
         
-            #print "radek",item.row()            
+            #print "MC radek",item.row()            
             
             #get changed row
             tabRow = self.row_dict(item.row())
@@ -283,7 +284,7 @@ class TimesModel(myModel):
         #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
             
         '''0. 1to1 keys, just copy - jen id a cell'''        
-        dbTime = myModel.table2dbRow(self, tabTime, item)        
+        dbTime = myModel.table2dbRow(self, tabTime, item)                
                 
         '''1. RUN_ID'''
         dbTime['run_id'] = self.run_id
@@ -294,7 +295,7 @@ class TimesModel(myModel):
 #            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
 #            return None        
         
-        ''' 1. USER NR => USER ID'''                        
+        ''' 2. USER ID'''                        
         if(int(tabTime['nr']) == 0):
             dbTime['user_id'] = 0                     
         else:                                                
@@ -323,7 +324,7 @@ class TimesModel(myModel):
                 uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
             
-        '''2. START-TIME'''
+        '''3. START-TIME'''
         if(int(dbTime['cell']) == 1) or (int(tabTime['nr']) == 0):            
             start_time = self.starts2.GetFirst()
         else:
@@ -332,7 +333,8 @@ class TimesModel(myModel):
                     start_time = self.starts2.Get(dbCategory['start_nr'])                    
                 elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                     #starttime se počítá z user_id(odvozeno od čísla v tabRow) a timeraw (převádím na číslo)                
-                    tabTimeraw = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])                  
+                    tabTimeraw = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])
+                    print tabTime['timeraw'], "=>", tabTimeraw                  
                     start_time = self.starts2.GetLast({"user_id": dbUser['id'], "time_raw": tabTimeraw})                                 
                 else:
                     print "E: Fatal Error: Starttime, "
@@ -368,11 +370,14 @@ class TimesModel(myModel):
                 tabUser = tableUsers.getTabUserParNr(tabTime['nr'])                            
                 category = tableCategories.getDbCategoryParName(tabUser['category'])
                                                
-                ''' změna času => změna času v db '''            
+                ''' změna času => změna času v db '''                            
                 try:                                        
                     dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
                 except TimesUtils.TimeFormat_Error:
-                    uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")                
+                    uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")
+            
+            if(item.column() == self.table.TABLE_COLLUMN_DEF['timeraw']['index']):
+                dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])
                 
         '''počítaný čas se vždy maže a spočte se při updatu znova'''         
         dbTime['time'] = None

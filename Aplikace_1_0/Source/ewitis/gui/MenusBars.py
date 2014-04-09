@@ -9,6 +9,7 @@ from ewitis.gui.Ui import appWindow, Ui
 from ewitis.data.dstore import dstore 
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import * 
+from ewitis.gui.barCellActions import barCellActions
 
 class Menus():
     
@@ -28,15 +29,24 @@ class Bars():
     
     def __init__(self):
         pass
-            
+    
+           
     def Init(self):
+        barCellActions.Init()
         self.createSlots()
         
-    def createSlots(self):        
+    def createSlots(self):   
+        barCellActions.createSlots()     
         QtCore.QObject.connect(Ui().aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)        
         QtCore.QObject.connect(Ui().aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)
         QtCore.QObject.connect(Ui().aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True))
         QtCore.QObject.connect(Ui().aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False))
+        
+        #ping
+        #enable cell
+        #generate celltime
+        #disable cell
+        #clear database
                                                 
         
     def Update(self):
@@ -63,6 +73,11 @@ class Bars():
             Ui().statusbar_msg.setStyleSheet("background:green;")
         elif timing_settings_get['measurement_state']== MeasurementState.finished:
             Ui().statusbar_msg.setStyleSheet("background:red;")
+            
+        barCellActions.Update()
+            
+
+        
         
 
     #########    

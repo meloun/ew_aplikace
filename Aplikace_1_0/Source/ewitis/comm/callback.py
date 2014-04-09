@@ -35,7 +35,8 @@ def unpack_data(command, data, senddata):
         #    
         aux_versions = {"hw": aux_versions['hw1']+' '+aux_versions['hw2']+'.'+aux_versions['hw3'],
                         "fw": aux_versions['fw1']+'.'+aux_versions['fw2'],                        
-                        "device": aux_versions['hw1']+aux_versions['fw1']                        
+                        "device": "Blackbox 1"                        
+                        #"device": aux_versions['hw1']+aux_versions['fw1']                        
                         }
         print aux_versions
         return aux_versions
@@ -165,6 +166,8 @@ def unpack_data(command, data, senddata):
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_START_CELL"]["cmd"] | 0x80)):        
         return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]["cmd"] | 0x80)):        
+        return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_FINISH_CELL"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["QUIT_TIMING"]["cmd"] | 0x80)):        
@@ -173,9 +176,15 @@ def unpack_data(command, data, senddata):
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_FINISHTIME"]["cmd"] | 0x80)):        
         return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GENERATE_CELLTIME"]["cmd"] | 0x80)):        
+        return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["CLEAR_DATABASE"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TAGS_READING"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_ACTUAL_RACE_TIME"]["cmd"] | 0x80)):        
+        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_LAST_TIME"]["cmd"] | 0x80)):        
         return data    
     else:
         for cmd_string, cmd_nr in DEF_COMMANDS.DEF_ERRORS.items():
@@ -211,6 +220,9 @@ def pack_data(command_key, data):
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
         # GET DIAGNOSTIC        
         aux_data = struct.pack('<BB', data['start'], data['count'])
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["GENERATE_CELLTIME"]['cmd']):        
+        # GENERATE CELLTIME       
+        aux_data = struct.pack('<BL', data['task'], data['user_id'])
         
     # NUMBER    
     elif(length == 1):

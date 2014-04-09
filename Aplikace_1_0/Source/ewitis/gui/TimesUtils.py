@@ -41,7 +41,7 @@ class TimesUtils():
         '''
         12,01,02,11 => "12:01:02,11"
         '''
-        if (hours > 99) or (minutes > 59) or (seconds > 59):
+        if (minutes > 59) or (seconds > 59):
             raise TimeFormat_Error
         time = ((hours*60*60)+(minutes*60) + seconds)*100 + milliseconds_x10
         return time

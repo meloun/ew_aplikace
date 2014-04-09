@@ -1,14 +1,16 @@
 from distutils.core import setup 
-import py2exe 
+import py2exe
+import os
+import matplotlib
+
 setup(    
     options={
-       "py2exe" : {"includes" : ["sip","PyQt4.QtNetwork"]}
+       "py2exe" : {
+			 		"includes" : ["sip", "PyQt4.QtNetwork"]			 		
+          }			 		
     },
-    data_files = [
-      ('imageformats', [
-        r'C:\programs\Python271\Lib\site-packages\PyQt4\plugins\imageformats\qico4.dll'
-        ])],
+    data_files = matplotlib.get_py2exe_datafiles(),
     console=[{          
-       "script" : "manage_gui.py"       
+       "script" : "manage.py"       
     }]
 ) 

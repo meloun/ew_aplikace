@@ -13,6 +13,7 @@ from ewitis.gui.tableTags import tableTags
 from ewitis.gui.Ui import Ui 
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
+from ewitis.data.DEF_ENUM_STRINGS import TAB
 
       
 class ActionToolbar():
@@ -23,14 +24,16 @@ class ActionToolbar():
     def createSlots(self):
         #actions toolbar
         QtCore.QObject.connect(Ui().aActionsEnable, QtCore.SIGNAL("triggered(bool)"), self.sEnableActions)
-        QtCore.QObject.connect(Ui().aEnableStart, QtCore.SIGNAL("triggered()"), self.sEnableStartcell)
-        QtCore.QObject.connect(Ui().aGenerateStarttime, QtCore.SIGNAL("triggered()"), self.sGenerateStarttime)
-        QtCore.QObject.connect(Ui().aGenerateFinishtime, QtCore.SIGNAL("triggered()"), self.sGenerateFinishtime)        
-        QtCore.QObject.connect(Ui().aEnableFinish, QtCore.SIGNAL("triggered()"), self.sEnableFinishcell)
+        QtCore.QObject.connect(Ui().aEnableCell_1, QtCore.SIGNAL("triggered()"), self.sEnableStartcell)
+        QtCore.QObject.connect(Ui().aGenerateCelltime_1, QtCore.SIGNAL("triggered()"), self.sGenerateStarttime)
+        QtCore.QObject.connect(Ui().aGenerateCelltime_250, QtCore.SIGNAL("triggered()"), self.sGenerateFinishtime)        
+        QtCore.QObject.connect(Ui().aEnableCell_250, QtCore.SIGNAL("triggered()"), self.sEnableFinishcell)
         QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
         QtCore.QObject.connect(Ui().aEnableTagsReading, QtCore.SIGNAL("triggered()"), self.sEnableScanTags)
         QtCore.QObject.connect(Ui().aDisableTagsReading, QtCore.SIGNAL("triggered()"), self.sDisableScanTags)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
+        #
+        QtCore.QObject.connect(Ui().timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, TAB.run_times))
         
     def Update(self, state = None):                
                 
@@ -39,14 +42,14 @@ class ActionToolbar():
        
         #enable start, enable finish cell
         if(state == False):
-            Ui().aEnableStart.setEnabled(False)
-            Ui().aEnableFinish.setEnabled(False)
+            Ui().aEnableCell_1.setEnabled(False)
+            Ui().aEnableCell_250.setEnabled(False)
         elif(dstore.Get("rfid") == 0):        
-            Ui().aEnableStart.setEnabled(state)
-            Ui().aEnableFinish.setEnabled(state)
+            Ui().aEnableCell_1.setEnabled(state)
+            Ui().aEnableCell_250.setEnabled(state)
         else:#if(dstore.Get("rfid") == 2):
-            Ui().aEnableStart.setEnabled(False)
-            Ui().aEnableFinish.setEnabled(False)
+            Ui().aEnableCell_1.setEnabled(False)
+            Ui().aEnableCell_250.setEnabled(False)
        
         #Enable and Disable Tags Reading     
         timing_settings_get = dstore.Get("timing_settings", "GET")
@@ -64,8 +67,8 @@ class ActionToolbar():
             Ui().aDisableTagsReading.setEnabled(False)
 
         #generate start and finish time        
-        Ui().aGenerateStarttime.setEnabled(state)
-        Ui().aGenerateFinishtime.setEnabled(state)
+        Ui().aGenerateCelltime_1.setEnabled(state)
+        Ui().aGenerateCelltime_250.setEnabled(state)
         
         #quit timinq
         Ui().aQuitTiming.setEnabled(state)
@@ -89,7 +92,7 @@ class ActionToolbar():
     def sGenerateStarttime(self):
         print "A: Generate starttime"                                                                                                                            
         dstore.Set("generate_starttime", 0x01, "SET")                                    
-    def sGenerateFinishtime(self):                                                        
+    def sGenerateFinishtime(self, nr):                                                        
         print "A: Generate finishtime"                                                                                                                            
         dstore.Set("generate_finishtime", 0x00, "SET")
     def sGenerateUserFinishtime(self):
