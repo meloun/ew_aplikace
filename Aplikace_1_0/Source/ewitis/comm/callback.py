@@ -22,21 +22,24 @@ def unpack_data(command, data, senddata):
     # HW & FW VERSIONS
     if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_HW_SW_VERSION"]["cmd"] | 0x80)):    
         aux_versions = {}
-        aux_versions['hw1'], aux_versions['hw2'],aux_versions['hw3'], aux_versions['fw1'],  aux_versions['fw2']\
-        = struct.unpack("<cc2s2s2s", data)        
+        aux_versions['hw1'], aux_versions['hw2'],aux_versions['hw3'], aux_versions['fw1'],  aux_versions['fw2'], aux_versions['fw3']\
+        = struct.unpack("<cc2scc2s", data)        
         
         #some sugar
-        if aux_versions['hw1']== 'T':
-            aux_versions['hw1'] = 'Terminal'            
-        elif aux_versions['hw1']== 'B':
+        if aux_versions['hw1']== 'B':
             aux_versions['hw1'] = 'Blackbox'            
+        else:
+            aux_versions['hw1'] = 'Terminal'            
+        if aux_versions['fw1']== 'I':
+            aux_versions['fw1'] = 'IR'            
+        else:
+            aux_versions['fw1'] = 'RFID'            
             
         
         #    
         aux_versions = {"hw": aux_versions['hw1']+' '+aux_versions['hw2']+'.'+aux_versions['hw3'],
-                        "fw": aux_versions['fw1']+'.'+aux_versions['fw2'],                        
-                        "device": "Blackbox 1"                        
-                        #"device": aux_versions['hw1']+aux_versions['fw1']                        
+                        "fw": aux_versions['fw1']+' '+aux_versions['fw2']+'.'+aux_versions['fw3'],                                                                       
+                        "device": aux_versions['hw1']+'-'+aux_versions['fw1']                        
                         }
         print aux_versions
         return aux_versions

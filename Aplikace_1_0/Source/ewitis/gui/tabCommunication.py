@@ -29,9 +29,9 @@ class TabCommunication(MyTab):
             #prepare item name
             aux_cmd_key = "%02X" % value['cmd']            
             aux_cmd = "x"+aux_cmd_key+" "+key.lower() + " " + str(value['length'])+"b"            
-            if(value['terminal']):
+            if(value['Blackbox-RFID'] or value['Blackbox-IR']):
                 aux_cmd += " B"              
-            if(value['terminal']):
+            if(value['Terminal']):
                 aux_cmd += " T"
             #add item                        
             aux_commands.append(aux_cmd)
@@ -63,26 +63,55 @@ class TabCommunication(MyTab):
         
     def CreateSlots(self):
         QtCore.QObject.connect(Ui().comboCommCommand, QtCore.SIGNAL("activated(int)"), self.sComboCommand)
+        QtCore.QObject.connect(Ui().spinCommDatalength, QtCore.SIGNAL("valueChanged(int)"), self.sSpinDatalength)               
         QtCore.QObject.connect(Ui().pushCommSend, QtCore.SIGNAL("clicked()"), self.sSendCommand)
         QtCore.QObject.connect(Ui().checkCommLogCyclic, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("diagnostic", ["log_cyclic"], state, self.Update()))
-        QtCore.QObject.connect(Ui().pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)                 
+        QtCore.QObject.connect(Ui().pushCommClearLog, QtCore.SIGNAL("clicked()"), self.sCommClearLog)
             
           
     """                 """
     """ COMMUNICATION   """
     """                 """
-    def sComboCommand(self, index):        
+    def sComboCommand(self, index):
+        DEF_COMMANDS.SetDiagnosticCommand(cmd = 0xFF) #because of sorting        
         cmd = DEF_COMMANDS.GetSorted()[index]
-        cmd_length = cmd[1]['length']
+        cmd_cmd = cmd[1]['cmd']
+        cmd_datalength = cmd[1]['length']
+        
+        #copy cmd and length to 2 spinboxes
+        cmd_cmd = "%x" % cmd_cmd # number to 'AA'
+        Ui().lineCommCommand.setText(cmd_cmd)
+        Ui().spinCommDatalength.setValue(cmd_datalength)                
+        
+        #enable/disable spinboxes
+        print cmd[0]
+        if cmd[0] == "DIAGNOSTIC_COMMAND":
+            Ui().lineCommCommand.setEnabled(True)
+            Ui().spinCommDatalength.setEnabled(True)
+        else: 
+            Ui().lineCommCommand.setEnabled(False)
+            Ui().spinCommDatalength.setEnabled(False)                           
         
         #update senddata lenfth        
-        Ui().lineCommData.setInputMask((cmd_length * "HH ")+";0")             
+        Ui().lineCommData.setInputMask((cmd_datalength * "HH ")+";0")
+        
+    def sSpinDatalength(self):
+        #update senddata lenfth        
+        Ui().lineCommData.setInputMask((Ui().spinCommDatalength.value() * "HH ")+";0")             
             
-    def sSendCommand(self):
+    def sSendCommand(self):         
         
         cmd_index = Ui().comboCommCommand.currentIndex()
+        DEF_COMMANDS.SetDiagnosticCommand(cmd = 0xFF) #because of sorting
         cmd_key = DEF_COMMANDS.GetSorted()[cmd_index][0]
-        data = str(Ui().lineCommData.displayText ().replace(" ", ""))
+        
+        #prepare command anda datalength, if diagnostic
+        if cmd_key == "DIAGNOSTIC_COMMAND":
+            DEF_COMMANDS.SetDiagnosticCommand(cmd = int(str(Ui().lineCommCommand.text()), 16))
+            DEF_COMMANDS.SetDiagnosticCommand(length = Ui().spinCommDatalength.value())
+            
+        #prepare data data
+        data = str(Ui().lineCommData.displayText().replace(" ", ""))
         
         #set to datastore
         uiAccesories.sGuiSetItem("diagnostic", ["sendcommandkey"], cmd_key)                        

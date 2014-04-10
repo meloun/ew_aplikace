@@ -71,12 +71,25 @@ class BarCellActions():
         print "sDisable", nr        
 
         
-    def Update(self):        
+    def Update(self):  
+        #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)      
         
         #enable/disable items in cell toolbar                    
         for i, cell_actions in enumerate(self.cells_actions):
-            #print cell_actions            
-            if tabCells.IsCellWithTask(self.Collumn2TaskNr(i)):
+            #print cell_actions
+            cell = tabCells.GetCellParTask(self.Collumn2TaskNr(i))            
+            if cell != None:
+                if cell.GetInfo()['active']:
+                    font = cell_actions['ping_cell'].font()
+                    font.setBold(True)
+                    font.setUnderline(True)
+                    cell_actions['ping_cell'].setFont(font)
+                else:
+                    font = cell_actions['ping_cell'].font()
+                    font.setBold(False)
+                    font.setUnderline(False)
+                    cell_actions['ping_cell'].setFont(font)
+                    
                 for key, action in cell_actions.items():                                            
                     action.setEnabled(True)                    
             else:

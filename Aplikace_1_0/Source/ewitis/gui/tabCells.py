@@ -23,8 +23,7 @@ class CellGroup ():
         format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
         '''
         ui = Ui()
-        
-        print "init",nr
+                
         self.nr = nr                        
         self.groupbox = getattr(ui, "groupCell_"+str(nr))
         self.checkbox = getattr(ui, "checkCell_"+str(nr))
@@ -225,11 +224,11 @@ class TabCells(MyTab):
         for i in range(0,self.nr):
             self.cellgroups[i].sCheckbox(state)
             
-    def IsCellWithTask(self, task):        
+    def GetCellParTask(self, task):        
         for cellgroup in self.cellgroups:            
             if cellgroup.GetTask() == task:                
-                return True
-        return False                                    
+                return cellgroup
+        return None                                                                           
     
         
     def Update(self, mode = UPDATE_MODE.all):
