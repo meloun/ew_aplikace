@@ -53,22 +53,43 @@ class BarCellActions():
             i = self.Collumn2TaskNr(i)
             
             # add slots                    
-            QtCore.QObject.connect(cell_actions['ping_cell'], QtCore.SIGNAL("triggered()"), lambda nr=i : self.sPing(nr))
-            QtCore.QObject.connect(cell_actions['enable_cell'], QtCore.SIGNAL("triggered()"), lambda nr=i: self.sEnable(nr))        
-            QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), lambda nr=i: self.sGenerateCelltime(nr))        
-            QtCore.QObject.connect(cell_actions['disable_cell'], QtCore.SIGNAL("triggered()"), lambda nr=i: self.sDisable(nr))
+            QtCore.QObject.connect(cell_actions['ping_cell'], QtCore.SIGNAL("triggered()"), lambda task=i : self.sPing(task))
+            QtCore.QObject.connect(cell_actions['enable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: self.sEnable(task))        
+            QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), lambda task=i: self.sGenerateCelltime(task))        
+            QtCore.QObject.connect(cell_actions['disable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: self.sDisable(task))
+            
+        QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
+        QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
              
-    def sPing(self, nr):
-        print "sPing", nr
+    def sPing(self, task):
+        print "sPing", task
+        
                 
-    def sEnable(self, nr):
-        print "sEnable", nr
+    def sEnable(self, task):
+        print "sEnable", task
+        dstore.Set("enable_cell", {'task':task}, "SET")                    
                 
-    def sGenerateCelltime(self, nr):
-        print "sGenerateCelltime", nr
+    def sDisable(self, task):
+        print "sDisable", task
+        dstore.Set("disable_cell", {'task':task}, "SET")
+                                                                                                                                                                                                                                 
+    def sGenerateCelltime(self, task, nr = 0):
+        print "sGenerateCelltime", task, nr
+        dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                               
                 
-    def sDisable(self, nr):
-        print "sDisable", nr        
+                   
+        
+    def sQuitTiming(self):
+        if (uiAccesories.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+            return
+        print "A: Generate quit time"                                                                                                                                                                                            
+        dstore.Set("quit_timing", 0x00, "SET")
+         
+    def sClearDatabase(self):
+        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
+            return
+        print "A: Clear Database"                                                                                                                                                                                            
+        dstore.Set("clear_database", 0x00, "SET")     
 
         
     def Update(self):  

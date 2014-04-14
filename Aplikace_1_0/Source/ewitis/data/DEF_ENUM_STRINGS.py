@@ -27,4 +27,24 @@ class STRINGS:
     
 class COLORS:
     green = "#90EE90"
-    red = "#FF6347"      
+    red = "#ff7f50" 
+    orange = "#ffa500"
+    none = ""
+    
+    @staticmethod
+    def GetColor(key, enabled = True):                   
+        
+        if bool(enabled) == False:
+            return COLORS.none
+        
+        if key == None:
+            return COLORS.none
+
+        #boolean
+        if isinstance(key, bool):
+            if key == True:
+                return COLORS.green
+            else:
+                return COLORS.red
+        
+        return COLORS.none      

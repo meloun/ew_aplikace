@@ -191,7 +191,7 @@ class ManageComm(Thread):
                 #send command                
                 aux_response = self.send_receive_frame(dstore.Get("diagnostic")["sendcommandkey"], (dstore.Get("diagnostic")["senddata"]).decode('hex'))                                
                                 
-                if ('error' in aux_version): 
+                if ('error' in aux_response): 
                     print "COMM: sendcommand response: ERROR"                                     
                 
                 #smazat request
@@ -264,32 +264,24 @@ class ManageComm(Thread):
              - enable/disable tags reading
             """
             
-            """ enable start-cell """                
-            if(dstore.IsChanged("enable_startcell")):                                        
-                user_id = dstore.Get("enable_startcell", "SET")                
-                #ret = self.send_receive_frame("ENABLE_START_CELL")
-                ret = self.send_receive_frame("ENABLE_CELL", 0x01)
-                dstore.ResetChangedFlag("enable_startcell")
-                
-            """ enable finish-cell """                
-            if(dstore.IsChanged("enable_finishcell")):                        
-                user_id = dstore.Get("enable_finishcell", "SET")                
-                #ret = self.send_receive_frame("ENABLE_FINISH_CELL")
-                ret = self.send_receive_frame("ENABLE_CELL", 250)
-                dstore.ResetChangedFlag("enable_finishcell")
-                                    
-            """ generate starttime """                
-            if(dstore.IsChanged("generate_starttime")):                                        
-                user_id = dstore.Get("generate_starttime", "SET")                
-                ret = self.send_receive_frame("GENERATE_STARTTIME", user_id)
-                dstore.ResetChangedFlag("generate_starttime")
-                
-            """ generate finishtime """
-            if(dstore.IsChanged("generate_finishtime")):                                
-                user_id = dstore.Get("generate_finishtime", "SET")                
-                #ret = self.send_receive_frame("GENERATE_FINISHTIME", user_id)
-                ret = self.send_receive_frame("GENERATE_CELLTIME", {'task':250, 'user_id': 0x01})
-                dstore.ResetChangedFlag("generate_finishtime")
+            """ enable cell """ 
+            enable_cell = dstore.Get("enable_cell", "SET")                           
+            if(enable_cell['task'] != 0):                                
+                ret = self.send_receive_frame("ENABLE_CELL", enable_cell) 
+                dstore.Set("enable_cell", {'task':0}, "SET")
+                                 
+            """ disable cell """ 
+            disable_cell = dstore.Get("disable_cell", "SET")                           
+            if(disable_cell['task'] != 0):                                
+                ret = self.send_receive_frame("DISABLE_CELL", disable_cell) 
+                dstore.Set("disable_cell", {'task':0}, "SET")
+                                 
+            """ generate celltime """ 
+            generate_celltime = dstore.Get("generate_celltime", "SET")                           
+            if(generate_celltime['task'] != 0):                                
+                ret = self.send_receive_frame("GENERATE_CELLTIME", generate_celltime) 
+                dstore.Set("generate_celltime", {'task':0, 'user_id':0}, "SET")                 
+                                                                    
                     
             """ quit timing """
             if(dstore.IsChanged("quit_timing")):                                                                                     

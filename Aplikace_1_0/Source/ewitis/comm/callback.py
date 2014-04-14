@@ -171,7 +171,7 @@ def unpack_data(command, data, senddata):
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]["cmd"] | 0x80)):        
         return data    
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_FINISH_CELL"]["cmd"] | 0x80)):        
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["DISABLE_CELL"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["QUIT_TIMING"]["cmd"] | 0x80)):        
         return data
@@ -223,6 +223,12 @@ def pack_data(command_key, data):
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
         # GET DIAGNOSTIC        
         aux_data = struct.pack('<BB', data['start'], data['count'])
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]['cmd']):        
+        # ENABLE CELL       
+        aux_data = struct.pack('<B', data['task'])
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["DISABLE_CELL"]['cmd']):        
+        # DISABLE CELL       
+        aux_data = struct.pack('<B', data['task'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GENERATE_CELLTIME"]['cmd']):        
         # GENERATE CELLTIME       
         aux_data = struct.pack('<BL', data['task'], data['user_id'])

@@ -25,8 +25,7 @@ class CellGroup ():
         ui = Ui()
                 
         self.nr = nr                        
-        self.groupbox = getattr(ui, "groupCell_"+str(nr))
-        self.checkbox = getattr(ui, "checkCell_"+str(nr))
+        self.groupbox = getattr(ui, "groupCell_"+str(nr))        
         self.lineCellTask = getattr(ui, "lineCellTask_"+str(nr))
         self.comboCellTask = getattr(ui, "comboCellTask_"+str(nr))
         self.lineCellBattery = getattr(ui, "lineCellBattery_"+str(nr))
@@ -41,13 +40,13 @@ class CellGroup ():
         self.lineCellDiagShortKo = getattr(ui, "lineCellDiagShortKo_"+str(nr))
         self.lineCellDiagShortRatio = getattr(ui, "lineCellDiagShortRatio_"+str(nr))
         self.pushCellClearCounters = getattr(ui, "pushCellClearCounters_"+str(nr))
+        self.pushCellRunDiagnostic = getattr(ui, "pushCellRunDiagnostic_"+str(nr))
         self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
     
     def Init(self):        
         self.createSlots()
         
-    def CreateSlots(self):                
-        QtCore.QObject.connect(self.checkbox, QtCore.SIGNAL("stateChanged(int)"), self.sCheckbox)
+    def CreateSlots(self):                        
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), self.sSlot)
         QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), self.sSlot)
@@ -74,12 +73,10 @@ class CellGroup ():
         self.Update()
         
         
-    def sCheckbox(self, state):
+    def SetEnabled(self, state):
         
-        #enable/disable all widgets
-        self.checkbox.setChecked(state)                
-        self.lineCellTask.setEnabled(state)
-        self.comboCellTask.setEnabled(state)
+        #enable/disable all widgets            
+        self.lineCellTask.setEnabled(state)        
         self.lineCellBattery.setEnabled(state)
         self.lineCellIrSinal.setEnabled(state)
         self.lineCellActive.setEnabled(state)
@@ -92,6 +89,7 @@ class CellGroup ():
         self.lineCellDiagLongKo.setEnabled(state)
         self.lineCellDiagLongRatio.setEnabled(state)
         self.pushCellClearCounters.setEnabled(state)
+        self.pushRunDiagnostic.setEnabled(state)
         self.pushCellPing.setEnabled(state)
     
     def GetInfo(self):
@@ -116,14 +114,22 @@ class CellGroup ():
         cell_info = self.GetInfo()
 
         #task
+
+        index = self.TaskNr2Idx(cell_info["task"])
+        
         if(cell_info['task'] != None):
-            self.lineCellTask.setText(self.comboCellTask.itemText(cell_info["task"]))
+            self.lineCellTask.setText(self.comboCellTask.itemText(index))
         else:
-            self.lineCellTask.setText(" - - - ")
+            self.lineCellTask.setText(" - - - ")                                    
+        colors_enabled = True if(self.lineCellTask.text() != "NONE") else False
+        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), colors_enabled))
+                    
+        if(index != None):            
+            self.comboCellTask.setCurrentIndex(index)                        
         
         #battery
         if(cell_info['battery'] != None):
-            self.lineCellBattery.setText(str(cell_info['battery'])+" %")                        
+            self.lineCellBattery.setText(str(cell_info['battery']))                        
         else:
             self.lineCellBattery.setText(" - - %")                                                                                  
         
@@ -134,6 +140,8 @@ class CellGroup ():
             self.lineCellIrSinal.setText("NO IR SIGNAL")
         else:
             self.lineCellIrSinal.setText(" - - ")
+        #print "IR: ", cell_info["ir_signal"], colors_enabled
+        self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(cell_info["ir_signal"], colors_enabled))
 
         #active            
         if cell_info["active"] == True:
@@ -142,6 +150,7 @@ class CellGroup ():
             self.lineCellActive.setText("BLOCKED")
         else:
             self.lineCellActive.setText(" - - ")
+        self.lineCellActive.setStyleSheet("background:"+self.GetColor(cell_info["active"], colors_enabled))
             
         #synchronized once
         if cell_info["synchronized_once"] == True:
@@ -153,17 +162,16 @@ class CellGroup ():
         else:
             self.lineCellSynchronizedOnce.setText(" - - ")
             self.lineCellSynchronizedOnce.setStyleSheet("")
+        self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(cell_info["synchronized_once"], colors_enabled))
         
         #synchronized
         if cell_info["synchronized"] == True:
-            self.lineCellSynchronized.setText("10MIN")
-            self.lineCellSynchronized.setStyleSheet("background:"+COLORS.green)
+            self.lineCellSynchronized.setText("10MIN")            
         elif cell_info["synchronized"] == False:
-            self.lineCellSynchronized.setText("10MIN")
-            self.lineCellSynchronized.setStyleSheet("background:"+COLORS.red)
+            self.lineCellSynchronized.setText("10MIN")            
         else:
-            self.lineCellSynchronized.setText(" - - ")
-            self.lineCellSynchronized.setStyleSheet("")                        
+            self.lineCellSynchronized.setText(" - - ")                    
+        self.lineCellSynchronized.setStyleSheet("background:"+self.GetColor(cell_info["synchronized"], colors_enabled))                       
         
         #diagnostic shork ok
         if(cell_info['diagnostic_short_ok'] != None):                                    
@@ -198,6 +206,45 @@ class CellGroup ():
             self.lineCellDiagLongRatio.setText(str(cell_info['diagnostic_long_ok']/cell_info['diagnostic_long_ko']))
         else:
             self.lineCellDiagLongRatio.setText("- -")
+            
+            
+    def GetColor(self, key, enabled = True):
+        color = None
+        
+
+                
+        #task
+        if bool(enabled):                        
+            if type(key)==str or type(key)==QtCore.QString:
+                if("NONE" in key) or ("- -" in key):               
+                    color = ""
+                elif key=="START":   
+                    color = COLORS.green
+                elif key=="FINISH":            
+                    color = COLORS.red
+                elif "SPLIT" in key:
+                    color = COLORS.orange
+                    
+            #battery
+            if type(key) == int:            
+                if key>60:
+                    color = COLORS.green
+                elif key>30:
+                    color = COLORS.orange
+                else:                
+                    color = COLORS.red                
+        
+        if self.nr == 1:
+            print "key0 ", key, enabled, "=>", color 
+        if color == None:
+            color = COLORS.GetColor(key, enabled)
+            if self.nr == 1:
+                print "měním na ", color
+        if self.nr == 1:
+            print "key1 ", key, enabled, "=>", color
+        return color
+        
+            
 
 class TabCells(MyTab):
     

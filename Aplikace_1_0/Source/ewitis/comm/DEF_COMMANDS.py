@@ -42,7 +42,7 @@ DEF_COMMANDS = {
     "QUIT_TIMING"               : {'cmd':0x40,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True,    'Terminal': True},
     "ENABLE_START_CELL"         : {'cmd':0x41,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': False,   'Terminal': True},
     "ENABLE_CELL"               : {'cmd':0x41,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': False,   'Terminal': True},
-    "ENABLE_FINISH_CELL"        : {'cmd':0x42,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': False,   'Terminal': True},
+    "DISABLE_CELL"              : {'cmd':0x42,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': False,   'Terminal': True},
     "GENERATE_STARTTIME"        : {'cmd':0x43,  'length':4,     'Blackbox-IR': True,  'Blackbox-RFID': True,    'Terminal': True},
     "GENERATE_FINISHTIME"       : {'cmd':0x44,  'length':4,     'Blackbox-IR': True,  'Blackbox-RFID': True,    'Terminal': True},                                                                                                    
     "SET_TAGS_READING"          : {'cmd':0x45,  'length':1,     'Blackbox-IR': False, 'Blackbox-RFID': True,    'Terminal': False},                                                                                                    
