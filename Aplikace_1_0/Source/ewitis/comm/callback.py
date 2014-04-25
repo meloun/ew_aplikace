@@ -97,8 +97,7 @@ def unpack_data(command, data, senddata):
         aux_terminal_info['speaker'] = {}
         aux_terminal_info['speaker']['keys'] = bool(aux_speaker & 0x01)
         aux_terminal_info['speaker']['system'] = bool(aux_speaker & 0x02)
-        aux_terminal_info['speaker']['timing'] = bool(aux_speaker & 0x04)
-        aux_terminal_info['backlight'] = bool(aux_terminal_info['backlight'])                
+        aux_terminal_info['speaker']['timing'] = bool(aux_speaker & 0x04)                        
                                 
         return aux_terminal_info
     
@@ -161,12 +160,16 @@ def unpack_data(command, data, senddata):
         
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]["cmd"] | 0x80)):        
         return data
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_BACKLIGHT"]["cmd"] | 0x80)):        
-        return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):        
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]["cmd"] | 0x80)):        
-        return data    
+        return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_CELL_DIAG_INFO"]["cmd"] | 0x80)):        
+        return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["PING_CELL"]["cmd"] | 0x80)):        
+        return data 
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["RUN_CELL_DIAGNOSTIC"]["cmd"] | 0x80)):        
+        return data        
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_START_CELL"]["cmd"] | 0x80)):        
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]["cmd"] | 0x80)):        
@@ -219,16 +222,20 @@ def pack_data(command_key, data):
         # SET CELL INFO
         aux_data = struct.pack('<BBBBBB', data['address'], data['task'], data['fu1'],\
                                data['fu2'], data['fu3'], data['fu4'])  
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_DIAG_INFO"]['cmd']):
+        # SET CELL DIAG INFO
+        aux_data = struct.pack('<BhhBB', data['address'], data['diagnostic_long_ok'], data['diagnostic_long_ko'],\
+                               data['diagnostic_short_ok'], data['diagnostic_short_ko'])  
           
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]['cmd']):        
         # GET DIAGNOSTIC        
         aux_data = struct.pack('<BB', data['start'], data['count'])
-    elif(command == DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]['cmd']):        
-        # ENABLE CELL       
-        aux_data = struct.pack('<B', data['task'])
-    elif(command == DEF_COMMANDS.DEF_COMMANDS["DISABLE_CELL"]['cmd']):        
-        # DISABLE CELL       
-        aux_data = struct.pack('<B', data['task'])
+#    elif(command == DEF_COMMANDS.DEF_COMMANDS["ENABLE_CELL"]['cmd']):        
+#        # ENABLE CELL       
+#        aux_data = struct.pack('<B', data['task'])
+#    elif(command == DEF_COMMANDS.DEF_COMMANDS["DISABLE_CELL"]['cmd']):        
+#        # DISABLE CELL       
+#        aux_data = struct.pack('<B', data['task'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GENERATE_CELLTIME"]['cmd']):        
         # GENERATE CELLTIME       
         aux_data = struct.pack('<BL', data['task'], data['user_id'])

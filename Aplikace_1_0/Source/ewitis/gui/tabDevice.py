@@ -23,12 +23,10 @@ class TabDevice():
     def Init(self):
         self.CreateSlots()
                 
-    def CreateSlots(self):
-        QtCore.QObject.connect(Ui().pushBacklight, QtCore.SIGNAL("clicked()"), self.sTerminalBacklight)              
+    def CreateSlots(self):                    
         QtCore.QObject.connect(Ui().pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
         QtCore.QObject.connect(Ui().pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
-        QtCore.QObject.connect(Ui().pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))
-        QtCore.QObject.connect(Ui().comboLanguage, QtCore.SIGNAL("activated(int)"), self.sComboLanguage)
+        QtCore.QObject.connect(Ui().pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))        
 
         
     def sLimitTime(self):
@@ -36,18 +34,7 @@ class TabDevice():
         minutes = Ui().spinLimitTimeMinutes.value()
         seconds = Ui().spinLimitTimeSeconds.value()
         miliseconds = Ui().spinLimitTimeMiliseconds.value()*10        
-        print hours, minutes, seconds, miliseconds
-
-                             
-    def sTerminalBacklight(self):
-        
-        '''získání a nastavení nové SET hodnoty'''
-        aux_terminal_info = dstore.Get("terminal_info", "GET")                        
-        dstore.Set("backlight", not(aux_terminal_info["backlight"]), "SET")        
-        
-        '''reset GET hodnoty'''
-        dstore.ResetValue("terminal_info", 'backlight')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
+        print hours, minutes, seconds, miliseconds                            
                                                  
     def sTerminalSpeaker(self, key):
         
@@ -59,26 +46,8 @@ class TabDevice():
 
         '''reset GET hodnoty'''                
         dstore.ResetValue("terminal_info", 'speaker', key)                                                          
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-                             
-    def sComboLanguage(self, index):
-        print "SLOT", index
-        '''získání a nastavení nové SET hodnoty'''                                
-        dstore.Set("language", index, "SET")               
-        
-        '''reset GET hodnoty'''
-        dstore.ResetValue("terminal_info", 'language')                                                                
-        self.updateTab(TAB.device, UPDATE_MODE.gui)
-        
-    def sCommCommand(self, index):
-        print index        
-        #print DEF_COMMANDS.Get(index)
-        '''získání a nastavení nové SET hodnoty'''                                
-        #dstore.Set("language", index, "SET")               
-        
-        '''reset GET hodnoty'''
-        #dstore.ResetValue("terminal_info", 'language')                                                                
-        #self.updateTab(TAB.device, UPDATE_MODE.gui)
+        self.Update()
+                                     
 
     def Update(self, mode = UPDATE_MODE.all):
         """ HW & FW VERSION """
@@ -110,21 +79,7 @@ class TabDevice():
         if(aux_terminal_info['battery'] != None):
             Ui().lineBattery.setText(str(aux_terminal_info['battery'])+" %")                        
         else:
-            Ui().lineBattery.setText("-- %")                                
-        
-        """ backlight """        
-        if(aux_terminal_info['backlight'] == True):
-            Ui().lineBacklight.setText("ON")
-            Ui().pushBacklight.setText("OFF")
-            Ui().pushBacklight.setEnabled(True)
-        elif(aux_terminal_info['backlight'] == False):
-            Ui().lineBacklight.setText("OFF")
-            Ui().pushBacklight.setText("ON")
-            Ui().pushBacklight.setEnabled(True)
-        else:
-            Ui().lineBacklight.setText("- -")
-            Ui().pushBacklight.setText("- -")
-            Ui().pushBacklight.setEnabled(False)        
+            Ui().lineBattery.setText("-- %")              
         
         """ speaker """        
         if(aux_terminal_info['speaker']['keys'] == True):
@@ -178,12 +133,6 @@ class TabDevice():
             Ui().pushSpeakerSystem.setEnabled(True)
             Ui().pushSpeakerTiming.setEnabled(True)
                 
-        """ language """          
-        if(aux_terminal_info['language'] != None):            
-            Ui().comboLanguage.setCurrentIndex(aux_terminal_info['language'])            
-            Ui().lineLanguage.setText(Ui().comboLanguage.currentText())                    
-        else:            
-            Ui().lineLanguage.setText("- -")
             
         return True    
         

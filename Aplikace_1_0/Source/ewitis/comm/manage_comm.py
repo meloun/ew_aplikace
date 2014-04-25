@@ -18,6 +18,7 @@ import libs.html.html as html
 import libs.utils.utils as utils
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
+from ewitis.data.DEF_DATA import TAB
 
 #from ewitis.data.db import db
 from ewitis.data.dstore import dstore
@@ -231,10 +232,7 @@ class ManageComm(Thread):
             
             #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='red'>no new times (100)</font><br>")
             #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='green'>no new times (100)</font><br>")
-            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")
-            
-                                                                             
-                                                                            
+            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")                                                                                                                                                                    
                     
             """ STORE NEW TIME TO THE DATABASE """
             if(aux_time['error'] == 0):
@@ -254,7 +252,7 @@ class ManageComm(Thread):
                             
                 
             """
-            ACTIONS            
+            barCellActions            
              - enable/disable startcell
              - enable/disable finishcell
              - generate starttime
@@ -264,17 +262,45 @@ class ManageComm(Thread):
              - enable/disable tags reading
             """
             
+            '''CELL ADDRESS ACTIONS, toolbar'''
+            
+            """ set cell diag info""" 
+            set_cell_diagnostic = dstore.Get("set_cell_diag_info", "SET")                           
+            if(set_cell_diagnostic['address'] != 0):                                
+                ret = self.send_receive_frame("SET_CELL_DIAG_INFO", set_cell_diagnostic) 
+                dstore.SetItem("set_cell_diag_info", ['address'],0, "SET")
+                
+            """ ping cell """ 
+            address = dstore.Get("ping_cell", "SET")                           
+            if(address != 0):                                
+                ret = self.send_receive_frame("PING_CELL", address) 
+                dstore.Set("ping_cell", 0, "SET")
+                
+            """ run cell diagnostic""" 
+            address = dstore.Get("run_cell_diagnostic", "SET")                           
+            if(address != 0):                                
+                ret = self.send_receive_frame("RUN_CELL_DIAGNOSTIC", address) 
+                dstore.Set("run_cell_diagnostic", 0, "SET")
+                
+            '''CELL TASK ACTIONS, tab cells'''
+                
+            """ get cell last times """ 
+            task = dstore.Get("get_cell_last_times", "SET")                           
+            if(task != 0):                                
+                ret = self.send_receive_frame("GET_CELL_LAST_TIME", task) 
+                dstore.Set("get_cell_last_times", 0, "SET")
+                
             """ enable cell """ 
-            enable_cell = dstore.Get("enable_cell", "SET")                           
-            if(enable_cell['task'] != 0):                                
-                ret = self.send_receive_frame("ENABLE_CELL", enable_cell) 
-                dstore.Set("enable_cell", {'task':0}, "SET")
+            task = dstore.Get("enable_cell", "SET")                           
+            if(task != 0):                                
+                ret = self.send_receive_frame("ENABLE_CELL", task) 
+                dstore.Set("enable_cell", 0, "SET")
                                  
             """ disable cell """ 
-            disable_cell = dstore.Get("disable_cell", "SET")                           
-            if(disable_cell['task'] != 0):                                
-                ret = self.send_receive_frame("DISABLE_CELL", disable_cell) 
-                dstore.Set("disable_cell", {'task':0}, "SET")
+            task = dstore.Get("disable_cell", "SET")                           
+            if(task != 0):                                
+                ret = self.send_receive_frame("DISABLE_CELL", task) 
+                dstore.Set("disable_cell", 0, "SET")
                                  
             """ generate celltime """ 
             generate_celltime = dstore.Get("generate_celltime", "SET")                           
@@ -309,34 +335,19 @@ class ManageComm(Thread):
             """ end of ACTIONS """
             
             """
-            tab RACE SETTINGS & tab ACTIONS & tab DEVICE            
-             - set backlight
-             - set speaker
-             - set language
+            tab RACE SETTINGS & tab DEVICE            
+             - set speaker             
              - get terminal info
              - set timing settings                                                                          
             """                                                                   
-            if(dstore.Get("active_tab") == TAB.race_settings) or (dstore.Get("active_tab") == TAB.actions)\
+            if(dstore.Get("active_tab") == TAB.race_settings)\
                 or (dstore.Get("active_tab") == TAB.device):                                
-                
-                """ set backlight """
-                if(dstore.IsChanged("backlight")):                                
-                    data = dstore.Get("backlight", "SET")                                    
-                    ret = self.send_receive_frame("SET_BACKLIGHT", data)
-                    dstore.ResetChangedFlag("backlight")                                   
-                
+                                                                  
                 """ set speaker """
-                if(dstore.IsChanged("speaker")):
-                    print "NASTAVUJI"                                                                             
+                if(dstore.IsChanged("speaker")):                                                                                                
                     aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
                     ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
-                    dstore.ResetChangedFlag("speaker")                
-                                            
-                """ set language """                                    
-                if(dstore.IsChanged("language")):
-                    data = dstore.Get("language", "SET")                                                                                                                                                                               
-                    ret = self.send_receive_frame("SET_LANGUAGE", data)                    
-                    dstore.ResetChangedFlag("language")                                   
+                    dstore.ResetChangedFlag("speaker")                                                                                            
                                 
                                                                                     
                 """ get terminal-info """                     
@@ -355,6 +366,12 @@ class ManageComm(Thread):
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
                     dstore.ResetChangedFlag("timing_settings")  
         
+            """
+            tab CELLs
+            - clear diag, run diag, buttons ping,                                                                        
+            """ 
+            if(dstore.Get("active_tab") == TAB.cells):
+                pass
             
             """
             tab DIAGNOSTIC                        

@@ -38,61 +38,61 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
                 
         #middle group             
-        QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))        
-        QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("rfid", state, TAB.race_settings, True))        
-        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("tag_filter", state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSet("race_name", utils.toUnicode(name), self.Update))        
+        QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("rfid", state, self.Update, True))        
+        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("tag_filter", state, self.Update))
         
         
         #export
-        QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, TAB.race_settings))                                
-        QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["best_laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_1"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_2"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_3"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_4"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(Ui().lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(Ui().lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(Ui().lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["gap"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_race"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_categories"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["best_laptime"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_1"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_2"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_3"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_4"], state, self.Update))
+        QtCore.QObject.connect(Ui().lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["gap"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_race"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_categories"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, self.Update))
         
         #points
-        QtCore.QObject.connect(Ui().checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("points", ["table"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("points", ["rule"], utils.toUnicode(name), TAB.race_settings))
-        #QtCore.QObject.connect(Ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), TAB.race_settings))
-        QtCore.QObject.connect(Ui().spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["minimum"], laps, TAB.race_settings))
-        QtCore.QObject.connect(Ui().spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["maximum"], laps, TAB.race_settings))
+        QtCore.QObject.connect(Ui().checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("points", ["table"], state, self.Update))
+        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("points", ["rule"], utils.toUnicode(name), self.Update))
+        #QtCore.QObject.connect(Ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["minimum"], laps, self.Update))
+        QtCore.QObject.connect(Ui().spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["maximum"], laps, self.Update))
         
 
         
         #start download from last time and run 
-        QtCore.QObject.connect(Ui().checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, self.Update))
 
-        QtCore.QObject.connect(Ui().spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, self.Update))
         #table TIMES
         #order evaluation
         #QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
-        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["order"], index, TAB.race_settings))                
-        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, TAB.race_settings))
+        QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["order"], index, self.Update))                
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))
                                                 
         #show
-        QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["starttimes"], state, TAB.race_settings))
-        #QtCore.QObject.connect(Ui().checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["alltimes"], state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["starttimes"], state, self.Update))
+        #QtCore.QObject.connect(Ui().checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["alltimes"], state, self.Update))
         
         #additional info
-        QtCore.QObject.connect(Ui().checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["order"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["order_in_cat"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["lap"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["laptime"], state, TAB.race_settings))
-        QtCore.QObject.connect(Ui().checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["best_laptime"], state, TAB.race_settings))
+        QtCore.QObject.connect(Ui().checkAInfoEnabled, QtCore.SIGNAL("stateChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkAInfoOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["order"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkAInfoOrderInCategory, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["order_in_cat"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["lap"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["laptime"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["best_laptime"], state, self.Update))
                 
 
         
@@ -191,7 +191,7 @@ class TabRaceSettings():
         elif(timing_settings_get['tags_reading_enable'] == False):
             Ui().lineTagsReadingEn.setText("OFF")
         else:
-            Ui().lineBacklight.setText("- -")
+            Ui().lineTagsReadingEn.setText("- -")
              
                                                     
         """ Measurement State"""                       

@@ -150,14 +150,12 @@ class Datastore():
         '''
         Nastaví proměnnou typu "section" a flagy "flags"             
         '''
-                       
+                      
         item = self.data[name][section]["value"]
-    
         
         for key in keys[:-1]:          
-            if key in item:                
+            if key in item:                            
                 item = item[key]                
-
         self.datalock.acquire() 
         
         #set data          

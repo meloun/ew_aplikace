@@ -26,7 +26,7 @@ class PermanentDatastore(datastore.Datastore):
             #print "DSTORE: Set()", self.data[name]
         
     def SetItem(self, name, keys, value, section = "GET_SET", changed = True):        
-        #set item
+        #set item        
         datastore.Datastore.SetItem(self, name, keys, value, section, changed)
         
         #store permanents to the file

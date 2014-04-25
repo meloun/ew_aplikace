@@ -27,7 +27,6 @@ from ewitis.gui.tableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
-from ewitis.gui.tabActions import tabActions
 from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.tabCells import tabCells
 from ewitis.gui.tabCommunication import tabCommunication
@@ -36,18 +35,9 @@ from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout
 
 from ewitis.gui.MenusBars import bars
+from ewitis.data.DEF_DATA import TAB
 
-#'''čísla záložek v TAB widgetu'''
-class TAB:
-    nr_tabs = 16
-    runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, actions,\
-    device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
-    NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
-              tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
-              race_settings:"RaceSettings", actions:"Actions", device:"Device", cells: "Cells",\
-              diagnostic: "Diagnostic", communication: "Communication",  \
-              manual: "Manual", about: "About",    \
-            }
+
     
 timer1 = QtCore.QTimer();
        
@@ -77,10 +67,9 @@ def InitTabs():
     tabRaceSettings.Init()
     tabCategories.Init()
     tabUsers.Init()
-    tabRunsTimes.Init()
-    tabActions.Init()    
+    tabRunsTimes.Init()  
     tabCells.Init()
-    #tabDevice.Init()        
+    tabDevice.Init()        
     tabCommunication.Init()
     tabManual.Init()    
     bars.Init()    
@@ -94,10 +83,9 @@ def UpdateTabs():
     tabRaceSettings.Update()
     tabCategories.Update()
     tabUsers.Update()
-    tabRunsTimes.Update()
-    tabActions.Update()   
+    tabRunsTimes.Update()  
     tabCells.Update()
-    #tabDevice.Update()        
+    tabDevice.Update()        
     tabCommunication.Update()
     tabManual.Update() 
     tabAbout.Update()  

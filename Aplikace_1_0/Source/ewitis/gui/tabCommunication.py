@@ -29,10 +29,10 @@ class TabCommunication(MyTab):
             #prepare item name
             aux_cmd_key = "%02X" % value['cmd']            
             aux_cmd = "x"+aux_cmd_key+" "+key.lower() + " " + str(value['length'])+"b"            
-            if(value['Blackbox-RFID'] or value['Blackbox-IR']):
-                aux_cmd += " B"              
-            if(value['Terminal']):
-                aux_cmd += " T"
+            if(value['Blackbox-RFID']):
+                aux_cmd += " RFID"              
+            elif(value['Blackbox-IR']):
+                aux_cmd += " IR"
             #add item                        
             aux_commands.append(aux_cmd)
         #set item from a list        

@@ -8,9 +8,9 @@ Created on 28.2.2012
 from ewitis.data.DEF_DATA import *
 
 '''čísla záložek v TAB widgetu'''
-class TAB:
-    nr_tabs = 16
-    run_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, actions, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+#class TAB:
+#    nr_tabs = 15
+#    run_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
 
 class UPDATE_MODE:
     all, tables, gui = range(0,3)

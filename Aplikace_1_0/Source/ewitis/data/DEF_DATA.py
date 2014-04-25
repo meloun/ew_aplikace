@@ -24,6 +24,17 @@ import time
 #class LOGIC_MODES:
 #    basic, manual, single_mass, multiple_mass = range(1,5)  
 #class MEASUREMENT_STATE:
+#'''čísla záložek v TAB widgetu'''
+class TAB:
+    nr_tabs = 15
+    runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings,\
+    device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+    NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
+              tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
+              race_settings:"RaceSettings", device:"Device", cells: "Cells",\
+              diagnostic: "Diagnostic", communication: "Communication",  \
+              manual: "Manual", about: "About",    \
+            }
 class MeasurementState:
     not_active, prepared, time_is_running, finished = range(0,4) 
 class Languages:
@@ -198,12 +209,7 @@ DEF_DATA = {
                                 },  
         
         
-        # TERMINAL DATA SET"
-        
-        "backlight"          : {"name"    : "backlight",                                                                 
-                                "SET"     : {"value": 0x01, 
-                                             "changed": False},
-                               },                
+        # TERMINAL DATA SET"              
         "speaker"            : {"name"    : "speaker",                                                                 
                                 "SET"     : {"value":{"keys": False, "timing": True, "system":True},
                                              "changed": False},
@@ -212,10 +218,6 @@ DEF_DATA = {
         "datetime"           : {"name"    : "datetime",                                                                
                                 "SET"     : {"value": {"year":1999, "month":8, "day":13, "hour":15, "minutes":5, "seconds":7, "dayweek":5},
                                              "changed": False},
-                               },                                        
-        "language"           : {"name"    : "language",                                
-                                "SET"     : {"value": Languages.CZECH,
-                                             "changed": False}, 
                                },
 
             
@@ -239,7 +241,7 @@ DEF_DATA = {
                                              "refresh_countdown": 0                                              
                                              },
                                },
-        "nr_cells"           : {"GET_SET"  : {"value"   : 8},},                          
+        "nr_cells"           : {"GET_SET"  : {"value"   : 10},},                          
         "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1-2
@@ -250,10 +252,10 @@ DEF_DATA = {
                                                            "synchronized": None,
                                                            "address": 1,
                                                            "task": 0,
-                                                           "diagnostic_short_ok": None,
-                                                           "diagnostic_short_ko": None,
-                                                           "diagnostic_long_ok": None,
-                                                           "diagnostic_long_ko": None
+                                                           "diagnostic_long_ok":  0,
+                                                           "diagnostic_long_ko":  0,
+                                                           "diagnostic_short_ok": 0,
+                                                           "diagnostic_short_ko": 0
                                                        }                                              
                                                        ]*10,
                                              "refresh_countdown": 0 ,
@@ -293,15 +295,27 @@ DEF_DATA = {
         "remove_hw_time"      : { "SET"  : { "value": 0, 
                                              "changed": False},
                                  },  
-        "enable_cell"         : { "SET"  : { "value": {'task':0}, 
-                                             "changed": False},
+        #address actions
+        "set_cell_diag_info"  : { "SET"  : { "value": { "address": 0,
+                                                        "diagnostic_long_ok":  0,
+                                                        "diagnostic_long_ko":  0,
+                                                        "diagnostic_short_ok": 0,
+                                                        "diagnostic_short_ko": 0
+                                                       },
+                                             "changed": False}
                                  },
-        "disable_cell"         : { "SET"  : { "value": {'task':0}, 
-                                              "changed": False},
-                                 },
+        "ping_cell"           : { "SET"  : { "value": 0, "changed": False}},
+        "run_cell_diagnostic" : { "SET"  : { "value": 0, "changed": False}},
+                                         
+        #task actions
+        "get_cell_last_times" : { "SET"  : { "value": 0, "changed": False}},                                
+        "enable_cell"         : { "SET"  : { "value": 0, "changed": False}},
+        "disable_cell"        : { "SET"  : { "value": 0, "changed": False}},
         "generate_celltime"  : { "SET"   : { "value": {'task':0, 'user_id':0}, 
                                              "changed": False},
                                 },
+            
+            
         "quit_timing"         : {"name"  : "quit timing",                                                                 
                                  "SET"   : { "value"   : False, 
                                              "changed": False},

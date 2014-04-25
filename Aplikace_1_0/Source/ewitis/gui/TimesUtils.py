@@ -92,54 +92,7 @@ class TimesUtils():
         #    time_string = "-"+time_string
         return timestring
     
-    
-#class TimesStarts():
-#    '''
-#    tabulka startovních časů
-#        - Get()
-#        - Update() - volá se v TimesModel.Update()    
-#    '''
-#    def __init__(self):                                                            
-#        self.Update()                                             
-#              
-#    def GetDefault(self):
-#        return {id:0, 'time_raw':0}
-#    def GetFirst(self, run_id):
-#        return self.start_times[run_id][0]    
-#    def Get(self, run_id, nr):                     
-#        return self.start_times[run_id][nr-1]                          
-#    
-#     
-#    def Update(self):
-#        '''
-#        najde všechny startovací časy a uloží
-#        '''
-#        
-#        #
-#        start_times = {}
-#                
-#        #
-#        query = \
-#                " SELECT * FROM times" +\
-#                    " WHERE (times.cell = 1 )" +\
-#                    " ORDER BY times.run_id"                                                        
-#        
-#        #get all start times
-#        times = db.query(query)
-#                
-#        #convert to dicts                             
-#        #@1times = db.cursor2dicts(times)
-#        
-#        #{3:[time, time, time], 4:[time, time]}
-#        for time in times:                        
-#            if ((time['run_id'] in start_times) == False):                                
-#                start_times[time['run_id']] = []
-#                
-#            start_times[time['run_id']].append(time)
-#        
-#        #assign to global list
-#        self.start_times = start_times
-        
+           
 class TimesOrder():
     '''
     Pořadí závodníka v závodě/kategorii
@@ -414,7 +367,7 @@ class TimesLap():
                 " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                 " (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
                 " AND (times.time_raw <" + str(dbTime['time_raw']) + ")"+\
-                " AND (times.cell != 1)"
+                " AND (times.cell == 250)"
      
         #print "query lap: ", query
         #print db.query(query).fetchone()          
@@ -437,7 +390,7 @@ class TimesLap():
                 "SELECT COUNT(*) FROM times" +\
                     " WHERE (times.run_id ==" + str(dbTime['run_id'])+ ")"+\
                     " AND (times.user_id ==\"" + str(dbTime['user_id'] )+"\")"+\
-                    " AND (times.cell != 1)"
+                    " AND (times.cell == 250)"
      
         #print query          
         count = db.query(query).fetchone()[0]        

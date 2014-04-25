@@ -13,7 +13,7 @@ from ewitis.gui.tableTags import tableTags
 from ewitis.gui.Ui import Ui 
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
-from ewitis.data.DEF_ENUM_STRINGS import TAB
+
 
       
 class ActionToolbar():

@@ -8,6 +8,7 @@ Created on 8.12.2013
 import sys
 from PyQt4 import QtCore, QtGui
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
+from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
@@ -48,24 +49,33 @@ class CellGroup ():
         
     def CreateSlots(self):                        
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
-        QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), self.sSlot)
-        QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), self.sSlot)
+        QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), lambda: dstore.SetItem("set_cell_diag_info", ["address"], self.nr, "SET"))
+        QtCore.QObject.connect(self.pushCellRunDiagnostic, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("run_cell_diagnostic", self.nr, "SET"))
+        QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("ping_cell", self.nr, "SET"))
 
     '''Slots'''        
     def sSlot(self, state=None):
-        print "cellgroup" +str(self.nr)+": something happend - ", state
+        print "cellgroup" +str(self.nr)+": something happend - ", state 
     
     def sComboCellTask(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
         cell_info = {}
-        if index == 6:
-            index = 250
-        cell_info["task"] = index                               
+        task = self.Idx2TaskNr(index)
+        cell_info["task"] = task                               
         cell_info["address"] = self.nr                               
         cell_info["fu1"] = 0x00                               
         cell_info["fu2"] = 0x00                               
         cell_info["fu3"] = 0x00                               
-        cell_info["fu4"] = 0x00                        
+        cell_info["fu4"] = 0x00 
+        
+        cells_info = dstore.Get("cells_info", "GET")
+        
+        if task != 0:
+            for info in cells_info:
+                if info['task'] == task:                    
+                    uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
+                    return        
+                               
         dstore.SetItem("cells_info", [self.nr-1], cell_info, "SET", changed = self.nr)                               
         
         '''reset GET hodnoty'''
@@ -89,19 +99,22 @@ class CellGroup ():
         self.lineCellDiagLongKo.setEnabled(state)
         self.lineCellDiagLongRatio.setEnabled(state)
         self.pushCellClearCounters.setEnabled(state)
-        self.pushRunDiagnostic.setEnabled(state)
+        self.pushCellRunDiagnostic.setEnabled(state)
         self.pushCellPing.setEnabled(state)
     
     def GetInfo(self):
         return dstore.Get("cells_info", "GET")[self.nr-1]
+    
     def GetTask(self):        
         #print "d1",self.__dict__
         return dstore.Get("cells_info", "GET")[self.nr-1]['task']
+    
     def TaskNr2Idx(self, task):
         #take care about finish time
         if task == 250:
             task = 6
         return task
+    
     def Idx2TaskNr(self, idx):
         #take care about finish time
         if idx == 6:
@@ -113,17 +126,23 @@ class CellGroup ():
         #get cell info from datastore                                      
         cell_info = self.GetInfo()
 
-        #task
-
-        index = self.TaskNr2Idx(cell_info["task"])
+        #set enabled
+        if(cell_info['task'] == None) or (cell_info['task'] == 0):
+            self.SetEnabled(False)
+        else: 
+            self.SetEnabled(True)                    
+        
+        #index
+        index = self.TaskNr2Idx(cell_info["task"])                
         
         if(cell_info['task'] != None):
             self.lineCellTask.setText(self.comboCellTask.itemText(index))
         else:
             self.lineCellTask.setText(" - - - ")                                    
-        colors_enabled = True if(self.lineCellTask.text() != "NONE") else False
-        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), colors_enabled))
+        colors_enabled =  cell_info['task']
+        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), cell_info['task']))
                     
+        #na začátku, zpětná vazba
         if(index != None):            
             self.comboCellTask.setCurrentIndex(index)                        
         
@@ -139,11 +158,10 @@ class CellGroup ():
         elif cell_info["ir_signal"] == False:
             self.lineCellIrSinal.setText("NO IR SIGNAL")
         else:
-            self.lineCellIrSinal.setText(" - - ")
-        #print "IR: ", cell_info["ir_signal"], colors_enabled
+            self.lineCellIrSinal.setText(" - - ")        
         self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(cell_info["ir_signal"], colors_enabled))
 
-        #active            
+        #active/blocked            
         if cell_info["active"] == True:
             self.lineCellActive.setText("ACTIVE")
         elif cell_info["active"] == False:
@@ -164,7 +182,7 @@ class CellGroup ():
             self.lineCellSynchronizedOnce.setStyleSheet("")
         self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(cell_info["synchronized_once"], colors_enabled))
         
-        #synchronized
+        #synchronized 10min
         if cell_info["synchronized"] == True:
             self.lineCellSynchronized.setText("10MIN")            
         elif cell_info["synchronized"] == False:
@@ -185,8 +203,9 @@ class CellGroup ():
         else:
             self.lineCellDiagShortKo.setText("- -")            
         #diagnostic %
-        if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (cell_info['diagnostic_short_ko'] != 0):                                    
-            self.lineCellDiagShortRatio.setText(str(cell_info['diagnostic_short_ok']/cell_info['diagnostic_short_ko']))
+        sum_ko_ok = cell_info['diagnostic_short_ko']+cell_info['diagnostic_short_ok']
+        if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagShortRatio.setText(str(cell_info['diagnostic_short_ok']/sum_ko_ok))
         else:
             self.lineCellDiagShortRatio.setText("- -")
             
@@ -202,16 +221,15 @@ class CellGroup ():
         else:
             self.lineCellDiagLongKo.setText("- -")            
         #diagnostic %
-        if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (cell_info['diagnostic_long_ko'] != 0):                                    
-            self.lineCellDiagLongRatio.setText(str(cell_info['diagnostic_long_ok']/cell_info['diagnostic_long_ko']))
+        sum_ko_ok = cell_info['diagnostic_long_ko']+cell_info['diagnostic_long_ok']
+        if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagLongRatio.setText(str(cell_info['diagnostic_long_ok']/sum_ko_ok))
         else:
             self.lineCellDiagLongRatio.setText("- -")
             
             
     def GetColor(self, key, enabled = True):
-        color = None
-        
-
+        color = None        
                 
         #task
         if bool(enabled):                        
@@ -227,21 +245,16 @@ class CellGroup ():
                     
             #battery
             if type(key) == int:            
-                if key>60:
+                if key > 60:
                     color = COLORS.green
-                elif key>30:
+                elif key > 30:
                     color = COLORS.orange
                 else:                
                     color = COLORS.red                
         
-        if self.nr == 1:
-            print "key0 ", key, enabled, "=>", color 
         if color == None:
             color = COLORS.GetColor(key, enabled)
-            if self.nr == 1:
-                print "měním na ", color
-        if self.nr == 1:
-            print "key1 ", key, enabled, "=>", color
+
         return color
         
             
@@ -265,8 +278,10 @@ class TabCells(MyTab):
         self.CreateSlots()
         
     def CreateSlots(self):                        
-        QtCore.QObject.connect(Ui().pushCellAllReadOnly, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(False))
-        QtCore.QObject.connect(Ui().pushCellAllEdit, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(True))
+        #QtCore.QObject.connect(Ui().pushCellAllReadOnly, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(False))
+        #QtCore.QObject.connect(Ui().pushCellAllEdit, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(True))
+        pass
+    
     def sEnableAll(self, state):        
         for i in range(0,self.nr):
             self.cellgroups[i].sCheckbox(state)

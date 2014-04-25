@@ -344,7 +344,7 @@ class TimesModel(myModel):
                 return None
             except:        
                 '''žádný startovací čas => vezmi default (1.čas vůbec)'''                            
-                uiAccesories.showMessage(self.table.name+": Update error", "Cant find start time for this category.")                
+                uiAccesories.showMessage(self.table.name+": Update error", "Cant find start time for this category or user.")                
                 return None            
         
         #in onelap race user can have ONLY 1 TIME
