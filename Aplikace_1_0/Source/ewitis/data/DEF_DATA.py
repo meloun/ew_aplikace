@@ -227,7 +227,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v2.01"},                                                                                                                    
+                                                        "app": "v2.02"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

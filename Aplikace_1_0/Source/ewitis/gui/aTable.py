@@ -23,7 +23,6 @@ class myTable():
     """
     
     """
-    (eTABLE, eDB, eWWW, eTOTAL, eGROUP, eCATEGORY, eLAPS) = range(0,7) 
     def  __init__(self, name):                                                                
         self.name = name
         self.InitCollumns()
@@ -287,7 +286,7 @@ class myTable():
                 #add 1 record
             importRow = dict(zip(keys, row))
             #
-            dbRow = self.importRow2dbRow(importRow)             
+            dbRow = self.model.importRow2dbRow(importRow)             
             #dbRow = self.model.import2dbRow(importRow)                     
             if(db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
                 state['ok'] += 1
@@ -312,31 +311,6 @@ class myTable():
             uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
         else:
             uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                                       
-    '''
-    tabRow2exportRow()
-     - kopie 1:1
-     - z tabRow(dict) vytvoří dva listy - header a row
-    '''
-    def tabRow2exportRow(self, tabRow, mode):        
-        exportHeader = self.proxy_model.header()
-        exportRow = []
-          
-        #eTABLE
-        for headerItem in exportHeader:            
-            try:
-                if (mode == myTable.eTABLE) or (mode == myTable.eWWW):                                    
-                    exportRow.append(tabRow[headerItem])                              
-            except:
-                print "Export: Error:", mode
-        #eDB
-        if (mode == myTable.eDB):        
-            exportRow = self.getDbRow(tabRow['id'])
-            exportHeader = self.getDbCollumns()                                                                
-        return (exportHeader, exportRow)
-    
-    def importRow2dbRow(self, importRow):
-        print "importRow", type(importRow)        
-        return importRow
     
     '''
     ExportTable()     
@@ -348,7 +322,7 @@ class myTable():
         
         '''table to 2 lists - header and rows(list of lists)'''                                                        
         for tabRow in self.proxy_model.dicts():                            
-            (exportHeader, exportRow) = self.tabRow2exportRow(tabRow, mode)                                            
+            (exportHeader, exportRow) = self.model.tabRow2exportRow(tabRow, mode)                                            
             if (exportRow != []):                                            
                 exportRows.append(exportRow)                    
                             
@@ -369,9 +343,9 @@ class myTable():
     def sExport(self, mode, dialog):
         
         print "I: ", self.name, ": export"
-        if (mode == myTable.eTABLE) or (mode == myTable.eDB):                
+        if (mode == myModel.eTABLE) or (mode == myModel.eDB):                
             format = "Csv"
-        elif mode == myTable.eWWW:
+        elif mode == myModel.eWWW:
             format = "Htm"
             
                 

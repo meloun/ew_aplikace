@@ -80,6 +80,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
     *Args:* 
         table: pro přístup ke gui a name
     """
+    (eTABLE, eDB, eWWW, eTOTAL, eGROUP, eCATEGORY, eLAPS) = range(0,7) 
     def __init__(self, table):                    
                 
         self.table = table
@@ -183,6 +184,31 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             except:
                 pass #tento sloupec v tabulce neexistuje                             
         return dbRow
+    
+    '''
+    tabRow2exportRow()
+     - kopie 1:1
+     - z tabRow(dict) vytvoří dva listy - header a row
+    '''
+    def tabRow2exportRow(self, tabRow, mode):        
+        exportHeader = self.header()
+        exportRow = []
+          
+        #eTABLE
+        for headerItem in exportHeader:            
+            try:
+                if (mode == self.eTABLE) or (mode == self.eWWW):                                    
+                    exportRow.append(tabRow[headerItem])                              
+            except:
+                print "Export: Error:", mode
+        #eDB
+        if (mode == self.eDB):        
+            exportRow = self.getDbRow(tabRow['id'])
+            exportHeader = self.getDbCollumns()                                                                
+        return (exportHeader, exportRow)
+    
+    def importRow2dbRow(self, importRow):            
+        return importRow
                           
         
     def getDefaultTableRow(self):

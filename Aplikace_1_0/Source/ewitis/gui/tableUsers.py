@@ -78,8 +78,8 @@ class UsersModel(myModel):
     #===============================================================
     #GUI: "id", "nr", "name", "first_name", "category", "address"   
     #DB:  "id", "nr", "name", "first_name", "category", "address"    
-    def table2dbRow(self, tabUser, item = None):                              
-
+    def table2dbRow(self, tabUser, item = None):        
+        
         if tabUser['status'] != 'finished' and tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
             uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
             return None                
@@ -98,11 +98,10 @@ class UsersModel(myModel):
                                                                                           
         return dbUser 
     
-    def import2dbRow(self, importRow):                    
+    def importRow2dbRow(self, importRow):                    
         #if 'category_id' in importRow:
         #    del importRow['category_id']        
-        tabCategory = tableCategories.getTabCategoryParName(importRow['category_id'])
-        #print tabCategory
+        tabCategory = tableCategories.getTabCategoryParName(importRow['category_id'])        
         importRow['category_id'] = tabCategory['id']
         return importRow
         

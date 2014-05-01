@@ -39,8 +39,8 @@ class Bars():
         barCellActions.createSlots()     
         QtCore.QObject.connect(Ui().aSetPort, QtCore.SIGNAL("triggered()"), self.sPortSet)        
         QtCore.QObject.connect(Ui().aConnectPort, QtCore.SIGNAL("triggered()"), self.sPortConnect)
-        QtCore.QObject.connect(Ui().aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", True))
-        QtCore.QObject.connect(Ui().aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: self.sGuiSet("communication_en", False))
+        QtCore.QObject.connect(Ui().aEnableCommunication, QtCore.SIGNAL("triggered()"), lambda: uiAccesories.sGuiSetItem("port", ["enabled"], True))
+        QtCore.QObject.connect(Ui().aDisableCommunication, QtCore.SIGNAL("triggered()"), lambda: uiAccesories.sGuiSetItem("port",["enabled"], False))
         
         #ping
         #enable cell

@@ -141,9 +141,9 @@ class TimesModel(myModel):
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
                 
         '''NAME'''        
-        if(dbTime['cell'] == 1):
-            tabTime['name'] = ''
-        elif(dbTime["user_id"] == 0):
+#        if(dbTime['cell'] == 1):
+#            tabTime['name'] = ''
+        if(dbTime["user_id"] == 0):
             tabTime['name'] = 'undefined'
         else:                       
             tabTime['name'] = tabUser['name'].upper() +' '+tabUser['first_name']        
@@ -169,8 +169,8 @@ class TimesModel(myModel):
         tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                            
         
         '''ORDER'''                
-        #z1 = time.clock()                                                
-        tabTime['order']  = self.order.Get(dbTime, aux_lap)
+        #z1 = time.clock()                                                        
+        tabTime['order']  = self.order.Get(dbTime, aux_lap)        
         #print "- order takes: ",(time.clock() - z1)                                
                 
         '''ORDER IN CATEGORY'''                                    
@@ -394,6 +394,129 @@ class TimesModel(myModel):
 
                                                                                                                                                                                                                                                                                                                              
         return dbTime    
+    
+    ''''''                   
+    def tabRow2exportRow(self, tabRow, mode = myModel.eTOTAL, status = 'finished'):                        
+                                                           
+        exportRow = []
+        exportHeader = []
+        
+        #save the winner
+        print "1:",tabRow
+        if 'order' in tabRow:
+            if(tabRow['order'] != ''):
+                if ((mode == myModel.eTOTAL) and (int(tabRow['order']) == 1)) or \
+                    ((mode == myModel.eCATEGORY) and (int(tabRow['order_cat']) == 1)):
+                    self.winner = tabRow                    
+            
+        #print "tabRow: ", tabRow['id'], ":", tabRow['order']
+        '''get user'''
+        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
+            tabHeader = tableUsers.model.header()                                                  
+            tabUser = tableUsers.getTabUserParNr(tabRow['nr'])
+            if tabUser['status'] != status:
+                print "export: zahazuju radek: status", tabRow
+                return ([], [])
+        
+        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
+            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
+            exportRow.append(tabRow['order']+".")
+            exportRow.append(tabRow['nr'])
+            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
+            exportRow.append(tabRow['name'])           
+        elif(mode == myModel.eCATEGORY):                                       
+            exportHeader = [u"Pořadí", u"Číslo", u"Jméno"]            
+            exportRow.append(tabRow['order_cat']+".")
+            exportRow.append(tabRow['nr'])
+            exportRow.append(tabRow['name'])           
+        elif(mode == myModel.eLAPS):                                                      
+            #header                                       
+            exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
+            #row            
+            exportRow.append(tabRow[0]['nr'])
+            exportRow.append(tabRow[0]['name'])            
+            for t in tabRow:
+                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
+                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ... 
+                            
+            #row a header musí mít stejnou délku     
+            for i in range(len(exportHeader) - len(tabRow) - 2):
+                exportRow.append("")                                                                       
+        
+            
+        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
+            if dstore.GetItem("export", ["year"]) == 2:
+                exportHeader.append(u"Ročník")
+                exportRow.append(tabUser['birthday'])
+            if dstore.GetItem("export", ["club"]) == 2:                                       
+                exportHeader.append(u"Klub")
+                exportRow.append(tabUser['club']) 
+            # user_field_1             
+            if dstore.GetItem("export", ["option_1"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_1_name"]))
+                exportRow.append(tabUser['o1'])
+            # user_field_2             
+            if dstore.GetItem("export", ["option_2"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_2_name"]))
+                exportRow.append(tabUser['o2'])
+            # user_field_3             
+            if dstore.GetItem("export", ["option_3"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_3_name"]))
+                exportRow.append(tabUser['o3'])
+            # user_field_4             
+            if dstore.GetItem("export", ["option_4"]) == 2:
+                exportHeader.append(dstore.GetItem("export", ["option_4_name"]))
+                exportRow.append(tabUser['o4'])
+            # laps             
+            if dstore.GetItem("export", ["laps"]) == 2:
+                exportHeader.append(u"Okruhy")
+                exportRow.append(tabRow['lap'])
+            # laptime             
+            if dstore.GetItem("export", ["laptime"]) == 2:
+                exportHeader.append(u'Čas kola')
+                exportRow.append(tabRow['laptime'])
+            # best laptime             
+            if dstore.GetItem("export", ["best_laptime"]) == 2:
+                exportHeader.append(u"Top okruh")
+                exportRow.append(tabRow['best_laptime'])
+            
+            #time
+            exportHeader.append(u"Čas")    
+            exportRow.append(tabRow['time'])
+            
+            #ztráta
+            if dstore.GetItem("export", ["gap"]) == 2:
+                exportHeader.append(u"Ztráta")
+                ztrata = ""            
+                if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+                    if self.winner['lap'] == tabRow['lap']:                
+                        ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+                    elif tabRow['lap']!='' and tabRow['lap']!=None:
+                        ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+                        if ztrata == 1:
+                            ztrata = str(ztrata) + " kolo"
+                        elif ztrata < 5:
+                            ztrata = str(ztrata) + " kola"
+                        else:
+                            ztrata = str(ztrata) + " kol"     
+                exportRow.append(ztrata)                                 
+                            
+            #body - total, categories, groups
+            if(mode == myModel.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points']))                
+            elif(mode == myModel.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points_cat']))                 
+            elif(mode == myModel.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
+                exportHeader.append(u"Body")                                    
+                exportRow.append(str(tabRow['points']))
+                
+        if exportRow == []:            
+            (exportHeader, exportRow) = myModel.tabRow2exportRow(self,tabRow, mode)                
+        
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
+        return (exportHeader, exportRow)
         
     def IsFinishTime(self, dbTime):
         '''
@@ -574,6 +697,7 @@ class Times(myTable):
         self.gui['aDirectExportLaptimes'] = Ui().aDirectExportLaptimes 
         self.gui['times_db_export'] = Ui().TimesDbExport 
         self.gui['times_db_import'] = Ui().TimesDbImport 
+        self.gui['filter_column'] = Ui().TimesFilterColumn 
         
         
     def createSlots(self):
@@ -581,18 +705,21 @@ class Times(myTable):
         #standart slots
         myTable.createSlots(self)
                 
+        #filter spin box
+        QtCore.QObject.connect(self.gui['filter_column'], QtCore.SIGNAL("valueChanged(int)"), self.sFilterColumn)        
+        
         #import table (db format)
         QtCore.QObject.connect(self.gui['times_db_import'], QtCore.SIGNAL("clicked()"), lambda:myTable.sImport(self))
         
         #export table (db format)
-        QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myTable.eDB, False))
+        QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myModel.eDB, False))
         
         #button Recalculate
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
         
          
         #export direct www
-        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myTable.eWWW, False))
+        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myModel.eWWW, False))
         
         #export direct categories        
         if (self.gui['aDirectExportCategories'] != None):                                   
@@ -600,7 +727,12 @@ class Times(myTable):
                                
         QtCore.QObject.connect(self.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)
         
-                                
+    def sFilterColumn(self, nr):
+        self.proxy_model.setFilterKeyColumn(nr)
+         
+    def sFilterClear(self):
+        myTable.sFilterClear(self)    
+        self.proxy_model.setFilterKeyColumn(-1)                           
    
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
@@ -618,128 +750,7 @@ class Times(myTable):
         return res
                  
     
-    ''''''                   
-    def tabRow2exportRow(self, tabRow, mode = myTable.eTOTAL, status = 'finished'):                        
-                                                           
-        exportRow = []
-        exportHeader = []
-        
-        #save the winner
-        #print "1:",tabRow
-        if 'order' in tabRow:
-            if(tabRow['order'] != ''):
-                if ((mode == Times.eTOTAL) and (int(tabRow['order']) == 1)) or \
-                    ((mode == Times.eCATEGORY) and (int(tabRow['order_cat']) == 1)):
-                    self.winner = tabRow                    
-            
-        #print "tabRow: ", tabRow['id'], ":", tabRow['order']
-        '''get user'''
-        if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
-            tabHeader = tableUsers.proxy_model.header()                                                  
-            tabUser = tableUsers.getTabUserParNr(tabRow['nr'])
-            if tabUser['status'] != status:
-                print "export: zahazuju radek: status", tabRow
-                return ([], [])
-        
-        if(mode == Times.eTOTAL) or (mode == Times.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
-            exportRow.append(tabRow['order']+".")
-            exportRow.append(tabRow['nr'])
-            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
-            exportRow.append(tabRow['name'])           
-        elif(mode == Times.eCATEGORY):                                       
-            exportHeader = [u"Pořadí", u"Číslo", u"Jméno"]            
-            exportRow.append(tabRow['order_cat']+".")
-            exportRow.append(tabRow['nr'])
-            exportRow.append(tabRow['name'])           
-        elif(mode == Times.eLAPS):                                                      
-            #header                                       
-            exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
-            #row            
-            exportRow.append(tabRow[0]['nr'])
-            exportRow.append(tabRow[0]['name'])            
-            for t in tabRow:
-                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
-                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ... 
-                            
-            #row a header musí mít stejnou délku     
-            for i in range(len(exportHeader) - len(tabRow) - 2):
-                exportRow.append("")                                                                       
-        
-            
-        if(mode == Times.eTOTAL) or (mode == Times.eGROUP) or (mode == Times.eCATEGORY):
-            if dstore.GetItem("export", ["year"]) == 2:
-                exportHeader.append(u"Ročník")
-                exportRow.append(tabUser['birthday'])
-            if dstore.GetItem("export", ["club"]) == 2:                                       
-                exportHeader.append(u"Klub")
-                exportRow.append(tabUser['club']) 
-            # user_field_1             
-            if dstore.GetItem("export", ["option_1"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_1_name"]))
-                exportRow.append(tabUser['o1'])
-            # user_field_2             
-            if dstore.GetItem("export", ["option_2"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_2_name"]))
-                exportRow.append(tabUser['o2'])
-            # user_field_3             
-            if dstore.GetItem("export", ["option_3"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_3_name"]))
-                exportRow.append(tabUser['o3'])
-            # user_field_4             
-            if dstore.GetItem("export", ["option_4"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_4_name"]))
-                exportRow.append(tabUser['o4'])
-            # laps             
-            if dstore.GetItem("export", ["laps"]) == 2:
-                exportHeader.append(u"Okruhy")
-                exportRow.append(tabRow['lap'])
-            # laptime             
-            if dstore.GetItem("export", ["laptime"]) == 2:
-                exportHeader.append(u'Čas kola')
-                exportRow.append(tabRow['laptime'])
-            # best laptime             
-            if dstore.GetItem("export", ["best_laptime"]) == 2:
-                exportHeader.append(u"Top okruh")
-                exportRow.append(tabRow['best_laptime'])
-            
-            #time
-            exportHeader.append(u"Čas")    
-            exportRow.append(tabRow['time'])
-            
-            #ztráta
-            if dstore.GetItem("export", ["gap"]) == 2:
-                exportHeader.append(u"Ztráta")
-                ztrata = ""            
-                if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
-                    if self.winner['lap'] == tabRow['lap']:                
-                        ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
-                    elif tabRow['lap']!='' and tabRow['lap']!=None:
-                        ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
-                        if ztrata == 1:
-                            ztrata = str(ztrata) + " kolo"
-                        elif ztrata < 5:
-                            ztrata = str(ztrata) + " kola"
-                        else:
-                            ztrata = str(ztrata) + " kol"     
-                exportRow.append(ztrata)                                 
-                            
-            #body - total, categories, groups
-            if(mode == Times.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points']))                
-            elif(mode == Times.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points_cat']))                 
-            elif(mode == Times.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points']))
-                
-        if exportRow == []:            
-            (exportHeader, exportRow) = myTable.tabRow2exportRow(self, tabRow, mode)                
-        
-        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
-        return (exportHeader, exportRow)
+
 
                     
     
@@ -793,7 +804,7 @@ class Times(myTable):
                 continue
             
             #                        
-            exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)
+            exportRow = self.model.tabRow2exportRow(tabRow, myModel.eTOTAL)
             
             if exportRow == None:
                 continue
@@ -857,7 +868,7 @@ class Times(myTable):
                     continue
                                 
                 #
-                exportRow = self.tabRow2exportRow(tabRow, Times.eCATEGORY)
+                exportRow = self.model.tabRow2exportRow(tabRow, myModel.eCATEGORY)
                 if exportRow == None:
                     continue
                 
@@ -919,7 +930,7 @@ class Times(myTable):
                     continue
                                             
                 #all times export - add all
-                exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)
+                exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)
                 if exportRow == None:
                     continue
                 
@@ -931,7 +942,7 @@ class Times(myTable):
                      
                     tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])                 
                     if (tabCategory[dbCGroup['label']] == 1):
-                        exportRow = self.tabRow2exportRow(tabRow, Times.eGROUP)                                                                                                                                       
+                        exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)                                                                                                                                       
                         exportRows.append(exportRow[1])
                         exportHeader = exportRow[0]                                                                                                                  
 
@@ -1035,7 +1046,7 @@ class Times(myTable):
                 if(exportRow != []):                    
                     for t in exportRow:
                         tableRows.remove(t)                         
-                    exportRow = self.tabRow2exportRow(exportRow, Times.eLAPS)                    
+                    exportRow = self.model.tabRow2exportRow(exportRow, Times.eLAPS)                    
                     exportRows.append(exportRow[1])
                     exportHeader = exportRow[0]
                     
@@ -1134,7 +1145,7 @@ class Times(myTable):
                 if(exportRow != []):                    
                     for t in exportRow:
                         tableRows.remove(t)                         
-                    exportRow = self.tabRow2exportRow(exportRow, Times.eLAPS)                    
+                    exportRow = self.model.tabRow2exportRow(exportRow, Times.eLAPS)                    
                     exportRows.append(exportRow[1])
                     exportHeader = exportRow[0]
                     

@@ -31,7 +31,7 @@
         "GET_SET": {
             "changed": false,
             "value": {
-                "table": 2,
+                "table": 0,
                 "minimum": 0,
                 "maximum": 500,
                 "rule": "abs(time - %00:01:30,00%)"
@@ -44,10 +44,10 @@
         "GET_SET": {
             "changed": false,
             "value": {
-                "option_2": 0,
                 "best_laptime": 0,
                 "points_categories": 0,
                 "club": 2,
+                "points_race": 0,
                 "laps": 0,
                 "option_2_name": "o2",
                 "gap": 0,
@@ -55,10 +55,10 @@
                 "laptime": 0,
                 "option_1_name": "o1",
                 "year": 0,
-                "option_3_name": "o3",
+                "option_2": 0,
                 "option_3": 0,
                 "option_1": 0,
-                "points_race": 0,
+                "option_3_name": "o3",
                 "points_groups": 0,
                 "option_4": 0
             }
@@ -69,7 +69,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "order": 1,
+                "order": 0,
                 "starttime": 1
             }
         },
