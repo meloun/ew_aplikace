@@ -14,10 +14,7 @@ from ewitis.data.DEF_DATA import *
 
 class UPDATE_MODE:
     all, tables, gui = range(0,3)
-
-#class LOGIC_MODES:
-#    basic, manual, single_mass, multiple_mass_6b, multiple_mass_6c  = range(1,6)  
-#    STRINGS =  {basic:"Basic", manual:"Manual", single_mass:"Single Mass", multiple_mass_6b:"multiple mass 6B", multiple_mass_6b:"multiple mass 6C"} 
+ 
          
 class STRINGS:
     MEASUREMENT_STATE =  {MeasurementState.not_active:"Not Active", MeasurementState.prepared:"Prepared, waiting for start", MeasurementState.time_is_running:"Time is running", MeasurementState.finished:"Finished"}      

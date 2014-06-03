@@ -37,6 +37,7 @@ DEF_COMMANDS = {
     "SET_TIME"                  : {'cmd':0x12,  'length':7,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                      
     "SET_LANGUAGE"              : {'cmd':0x14,  'length':1,     'Blackbox-IR': False, 'Blackbox-RFID': False   },                                      
     "SET_TIMING_SETTINGS"       : {'cmd':0x23,  'length':6,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                      
+    "SYNCHRONIZE_SYSTEM"        : {'cmd':0x24,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                      
     "SET_CELL_INFO"             : {'cmd':0x25,  'length':6,     'Blackbox-IR': True,  'Blackbox-RFID': False   },                                      
     "SET_CELL_DIAG_INFO"        : {'cmd':0x26,  'length':7,     'Blackbox-IR': True,  'Blackbox-RFID': False   },                                      
     "PING_CELL"                 : {'cmd':0x27,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': False   },                                      

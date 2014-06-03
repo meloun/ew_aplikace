@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 09.04.2014
 
@@ -12,8 +13,10 @@ from ewitis.gui.tabCells import tabCells
 
 class BarCellActions():
     
+    
+    
     def __init__(self):
-        pass
+        self.clear_database_changed = False        
     
     def Init(self):
         self.InitGui()        
@@ -37,6 +40,8 @@ class BarCellActions():
             cell_actions['enable_cell'] = getattr(ui, "aEnableCell_"+str(i))
             cell_actions['generate_celltime'] = getattr(ui, "aGenerateCelltime_"+str(i))
             cell_actions['disable_cell'] = getattr(ui, "aDisableCell_"+str(i))
+            
+            
             
     def Collumn2TaskNr(self, idx):
         #take care about finish time
@@ -100,21 +105,23 @@ class BarCellActions():
         dstore.Set("quit_timing", 0x00, "SET")
          
     def sClearDatabase(self):
-        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
-            return
-        print "A: Clear Database"                                                                                                                                                                                            
-        dstore.Set("clear_database", 0x00, "SET")     
+        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database?\n It will take 20 seconds.\n ", msgtype = MSGTYPE.warning_dialog) != True):            
+            return        
+        uiAccesories.showMessage("Clear Database", "clearing database, please wait.. it will take 20 seconds.", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
+        dstore.Set("clear_database", 0x00, "SET")
+        self.clear_database_changed = True
 
         
     def Update(self):  
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)      
         
         #enable/disable items in cell toolbar                    
-        for i, cell_actions in enumerate(self.cells_actions):
-            #print cell_actions
+        for i, cell_actions in enumerate(self.cells_actions):            
             cell = tabCells.GetCellParTask(self.Collumn2TaskNr(i))            
             if cell != None:
-                if cell.GetInfo()['active']:
+                
+                #nastaveni fontu pro ping (tlačítko s číslem buňky)
+                if cell.GetInfo()['active'] and dstore.Get("port")["opened"]:
                     font = cell_actions['ping_cell'].font()
                     font.setBold(True)
                     font.setUnderline(True)
@@ -125,10 +132,29 @@ class BarCellActions():
                     font.setUnderline(False)
                     cell_actions['ping_cell'].setFont(font)
                     
-                for key, action in cell_actions.items():                                            
-                    action.setEnabled(True)                    
+                #enable actions for active cells (when connected)
+                for key, action in cell_actions.items():
+                    if dstore.Get("port")["opened"]:                                            
+                        action.setEnabled(True)
+                    else:                    
+                        action.setEnabled(False)
             else:
                 for key, action in cell_actions.items(): 
-                    action.setEnabled(False)                                             
+                    action.setEnabled(False)
+        
+        #enabled only when blackbox is connected
+        if dstore.Get("port")["opened"]:            
+            Ui().aClearDatabase.setEnabled(True)
+            Ui().aQuitTiming.setEnabled(True)
+        else:
+            Ui().aQuitTiming.setEnabled(False)
+            Ui().aClearDatabase.setEnabled(False)
+            
+        #asynchron messages
+        if self.clear_database_changed:
+            if(dstore.IsChanged("clear_database") == False):
+                uiAccesories.showMessage("Clear Database", "Database is empty now", msgtype = MSGTYPE.statusbar)
+                self.clear_database_changed = False
+                                                          
             
 barCellActions = BarCellActions()

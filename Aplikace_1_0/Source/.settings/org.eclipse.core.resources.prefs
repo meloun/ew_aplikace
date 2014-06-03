@@ -1,4 +1,4 @@
-#Thu May 01 13:34:05 CEST 2014
+#Fri May 30 18:13:03 CEST 2014
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -17,6 +17,7 @@ encoding//ewitis/gui/Ui_App.py=utf-8
 encoding//ewitis/gui/aTab.py=utf-8
 encoding//ewitis/gui/aTable.py=utf-8
 encoding//ewitis/gui/aTableModel.py=utf-8
+encoding//ewitis/gui/barCellActions.py=utf-8
 encoding//ewitis/gui/tabAbout.py=utf-8
 encoding//ewitis/gui/tabCells.py=utf-8
 encoding//ewitis/gui/tabCommunication.py=utf-8
@@ -58,6 +59,5 @@ encoding//libs/test/error_unpacking.py=utf-8
 encoding//libs/test/points_eval.py=utf-8
 encoding//libs/test/unpack.py=utf-8
 encoding//libs/utils/utils.py=utf-8
-encoding/_manage_gui.py=utf-8
 encoding/manage.py=utf-8
 encoding/test.py=utf-8

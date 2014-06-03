@@ -21,9 +21,6 @@ definice DAT pro DATASTORE
 import sys
 import time
 
-#class LOGIC_MODES:
-#    basic, manual, single_mass, multiple_mass = range(1,5)  
-#class MEASUREMENT_STATE:
 #'''čísla záložek v TAB widgetu'''
 class TAB:
     nr_tabs = 15
@@ -42,7 +39,9 @@ class Languages:
 class OrderEvaluation:
     RACE, SLALOM = range(0,2)    
 class StarttimeEvaluation:
-    VIA_CATEGORY, VIA_USER = range(0,2)    
+    VIA_CATEGORY, VIA_USER = range(0,2) 
+#class LOGIC_MODES:
+#    basic, manual, remote_manual, multiple_mass_6b, multiple_mass_6c  = range(1,6)         
     
 
 DEF_DATA = {
@@ -96,12 +95,17 @@ DEF_DATA = {
                                                         "starttime": StarttimeEvaluation.VIA_CATEGORY                                                                                                                                                      
                                                         }
                                               }
-                                },        
+                                },
+        "remote"             : {"name"     : "Remote Race",
+                                "permanent": True,
+                                "GET_SET"  : {"value"   : 2}  
+                               },        
         
         "rfid"               : {"name"     : "rfid",
                                 "permanent": True,
                                 "GET_SET"  : {"value"   : 0}  
                                },
+
         "tag_filter"         : {"permanent": True,
                                 "GET_SET"  : {"value"   : 2}},        
 
@@ -113,8 +117,7 @@ DEF_DATA = {
         "times_view_limit"   : {"name"     : "times view limit",
                                 "GET_SET"  : {"value": 0}  
                                },
-        "show"               : {"GET_SET"  : {"value": {
-                                                        "starttimes"       : 2, 
+        "show"               : {"GET_SET"  : {"value": {                                                         
                                                         "times_with_order" : 0,                                                                                                      
                                                         "alltimes"         : 0
                                                         }
@@ -210,6 +213,9 @@ DEF_DATA = {
         
         
         # TERMINAL DATA SET"              
+        "synchronize_system" : {"SET"     : {"value": 0,
+                                             "changed": False},
+                               },                                                                                                       
         "speaker"            : {"name"    : "speaker",                                                                 
                                 "SET"     : {"value":{"keys": False, "timing": True, "system":True},
                                              "changed": False},
@@ -227,7 +233,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v2.02"},                                                                                                                    
+                                                        "app": "v2.08"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -244,7 +250,7 @@ DEF_DATA = {
         "nr_cells"           : {"GET_SET"  : {"value"   : 10},},                          
         "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
-                                                       { #cell 1-2
+                                                       { #cell 1
                                                            "battery": None,
                                                            "ir_signal": None,
                                                            "active": None,

@@ -54,7 +54,7 @@ class UiAccesories(UiaDialogs):
             return
                 
         if(dialog == True):            
-            name_string = dstore.GetName(name)            
+            name_string = dstore.GetName(name)                    
             if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 

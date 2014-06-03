@@ -38,7 +38,8 @@ F11 - export categories
 F12 - direct WWW export
 '''        
 class TimesModel(myModel):
-    def __init__(self, table):                        
+    def __init__(self, table):
+        print "TAER", table                        
         myModel.__init__(self, table)                
         
         #
@@ -89,11 +90,7 @@ class TimesModel(myModel):
         if(dstore.Get('show')['times_with_order'] == 2):
             if(self.order.IsToShow(dbTime) == False):
                 return None
-                                             
-        '''hide all zero time?'''                    
-        if(dstore.Get('show')['starttimes'] == False):                            
-            if (dbTime["cell"] == 1):                
-                return None                      
+                                                                  
         
         ''' 1to1 KEYS '''           
         tabTime = myModel.db2tableRow(self, dbTime)
@@ -135,7 +132,8 @@ class TimesModel(myModel):
         '''time'''
         if(dbTime['time'] == None):
             '''cas by mel existovat'''
-            print "E: neexistuje cas!!!", dbTime                            
+            #if dstore.Get('timing_settings', "SET")["logic_mode"] != LOGIC_MODES.remote_manual:
+            #    print "E: neexistuje cas!!! time id:", dbTime['start_nr'], ", Try refresh again."                            
             #self.calc_update_time(dbTime, tabTime['start_nr'])
         else:                        
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
@@ -181,9 +179,12 @@ class TimesModel(myModel):
         #print "TIME take: ",(time.clock() - ztimeT)
         
         '''POINTS'''
-        if (dstore.Get("additional_info")["enabled"] == 2):        
-            tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
-            tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)
+        if (dstore.Get("additional_info")["enabled"] == 2):
+            try:        
+                tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
+                tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)
+            except:
+                print "E: Points were not succesfully calculated for all times! Try refresh again."
         return tabTime
                                                                                    
     def sModelChanged(self, item):
@@ -324,8 +325,10 @@ class TimesModel(myModel):
                 uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
                 return None
             
-        '''3. START-TIME'''
-        if(int(dbTime['cell']) == 1) or (int(tabTime['nr']) == 0):            
+        '''3. START-TIME'''  
+        if dstore.Get('remote') == 2:
+            start_time = 0                
+        elif(int(dbTime['cell']) == 1) or (int(tabTime['nr']) == 0):            
             start_time = self.starts2.GetFirst()
         else:
             try:            
@@ -517,6 +520,14 @@ class TimesModel(myModel):
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
         return (exportHeader, exportRow)
+    
+    def importRow2dbRow(self, importRow, mode = myModel.eTABLE):        
+        try:
+            importRow['id'] = int(importRow['id']) + 10000
+        except:
+            pass
+        importRow['run_id'] = self.run_id            
+        return importRow
         
     def IsFinishTime(self, dbTime):
         '''
@@ -571,8 +582,10 @@ class TimesModel(myModel):
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
             if dbTime['cell'] != 1:
                 #try:
-                '''toDo: misto try catch, Get bude vracet None'''             
-                if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+                '''toDo: misto try catch, Get bude vracet None'''                
+                if dstore.Get('remote') == 2:
+                    return None             
+                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
                     start_time = self.starts2.Get(start_nr)                    
                 elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                     start_time = self.starts2.GetLast(dbTime)                    
@@ -697,7 +710,10 @@ class Times(myTable):
         self.gui['aDirectExportLaptimes'] = Ui().aDirectExportLaptimes 
         self.gui['times_db_export'] = Ui().TimesDbExport 
         self.gui['times_db_import'] = Ui().TimesDbImport 
-        self.gui['filter_column'] = Ui().TimesFilterColumn 
+        self.gui['filter_column'] = Ui().TimesFilterColumn
+        self.gui['filter_starts'] = Ui().TimesFilterStarts
+        self.gui['filter_finishes'] = Ui().TimesFilterFinishes
+ 
         
         
     def createSlots(self):
@@ -705,14 +721,15 @@ class Times(myTable):
         #standart slots
         myTable.createSlots(self)
                 
-        #filter spin box
-        QtCore.QObject.connect(self.gui['filter_column'], QtCore.SIGNAL("valueChanged(int)"), self.sFilterColumn)        
+        #filter starts/finishes
+        QtCore.QObject.connect(self.gui['filter_starts'], QtCore.SIGNAL("clicked()"), self.sFilterStarts) 
+        QtCore.QObject.connect(self.gui['filter_finishes'], QtCore.SIGNAL("clicked()"), self.sFilterFinishes)
         
         #import table (db format)
         QtCore.QObject.connect(self.gui['times_db_import'], QtCore.SIGNAL("clicked()"), lambda:myTable.sImport(self))
         
         #export table (db format)
-        QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myModel.eDB, False))
+        QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myModel.eDB, True))
         
         #button Recalculate
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
@@ -723,16 +740,17 @@ class Times(myTable):
         
         #export direct categories        
         if (self.gui['aDirectExportCategories'] != None):                                   
-            QtCore.QObject.connect(self.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda:self.sExportResultsDirect('col_nr_export'))
+            QtCore.QObject.connect(self.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), self.sExportResultsDirect)
                                
         QtCore.QObject.connect(self.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), self.sExportLaptimesDirect)
         
-    def sFilterColumn(self, nr):
-        self.proxy_model.setFilterKeyColumn(nr)
-         
-    def sFilterClear(self):
-        myTable.sFilterClear(self)    
-        self.proxy_model.setFilterKeyColumn(-1)                           
+           
+    def sFilterStarts(self):
+        self.gui['filter_column'].setValue(2)
+        self.gui['filter'].setText("1")        
+    def sFilterFinishes(self):
+        self.gui['filter_column'].setValue(2)
+        self.gui['filter'].setText("250")            
    
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
@@ -768,7 +786,7 @@ class Times(myTable):
     #=======================================================================
     
     # F11 - konečné výsledky, 1 čas na řádek
-    def sExportResultsDirect(self, col_nr_export):
+    def sExportResultsDirect(self):
         
         ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")        
                 
@@ -1172,7 +1190,7 @@ class Times(myTable):
         
         
         
-    def sExport(self):                              
+    def sExport_old(self):                              
         
         print "I: ", self.name, ": export"
         

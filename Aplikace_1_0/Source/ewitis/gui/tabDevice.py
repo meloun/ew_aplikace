@@ -26,7 +26,8 @@ class TabDevice():
     def CreateSlots(self):                    
         QtCore.QObject.connect(Ui().pushSpeakerKeys, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("keys"))
         QtCore.QObject.connect(Ui().pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
-        QtCore.QObject.connect(Ui().pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))        
+        QtCore.QObject.connect(Ui().pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))                 
+        QtCore.QObject.connect(Ui().pushSynchronizeSystem, QtCore.SIGNAL("clicked()"),lambda: dstore.Set("synchronize_system", 0, "SET"))        
 
         
     def sLimitTime(self):

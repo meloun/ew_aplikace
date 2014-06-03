@@ -203,11 +203,11 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
                 print "Export: Error:", mode
         #eDB
         if (mode == self.eDB):        
-            exportRow = self.getDbRow(tabRow['id'])
-            exportHeader = self.getDbCollumns()                                                                
+            exportRow = self.table.getDbRow(tabRow['id'])
+            exportHeader = self.table.getDbCollumns()                                                                
         return (exportHeader, exportRow)
     
-    def importRow2dbRow(self, importRow):            
+    def importRow2dbRow(self, importRow, mode = eTABLE):            
         return importRow
                           
         

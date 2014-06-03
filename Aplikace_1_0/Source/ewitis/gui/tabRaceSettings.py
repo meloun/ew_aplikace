@@ -14,8 +14,9 @@ import libs.utils.utils as utils
 
 
 
-class TabRaceSettings():
-    
+
+class TabRaceSettings():    
+      
     def __init__(self):
         '''
         Constructor
@@ -39,6 +40,7 @@ class TabRaceSettings():
                 
         #middle group             
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSet("race_name", utils.toUnicode(name), self.Update))        
+        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("remote", state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("rfid", state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("tag_filter", state, self.Update))
         
@@ -64,7 +66,7 @@ class TabRaceSettings():
         
         #points
         QtCore.QObject.connect(Ui().checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("points", ["table"], state, self.Update))
-        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("points", ["rule"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("points", ["rule"], utils.toUnicode(name)))
         #QtCore.QObject.connect(Ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), self.Update))
         QtCore.QObject.connect(Ui().spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["minimum"], laps, self.Update))
         QtCore.QObject.connect(Ui().spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["maximum"], laps, self.Update))
@@ -82,8 +84,7 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))
                                                 
         #show
-        QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkShowStartTimes, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["starttimes"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))        
         #QtCore.QObject.connect(Ui().checkShowTimesFromAllRuns, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["alltimes"], state, self.Update))
         
         #additional info
@@ -100,7 +101,7 @@ class TabRaceSettings():
     """ EXPLICIT SLOTS  """
     """                 """           
     def sComboTimingMode(self, index):
-        print "sComboTimingMode", index                
+        #print "sComboTimingMode", index                
         '''získání a nastavení nové SET hodnoty'''
         aux_timing_settings = dstore.Get("timing_settings", "GET").copy()
         aux_timing_settings["logic_mode"] = index + 1                               
@@ -202,6 +203,7 @@ class TabRaceSettings():
             print "RACE CHANGED"
             Ui().lineRaceName.setText(dstore.Get("race_name"))
             dstore.ResetChangedFlag("race_name")
+        Ui().checkRemoteRace.setCheckState(dstore.Get("remote"))                                  
         Ui().checkRfidRace.setCheckState(dstore.Get("rfid"))                                  
         Ui().checkTagFilter.setCheckState(dstore.Get("tag_filter"))                                  
         #export
@@ -229,8 +231,8 @@ class TabRaceSettings():
         points = dstore.Get("points")
         Ui().checkPoinstsFromTable.setCheckState(points["table"])
         
-        if(dstore.IsChanged("points") or (self.init == False)):
-            #print "RULE CHANGED"                
+        if(self.init == False):
+            #print "RULE CHANGED"                       
             Ui().linePointsRule.setText(points["rule"])
             dstore.ResetChangedFlag("points")
         
@@ -250,8 +252,7 @@ class TabRaceSettings():
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])            
         
         #show
-        Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])
-        Ui().checkShowStartTimes.setCheckState(dstore.Get("show")["starttimes"])
+        Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])        
         #Ui().checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
         
         #aditional info

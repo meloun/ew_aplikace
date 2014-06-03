@@ -317,9 +317,9 @@ class ManageComm(Thread):
             """ clear database """
             if(dstore.IsChanged("clear_database")):                                                                                     
                 ret = self.send_receive_frame("CLEAR_DATABASE")
-                dstore.ResetChangedFlag("clear_database")
                 print "I: Comm: clearing database, please wait.. "
-                time.sleep(19)
+                time.sleep(21)
+                dstore.ResetChangedFlag("clear_database")
                 print "I: Comm: database should be empty now"
                 
             """ enable/disable tags reading """
@@ -343,6 +343,13 @@ class ManageComm(Thread):
             if(dstore.Get("active_tab") == TAB.race_settings)\
                 or (dstore.Get("active_tab") == TAB.device):                                
                                                                   
+                """ synchronize system """
+                if(dstore.IsChanged("synchronize_system")):                                                                                     
+                    ret = self.send_receive_frame("SYNCHRONIZE_SYSTEM")
+                    print "I: Comm: synchronize system.. "
+                    dstore.ResetChangedFlag("synchronize_system")                    
+                
+                
                 """ set speaker """
                 if(dstore.IsChanged("speaker")):                                                                                                
                     aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
@@ -362,7 +369,7 @@ class ManageComm(Thread):
                 """ set timing settings """                
                 if(dstore.IsChanged("timing_settings")):                    
                     aux_timing_settings = dstore.Get("timing_settings", "SET")
-                    print  "TS", aux_timing_settings                                                                                                         
+                    #print  "TS", aux_timing_settings                                                                                                         
                     ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
                     dstore.ResetChangedFlag("timing_settings")  
         
@@ -377,8 +384,7 @@ class ManageComm(Thread):
             tab DIAGNOSTIC                        
              - get diagnostic                                    
             """
-            if(dstore.Get("active_tab") == TAB.diagnostic):
-                print "AA", dstore.Get("active_tab")        
+            if(dstore.Get("active_tab") == TAB.diagnostic):                    
                 """ get diagnostic """
                 #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']

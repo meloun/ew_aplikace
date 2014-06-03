@@ -38,8 +38,9 @@ class Db_csv():
         my_string = ""    
         
         for list in lists:
-            for item in list:                                                                                               
-                my_string += str(item) + u';'
+            for item in list:
+                                                                                                               
+                my_string += utils.toUnicode(item) + u';'
             my_string += "\n"            
                                         
         if encode != None:

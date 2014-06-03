@@ -258,7 +258,7 @@ class Datastore():
     def GetName(self, name):
         '''
         Vrací data
-        '''            
+        '''                
         if(name in self.data):
                 #reset flags                                
                 return self.data[name]["name"]

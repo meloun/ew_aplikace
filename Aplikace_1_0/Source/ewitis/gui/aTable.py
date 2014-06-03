@@ -43,6 +43,7 @@ class myTable():
         
         #FILTER
         self.gui['filter'] = getattr(Ui(), self.name+"FilterLineEdit") #Ui().PointsFilterLineEdit
+        self.gui['filter_column'] = None
         self.gui['filterclear'] = getattr(Ui(), self.name+"FilterClear") #Ui().PointsFilterClear
         
         #GROUPBOX
@@ -133,36 +134,56 @@ class myTable():
         #TIMEOUT
         #QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.slot_Timer1s)
         
-        # CLEAR FILTER BUTTON -> CLEAR FILTER
-        QtCore.QObject.connect(self.gui['filterclear'], QtCore.SIGNAL("clicked()"), self.sFilterClear)
         
         # FILTER CHANGE -> CHANGE TABLE
         QtCore.QObject.connect(self.gui['filter'], QtCore.SIGNAL("textChanged (const QString & )"), self.sFilterRegExp)
         
+        # FILTER SPIN BOX CHANGED        
+        try:
+            QtCore.QObject.connect(self.gui['filter_column'], QtCore.SIGNAL("valueChanged(int)"), self.sFilterColumn)
+        except TypeError:
+            self.gui['filter_column'] = None
+    
+        
+        # CLEAR FILTER BUTTON -> CLEAR FILTER
+        QtCore.QObject.connect(self.gui['filterclear'], QtCore.SIGNAL("clicked()"), self.sFilterClear)
+          
+        
         # ADD ROW BUTTON
-        if (self.gui['add'] != None):
+        try:
             QtCore.QObject.connect(self.gui['add'], QtCore.SIGNAL("clicked()"), self.sAdd)
+        except TypeError:
+            self.gui['add'] = None
         
         # REMOVE ROW BUTTON
-        if (self.gui['remove'] != None):
+        try:
             QtCore.QObject.connect(self.gui['remove'], QtCore.SIGNAL("clicked()"), self.sDelete)
+        except TypeError:
+            self.gui['remove'] = None
         
         # IMPORT BUTTON -> CHANGE TABLE
-        if (self.gui['import'] != None):
+        try:
             QtCore.QObject.connect(self.gui['import'], QtCore.SIGNAL("clicked()"), self.sImport)   
+        except TypeError:
+            self.gui['import'] = None
             
         # EXPORT BUTTON
-        if (self.gui['export'] != None):
+        try:
             QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(self, myTable.eTABLE, True))        
+        except TypeError:
+            self.gui['export'] = None
         
-        # EXPORT WWW BUTTON
-        #if(self.params.guidata.measure_mode != GuiData.MODE_TRAINING_BASIC):
-        if (self.gui['export_www'] != None):
+        # EXPORT WWW BUTTON        
+        try:
             QtCore.QObject.connect(self.gui['export_www'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(myTable.eWWW, True))
+        except TypeError:
+            self.gui['export_www'] = None
         
         # DELETE BUTTON -> EMPTY TABLE
-        if (self.gui['delete'] != None):
+        try:
             QtCore.QObject.connect(self.gui['delete'], QtCore.SIGNAL("clicked()"), self.sDeleteAll)
+        except TypeError:
+            self.gui['delete'] = None
         
         #self.sFilterRegExp(filter, table, label_counter)        
                              
@@ -175,11 +196,17 @@ class myTable():
         pass 
         #self.update()    #update table            
     
-           
-                 
+                            
+    # FILTER COLLUMN CHANGED
+    def sFilterColumn(self, nr):
+        self.proxy_model.setFilterKeyColumn(nr)
+        
     # CLEAR FILTER BUTTON -> CLEAR FILTER        
     def sFilterClear(self):    
         self.gui['filter'].setText("")
+        if self.gui['filter_column']:
+            self.proxy_model.setFilterKeyColumn(-1)
+            self.gui['filter_column'].setValue(-1) 
                         
     # FILTER CHANGE -> CHANGE TABLE
     def sFilterRegExp(self):    
@@ -343,16 +370,21 @@ class myTable():
     def sExport(self, mode, dialog):
         
         print "I: ", self.name, ": export"
-        if (mode == myModel.eTABLE) or (mode == myModel.eDB):                
+        if (mode == myModel.eTABLE):                
             format = "Csv"
+            prefix = ""
+        elif (mode == myModel.eDB):
+            format = "Csv"
+            prefix = "db_"
         elif mode == myModel.eWWW:
             format = "Htm"
+            prefix = ""
             
                 
         '''get filename, gui dialog, save path to datastore'''                                 
-        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV", "dir_export_csv","Csv Files (*.csv)", self.name+".csv")                
-        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to HTML","dir_export_www","HTML Files (*.htm; *.html)", self.params.name+".htm")
-        if dialog:         
+        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV", "dir_export_csv","Csv Files (*.csv)", self.name+".csv")                        
+        if dialog:
+            print "as", "dir_export_"+format.lower()         
             filename = uiAccesories.getSaveFileName("Export table "+self.name+" to "+format.upper(),"dir_export_"+format.lower(), format.upper()+" Files (*."+format.lower()+")", self.name+"."+format.lower())
         else:
             filename = utils.get_filename("export/"+format.lower()+"/"+self.name+"_"+dstore.Get('race_name')+"."+format.lower())
@@ -366,8 +398,8 @@ class myTable():
         (exportHeader, exportRows) = self.ExportTable(mode)
                 
         '''Write to the file'''
-        if format == "Csv":
-            '''write to csv file'''
+        if format == "Csv":                                    
+            '''Write to CSV file'''            
             if(exportRows != []) or (exportHeader!= []):
                 print "export race", dstore.Get('race_name'), ":",len(exportRows),"times"            
                 first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
@@ -377,8 +409,8 @@ class myTable():
                     aux_csv.save(exportRows)
                 except IOError:
                     uiAccesories.showMessage(self.name+" Export warning", "Permission denied!")
-        elif format == "Htm":        
-            '''write to HTML file'''
+        elif format == "Htm":                    
+            '''Write to HTML file'''            
             try:                                                                
                 html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
                 html_page.save()                             

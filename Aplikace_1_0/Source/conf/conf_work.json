@@ -1,11 +1,10 @@
 {
-    "race_name": {
+    "remote": {
         "GET_SET": {
-            "changed": false,
-            "value": "Veteráni Test"
+            "value": 0
         },
         "permanent": true,
-        "name": "race_name"
+        "name": "Remote Race"
     },
     "onelap_race": {
         "GET_SET": {
@@ -13,6 +12,14 @@
         },
         "permanent": true,
         "name": "onelap race"
+    },
+    "race_name": {
+        "GET_SET": {
+            "changed": false,
+            "value": "Formula Student 2013"
+        },
+        "permanent": true,
+        "name": "race_name"
     },
     "rfid": {
         "GET_SET": {
@@ -23,7 +30,7 @@
     },
     "tag_filter": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true
     },
@@ -31,7 +38,7 @@
         "GET_SET": {
             "changed": false,
             "value": {
-                "table": 0,
+                "table": 2,
                 "minimum": 0,
                 "maximum": 500,
                 "rule": "abs(time - %00:01:30,00%)"
@@ -69,7 +76,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "order": 0,
+                "order": 1,
                 "starttime": 1
             }
         },
