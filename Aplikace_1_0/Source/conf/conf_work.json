@@ -76,8 +76,8 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "order": 1,
-                "starttime": 1
+                "order": 0,
+                "starttime": 0
             }
         },
         "permanent": true

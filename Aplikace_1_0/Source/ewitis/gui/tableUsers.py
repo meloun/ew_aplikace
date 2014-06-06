@@ -72,31 +72,61 @@ class UsersModel(myModel):
         return tabUser
     
 
+   
+    def checkChangedStatus(self, tabRow):
+        '''ZMĚNA STATUSu'''
+        '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dnq'            
+        '''
+        
+        #check rights and format
+        if(int(tabRow['cell']) == 1):
+            uiAccesories.showMessage("Status update error", "Status can NOT be set to starttime")
+            return False                
+        elif(int(tabRow['nr']) == 0):   
+            uiAccesories.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
+            return False              
+        elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
+            uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
+            return False
+                                                                                                                                                                                                                                    
+        return True 
     
-    #===============================================================
-    # GUI => DB                            
-    #===============================================================
-    #GUI: "id", "nr", "name", "first_name", "category", "address"   
-    #DB:  "id", "nr", "name", "first_name", "category", "address"    
-    def table2dbRow(self, tabUser, item = None):        
-        
-        if tabUser['status'] != 'finished' and tabUser['status'] != 'race' and tabUser['status'] != 'dns' and tabUser['status'] != 'dnf' and tabUser['status'] != 'dsq':
-            uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")                        
-            return None                
+    def sModelChanged(self, item):
+                                
+        if(dstore.Get("user_actions") == 0):                       
             
-        #1to1 keys just copy        
-        dbUser = myModel.table2dbRow(self, tabUser, item)
-                
-        '''category_id'''        
-        dbCategory = tableCategories.getDbCategoryParName(tabUser['category']) 
+            ''' user has changed something '''
+            
+            #handle common columns
+            ret = myModel.sModelChanged(self, item)
         
-        if(dbCategory == None):
-            '''category not found => nothing to save'''
-            uiAccesories.showMessage(self.table.name+" Update error", "No category with this name "+(tabUser['category'])+"!")
-            return None
-        dbUser['category_id'] = dbCategory['id']
-                                                                                          
-        return dbUser 
+            if(ret == False):
+                
+                #get changed row, dict{}
+                tabRow = self.row_dict(item.row())                                
+                 
+                # STATUS column
+                if(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
+                    if self.sStatusChanged_Check(tabRow) == True:
+                        dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                
+                        #print "update",  {'id':dbUser['id'], 'status': tabRow['status']}
+                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})
+                        
+                elif(item.column() == self.table.TABLE_COLLUMN_DEF['category']['index']):                    
+                
+                    '''category_id'''        
+                    dbCategory = tableCategories.getDbCategoryParName(tabRow['category']) 
+        
+                    if(dbCategory == None):
+                        '''category not found => nothing to save'''
+                        uiAccesories.showMessage(self.table.name+" Update error", "No category with this name "+(tabRow['category'])+"!")
+                        return None                    
+                    db.update_from_dict(tableUsers.name, {'id':tabRow['id'], 'category_id': dbCategory['id']})
+                                        
+                #update whole model
+                self.Update()                                                                                     
+         
+        return
     
     def importRow2dbRow(self, importRow):                    
         #if 'category_id' in importRow:
@@ -105,19 +135,7 @@ class UsersModel(myModel):
         importRow['category_id'] = tabCategory['id']
         return importRow
         
-#     
-#    def sModelChanged(self, item):
-#        
-#        #EXIST USER WITH THIS NR??
-#        if((self.params.guidata.table_mode == GuiData.MODE_EDIT) and (self.params.guidata.user_actions == GuiData.ACTIONS_ENABLE)):
-#            if(item.column() == 1):                                
-#                nr = item.data(0).toString() #get row
-#                user = db.getParX("users", "nr", nr).fetchone()
-#                if(user != None):
-#                    self.params.showmessage(self.params.name+" Update error", "User with number "+nr+" already exist!")
-#                    self.Update()
-#                    return None
-#        myModel.myModel.sModelChanged(self, item)
+
                  
 class UsersProxyModel(myProxyModel):
     def __init__(self, table):                                

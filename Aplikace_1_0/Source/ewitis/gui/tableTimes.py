@@ -135,7 +135,7 @@ class TimesModel(myModel):
             #if dstore.Get('timing_settings', "SET")["logic_mode"] != LOGIC_MODES.remote_manual:
             #    print "E: neexistuje cas!!! time id:", dbTime['start_nr'], ", Try refresh again."                            
             #self.calc_update_time(dbTime, tabTime['start_nr'])
-        else:                        
+        else:            
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
                 
         '''NAME'''        
@@ -187,216 +187,115 @@ class TimesModel(myModel):
                 print "E: Points were not succesfully calculated for all times! Try refresh again."
         return tabTime
                                                                                    
-    def sModelChanged(self, item):
-                
-        if(dstore.Get("user_actions") == 0):                              
-        
-            #print "MC radek",item.row()            
-            
-            #get changed row
-            tabRow = self.row_dict(item.row())
-            dbRow = self.table2dbRow(tabRow, item)
-                        
-            #get DB-USER                  
+
+    
+    def checkChangedNumber(self, tabRow):
+        '''ZMĚNA ČÍSLA'''
+        '''- kontrola uživatele, categorie, tagu                                
+           - vrací user_id!!
+        '''
+        if(int(tabRow['nr']) == 0):
+            user_id = 0
+        else:            
+            #rigthts to change start cell?
+            if(int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
+                uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
+                return None                               
+            #user exist?                    
             dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
-            
-            if(dbRow == None):                
-                #osetreno uz v table2row, zakomentovavam # uiAccesories.showMessage("Status update error", "Cant find user with nr. "+ tabRow['nr'])                              
+            if dbUser == None:
+                uiAccesories.showMessage(self.table.name+" Update error", "Cant find user with nr. "+ tabRow['nr'])
                 return None
-                
-                
-            if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):
-               
-                '''ZMĚNA ČÍSLA'''
-                '''přiřazení uživatele nelze u času                
-                   - startovací buňky
-                   - nulového času'''                                  
-                
-                #startovací buňka a start time via category
-                if(int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
-                    uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
-                    self.Update()       
-                    return                                                                                                
-#                elif(tabRow['time'] == '00:00:00,00'):
-#                   self.params.showmessage(self.params.name+" Update error", "Cannot assign user to zero time!")
-#                   self.update()
-#                   return
-
-            elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):
-                
-                '''ZMĚNA STATUSu'''
-                '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dnq'                                
-                   - tento state se zapíše k danému uživately => users.state 
-                '''
-                
-                #check rights and format
-                if(int(tabRow['cell']) == 1):
-                    uiAccesories.showMessage("Status update error", "Status can NOT be set to starttime")
-                    return                
-                elif(int(tabRow['nr']) == 0):   
-                    uiAccesories.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
-                    return                
-                elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
-                    uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
-                    return
-                                                                                                                                                                                                                    
-                dbUser = db.row2dict(dbUser)                
-                dbUser['status'] = tabRow['status']
-                                
-                 
-                #update status
-                print "zapisuju novej status", dbUser                
-                db.update_from_dict(tableUsers.name, dbUser)                
-                return
-
-                                                                           
-            ###################
-            # MODEL CHANGED
-            ###################
-            
-            #zápis do db + commit            
-            myModel.sModelChanged(self, item)        
-
-                    
-            #update status
-            if self.IsFinishTime(dbRow) == True:
-                                                                                                                                                                                     
-                #convert sqlite row to dict                    
-                dbUser = db.row2dict(dbUser)                                    
-                                       
-                dbUser['status'] = 'finished'
-                 
-                #update status                
-                db.update_from_dict(tableUsers.name, dbUser)
-                #print "finishtime", dbUser 
-                 
-  
-
-                
-    def table2dbRow(self, tabTime, item = None): 
-        
-        start_time = None
-                                            
-        #get selected id
-        #try:                     
-        #    rows = self.params.gui['view'].selectionModel().selectedRows()                        
-        #    id = self.proxy_model.data(rows[0]).toString()
-        #except:
-        #    self.params.showmessage(self.params.name+" Delete error", "Cant be deleted")
-            
-        '''0. 1to1 keys, just copy - jen id a cell'''        
-        dbTime = myModel.table2dbRow(self, tabTime, item)                
-                
-        '''1. RUN_ID'''
-        dbTime['run_id'] = self.run_id
-                        
-        '''first start time? => cant be updated
-            toDo:asi by za určitých okolností měl jít'''       
-#        if(int(tabTime['id']) == (self.utils.getFirstStartTime(dbTime['run_id'])['id'])):
-#            self.params.showmessage(self.params.name+" Update error", "First start time cant be updated!")
-#            return None        
-        
-        ''' 2. USER ID'''                        
-        if(int(tabTime['nr']) == 0):
-            dbTime['user_id'] = 0                     
-        else:                                                
-            ''' get DB-USER'''
-            dbUser = tableUsers.getDbUserParNr(tabTime['nr'])                                                      
-            if(dbUser == None):
-                uiAccesories.showMessage(self.table.name+" Update error", "Cant find user with nr. "+ tabTime['nr'])                
-                return None
-                                      
-            '''get DB-CATEGORY'''             
+            #category exist?                                                                                              
             dbCategory = tableCategories.getDbRow(dbUser['category_id'])
-            if(dbCategory == None):
-                uiAccesories.showMessage(self.table.name+" Update error", "Cant find category for this user.")                
-                return None
-            
-            '''při změně čísla nejsou v tabTime správné user údaje'''
-            '''toDo: sloučit name a first name'''
-            #tabTime['category'] = dbCategory['name']
-            #tabTime['name'] = dbUser['name'] +' ' + dbUser['first_name']            
-                                                
-            ''' get user id'''
-            dbTime['user_id'] = tableUsers.getIdOrTagIdParNr(tabTime['nr'])            
-                        
-            if(dbTime['user_id'] == None):
-                '''user not found => nothing to save'''
-                uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabTime['nr'])+"!")
-                return None
-            
-        '''3. START-TIME'''  
-        if dstore.Get('remote') == 2:
-            start_time = 0                
-        elif(int(dbTime['cell']) == 1) or (int(tabTime['nr']) == 0):            
-            start_time = self.starts2.GetFirst()
-        else:
-            try:            
-                if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
-                    start_time = self.starts2.Get(dbCategory['start_nr'])                    
-                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
-                    #starttime se počítá z user_id(odvozeno od čísla v tabRow) a timeraw (převádím na číslo)                
-                    tabTimeraw = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])
-                    print tabTime['timeraw'], "=>", tabTimeraw                  
-                    start_time = self.starts2.GetLast({"user_id": dbUser['id'], "time_raw": tabTimeraw})                                 
-                else:
-                    print "E: Fatal Error: Starttime, "
-                    return None                                   
-            except IndexError:                        
-                uiAccesories.showMessage(self.table.name+": Update error", str(dbCategory['start_nr'])+".th start-time is necessary for users from this category!")
-                return None
-            except:        
-                '''žádný startovací čas => vezmi default (1.čas vůbec)'''                            
-                uiAccesories.showMessage(self.table.name+": Update error", "Cant find start time for this category or user.")                
-                return None            
-        
-        #in onelap race user can have ONLY 1 TIME
-        #if(dstore.Get('onelap_race') == True):
-        #    if(self.lap.GetLaps(dbTime) != 0):
-        #        self.params.showmessage(self.params.name+": Update error", "This user has already time!")
-        #        return None 
-                            
-        ''' TIME '''                                                            
-        #try:                                                         
-        #dbTime['time_raw'] = self.utils.tabtime2dbtime(dbTime['run_id'], tabTime)                        
-               
-        '''get start-time'''        
-        if(tabTime['cell'] != 1):
-            '''čas může být v tabulce None, třeba pokud nemá všechny startovací běhy k dispozici
-                   potom se čas naupdatuje, nechává se současný v databázi'''
-            '''toDo: nevracet string ale pravou hodnotu z getTableRow'''
-            '''table-time => db-time'''
-            if(item.column() == self.table.TABLE_COLLUMN_DEF['time']['index']):
-            #if(tabTime['time'] != None) and (tabTime['time'] != u''):
-                
-                ''' z categories vezmu start_nr a pak jdu do start-times pro start-time'''                
-                tabUser = tableUsers.getTabUserParNr(tabTime['nr'])                            
-                category = tableCategories.getDbCategoryParName(tabUser['category'])
-                                               
-                ''' změna času => změna času v db '''                            
-                try:                                        
-                    dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['time']) + start_time['time_raw']
-                except TimesUtils.TimeFormat_Error:
-                    uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")
-            
-            if(item.column() == self.table.TABLE_COLLUMN_DEF['timeraw']['index']):
-                dbTime['time_raw'] = TimesUtils.TimesUtils.timestring2time(tabTime['timeraw'])
-                
-        '''počítaný čas se vždy maže a spočte se při updatu znova'''         
-        dbTime['time'] = None
-                
-                
-            
-        
-        '''nelze přiřadit číslo nulovému/zápornému času'''
-        #&if(dbTime['time_raw'] == 0)                                                                                          
-                                            
-        #except TimesUtils.TimeFormat_Error:
-        #    self.params.showmessage(self.params.name+" Update error", "Time wrong format!")             
-        
+            if dbCategory == None:
+                uiAccesories.showMessage(self.table.name+" Update error", "Cant find category for this user.")
+                return None 
+            #user id exist?                                                                                                                                                         
+            user_id = tableUsers.getIdOrTagIdParNr(tabRow['nr'])
+            if user_id == None:
+                uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabRow['nr'])+"!")                                                                         
+                return None                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                    
+        return user_id
 
-                                                                                                                                                                                                                                                                                                                             
-        return dbTime    
+    def sModelChanged(self, item):
+                                
+        if(dstore.Get("user_actions") == 0):                       
+            
+            ''' user has changed something '''
+            
+            #handle common columns
+            ret = myModel.sModelChanged(self, item)
+        
+            if(ret == False):
+                
+                #get changed row, dict{}
+                tabRow = self.row_dict(item.row())                
+                
+                # NR column
+                if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):                        
+                    user_id = self.checkChangedNumber(tabRow)
+                    if(user_id != None):
+                        #write new number                
+                        #print "update", {'id':tabRow['id'], 'user_id': tableUsers.getIdOrTagIdParNr(tabRow['nr'])}                    
+                        db.update_from_dict(self.table.name, {'id':tabRow['id'], 'user_id': user_id})  
+                 
+                # STATUS column
+                elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
+                    if tableUsers.model.checkChangedStatus(tabRow) == True:
+                        dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                
+                        #print "update",  {'id':dbUser['id'], 'status': tabRow['status']}
+                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})  
+                
+                # TIMERAW column
+                elif(item.column() == self.table.TABLE_COLLUMN_DEF['timeraw']['index']):                    
+                    try:
+                        dbTimeraw = TimesUtils.TimesUtils.timestring2time(tabRow['timeraw'])                    
+                        #print "update", {'id': tabRow['id'], 'time_raw': dbTimeraw}
+                        db.update_from_dict(self.table.name, {'id': tabRow['id'], 'time_raw': dbTimeraw})
+                    except TimesUtils.TimeFormat_Error:
+                        uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")
+                        
+                #reset all calculated values for this row
+                self.table.ResetCalculatedValues(tabRow['id'])
+                
+                #update whole model
+                self.Update()                
+                            
+                    
+                
+#                 if check == True:
+#                     #update changed collumn                                  
+#                     for key in self.table.DB_COLLUMN_DEF:
+#                         if(item.column() == self.table.DB_COLLUMN_DEF[key]['index']):
+#                             try: 
+#                                 db.update_from_dict(self.table.name, {'id':tabRow['id'], key: tabRow[key]})                      
+#                                 return True
+#                             except:
+#                                 uiAccesories.showMessage(self.table.name+" Update", "Error!")
+
+#                 #update status
+#                 dbRow = self.table.getDbRow(tabRow['id'])
+#                 print "EQ",dbRow
+#                 if self.IsFinishTime(dbRow) == True:
+#                                                                                                                                                                                          
+#                     #convert sqlite row to dict
+#                     dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                      
+#                     dbUser = db.row2dict(dbUser)                                                                       
+#                     dbUser['status'] = 'finished'
+#                      
+#                     #update status                
+#                     #print "finishtime", dbUser 
+#                     db.update_from_dict(tableUsers.name, dbUser)
+                 
+                
+        
+         
+        return
+        
+        #end of test
+            
     
     ''''''                   
     def tabRow2exportRow(self, tabRow, mode = myModel.eTOTAL, status = 'finished'):                        
@@ -575,34 +474,49 @@ class TimesModel(myModel):
                            
         return ret_ko_times
                                                        
-    def calc_update_time(self, dbTime, start_nr = None):
+    def calc_update_time(self, dbTime):
         
-        if(dbTime['time'] == None):            
+        if(dbTime['time'] == None):
+            
+            '''no time in some cases'''
+            
+            #start time => no time
+            if(dbTime['cell'] == 1):                
+                return None
+            
+            #user without number => no time          
+            tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
+            if(tabUser['nr'] == 0):
+                return None      
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-            if dbTime['cell'] != 1:
-                #try:
-                '''toDo: misto try catch, Get bude vracet None'''                
-                if dstore.Get('remote') == 2:
-                    return None             
-                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
-                    start_time = self.starts2.Get(start_nr)                    
-                elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
-                    start_time = self.starts2.GetLast(dbTime)                    
-                else:
-                    print "E: Fatal Error: Starttime, "
-                    return None                                
-                                                 
-                '''odecteni startovaciho casu a ulozeni do db'''
-                if(dbTime['time_raw'] < start_time['time_raw']):
-                    print "E: Times: strartime started later as this time!", dbTime 
-                else:                       
-                    dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
-                #except:                         
-                #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
+                            
+   
+            
+            #try:
+            '''toDo: misto try catch, Get bude vracet None'''                
+            if dstore.Get('remote') == 2:
+                return None             
+            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
+                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime
+                print "sdhfg:", start_nr
+                start_time = self.starts2.Get(start_nr)                    
+            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+                #print "calc_update_time:", dbTime, start_nr
+                start_time = self.starts2.GetLast(dbTime)                    
             else:
-                dbTime['time'] = dbTime['time_raw']
-                                                                                                                           
+                print "E: Fatal Error: Starttime "
+                return None            
+                             
+                                             
+            '''odecteni startovaciho casu a ulozeni do db'''
+            if(dbTime['time_raw'] < start_time['time_raw']):
+                print "E: Times: startime started later as this time!", dbTime 
+            else:                       
+                dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+            #except:                         
+            #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
+                        
             db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
             
                 
@@ -623,27 +537,15 @@ class TimesModel(myModel):
             '''time'''
             if(dbTime['time'] == None):
             
-                ''' get USER'''            
-                tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])
-                ''' get CATEGORY'''            
-                tabCategory =  tableCategories.getTabRow(tabUser['category_id'])                                
-                                            
-                '''START NR'''
-                if(dbTime['cell'] == 1) or (tabUser['nr']==0): #start time?                           
-                    start_nr = 1 #decrement 1.starttime
-                else:                                
-                    start_nr = tabCategory['start_nr']        
-                                                        
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                try:                
-                    self.calc_update_time(dbTime, start_nr)
-                except:
-                    ret_ko_times.append(dbTime['id'])
-                           
+                try:                                    
+                    self.calc_update_time(dbTime)
+                except IndexError: #potreba startime, ale nenalezen 
+                    ret_ko_times.append(dbTime['id'])                        
         return ret_ko_times
     
     #UPDATE TABLE        
-    def Update(self, run_id = None):                  
+    def Update(self, run_id = None):        
         
         ret = True
         
@@ -752,6 +654,16 @@ class Times(myTable):
         self.gui['filter_column'].setValue(2)
         self.gui['filter'].setText("250")            
    
+    def ResetCalculatedValues(self, timeid):
+        query = \
+                " UPDATE times" +\
+                    " SET time = Null, laptime = Null" +\
+                    " WHERE (times.id = \""+str(timeid)+"\")"                                
+        res = db.query(query)                        
+        db.commit()        
+        return res
+        
+    
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
@@ -759,7 +671,7 @@ class Times(myTable):
         query = \
                 " UPDATE times" +\
                     " SET time = Null, laptime = Null" +\
-                    " WHERE (times.cell != 1 ) AND (times.time != 0) AND (times.run_id = \""+str(run_id)+"\")"
+                    " WHERE (times.run_id = \""+str(run_id)+"\")"
                         
         res = db.query(query)
                         

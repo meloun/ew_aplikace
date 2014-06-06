@@ -101,8 +101,8 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         
         #slot na zmenu policka, modelu
         QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.sModelChanged)                                                    
-             
-    def sModelChanged(self, item):
+
+    def sModelChanged_old(self, item):
         """
         SLOT, model se zmenil => ulozeni do DB
         """                                  
@@ -123,6 +123,30 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
                     db.update_from_dict(self.table.name, dbRow)                
                 except:                
                     uiAccesories.showMessage(self.table.name+" Update", "Error!")                
+                
+                             
+    def sModelChanged(self, item):
+        """
+        SLOT, model se zmenil => ulozeni do DB
+        """                                  
+        
+        #user change, no auto update        
+        if(dstore.Get("user_actions") == 0):                                                                                                
+                        
+            #get changed row, dict{}
+            tabRow = self.row_dict(item.row())            
+                                                                                                                                      
+            #update changed collumn                                  
+            for key in self.table.TABLE_COLLUMN_DEF:                
+                if(item.column() == self.table.TABLE_COLLUMN_DEF[key]['index']):
+                    if key in self.table.DB_COLLUMN_DEF:
+                        try: 
+                            db.update_from_dict(self.table.name, {'id':tabRow['id'], key: tabRow[key]})                      
+                            return True
+                        except:
+                            uiAccesories.showMessage(self.table.name+" Update", "Error!")        
+        return False
+                                                                                           
                 
             #update model
             #time.sleep(2)
@@ -343,8 +367,6 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     dstore.Set("active_row", topLeft.row())
                     #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")
                     
-                    '''update model'''                                                                 
-                    self.model.Update()
 
                     '''editovat sloupec nad aktivním řádkem'''                         
                     myindex = self.index(dstore.Get("active_row")-1, topLeft.column())                    
