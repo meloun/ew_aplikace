@@ -5,10 +5,14 @@ Created on 14.4.2013
 '''
 
 array = [{"a":2, "b":3},{"a":3, "b":4},{"a":5, "b":6}]
-list = [1,2]
+list1 = [1,2]
+list2 = [1,2]
 
-list[1] = 5
-(x,y) = list
+print list1.items() + list2.items()
+
+
+list1[1] = 5
+(x,y) = list1
 print "x",x 
 print "y",y 
 print type((x,y)), type(list)

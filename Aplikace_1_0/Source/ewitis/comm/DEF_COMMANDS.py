@@ -85,8 +85,8 @@ def SetDiagnosticCommand(cmd = None, length = None):
     if(length != None):
         DEF_COMMANDS["DIAGNOSTIC_COMMAND"]["length"] = length
        
-def GetSorted(key='cmd'):
-    return sorted(DEF_COMMANDS.iteritems(), key=lambda (x, y): y['cmd'])
+def GetSorted(key = 'cmd'):
+    return sorted(DEF_COMMANDS.iteritems(), key = lambda (x, y): y['cmd'])
 def Get(index):
     return GetSorted()[index]     
         

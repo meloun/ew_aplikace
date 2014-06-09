@@ -477,8 +477,8 @@ class ManageComm(Thread):
         print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
         
         '''save to database'''        
-        keys = ["state","id", "starttime_id", "date", "name_id"]
-        values = [run['state'], run['id'], run['starttime_id'], run['datetime'], run['name_id']]             
+        keys = ["state","id", "starttime_id", "date", "name_id", "description"]
+        values = [run['state'], run['id'], run['starttime_id'], run['datetime'], run['name_id'], u"race nr."+str(self.index_runs+1)]             
         ret = self.db.insert_from_lists("runs", keys, values)        
         
         '''return'''

@@ -42,12 +42,6 @@ class RunsModel(myModel):
                                 
         return run
     
-    def table2dbRow(self, run_table, item = None): 
-        #run_db = {"id" : run_table['id'], "date" : run_table['date'], "description" :  run_table['description']}                                                                       
-        run_db = {"id" : run_table['id'], "date" : run_table['date']}                                                                       
-        return run_db
-    
-    
         
 
 class RunsProxyModel(myProxyModel):

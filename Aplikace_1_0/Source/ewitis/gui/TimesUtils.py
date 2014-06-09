@@ -14,36 +14,43 @@ class TimesUtils():
         pass                        
     
     @staticmethod
-    def time2timestring(time):
+    def time2timestring(time, including_days = False):
         '''
-        321561546 => 12:01:02,11
+        321561546 => 1293| 12:01:02,11
         '''
         
         if (time == None):
             return None
         
         '''convert'''
-        hours = time / (100*60*60)
+        if(including_days):
+            days = time / (24*100*60*60)        
+            time = time % (24*100*60*60)
         
+        hours = time / (100*60*60)        
         time = time % (100*60*60)
-        minutes = time / (100*60)
         
+        minutes = time / (100*60)        
         time = time % (100*60)
-        seconds = time / (100)
         
+        seconds = time / (100)
+                
         milliseconds_x10 = time % (100)
         
-        return '%02d:%02d:%02d,%02d' %(hours, minutes, seconds, milliseconds_x10)
+        if(including_days):
+            return '%02d| %02d:%02d:%02d,%02d' % (days, hours, minutes, seconds, milliseconds_x10)
+        
+        return '%02d:%02d:%02d,%02d' % (hours, minutes, seconds, milliseconds_x10)
         
         
     @staticmethod 
-    def timemembers2time(hours, minutes, seconds, milliseconds_x10):
+    def timemembers2time(days, hours, minutes, seconds, milliseconds_x10):
         '''
         12,01,02,11 => "12:01:02,11"
         '''
         if (minutes > 59) or (seconds > 59):
             raise TimeFormat_Error
-        time = ((hours*60*60)+(minutes*60) + seconds)*100 + milliseconds_x10
+        time = ((days*24*60*60)+(hours*60*60)+(minutes*60) + seconds)*100 + milliseconds_x10
         return time
     
     @staticmethod 
@@ -58,17 +65,24 @@ class TimesUtils():
         '''               
         "12:01:02,11" => 545464683
         '''
-        #split to hours(01), minutes(02) and seconds(35,42)
-        timestring = timestring.split(":")                                         
+        #get days
+        time_days = timestring.split("|") 
+        if (len(time_days)) != 2 :
+            raise TimeFormat_Error
+        
+        #split to days&hours(01), minutes(02) and seconds(35,42)
+        timestring = time_days[1].split(":")                                         
         if (len(timestring)) != 3 : #check: 2x colon?
             raise TimeFormat_Error
     
+        
         #get seconds
         time_seconds = timestring[2].split(",")
         if (len(time_seconds)) != 2 : #check: 1x point?                 
             raise TimeFormat_Error
         
         try:
+            days = int(time_days[0])  
             hours = int(timestring[0])
             minutes = int(timestring[1])
             seconds = int(time_seconds[0])
@@ -76,7 +90,7 @@ class TimesUtils():
         except:
             raise TimeFormat_Error
                                          
-        time = TimesUtils.timemembers2time(hours, minutes, seconds, milliseconds_x10)
+        time = TimesUtils.timemembers2time(days, hours, minutes, seconds, milliseconds_x10)
                                    
         return time        
     

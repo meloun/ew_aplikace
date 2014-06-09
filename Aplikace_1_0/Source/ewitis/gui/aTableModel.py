@@ -210,26 +210,17 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         return dbRow
     
     '''
-    tabRow2exportRow()
-     - kopie 1:1
-     - z tabRow(dict) vytvoří dva listy - header a row
+    tabRow2exportRow()     
     '''
-    def tabRow2exportRow(self, tabRow, mode):        
-        exportHeader = self.header()
-        exportRow = []
-          
-        #eTABLE
-        for headerItem in exportHeader:            
-            try:
-                if (mode == self.eTABLE) or (mode == self.eWWW):                                    
-                    exportRow.append(tabRow[headerItem])                              
-            except:
-                print "Export: Error:", mode
-        #eDB
-        if (mode == self.eDB):        
-            exportRow = self.table.getDbRow(tabRow['id'])
-            exportHeader = self.table.getDbCollumns()                                                                
-        return (exportHeader, exportRow)
+    def tabRow2exportRow(self, tabRow, keys):                                    
+        exportRow = {}        
+                  
+        for key in keys:
+            if key in tabRow:            
+                exportRow[key] = tabRow[key]                              
+                                                              
+        return exportRow
+    
     
     def importRow2dbRow(self, importRow, mode = eTABLE):            
         return importRow

@@ -23,7 +23,7 @@
     },
     "rfid": {
         "GET_SET": {
-            "value": 0
+            "value": 2
         },
         "permanent": true,
         "name": "rfid"

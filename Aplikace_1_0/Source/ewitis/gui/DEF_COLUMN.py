@@ -21,14 +21,14 @@ RUNS['database'] = {
                     "date"          :     {"name": "date"},
                     "name_id"       :     {"name": "name_id"},
                     "time_raw"      :     {"name": "time_raw"},
-                    #"description"   :     {"name": "description"}                                
+                    "description"   :     {"name": "description"}                                
                   }
 """ table collumns """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "width": WIDTH_NUMBER_4DIGIT},                                
                  "date"          :     {"index": 1,  "name": "date",        "width": 100},
-                 "name"          :     {"index": 2,  "name": "name",        "width": 100},                                
-                 #"description"   :     {"index": 3,  "name": "description", "width":10}                                
+                 #"name"          :     {"index": 2,  "name": "name",        "width": 100},                                
+                 "description"   :     {"index": 2,  "name": "description", "width":10}                                
                  }  
 
 """
@@ -45,16 +45,7 @@ TIMES['database'] = {
                             "cell"      :     {"index": 4, "name": "cell"},
                             "time_raw"  :     {"index": 5, "name": "time_raw"},
                             #"time"      :     {"index": 6, "name": "time"},                                
-                      }
-""" table collumn for times, mode training """
-TIMES['table_training'] = {
-                           "id"         : {"index": 0,  "name": "id",        "width": WIDTH_NUMBER_4DIGIT,    "write":1},
-                           "nr"         : {"index": 1,  "name": "nr",        "width": 50,    "write":1},
-                           "cell"       : {"index": 2,  "name": "cell",      "width": 50,    "write":1},
-                           "time"       : {"index": 3,  "name": "time",      "width": 50,    "write":1},
-                           "name"       : {"index": 4,  "name": "name",      "width": 50,    "write":1},
-                           "category"   : {"index": 5,  "name": "category",  "width": 150,   "write":1},                                       
-                         }                             
+                      }                            
 
 """ table collumn for times, mode race """
 TIMES['table'] =   {

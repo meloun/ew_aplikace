@@ -174,7 +174,7 @@ class sqlite_db(object):
         query = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         query = query.replace('\'None\'', 'Null')
         #print "qq2", query
-        
+                
         try:
             self.query(query)
         except sqlite.IntegrityError:

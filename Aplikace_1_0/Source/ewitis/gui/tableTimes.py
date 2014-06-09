@@ -127,7 +127,7 @@ class TimesModel(myModel):
             dbtime 2 tabletime'''                                               
         
         '''raw time'''        
-        tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'])
+        tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'], True)
         
         '''time'''
         if(dbTime['time'] == None):
@@ -297,128 +297,103 @@ class TimesModel(myModel):
         #end of test
             
     
-    ''''''                   
-    def tabRow2exportRow(self, tabRow, mode = myModel.eTOTAL, status = 'finished'):                        
+    ''''''                       
+    def tabRow2exportRow(self, tabRow, keys, mode = myModel.eTOTAL, status = 'finished'):                        
                                                            
-        exportRow = []
-        exportHeader = []
+        exportRowTimes = myModel.tabRow2exportRow(self, tabRow, keys)
         
-        #save the winner
-        print "1:",tabRow
-        if 'order' in tabRow:
-            if(tabRow['order'] != ''):
-                if ((mode == myModel.eTOTAL) and (int(tabRow['order']) == 1)) or \
-                    ((mode == myModel.eCATEGORY) and (int(tabRow['order_cat']) == 1)):
-                    self.winner = tabRow                    
+        tabUserRow = tableUsers.getTabUserParNr(tabRow['nr'])
+        exportRowUsers = tableUsers.model.tabRow2exportRow(tabUserRow, keys)
+        
+        print "exportRowTimes", exportRowTimes                        
+        print "exportRowUsers", exportRowUsers                        
             
-        #print "tabRow: ", tabRow['id'], ":", tabRow['order']
-        '''get user'''
-        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
-            tabHeader = tableUsers.model.header()                                                  
-            tabUser = tableUsers.getTabUserParNr(tabRow['nr'])
-            if tabUser['status'] != status:
-                print "export: zahazuju radek: status", tabRow
-                return ([], [])
-        
-        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
-            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
-            exportRow.append(tabRow['order']+".")
-            exportRow.append(tabRow['nr'])
-            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
-            exportRow.append(tabRow['name'])           
-        elif(mode == myModel.eCATEGORY):                                       
-            exportHeader = [u"Pořadí", u"Číslo", u"Jméno"]            
-            exportRow.append(tabRow['order_cat']+".")
-            exportRow.append(tabRow['nr'])
-            exportRow.append(tabRow['name'])           
-        elif(mode == myModel.eLAPS):                                                      
-            #header                                       
-            exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
-            #row            
-            exportRow.append(tabRow[0]['nr'])
-            exportRow.append(tabRow[0]['name'])            
-            for t in tabRow:
-                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
-                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ... 
+
+#        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
+#            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
+#            exportRow.append(tabRow['order']+".")
+#            exportRow.append(tabRow['nr'])
+#            exportRow.append(tabRow['order_cat']+"./"+tabRow['category'])            
+#            exportRow.append(tabRow['name'])           
+#        elif(mode == myModel.eCATEGORY):                                       
+#            exportHeader = [u"Pořadí", u"Číslo", u"Jméno"]            
+#            exportRow.append(tabRow['order_cat']+".")
+#            exportRow.append(tabRow['nr'])
+#            exportRow.append(tabRow['name'])           
+#        elif(mode == myModel.eLAPS):                                                      
+#            #header                                       
+#            exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
+#            #row            
+#            exportRow.append(tabRow[0]['nr'])
+#            exportRow.append(tabRow[0]['name'])            
+#            for t in tabRow:
+#                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
+#                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ... 
                             
-            #row a header musí mít stejnou délku     
-            for i in range(len(exportHeader) - len(tabRow) - 2):
-                exportRow.append("")                                                                       
-        
+#            #row a header musí mít stejnou délku     
+#            for i in range(len(exportHeader) - len(tabRow) - 2):
+#                exportRow.append("")                                                                       
+             
+                  
             
-        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
-            if dstore.GetItem("export", ["year"]) == 2:
-                exportHeader.append(u"Ročník")
-                exportRow.append(tabUser['birthday'])
-            if dstore.GetItem("export", ["club"]) == 2:                                       
-                exportHeader.append(u"Klub")
-                exportRow.append(tabUser['club']) 
-            # user_field_1             
-            if dstore.GetItem("export", ["option_1"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_1_name"]))
-                exportRow.append(tabUser['o1'])
-            # user_field_2             
-            if dstore.GetItem("export", ["option_2"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_2_name"]))
-                exportRow.append(tabUser['o2'])
-            # user_field_3             
-            if dstore.GetItem("export", ["option_3"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_3_name"]))
-                exportRow.append(tabUser['o3'])
-            # user_field_4             
-            if dstore.GetItem("export", ["option_4"]) == 2:
-                exportHeader.append(dstore.GetItem("export", ["option_4_name"]))
-                exportRow.append(tabUser['o4'])
-            # laps             
-            if dstore.GetItem("export", ["laps"]) == 2:
-                exportHeader.append(u"Okruhy")
-                exportRow.append(tabRow['lap'])
-            # laptime             
-            if dstore.GetItem("export", ["laptime"]) == 2:
-                exportHeader.append(u'Čas kola')
-                exportRow.append(tabRow['laptime'])
-            # best laptime             
-            if dstore.GetItem("export", ["best_laptime"]) == 2:
-                exportHeader.append(u"Top okruh")
-                exportRow.append(tabRow['best_laptime'])
-            
-            #time
-            exportHeader.append(u"Čas")    
-            exportRow.append(tabRow['time'])
-            
-            #ztráta
-            if dstore.GetItem("export", ["gap"]) == 2:
-                exportHeader.append(u"Ztráta")
-                ztrata = ""            
-                if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
-                    if self.winner['lap'] == tabRow['lap']:                
-                        ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
-                    elif tabRow['lap']!='' and tabRow['lap']!=None:
-                        ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
-                        if ztrata == 1:
-                            ztrata = str(ztrata) + " kolo"
-                        elif ztrata < 5:
-                            ztrata = str(ztrata) + " kola"
-                        else:
-                            ztrata = str(ztrata) + " kol"     
-                exportRow.append(ztrata)                                 
-                            
-            #body - total, categories, groups
-            if(mode == myModel.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points']))                
-            elif(mode == myModel.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points_cat']))                 
-            elif(mode == myModel.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
-                exportHeader.append(u"Body")                                    
-                exportRow.append(str(tabRow['points']))
-                
-        if exportRow == []:            
-            (exportHeader, exportRow) = myModel.tabRow2exportRow(self,tabRow, mode)                
+#        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
+#            if dstore.GetItem("export", ["year"]) == 2:
+#                exportHeader.append(u"Ročník")
+#                exportRow.append(tabUser['birthday'])
+#            if dstore.GetItem("export", ["club"]) == 2:                                       
+#                exportHeader.append(u"Klub")
+#                exportRow.append(tabUser['club']) 
+#            # user_field_1             
+#            if dstore.GetItem("export", ["option_1"]) == 2:
+#                exportHeader.append(dstore.GetItem("export", ["option_1_name"]))
+#                exportRow.append(tabUser['o1'])
+#            # user_field_2             
+#            if dstore.GetItem("export", ["option_2"]) == 2:
+#                exportHeader.append(dstore.GetItem("export", ["option_2_name"]))
+#                exportRow.append(tabUser['o2'])
+#            # user_field_3             
+#            if dstore.GetItem("export", ["option_3"]) == 2:
+#                exportHeader.append(dstore.GetItem("export", ["option_3_name"]))
+#                exportRow.append(tabUser['o3'])
+#            # user_field_4             
+#            if dstore.GetItem("export", ["option_4"]) == 2:
+#                exportHeader.append(dstore.GetItem("export", ["option_4_name"]))
+#                exportRow.append(tabUser['o4'])
+#            # laps             
+#            if dstore.GetItem("export", ["laps"]) == 2:
+#                exportHeader.append(u"Okruhy")
+#                exportRow.append(tabRow['lap'])
+#            # laptime             
+#            if dstore.GetItem("export", ["laptime"]) == 2:
+#                exportHeader.append(u'Čas kola')
+#                exportRow.append(tabRow['laptime'])
+#            # best laptime             
+#            if dstore.GetItem("export", ["best_laptime"]) == 2:
+#                exportHeader.append(u"Top okruh")
+#                exportRow.append(tabRow['best_laptime'])
+#            
+#            #time
+#            exportHeader.append(u"Čas")    
+#            exportRow.append(tabRow['time'])
+#            
+#                                
+#                            
+#            #body - total, categories, groups
+#            if(mode == myModel.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):
+#                exportHeader.append(u"Body")                                    
+#                exportRow.append(str(tabRow['points']))                
+#            elif(mode == myModel.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):
+#                exportHeader.append(u"Body")                                    
+#                exportRow.append(str(tabRow['points_cat']))                 
+#            elif(mode == myModel.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):
+#                exportHeader.append(u"Body")                                    
+#                exportRow.append(str(tabRow['points']))
+#                
+#        if exportRow == []:            
+#            (exportHeader, exportRow) = myModel.tabRow2exportRow(self,tabRow, mode)                
         
         '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
-        return (exportHeader, exportRow)
+        return dict(exportRowTimes.items() + exportRowUsers.items()) 
     
     def importRow2dbRow(self, importRow, mode = myModel.eTABLE):        
         try:
@@ -498,8 +473,7 @@ class TimesModel(myModel):
             if dstore.Get('remote') == 2:
                 return None             
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
-                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime
-                print "sdhfg:", start_nr
+                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
                 start_time = self.starts2.Get(start_nr)                    
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #print "calc_update_time:", dbTime, start_nr
@@ -700,7 +674,7 @@ class Times(myTable):
     # F11 - konečné výsledky, 1 čas na řádek
     def sExportResultsDirect(self):
         
-        ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")        
+        ret = uiAccesories.showMessage("Results Export", "Chorose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")        
                 
         if ret == False: #cancel button
             return
@@ -708,8 +682,7 @@ class Times(myTable):
         #title
         title = "Table '"+self.name + "' CSV Export Categories" 
         
-        #get filename, gui dialog         
-        #dirname = self.params.myQFileDialog.getExistingDirectory(self.params.gui['view'], title)
+        #get filename, gui dialog        
         dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.Get('race_name')+"/")
         try:
             os.makedirs(dirname)
@@ -722,43 +695,60 @@ class Times(myTable):
         exportRows = []
         exportRows_Alltimes = []
         
-        exported = {}
-        self.winner = {}        
+        exported = {}            
 
-        '''EXPORT TOTAL'''                                       
+        #get winner
+        winner = (x for x in self.proxy_model.dicts() if x[u'order'] == u'1').next()
+        #print winner['order']        
+        
+        
+        '''EXPORT TOTAL'''
+        keys = ["order", "nr", "name", "club", "sex", "lap", "time"]
         for tabRow in self.proxy_model.dicts():
-            dbTime = self.getDbRow(tabRow['id'])
-            #d print "id:", tabRow['id'],
-            
+                                               
+        
+            dbTime = self.getDbRow(tabRow['id'])            
             if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
                 continue
             
-            #                        
-            exportRow = self.model.tabRow2exportRow(tabRow, myModel.eTOTAL)
+            #tabRow to exportRow           
+            exportRow = self.model.tabRow2exportRow(tabRow, keys)            
+            exportRowList = [(exportRow[key]) for key in keys]
             
-            if exportRow == None:
+            if exportRowList == None:
                 continue
             
             #all times export - add all
-            exportRows_Alltimes.append(exportRow[1])
-            exportHeader_Alltimes = exportRow[0] 
+            exportRows_Alltimes.append(exportRowList)             
             
             #times export - add last/best (race/slalom)                                                                                                                                       
-            #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-            #        (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
             if self.model.order.IsToShow(dbTime) == True:                                                    
-                exportRows.append(exportRow[1])
-                exportHeader = exportRow[0]                         
-                    
+                exportRows.append(exportRowList)                                         
+                                            
             
-        '''natvrdo pred girem'''        
-        #exportHeader = ["Pořadí", "Pořadí K", "Kategorie" , "Číslo", "Jméno", "Ročník", "Klub", "Čas"]  
-            
+#        #add gap
+#        if dstore.GetItem("export", ["gap"]) == 2:
+#            exportHeader.append(u"Ztráta")
+#            ztrata = ""            
+#            if(winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+#                if self.winner['lap'] == tabRow['lap']:                
+#                    ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+#                elif tabRow['lap']!='' and tabRow['lap']!=None:
+#                    ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+#                    if ztrata == 1:
+#                        ztrata = str(ztrata) + " kolo"
+#                    elif ztrata < 5:
+#                        ztrata = str(ztrata) + " kola"
+#                    else:
+#                        ztrata = str(ztrata) + " kol"     
+#            exportRow.append(ztrata) 
+ 
+                        
         '''write to csv file'''
         if(exportRows != []):
             #print "export total, ", len(exportRows),"times"
             exported["total"] =  len(exportRows)
-            exportRows =  self.ExportMerge(exportRows, exportHeader)            
+            exportRows =  self.ExportMerge(exportRows, keys)            
             filename = utils.get_filename("_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
@@ -770,24 +760,21 @@ class Times(myTable):
         if(exportRows_Alltimes != []):
             #print "export total alltimes, ", len(exportRows_Alltimes),"times"
             exported["(at) total"] =  len(exportRows_Alltimes)                       
-            #exportRows_Alltimes.insert(0, [dstore.Get('race_name'),] + (len(exportHeader_Alltimes)-1) * ["",])
-            #exportRows_Alltimes.insert(1, len(exportHeader_Alltimes)*["",])
-            #exportRows_Alltimes.insert(2, exportHeader_Alltimes)
-            exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes)
+            exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, keys)
             filename = utils.get_filename("at_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
                 aux_csv.save(exportRows_Alltimes)
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+dstore.Get('race_name')+".csv"+"\nPermission denied!")
-                
+                         
                                              
-        '''EXPORT CATEGORIES'''                        
+        '''EXPORT CATEGORIES'''
+        keys = ["order_cat", "nr", "name", "time"]                        
         dbCategories = tableCategories.getDbRows()                      
         for dbCategory in dbCategories:
             exportRows = []             
-            exportRows_Alltimes = []
-            self.winner = {}                                     
+            exportRows_Alltimes = []                                                 
             for tabRow in self.proxy_model.dicts():
                 dbTime = self.getDbRow(tabRow['id'])
                 
@@ -798,27 +785,22 @@ class Times(myTable):
                     continue
                                 
                 #
-                exportRow = self.model.tabRow2exportRow(tabRow, myModel.eCATEGORY)
-                if exportRow == None:
+                exportRow = self.model.tabRow2exportRow(tabRow, keys)            
+                exportRowList = [(exportRow[key]) for key in keys]
+                if exportRowList == None:
                     continue
                 
                 #all times export - add all                
-                exportRows_Alltimes.append(exportRow[1])
-                exportHeader_Alltimes = exportRow[0] 
+                exportRows_Alltimes.append(exportRowList)
             
-                #times export - add last/best (race/slalom)            
-                #if(dstore.Get('order_evaluation') == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                #    (dstore.Get('order_evaluation') == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):
-                if self.model.order.IsToShow(dbTime) == True:  
-                    if (tabRow['category'] == dbCategory['name']):                                                                                                                                                               
-                        exportRows.append(exportRow[1])
-                        exportHeader = exportRow[0]                                                                                                                                                                                           
+                if self.model.order.IsToShow(dbTime) == True:                                                                                                                                                                                    
+                    exportRows.append(exportRowList)                                                                                                                                                                                                                   
                         
             
             '''write to csv file'''
             if(exportRows != []):                
                 exported["(c_) " + dbCategory['name']] = len(exportRows)                                                                     
-                exportRows =  self.ExportMerge(exportRows, exportHeader, ["Kategorie: "+dbCategory['name'], dbCategory['description']])                
+                exportRows =  self.ExportMerge(exportRows, keys, ["Kategorie: "+dbCategory['name'], dbCategory['description']])                
                 
                 filename = utils.get_filename("c_"+dbCategory['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -830,7 +812,7 @@ class Times(myTable):
             '''Alltimes - write to csv file'''
             if(exportRows_Alltimes != []):                
                 exported["(c_at_) " + dbCategory['name']] = len(exportRows_Alltimes)                                                     
-                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes, ["Kategorie: "+dbCategory['name'], dbCategory['description']])               
+                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, keys, ["Kategorie: "+dbCategory['name'], dbCategory['description']])               
                                 
                 filename = utils.get_filename("c_at_"+dbCategory['name']+".csv")
                 aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
@@ -840,67 +822,67 @@ class Times(myTable):
                     uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")                                  
                                    
                     
-        '''EXPORT GROUPS'''
-        dbCGroups = tableCGroups.getDbRows()
-                              
-        index_category = self.TABLE_COLLUMN_DEF["category"]["index"]                
-        dbCategories = tableCategories.getDbRows()
-        for dbCGroup in dbCGroups:                                              
-            exportRows = []
-            exportRows_Alltimes = []
-            self.winner = {}                        
-            for tabRow in self.proxy_model.dicts():
-                dbTime = self.getDbRow(tabRow['id'])
-                
-                if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
-                    continue
-
-                tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])
-                if (tabCategory[dbCGroup['label']] != 1):
-                    continue
-                                            
-                #all times export - add all
-                exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)
-                if exportRow == None:
-                    continue
-                
-                exportRows_Alltimes.append(exportRow[1])
-                exportHeader_Alltimes = exportRow[0] 
-                
-                if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
-                    (dstore.Get('evaluation')['order'] == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
-                     
-                    tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])                 
-                    if (tabCategory[dbCGroup['label']] == 1):
-                        exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)                                                                                                                                       
-                        exportRows.append(exportRow[1])
-                        exportHeader = exportRow[0]                                                                                                                  
-
-            
-                    
-            '''write to csv file'''
-            if(exportRows != []):                
-                exported["(g_) "+dbCGroup['label']] = len(exportRows)                
-                
-                #exportRows.insert(0, [dstore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])                
-                exportRows =  self.ExportMerge(exportRows, exportHeader, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
-                filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
-                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
-                try:                                                                                             
-                    aux_csv.save(exportRows)
-                except IOError:
-                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
-                    
-            '''Alltimes - write to csv file'''
-            if(exportRows_Alltimes != []):                
-                exported["(g_at_) "+dbCGroup['label']] = len(exportRows_Alltimes)                                                
-                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
-                filename = utils.get_filename(dbCGroup['label']+"_at_"+dbCGroup['name']+".csv")
-                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
-                try:                                                                                             
-                    aux_csv.save(exportRows_Alltimes)
-                except IOError:
-                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+#        '''EXPORT GROUPS'''
+#        dbCGroups = tableCGroups.getDbRows()
+#                              
+#        index_category = self.TABLE_COLLUMN_DEF["category"]["index"]                
+#        dbCategories = tableCategories.getDbRows()
+#        for dbCGroup in dbCGroups:                                              
+#            exportRows = []
+#            exportRows_Alltimes = []
+#            self.winner = {}                        
+#            for tabRow in self.proxy_model.dicts():
+#                dbTime = self.getDbRow(tabRow['id'])
+#                
+#                if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
+#                    continue
+#
+#                tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])
+#                if (tabCategory[dbCGroup['label']] != 1):
+#                    continue
+#                                            
+#                #all times export - add all
+#                exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)
+#                if exportRow == None:
+#                    continue
+#                
+#                exportRows_Alltimes.append(exportRow[1])
+#                exportHeader_Alltimes = exportRow[0] 
+#                
+#                if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE and self.model.order.IsLastUsertime(dbTime)) or \
+#                    (dstore.Get('evaluation')['order'] == OrderEvaluation.SLALOM and self.model.order.IsBestUsertime(dbTime)):                    
+#                     
+#                    tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])                 
+#                    if (tabCategory[dbCGroup['label']] == 1):
+#                        exportRow = self.model.tabRow2exportRow(tabRow, myModel.eGROUP)                                                                                                                                       
+#                        exportRows.append(exportRow[1])
+#                        exportHeader = exportRow[0]                                                                                                                  
+#
+#            
+#                    
+#            '''write to csv file'''
+#            if(exportRows != []):                
+#                exported["(g_) "+dbCGroup['label']] = len(exportRows)                
+#                
+#                #exportRows.insert(0, [dstore.Get('race_name'),time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())])                
+#                exportRows =  self.ExportMerge(exportRows, exportHeader, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
+#                filename = utils.get_filename(dbCGroup['label']+"_"+dbCGroup['name']+".csv")
+#                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
+#                try:                                                                                             
+#                    aux_csv.save(exportRows)
+#                except IOError:
+#                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+#                    
+#            '''Alltimes - write to csv file'''
+#            if(exportRows_Alltimes != []):                
+#                exported["(g_at_) "+dbCGroup['label']] = len(exportRows_Alltimes)                                                
+#                exportRows_Alltimes =  self.ExportMerge(exportRows_Alltimes, exportHeader_Alltimes, ["Skupina: "+dbCGroup['name'], dbCGroup['description']])                                                
+#                filename = utils.get_filename(dbCGroup['label']+"_at_"+dbCGroup['name']+".csv")
+#                aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class                
+#                try:                                                                                             
+#                    aux_csv.save(exportRows_Alltimes)
+#                except IOError:
+#                    uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
 
         
         exported_string = ""
@@ -1102,35 +1084,7 @@ class Times(myTable):
         
         
         
-    def sExport_old(self):                              
-        
-        print "I: ", self.name, ": export"
-        
-        '''get filename, gui dialog, save path to datastore'''         
-        filename =  uiAccesories.getSaveFileName("Export table "+self.name+" to CSV","dir_export_csv","Csv Files (*.csv)", self.name+".csv")                                  
-        if(filename == ""):
-            return                            
 
-        title = "Table '"+self.name + "' CSV Export Categories" 
-        exportRows = []        
-
-        '''EXPORT ALL TIMES'''                                                        
-        for tabRow in self.proxy_model.dicts():
-            exportRow = self.tabRow2exportRow(tabRow, Times.eTOTAL)[1]                                    
-            if exportRow != []:                            
-                exportRows.append(exportRow)
-            exportHeader = self.tabRow2exportRow(tabRow, Times.eTOTAL)[0]                                        
-             
-        '''write to csv file'''
-        if(exportRows != []):
-            print "export race", dstore.Get('race_name'), ":",len(exportRows),"times"
-            first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
-            exportRows.insert(0, exportHeader)
-            aux_csv = Db_csv.Db_csv(filename) #create csv class
-            try:                                     
-                aux_csv.save(exportRows)
-            except IOError:
-                uiAccesories.showMessage(self.name+" Export warning", "Permission denied!")
                                
                     
     #toDo: sloucit s myModel konstruktorem        

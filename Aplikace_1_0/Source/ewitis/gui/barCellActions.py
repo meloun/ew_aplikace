@@ -115,33 +115,44 @@ class BarCellActions():
     def Update(self):  
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)      
         
-        #enable/disable items in cell toolbar                    
-        for i, cell_actions in enumerate(self.cells_actions):            
-            cell = tabCells.GetCellParTask(self.Collumn2TaskNr(i))            
-            if cell != None:
-                
-                #nastaveni fontu pro ping (tlačítko s číslem buňky)
-                if cell.GetInfo()['active'] and dstore.Get("port")["opened"]:
-                    font = cell_actions['ping_cell'].font()
-                    font.setBold(True)
-                    font.setUnderline(True)
-                    cell_actions['ping_cell'].setFont(font)
-                else:
-                    font = cell_actions['ping_cell'].font()
-                    font.setBold(False)
-                    font.setUnderline(False)
-                    cell_actions['ping_cell'].setFont(font)
-                    
-                #enable actions for active cells (when connected)
-                for key, action in cell_actions.items():
-                    if dstore.Get("port")["opened"]:                                            
+        #enable/disable items in cell toolbar 
+        if(dstore.Get('rfid') == 2):
+            '''RFID RACE'''
+            
+            #enable 'generate celltime' for START and FINISH
+            for i, cell_actions in enumerate(self.cells_actions):
+                for key, action in cell_actions.items():                    
+                    if (i==0 or i==5) and (key == 'generate_celltime') and dstore.Get("port")["opened"]:                    
                         action.setEnabled(True)
-                    else:                    
+                    else:
+                        action.setEnabled(False)                    
+        else:                        
+            for i, cell_actions in enumerate(self.cells_actions):
+                                            
+                cell = tabCells.GetCellParTask(self.Collumn2TaskNr(i))            
+                if cell != None and dstore.Get("port")["opened"]:
+                                        
+                    # PING, set bold if cell activ
+                    if cell.GetInfo()['active'] and dstore.Get("port")["opened"]:
+                        font = cell_actions['ping_cell'].font()
+                        font.setBold(True)
+                        font.setUnderline(True)
+                        cell_actions['ping_cell'].setFont(font)
+                    else:
+                        font = cell_actions['ping_cell'].font()
+                        font.setBold(False)
+                        font.setUnderline(False)
+                        cell_actions['ping_cell'].setFont(font)
+                        
+                    # ENABLE all actions
+                    for key, action in cell_actions.items():                                                                
+                        action.setEnabled(True)
+                        
+                else:
+                    #DISABLE all actions, cell not configured or no connection with device
+                    for key, action in cell_actions.items(): 
                         action.setEnabled(False)
-            else:
-                for key, action in cell_actions.items(): 
-                    action.setEnabled(False)
-        
+            
         #enabled only when blackbox is connected
         if dstore.Get("port")["opened"]:            
             Ui().aClearDatabase.setEnabled(True)

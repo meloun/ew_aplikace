@@ -169,7 +169,7 @@ class myTable():
             
         # EXPORT BUTTON
         try:
-            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(self, myTable.eTABLE, True))        
+            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(self, myModel.eTABLE, True))        
         except TypeError:
             self.gui['export'] = None
         
