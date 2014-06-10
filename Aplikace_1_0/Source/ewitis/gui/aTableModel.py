@@ -102,27 +102,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         #slot na zmenu policka, modelu
         QtCore.QObject.connect(self, QtCore.SIGNAL("itemChanged(QStandardItem *)"), self.sModelChanged)                                                    
 
-    def sModelChanged_old(self, item):
-        """
-        SLOT, model se zmenil => ulozeni do DB
-        """                                  
-        
-        #user change, no auto update        
-        if(dstore.Get("user_actions") == 0):                                                                                                
-                        
-            #ziskat zmeneny radek, slovnik{}
-            tabRow = self.row_dict(item.row())#self.getTableRow(item.row())            
-                                                                                                                                      
-            #prevest na databazovy radek, dbRow <- tableRow
-            dbRow = self.table2dbRow(tabRow, item)                                                                                                       
-                                        
-            #exist row? 
-            if (dbRow != None):                                                                                         
-                #update DB
-                try:                                                                            
-                    db.update_from_dict(self.table.name, dbRow)                
-                except:                
-                    uiAccesories.showMessage(self.table.name+" Update", "Error!")                
+               
                 
                              
     def sModelChanged(self, item):
@@ -166,10 +146,15 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled        
         
-        #NOT editable items
-        if (index.column() == 0):
-            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
-
+        #set the item editable or not editable
+        for key, value in self.table.TABLE_COLLUMN_DEF.items():
+            #print "kv:",key, value
+            if value['index'] == index.column():
+                if value['write'] == False:                
+                    return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+                else:
+                    return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
+        print self.table.name,">", key, value, index.data().toInt()[0] 
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable 
 
     def db2tableRow(self, dbRow):
@@ -193,22 +178,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
 
         return tabRow     
    
-    def table2dbRow(self, tabRow, item = None):
-        """
-        konverze TABLE radku do DATABASE radku       
-        pokud existuje sloupec z tabulky i v databazi, zkopiruje se  
-        """
-        
-        dbRow = {}
-                       
-        for key in self.table.DB_COLLUMN_DEF:                                 
-            #kopie 1to1
-            try:
-                dbRow[ key] = tabRow[key]
-            except:
-                pass #tento sloupec v tabulce neexistuje                             
-        return dbRow
-    
+
     '''
     tabRow2exportRow()     
     '''
@@ -230,18 +200,34 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         """
         vraci radek naplneny zakladnimi daty
         """                
-        row = {}     
            
         #prazdne znaky do vsech sloupcu
-        for key in self.table.TABLE_COLLUMN_DEF:            
-            row[key] = ""            
+        row = {}     
+        for key, value in self.table.TABLE_COLLUMN_DEF.items():            
+            row[key] = value["default"]            
         
-        #pokud existuje sloupec id, naplnit ho nejvyssim id
-        if row.has_key('id'):
-            try:
-                row['id'] = db.getMax(self.table.name, 'id') + 1
-            except:
-                row['id'] = 0                        
+        # id = maximal id + 1        
+        try:
+            row['id'] = db.getMax(self.table.name, 'id') + 1
+        except:
+            row['id'] = 0                                
+        return row  
+          
+    def getDefaultDbRow(self):
+        """
+        vraci radek naplneny zakladnimi daty
+        """                
+           
+        #prazdne znaky do vsech sloupcu
+        row = {}     
+        for key, value in self.table.DB_COLLUMN_DEF.items():            
+            row[key] = value["default"]                    
+        
+        # id = maximal id + 1   
+        try:
+            row['id'] = db.getMax(self.table.name, 'id') + 1
+        except:
+            pass
         return row        
                 
     def addRow(self, row):

@@ -8,13 +8,7 @@ from ewitis.data.db import db
 class CategoriesModel(myModel):
     def __init__(self, table):                                        
         myModel.__init__(self, table)
-                                         
-    def getDefaultTableRow(self): 
-        category = myModel.getDefaultTableRow(self)                
-        category['name'] = "unknown"        
-        category['start_nr'] = 1
-        return category 
-                    
+                                                             
 class CategoriesProxyModel(myProxyModel):
     def __init__(self, table):                                
         myProxyModel.__init__(self, table)  

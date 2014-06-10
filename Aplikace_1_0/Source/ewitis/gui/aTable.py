@@ -221,26 +221,25 @@ class myTable():
         title = "Table "+self.name+" Add"                
         
         #get ID for default record
-        row = self.model.getDefaultTableRow()        
+        #row = self.model.getDefaultTableRow()
+        dbRow = self.model.getDefaultDbRow()    
         #print row                        
-        my_id = uiAccesories.showMessage(title,"ID: ", MSGTYPE.get_integer, row['id'])                
-        if my_id == None:
+        dbRow['id'] = uiAccesories.showMessage(title,"ID: ", MSGTYPE.get_integer, dbRow['id'])                
+        if dbRow['id'] == None:
             return
 
         #this ID exist?                
-        res = db.getParId(self.name, my_id)            
+        res = db.getParId(self.name, dbRow['id'])            
         if(res):
             uiAccesories.showMessage(title,"Record with this ID already exist!")
             return
-     
-        row['id'] = my_id        
+                     
                     
         #dstore.Set("user_actions", False)  
-                              
-        dbRow = self.model.table2dbRow(row)        
+                                              
         if(dbRow != None):        
             db.insert_from_dict(self.name, dbRow)            
-            uiAccesories.showMessage(title,"succesfully (id="+str(my_id)+")", MSGTYPE.statusbar)
+            uiAccesories.showMessage(title,"succesfully (id="+str(dbRow['id'])+")", MSGTYPE.statusbar)
 
         self.Update()                    
         #dstore.Set("user_actions", True)  

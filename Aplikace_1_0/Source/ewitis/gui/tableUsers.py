@@ -19,36 +19,9 @@ class UsersModel(myModel):
     
         
     def getDefaultTableRow(self): 
-        user = myModel.getDefaultTableRow(self)                
-        user['nr'] = 0
-        user['status'] = "race"
-        user['name'] = "unknown"
-        user['category'] = tableCategories.getTabCategoryFirst()['name']
-        user['category_id'] = 0
-        user['id'] = 0                  
+        user = myModel.getDefaultTableRow(self)                        
+        user['category'] = tableCategories.getTabCategoryFirst()['name']                          
         return user
-     
-    def getDefaultDbRow(self, dbTag): 
-        user = {}                
-        user['id'] = 0
-        user['nr'] = dbTag['user_nr']
-        user['race'] = "race"
-        user['name'] = "USER: "+ str(dbTag['user_nr'])+ ", TAG: "+str(dbTag['printed_nr'])#+" id:"+ str(dbTag['tag_id'])
-        user['first_name'] = ""
-        user['first_name'] = ""                
-        user['category_id'] = 0
-        user['club'] = ""
-        user['birthday'] = ""
-        user['sex'] = ""
-        user['email'] = ""
-        user['symbol'] = ""
-        user['paid'] = ""
-        user['note'] = ""
-        user['o1'] = ""
-        user['o2'] = ""
-        user['o3'] = ""
-        user['o4'] = ""                                          
-        return user 
     
     #===============================================================
     # DB => GUI                            
@@ -210,12 +183,26 @@ class Users(myTable):
         tabUser = self.model.db2tableRow(dbUser)
         return tabUser
     
+    def getJoinUserParIdOrTagId(self, user_id):        
+        
+        dbUser = self.getDbUserParIdOrTagId(user_id)        
+        
+        if(dbUser == None):
+            return dict(self.model.getDefaultDbRow().items()+self.model.getDefaultTableRow().items())
+        
+        tabUser = self.model.db2tableRow(dbUser)            
+        
+        return  dict(db.row2dict(dbUser).items()+tabUser.items())
+    
     def getIdOrTagIdParNr(self, nr):
         
         if(dstore.Get("rfid") == 2):    
             '''tag id'''
-            dbTag = tableTags.getDbTagParUserNr(nr)                        
-            return dbTag['tag_id']
+            try:
+                dbTag = tableTags.getDbTagParUserNr(nr)                        
+                return dbTag['tag_id']
+            except TypeError:
+                return None  
         else:       
             '''id'''
             dbUser = self.getDbUserParNr(nr)

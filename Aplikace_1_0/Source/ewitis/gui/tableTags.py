@@ -7,13 +7,7 @@ from ewitis.data.db import db
     
 class TagsModel(myModel):
     def __init__(self, table):                                        
-        myModel.__init__(self, table)                            
-                
-    def getDefaultTableRow(self): 
-        category = myModel.getDefaultTableRow(self)                
-        category['name'] = "unknown"        
-        category['start_nr'] = 0
-        return category 
+        myModel.__init__(self, table)                
                     
 class TagsProxyModel(myProxyModel):
     def __init__(self, table):                                        

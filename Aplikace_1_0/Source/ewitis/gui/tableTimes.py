@@ -38,8 +38,7 @@ F11 - export categories
 F12 - direct WWW export
 '''        
 class TimesModel(myModel):
-    def __init__(self, table):
-        print "TAER", table                        
+    def __init__(self, table):                        
         myModel.__init__(self, table)                
         
         #
@@ -58,24 +57,12 @@ class TimesModel(myModel):
             self.run_id = 0 #no times for run_id = 0 
                                 
                    
-    #setting flags for this model
-    #first collumn is NOT editable
-    def flags(self, index): 
-        
-        #id, name, category, addres NOT editable
 
-        #if ((index.column() == 4) or (index.column() == 5) or (index.column() == 6)):
-        if ((index.column() == 5) or (index.column() == 6)):
-            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
-
-        return myModel.flags(self, index)
     
-    def getDefaultTableRow(self): 
-        row = myModel.getDefaultTableRow(self)
-        row['cell'] = 1                  
-        row['nr'] = 0 #musi byt cislo!                                              
-        row['time_raw'] = 0
-        row['start_nr'] = 1               
+  
+    def getDefaultDbRow(self): 
+        row = myModel.getDefaultDbRow(self)
+        row['run_id'] = self.run_id                                                                                                                     
         return row                 
 
     
@@ -97,19 +84,16 @@ class TimesModel(myModel):
          
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
-        '''Test: vzal jsem rovnou tabusera, zda se to ze to chodi'''                                            
-        tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])         
-        #dbUser =  self.params.tabUser.getDbUserParIdOrTagId(dbTime["user_id"])        
-       
+        '''join user, hodnoty z table i db'''                                            
+        joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])
         
-        ''' get CATEGORY'''            
-        tabCategory =  tableCategories.getTabRow(tabUser['category_id'])                                
-        #tabCategory =  None                                
+        ''' get CATEGORY'''                    
+        tabCategory =  tableCategories.getTabRow(joinUser['category_id'])        
                                         
         ''' OTHER KEYS ''' 
         
         '''NR'''                   
-        tabTime['nr'] = tabUser['nr']
+        tabTime['nr'] = joinUser['nr']
                                     
         '''START NR'''
         if(tabTime['cell'] == 1) or (tabTime['nr']==0) or tabCategory==None: #start time?                           
@@ -121,7 +105,7 @@ class TimesModel(myModel):
         if (dbTime['cell'] == 1) or (dbTime["user_id"] == 0):
             tabTime['status'] = ''        
         else:                       
-            tabTime['status'] = tabUser['status']
+            tabTime['status'] = joinUser['status']
             
         '''TIME
             dbtime 2 tabletime'''                                               
@@ -141,13 +125,13 @@ class TimesModel(myModel):
         '''NAME'''        
 #        if(dbTime['cell'] == 1):
 #            tabTime['name'] = ''
-        if(dbTime["user_id"] == 0):
-            tabTime['name'] = 'undefined'
-        else:                       
-            tabTime['name'] = tabUser['name'].upper() +' '+tabUser['first_name']        
+        #if(dbTime["user_id"] == 0):
+        #    tabTime['name'] = 'undefined'
+        #else:                       
+        tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
         
-        '''CATEGORY'''                                                                                
-        tabTime['category'] = tabUser['category']                                                                                                                              
+        '''CATEGORY'''        
+        tabTime['category'] = joinUser['category']                                                                                                                              
 
              
         tabTime['lap'] = None
@@ -173,7 +157,7 @@ class TimesModel(myModel):
                 
         '''ORDER IN CATEGORY'''                                    
         #z1 = time.clock()                                
-        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = tabUser['category_id'])
+        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])
         #print "- order in category takes: ",(time.clock() - z1)    
                                                                                           
         #print "TIME take: ",(time.clock() - ztimeT)
