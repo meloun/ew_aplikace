@@ -8,7 +8,11 @@ array = [{"a":2, "b":3},{"a":3, "b":4},{"a":5, "b":6}]
 list1 = [1,2]
 list2 = [1,2]
 
-print list1.items() + list2.items()
+mylist1 = [ 23,   13, None, 65,   None, 966, None, None]
+mylist2 = [ None, 13, 98,   None, 61,   966, 13,   2]
+
+print [(a if a!=None else b) for a, b in zip(mylist1, mylist2)]
+
 
 
 list1[1] = 5

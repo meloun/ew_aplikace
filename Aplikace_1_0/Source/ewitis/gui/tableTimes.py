@@ -811,12 +811,13 @@ class Times(myTable):
         if(exportRows != []):
             #print "export total, ", len(exportRows),"times"
             exported["total"] =  len(exportRows)
+            
+            #header z property tabulky            
             headerT = [self.GetTableProperty(key, 'name_cz') for key in keys]
-            headerU =  [tableUsers.GetTableProperty(key, 'name_cz') for key in keys]
-            print "hT", headerT
-            print "hU", headerU
-            print "hut", list(set(headerT +headerU)) 
-            exportRows =  self.ExportMerge(exportRows, headerT)            
+            headerU = [tableUsers.GetTableProperty(key, 'name_cz') for key in keys]
+            header = [(a if a!=None else b) for a, b in zip(headerT, headerU)] #slouční headerů z times a users
+                        
+            exportRows =  self.ExportMerge(exportRows, header)            
             filename = utils.get_filename("_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
