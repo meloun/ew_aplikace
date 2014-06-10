@@ -651,6 +651,80 @@ class Times(myTable):
             aux_rows.insert(1, [dstore.Get('race_name'),] + (len(header)-1) * ["",])    
             aux_rows.insert(2, header)            
             return aux_rows
+    def GetExportKeys(self, mode):            
+            
+        #"order", "nr", "order_cat", "name"
+        keys = []
+        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
+            keys = ["order", "nr", "order_cat", "name"]                                                                      
+        elif(mode == myModel.eCATEGORY):                                       
+            keys = ["order_cat", "nr", "name"]         
+#        elif(mode == myModel.eLAPS):                                                      
+#            #header                                       
+#            exportHeader = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]            
+#            #row            
+#            exportRow.append(tabRow[0]['nr'])
+#            exportRow.append(tabRow[0]['name'])            
+#            for t in tabRow:
+#                #exportRow.append(t['time'])   # mezičasy - 2:03, 4:07, 6:09, ...        
+#                exportRow.append(t['laptime']) # časy kol - 2:03, 2:04, 2:02, ...
+        
+        # + "club", "sex", "lap", "time"
+        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
+            if dstore.GetItem("export", ["year"]) == 2:                    
+                keys.append("birthday")
+            if dstore.GetItem("export", ["club"]) == 2:                                       
+                keys.append("club")
+            # user_field_1             
+            if dstore.GetItem("export", ["option_1"]) == 2:                    
+                keys.append("o1")                    
+            # user_field_2             
+            if dstore.GetItem("export", ["option_2"]) == 2:
+                keys.append("o2")                                        
+            # user_field_3             
+            if dstore.GetItem("export", ["option_3"]) == 2:
+                keys.append("o3")                                                            
+            # user_field_4             
+            if dstore.GetItem("export", ["option_4"]) == 2:
+                keys.append("o4")                                                                                
+            # laps             
+            if dstore.GetItem("export", ["laps"]) == 2:
+                keys.append("lap")                                        
+            # laptime             
+            if dstore.GetItem("export", ["laptime"]) == 2:
+                keys.append("laptime")                                                            
+            # best laptime             
+            if dstore.GetItem("export", ["best_laptime"]) == 2:
+                keys.append("best_laptime")                                                            
+            
+            #time
+            keys.append("time")
+            
+#            #ztráta
+#            if dstore.GetItem("export", ["gap"]) == 2:
+#                exportHeader.append(u"Ztráta")
+#                ztrata = ""            
+#                if(self.winner != {} and tabRow['time']!=0 and tabRow['time']!=None):
+#                    if self.winner['lap'] == tabRow['lap']:                
+#                        ztrata = TimesUtils.TimesUtils.times_difference(tabRow['time'], self.winner['time'])
+#                    elif tabRow['lap']!='' and tabRow['lap']!=None:
+#                        ztrata = int(self.winner['lap']) - int(tabRow['lap'])                     
+#                        if ztrata == 1:
+#                            ztrata = str(ztrata) + " kolo"
+#                        elif ztrata < 5:
+#                            ztrata = str(ztrata) + " kola"
+#                        else:
+#                            ztrata = str(ztrata) + " kol"     
+#                exportRow.append(ztrata)                                 
+                            
+            #body - total, categories, groups
+            if(mode == myModel.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):                                                    
+                keys.append('points')                
+            elif(mode == myModel.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):                                                    
+                keys.append('points_cat')                 
+            elif(mode == myModel.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):                                                    
+                keys.append('points')                                                                                                
+        return keys
     #=======================================================================
     # SLOTS
     #=======================================================================
@@ -682,14 +756,19 @@ class Times(myTable):
         exported = {}            
 
         #get winner
-        winner = (x for x in self.proxy_model.dicts() if x[u'order'] == u'1').next()
+        try:
+            winner = (x for x in self.proxy_model.dicts() if x[u'order'] == u'1').next()
+        except StopIteration:
+            winner = None
+        
         #print winner['order']        
         
         
         '''EXPORT TOTAL'''
-        keys = ["order", "nr", "name", "club", "sex", "lap", "time"]
-        for tabRow in self.proxy_model.dicts():
-                                               
+        #keys = ["order", "nr", "name", "club", "sex", "lap", "time"]
+        keys = self.GetExportKeys(myModel.eTOTAL)
+        print "export keys", keys
+        for tabRow in self.proxy_model.dicts():                                               
         
             dbTime = self.getDbRow(tabRow['id'])            
             if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
@@ -732,7 +811,12 @@ class Times(myTable):
         if(exportRows != []):
             #print "export total, ", len(exportRows),"times"
             exported["total"] =  len(exportRows)
-            exportRows =  self.ExportMerge(exportRows, keys)            
+            headerT = [self.GetTableProperty(key, 'name_cz') for key in keys]
+            headerU =  [tableUsers.GetTableProperty(key, 'name_cz') for key in keys]
+            print "hT", headerT
+            print "hU", headerU
+            print "hut", list(set(headerT +headerU)) 
+            exportRows =  self.ExportMerge(exportRows, headerT)            
             filename = utils.get_filename("_"+dstore.Get('race_name')+".csv")            
             aux_csv = Db_csv.Db_csv(dirname+"/"+filename) #create csv class
             try:                
@@ -754,7 +838,8 @@ class Times(myTable):
                          
                                              
         '''EXPORT CATEGORIES'''
-        keys = ["order_cat", "nr", "name", "time"]                        
+        #keys = ["order_cat", "nr", "name", "time"]
+        keys = self.GetExportKeys(myModel.eCATEGORY)                        
         dbCategories = tableCategories.getDbRows()                      
         for dbCategory in dbCategories:
             exportRows = []             

@@ -30,7 +30,15 @@ class myTable():
     def InitCollumns(self):                        
         self.DB_COLLUMN_DEF = getattr(DEF_COLUMN, self.name.upper())['database']
         self.TABLE_COLLUMN_DEF = getattr(DEF_COLUMN,  self.name.upper())['table']  
-        self.EXPORT_COLLUMN_DEF  = getattr(DEF_COLUMN,  self.name.upper())['table']       
+        self.EXPORT_COLLUMN_DEF  = getattr(DEF_COLUMN,  self.name.upper())['table']
+    def GetTableProperty(self, key, property_key):
+        try:
+            property = self.TABLE_COLLUMN_DEF[key][property_key]
+        except:
+            property = None
+        return property
+    
+               
         
     def InitGui(self, sImport = True):
         

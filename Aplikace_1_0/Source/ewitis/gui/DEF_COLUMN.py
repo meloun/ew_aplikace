@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 
 Created on 27.12.2011
@@ -48,23 +49,23 @@ TIMES['database'] = {
 
 """ table collumn for times, mode race """
 TIMES['table'] =   {
-                           "id"         : {"index": 0,  "name": "id",           "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":False  },
-                           "nr"         : {"index": 1,  "name": "nr",           "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":True  },
-                           "cell"       : {"index": 2,  "name": "cell",         "default": 250,         "width": 35,                     "write":True  },
-                           "status"     : {"index": 3, "name": "status",        "default": "race",      "width": WIDTH_NUMBER_4DIGIT,    "write":True  },                           
-                           "time"       : {"index": 4,  "name": "time",         "default": "",          "width": 80,                     "write":False  },
-                           "name"       : {"index": 5,  "name": "name",         "default": "unknow",    "width": 130,                    "write":False  },
-                           "category"   : {"index": 6,  "name": "category",     "default": "unknown",   "width": 100,                    "write":False  },
-                           "order"      : {"index": 7,  "name": "order",        "default": "",          "width": 50,                     "write":False  },      
-                           "order_cat"  : {"index": 8,  "name": "order_cat",    "default": "",          "width": 50,                     "write":False  },      
-                           "start_nr"   : {"index": 9,  "name": "start_nr",     "default": 1,           "width": 50,                     "write":False  },
-                           "lap"        : {"index": 10,  "name": "lap",         "default": "",          "width": 50,                     "write":False  },                                                                          
-                           "laptime"    : {"index": 11, "name": "laptime",      "default": "",          "width": 80,                     "write":False  },                                                                          
-                           "best_laptime":{"index": 12, "name": "best_laptime", "default": "",          "width": 80,                     "write":False  },                                                                          
-                           "points"     : {"index": 13, "name": "points",       "default": "",          "width": 60,                     "write":False  },                                                                          
-                           "points_cat" : {"index": 14, "name": "points_cat",   "default": "",          "width": 60,                     "write":False  },                                                                                                     
+                           "id"         : {"index": 0,  "name": "id",           "name_cz": u"id",               "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":False  },
+                           "nr"         : {"index": 1,  "name": "nr",           "name_cz": u"Číslo",            "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":True  },
+                           "cell"       : {"index": 2,  "name": "cell",         "name_cz": u"Buňka",            "default": 250,         "width": 35,                     "write":True  },
+                           "status"     : {"index": 3,  "name": "status",       "name_cz": u"Status",           "default": "race",      "width": WIDTH_NUMBER_4DIGIT,    "write":True  },                           
+                           "time"       : {"index": 4,  "name": "time",         "name_cz": u"Čas",              "default": "",          "width": 80,                     "write":False  },
+                           "name"       : {"index": 5,  "name": "name",         "name_cz": u"Jméno",            "default": "unknow",    "width": 130,                    "write":False  },
+                           "category"   : {"index": 6,  "name": "category",     "name_cz": u"Kategorie",        "default": "unknown",   "width": 100,                    "write":False  },
+                           "order"      : {"index": 7,  "name": "order",        "name_cz": u"Pořadí",           "default": "",          "width": 50,                     "write":False  },      
+                           "order_cat"  : {"index": 8,  "name": "order_cat",    "name_cz": u"Pořadí/Kategorie", "default": "",          "width": 50,                     "write":False  },      
+                           "start_nr"   : {"index": 9,  "name": "start_nr",     "name_cz": u"Start",            "default": 1,           "width": 50,                     "write":False  },
+                           "lap"        : {"index": 10, "name": "lap",          "name_cz": u"Okruhy",           "default": "",          "width": 50,                     "write":False  },                                                                          
+                           "laptime"    : {"index": 11, "name": "laptime",      "name_cz": u"Čas kola",         "default": "",          "width": 80,                     "write":False  },                                                                          
+                           "best_laptime":{"index": 12, "name": "best_laptime", "name_cz": u"Top okruh",        "default": "",          "width": 80,                     "write":False  },                                                                          
+                           "points"     : {"index": 13, "name": "points",       "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                          
+                           "points_cat" : {"index": 14, "name": "points_cat",   "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                                                     
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"    : {"index": 15, "name": "timeraw",      "default": 161,         "width": 100,                    "write":True  },                        
+                           "timeraw"    : {"index": 15, "name": "timeraw",      "name_cz": "Čas Raw",           "default": 161,         "width": 100,                    "write":True  },                        
                         
                         }
 """
@@ -75,23 +76,23 @@ USERS = {}
 
 """ database columns """
 USERS['database'] = { 
-                    "id"            :     {"index": 0,      "name": "id",               "default": 0},
-                    "nr"            :     {"index": 1,      "name": "nr",               "default": 0},
-                    "status"        :     {"index": 2,      "name": "status",           "default": "race"},    
-                    "name"          :     {"index": 3,      "name": "name",             "default": "unknown"},
-                    "first_name"    :     {"index": 4,      "name": "first_name",       "default": "unknown"},
-                    "category_id"   :     {"index": 5,      "name": "category",         "default": 1},
-                    "club"          :     {"index": 6,      "name": "club",             "default": ""},
-                    "birthday"      :     {"index": 7,      "name": "birthday",         "default": ""},
-                    "sex"           :     {"index": 8,      "name": "sex",              "default": ""},
-                    "email"         :     {"index": 9,      "name": "email",            "default": ""},
-                    "symbol"        :     {"index": 10,      "name": "symbol",          "default": ""},
-                    "paid"          :     {"index": 11,     "name": "paid",             "default": ""},
-                    "note"          :     {"index": 12,     "name": "note",             "default": ""},
-                    "o1"            :     {"index": 13,     "name": "o1",               "default": ""},
-                    "o2"            :     {"index": 14,     "name": "o2",               "default": ""},
-                    "o3"            :     {"index": 15,     "name": "o3",               "default": ""},    
-                    "o4"            :     {"index": 16,     "name": "o4",               "default": ""},                                                                                                                                                                                                
+                    "id"            :     {"index": 0,      "name": "id",           "name_cz": u"id",        "default": 0},
+                    "nr"            :     {"index": 1,      "name": "nr",           "name_cz": u"Číslo",     "default": 0},
+                    "status"        :     {"index": 2,      "name": "status",       "name_cz": u"Status",    "default": "race"},    
+                    "name"          :     {"index": 3,      "name": "name",         "name_cz": u"Jméno",     "default": "unknown"},
+                    "first_name"    :     {"index": 4,      "name": "first_name",   "name_cz": u"Nevím",     "default": "unknown"},
+                    "category_id"   :     {"index": 5,      "name": "category",     "name_cz": u"Nevím",     "default": 1},
+                    "club"          :     {"index": 6,      "name": "club",         "name_cz": u"Nevím",     "default": ""},
+                    "birthday"      :     {"index": 7,      "name": "birthday",     "name_cz":u"Ročník",     "default": ""},
+                    "sex"           :     {"index": 8,      "name": "sex",          "name_cz":u"Pohlaví",    "default": ""},
+                    "email"         :     {"index": 9,      "name": "email",        "name_cz":u"Jméno",      "default": ""},
+                    "symbol"        :     {"index": 10,     "name": "symbol",       "name_cz":u"Nevím",      "default": ""},
+                    "paid"          :     {"index": 11,     "name": "paid",         "name_cz":u"Nevím",      "default": ""},
+                    "note"          :     {"index": 12,     "name": "note",         "name_cz":u"Nevím",      "default": ""},
+                    "o1"            :     {"index": 13,     "name": "o1",           "name_cz":u"#1",         "default": ""},
+                    "o2"            :     {"index": 14,     "name": "o2",           "name_cz":u"#2",         "default": ""},
+                    "o3"            :     {"index": 15,     "name": "o3",           "name_cz":u"#3",         "default": ""},    
+                    "o4"            :     {"index": 16,     "name": "o4",           "name_cz":u"#4",         "default": ""},                                                                                                                                                                                                
                   }
 
 """ table collumns """
