@@ -23,6 +23,30 @@ class UsersModel(myModel):
         user['category'] = tableCategories.getTabCategoryFirst()['name']                          
         return user
     
+    def getDefaultDbRow(self, dbTag = None): 
+        user = myModel.getDefaultDbRow(self)
+        if  dbTag != None:              
+            user['id'] = 0
+            user['nr'] = dbTag['user_nr']
+            user['race'] = "race"
+            user['name'] = "USER: "+ str(dbTag['user_nr'])+ ", TAG: "+str(dbTag['printed_nr'])#+" id:"+ str(dbTag['tag_id'])
+    #        user['first_name'] = ""
+    #        user['first_name'] = ""                
+            user['category_id'] = 0
+    #        user['club'] = ""
+    #        user['birthday'] = ""
+    #        user['sex'] = ""
+    #        user['email'] = ""
+    #        user['symbol'] = ""
+    #        user['paid'] = ""
+    #        user['note'] = ""
+    #        user['o1'] = ""
+    #        user['o2'] = ""
+    #        user['o3'] = ""
+    #        user['o4'] = ""                                          
+        return user 
+    
+    
     #===============================================================
     # DB => GUI                            
     #===============================================================   

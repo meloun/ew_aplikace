@@ -252,7 +252,8 @@ class sqlite_db(object):
                 
         '''sestaveni a provedeni dotazu'''
         query = u"update %s SET %s WHERE id = \"%s\"" % (tablename, mystring, dict['id']) 
-        query = query.replace('\'None\'', 'Null')                                       
+        query = query.replace('\'None\'', 'Null')
+        #♠print "query", query                                       
               
         res = self.query(query)
         if commit == True:      

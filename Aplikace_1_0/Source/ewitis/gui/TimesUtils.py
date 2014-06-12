@@ -61,20 +61,24 @@ class TimesUtils():
         return TimesUtils.timenumbers2time(timestruct["hours"],timestruct["minutes"], timestruct["seconds"],timestruct["milliseconds_x10"])
     
     @staticmethod 
-    def timestring2time(timestring):
+    def timestring2time(timestring, including_days = True):
         '''               
         "12:01:02,11" => 545464683
         '''
         #get days
-        time_days = timestring.split("|") 
-        if (len(time_days)) != 2 :
+        if(including_days == True):
+            time_days = timestring.split("|") 
+            if (len(time_days)) != 2 :
+                raise TimeFormat_Error
+            timestring = time_days[1]
+            time_days = time_days[0]
+        else:
+            time_days = 0
+                    
+        #split to hours(01), minutes(02) and seconds(35,42)
+        timestring = timestring.split(":")                                         
+        if (len(timestring)) != 3 : #check: 3x colon?
             raise TimeFormat_Error
-        
-        #split to days&hours(01), minutes(02) and seconds(35,42)
-        timestring = time_days[1].split(":")                                         
-        if (len(timestring)) != 3 : #check: 2x colon?
-            raise TimeFormat_Error
-    
         
         #get seconds
         time_seconds = timestring[2].split(",")
@@ -82,14 +86,14 @@ class TimesUtils():
             raise TimeFormat_Error
         
         try:
-            days = int(time_days[0])  
+            days = int(time_days)  
             hours = int(timestring[0])
             minutes = int(timestring[1])
             seconds = int(time_seconds[0])
             milliseconds_x10 = int(time_seconds[1])
         except:
             raise TimeFormat_Error
-                                         
+        
         time = TimesUtils.timemembers2time(days, hours, minutes, seconds, milliseconds_x10)
                                    
         return time        
@@ -99,12 +103,14 @@ class TimesUtils():
         '''
         "00:01:03,15", "00:01:02,11" => "00:00:01,04"
         '''
-        t1 = TimesUtils.timestring2time(timestring1)
-        t2 = TimesUtils.timestring2time(timestring2)        
+        t1 = TimesUtils.timestring2time(timestring1, False)
+        t2 = TimesUtils.timestring2time(timestring2, False)        
         timestring = TimesUtils.time2timestring(t1 - t2)
         #if(t1<t2)
         #    time_string = "-"+time_string
         return timestring
+    
+
     
            
 class TimesOrder():
@@ -338,6 +344,21 @@ class TimesOrder():
             res_order = None                            
 
         return res_order
+    
+    def GetGap(self, lap, time, winner_lap, winner_time):
+        gap = None                                                                                                            
+        if(winner_lap != None and winner_time != None and time!=0 and time!=None):
+            if winner_lap == lap:                
+                gap = TimesUtils.times_difference(time, winner_time)
+            elif (lap != "") and ('lap' !=None):
+                gap = int(winner_lap) - int(lap)                     
+                if gap == 1:
+                    gap = str(gap) + " kolo"
+                elif gap < 5:
+                    gap = str(gap) + " kola"
+                else:
+                    gap = str(gap) + " kol"     
+        return gap 
     
 class TimesLap():
     '''

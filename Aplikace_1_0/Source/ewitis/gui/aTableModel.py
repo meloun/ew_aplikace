@@ -184,7 +184,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
     '''
     def tabRow2exportRow(self, tabRow, keys):                                    
         exportRow = {}        
-                  
+                          
         for key in keys:
             if key in tabRow:            
                 exportRow[key] = tabRow[key]                              
@@ -342,8 +342,7 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     
                     '''uložit aktivní řádek do datastore'''
                     dstore.Set("active_row", topLeft.row())
-                    #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")
-                    
+                    #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")                    
 
                     '''editovat sloupec nad aktivním řádkem'''                         
                     myindex = self.index(dstore.Get("active_row")-1, topLeft.column())                    

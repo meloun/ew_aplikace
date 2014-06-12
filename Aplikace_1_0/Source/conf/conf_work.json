@@ -16,7 +16,7 @@
     "race_name": {
         "GET_SET": {
             "changed": false,
-            "value": "Formula Student 2013"
+            "value": "Blizák Test 2014"
         },
         "permanent": true,
         "name": "race_name"
@@ -30,7 +30,7 @@
     },
     "tag_filter": {
         "GET_SET": {
-            "value": 0
+            "value": 2
         },
         "permanent": true
     },
@@ -49,25 +49,25 @@
     },
     "export": {
         "GET_SET": {
-            "changed": false,
+            "changed": true,
             "value": {
+                "option_2": 0,
                 "best_laptime": 0,
                 "points_categories": 0,
                 "club": 2,
                 "laps": 2,
-                "option_2_name": "o2",
-                "gap": 0,
-                "option_4_name": "o4",
-                "laptime": 2,
-                "option_1_name": "o1",
-                "option_3_name": "o3",
                 "year": 2,
-                "option_2": 0,
+                "gap": 2,
+                "option_4_name": "o4",
+                "laptime": 0,
+                "option_4": 0,
+                "option_2_name": "o2",
+                "option_3_name": "o3",
                 "option_3": 0,
                 "option_1": 0,
                 "points_race": 0,
                 "points_groups": 0,
-                "option_4": 0
+                "option_1_name": "o1"
             }
         },
         "permanent": true,
@@ -85,9 +85,9 @@
     "additional_info": {
         "GET_SET": {
             "value": {
-                "best_laptime": 2,
+                "best_laptime": 0,
                 "enabled": 2,
-                "laptime": 2,
+                "laptime": 0,
                 "order_in_cat": 2,
                 "lap": 2,
                 "order": 2
