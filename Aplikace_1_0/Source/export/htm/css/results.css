@@ -40,6 +40,7 @@ table{
   
   
   table tr th{font-size:110%; font-weight:bold;}
+
   table tr th:nth-of-type(8){font-size:90%;}
   table tr th:nth-of-type(9){font-size:90%;}
   table tr td{margin:30px; text-align:center;}
@@ -55,6 +56,9 @@ table{
   table tr td:nth-of-type(7){font-weight: bold;}
   table tr td:nth-of-type(8),
   table tr td:nth-of-type(9){font-size:90%;}
+  
+  table tr th:nth-of-type(7){display:none;}
+	table tr td:nth-of-type(7){display:none;}
 
 
 

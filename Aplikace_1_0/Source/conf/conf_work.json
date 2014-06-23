@@ -16,7 +16,7 @@
     "race_name": {
         "GET_SET": {
             "changed": false,
-            "value": "Blizák Test 2014"
+            "value": "Bikeclinic cup Dobřichovice"
         },
         "permanent": true,
         "name": "race_name"
@@ -49,7 +49,7 @@
     },
     "export": {
         "GET_SET": {
-            "changed": true,
+            "changed": false,
             "value": {
                 "option_2": 0,
                 "best_laptime": 0,
@@ -64,10 +64,10 @@
                 "option_2_name": "o2",
                 "option_3_name": "o3",
                 "option_3": 0,
-                "option_1": 0,
+                "option_1": 2,
                 "points_race": 0,
                 "points_groups": 0,
-                "option_1_name": "o1"
+                "option_1_name": "Pohlaví"
             }
         },
         "permanent": true,

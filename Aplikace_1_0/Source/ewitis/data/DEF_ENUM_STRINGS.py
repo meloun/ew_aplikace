@@ -12,6 +12,7 @@ from ewitis.data.DEF_DATA import *
 #    nr_tabs = 15
 #    run_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
 
+    
 class UPDATE_MODE:
     all, tables, gui = range(0,3)
  
@@ -21,6 +22,10 @@ class STRINGS:
     PORT_CONNECT =  {False: "Disconnect", True: "Connect"}
     LANGUAGES = {Languages.CZECH: "čeština", Languages.ENGLISH:"english"}
     ORDER_EVALUATION = {OrderEvaluation.RACE:"Race", OrderEvaluation.SLALOM:"Slalom"}
+    EN2CZ = {
+             'id':u'id',
+             'nr': u'Číslo',             
+    }
     
 class COLORS:
     green = "#90EE90"

@@ -28,6 +28,7 @@ from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import ewitis.gui.TimesStartTimes as TimesStarts
+import pandas as pd 
 
 
 '''
@@ -280,23 +281,27 @@ class TimesModel(myModel):
         #end of test
             
     
-    ''''''                       
-    def tabRow2exportRow(self, tabRow, keys, mode = myModel.eTOTAL, status = 'finished'):                        
+    '''
+    vrací dict, do kterého se pro keys vykopírují hodnoty (z time nebo user)   
+    '''                       
+    def tabRow2exportRow(self, tabRow, keys):                        
         exportRow = {}
         exportRowTimes = myModel.tabRow2exportRow(self, tabRow, keys)
         
         tabUserRow = tableUsers.getTabUserParNr(tabRow['nr'])
         exportRowUsers = tableUsers.model.tabRow2exportRow(tabUserRow, keys)
         
-        exportRow = dict(exportRowTimes.items() + exportRowUsers.items())
-        
-        
+        #sloučení time a user
+        exportRow = dict(exportRowUsers.items() + exportRowTimes.items())
         
         #print "exportRowTimes", exportRowTimes                        
         #print "exportRowUsers", exportRowUsers                        
             
         if u'order_cat_cat' in keys:
-            exportRow['order_cat_cat'] = tabRow['order_cat']+"./"+tabRow['category']            
+            exportRow['order_cat_cat'] = tabRow['order_cat']+"./"+tabRow['category']
+        
+        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
+        return exportRow             
 
 #        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
 #            exportHeader = [u"Pořadí", u"Číslo", u"Pořadí/Kategorie", u"Jméno"]                                                            
@@ -381,8 +386,7 @@ class TimesModel(myModel):
 #        if exportRow == []:            
 #            (exportHeader, exportRow) = myModel.tabRow2exportRow(self,tabRow, mode)                
         
-        '''vracim dve pole, tim si drzim poradi(oproti slovniku)'''                        
-        return exportRow 
+
     
     def importRow2dbRow(self, importRow, mode = myModel.eTABLE):        
         try:
@@ -734,7 +738,56 @@ class Times(myTable):
     #=======================================================================
     
     # F11 - konečné výsledky, 1 čas na řádek
+    def ExportToCsvFile(self, filename, category = None, group = None):
 
+        if category != None:                     
+            keys = self.GetExportKeys(myModel.eCATEGORY)
+            header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item
+        elif group != None:
+            keys = self.GetExportKeys(myModel.eGROUP)
+            header_strings = ["Skupina: " + group['name'], group['description']] #second line, first and last item
+        else:
+            keys = self.GetExportKeys(myModel.eTOTAL)
+            header_strings = ["", ""] #second line, first and last item
+        
+        
+        exportDf = pd.DataFrame(columns = keys) 
+        for index, tabRow in self.proxy_model.df().iterrows():
+            
+            #print index, tabRow, type(tabRow)
+            
+            #category check
+            if category != None:                
+                if tabRow['category'] != category['name']:                    
+                    continue
+                
+            #group check
+            
+                            
+            dbTime = self.getDbRow(tabRow['id'])            
+            if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
+                continue
+            
+            #tabRow to exportRow           
+            exportRow = self.model.tabRow2exportRow(tabRow, keys)
+            
+            if exportRow == None:
+                continue
+            
+            exportDf = exportDf.append(exportRow, ignore_index = True)                                    
+
+        #export header
+        header_length = len(exportDf.columns)
+        header_racename = [dstore.Get('race_name'),] + (header_length-1) * ['']
+        header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
+        pd.DataFrame([header_racename, header_param]).to_csv("test.csv", ";", index = False, header = None)                
+        
+        #convert header EN => CZ
+        exportDf.columns = ["a",] * header_length
+        
+        #export times (with collumn's names)
+        exportDf.to_csv(filename, ";", mode="a", index = False)
+        
         
     def sExportResultsDirect(self):
         
@@ -754,14 +807,24 @@ class Times(myTable):
             dirname = "export/"
                                          
         if(dirname == ""):
-            return                              
-
-        exportRows = []
-        exportRows_Alltimes = []
+            return
         
-        exported = {}      
+        '''EXPORT TOTAL NEW'''
+                
+        winner = None
+                
+        #all times
+        self.ExportToCsvFile("test.csv")
         
-        '''EXPORT TOTAL'''        
+        #categories
+        dbCategories = tableCategories.getDbRows()                      
+        for dbCategory in dbCategories:
+            self.ExportToCsvFile("test_"+dbCategory['name']+".csv", category = dbCategory)
+ 
+        return 
+                
+        
+        '''EXPORT TOTAL OLD'''        
         winner = None
         keys = self.GetExportKeys(myModel.eTOTAL)        
         for tabRow in self.proxy_model.dicts():                                               
@@ -787,10 +850,8 @@ class Times(myTable):
                 winner = tabRow                                        
 
         #add gap    
-        if dstore.GetItem("export", ["gap"]) == 2:
-            print "a", keys            
-            if ('lap' in keys) and ('time' in keys):
-                print "b"                                
+        if dstore.GetItem("export", ["gap"]) == 2:                       
+            if ('lap' in keys) and ('time' in keys):                       
                 for exportRow in exportRows:                    
                     time = exportRow[keys.index('time')] 
                     lap = exportRow[keys.index('lap')]            

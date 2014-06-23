@@ -351,16 +351,28 @@ class myTable():
      - z tabulky vytvoří dva listy - header(list) a rows(lists of lists) 
     '''
     def ExportTable(self, mode):
-        exportRows = []
-        exportHeader = []                
+        exportRows = []                   
         
-        '''table to 2 lists - header and rows(list of lists)'''                                                        
+        '''table to 2 lists - header and rows(list of lists)'''
+        keys = self.GetExportKeys(myModel.eTOTAL)                                                        
         for tabRow in self.proxy_model.dicts():                            
-            (exportHeader, exportRow) = self.model.tabRow2exportRow(tabRow, mode)                                            
-            if (exportRow != []):                                            
-                exportRows.append(exportRow)                    
+            exportRow = self.model.tabRow2exportRow(tabRow, keys)
+            exportRowList = [(exportRow[key]) for key in keys]                                            
+            if (exportRowList == None):
+                continue
+                                                                  
+            exportRows.append(exportRowList)
+            
+        #header z property tabulky
+        from ewitis.gui.tableUsers import tableUsers            
+        headerT = [self.GetTableProperty(key, 'name_cz') for key in keys]
+        headerU = [tableUsers.GetTableProperty(key, 'name_cz') for key in keys]
+        header = [(a if a!=None else b) for a, b in zip(headerT, headerU)] #slouční headerů z times a users
+        
+        if 'order_cat_cat' in keys:
+            header[keys.index('order_cat_cat')] = u"Pořadí/Kategorie"                         
                             
-        return (exportHeader, exportRows)  
+        return (header, exportRows)  
         
     '''
     sExport()    

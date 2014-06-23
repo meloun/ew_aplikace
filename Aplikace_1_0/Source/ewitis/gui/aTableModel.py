@@ -11,6 +11,7 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import libs.utils.utils as utils
 from ewitis.data.dstore import dstore
 from ewitis.data.db import db
+import pandas as pd
 
 class myAbstractModel():
     def __init__(self): 
@@ -70,6 +71,15 @@ class myAbstractModel():
             dicts.append(aux_dict)
         
         return dicts
+
+    def df(self):
+        """
+        vrací tabulku(hodnoty buněk) jako dataframe
+        """
+        df = pd.DataFrame(columns = self.header())        
+        for i in range(self.rowCount()):
+            df.loc[i] = self.row(i)
+        return df
 
 
 class myModel(QtGui.QStandardItemModel, myAbstractModel):
