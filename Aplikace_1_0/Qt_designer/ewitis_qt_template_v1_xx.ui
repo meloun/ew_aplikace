@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1402</width>
+    <width>1203</width>
     <height>760</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="toolTip">
@@ -37,7 +37,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>11</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabRuns_Times">
        <attribute name="title">
@@ -67,27 +67,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="6">
-         <widget class="QPushButton" name="TimesFilterClear">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
+        <item row="0" column="12">
          <widget class="QGroupBox" name="groupBox_3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -159,6 +139,15 @@
            </item>
            <item>
             <widget class="QPushButton" name="TimesAddHw">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -176,6 +165,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="TimesRemoveHw">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -194,9 +186,6 @@
                <width>24</width>
                <height>24</height>
               </size>
-             </property>
-             <property name="shortcut">
-              <string/>
              </property>
             </widget>
            </item>
@@ -356,7 +345,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="5" colspan="6">
+        <item row="1" column="5" colspan="8">
          <widget class="QTreeView" name="TimesProxyView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -366,24 +355,8 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="8">
-         <widget class="QCheckBox" name="timesShowStartTimes">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Start Times</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="10">
-         <widget class="QLabel" name="timesCounter">
+        <item row="2" column="12">
+         <widget class="QLabel" name="TimesCounter">
           <property name="text">
            <string>0/0</string>
           </property>
@@ -408,23 +381,7 @@
           </property>
          </spacer>
         </item>
-        <item row="0" column="7">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Preferred</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="9">
+        <item row="0" column="11">
          <widget class="QCheckBox" name="timesShowAdditionalInfo">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -557,7 +514,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLabel" name="runsCounter">
+         <widget class="QLabel" name="RunsCounter">
           <property name="layoutDirection">
            <enum>Qt::LeftToRight</enum>
           </property>
@@ -605,6 +562,101 @@
           </property>
           <property name="dragEnabled">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QSpinBox" name="TimesFilterColumn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>-1</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>-1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="9">
+         <widget class="QPushButton" name="TimesFilterClear">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="10">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="8">
+         <widget class="QPushButton" name="TimesFilterFinishes">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/F_arial.png</normaloff>gui/icons/F_arial.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <widget class="QPushButton" name="TimesFilterStarts">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/S_arial.png</normaloff>gui/icons/S_arial.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -2282,7 +2334,7 @@
            </item>
            <item>
             <property name="text">
-             <string>single start</string>
+             <string>not used</string>
             </property>
            </item>
            <item>
@@ -2626,7 +2678,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>70</y>
+             <y>100</y>
              <width>70</width>
              <height>17</height>
             </rect>
@@ -2691,7 +2743,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>90</y>
+             <y>120</y>
              <width>70</width>
              <height>17</height>
             </rect>
@@ -2710,7 +2762,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>150</y>
+             <y>200</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2733,7 +2785,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>120</y>
+             <y>170</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2756,7 +2808,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>150</y>
+             <y>200</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -2774,7 +2826,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>120</y>
+             <y>170</y>
              <width>101</width>
              <height>16</height>
             </rect>
@@ -2786,6 +2838,22 @@
            </property>
            <property name="text">
             <string>Order Evaluation</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkRemoteRace">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>80</y>
+             <width>231</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Remote Race (no starttime check)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </widget>
@@ -2959,7 +3027,7 @@
            <property name="geometry">
             <rect>
              <x>30</x>
-             <y>40</y>
+             <y>30</y>
              <width>161</width>
              <height>17</height>
             </rect>
@@ -2972,25 +3040,6 @@
            </property>
            <property name="checked">
             <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkShowStartTimes">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>20</y>
-             <width>161</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="text">
-            <string>start times</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
            </property>
           </widget>
          </widget>
@@ -3019,7 +3068,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>200</y>
+             <y>220</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3035,7 +3084,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>100</y>
+             <y>120</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3051,7 +3100,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>80</y>
+             <y>100</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3067,7 +3116,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>220</y>
+             <y>240</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -3083,7 +3132,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>240</y>
+             <y>260</y>
              <width>131</width>
              <height>17</height>
             </rect>
@@ -3099,7 +3148,7 @@
            <property name="geometry">
             <rect>
              <x>130</x>
-             <y>160</y>
+             <y>180</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -3132,7 +3181,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>60</y>
+             <y>80</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -3148,7 +3197,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>160</y>
+             <y>180</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3180,7 +3229,7 @@
            <property name="geometry">
             <rect>
              <x>130</x>
-             <y>180</y>
+             <y>200</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -3213,7 +3262,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>140</y>
+             <y>160</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3229,7 +3278,7 @@
            <property name="geometry">
             <rect>
              <x>130</x>
-             <y>120</y>
+             <y>140</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -3262,7 +3311,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>260</y>
+             <y>280</y>
              <width>101</width>
              <height>17</height>
             </rect>
@@ -3294,7 +3343,7 @@
            <property name="geometry">
             <rect>
              <x>130</x>
-             <y>140</y>
+             <y>160</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -3327,7 +3376,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>120</y>
+             <y>140</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3343,7 +3392,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>180</y>
+             <y>200</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -3359,7 +3408,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>490</y>
+             <y>450</y>
              <width>221</width>
              <height>17</height>
             </rect>
@@ -3375,8 +3424,8 @@
            <property name="geometry">
             <rect>
              <x>210</x>
-             <y>460</y>
-             <width>70</width>
+             <y>420</y>
+             <width>61</width>
              <height>22</height>
             </rect>
            </property>
@@ -3391,7 +3440,7 @@
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>320</y>
+             <y>340</y>
              <width>61</width>
              <height>20</height>
             </rect>
@@ -3415,7 +3464,7 @@
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>340</y>
+             <y>360</y>
              <width>61</width>
              <height>20</height>
             </rect>
@@ -3439,7 +3488,7 @@
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>300</y>
+             <y>320</y>
              <width>171</width>
              <height>16</height>
             </rect>
@@ -3472,7 +3521,7 @@
            <property name="geometry">
             <rect>
              <x>80</x>
-             <y>460</y>
+             <y>420</y>
              <width>111</width>
              <height>16</height>
             </rect>
@@ -3508,7 +3557,7 @@
             <number>9999</number>
            </property>
            <property name="value">
-            <number>9999</number>
+            <number>0</number>
            </property>
           </widget>
           <widget class="QSpinBox" name="spinPointsMaximum">
@@ -3518,7 +3567,7 @@
            <property name="geometry">
             <rect>
              <x>160</x>
-             <y>320</y>
+             <y>360</y>
              <width>70</width>
              <height>22</height>
             </rect>
@@ -3530,14 +3579,14 @@
             <number>9999</number>
            </property>
            <property name="value">
-            <number>0</number>
+            <number>9999</number>
            </property>
           </widget>
           <widget class="QLabel" name="label_30">
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>440</y>
+             <y>400</y>
              <width>101</width>
              <height>16</height>
             </rect>
@@ -3555,13 +3604,29 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>280</y>
+             <y>300</y>
              <width>121</width>
              <height>17</height>
             </rect>
            </property>
            <property name="text">
             <string>Points from table or</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkExportSex">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>60</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Sex</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -3584,241 +3649,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabActions">
-       <attribute name="title">
-        <string>Actions</string>
-       </attribute>
-       <widget class="QGroupBox" name="groupTerminal_7">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>20</y>
-          <width>361</width>
-          <height>391</height>
-         </rect>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="title">
-         <string>R A C E   A C T I O N S</string>
-        </property>
-        <widget class="QPushButton" name="pushQuitTiming">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>300</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> QUIT TIMING</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_quit_timing.png</normaloff>gui/icons/actions_quit_timing.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+Q</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushGenerateStarttime">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>90</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>  START TIME</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_generate_starttime.png</normaloff>gui/icons/actions_generate_starttime.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+S</string>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushGenerateStoptime">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>160</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> FINISH TIME</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_generate_finishtime.png</normaloff>gui/icons/actions_generate_finishtime.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+F</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushEnableStartcell">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>20</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> ENABLE START</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_enable_start.png</normaloff>gui/icons/actions_enable_start.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+E</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushEnableFinishcell">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>230</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> ENABLE FINISH</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_enable_finish.png</normaloff>gui/icons/actions_enable_finish.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+X</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushClearDatabase">
-         <property name="geometry">
-          <rect>
-           <x>190</x>
-           <y>20</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> CLEAR DATABASE</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_erase_database.png</normaloff>gui/icons/actions_erase_database.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+Q</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushEnableScanTags">
-         <property name="geometry">
-          <rect>
-           <x>190</x>
-           <y>90</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string> ENABLE SCAN</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_enable_scan_tags.png</normaloff>gui/icons/actions_enable_scan_tags.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+Q</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushDisableScanTags">
-         <property name="geometry">
-          <rect>
-           <x>190</x>
-           <y>160</y>
-           <width>151</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>  DISABLE SCAN</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>gui/icons/actions_disable_scan_tags.png</normaloff>gui/icons/actions_disable_scan_tags.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Alt+Q</string>
-         </property>
-        </widget>
-       </widget>
-      </widget>
       <widget class="QWidget" name="tabTerminal">
        <attribute name="title">
         <string>Device</string>
@@ -3827,14 +3657,14 @@
         <item row="0" column="0" rowspan="2">
          <widget class="QGroupBox" name="groupTerminal">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>200</width>
+            <width>300</width>
             <height>0</height>
            </size>
           </property>
@@ -4007,6 +3837,34 @@
             <string>Fw Version :</string>
            </property>
           </widget>
+          <widget class="QPushButton" name="pushSynchronizeSystem">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>70</x>
+             <y>230</y>
+             <width>131</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>SYNCHRONIZE SYSTEM</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
          </widget>
         </item>
         <item row="0" column="2" rowspan="2">
@@ -4024,7 +3882,7 @@
            </size>
           </property>
           <property name="title">
-           <string>T E R M I N Á L   S E T T I N G S  &amp;&amp;  I N F O</string>
+           <string>T E R M I N A L   S E T T I N G S  &amp;&amp;  I N F O</string>
           </property>
           <widget class="QPushButton" name="pushSpeakerKeys_5">
            <property name="enabled">
@@ -4033,7 +3891,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>320</y>
+             <y>300</y>
              <width>131</width>
              <height>21</height>
             </rect>
@@ -4058,7 +3916,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>80</y>
+             <y>40</y>
              <width>41</width>
              <height>20</height>
             </rect>
@@ -4089,7 +3947,7 @@
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>110</y>
+             <y>70</y>
              <width>41</width>
              <height>21</height>
             </rect>
@@ -4114,7 +3972,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>270</y>
+             <y>250</y>
              <width>91</width>
              <height>16</height>
             </rect>
@@ -4128,34 +3986,6 @@
             <string>Date :</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushBacklight">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>180</x>
-             <y>30</y>
-             <width>41</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>OFF</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="default">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
           <widget class="QPushButton" name="pushSpeakerKeys_3">
            <property name="enabled">
             <bool>true</bool>
@@ -4163,7 +3993,7 @@
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>235</y>
+             <y>210</y>
              <width>41</width>
              <height>21</height>
             </rect>
@@ -4188,7 +4018,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>270</y>
+             <y>250</y>
              <width>61</width>
              <height>20</height>
             </rect>
@@ -4216,7 +4046,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>110</y>
+             <y>70</y>
              <width>41</width>
              <height>20</height>
             </rect>
@@ -4238,77 +4068,13 @@
            </property>
            <property name="readOnly">
             <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_3">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>30</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_5">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>180</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Language :</string>
            </property>
           </widget>
           <widget class="QLineEdit" name="lineSpeakerTiming">
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>140</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight">
-           <property name="geometry">
-            <rect>
-             <x>100</x>
-             <y>30</y>
+             <y>100</y>
              <width>41</width>
              <height>20</height>
             </rect>
@@ -4336,7 +4102,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>60</y>
+             <y>20</y>
              <width>91</width>
              <height>16</height>
             </rect>
@@ -4354,7 +4120,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>210</y>
+             <y>185</y>
              <width>91</width>
              <height>16</height>
             </rect>
@@ -4372,7 +4138,7 @@
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>80</y>
+             <y>40</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -4393,7 +4159,7 @@
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>295</y>
+             <y>275</y>
              <width>41</width>
              <height>21</height>
             </rect>
@@ -4418,7 +4184,7 @@
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>110</y>
+             <y>70</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -4432,31 +4198,11 @@
             <string>System :</string>
            </property>
           </widget>
-          <widget class="QComboBox" name="comboLanguage">
-           <property name="geometry">
-            <rect>
-             <x>180</x>
-             <y>180</y>
-             <width>69</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>čeština</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>english</string>
-            </property>
-           </item>
-          </widget>
           <widget class="QLabel" name="label_9">
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>140</y>
+             <y>100</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -4474,7 +4220,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>210</y>
+             <y>185</y>
              <width>61</width>
              <height>20</height>
             </rect>
@@ -4502,7 +4248,7 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>295</y>
+             <y>275</y>
              <width>71</width>
              <height>22</height>
             </rect>
@@ -4522,7 +4268,7 @@
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>80</y>
+             <y>40</y>
              <width>41</width>
              <height>21</height>
             </rect>
@@ -4550,7 +4296,7 @@
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>140</y>
+             <y>100</y>
              <width>41</width>
              <height>21</height>
             </rect>
@@ -4575,357 +4321,26 @@
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>234</y>
+             <y>209</y>
              <width>71</width>
              <height>22</height>
             </rect>
            </property>
           </widget>
-          <widget class="QLineEdit" name="lineLanguage">
-           <property name="geometry">
-            <rect>
-             <x>100</x>
-             <y>180</y>
-             <width>61</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- - -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="2">
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="enabled">
-           <bool>true</bool>
+        <item row="0" column="3">
+         <spacer name="horizontalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>450</width>
-            <height>0</height>
+            <width>40</width>
+            <height>20</height>
            </size>
           </property>
-          <property name="title">
-           <string>B L A C K B O X   S E T T I N G S  &amp;&amp;  I N F O</string>
-          </property>
-          <widget class="QLabel" name="label_10">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>275</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_2">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>275</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_29">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>245</y>
-             <width>121</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Warning &amp; Errors :</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_11">
-           <property name="geometry">
-            <rect>
-             <x>170</x>
-             <y>275</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_3">
-           <property name="geometry">
-            <rect>
-             <x>240</x>
-             <y>275</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_24">
-           <property name="geometry">
-            <rect>
-             <x>320</x>
-             <y>275</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_14">
-           <property name="geometry">
-            <rect>
-             <x>390</x>
-             <y>275</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_4">
-           <property name="geometry">
-            <rect>
-             <x>240</x>
-             <y>300</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_18">
-           <property name="geometry">
-            <rect>
-             <x>170</x>
-             <y>300</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_15">
-           <property name="geometry">
-            <rect>
-             <x>390</x>
-             <y>300</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_19">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>300</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_25">
-           <property name="geometry">
-            <rect>
-             <x>320</x>
-             <y>300</y>
-             <width>91</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Backlight :</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineBacklight_5">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>300</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>- -</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -4941,8 +4356,8 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -4994,7 +4409,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -5112,7 +4527,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5141,9 +4556,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5168,11 +4583,11 @@
         </widget>
         <widget class="QPushButton" name="pushCellPing_1">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -5183,6 +4598,14 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>MS Shell Dlg 2</family>
+           <pointsize>8</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
          </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
@@ -5197,7 +4620,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -5224,13 +4647,13 @@
         </widget>
         <widget class="QPushButton" name="pushCellClearCounters_1">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -5242,14 +4665,17 @@
          </property>
          <property name="font">
           <font>
+           <family>MS Shell Dlg 2</family>
            <pointsize>8</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_82">
@@ -5304,7 +4730,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -5373,7 +4799,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -5393,10 +4819,10 @@
         <widget class="QLabel" name="label_111">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>21</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -5425,9 +4851,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5458,7 +4884,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5487,7 +4913,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -5528,7 +4954,7 @@
         <widget class="QLabel" name="label_86">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -5541,7 +4967,7 @@
         <widget class="QLabel" name="label_87">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>150</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -5569,11 +4995,11 @@
         </widget>
         <widget class="QPushButton" name="pushCellRunDiagnostic_1">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -5587,7 +5013,10 @@
          </property>
          <property name="font">
           <font>
+           <family>MS Shell Dlg 2</family>
            <pointsize>8</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="layoutDirection">
@@ -5604,10 +5033,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>250</x>
           <y>10</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -5659,7 +5088,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -5777,7 +5206,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5806,9 +5235,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -5837,7 +5266,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -5848,6 +5277,11 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
          </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
@@ -5862,7 +5296,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -5893,9 +5327,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -5914,7 +5348,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_92">
@@ -5969,7 +5403,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -6038,7 +5472,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -6058,9 +5492,9 @@
         <widget class="QLabel" name="label_112">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>200</x>
            <y>130</y>
-           <width>48</width>
+           <width>21</width>
            <height>16</height>
           </rect>
          </property>
@@ -6090,9 +5524,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6123,7 +5557,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6152,7 +5586,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -6193,7 +5627,7 @@
         <widget class="QLabel" name="label_95">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -6206,7 +5640,7 @@
         <widget class="QLabel" name="label_96">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>140</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -6238,7 +5672,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -6269,10 +5703,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>610</x>
+          <x>490</x>
           <y>10</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -6324,7 +5758,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -6442,7 +5876,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6471,9 +5905,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6502,7 +5936,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -6513,6 +5947,11 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
          </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
@@ -6527,7 +5966,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -6558,9 +5997,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -6579,7 +6018,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_100">
@@ -6634,7 +6073,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -6703,7 +6142,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -6723,10 +6162,10 @@
         <widget class="QLabel" name="label_113">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>21</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -6755,9 +6194,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6788,7 +6227,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -6817,7 +6256,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -6858,7 +6297,7 @@
         <widget class="QLabel" name="label_103">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -6871,7 +6310,7 @@
         <widget class="QLabel" name="label_104">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>140</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -6903,7 +6342,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -6934,10 +6373,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>910</x>
+          <x>730</x>
           <y>10</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -6989,7 +6428,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -7043,7 +6482,7 @@
           <rect>
            <x>60</x>
            <y>30</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -7107,7 +6546,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7136,9 +6575,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7167,7 +6606,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -7192,7 +6631,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -7223,9 +6662,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -7244,7 +6683,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_108">
@@ -7299,7 +6738,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -7368,7 +6807,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -7388,10 +6827,10 @@
         <widget class="QLabel" name="label_114">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>21</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -7420,9 +6859,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7453,7 +6892,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7482,7 +6921,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -7523,7 +6962,7 @@
         <widget class="QLabel" name="label_115">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -7536,7 +6975,7 @@
         <widget class="QLabel" name="label_116">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>140</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -7568,7 +7007,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -7599,10 +7038,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>260</y>
-          <width>291</width>
-          <height>241</height>
+          <x>970</x>
+          <y>10</y>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -7654,7 +7093,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -7708,7 +7147,7 @@
           <rect>
            <x>60</x>
            <y>30</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -7772,7 +7211,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7801,9 +7240,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -7832,7 +7271,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -7843,6 +7282,11 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
          </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
@@ -7857,7 +7301,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -7888,9 +7332,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -7909,7 +7353,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_124">
@@ -7964,7 +7408,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -8033,7 +7477,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -8053,10 +7497,10 @@
         <widget class="QLabel" name="label_126">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>21</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -8085,9 +7529,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8118,7 +7562,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8147,7 +7591,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -8188,7 +7632,7 @@
         <widget class="QLabel" name="label_129">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -8201,7 +7645,7 @@
         <widget class="QLabel" name="label_130">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>140</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -8233,7 +7677,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -8264,10 +7708,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>10</x>
           <y>260</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -8319,7 +7763,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -8437,7 +7881,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8466,9 +7910,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8497,7 +7941,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -8522,7 +7966,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -8553,9 +7997,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -8574,7 +8018,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_134">
@@ -8629,7 +8073,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -8698,7 +8142,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -8718,10 +8162,10 @@
         <widget class="QLabel" name="label_136">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>21</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -8750,9 +8194,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8783,7 +8227,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -8812,7 +8256,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -8853,9 +8297,9 @@
         <widget class="QLabel" name="label_139">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
-           <width>31</width>
+           <width>21</width>
            <height>16</height>
           </rect>
          </property>
@@ -8866,7 +8310,7 @@
         <widget class="QLabel" name="label_140">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>140</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -8898,7 +8342,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -8929,10 +8373,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>610</x>
+          <x>250</x>
           <y>260</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -8984,7 +8428,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -9102,7 +8546,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9131,9 +8575,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9162,7 +8606,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -9187,7 +8631,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -9218,9 +8662,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -9239,7 +8683,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_144">
@@ -9294,7 +8738,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -9363,7 +8807,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -9383,7 +8827,7 @@
         <widget class="QLabel" name="label_146">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>130</y>
            <width>48</width>
            <height>16</height>
@@ -9415,9 +8859,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9448,7 +8892,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9477,7 +8921,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -9531,7 +8975,7 @@
         <widget class="QLabel" name="label_150">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>150</x>
            <y>130</y>
            <width>31</width>
            <height>16</height>
@@ -9563,7 +9007,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -9594,10 +9038,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>910</x>
+          <x>490</x>
           <y>260</y>
-          <width>291</width>
-          <height>241</height>
+          <width>231</width>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -9649,7 +9093,7 @@
           <rect>
            <x>150</x>
            <y>30</y>
-           <width>91</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -9767,7 +9211,7 @@
           <rect>
            <x>60</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9796,9 +9240,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>150</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -9827,7 +9271,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>200</y>
            <width>41</width>
            <height>20</height>
@@ -9852,7 +9296,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>150</y>
            <width>41</width>
            <height>20</height>
@@ -9883,9 +9327,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>200</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -9904,7 +9348,7 @@
           <enum>Qt::RightToLeft</enum>
          </property>
          <property name="text">
-          <string>Clear Counters</string>
+          <string>Clear Diag</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_154">
@@ -9959,7 +9403,7 @@
           <rect>
            <x>150</x>
            <y>100</y>
-           <width>81</width>
+           <width>71</width>
            <height>19</height>
           </rect>
          </property>
@@ -10028,7 +9472,7 @@
           <rect>
            <x>150</x>
            <y>80</y>
-           <width>81</width>
+           <width>71</width>
            <height>20</height>
           </rect>
          </property>
@@ -10048,10 +9492,10 @@
         <widget class="QLabel" name="label_157">
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>190</x>
            <y>130</y>
-           <width>48</width>
-           <height>16</height>
+           <width>20</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -10080,9 +9524,9 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>150</x>
+           <x>120</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -10113,7 +9557,7 @@
           <rect>
            <x>60</x>
            <y>170</y>
-           <width>81</width>
+           <width>51</width>
            <height>19</height>
           </rect>
          </property>
@@ -10142,7 +9586,7 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>240</x>
+           <x>180</x>
            <y>170</y>
            <width>41</width>
            <height>20</height>
@@ -10183,9 +9627,9 @@
         <widget class="QLabel" name="label_160">
          <property name="geometry">
           <rect>
-           <x>90</x>
+           <x>80</x>
            <y>130</y>
-           <width>31</width>
+           <width>16</width>
            <height>16</height>
           </rect>
          </property>
@@ -10196,10 +9640,10 @@
         <widget class="QLabel" name="label_161">
          <property name="geometry">
           <rect>
-           <x>180</x>
+           <x>141</x>
            <y>130</y>
-           <width>31</width>
-           <height>16</height>
+           <width>20</width>
+           <height>20</height>
           </rect>
          </property>
          <property name="text">
@@ -10228,7 +9672,1337 @@
          </property>
          <property name="geometry">
           <rect>
+           <x>90</x>
+           <y>200</y>
+           <width>81</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Run Diagnostic</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupCell_9">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>260</y>
+          <width>231</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Cell Hw Address #09</string>
+        </property>
+        <widget class="QLabel" name="label_170">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>40</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Battery:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellBattery_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>60</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboCellTask_9">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
            <x>150</x>
+           <y>30</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text">
+           <string>NONE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FINISH</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLineEdit" name="lineCellTask_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>30</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_171">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>35</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Task :</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_172">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>150</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Long:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongOk_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>150</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongKo_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>150</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellPing_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>200</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Ping</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongRatio_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>150</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellClearCounters_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>200</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Clear Diag</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_173">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Sync:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellSynchronizedOnce_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>100</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellSynchronized_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>100</y>
+           <width>71</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_174">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>80</y>
+           <width>51</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>State:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellIrSinal_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>80</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellActive_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>80</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_175">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>130</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_176">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>170</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Short:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortKo_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>170</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortOk_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortRatio_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>170</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_177">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Diagnostic:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_178">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>130</y>
+           <width>16</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ok</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_179">
+         <property name="geometry">
+          <rect>
+           <x>141</x>
+           <y>130</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ko</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_180">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>60</y>
+           <width>21</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellRunDiagnostic_9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>200</y>
+           <width>81</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Run Diagnostic</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupCell_10">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>970</x>
+          <y>260</y>
+          <width>231</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Cell Hw Address #10</string>
+        </property>
+        <widget class="QLabel" name="label_181">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>40</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Battery:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellBattery_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>60</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboCellTask_10">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>30</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text">
+           <string>NONE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SPLIT #4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FINISH</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLineEdit" name="lineCellTask_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>30</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_182">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>35</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Task :</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_183">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>150</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Long:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongOk_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>150</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongKo_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>150</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellPing_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>200</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Ping</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagLongRatio_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>150</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellClearCounters_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>200</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Clear Diag</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_184">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Sync:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellSynchronizedOnce_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>100</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellSynchronized_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>100</y>
+           <width>71</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_185">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>80</y>
+           <width>51</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>State:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellIrSinal_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>80</y>
+           <width>81</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellActive_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>80</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_186">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>130</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_187">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>170</y>
+           <width>48</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Short:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortKo_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>170</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortOk_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>170</y>
+           <width>51</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - -</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineCellDiagShortRatio_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>170</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>- - </string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_188">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Diagnostic:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_189">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>130</y>
+           <width>16</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ok</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_190">
+         <property name="geometry">
+          <rect>
+           <x>141</x>
+           <y>130</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ko</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_191">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>60</y>
+           <width>21</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushCellRunDiagnostic_10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
            <y>200</y>
            <width>81</width>
            <height>20</height>
@@ -12248,7 +13022,7 @@
             <rect>
              <x>20</x>
              <y>42</y>
-             <width>281</width>
+             <width>251</width>
              <height>20</height>
             </rect>
            </property>
@@ -12658,7 +13432,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1402</width>
+     <width>1203</width>
      <height>21</height>
     </rect>
    </property>
@@ -12997,13 +13771,13 @@ p, li { white-space: pre-wrap; }
      <normaloff>gui/icons/actions_enable_start.png</normaloff>gui/icons/actions_enable_start.png</iconset>
    </property>
    <property name="text">
-    <string>Enable Start</string>
+    <string>Enable Starts</string>
    </property>
    <property name="toolTip">
-    <string>Enable Start</string>
+    <string>Enable Cell #S</string>
    </property>
    <property name="shortcut">
-    <string>Alt+E</string>
+    <string>Alt+1</string>
    </property>
   </action>
   <action name="aGenerateCelltime_1">
@@ -13021,7 +13795,7 @@ p, li { white-space: pre-wrap; }
     <string>Generate Starttime</string>
    </property>
    <property name="shortcut">
-    <string>Alt+S</string>
+    <string>Ctrl+1</string>
    </property>
   </action>
   <action name="aGenerateCelltime_250">
@@ -13039,7 +13813,7 @@ p, li { white-space: pre-wrap; }
     <string>Generate Finishtime</string>
    </property>
    <property name="shortcut">
-    <string>Alt+F</string>
+    <string>Ctrl+0</string>
    </property>
   </action>
   <action name="aQuitTiming">
@@ -13153,42 +13927,6 @@ p, li { white-space: pre-wrap; }
     <string>IR template</string>
    </property>
   </action>
-  <action name="aGenerateFinishtime_1">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>gui/icons/actions_generate_finishtime-nr1.png</normaloff>gui/icons/actions_generate_finishtime-nr1.png</iconset>
-   </property>
-   <property name="text">
-    <string>Generate Finishtime 1</string>
-   </property>
-   <property name="toolTip">
-    <string>Generate Finishtime 1</string>
-   </property>
-   <property name="shortcut">
-    <string>Del</string>
-   </property>
-  </action>
-  <action name="aGenerateFinishtime_2">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>gui/icons/actions_generate_finishtime-nr2.png</normaloff>gui/icons/actions_generate_finishtime-nr2.png</iconset>
-   </property>
-   <property name="text">
-    <string>Generate Finishtime 2</string>
-   </property>
-   <property name="toolTip">
-    <string>Generate Finishtime</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+F</string>
-   </property>
-  </action>
   <action name="aPingCell_1">
    <property name="checkable">
     <bool>false</bool>
@@ -13197,13 +13935,13 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>S</string>
+    <string>#S</string>
    </property>
    <property name="iconText">
     <string>#S</string>
    </property>
    <property name="toolTip">
-    <string>S</string>
+    <string>Get last cell times #S</string>
    </property>
    <property name="font">
     <font>
@@ -13215,6 +13953,9 @@ p, li { white-space: pre-wrap; }
      <strikeout>false</strikeout>
      <kerning>true</kerning>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F1</string>
    </property>
    <property name="visible">
     <bool>true</bool>
@@ -13228,12 +13969,15 @@ p, li { white-space: pre-wrap; }
     <string>#2</string>
    </property>
    <property name="toolTip">
-    <string>2</string>
+    <string>Get last cell times #2</string>
    </property>
    <property name="font">
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F2</string>
    </property>
   </action>
   <action name="aPingCell_3">
@@ -13244,7 +13988,7 @@ p, li { white-space: pre-wrap; }
     <string>#3</string>
    </property>
    <property name="toolTip">
-    <string>3</string>
+    <string>Get last cell times #3</string>
    </property>
    <property name="font">
     <font>
@@ -13254,18 +13998,24 @@ p, li { white-space: pre-wrap; }
      <stylestrategy>PreferDefault</stylestrategy>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+F3</string>
+   </property>
   </action>
   <action name="aPingCell_250">
    <property name="text">
     <string>#F</string>
    </property>
    <property name="toolTip">
-    <string>F</string>
+    <string>Get last cell times #F</string>
    </property>
    <property name="font">
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F12</string>
    </property>
   </action>
   <action name="aPingCell_4">
@@ -13276,12 +14026,15 @@ p, li { white-space: pre-wrap; }
     <string>#4</string>
    </property>
    <property name="toolTip">
-    <string>4</string>
+    <string>Get last cell times #4</string>
    </property>
    <property name="font">
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F4</string>
    </property>
   </action>
   <action name="aPingCell_5">
@@ -13289,12 +14042,15 @@ p, li { white-space: pre-wrap; }
     <string>#5</string>
    </property>
    <property name="toolTip">
-    <string>5</string>
+    <string>Get last cell times #5</string>
    </property>
    <property name="font">
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F5</string>
    </property>
   </action>
   <action name="aDisableCell_1">
@@ -13309,7 +14065,7 @@ p, li { white-space: pre-wrap; }
     <string>Disable Start</string>
    </property>
    <property name="toolTip">
-    <string>Enable Finish</string>
+    <string>Disable cell #S</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+1</string>
@@ -13329,6 +14085,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Disable cell #2</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+2</string>
+   </property>
   </action>
   <action name="aDisableCell_3">
    <property name="enabled">
@@ -13343,6 +14102,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Disable cell #3</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+3</string>
    </property>
   </action>
   <action name="aDisableCell_4">
@@ -13359,6 +14121,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Disable cell #4</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+4</string>
+   </property>
   </action>
   <action name="aDisableCell_5">
    <property name="enabled">
@@ -13374,6 +14139,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Disable cell #5</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+5</string>
+   </property>
   </action>
   <action name="aDisableCell_250">
    <property name="enabled">
@@ -13387,7 +14155,10 @@ p, li { white-space: pre-wrap; }
     <string>Disable Finish</string>
    </property>
    <property name="toolTip">
-    <string>Disable Finish</string>
+    <string>Disable Cell #F</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+0</string>
    </property>
   </action>
   <action name="aEnableCell_2">
@@ -13404,6 +14175,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Enable Cell #2</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
+   </property>
   </action>
   <action name="aEnableCell_3">
    <property name="enabled">
@@ -13418,6 +14192,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Enable Cell #3</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+3</string>
    </property>
   </action>
   <action name="aEnableCell_4">
@@ -13434,6 +14211,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Enable Cell #4</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
   </action>
   <action name="aEnableCell_5">
    <property name="enabled">
@@ -13449,6 +14229,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Enable Cell #5</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+5</string>
+   </property>
   </action>
   <action name="aEnableCell_250">
    <property name="enabled">
@@ -13462,7 +14245,10 @@ p, li { white-space: pre-wrap; }
     <string>Enable Finish</string>
    </property>
    <property name="toolTip">
-    <string>Enable Finish</string>
+    <string>Enable Cell #F</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+0</string>
    </property>
   </action>
   <action name="aGenerateCelltime_2">
@@ -13479,6 +14265,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Generate Celltime #2</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
   </action>
   <action name="aGenerateCelltime_3">
    <property name="enabled">
@@ -13493,6 +14282,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Generate Celltime #3</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
   </action>
   <action name="aGenerateCelltime_4">
@@ -13509,6 +14301,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Generate Celltime #4</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
   </action>
   <action name="aGenerateCelltime_5">
    <property name="enabled">
@@ -13523,6 +14318,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Generate Celltime #5</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
    </property>
   </action>
  </widget>
