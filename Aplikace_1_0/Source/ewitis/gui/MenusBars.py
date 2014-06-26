@@ -65,7 +65,7 @@ class Bars():
         
         # statusbar TIME <= race time
         time = dstore.Get("race_time")
-        Ui().statusbar_time.setText(TimesUtils.TimesUtils.time2timestring(time))
+        Ui().statusbar_time.setText(TimesUtils.TimesUtils.time2timestring(time, including_days = True))
         
         # statusbar measurement state
         timing_settings_get = dstore.Get("timing_settings", "GET")
