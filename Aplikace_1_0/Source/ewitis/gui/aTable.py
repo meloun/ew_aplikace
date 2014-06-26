@@ -66,7 +66,7 @@ class myTable():
         self.gui['delete'] = getattr(Ui(), self.name+"Delete") #Ui().PointsDelete
         
         #COUNTER
-        self.gui['counter'] = None #getattr(Ui(), self.name+"Counter") #Ui().PointsCounter
+        self.gui['counter'] = getattr(Ui(), self.name+"Counter") #Ui().PointsCounter
     
     def InitModels(self): 
         print __name__       

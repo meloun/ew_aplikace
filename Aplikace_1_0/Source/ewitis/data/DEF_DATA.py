@@ -72,12 +72,9 @@ DEF_DATA = {
                                                 }
                                       }
                         },
+            
         #tab RACE SETTINGS
-        "run_time"           : {"GET_SET"  : {
-                                      "value"   : 0,
-                                      "changed" : True
-                                      },                                  
-                       },        
+        "race_time"          : {"GET_SET"  : { "value"   : 0},},        
         #group timing setting: below
                                     
         #group timing setting: below                                             
@@ -107,12 +104,7 @@ DEF_DATA = {
                                },
 
         "tag_filter"         : {"permanent": True,
-                                "GET_SET"  : {"value"   : 2}},        
-
-        "onelap_race"        : {"name"     : "onelap race",
-                                "permanent": True,
-                                "GET_SET"  : {"value": 0}  
-                               },
+                                "GET_SET"  : {"value"   : 2}},
         "download_from_last" : {"GET_SET"  : {"value": 0} },                   
         "times_view_limit"   : {"name"     : "times view limit",
                                 "GET_SET"  : {"value": 0}  
@@ -139,6 +131,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "year"              : 0, 
                                                         "club"              : 2, 
+                                                        "sex"               : 0, 
                                                         "laps"              : 0, 
                                                         "laptime"           : 0,
                                                         "best_laptime"      : 0,

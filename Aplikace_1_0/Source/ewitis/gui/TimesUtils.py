@@ -118,7 +118,7 @@ class TimesOrder():
     Pořadí závodníka v závodě/kategorii
         - IsLastTime()
         - IsBestTime()
-        - IsToShow()
+        - IsResultTime()
         - Get()
     '''    
     IS_BEST_TIME, IS_WORST_TIME = range(0,2)
@@ -176,7 +176,7 @@ class TimesOrder():
     def IsBestUsertime(self, dbTime):
         return self.IsUserTime(dbTime, self.IS_BEST_TIME)
     
-    def IsToShow(self, dbTime):
+    def IsResultTime(self, dbTime):
         if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE \
            and self.IsLastUsertime(dbTime)):
             return True
@@ -200,7 +200,7 @@ class TimesOrder():
         
         # RACE:    pořadí jen u nejhorších/posledních časů
         # SLALOM:  pořadí jen u prvních/nejlepších časů
-        if(self.IsToShow(dbTime) == False):
+        if(self.IsResultTime(dbTime) == False):
             return None
         
         if(dbTime['time'] == None):
@@ -346,7 +346,7 @@ class TimesOrder():
         return res_order
     
     def GetGap(self, lap, time, winner_lap, winner_time):
-        gap = None                                                                                                            
+        gap = None
         if(winner_lap != None and winner_time != None and time!=0 and time!=None):
             if winner_lap == lap:                
                 gap = TimesUtils.times_difference(time, winner_time)

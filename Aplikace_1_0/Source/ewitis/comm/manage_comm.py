@@ -249,6 +249,10 @@ class ManageComm(Thread):
                 pass # no new run
             
             """ end of Run & Times & Database """
+            
+            """ GET RACE TIME """                                                                                   
+            aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = diagnostic)
+            dstore.Set("race_time", aux_racetime['time'])              
                             
                 
             """

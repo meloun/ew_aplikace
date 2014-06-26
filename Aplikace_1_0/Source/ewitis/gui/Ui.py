@@ -32,6 +32,8 @@ class AppWindow(QtGui.QMainWindow):
         
     def setupUi(self):
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
+        self.ui.statusbar_time = QtGui.QLabel("00:00:00,00")        
+        self.ui.statusbar.addPermanentWidget(self.ui.statusbar_time)    
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                                    
         self.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+dstore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))

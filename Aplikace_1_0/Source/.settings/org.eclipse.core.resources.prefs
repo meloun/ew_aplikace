@@ -1,4 +1,4 @@
-#Mon Jun 23 20:00:37 CEST 2014
+#Thu Jun 26 19:53:31 CEST 2014
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
@@ -9,7 +9,6 @@ encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8
 encoding//ewitis/exports/ewitis_html.py=utf-8
 encoding//ewitis/gui/DEF_COLUMN.py=utf-8
-encoding//ewitis/gui/TimesSlots.py=utf-8
 encoding//ewitis/gui/TimesStartTimes.py=utf-8
 encoding//ewitis/gui/TimesUtils.py=utf-8
 encoding//ewitis/gui/Ui.py=utf-8
@@ -27,7 +26,6 @@ encoding//ewitis/gui/tabDiagnostic.py=utf-8
 encoding//ewitis/gui/tabManual.py=utf-8
 encoding//ewitis/gui/tabRaceSettings.py=utf-8
 encoding//ewitis/gui/tabRunsTimes.py=utf-8
-encoding//ewitis/gui/tabTest.py=utf-8
 encoding//ewitis/gui/tableAlltags.py=utf-8
 encoding//ewitis/gui/tableCGroups.py=utf-8
 encoding//ewitis/gui/tableRaceInfo.py=utf-8

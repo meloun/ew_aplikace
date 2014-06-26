@@ -190,8 +190,10 @@ def unpack_data(command, data, senddata):
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TAGS_READING"]["cmd"] | 0x80)):        
         return data    
-    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_ACTUAL_RACE_TIME"]["cmd"] | 0x80)):        
-        return data    
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_ACTUAL_RACE_TIME"]["cmd"] | 0x80)):
+        aux_time = {}        
+        aux_time['time'], = struct.unpack("<I", data)        
+        return aux_time    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_LAST_TIME"]["cmd"] | 0x80)):        
         return data    
     else:

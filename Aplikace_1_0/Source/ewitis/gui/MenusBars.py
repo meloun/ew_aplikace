@@ -10,6 +10,7 @@ from ewitis.data.dstore import dstore
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import * 
 from ewitis.gui.barCellActions import barCellActions
+import ewitis.gui.TimesUtils as TimesUtils
 
 class Menus():
     
@@ -62,7 +63,11 @@ class Bars():
         Ui().aEnableCommunication.setEnabled(not state)
         Ui().aDisableCommunication.setEnabled(state)
         
-        #
+        # statusbar TIME <= race time
+        time = dstore.Get("race_time")
+        Ui().statusbar_time.setText(TimesUtils.TimesUtils.time2timestring(time))
+        
+        # statusbar measurement state
         timing_settings_get = dstore.Get("timing_settings", "GET")
         Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])
         if timing_settings_get['measurement_state']== MeasurementState.not_active:

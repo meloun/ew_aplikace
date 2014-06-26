@@ -1,29 +1,22 @@
 {
     "remote": {
         "GET_SET": {
-            "value": 0
+            "value": 2
         },
         "permanent": true,
         "name": "Remote Race"
     },
-    "onelap_race": {
-        "GET_SET": {
-            "value": 0
-        },
-        "permanent": true,
-        "name": "onelap race"
-    },
     "race_name": {
         "GET_SET": {
             "changed": false,
-            "value": "Bikeclinic cup Dobřichovice"
+            "value": "Formula Student 2013"
         },
         "permanent": true,
         "name": "race_name"
     },
     "rfid": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true,
         "name": "rfid"
@@ -49,25 +42,26 @@
     },
     "export": {
         "GET_SET": {
-            "changed": false,
+            "changed": true,
             "value": {
-                "option_2": 0,
                 "best_laptime": 0,
                 "points_categories": 0,
                 "club": 2,
-                "laps": 2,
-                "year": 2,
-                "gap": 2,
-                "option_4_name": "o4",
-                "laptime": 0,
-                "option_4": 0,
-                "option_2_name": "o2",
-                "option_3_name": "o3",
-                "option_3": 0,
-                "option_1": 2,
                 "points_race": 0,
+                "laps": 0,
+                "option_2_name": "o2",
+                "sex": 0,
+                "option_4_name": "o4",
+                "gap": 0,
+                "laptime": 0,
+                "option_1_name": "o1",
+                "year": 2,
+                "option_2": 0,
+                "option_3": 0,
+                "option_1": 0,
+                "option_3_name": "o3",
                 "points_groups": 0,
-                "option_1_name": "Pohlaví"
+                "option_4": 0
             }
         },
         "permanent": true,
@@ -76,7 +70,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "order": 0,
+                "order": 1,
                 "starttime": 0
             }
         },
@@ -85,9 +79,9 @@
     "additional_info": {
         "GET_SET": {
             "value": {
-                "best_laptime": 0,
+                "best_laptime": 2,
                 "enabled": 2,
-                "laptime": 0,
+                "laptime": 2,
                 "order_in_cat": 2,
                 "lap": 2,
                 "order": 2

@@ -26,10 +26,7 @@ class ActionToolbar():
 
 
         QtCore.QObject.connect(Ui().aEnableTagsReading, QtCore.SIGNAL("triggered()"), self.sEnableScanTags)
-        QtCore.QObject.connect(Ui().aDisableTagsReading, QtCore.SIGNAL("triggered()"), self.sDisableScanTags)
-        
-        #
-        QtCore.QObject.connect(Ui().timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, self.Update))
+        QtCore.QObject.connect(Ui().aDisableTagsReading, QtCore.SIGNAL("triggered()"), self.sDisableScanTags)                                
         
     def sGenerateUserFinishtime(self):
         

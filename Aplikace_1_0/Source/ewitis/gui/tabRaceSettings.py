@@ -47,6 +47,7 @@ class TabRaceSettings():
         
         #export
         QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportSex, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["sex"], state, self.Update))                                
         QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, self.Update))                                
         QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, self.Update))                                
         QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, self.Update))
@@ -208,6 +209,7 @@ class TabRaceSettings():
         Ui().checkTagFilter.setCheckState(dstore.Get("tag_filter"))                                  
         #export
         Ui().checkExportYear.setCheckState(dstore.Get("export")["year"])                                
+        Ui().checkExportSex.setCheckState(dstore.Get("export")["sex"])                                
         Ui().checkExportClub.setCheckState(dstore.Get("export")["club"])                                
         Ui().checkExportLaps.setCheckState(dstore.Get("export")["laps"])                                
         Ui().checkExportBestLaptime.setCheckState(dstore.Get("export")["best_laptime"])
