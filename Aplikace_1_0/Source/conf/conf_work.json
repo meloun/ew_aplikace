@@ -42,7 +42,7 @@
     },
     "export": {
         "GET_SET": {
-            "changed": true,
+            "changed": false,
             "value": {
                 "best_laptime": 0,
                 "points_categories": 0,
@@ -55,7 +55,7 @@
                 "gap": 0,
                 "laptime": 0,
                 "option_1_name": "o1",
-                "year": 2,
+                "year": 0,
                 "option_2": 0,
                 "option_3": 0,
                 "option_1": 0,
@@ -70,6 +70,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
+                "laptime": 0,
                 "order": 1,
                 "starttime": 0
             }

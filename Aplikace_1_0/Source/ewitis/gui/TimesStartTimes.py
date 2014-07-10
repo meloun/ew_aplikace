@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ewitis.data.db import db
 import pandas.io.sql as psql    
+import pandas as pd
 
 
 class TimesStarts():
@@ -20,8 +21,7 @@ class TimesStarts():
         starttime = self.df.iloc[0]                    
         return dict(starttime)
     
-    def GetLast(self, user_time = None):
-        
+    def GetLast(self, user_time = None):        
         
         starttime = {} 
         user_id = user_time['user_id']
@@ -33,14 +33,19 @@ class TimesStarts():
         #print "AA", user_time
 #        print self.df
 #        print self.groups.get_group(user_id)
-        #group
-        starttime_group = self.groups.get_group(user_id)
-        if user_id == None:
-            starttime = self.df.iloc[-1]
-        else:
-            starttime = starttime_group[starttime_group.time_raw < time_raw].iloc[-1]
-            
-        return dict(starttime)
+        #group        
+        try:
+            starttime_group = self.groups.get_group(user_id)
+            if user_id == None:
+                starttime = self.df.iloc[-1]
+            else:
+                starttime = starttime_group[starttime_group.time_raw < time_raw].iloc[-1]
+                
+            startime = dict(starttime)
+        except:
+            starttime = pd.Series()
+                   
+        return starttime 
         
     def Get(self, nr, user_id = None):
         starttime = {} 

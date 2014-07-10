@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Thu Jun 26 19:26:55 2014
+# Created: Thu Jul 10 20:30:12 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -1458,6 +1458,23 @@ class Ui_MainWindow(object):
         self.checkRemoteRace.setText(QtGui.QApplication.translate("MainWindow", "Remote Race (no starttime check)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkRemoteRace.setChecked(True)
         self.checkRemoteRace.setObjectName(_fromUtf8("checkRemoteRace"))
+        self.radioLaptimeFinishStart = QtGui.QRadioButton(self.groupTerminal_5)
+        self.radioLaptimeFinishStart.setGeometry(QtCore.QRect(40, 250, 161, 17))
+        self.radioLaptimeFinishStart.setText(QtGui.QApplication.translate("MainWindow", "Finish - Starttime (default)", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioLaptimeFinishStart.setChecked(True)
+        self.radioLaptimeFinishStart.setObjectName(_fromUtf8("radioLaptimeFinishStart"))
+        self.radioLaptimeCurrentPrevious = QtGui.QRadioButton(self.groupTerminal_5)
+        self.radioLaptimeCurrentPrevious.setGeometry(QtCore.QRect(40, 270, 171, 17))
+        self.radioLaptimeCurrentPrevious.setText(QtGui.QApplication.translate("MainWindow", "Current Time - Previous Time", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioLaptimeCurrentPrevious.setChecked(False)
+        self.radioLaptimeCurrentPrevious.setObjectName(_fromUtf8("radioLaptimeCurrentPrevious"))
+        self.label_24 = QtGui.QLabel(self.groupTerminal_5)
+        self.label_24.setGeometry(QtCore.QRect(20, 230, 101, 16))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_24.setFont(font)
+        self.label_24.setText(QtGui.QApplication.translate("MainWindow", "Laptime", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_24.setObjectName(_fromUtf8("label_24"))
         self.horizontalLayout.addWidget(self.groupTerminal_5)
         self.groupTerminal_6 = QtGui.QGroupBox(self.tabTimingSettings)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)

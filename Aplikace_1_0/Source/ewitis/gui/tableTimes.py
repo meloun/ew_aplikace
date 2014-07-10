@@ -393,18 +393,18 @@ class TimesModel(myModel):
                 start_time = self.starts2.GetLast(dbTime)                    
             else:
                 print "E: Fatal Error: Starttime "
-                return None            
-                             
-                                             
-            '''odecteni startovaciho casu a ulozeni do db'''
-            if(dbTime['time_raw'] < start_time['time_raw']):
-                print "E: Times: startime started later as this time!", dbTime 
-            else:                       
-                dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
-            #except:                         
-            #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
-                        
-            db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
+                return None
+            
+            if start_time.empty != True:                                                                                     
+                '''odecteni startovaciho casu a ulozeni do db'''
+                if(dbTime['time_raw'] < start_time['time_raw']):
+                    print "E: Times: startime started later as this time!", dbTime 
+                else:                       
+                    dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+                #except:                         
+                #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
+                            
+                db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
             
                 
     def calc_update_times(self):

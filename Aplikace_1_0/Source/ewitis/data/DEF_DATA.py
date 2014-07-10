@@ -40,6 +40,8 @@ class OrderEvaluation:
     RACE, SLALOM = range(0,2)    
 class StarttimeEvaluation:
     VIA_CATEGORY, VIA_USER = range(0,2) 
+class LaptimeEvaluation:
+    ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
 #class LOGIC_MODES:
 #    basic, manual, remote_manual, multiple_mass_6b, multiple_mass_6c  = range(1,6)         
     
@@ -89,7 +91,8 @@ DEF_DATA = {
         "evaluation"         : {"permanent": True,
                                 "GET_SET"  : {"value": {
                                                         "order" : OrderEvaluation.SLALOM, 
-                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY                                                                                                                                                      
+                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY,
+                                                        "laptime": LaptimeEvaluation.ONLY_FINISHTIME                                                                                                                                                      
                                                         }
                                               }
                                 },

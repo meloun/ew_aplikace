@@ -83,6 +83,9 @@ class TabRaceSettings():
         #QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), self.sComboOrderEvaluation)
         QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["order"], index, self.Update))                
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))
+          
+        QtCore.QObject.connect(Ui().radioLaptimeFinishStart,      QtCore.SIGNAL("toggled(bool)"),     lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 0, self.Update) if index else None)
+        QtCore.QObject.connect(Ui().radioLaptimeCurrentPrevious,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 1, self.Update) if index else None)        
                                                 
         #show
         QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))        
@@ -100,7 +103,10 @@ class TabRaceSettings():
         
     """                 """
     """ EXPLICIT SLOTS  """
-    """                 """           
+    """                 """
+    def radio1(self, a):
+        print "radio state: ",a           
+          
     def sComboTimingMode(self, index):
         #print "sComboTimingMode", index                
         '''získání a nastavení nové SET hodnoty'''
@@ -153,7 +159,7 @@ class TabRaceSettings():
 
         
         
-    def Update(self, mode = UPDATE_MODE.all):
+    def Update(self, mode = UPDATE_MODE.all):                
                 
         """ TIMING SETTINGS"""
         
