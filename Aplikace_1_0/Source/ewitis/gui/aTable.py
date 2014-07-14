@@ -346,6 +346,11 @@ class myTable():
         else:
             uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                                       
     
+    def GetExportKeys(self, mode):        
+        #get sorted table keys 
+        return [item[0] for item in sorted(self.TABLE_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"]))]
+            
+        
     '''
     ExportTable()     
      - z tabulky vytvoří dva listy - header(list) a rows(lists of lists) 
@@ -354,25 +359,17 @@ class myTable():
         exportRows = []                   
         
         '''table to 2 lists - header and rows(list of lists)'''
-        keys = self.GetExportKeys(myModel.eTOTAL)                                                        
+        keys = self.GetExportKeys(myModel.eTOTAL)
+                                                                        
         for tabRow in self.proxy_model.dicts():                            
             exportRow = self.model.tabRow2exportRow(tabRow, keys)
             exportRowList = [(exportRow[key]) for key in keys]                                            
             if (exportRowList == None):
                 continue
                                                                   
-            exportRows.append(exportRowList)
-            
-        #header z property tabulky
-        from ewitis.gui.tableUsers import tableUsers            
-        headerT = [self.GetTableProperty(key, 'name_cz') for key in keys]
-        headerU = [tableUsers.GetTableProperty(key, 'name_cz') for key in keys]
-        header = [(a if a!=None else b) for a, b in zip(headerT, headerU)] #slouční headerů z times a users
-        
-        if 'order_cat_cat' in keys:
-            header[keys.index('order_cat_cat')] = u"Pořadí/Kategorie"                         
+            exportRows.append(exportRowList)                                 
                             
-        return (header, exportRows)  
+        return (keys, exportRows)  
         
     '''
     sExport()    
@@ -420,7 +417,7 @@ class myTable():
         if format == "Csv":                                    
             '''Write to CSV file'''            
             if(exportRows != []) or (exportHeader!= []):
-                print "export race", dstore.Get('race_name'), ":",len(exportRows),"times"            
+                print "export race", dstore.Get('race_name'), ":",len(exportRows),"rows"            
                 first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
                 exportRows.insert(0, exportHeader)
                 aux_csv = Db_csv.Db_csv(filename)

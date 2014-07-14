@@ -127,13 +127,15 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
             tabRow = self.row_dict(item.row())            
                                                                                                                                       
             #update changed collumn                                  
-            for key in self.table.TABLE_COLLUMN_DEF:                
+            for key in self.table.TABLE_COLLUMN_DEF:                             
                 if(item.column() == self.table.TABLE_COLLUMN_DEF[key]['index']):
                     if key in self.table.DB_COLLUMN_DEF:
-                        try: 
-                            db.update_from_dict(self.table.name, {'id':tabRow['id'], key: tabRow[key]})                      
+                        try:                         
+                            tabKey = self.table.TABLE_COLLUMN_DEF[key]['name']
+                            db.update_from_dict(self.table.name, {'id':tabRow['id'], key: tabRow[tabKey]})                      
+                            #db.update_from_dict(self.table.name, {'id':tabRow['id'], key: tabRow[key]})                      
                             return True
-                        except:
+                        except KeyError:
                             uiAccesories.showMessage(self.table.name+" Update", "Error!")        
         return False
                                                                                            
@@ -187,8 +189,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
                 pass #tento sloupec v tabulce neexistuje
 
         return tabRow     
-   
-
+            
     '''
     tabRow2exportRow()     
     '''

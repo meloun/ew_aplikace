@@ -29,6 +29,7 @@ from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import ewitis.gui.TimesStartTimes as TimesStarts
+import ewitis.gui.TimesLaptimes as TimesLaptimes
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
 
@@ -49,8 +50,8 @@ class TimesModel(myModel):
         self.starts2 = TimesStarts.TimesStarts()
         
         self.order = TimesUtils.TimesOrder()
-        self.lap = TimesUtils.TimesLap()
-        self.laptime = TimesUtils.TimesLaptime()
+        #self.lap = TimesUtils.TimesLap()
+        self.laptime = TimesLaptimes.TimesLaptime()
                                                            
         #update with first run        
         first_run = db.getFirst("runs")
@@ -83,7 +84,7 @@ class TimesModel(myModel):
                                                                   
         
         ''' 1to1 KEYS '''           
-        tabTime = myModel.db2tableRow(self, dbTime)
+        tabTime = myModel.db2tableRow(self, dbTime)        
          
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
@@ -118,10 +119,8 @@ class TimesModel(myModel):
         
         '''time'''
         if(dbTime['time'] == None):
-            '''cas by mel existovat'''
-            #if dstore.Get('timing_settings', "SET")["logic_mode"] != LOGIC_MODES.remote_manual:
-            #    print "E: neexistuje cas!!! time id:", dbTime['start_nr'], ", Try refresh again."                            
-            #self.calc_update_time(dbTime, tabTime['start_nr'])
+            '''cas neexistuje'''
+            tabTime['time'] = None
         else:            
             tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
                 
@@ -144,7 +143,7 @@ class TimesModel(myModel):
         '''LAP'''
         #z1 = time.clock()
         #@workaround: potrebuju lap pro poradi => lap.Get() nerezohlednuje ("additional_info")['lap']                
-        aux_lap = self.lap.Get(dbTime)          
+        aux_lap = self.laptime.GetLap(dbTime)          
         if  dstore.Get("additional_info")['lap']:           
             tabTime['lap'] = aux_lap
         #print "- Lap takes: ",(time.clock() - z1)
@@ -169,7 +168,7 @@ class TimesModel(myModel):
         if (dstore.Get("additional_info")["enabled"] == 2):
             try:        
                 tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
-                tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)
+                tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
             except:
                 print "E: Points were not succesfully calculated for all times! Try refresh again."
         return tabTime
@@ -268,8 +267,7 @@ class TimesModel(myModel):
                 if self.IsFinishTime(self.table.getDbRow(tabRow['id'])) == True:
                                                                                                                                                                                      
                     #convert sqlite row to dict
-                    dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
-                    print "rt", dbUser
+                    dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                    
                      
                     #update status                
                     #print "finishtime", dbUser 
@@ -320,7 +318,7 @@ class TimesModel(myModel):
         splňuje závodník podmínky pro "finished"?
             - (počet kol větší než X) nebo (čas větší než Y)
         '''
-        if self.lap.GetLaps(dbTime) >= dstore.Get('race_info')['limit_laps']:
+        if self.laptime.GetLaps(dbTime) >= dstore.Get('race_info')['limit_laps']:
             return True
         return False
         
@@ -394,7 +392,7 @@ class TimesModel(myModel):
             else:
                 print "E: Fatal Error: Starttime "
                 return None
-            
+                                                                                                 
             if start_time.empty != True:                                                                                     
                 '''odecteni startovaciho casu a ulozeni do db'''
                 if(dbTime['time_raw'] < start_time['time_raw']):
@@ -441,6 +439,7 @@ class TimesModel(myModel):
             
         #update start times      
         self.starts2.Update(self.run_id)        
+        self.laptime.Update(self.run_id)        
                 
         ko_nrs = self.calc_update_times()        
         if(ko_nrs != []):            

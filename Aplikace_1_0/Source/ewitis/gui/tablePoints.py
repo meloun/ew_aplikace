@@ -11,7 +11,12 @@ import ewitis.gui.TimesUtils as TimesUtils
              
 class PointsModel(myModel):
     def __init__(self, table):                                     
-        myModel.__init__(self, table)        
+        myModel.__init__(self, table)
+          
+    def getDefaultTableRow(self): 
+        tabRow = myModel.getDefaultTableRow(self)        
+        tabRow['points'] = None                                  
+        return tabRow                
                     
 class PointsProxyModel(myProxyModel):    
     def __init__(self, table):                        
@@ -34,7 +39,7 @@ class Points(myTable):
         aux_split = rule.split('%')
         if(len(aux_split) == 3): #3 parts => ruletime exist, on 2.position                
             try:
-                ruletime = TimesUtils.TimesUtils.timestring2time(aux_split[1]) #timestring=>time        
+                ruletime = TimesUtils.TimesUtils.timestring2time(aux_split[1], including_days = False) #timestring=>time        
             except TimesUtils.TimeFormat_Error:
                 return None                    
             #glue expression again                        
@@ -42,12 +47,12 @@ class Points(myTable):
 
         #replace keywords with time values                            
         expression_string = rule.replace("order", str(order))
-        expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring)))       
+        expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring, including_days = False)))       
         
         #evaluate
         try:            
             points = eval(expression_string)        
-        except (SyntaxError,TypeError):
+        except (SyntaxError,TypeError,NameError):
             #print "I: invalid string for evaluation", expression_string
             return None        
         
@@ -66,19 +71,20 @@ class Points(myTable):
         if (order == 0) or (order == ""):
             return None
                          
-        dbPoint = db.getParX("Points", "order", order, limit = 1).fetchone()                                
+        dbPoint = db.getParX("Points", "order_", order, limit = 1).fetchone()                                
         return dbPoint
     
     def getTabPointParOrder(self, order):                                           
-        dbPoint = self.getDbPointParOrder(order)                             
-        tabPoint = self.model.db2tableRow(dbPoint)                                   
+        dbPoint = self.getDbPointParOrder(order)                                     
+        tabPoint = self.model.db2tableRow(dbPoint)        
         return tabPoint
     
     def getPoints(self, tabTime, mode):
         
         if(tabTime['cell'] != 250):
             return None
-        
+        if(tabTime['time'] == None):
+            return None        
         if(mode == self.eTOTAL):
             order = tabTime['order']
         elif(mode == self.eCATEGORY):
@@ -90,8 +96,8 @@ class Points(myTable):
         tabPoint = {}
         if(points["table"] == 2):
             tabPoint = self.getTabPointParOrder(order)
-        else:                        
-            tabPoint['points'] = self.evaluate(points['rule'], order, tabTime['time'], points['minimum'], points['maximum'])
+        else:                                                
+            tabPoint['points'] = self.evaluate(points['rule'], order, tabTime['time'], points['minimum'], points['maximum'])            
         
         return tabPoint['points']       
                         

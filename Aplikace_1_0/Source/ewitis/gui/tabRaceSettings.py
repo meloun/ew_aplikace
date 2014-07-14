@@ -253,11 +253,16 @@ class TabRaceSettings():
             
             
         ##TIMES##
-        #order evaluation
-        Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get('evaluation')['order'])            
-        #starttime evaluation
-        #print "start eval",dstore.Get("evaluation")['starttime']
-        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])            
+        #evaluations
+        Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get('evaluation')['order'])                            
+        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])
+                
+        if dstore.Get("evaluation")["laptime"] == 0:
+            Ui().radioLaptimeFinishStart.setChecked(True)            
+            Ui().radioLaptimeCurrentPrevious.setChecked(False)
+        else:            
+            Ui().radioLaptimeFinishStart.setChecked(False)            
+            Ui().radioLaptimeCurrentPrevious.setChecked(True)            
         
         #show
         Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])        

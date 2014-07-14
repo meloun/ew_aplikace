@@ -44,7 +44,7 @@ TIMES['database'] = {
                             "user_id"   :     {"index": 3,  "name": "user_id",  "default": 0},
                             "cell"      :     {"index": 4,  "name": "cell",     "default": 250},
                             "time_raw"  :     {"index": 5,  "name": "time_raw", "default": 0},
-                            #"time"      :     {"index": 6, "name": "time"},                                
+                            #"time"      :     {"index": 6,  "name": "time",     "default": None},                                
                       }                            
 
 """ table collumn for times, mode race """
@@ -141,16 +141,16 @@ CATEGORIES['database'] = {
                          }
 """ table collumns """
 CATEGORIES['table'] = {
-                        "id"          :     {"index": 0,  "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":False  },
-                        "name"        :     {"index": 1,  "name": "name",         "default": "unknown", "width": 200,                     "write":True  },
-                        "description" :     {"index": 2,  "name": "description",  "default": "",        "width": 350,                     "write":True  },                                                                
-                        "start_nr"    :     {"index": 3,  "name": "start_nr",     "default": 1,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g1"          :     {"index": 4,  "name": "g1",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g2"          :     {"index": 5,  "name": "g2",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g3"          :     {"index": 6,  "name": "g3",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g4"          :     {"index": 7,  "name": "g4",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g5"          :     {"index": 8,  "name": "g5",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
-                        "g6"          :     {"index": 9,  "name": "g6",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "id"          :     {"index": 0,   "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":False  },
+                        "name"        :     {"index": 1,   "name": "name",         "default": "unknown", "width": 200,                     "write":True  },
+                        "description" :     {"index": 2,   "name": "description",  "default": "",        "width": 350,                     "write":True  },                                                                
+                        "start_nr"    :     {"index": 3,   "name": "start_nr",     "default": 1,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g1"          :     {"index": 4,   "name": "g1",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g2"          :     {"index": 5,   "name": "g2",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g3"          :     {"index": 6,   "name": "g3",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g4"          :     {"index": 7,   "name": "g4",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g5"          :     {"index": 8,   "name": "g5",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
+                        "g6"          :     {"index": 9,   "name": "g6",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
                         "g7"          :     {"index": 10,  "name": "g7",          "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
                         "g8"          :     {"index": 11,  "name": "g8",          "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
                         "g9"          :     {"index": 12,  "name": "g9",          "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True  },
@@ -228,14 +228,14 @@ POINTS = {}
 """ database columns """
 POINTS['database'] = {
                       "id"          :    {"index": 0,  "name": "id",            "default": 0},
-                      "order"       :    {"index": 1,  "name": "order",         "default": 0},                                                                 
+                      "order_"      :    {"index": 1,  "name": "order",         "default": 0},                                                                 
                       "points"      :    {"index": 2,  "name": "points",        "default": 0},
                       "description" :    {"index": 3,  "name": "description",   "default": ""},
                       }
 """ table collumns """
 POINTS['table'] =    {
                       "id"          :    {"index": 0,  "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":False},
-                      "order"       :    {"index": 1,  "name": "order",        "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True},                                                                
+                      "order_"      :    {"index": 1,  "name": "order",        "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True},                                                                
                       "points"      :    {"index": 2,  "name": "points",       "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":True},
                       "description" :    {"index": 3,  "name": "description",  "default": "",        "width": 160,                     "write":True},                        
                       } 

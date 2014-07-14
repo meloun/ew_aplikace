@@ -1,7 +1,7 @@
 {
     "remote": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true,
         "name": "Remote Race"
@@ -16,25 +16,25 @@
     },
     "rfid": {
         "GET_SET": {
-            "value": 0
+            "value": 2
         },
         "permanent": true,
         "name": "rfid"
     },
     "tag_filter": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true
     },
     "points": {
         "GET_SET": {
-            "changed": false,
+            "changed": true,
             "value": {
-                "table": 2,
+                "table": 0,
                 "minimum": 0,
                 "maximum": 500,
-                "rule": "abs(time - %00:01:30,00%)"
+                "rule": "abs(time - %00:00:04,07%)"
             }
         },
         "permanent": true,
@@ -44,24 +44,24 @@
         "GET_SET": {
             "changed": false,
             "value": {
+                "option_2": 0,
                 "best_laptime": 0,
                 "points_categories": 0,
                 "club": 2,
-                "points_race": 0,
                 "laps": 0,
-                "option_2_name": "o2",
+                "year": 0,
+                "option_1": 0,
                 "sex": 0,
                 "option_4_name": "o4",
-                "gap": 0,
                 "laptime": 0,
-                "option_1_name": "o1",
-                "year": 0,
-                "option_2": 0,
-                "option_3": 0,
-                "option_1": 0,
+                "option_4": 0,
+                "option_2_name": "o2",
                 "option_3_name": "o3",
+                "option_3": 0,
+                "gap": 0,
+                "points_race": 0,
                 "points_groups": 0,
-                "option_4": 0
+                "option_1_name": "o1"
             }
         },
         "permanent": true,
@@ -70,9 +70,9 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "laptime": 0,
-                "order": 1,
-                "starttime": 0
+                "laptime": 1,
+                "order": 0,
+                "starttime": 1
             }
         },
         "permanent": true
