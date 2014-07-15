@@ -152,7 +152,7 @@ class TimesOrder():
         query = query + \
             " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
             " (times.user_id == " +str(dbTime['user_id'])+ ") AND "+\
-            " (times.cell != 1)"
+            " (times.cell = 250)"
         
         
         if(mode == self.IS_WORST_TIME):
@@ -244,16 +244,23 @@ class TimesOrder():
             
             query_order = query_order + \
                         " AND (times.user_id != 0)"+\
-                        " AND (times.time != 0 )"+\
-                        " AND (times.cell != 1 )"+\
+                        " AND (times.time != 0 )"
+                        
+            if(dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
+                query_order = query_order + \
+                    " AND (times.cell != 1 )"
+            else:
+                query_order = query_order + \
+                        " AND (times.cell = 250 )"
+                        
+            query_order = query_order + \
                         " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                         " GROUP BY user_id"
 
             if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE):
                 query_order = query_order + \
                         " HAVING count(*) == " + str(lap)                        
-                    
-            #if(dstore.Get('onelap_race') == 0) and (dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+                                
             if(dstore.Get('evaluation')['order'] != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
@@ -277,8 +284,16 @@ class TimesOrder():
                             "(times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                             " (times.user_id != " +str(dbTime['user_id'])+ ")"+\
                             " AND (times.user_id != 0 )"+\
-                            " AND (times.time != 0 )"+\
-                            " AND (times.cell != 1 )"+\
+                            " AND (times.time != 0 )"
+                            
+                if(dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
+                    query_order = query_order + \
+                        " AND (times.cell != 1 )"
+                else:
+                    query_order = query_order + \
+                        " AND (times.cell = 250 )"
+                        
+                query_order = query_order + \
                             " AND (users.category_id=\"" +str(category_id)+ "\")"+\
                             " GROUP BY user_id"+\
                             " HAVING count(*) > "+str(lap)
@@ -303,8 +318,14 @@ class TimesOrder():
                                 
             query_order = query_order + \
                     " AND (times.user_id != 0)"+\
-                    " AND (times.time != 0 )"+\
+                    " AND (times.time != 0 )"
+                    
+            if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
+                query_order = query_order + \
                     " AND (times.cell != 1 )"
+            else:
+                query_order = query_order + \
+                    " AND (times.cell = 250 )"
             
             query_order = query_order + \
                     " GROUP BY user_id"
@@ -312,8 +333,7 @@ class TimesOrder():
             if(dstore.Get('evaluation')['order'] == OrderEvaluation.RACE):
                 query_order = query_order + \
                     " HAVING count(*) == " + str(lap)
-        
-            #if(dstore.Get('onelap_race') == 0) and (dstore.Get('order_evaluation') != OrderEvaluation.SLALOM):
+                    
             if(dstore.Get('evaluation')['order'] != OrderEvaluation.SLALOM):
                 
                 #zohlednit závodníky s horším časem ale více koly
@@ -326,8 +346,16 @@ class TimesOrder():
                 query_order = query_order +\
                     " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                     " (times.user_id != 0)"+\
-                    " AND (times.time != 0 )"+\
-                    " AND (times.cell != 1 )"+\
+                    " AND (times.time != 0 )"
+                    
+                if(dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
+                    query_order = query_order + \
+                        " AND (times.cell != 1 )"
+                else:
+                    query_order = query_order + \
+                        " AND (times.cell = 250 )"
+                        
+                query_order = query_order + \
                     " GROUP BY user_id"+\
                     " HAVING count(*) > "+str(lap)
                     

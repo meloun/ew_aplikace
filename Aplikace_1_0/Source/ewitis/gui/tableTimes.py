@@ -760,8 +760,8 @@ class Times(myTable):
             
             #export times (with collumn's names)            
             try:              
-                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None)               
-                exportDf.to_csv(filename, ";", mode="a", index = False)
+                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
+                exportDf.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                            
@@ -779,7 +779,7 @@ class Times(myTable):
             winner = None
              
         return winner
-        #=======================================================================
+    #=======================================================================
     # SLOTS
     #=======================================================================    
         
