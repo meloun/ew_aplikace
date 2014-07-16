@@ -9,14 +9,14 @@
     "race_name": {
         "GET_SET": {
             "changed": false,
-            "value": "Formula Student 2013"
+            "value": "Carlsbad Classic 2014"
         },
         "permanent": true,
         "name": "race_name"
     },
     "rfid": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true,
         "name": "rfid"
@@ -26,19 +26,6 @@
             "value": 0
         },
         "permanent": true
-    },
-    "points": {
-        "GET_SET": {
-            "changed": false,
-            "value": {
-                "table": 0,
-                "minimum": 0,
-                "maximum": 500,
-                "rule": "abs(time - %00:00:04,07%)"
-            }
-        },
-        "permanent": true,
-        "name": "points"
     },
     "export": {
         "GET_SET": {
@@ -70,9 +57,15 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "laptime": 0,
+                "points_formula": {
+                    "formula": "abs(time - %00:00:2,40%)",
+                    "minimum": 0,
+                    "maximum": 500
+                },
+                "laptime": 1,
                 "order": 0,
-                "starttime": 1
+                "starttime": 1,
+                "points": 1
             }
         },
         "permanent": true
@@ -80,10 +73,10 @@
     "additional_info": {
         "GET_SET": {
             "value": {
-                "best_laptime": 2,
+                "best_laptime": 0,
                 "enabled": 2,
                 "laptime": 2,
-                "order_in_cat": 2,
+                "order_in_cat": 0,
                 "lap": 2,
                 "order": 2
             }

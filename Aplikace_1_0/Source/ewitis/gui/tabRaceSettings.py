@@ -66,11 +66,8 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, self.Update))
         
         #points
-        QtCore.QObject.connect(Ui().checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("points", ["table"], state, self.Update))
-        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("points", ["rule"], utils.toUnicode(name)))
         #QtCore.QObject.connect(Ui.lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: self.sGuiSet("race_name", utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["minimum"], laps, self.Update))
-        QtCore.QObject.connect(Ui().spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda laps: uiAccesories.sGuiSetItem("points", ["maximum"], laps, self.Update))
+
         
 
         
@@ -84,8 +81,15 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().comboOrderEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["order"], index, self.Update))                
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))
           
-        QtCore.QObject.connect(Ui().radioLaptimeFinishStart,      QtCore.SIGNAL("toggled(bool)"),     lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 0, self.Update) if index else None)
-        QtCore.QObject.connect(Ui().radioLaptimeCurrentPrevious,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 1, self.Update) if index else None)        
+        QtCore.QObject.connect(Ui().radioLaptimeFinishStart,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 0, self.Update) if index else None)
+        QtCore.QObject.connect(Ui().radioLaptimeCurrentPrevious,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 1, self.Update) if index else None)        
+                                                
+        QtCore.QObject.connect(Ui().radioPointsFromTable,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["points"], 0, self.Update) if index else None)
+        QtCore.QObject.connect(Ui().radioPointsFromFormula,    QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["points"], 1, self.Update) if index else None)
+        #QtCore.QObject.connect(Ui().checkPoinstsFromTable, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("points", ["table"], state, self.Update))
+        QtCore.QObject.connect(Ui().linePointsRule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["points_formula","formula"], utils.toUnicode(name)))
+        QtCore.QObject.connect(Ui().spinPointsMinimum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula","minimum"], x, self.Update))
+        QtCore.QObject.connect(Ui().spinPointsMaximum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula","maximum"], x, self.Update))        
                                                 
         #show
         QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))        
@@ -236,24 +240,26 @@ class TabRaceSettings():
             dstore.ResetChangedFlag("export")
         
         #points
-        points = dstore.Get("points")
-        Ui().checkPoinstsFromTable.setCheckState(points["table"])
-        
+        points = dstore.Get("evaluation")["points"]
+        points_formula = dstore.Get("evaluation")["points_formula"]
+        #Ui().checkPoinstsFromTable.setCheckState(points["table"])
+                        
         if(self.init == False):
-            #print "RULE CHANGED"                       
-            Ui().linePointsRule.setText(points["rule"])
-            dstore.ResetChangedFlag("points")
-        
-        #Ui().linePointsRule.setText(points["rule"])            
-        Ui().spinPointsMinimum.setValue(points["minimum"])
-        Ui().spinPointsMaximum.setValue(points["maximum"])            
-        Ui().linePointsRule.setEnabled(not(points['table']))
-        Ui().spinPointsMinimum.setEnabled(not(points['table'])) 
-        Ui().spinPointsMaximum.setEnabled(not(points['table']))                                   
+            #print "RULE CHANGED"
+            Ui().linePointsRule.setText(points_formula["formula"])
+            #uiAccesories.showMessage("Poinst formula changed:", (dstore.Get("points_formula")["formula"]).toString(), MSGTYPE.statusbar)                       
+            #dstore.ResetChangedFlag("points")
+                            
+        Ui().spinPointsMinimum.setValue(points_formula["minimum"])
+        Ui().spinPointsMaximum.setValue(points_formula["maximum"])            
+        Ui().linePointsRule.setEnabled(points)
+        Ui().spinPointsMinimum.setEnabled(points) 
+        Ui().spinPointsMaximum.setEnabled(points)                                   
             
             
         ##TIMES##
         #evaluations
+        #print dstore.Get("evaluation")
         Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get('evaluation')['order'])                            
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])
                 
@@ -262,7 +268,14 @@ class TabRaceSettings():
             Ui().radioLaptimeCurrentPrevious.setChecked(False)
         else:            
             Ui().radioLaptimeFinishStart.setChecked(False)            
-            Ui().radioLaptimeCurrentPrevious.setChecked(True)            
+            Ui().radioLaptimeCurrentPrevious.setChecked(True)
+                        
+        if dstore.Get("evaluation")["points"] == 0:
+            Ui().radioPointsFromTable.setChecked(True)            
+            Ui().radioPointsFromFormula.setChecked(False)
+        else:            
+            Ui().radioPointsFromTable.setChecked(False)            
+            Ui().radioPointsFromFormula.setChecked(True)            
         
         #show
         Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])        

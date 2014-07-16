@@ -38,7 +38,7 @@ class STRINGS:
              'laptime':             u'Čas okruhu',             
              'best_laptime':        u'Top okruh',             
              'points':              u'Body',             
-             'points_categories':   u'Body',             
+             'points_cat':          u'Body',             
              'points_groups':       u'Body',             
              'gap':                 u'Ztráta'             
     }

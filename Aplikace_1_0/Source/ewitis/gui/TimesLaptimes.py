@@ -50,12 +50,15 @@ class TimesLaptime():
             return None
         
         #laptime evaluation: only finishtime AND thistime is not finishtime
-        if (dstore.Get("evaluation")['laptime'] == 0) and (dbTime['cell'] != 250):
-            return None
+        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):
+            return None 
+        
+        if(dbTime['laptime']) != None:
+            return dbTime['laptime']                
         
         #  '''count of times - same race, same user, better time, exclude start time'''        
         laptimes = self.groups.get_group(dbTime['user_id'])
-        try:
+        try:            
             laptime_time = laptimes[laptimes.time_raw < dbTime['time_raw']].iloc[-1]['time_raw']
             laptime = dbTime['time_raw'] - laptime_time                               
         except:
@@ -124,14 +127,15 @@ class TimesLaptime():
             return None
                
         '''count of times - same race, same user, better time, exclude start time'''        
-        #try:
-        laptimes = self.groups.get_group(dbTime['user_id'])
-        laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]
-        if (dstore.Get("evaluation")['laptime'] == 0):        
-            laptimes = laptimes[laptimes.cell == 250]            
-        lap_count = len(laptimes.index)+1
-        #except:
-        #lap_count = None            
+        try:
+            lap_count = None      
+            laptimes = self.groups.get_group(dbTime['user_id'])
+            laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]
+            if (dstore.Get("evaluation")['laptime'] == 0):        
+                laptimes = laptimes[laptimes.cell == 250]            
+            lap_count = len(laptimes.index)+1
+        except KeyError: #nenalezen spravny cas 
+            lap_count = None            
 
         #return laptime (int or none)                       
         return lap_count
@@ -148,13 +152,13 @@ class TimesLaptime():
                
         '''count of times - same race, same user, better time, exclude start time'''
         #lap_count = None        
-        #try:
-        laptimes = self.groups.get_group(dbTime['user_id'])            
-        if (dstore.Get("evaluation")['laptime'] == 0):        
-            laptimes = laptimes[laptimes.cell == 250]
-        lap_count = len(laptimes.index)                                        
-        #except:
-        #    lap_count = None            
+        try:
+            laptimes = self.groups.get_group(dbTime['user_id'])            
+            if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME):        
+                laptimes = laptimes[laptimes.cell == 250]
+            lap_count = len(laptimes.index)                                        
+        except: #nenalezen spravny cas             
+            lap_count = None            
                 
         return lap_count # int or none    
                          

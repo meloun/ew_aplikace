@@ -7,6 +7,7 @@ from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.TimesUtils as TimesUtils
+from ewitis.data.DEF_DATA import *
      
              
 class PointsModel(myModel):
@@ -29,8 +30,14 @@ class Points(myTable):
     def  __init__(self):                                                     
         myTable.__init__(self, "Points")
     
-    def evaluate(self, rule, order, timestring, minimum = 0, maximum = 9999):
-        points = 0
+    def evaluate(self, rule, order, timestring, timestring_laptime, minimum = 0, maximum = 9999):
+        points = None
+        
+        #check if data exist
+        if ("time" in rule) and (timestring == None):
+            return None
+        if ("laptime" in rule) and (timestring_laptime == None):
+            return None
 
         #rule
         rule = rule.lower()    
@@ -47,8 +54,11 @@ class Points(myTable):
 
         #replace keywords with time values                            
         expression_string = rule.replace("order", str(order))
-        expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring, including_days = False)))       
-        
+        if ("laptime" in rule):
+            expression_string = expression_string.replace("laptime", str(TimesUtils.TimesUtils.timestring2time(timestring_laptime, including_days = False)))
+        if ("time" in rule):                    
+            expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring, including_days = False)))       
+                
         #evaluate
         try:            
             points = eval(expression_string)        
@@ -81,7 +91,7 @@ class Points(myTable):
     
     def getPoints(self, tabTime, mode):
         
-        if(tabTime['cell'] != 250):
+        if(tabTime['cell'] == 1):
             return None
         if(tabTime['time'] == None):
             return None        
@@ -90,14 +100,15 @@ class Points(myTable):
         elif(mode == self.eCATEGORY):
             order = tabTime['order_cat']
         elif(mode == self.eGROUP):
-            order = tabTime['order']
+            order = tabTime['order']        
             
-        points = dstore.Get("points")
+        points_evaluation = dstore.Get("evaluation")["points"]
         tabPoint = {}
-        if(points["table"] == 2):
+        if(points_evaluation == PointsEvaluation.FROM_TABLE):            
             tabPoint = self.getTabPointParOrder(order)
-        else:                                                
-            tabPoint['points'] = self.evaluate(points['rule'], order, tabTime['time'], points['minimum'], points['maximum'])            
+        else:
+            points_formula = dstore.Get("evaluation")["points_formula"]                                                                        
+            tabPoint['points'] = self.evaluate(points_formula['formula'], order, tabTime['time'], tabTime['laptime'], points_formula['minimum'], points_formula['maximum'])                    
         
         return tabPoint['points']       
                         

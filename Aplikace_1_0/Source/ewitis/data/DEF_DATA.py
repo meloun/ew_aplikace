@@ -42,6 +42,8 @@ class StarttimeEvaluation:
     VIA_CATEGORY, VIA_USER = range(0,2) 
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
+class PointsEvaluation:
+    FROM_TABLE, FROM_FORMULA = range(0,2) 
 #class LOGIC_MODES:
 #    basic, manual, remote_manual, multiple_mass_6b, multiple_mass_6c  = range(1,6)         
     
@@ -92,7 +94,13 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "order" : OrderEvaluation.SLALOM, 
                                                         "starttime": StarttimeEvaluation.VIA_CATEGORY,
-                                                        "laptime": LaptimeEvaluation.ONLY_FINISHTIME                                                                                                                                                      
+                                                        "laptime":  LaptimeEvaluation.ONLY_FINISHTIME,
+                                                        "points":   PointsEvaluation.FROM_TABLE,
+                                                        "points_formula":{                                                                     
+                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
+                                                                            "minimum"           : 0, 
+                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
+                                                                         }                                                                                                                                                                                                                      
                                                         }
                                               }
                                 },
@@ -150,17 +158,6 @@ DEF_DATA = {
                                                         "points_race"       : 0,                                                                                                      
                                                         "points_categories" : 0,                                                                                                      
                                                         "points_groups"     : 0,                                                                                                                                                                                                                                                                    
-                                                        },
-                                              "changed": True
-                                              }  
-                               },         
-        "points"             : {"name"     : "points",
-                                "permanent": True,
-                                "GET_SET"  : {"value": {
-                                                        "table"             : 2, 
-                                                        "rule"              : "abs(time - %00:01:30,00%)", 
-                                                        "minimum"           : 0, 
-                                                        "maximum"           : 500                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  
@@ -229,7 +226,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v2.14"},                                                                                                                    
+                                                        "app": "v2.15"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

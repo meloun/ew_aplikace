@@ -79,7 +79,7 @@ class TimesModel(myModel):
         #print "TIME", dbTime['id']                                
         
         if(dstore.Get('show')['times_with_order'] == 2):
-            if(self.order.IsResultTime(dbTime) == False):
+            if(self.order.IsResultTime(dbTime) == False):                
                 return None
                                                                   
         
@@ -134,35 +134,33 @@ class TimesModel(myModel):
         
         '''CATEGORY'''        
         tabTime['category'] = joinUser['category']                                                                                                                              
-
              
         tabTime['lap'] = None
         tabTime['order'] = None
         tabTime['order_cat'] = None       
         
-        '''LAP'''
-        #z1 = time.clock()
+        '''LAP'''        
         #@workaround: potrebuju lap pro poradi => lap.Get() nerezohlednuje ("additional_info")['lap']                
         aux_lap = self.laptime.GetLap(dbTime)          
-        if  dstore.Get("additional_info")['lap']:           
-            tabTime['lap'] = aux_lap
-        #print "- Lap takes: ",(time.clock() - z1)
+        if  dstore.Get("additional_info")['lap']:                
+            tabTime['lap'] = aux_lap        
         
-        '''LAPTIMEs'''        
-        tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))                
-        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                            
+        '''LAPTIME'''     
+        #počítá se jen pokud neexistuje           
+        tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
         
-        '''ORDER'''                
-        #z1 = time.clock()                                                        
+        '''BEST LAPTIME'''
+        #počítá se vždy                        
+        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                           
+        
+        '''ORDER'''
+        #počítá se vždy                                                                                         
         tabTime['order']  = self.order.Get(dbTime, aux_lap)        
-        #print "- order takes: ",(time.clock() - z1)                                
-                
-        '''ORDER IN CATEGORY'''                                    
-        #z1 = time.clock()                                
-        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])
-        #print "- order in category takes: ",(time.clock() - z1)    
-                                                                                          
-        #print "TIME take: ",(time.clock() - ztimeT)
+                                                        
+        '''ORDER IN CATEGORY'''
+        #počítá se vždy                                                                       
+        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
+                                                                                                  
         
         '''POINTS'''
         if (dstore.Get("additional_info")["enabled"] == 2):
@@ -170,7 +168,7 @@ class TimesModel(myModel):
                 tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
                 tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
             except:
-                print "E: Points were not succesfully calculated for all times! Try refresh again."
+                print "E: Some points were not succesfully calculated!"
         return tabTime
                                                                                    
 
@@ -495,8 +493,9 @@ class Times(myTable):
         self.gui['export_www'] = Ui().TimesWwwExport         
         self.gui['recalculate'] = Ui().TimesRecalculate        
         self.gui['aDirectWwwExport'] = Ui().aDirectWwwExport
-        self.gui['aDirectExportCategories'] = Ui().aDirectExportCategories 
-        self.gui['aDirectExportLaptimes'] = Ui().aDirectExportLaptimes 
+        self.gui['aExportResults'] = Ui().aExportResults
+        self.gui['aExportAllTimes'] = Ui().aExportAllTimes 
+        self.gui['aExportLaptimes'] = Ui().aExportLaptimes 
         self.gui['times_db_export'] = Ui().TimesDbExport 
         self.gui['times_db_import'] = Ui().TimesDbImport 
         self.gui['filter_column'] = Ui().TimesFilterColumn
@@ -530,13 +529,13 @@ class Times(myTable):
         
         #export result times        
         #if (self.gui['aDirectExportCategories'] != None):                                   
-        QtCore.QObject.connect(self.gui['aDirectExportCategories'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eRESULT_TIMES))
+        QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eRESULT_TIMES))
                                        
         #export  all times        
-        #QtCore.QObject.connect(self.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eALL_TIMES))
+        QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eALL_TIMES))
         
         #export  laptimes        
-        QtCore.QObject.connect(self.gui['aDirectExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eLAP_TIMES))
+        QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eLAP_TIMES))
         
         
            
