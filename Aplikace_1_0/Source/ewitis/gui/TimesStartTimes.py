@@ -41,10 +41,11 @@ class TimesStarts():
             else:
                 starttime = starttime_group[starttime_group.time_raw < time_raw].iloc[-1]
                 
-            startime = dict(starttime)
+            starttime = dict(starttime)            
         except:
-            starttime = pd.Series()
-                   
+            #starttime = pd.Series()
+            starttime = None
+                                   
         return starttime 
         
     def Get(self, nr, user_id = None):

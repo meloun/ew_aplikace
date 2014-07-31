@@ -139,31 +139,37 @@ class TimesModel(myModel):
         tabTime['order'] = None
         tabTime['order_cat'] = None       
         
-        '''LAP'''        
-        #@workaround: potrebuju lap pro poradi => lap.Get() nerezohlednuje ("additional_info")['lap']                
-        aux_lap = self.laptime.GetLap(dbTime)          
-        if  dstore.Get("additional_info")['lap']:                
-            tabTime['lap'] = aux_lap        
+        additional_info = dstore.Get("additional_info")
+        if  additional_info['enabled']:
         
-        '''LAPTIME'''     
-        #počítá se jen pokud neexistuje           
-        tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+            '''LAP'''
+            aux_lap = None #potřebuji lap pro pořadí
+            if additional_info['lap'] or additional_info['order'] or additional_info['order_in_cat']:                
+                aux_lap = self.laptime.GetLap(dbTime)
+                if additional_info['lap']:                
+                    tabTime['lap'] = aux_lap        
+                      
+            '''LAPTIME'''     
+            #počítá se jen pokud neexistuje           
+            tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
         
-        '''BEST LAPTIME'''
-        #počítá se vždy                        
-        tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                           
+            '''BEST LAPTIME'''
+            #počítá se vždy                        
+            if  additional_info['best_laptime']:                                                                                       
+                tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                           
         
-        '''ORDER'''
-        #počítá se vždy                                                                                         
-        tabTime['order']  = self.order.Get(dbTime, aux_lap)        
+            '''ORDER'''
+            #počítá se vždy  
+            if  additional_info['order']:                                                                                       
+                tabTime['order']  = self.order.Get(dbTime, aux_lap)        
                                                         
-        '''ORDER IN CATEGORY'''
-        #počítá se vždy                                                                       
-        tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
+            '''ORDER IN CATEGORY'''
+            #počítá se vždy                                                                       
+            if  additional_info['order_in_cat']:                                                                                       
+                tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
                                                                                                   
         
-        '''POINTS'''
-        if (dstore.Get("additional_info")["enabled"] == 2):
+            '''POINTS'''            
             try:        
                 tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
                 tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
@@ -384,14 +390,16 @@ class TimesModel(myModel):
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
                 start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
                 start_time = self.starts2.Get(start_nr)                    
-            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):                                
                 #print "calc_update_time:", dbTime, start_nr
                 start_time = self.starts2.GetLast(dbTime)                    
             else:
                 print "E: Fatal Error: Starttime "
                 return None
-                                                                                                 
-            if start_time.empty != True:                                                                                     
+                                                                                                             
+            #if start_time.empty != True:                                                                                     
+            #print type(start_time)
+            if start_time != None:                                                                                     
                 '''odecteni startovaciho casu a ulozeni do db'''
                 if(dbTime['time_raw'] < start_time['time_raw']):
                     print "E: Times: startime started later as this time!", dbTime 

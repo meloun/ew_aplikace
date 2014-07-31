@@ -115,10 +115,10 @@ class TimesLaptime():
         '''
         vyhledá přechozí čas a spočítá laptime
         '''
-        if  dstore.Get("additional_info")['enabled'] == 0:
-            return None         
-        if dstore.Get("additional_info")['lap'] == 0:
-            return None                                               
+#        if  dstore.Get("additional_info")['enabled'] == 0:
+#            return None         
+#        if dstore.Get("additional_info")['lap'] == 0:
+#            return None                                               
         if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):            
             return None
         if(dbTime['cell'] == 1):            
