@@ -191,12 +191,12 @@ class TimesOrder():
         """       
                     
         # zobrazovat pořadí? (kontrola checkboxů)        
-        if (dstore.Get("additional_info")["enabled"] == 0):                 
-            return None
-        if (category_id == None) and (dstore.Get("additional_info")["order"] == 0):
-            return None
-        if (category_id != None) and (dstore.Get("additional_info")["order_in_cat"] == 0):
-            return None
+#        if (dstore.Get("additional_info")["enabled"] == 0):                 
+#            return None
+#        if (category_id == None) and (dstore.Get("additional_info")["order"] == 0):
+#            return None
+#        if (category_id != None) and (dstore.Get("additional_info")["order_in_cat"] == 0):
+#            return None
         
         # RACE:    pořadí jen u nejhorších/posledních časů
         # SLALOM:  pořadí jen u prvních/nejlepších časů
