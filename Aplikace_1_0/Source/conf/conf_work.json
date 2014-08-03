@@ -16,7 +16,7 @@
     },
     "rfid": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true,
         "name": "rfid"
@@ -29,26 +29,27 @@
     },
     "export": {
         "GET_SET": {
-            "changed": false,
+            "changed": true,
             "value": {
+                "option_2": 0,
                 "best_laptime": 0,
                 "points_categories": 0,
                 "club": 2,
-                "points_race": 2,
+                "lapsformat": 1,
                 "laps": 0,
-                "option_2_name": "o2",
+                "year": 0,
+                "option_1": 0,
                 "sex": 0,
                 "option_4_name": "o4",
-                "gap": 0,
                 "laptime": 0,
-                "option_1_name": "o1",
-                "year": 0,
-                "option_2": 0,
-                "option_3": 0,
-                "option_1": 0,
+                "option_4": 0,
+                "option_2_name": "o2",
                 "option_3_name": "o3",
+                "option_3": 0,
+                "gap": 0,
+                "points_race": 0,
                 "points_groups": 0,
-                "option_4": 0
+                "option_1_name": "o1"
             }
         },
         "permanent": true,
@@ -77,8 +78,9 @@
                 "enabled": 2,
                 "laptime": 0,
                 "order_in_cat": 2,
-                "lap": 0,
-                "order": 2
+                "lap": 2,
+                "order": 2,
+                "points": 0
             }
         },
         "permanent": true,

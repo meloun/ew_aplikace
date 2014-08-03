@@ -42,6 +42,8 @@ class StarttimeEvaluation:
     VIA_CATEGORY, VIA_USER = range(0,2) 
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
+class ExportLapsFormat:
+    FORMAT_TIMES, FORMAT_LAPTIMES = range(0,2) 
 class PointsEvaluation:
     FROM_TABLE, FROM_FORMULA = range(0,2) 
 #class LOGIC_MODES:
@@ -134,6 +136,7 @@ DEF_DATA = {
                                                         "lap"           : 2,                                               
                                                         "laptime"       : 2,                                               
                                                         "best_laptime"  : 2,                                               
+                                                        "points"        : 2                                               
                                                         }
                                               }  
                                },
@@ -158,6 +161,7 @@ DEF_DATA = {
                                                         "points_race"       : 0,                                                                                                      
                                                         "points_categories" : 0,                                                                                                      
                                                         "points_groups"     : 0,                                                                                                                                                                                                                                                                    
+                                                        "lapsformat"        : 0,                                                                                                                                                                                                                                                                    
                                                         },
                                               "changed": True
                                               }  

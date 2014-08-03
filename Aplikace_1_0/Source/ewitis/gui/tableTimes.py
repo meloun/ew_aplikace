@@ -138,6 +138,8 @@ class TimesModel(myModel):
         tabTime['lap'] = None
         tabTime['order'] = None
         tabTime['order_cat'] = None       
+        tabTime['points'] = None       
+        tabTime['points_cat'] = None       
         
         additional_info = dstore.Get("additional_info")
         if  additional_info['enabled']:
@@ -150,8 +152,9 @@ class TimesModel(myModel):
                     tabTime['lap'] = aux_lap        
                       
             '''LAPTIME'''     
-            #počítá se jen pokud neexistuje           
-            tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+            #počítá se jen pokud neexistuje
+            if dstore.Get("additional_info")['laptime'] == 0:           
+                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
         
             '''BEST LAPTIME'''
             #počítá se vždy                        
@@ -167,14 +170,15 @@ class TimesModel(myModel):
             #počítá se vždy                                                                       
             if  additional_info['order_in_cat']:                                                                                       
                 tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
-                                                                                                  
-        
-            '''POINTS'''            
-            try:        
-                tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
-                tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
-            except:
-                print "E: Some points were not succesfully calculated!"
+                                                                                                          
+            '''POINTS'''
+            #počítá se vždy
+            if  additional_info['points']:            
+                try:        
+                    tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
+                    tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
+                except:
+                    print "E: Some points were not succesfully calculated!"
         return tabTime
                                                                                    
 
@@ -696,6 +700,9 @@ class Times(myTable):
                 listRows.append(exportRow)
                                   
         if listRows != []:
+            print "===="
+            print "return:", type(listRows), listRows
+            print "===="
             return pd.DataFrame(listRows, columns = keys) #exportDf
                 
         return pd.DataFrame({}, columns = keys) #exportDf
@@ -703,7 +710,7 @@ class Times(myTable):
     def ExportToDf_laps(self, proxymodelDf, category, group):              
                         
         #no startimes
-        proxymodelDf = proxymodelDf[proxymodelDf['cell'] > 1]
+        proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']       
         
         #category selection
         if category != None:
@@ -712,26 +719,30 @@ class Times(myTable):
         #(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
         '''1. TOTAL'''        
         #get name
-        times_groups = proxymodelDf.groupby('nr', sort = False)
-                          
-        
-               
+        times_groups = proxymodelDf.groupby('nr', sort = False)                                                 
         
         #group = times_groups.get_group(u'395')
         listRows = []
-        for k, dfTimes in times_groups:            
+        keys = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]
+        for k, dfTimes in times_groups:                        
                         
-            #series with times                
-            sTimes = dfTimes.sort(['time']).time
-            sTimes.index = range(1, len(sTimes)+1)                           
+            #series with times
+            print dstore.Get("export")
+            if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                           
+                sTimes = dfTimes.sort(['laptime']).laptime
+            else:                                      
+                sTimes = dfTimes.sort(['time']).time
         
             #merge two series
-            sLaps = pd.concat([dfTimes[['nr','name']] .iloc[0], sTimes])                                    
-            listRows.append(sLaps)                                                    
-            
-        keys = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]
+            sLaps = pd.concat([dfTimes[['nr','name']].iloc[0], sTimes]) 
+            sLaps.index = keys[0:len(sLaps)]            
+            listRows.append(sLaps)                                                                        
+                    
         if listRows != []:
-            return pd.DataFrame(listRows, columns = keys) #exportDf
+            df = pd.DataFrame(listRows, columns = keys)            
+
+            #print "\n\n df:", df
+            return df
                 
         return pd.DataFrame({}, columns = keys) #exportDf                                                                                                         
         
@@ -747,9 +758,9 @@ class Times(myTable):
          
         '''create export dataframe'''        
         if (export_type == self.eRESULT_TIMES) or (export_type == self.eALL_TIMES):
-            exportDf = self.ExportToDf(proxymodelDf, category, group, export_type = export_type)
+            exportDf = self.ExportToDf(proxymodelDf, category, group, export_type = export_type)            
         elif(export_type == self.eLAP_TIMES):
-            exportDf = self.ExportToDf_laps(proxymodelDf, category, group)
+            exportDf = self.ExportToDf_laps(proxymodelDf, category, group)            
         else:
             print "FATAL ERROR"        
         

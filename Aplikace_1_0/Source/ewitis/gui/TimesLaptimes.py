@@ -27,11 +27,11 @@ class TimesLaptime():
         '''
         vyhledá přechozí čas a spočítá laptime
         '''
-        if  dstore.Get("additional_info")['enabled'] == 0:
-            return None 
-        
-        if dstore.Get("additional_info")['laptime'] == 0:
-            return None                                       
+#        if  dstore.Get("additional_info")['enabled'] == 0:
+#            return None 
+#        
+#        if dstore.Get("additional_info")['laptime'] == 0:
+#            return None                                       
         
         if(dbTime['time_raw'] == None):
             #print "laptime: neni time_raw", dbTime
