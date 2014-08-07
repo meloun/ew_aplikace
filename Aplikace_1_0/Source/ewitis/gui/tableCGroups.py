@@ -35,6 +35,8 @@ class CGroups(myTable):
         dbCGroup = self.getDbCGroupParLabel(label)        
         tabCGroup = self.model.db2tableRow(dbCGroup)                                   
         return tabCGroup
+    
+        
 
     
 tableCGroups = CGroups()

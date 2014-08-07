@@ -57,11 +57,13 @@ class TimesLaptime():
             return dbTime['laptime']                
         
         #  '''count of times - same race, same user, better time, exclude start time'''        
-        laptimes = self.groups.get_group(dbTime['user_id'])
-        try:            
+        laptimes = self.groups.get_group(dbTime['user_id']).sort(['time_raw'])
+        try:    
+            #laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]                                                      
+            #laptime_time = laptimes.iloc[-1]['time_raw']            
             laptime_time = laptimes[laptimes.time_raw < dbTime['time_raw']].iloc[-1]['time_raw']
             laptime = dbTime['time_raw'] - laptime_time                               
-        except:
+        except IndexError:            
             laptime = dbTime['time']
             
         if laptime != None:
@@ -131,8 +133,10 @@ class TimesLaptime():
             lap_count = None      
             laptimes = self.groups.get_group(dbTime['user_id'])
             laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]
-            if (dstore.Get("evaluation")['laptime'] == 0):        
-                laptimes = laptimes[laptimes.cell == 250]            
+            if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME):        
+                laptimes = laptimes[laptimes.cell == 250]
+            else:
+                laptimes = laptimes[laptimes.cell != 1]                                        
             lap_count = len(laptimes.index)+1
         except KeyError: #nenalezen spravny cas 
             lap_count = None            
@@ -156,6 +160,8 @@ class TimesLaptime():
             laptimes = self.groups.get_group(dbTime['user_id'])            
             if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME):        
                 laptimes = laptimes[laptimes.cell == 250]
+            else:
+                laptimes = laptimes[laptimes.cell != 1]
             lap_count = len(laptimes.index)                                        
         except: #nenalezen spravny cas             
             lap_count = None            
@@ -169,13 +175,12 @@ class TimesLaptime():
         '''
         najde všechny časy potřebné pro laptime a uloží
         '''
-        query = " SELECT * FROM times"
+        query = " SELECT * FROM times"+\
+                " WHERE (times.run_id = "+ str(run_id) +")"
         
         #0:only finishtime, 1:all times
         if(dstore.Get("evaluation")['laptime']) == 0:
-            query = query + " WHERE (times.cell == 250 )"
-        else:
-            query = query + " WHERE (times.cell != 1 )"
+            query = query + " AND (times.cell == 250 )"        
             
             
         query = query + \

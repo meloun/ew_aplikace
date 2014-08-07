@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sun Aug 03 22:48:45 2014
+# Created: Thu Aug 07 21:48:19 2014
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -1488,9 +1488,9 @@ class Ui_MainWindow(object):
         self.spinPointsMaximum = QtGui.QSpinBox(self.groupBox_15)
         self.spinPointsMaximum.setEnabled(False)
         self.spinPointsMaximum.setGeometry(QtCore.QRect(160, 100, 70, 22))
-        self.spinPointsMaximum.setMinimum(-9999)
-        self.spinPointsMaximum.setMaximum(9999)
-        self.spinPointsMaximum.setProperty("value", 9999)
+        self.spinPointsMaximum.setMinimum(-99999)
+        self.spinPointsMaximum.setMaximum(99999)
+        self.spinPointsMaximum.setProperty("value", 99999)
         self.spinPointsMaximum.setObjectName(_fromUtf8("spinPointsMaximum"))
         self.label_84 = QtGui.QLabel(self.groupBox_15)
         self.label_84.setEnabled(False)
@@ -1735,7 +1735,7 @@ class Ui_MainWindow(object):
         self.checkExportOption_4.setChecked(False)
         self.checkExportOption_4.setObjectName(_fromUtf8("checkExportOption_4"))
         self.checkExportToDefaultDirectories = QtGui.QCheckBox(self.groupTerminal_8)
-        self.checkExportToDefaultDirectories.setGeometry(QtCore.QRect(20, 420, 221, 17))
+        self.checkExportToDefaultDirectories.setGeometry(QtCore.QRect(20, 440, 221, 17))
         self.checkExportToDefaultDirectories.setText(QtGui.QApplication.translate("MainWindow", "export to default directories (no dialog)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkExportToDefaultDirectories.setChecked(False)
         self.checkExportToDefaultDirectories.setObjectName(_fromUtf8("checkExportToDefaultDirectories"))
@@ -1745,7 +1745,7 @@ class Ui_MainWindow(object):
         self.checkExportSex.setChecked(True)
         self.checkExportSex.setObjectName(_fromUtf8("checkExportSex"))
         self.groupBox_16 = QtGui.QGroupBox(self.groupTerminal_8)
-        self.groupBox_16.setGeometry(QtCore.QRect(20, 310, 241, 101))
+        self.groupBox_16.setGeometry(QtCore.QRect(20, 310, 241, 121))
         self.groupBox_16.setTitle(QtGui.QApplication.translate("MainWindow", "Export Laps Format (F9)", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_16.setObjectName(_fromUtf8("groupBox_16"))
         self.radioExportLapsLaptimes = QtGui.QRadioButton(self.groupBox_16)
@@ -1759,17 +1759,22 @@ class Ui_MainWindow(object):
         self.radioExportLapsTimes.setChecked(True)
         self.radioExportLapsTimes.setObjectName(_fromUtf8("radioExportLapsTimes"))
         self.spinGrouplapsBy = QtGui.QSpinBox(self.groupBox_16)
-        self.spinGrouplapsBy.setGeometry(QtCore.QRect(90, 70, 61, 22))
+        self.spinGrouplapsBy.setGeometry(QtCore.QRect(90, 100, 61, 22))
         self.spinGrouplapsBy.setMaximum(255)
         self.spinGrouplapsBy.setObjectName(_fromUtf8("spinGrouplapsBy"))
         self.label_57 = QtGui.QLabel(self.groupBox_16)
-        self.label_57.setGeometry(QtCore.QRect(20, 70, 111, 16))
+        self.label_57.setGeometry(QtCore.QRect(20, 100, 111, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.label_57.setFont(font)
         self.label_57.setFrameShape(QtGui.QFrame.NoFrame)
         self.label_57.setText(QtGui.QApplication.translate("MainWindow", "Group by :", None, QtGui.QApplication.UnicodeUTF8))
         self.label_57.setObjectName(_fromUtf8("label_57"))
+        self.radioExportLapsPoints = QtGui.QRadioButton(self.groupBox_16)
+        self.radioExportLapsPoints.setGeometry(QtCore.QRect(20, 60, 211, 17))
+        self.radioExportLapsPoints.setText(QtGui.QApplication.translate("MainWindow", "points", None, QtGui.QApplication.UnicodeUTF8))
+        self.radioExportLapsPoints.setChecked(False)
+        self.radioExportLapsPoints.setObjectName(_fromUtf8("radioExportLapsPoints"))
         self.horizontalLayout.addWidget(self.groupTerminal_8)
         spacerItem2 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)

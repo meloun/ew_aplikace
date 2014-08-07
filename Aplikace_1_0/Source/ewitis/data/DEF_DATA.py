@@ -43,7 +43,7 @@ class StarttimeEvaluation:
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
 class ExportLapsFormat:
-    FORMAT_TIMES, FORMAT_LAPTIMES = range(0,2) 
+    FORMAT_TIMES, FORMAT_LAPTIMES, FORMAT_POINTS = range(0,3) 
 class PointsEvaluation:
     FROM_TABLE, FROM_FORMULA = range(0,2) 
 #class LOGIC_MODES:
@@ -230,7 +230,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v2.16"},                                                                                                                    
+                                                        "app": "v2.20"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

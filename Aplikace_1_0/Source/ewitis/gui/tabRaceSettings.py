@@ -44,28 +44,7 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("rfid", state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("tag_filter", state, self.Update))
         
-        
-        #export
-        QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportSex, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["sex"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["best_laptime"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_1"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_2"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_3"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_4"], state, self.Update))
-        QtCore.QObject.connect(Ui().lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["gap"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_race"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_categories"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, self.Update))
-        QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 0, self.Update) if index else None)
-        QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 1, self.Update) if index else None)  
+     
         
              
 
@@ -100,6 +79,29 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["laptime"], state, self.Update))
         QtCore.QObject.connect(Ui().checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["best_laptime"], state, self.Update))
         QtCore.QObject.connect(Ui().checkAInfoPoints, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["points"], state, self.Update))
+        
+        #export
+        QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportSex, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["sex"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, self.Update))                                
+        QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["best_laptime"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_1"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_2"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_3"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_4"], state, self.Update))
+        QtCore.QObject.connect(Ui().lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), self.Update))
+        QtCore.QObject.connect(Ui().checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["gap"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_race"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_categories"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, self.Update))
+        QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 0, self.Update) if index else None)
+        QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 1, self.Update) if index else None) 
+        QtCore.QObject.connect(Ui().radioExportLapsPoints,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 2, self.Update) if index else None) 
                 
 
         
@@ -235,12 +237,27 @@ class TabRaceSettings():
             Ui().checkExportPointsRace.setCheckState(dstore.Get("export")["points_race"])
             Ui().checkExportPointsCategories.setCheckState(dstore.Get("export")["points_categories"])
             Ui().checkExportPointsGroups.setCheckState(dstore.Get("export")["points_groups"])
+            
+            if dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_TIMES:
+                Ui().radioExportLapsTimes.setChecked(True)            
+                Ui().radioExportLapsLaptimes.setChecked(False)
+                Ui().radioExportLapsPoints.setChecked(False)
+            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_LAPTIMES:            
+                Ui().radioExportLapsTimes.setChecked(False)            
+                Ui().radioExportLapsLaptimes.setChecked(True)
+                Ui().radioExportLapsPoints.setChecked(False)
+            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_POINTS:            
+                Ui().radioExportLapsTimes.setChecked(False)            
+                Ui().radioExportLapsLaptimes.setChecked(False)
+                Ui().radioExportLapsPoints.setChecked(True)
+            else:
+                print "error: export laptimes"
+                
             dstore.ResetChangedFlag("export")
         
         #points
         points = dstore.Get("evaluation")["points"]
-        points_formula = dstore.Get("evaluation")["points_formula"]
-        #Ui().checkPoinstsFromTable.setCheckState(points["table"])
+        points_formula = dstore.Get("evaluation")["points_formula"]        
                         
         if(self.init == False):
             #print "RULE CHANGED"
@@ -261,14 +278,14 @@ class TabRaceSettings():
         Ui().comboOrderEvaluation.setCurrentIndex(dstore.Get('evaluation')['order'])                            
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])
                 
-        if dstore.Get("evaluation")["laptime"] == 0:
+        if dstore.Get("evaluation")["laptime"] == LaptimeEvaluation.ONLY_FINISHTIME:
             Ui().radioLaptimeFinishStart.setChecked(True)            
             Ui().radioLaptimeCurrentPrevious.setChecked(False)
         else:            
             Ui().radioLaptimeFinishStart.setChecked(False)            
             Ui().radioLaptimeCurrentPrevious.setChecked(True)
                         
-        if dstore.Get("evaluation")["points"] == 0:
+        if dstore.Get("evaluation")["points"] == PointsEvaluation.FROM_TABLE:
             Ui().radioPointsFromTable.setChecked(True)            
             Ui().radioPointsFromFormula.setChecked(False)
         else:            
@@ -279,7 +296,7 @@ class TabRaceSettings():
         Ui().checkShowOnlyTimesWithOrder.setCheckState(dstore.Get("show")["times_with_order"])        
         #Ui().checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
         
-        #aditional info
+        #aditional info        
         Ui().checkAInfoEnabled.setCheckState(dstore.Get("additional_info")['enabled'])
         Ui().checkAInfoOrder.setCheckState(dstore.Get("additional_info")['order'])
         Ui().checkAInfoOrderInCategory.setCheckState(dstore.Get("additional_info")['order_in_cat'])

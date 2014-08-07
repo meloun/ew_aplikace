@@ -40,12 +40,15 @@ class Categories(myTable):
         dbCategories = db.getParX("categories", group_label, "1")                                
         return dbCategories
     
-    def getTabCategoryParName(self, name):
+    def getCategoryNamesParGroupLabel(self, group_label):                     
+        categories = self.getDbCategoriesParGroupLabel(group_label)
+        categories_names = []
+        for category in categories:
+            categories_names.append(category['name']) 
+        return categories_names                    
 
-        #print type(name)                 
-        dbCategory = self.getDbCategoryParName(name)        
-        tabCategory = self.model.db2tableRow(dbCategory)                                   
-        return tabCategory
+    
+
            
                         
 

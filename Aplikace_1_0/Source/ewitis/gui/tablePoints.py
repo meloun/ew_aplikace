@@ -110,6 +110,8 @@ class Points(myTable):
             points_formula = dstore.Get("evaluation")["points_formula"]                                                                        
             tabPoint['points'] = self.evaluate(points_formula['formula'], order, tabTime['time'], tabTime['laptime'], points_formula['minimum'], points_formula['maximum'])                    
         
+        if isinstance(tabPoint['points'], float):
+            tabPoint['points'] = "{0:.2f}".format(tabPoint['points'])
         return tabPoint['points']       
                         
 

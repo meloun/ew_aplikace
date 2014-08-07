@@ -9,7 +9,7 @@
     "race_name": {
         "GET_SET": {
             "changed": false,
-            "value": "Carlsbad Classic 2014"
+            "value": "Formula Student 2014"
         },
         "permanent": true,
         "name": "race_name"
@@ -31,25 +31,25 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "option_2": 0,
                 "best_laptime": 0,
-                "points_categories": 0,
-                "club": 2,
-                "lapsformat": 1,
+                "points_categories": 2,
+                "club": 0,
+                "lapsformat": 2,
                 "laps": 0,
-                "year": 0,
-                "option_1": 0,
+                "option_2_name": "o2",
                 "sex": 0,
                 "option_4_name": "o4",
-                "laptime": 0,
-                "option_4": 0,
-                "option_2_name": "o2",
-                "option_3_name": "o3",
-                "option_3": 0,
                 "gap": 0,
-                "points_race": 0,
-                "points_groups": 0,
-                "option_1_name": "o1"
+                "laptime": 2,
+                "option_1_name": "o1",
+                "year": 0,
+                "option_2": 0,
+                "option_3": 0,
+                "option_1": 0,
+                "option_3_name": "o3",
+                "points_groups": 2,
+                "option_4": 0,
+                "points_race": 2
             }
         },
         "permanent": true,
@@ -59,9 +59,9 @@
         "GET_SET": {
             "value": {
                 "points_formula": {
-                    "formula": "abs(time - %00:00:2,40%)",
+                    "formula": "((laptime+0.0)/100)",
                     "minimum": 0,
-                    "maximum": 500
+                    "maximum": 9999
                 },
                 "laptime": 1,
                 "order": 0,
@@ -76,11 +76,11 @@
             "value": {
                 "best_laptime": 0,
                 "enabled": 2,
-                "laptime": 0,
-                "order_in_cat": 2,
+                "laptime": 2,
+                "order_in_cat": 0,
                 "lap": 2,
-                "order": 2,
-                "points": 0
+                "order": 0,
+                "points": 2
             }
         },
         "permanent": true,

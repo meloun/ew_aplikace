@@ -430,7 +430,7 @@ class myTable():
             try:                                                                
                 html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
                 html_page.save()                             
-                uiAccesories.showMessage(title, "Succesfully ("+filename+")", msgtype = MSGTYPE.statusbar)            
+                uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
             except IOError:            
                 uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")                                           
                                          

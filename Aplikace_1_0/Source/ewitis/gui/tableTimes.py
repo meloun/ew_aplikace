@@ -138,6 +138,7 @@ class TimesModel(myModel):
         tabTime['lap'] = None
         tabTime['order'] = None
         tabTime['order_cat'] = None       
+        tabTime['laptime'] = None       
         tabTime['points'] = None       
         tabTime['points_cat'] = None       
         
@@ -153,7 +154,7 @@ class TimesModel(myModel):
                       
             '''LAPTIME'''     
             #počítá se jen pokud neexistuje
-            if dstore.Get("additional_info")['laptime'] == 0:           
+            if dstore.Get("additional_info")['laptime']:           
                 tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
         
             '''BEST LAPTIME'''
@@ -640,13 +641,15 @@ class Times(myTable):
 
         
     '''
-    export jednoho souboru s výsledky
+    export výsledků: F11 - result times, F10 - all times    
+    - tabRow2exportRow vrací slovník s požadovanými hodnotami
+    - jeden čas = jeden řádek     
     '''
     def ExportToDf(self, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):                
         
         winner = None
         
-        '''get the keys and strings'''
+        '''get keys (and winner)'''
         if category != None:
             #get winner
             if(export_type == self.eRESULT_TIMES):                
@@ -660,92 +663,107 @@ class Times(myTable):
                 winner = self.GetWinner(proxymodelDf)  
             keys = self.GetExportKeys(myModel.eTOTAL)   
             
-        #category check
+        #filter: no starttime
+        proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']
+         
+        #filter: category
         if category != None:
             proxymodelDf = proxymodelDf[proxymodelDf['category'] == category['name']]
+            
+        #filter: group
+        if group != None:            
+            cat_names = tableCategories.getCategoryNamesParGroupLabel(group['label'])
+            proxymodelDf = proxymodelDf[proxymodelDf['category'].isin(cat_names)]                
                            
             
-        '''create export dataframe'''
-        listRows = []#pd.DataFrame(columns = keys) 
-        for index, tabRow in proxymodelDf.iterrows():                                             
+        '''fill the list (with matching rows/dicts)'''
+        listRows = [] 
+        for index, tabRow in proxymodelDf.iterrows():                 
             
-#             #alternative category check
-#             if category != None:                
-#                 if tabRow['category'] != category['name']:                    
-#                     continue
-                 
-            #group check
-            if group != None:                
-                tabCategory = tableCategories.getTabCategoryParName(tabRow['category'])
-                if (tabCategory[group['label']] != 1):
-                    continue
-                            
-            dbTime = self.getDbRow(tabRow['id'])                                   
-            if(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
-                continue
-            
-            #tabRow to exportRow                       
+            #vrací slovník s požadovanými hodnotami                       
             exportRow = self.model.tabRow2exportRow(tabRow, keys)                        
             
-            #add gap    
-            if dstore.GetItem("export", ["gap"]) == 2 and winner!=None:                            
-                if ('lap' in keys) and ('time' in keys):                                                                                                                                    
-                    gap = self.model.order.GetGap(exportRow['lap'], exportRow['time'], winner['lap'], winner['time'])     
-                    exportRow['gap'] = gap             
+            #add gap (according to winner)
+            if (dstore.GetItem("export", ["gap"]) == 2) and (winner != None):                
+                if ('lap' in tabRow) and ('time' in tabRow):                                           
+                    exportRow['gap'] = self.model.order.GetGap(tabRow['lap'], tabRow['time'], winner['lap'], winner['time']) 
+                    if ('gap' in keys) == False:
+                        keys.append('gap')                                
             
+            # no values, take next
             if exportRow == None:
                 continue
             
+            # append to the list                 
+            dbTime = self.getDbRow(tabRow['id'])
             if (export_type == self.eALL_TIMES) or (self.model.order.IsResultTime(dbTime) == True):                                                                   
                 listRows.append(exportRow)
                                   
         if listRows != []:
             print "===="
-            print "return:", type(listRows), listRows
+            if category:
+                print "category: ", category['name']
+            if group:
+                print "group: ", group['label'], group['name']            
             print "===="
-            return pd.DataFrame(listRows, columns = keys) #exportDf
+            
+            #get dataframe (from dicts, keys určují pořadí)
+            return pd.DataFrame(listRows, columns = keys)
                 
-        return pd.DataFrame({}, columns = keys) #exportDf
+        return pd.DataFrame({}, columns = keys)
     
+    '''
+    export časů okruhu (F9)
+    - group by nr
+    - všechny časy na jeden řádek     
+    '''
     def ExportToDf_laps(self, proxymodelDf, category, group):              
                         
-        #no startimes
-        proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']       
+        #filter: no startimes, only with laptime!
+        proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']        
+        proxymodelDf = proxymodelDf[proxymodelDf['laptime'] != '']           
         
-        #category selection
+        #filter: category
         if category != None:
             proxymodelDf = proxymodelDf[proxymodelDf['category'] == category['name']]
             
-        #(dbTime['user_id'] == 0) or (dbTime['cell'] <= 1):
-        '''1. TOTAL'''        
-        #get name
+        #filter: group 
+        if group != None:            
+            cat_names = tableCategories.getCategoryNamesParGroupLabel(group['label'])
+            proxymodelDf = proxymodelDf[proxymodelDf['category'].isin(cat_names)]
+                    
+        '''group by number'''                
         times_groups = proxymodelDf.groupby('nr', sort = False)                                                 
         
-        #group = times_groups.get_group(u'395')
+        '''fill the list (with matching rows/series)'''
         listRows = []
         keys = [u"Číslo", u"Jméno", u"1.Kolo", u"2.Kolo", u"3.Kolo",u"4.Kolo", u"5.Kolo", u"6.Kolo",u"7.Kolo", u"8.Kolo", u"9.Kolo", u"10.Kolo", u"11.Kolo", u"12.Kolo", u"13.Kolo", u"14.Kolo", u"15.Kolo",u"16.Kolo", u"17.Kolo", u"18.Kolo",u"19.Kolo", u"20.Kolo", u"21.Kolo", u"22.Kolo", u"23.Kolo", u"24.Kolo"]
         for k, dfTimes in times_groups:                        
                         
-            #series with times
-            print dstore.Get("export")
-            if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                           
-                sTimes = dfTimes.sort(['laptime']).laptime
-            else:                                      
-                sTimes = dfTimes.sort(['time']).time
+            #series with times            
+            if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                                        
+                sTimes = dfTimes.sort(['timeraw']).laptime
+            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS:                                        
+                sTimes = dfTimes.sort(['timeraw']).points
+            else:                                                       
+                sTimes = dfTimes.sort(['timeraw']).time
         
-            #merge two series
+            #merge two series             
             sLaps = pd.concat([dfTimes[['nr','name']].iloc[0], sTimes]) 
-            sLaps.index = keys[0:len(sLaps)]            
+            sLaps.index = keys[0:len(sLaps)]                        
+            
+            #append new row/series            
             listRows.append(sLaps)                                                                        
                     
         if listRows != []:
             df = pd.DataFrame(listRows, columns = keys)            
-
-            #print "\n\n df:", df
             return df
                 
-        return pd.DataFrame({}, columns = keys) #exportDf                                                                                                         
-        
+        return pd.DataFrame({}, columns = keys)                                                                                                         
+    
+    '''
+    export jednoho souboru s výsledky
+    '''    
     def ExportToCsvFile(self, filename, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):
 
         '''get the keys and strings'''                
@@ -758,7 +776,7 @@ class Times(myTable):
          
         '''create export dataframe'''        
         if (export_type == self.eRESULT_TIMES) or (export_type == self.eALL_TIMES):
-            exportDf = self.ExportToDf(proxymodelDf, category, group, export_type = export_type)            
+            exportDf = self.ExportToDf(proxymodelDf, category, group, export_type = export_type)                  
         elif(export_type == self.eLAP_TIMES):
             exportDf = self.ExportToDf_laps(proxymodelDf, category, group)            
         else:
