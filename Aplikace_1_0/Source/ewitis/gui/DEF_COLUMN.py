@@ -52,9 +52,9 @@ TIMES['table'] =   {
                            "id"         : {"index": 0,  "name": "id",           "name_cz": u"id",               "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":False  },
                            "nr"         : {"index": 1,  "name": "nr",           "name_cz": u"Číslo",            "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":True  },
                            "cell"       : {"index": 2,  "name": "cell",         "name_cz": u"Buňka",            "default": 250,         "width": 35,                     "write":True  },
-                           "status"     : {"index": 3,  "name": "status",       "name_cz": u"Status",           "default": "race",      "width": WIDTH_NUMBER_4DIGIT,    "write":True  },                           
+                           "status"     : {"index": 3,  "name": "status",       "name_cz": u"Status",           "default": "race",      "width": 60,                     "write":True  },                           
                            "time"       : {"index": 4,  "name": "time",         "name_cz": u"Čas",              "default": "",          "width": 80,                     "write":False  },
-                           "name"       : {"index": 5,  "name": "name",         "name_cz": u"Jméno",            "default": "unknow",    "width": 130,                    "write":False  },
+                           "name"       : {"index": 5,  "name": "name",         "name_cz": u"Jméno",            "default": "unknow",    "width": 150,                    "write":False  },
                            "category"   : {"index": 6,  "name": "category",     "name_cz": u"Kategorie",        "default": "unknown",   "width": 100,                    "write":False  },
                            "order"      : {"index": 7,  "name": "order",        "name_cz": u"Pořadí",           "default": "",          "width": 50,                     "write":False  },      
                            "order_cat"  : {"index": 8,  "name": "order_cat",    "name_cz": u"Pořadí",           "default": "",          "width": 50,                     "write":False  },      
@@ -62,10 +62,11 @@ TIMES['table'] =   {
                            "lap"        : {"index": 10, "name": "lap",          "name_cz": u"Okruhy",           "default": "",          "width": 50,                     "write":False  },                                                                          
                            "laptime"    : {"index": 11, "name": "laptime",      "name_cz": u"Čas kola",         "default": "",          "width": 80,                     "write":False  },                                                                          
                            "best_laptime":{"index": 12, "name": "best_laptime", "name_cz": u"Top okruh",        "default": "",          "width": 80,                     "write":False  },                                                                          
-                           "points"     : {"index": 13, "name": "points",       "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                          
-                           "points_cat" : {"index": 14, "name": "points_cat",   "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                                                     
+                           "points1"    : {"index": 13, "name": "points1",      "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                                                                                                                              
+                           "points2"    : {"index": 14, "name": "points2",      "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                                                     
+                           "points3"    : {"index": 15, "name": "points3",      "name_cz": u"Body",             "default": "",          "width": 60,                     "write":False  },                                                                                                     
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"    : {"index": 15, "name": "timeraw",      "name_cz": u"Čas Raw",           "default": 161,         "width": 100,                    "write":True  },                        
+                           "timeraw"    : {"index": 16, "name": "timeraw",      "name_cz": u"Čas Raw",           "default": 161,         "width": 100,                    "write":True  },                        
                         
                         }
 """

@@ -43,7 +43,7 @@ class StarttimeEvaluation:
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
 class ExportLapsFormat:
-    FORMAT_TIMES, FORMAT_LAPTIMES, FORMAT_POINTS = range(0,3) 
+    FORMAT_TIMES, FORMAT_LAPTIMES, FORMAT_POINTS_1, FORMAT_POINTS_2, FORMAT_POINTS_3 = range(0,5) 
 class PointsEvaluation:
     FROM_TABLE, FROM_FORMULA = range(0,2) 
 #class LOGIC_MODES:
@@ -98,7 +98,17 @@ DEF_DATA = {
                                                         "starttime": StarttimeEvaluation.VIA_CATEGORY,
                                                         "laptime":  LaptimeEvaluation.ONLY_FINISHTIME,
                                                         "points":   PointsEvaluation.FROM_TABLE,
-                                                        "points_formula":{                                                                     
+                                                        "points_formula1":{                                                                     
+                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
+                                                                            "minimum"           : 0, 
+                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
+                                                                         },                                                                                                                                                                                                                      
+                                                        "points_formula2":{                                                                     
+                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
+                                                                            "minimum"           : 0, 
+                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
+                                                                         },                                                                                                                                                                                                                      
+                                                        "points_formula3":{                                                                     
                                                                             "formula"           : "abs(time - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
                                                                             "maximum"           : 500                                                                                                                                                                                                                                                                    
@@ -132,11 +142,13 @@ DEF_DATA = {
                                 "permanent": True,
                                 "GET_SET"  : {"value": {"enabled"       : 2,
                                                         "order"         : 2,
-                                                        "order_in_cat"  : 2,
+                                                        "order_cat"     : 2,
                                                         "lap"           : 2,                                               
                                                         "laptime"       : 2,                                               
                                                         "best_laptime"  : 2,                                               
-                                                        "points"        : 2                                               
+                                                        "points1"       : 2,                                               
+                                                        "points2"       : 0,                                               
+                                                        "points3"       : 2                                               
                                                         }
                                               }  
                                },

@@ -17,6 +17,7 @@ from ewitis.gui.tablePoints import tablePoints
 from ewitis.gui.tableCGroups import tableCGroups
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
+from ewitis.gui.TimesLaptimes import cLaptime
 
 
 from ewitis.data.db import db
@@ -29,7 +30,7 @@ from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import ewitis.gui.TimesStartTimes as TimesStarts
-import ewitis.gui.TimesLaptimes as TimesLaptimes
+
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
 
@@ -51,7 +52,7 @@ class TimesModel(myModel):
         
         self.order = TimesUtils.TimesOrder()
         #self.lap = TimesUtils.TimesLap()
-        self.laptime = TimesLaptimes.TimesLaptime()
+        #self.laptime = TimesLaptimes.TimesLaptime()
                                                            
         #update with first run        
         first_run = db.getFirst("runs")
@@ -139,28 +140,30 @@ class TimesModel(myModel):
         tabTime['order'] = None
         tabTime['order_cat'] = None       
         tabTime['laptime'] = None       
-        tabTime['points'] = None       
-        tabTime['points_cat'] = None       
+        tabTime['points1'] = None       
+        tabTime['points2'] = None       
+        tabTime['points3'] = None       
         
         additional_info = dstore.Get("additional_info")
         if  additional_info['enabled']:
         
             '''LAP'''
             aux_lap = None #potřebuji lap pro pořadí
-            if additional_info['lap'] or additional_info['order'] or additional_info['order_in_cat']:                
-                aux_lap = self.laptime.GetLap(dbTime)
+            if additional_info['lap'] or additional_info['order'] or additional_info['order_cat']:                
+                aux_lap = cLaptime.GetNrOfLap(dbTime)
                 if additional_info['lap']:                
                     tabTime['lap'] = aux_lap        
                       
             '''LAPTIME'''     
-            #počítá se jen pokud neexistuje
+            #počítá se jen pokud neexistuje v Update()
             if dstore.Get("additional_info")['laptime']:           
-                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(dbTime['laptime'])
+                #tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
         
             '''BEST LAPTIME'''
             #počítá se vždy                        
             if  additional_info['best_laptime']:                                                                                       
-                tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.GetBest(dbTime))                                           
+                tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(cLaptime.GetBest(dbTime))                                           
         
             '''ORDER'''
             #počítá se vždy  
@@ -169,17 +172,36 @@ class TimesModel(myModel):
                                                         
             '''ORDER IN CATEGORY'''
             #počítá se vždy                                                                       
-            if  additional_info['order_in_cat']:                                                                                       
+            if  additional_info['order_cat']:                                                                                       
                 tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
                                                                                                           
-            '''POINTS'''
+            '''POINTS1'''
             #počítá se vždy
-            if  additional_info['points']:            
+            if  additional_info['points1']:            
+                #try:        
+                tabTime['points1'] = tablePoints.getPoints(tabTime, "points_formula1")                                                    
+                #except:
+                #    print "E: Some points were not succesfully calculated! (points1)"
+                #print "p1:", tabTime['points1'] 
+                    
+            '''POINTS2'''
+            #počítá se vždy
+            if  additional_info['points2']:            
                 try:        
-                    tabTime['points'] = tablePoints.getPoints(tabTime, tablePoints.eTOTAL)        
-                    tabTime['points_cat'] = tablePoints.getPoints(tabTime, tablePoints.eCATEGORY)                        
+                    tabTime['points2'] = tablePoints.getPoints(tabTime, "points_formula2")                                                    
                 except:
-                    print "E: Some points were not succesfully calculated!"
+                    print "E: Some points were not succesfully calculated! (points2)"
+                    
+            '''POINTS3'''
+            #počítá se vždy
+            if  additional_info['points3']:            
+                try:                                                                                
+                    tabTime['points3'] = tablePoints.getPoints(tabTime, "points_formula3")                    
+                except:
+                    print "E: Some points were not succesfully calculated!(points3)"
+            
+                      
+                                            
         return tabTime
                                                                                    
 
@@ -327,7 +349,7 @@ class TimesModel(myModel):
         splňuje závodník podmínky pro "finished"?
             - (počet kol větší než X) nebo (čas větší než Y)
         '''
-        if self.laptime.GetLaps(dbTime) >= dstore.Get('race_info')['limit_laps']:
+        if cLaptime.GetNrOfLap(dbTime, cLaptime.OF_LAST_TIME) >= dstore.Get('race_info')['limit_laps']:
             return True
         return False
         
@@ -336,7 +358,7 @@ class TimesModel(myModel):
         if(dbTime['laptime'] == None):            
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
-            laptime = self.laptime.Get(dbTime)                                            
+            laptime = cLaptime.Calc(dbTime)                                            
              
             if laptime != None:                                                        
                 '''ulozeni do db'''
@@ -450,7 +472,7 @@ class TimesModel(myModel):
             
         #update start times      
         self.starts2.Update(self.run_id)        
-        self.laptime.Update(self.run_id)        
+        cLaptime.Update(self.run_id, self.df())        
                 
         ko_nrs = self.calc_update_times()        
         if(ko_nrs != []):            
@@ -489,7 +511,9 @@ class Times(myTable):
     def  __init__(self):                
         
         #create table instance (slots, etc.)
-        myTable.__init__(self, "Times")                
+        myTable.__init__(self, "Times")     
+        
+         
                 
         #special slots
         #self.slots = Slots.TimesSlots(self)                                       
@@ -502,7 +526,7 @@ class Times(myTable):
                 
         
     def InitGui(self):
-        myTable.InitGui(self)
+        myTable.InitGui(self)        
         self.gui['export_www'] = Ui().TimesWwwExport         
         self.gui['recalculate'] = Ui().TimesRecalculate        
         self.gui['aDirectWwwExport'] = Ui().aDirectWwwExport
@@ -631,12 +655,12 @@ class Times(myTable):
             keys.append("time")                                           
                             
             #body - total, categories, groups
-            if(mode == myModel.eTOTAL) and (dstore.GetItem("export", ["points_race"]) == 2):                                                    
-                keys.append('points')                
-            elif(mode == myModel.eCATEGORY) and (dstore.GetItem("export", ["points_categories"]) == 2):                                                    
-                keys.append('points_cat')                 
-            elif(mode == myModel.eGROUP) and (dstore.GetItem("export", ["points_groups"]) == 2):                                                    
-                keys.append('points')                                                                                                
+            if(dstore.GetItem("export", ["points1"]) == 2):                                                    
+                keys.append('points1')                
+            elif(dstore.GetItem("export", ["points2"]) == 2):                                                    
+                keys.append('points2')                 
+            elif(dstore.GetItem("export", ["points3"]) == 2):                                                    
+                keys.append('points3')                                                                                                
         return keys
 
         
@@ -743,8 +767,12 @@ class Times(myTable):
             #series with times            
             if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                                        
                 sTimes = dfTimes.sort(['timeraw']).laptime
-            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS:                                        
-                sTimes = dfTimes.sort(['timeraw']).points
+            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS_1:                                        
+                sTimes = dfTimes.sort(['timeraw']).points1
+            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS_2:                                        
+                sTimes = dfTimes.sort(['timeraw']).points2
+            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS_3:                                        
+                sTimes = dfTimes.sort(['timeraw']).points3
             else:                                                       
                 sTimes = dfTimes.sort(['timeraw']).time
         
@@ -889,10 +917,12 @@ class Times(myTable):
                                
                     
     #toDo: sloucit s myModel konstruktorem        
-    def Update(self, run_id = None):
+    def Update(self, run_id = None):            
         
+        ai = dstore.Get("additional_info")
+          
         #show additional info, checkbox                      
-        Ui().timesShowAdditionalInfo.setCheckState(dstore.Get("additional_info")['enabled'])
+        Ui().timesShowAdditionalInfo.setCheckState(ai['enabled'])
         
         #update
         ztime = time.clock()
@@ -900,7 +930,13 @@ class Times(myTable):
         print "I: Times: update:",time.clock() - ztime,"s"
         
         #myModel.myTable.Update(self)        
-        self.setColumnWidth()
+        self.setColumnWidth()        
+        
+        #hide columns
+        self.hiddenCollumns = [k for k,v in ai.items() if v==0]        
+        self.updateHideColumns()
+        
+        #update couterns
         self.updateTabCounter()
         self.updateDbCounter()
         return ret

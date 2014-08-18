@@ -85,6 +85,9 @@ class myTable():
         self.proxy_model.setSourceModel(self.model)
            
     def Init(self):              
+                
+        #list of hidden collumns
+        self.hiddenCollumns = []
         
         # init Gui
         self.InitGui()
@@ -476,7 +479,9 @@ class myTable():
             except:
                 pass            
         
-        #update gui counter
+        self.updateHideColumns()
+        
+        #update gui counter        
         self.updateTabCounter()
        
         #
@@ -487,6 +492,14 @@ class myTable():
           
                 
         
+    def updateHideColumns(self):              
+        for key,column in self.TABLE_COLLUMN_DEF.items():  
+            if key in self.hiddenCollumns:
+                self.gui['view'].hideColumn(column['index'])
+            else:
+                self.gui['view'].showColumn(column['index'])
+            
+            
     def updateTabCounter(self):
         if  self.gui['counter'] != None:         
             self.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))

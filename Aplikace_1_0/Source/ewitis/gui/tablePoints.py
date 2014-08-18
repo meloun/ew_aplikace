@@ -7,6 +7,7 @@ from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.TimesUtils as TimesUtils
+from ewitis.gui.TimesLaptimes import cLaptime
 from ewitis.data.DEF_DATA import *
      
              
@@ -26,19 +27,24 @@ class PointsProxyModel(myProxyModel):
 
 # view <- proxymodel <- model 
 class Points(myTable):
-    (eTOTAL, eCATEGORY, eGROUP) = range(0,3)
+    (ePOINTS1, ePOINTS2, ePOINTS3) = range(0,3)
     def  __init__(self):                                                     
         myTable.__init__(self, "Points")
     
-    def evaluate(self, rule, order, timestring, timestring_laptime, minimum = 0, maximum = 9999):
+    def evaluate(self, formula, time):
         points = None
+                
+        rule = formula['formula']
+        minimum = formula['minimum']
+        maximum = formula['maximum']
+
         
         #check if data exist
-        if ("time" in rule) and (timestring == None):
+        if ("time" in rule) and (time['time'] == None):
             return None
-        if ("laptime" in rule) and (timestring_laptime == None):
+        if ("laptime" in rule) and (time['laptime'] == None):
             return None
-
+        
         #rule
         rule = rule.lower()    
         
@@ -52,25 +58,36 @@ class Points(myTable):
             #glue expression again                        
             rule = aux_split[0]+str(ruletime)+aux_split[2]
 
-        #replace keywords with time values                            
-        expression_string = rule.replace("order", str(order))
-        if ("laptime" in rule):
-            expression_string = expression_string.replace("laptime", str(TimesUtils.TimesUtils.timestring2time(timestring_laptime, including_days = False)))
+        #replace keywords with time values
+        expression_string = rule.replace("order_cat", str(time['order_cat']))                            
+        expression_string = expression_string.replace("order", str(time['order']))
+        #if ("laptime" in rule):
+        #    expression_string = expression_string.replace("laptime", str(TimesUtils.TimesUtils.timestring2time(time['laptime'] , including_days = False)))
+        if ("laptime1" in rule):
+            try:
+                print "p:", cLaptime.Get(time, 1)
+                print "a",expression_string
+                expression_string = expression_string.replace("laptime1", cLaptime.Get(time, 1))
+                print "b",expression_string
+            except:
+                return None  
+            print "es: ", expression_string           
         if ("time" in rule):                    
-            expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(timestring, including_days = False)))       
+            expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(time['time'] , including_days = False)))       
                 
         #evaluate
         try:            
             points = eval(expression_string)        
         except (SyntaxError,TypeError,NameError):
-            #print "I: invalid string for evaluation", expression_string
-            return None        
+            print "I: invalid string for evaluation", expression_string
+            points = expression_string
+            #return None        
         
         #restrict               
-        if points < minimum:
-            points = minimum
-        if points > maximum:
-            points = maximum                     
+#        if points < minimum:
+#            points = minimum
+#        if points > maximum:
+#            points = maximum                     
         
         #print "points", points
         return points
@@ -89,29 +106,25 @@ class Points(myTable):
         tabPoint = self.model.db2tableRow(dbPoint)        
         return tabPoint
     
-    def getPoints(self, tabTime, mode):
+    def getPoints(self, tabTime, key = "points_formula1"):
         
-        if(tabTime['cell'] == 1):
+        if(tabTime['cell'] == 1):           
             return None
-        if(tabTime['time'] == None):
+        if(tabTime['time'] == None):            
             return None        
-        if(mode == self.eTOTAL):
-            order = tabTime['order']
-        elif(mode == self.eCATEGORY):
-            order = tabTime['order_cat']
-        elif(mode == self.eGROUP):
-            order = tabTime['order']        
+                       
             
         points_evaluation = dstore.Get("evaluation")["points"]
         tabPoint = {}
         if(points_evaluation == PointsEvaluation.FROM_TABLE):            
             tabPoint = self.getTabPointParOrder(order)
         else:
-            points_formula = dstore.Get("evaluation")["points_formula"]                                                                        
-            tabPoint['points'] = self.evaluate(points_formula['formula'], order, tabTime['time'], tabTime['laptime'], points_formula['minimum'], points_formula['maximum'])                    
+            points_formula = dstore.Get("evaluation")[key]                                                                        
+            #tabPoint['points'] = self.evaluate(points_formula['formula'], order, order_cat, tabTime['time'], tabTime['laptime'], points_formula['minimum'], points_formula['maximum'])                    
+            tabPoint['points'] = self.evaluate(points_formula, tabTime)                    
         
         if isinstance(tabPoint['points'], float):
-            tabPoint['points'] = "{0:.2f}".format(tabPoint['points'])
+            tabPoint['points'] = "{0:.2f}".format(tabPoint['points'])         
         return tabPoint['points']       
                         
 

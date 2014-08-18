@@ -19,34 +19,75 @@ class TimesLaptime():
         - Get() - laptime, tzn. čas kola
         - GetBest() - nejlepší čas kola
     '''
-    
+    OF_THIS_TIME, OF_LAST_TIME= range(0,2)
     def __init__(self):                          
         pass
     
-    def Get(self, dbTime):
-        '''
-        vyhledá přechozí čas a spočítá laptime
-        '''
-#        if  dstore.Get("additional_info")['enabled'] == 0:
-#            return None 
-#        
-#        if dstore.Get("additional_info")['laptime'] == 0:
-#            return None                                       
-        
-        if(dbTime['time_raw'] == None):
-            #print "laptime: neni time_raw", dbTime
+    def Get(self, tabTime, nr):
+        if(tabTime['time_raw'] == None):
+            print "1a"            
             return None
 
-        if(dbTime['cell'] == 1):
-            #print "laptime: spatna cell", dbTime
+        if(tabTime['cell'] == 1):  
+            print "1b"          
             return None
                     
-        if(dbTime['time_raw'] == 0):
-            #print "laptime: zero time_raw", dbTime
+        if(tabTime['time_raw'] == 0):
+            print "1c"            
             return None
         
-        if(dbTime['user_id'] == 0):
-            #print "laptime: neni user", dbTime
+        if(tabTime['user_id'] == 0):
+            print "1d"            
+            return None
+        
+        #laptime evaluation: only finishtime AND thistime is not finishtime
+        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (tabTime['cell'] != 250):
+            print "2"
+            return None 
+               
+        if tabTime['lap'] < nr:
+            print "3"
+            return None
+        
+        ''' count of times - same race, same user, better time '''  
+        #print "XX",tabTime['nr']
+        if self.tabGroups.groups == {}:        
+            return None         
+        #print self.tabGroups.groups 
+        laptimes = self.tabGroups.get_group(u'3').sort(['timeraw'])
+        laptimes = laptimes[laptimes.lap == str(nr)]               
+        try:
+            laptime = laptimes[laptimes.lap == str(nr)].iloc[-1]['laptime']                          
+        except IndexError:
+            print tabTime['id'],":IndexError:", laptimes
+            laptime = None
+            
+        if laptime != None:
+            try:
+                laptime = int(laptime)
+            except:
+                pass
+        
+        print tabTime['id'],":", laptime                       
+        return laptime # int or none  
+        
+        
+        
+                
+    def Calc(self, dbTime):
+        '''
+        vyhledá přechozí čas a spočítá laptime
+        '''        
+        if(dbTime['time_raw'] == None):            
+            return None
+
+        if(dbTime['cell'] == 1):            
+            return None
+                    
+        if(dbTime['time_raw'] == 0):            
+            return None
+        
+        if(dbTime['user_id'] == 0):            
             return None
         
         #laptime evaluation: only finishtime AND thistime is not finishtime
@@ -56,11 +97,9 @@ class TimesLaptime():
         if(dbTime['laptime']) != None:
             return dbTime['laptime']                
         
-        #  '''count of times - same race, same user, better time, exclude start time'''        
+        ''' count of times - same race, same user, better time '''        
         laptimes = self.groups.get_group(dbTime['user_id']).sort(['time_raw'])
-        try:    
-            #laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]                                                      
-            #laptime_time = laptimes.iloc[-1]['time_raw']            
+        try:
             laptime_time = laptimes[laptimes.time_raw < dbTime['time_raw']].iloc[-1]['time_raw']
             laptime = dbTime['time_raw'] - laptime_time                               
         except IndexError:            
@@ -68,21 +107,13 @@ class TimesLaptime():
             
         if laptime != None:
             laptime = int(laptime)
-
-        #return laptime (int or none)                       
-        return laptime    
+                               
+        return laptime # int or none    
         
     def GetBest(self, dbTime):
         '''
         vyhledá přechozí čas a spočítá laptime
-        '''
-        
-#        if dstore.Get("additional_info")['enabled'] == 0:
-#            return None
-#        
-#        if dstore.Get("additional_info")['best_laptime'] == 0:
-#            return None              
-                               
+        '''                                             
         if(dbTime['time_raw'] == None):            
             return None;
 
@@ -108,62 +139,29 @@ class TimesLaptime():
             
         #return laptime (int or none)                    
         return laptime
-    '''
-    počty kol
-        - Get(dbTime) - kolikáté kolo daného závodníka je tento čas
-        - GetLaps() - počet kol daného závodníka
-    '''
-    def GetLap(self, dbTime, ):
-        '''
-        vyhledá přechozí čas a spočítá laptime
-        '''
-#        if  dstore.Get("additional_info")['enabled'] == 0:
-#            return None         
-#        if dstore.Get("additional_info")['lap'] == 0:
-#            return None                                               
-        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):            
-            return None
-        if(dbTime['cell'] == 1):            
-            return None                            
-        if(dbTime['user_id'] == 0):          
-            return None
-               
-        '''count of times - same race, same user, better time, exclude start time'''        
-        try:
-            lap_count = None      
-            laptimes = self.groups.get_group(dbTime['user_id'])
-            laptimes = laptimes[laptimes.time_raw < dbTime['time_raw']]
-            if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME):        
-                laptimes = laptimes[laptimes.cell == 250]
-            else:
-                laptimes = laptimes[laptimes.cell != 1]                                        
-            lap_count = len(laptimes.index)+1
-        except KeyError: #nenalezen spravny cas 
-            lap_count = None            
-
-        #return laptime (int or none)                       
-        return lap_count
         
-    def GetLaps(self, dbTime):
+    def GetNrOfLap(self, dbTime, mode = OF_THIS_TIME):
         '''
-        celkový počet kol daného závodníka
+        číslo kola
         '''
-
+        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):
+            return None
         if(dbTime['cell'] == 1):            
             return None                            
         if(dbTime['user_id'] == 0):          
             return None
+        #laptime evaluation: only finishtime AND thistime is not finishtime
+        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):
+            return None 
                
         '''count of times - same race, same user, better time, exclude start time'''
         #lap_count = None        
         try:
-            laptimes = self.groups.get_group(dbTime['user_id'])            
-            if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME):        
-                laptimes = laptimes[laptimes.cell == 250]
-            else:
-                laptimes = laptimes[laptimes.cell != 1]
-            lap_count = len(laptimes.index)                                        
-        except: #nenalezen spravny cas             
+            laptimes = self.groups.get_group(dbTime['user_id'])
+            if mode == self.OF_THIS_TIME:
+                laptimes = laptimes[laptimes.time_raw <= dbTime['time_raw']]                                                    
+            lap_count = len(laptimes.index)
+        except KeyError: #nenalezen spravny cas             
             lap_count = None            
                 
         return lap_count # int or none    
@@ -171,20 +169,27 @@ class TimesLaptime():
     
 
     
-    def Update(self, run_id):
+    def Update(self, run_id, tabDf):
         '''
         najde všechny časy potřebné pro laptime a uloží
         '''
+        
+        #
+        self.tabDf = tabDf
+        self.tabGroups =  self.tabDf.groupby("nr")
+        #print "tabDf", self.tabDf
+        
+        
         query = " SELECT * FROM times"+\
-                " WHERE (times.run_id = "+ str(run_id) +")"
+                " WHERE (times.run_id = "+ str(run_id) +")"+\
+                " AND (times.cell != 1)"
         
         #0:only finishtime, 1:all times
-        if(dstore.Get("evaluation")['laptime']) == 0:
+        if(dstore.Get("evaluation")['laptime']) == LaptimeEvaluation.ONLY_FINISHTIME:            
             query = query + " AND (times.cell == 250 )"        
             
             
         query = query + \
-            " AND (times.run_id = "+ str(run_id) +")"+\
             " ORDER BY times.time ASC"                                  
         
         #get dataframe
@@ -192,5 +197,8 @@ class TimesLaptime():
         
         #assign to global variables
         #self.df = df        
-        self.groups = df.groupby("user_id")        
+        self.groups = df.groupby("user_id")
+        
+        
+cLaptime = TimesLaptime()                 
     
