@@ -31,7 +31,7 @@ class Points(myTable):
     def  __init__(self):                                                     
         myTable.__init__(self, "Points")
     
-    def evaluate(self, formula, time):
+    def evaluate(self, formula, tabTime, dbTime):
         points = None
                 
         rule = formula['formula']
@@ -40,9 +40,9 @@ class Points(myTable):
 
         
         #check if data exist
-        if ("time" in rule) and (time['time'] == None):
+        if ("time" in rule) and (dbTime['time'] == None):
             return None
-        if ("laptime" in rule) and (time['laptime'] == None):
+        if ("laptime" in rule) and (dbTime['laptime'] == None):
             return None
         
         #rule
@@ -59,21 +59,21 @@ class Points(myTable):
             rule = aux_split[0]+str(ruletime)+aux_split[2]
 
         #replace keywords with time values
-        expression_string = rule.replace("order_cat", str(time['order_cat']))                            
-        expression_string = expression_string.replace("order", str(time['order']))
-        #if ("laptime" in rule):
-        #    expression_string = expression_string.replace("laptime", str(TimesUtils.TimesUtils.timestring2time(time['laptime'] , including_days = False)))
-        if ("laptime1" in rule):
-            try:
-                print "p:", cLaptime.Get(time, 1)
-                print "a",expression_string
-                expression_string = expression_string.replace("laptime1", cLaptime.Get(time, 1))
-                print "b",expression_string
-            except:
-                return None  
-            print "es: ", expression_string           
+        expression_string = rule.replace("order_cat", str(tabTime['order_cat']))                            
+        expression_string = expression_string.replace("order", str(tabTime['order']))
+
+        #laptime1, laptime2, .., laptime24
+        for i in range(1,24):
+            laptimeX = "laptime"+str(i)
+            if (laptimeX in rule):
+                try:                                                
+                    expression_string = expression_string.replace(laptimeX, str(cLaptime.Get(dbTime, i)))                
+                except TypeError:                
+                    return None                           
+        if ("laptime" in rule):
+            expression_string = expression_string.replace("laptime", str(dbTime['laptime']))          
         if ("time" in rule):                    
-            expression_string = expression_string.replace("time", str(TimesUtils.TimesUtils.timestring2time(time['time'] , including_days = False)))       
+            expression_string = expression_string.replace("time", str(dbTime['time']))       
                 
         #evaluate
         try:            
@@ -106,22 +106,23 @@ class Points(myTable):
         tabPoint = self.model.db2tableRow(dbPoint)        
         return tabPoint
     
-    def getPoints(self, tabTime, key = "points_formula1"):
+    def getPoints(self, tabTime, dbTime, key = "points_formula1"):
         
-        if(tabTime['cell'] == 1):           
+        if(tabTime['cell'] == 1):
+            print "E1"           
             return None
         if(tabTime['time'] == None):            
+            print "E2"           
             return None        
                        
             
         points_evaluation = dstore.Get("evaluation")["points"]
         tabPoint = {}
-        if(points_evaluation == PointsEvaluation.FROM_TABLE):            
+        if(points_evaluation == PointsEvaluation.FROM_TABLE):                                  
             tabPoint = self.getTabPointParOrder(order)
-        else:
+        else:                      
             points_formula = dstore.Get("evaluation")[key]                                                                        
-            #tabPoint['points'] = self.evaluate(points_formula['formula'], order, order_cat, tabTime['time'], tabTime['laptime'], points_formula['minimum'], points_formula['maximum'])                    
-            tabPoint['points'] = self.evaluate(points_formula, tabTime)                    
+            tabPoint['points'] = self.evaluate(points_formula, tabTime, dbTime)                                                    
         
         if isinstance(tabPoint['points'], float):
             tabPoint['points'] = "{0:.2f}".format(tabPoint['points'])         

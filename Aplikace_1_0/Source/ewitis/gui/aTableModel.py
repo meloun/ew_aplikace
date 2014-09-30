@@ -76,8 +76,7 @@ class myAbstractModel():
         """
         vrací tabulku(hodnoty buněk) jako dataframe
         """
-        df = pd.DataFrame(columns = self.header())  
-        print "CC"      
+        df = pd.DataFrame(columns = self.header())        
         for i in range(self.rowCount()):
             df.loc[i] = self.row(i)
         return df

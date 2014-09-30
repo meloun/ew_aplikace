@@ -16,83 +16,62 @@ import numpy as np
 
 class TimesLaptime():
     '''
-        - Get() - laptime, tzn. čas kola
-        - GetBest() - nejlepší čas kola
+        - Get(self, dbTime, nr) - laptime, tzn. čas kola
+        - Calc(self, dbTime)
+        - GetBest(self, dbTime) - nejlepší čas kola
+        - GetNrOfLap(self, dbTime, mode = OF_THIS_TIME) - číslo daného kola (nebo všech)        
     '''
     OF_THIS_TIME, OF_LAST_TIME= range(0,2)
     def __init__(self):                          
         pass
     
-    def Get(self, tabTime, nr):
-        if(tabTime['time_raw'] == None):
-            print "1a"            
-            return None
+    def IsValid(self, dbTime):
+                
+        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
+            return False
 
-        if(tabTime['cell'] == 1):  
-            print "1b"          
-            return None
-                    
-        if(tabTime['time_raw'] == 0):
-            print "1c"            
-            return None
+        if(dbTime['cell'] == 1):       
+            return False                    
         
-        if(tabTime['user_id'] == 0):
-            print "1d"            
-            return None
+        if(dbTime['user_id'] == 0):                        
+            return False
         
         #laptime evaluation: only finishtime AND thistime is not finishtime
-        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (tabTime['cell'] != 250):
-            print "2"
+        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):            
+            return False
+        
+        #everything ok
+        return True
+    
+    def Get(self, dbTime, nr):
+        '''
+        vyhledá daný laptime (vyhodnocení bodů, laptime1, ..)
+        '''
+        
+        if(self.IsValid(dbTime) == False):
             return None 
                
-        if tabTime['lap'] < nr:
-            print "3"
+        if dbTime['lap'] < nr:            
             return None
         
-        ''' count of times - same race, same user, better time '''  
-        #print "XX",tabTime['nr']
-        if self.tabGroups.groups == {}:        
-            return None         
-        #print self.tabGroups.groups 
-        laptimes = self.tabGroups.get_group(u'3').sort(['timeraw'])
-        laptimes = laptimes[laptimes.lap == str(nr)]               
+        ''' count of times - same race, same user, better time '''     
+        laptimes = self.groups.get_group(dbTime['user_id']).sort(['time_raw'])                                    
         try:
-            laptime = laptimes[laptimes.lap == str(nr)].iloc[-1]['laptime']                          
-        except IndexError:
-            print tabTime['id'],":IndexError:", laptimes
-            laptime = None
-            
-        if laptime != None:
-            try:
-                laptime = int(laptime)
-            except:
-                pass
+            laptime = laptimes[laptimes.lap == nr].iloc[-1]['laptime']                          
+            laptime = int(laptime)
+        except:            
+            laptime = None            
         
-        print tabTime['id'],":", laptime                       
-        return laptime # int or none  
-        
-        
-        
+        #print dbTime['id'],":", laptime, type(laptime)                       
+        return laptime # int or none                        
                 
     def Calc(self, dbTime):
         '''
         vyhledá přechozí čas a spočítá laptime
-        '''        
-        if(dbTime['time_raw'] == None):            
-            return None
-
-        if(dbTime['cell'] == 1):            
-            return None
-                    
-        if(dbTime['time_raw'] == 0):            
-            return None
-        
-        if(dbTime['user_id'] == 0):            
-            return None
-        
-        #laptime evaluation: only finishtime AND thistime is not finishtime
-        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):
-            return None 
+        '''
+                
+        if(self.IsValid(dbTime) == False):
+            return None  
         
         if(dbTime['laptime']) != None:
             return dbTime['laptime']                
@@ -114,20 +93,7 @@ class TimesLaptime():
         '''
         vyhledá přechozí čas a spočítá laptime
         '''                                             
-        if(dbTime['time_raw'] == None):            
-            return None;
-
-        if(dbTime['cell'] == 1):            
-            return None
-                    
-        if(dbTime['time_raw'] == 0):            
-            return None
-        
-        if(dbTime['user_id'] == 0):            
-            return None
-        
-        #laptime evaluation: only finishtime AND thistime is not finishtime
-        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):
+        if(self.IsValid(dbTime) == False):
             return None
         
         '''count of times - same race, same user, better time, exclude start time'''
@@ -144,18 +110,11 @@ class TimesLaptime():
         '''
         číslo kola
         '''
-        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):
-            return None
-        if(dbTime['cell'] == 1):            
-            return None                            
-        if(dbTime['user_id'] == 0):          
-            return None
-        #laptime evaluation: only finishtime AND thistime is not finishtime
-        if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ONLY_FINISHTIME) and (dbTime['cell'] != 250):
+        
+        if(self.IsValid(dbTime) == False):
             return None 
                
-        '''count of times - same race, same user, better time, exclude start time'''
-        #lap_count = None        
+        '''count of times - same race, same user, better time, exclude start time'''               
         try:
             laptimes = self.groups.get_group(dbTime['user_id'])
             if mode == self.OF_THIS_TIME:
@@ -172,19 +131,13 @@ class TimesLaptime():
     def Update(self, run_id, tabDf):
         '''
         najde všechny časy potřebné pro laptime a uloží
-        '''
-        
-        #
-        self.tabDf = tabDf
-        self.tabGroups =  self.tabDf.groupby("nr")
-        #print "tabDf", self.tabDf
-        
+        '''                        
         
         query = " SELECT * FROM times"+\
                 " WHERE (times.run_id = "+ str(run_id) +")"+\
                 " AND (times.cell != 1)"
         
-        #0:only finishtime, 1:all times
+        #0:only finishtime, 2:all times
         if(dstore.Get("evaluation")['laptime']) == LaptimeEvaluation.ONLY_FINISHTIME:            
             query = query + " AND (times.cell == 250 )"        
             

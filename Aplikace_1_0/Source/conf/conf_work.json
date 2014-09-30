@@ -16,14 +16,14 @@
     },
     "rfid": {
         "GET_SET": {
-            "value": 0
+            "value": 2
         },
         "permanent": true,
         "name": "rfid"
     },
     "tag_filter": {
         "GET_SET": {
-            "value": 2
+            "value": 0
         },
         "permanent": true
     },
@@ -40,9 +40,9 @@
                 "sex": 0,
                 "option_4_name": "o4",
                 "gap": 0,
-                "laptime": 0,
+                "laptime": 2,
                 "option_1_name": "o1",
-                "year": 0,
+                "year": 2,
                 "option_2": 0,
                 "option_3": 0,
                 "option_1": 0,
@@ -59,7 +59,7 @@
         "GET_SET": {
             "value": {
                 "points_formula1": {
-                    "formula": "laptime1",
+                    "formula": "laptime-laptime1",
                     "minimum": 0,
                     "maximum": 9999
                 },
@@ -74,7 +74,7 @@
                     "maximum": 500
                 },
                 "laptime": 0,
-                "starttime": 1,
+                "starttime": 0,
                 "order": 0,
                 "points": 1
             }
@@ -86,9 +86,9 @@
             "value": {
                 "best_laptime": 2,
                 "order_cat": 2,
-                "points1": 2,
-                "points2": 2,
-                "points3": 2,
+                "points1": 0,
+                "points2": 0,
+                "points3": 0,
                 "enabled": 2,
                 "laptime": 2,
                 "lap": 2,

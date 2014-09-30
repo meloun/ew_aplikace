@@ -233,6 +233,7 @@ class TabRaceSettings():
         Ui().checkExportSex.setCheckState(dstore.Get("export")["sex"])                                
         Ui().checkExportClub.setCheckState(dstore.Get("export")["club"])                                
         Ui().checkExportLaps.setCheckState(dstore.Get("export")["laps"])                                
+        Ui().checkExportLaptime.setCheckState(dstore.Get("export")["laptime"])
         Ui().checkExportBestLaptime.setCheckState(dstore.Get("export")["best_laptime"])
         #export - options
         if(dstore.IsChanged("export") or (self.init == False)):

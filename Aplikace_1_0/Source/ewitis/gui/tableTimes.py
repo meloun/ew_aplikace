@@ -150,15 +150,14 @@ class TimesModel(myModel):
             '''LAP'''
             aux_lap = None #potřebuji lap pro pořadí
             if additional_info['lap'] or additional_info['order'] or additional_info['order_cat']:                
-                aux_lap = cLaptime.GetNrOfLap(dbTime)
+                aux_lap = dbTime['lap']
                 if additional_info['lap']:                
                     tabTime['lap'] = aux_lap        
                       
             '''LAPTIME'''     
             #počítá se jen pokud neexistuje v Update()
             if dstore.Get("additional_info")['laptime']:           
-                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(dbTime['laptime'])
-                #tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(self.laptime.Get(dbTime))
+                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(dbTime['laptime'])                
         
             '''BEST LAPTIME'''
             #počítá se vždy                        
@@ -176,10 +175,10 @@ class TimesModel(myModel):
                 tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
                                                                                                           
             '''POINTS1'''
-            #počítá se vždy
+            #počítá se vždy            
             if  additional_info['points1']:            
                 #try:        
-                tabTime['points1'] = tablePoints.getPoints(tabTime, "points_formula1")                                                    
+                tabTime['points1'] = tablePoints.getPoints(tabTime, dbTime, "points_formula1")                                                    
                 #except:
                 #    print "E: Some points were not succesfully calculated! (points1)"
                 #print "p1:", tabTime['points1'] 
@@ -188,7 +187,7 @@ class TimesModel(myModel):
             #počítá se vždy
             if  additional_info['points2']:            
                 try:        
-                    tabTime['points2'] = tablePoints.getPoints(tabTime, "points_formula2")                                                    
+                    tabTime['points2'] = tablePoints.getPoints(tabTime, dbTime, "points_formula2")                                                    
                 except:
                     print "E: Some points were not succesfully calculated! (points2)"
                     
@@ -196,7 +195,7 @@ class TimesModel(myModel):
             #počítá se vždy
             if  additional_info['points3']:            
                 try:                                                                                
-                    tabTime['points3'] = tablePoints.getPoints(tabTime, "points_formula3")                    
+                    tabTime['points3'] = tablePoints.getPoints(tabTime, dbTime, "points_formula3")                    
                 except:
                     print "E: Some points were not succesfully calculated!(points3)"
             
@@ -353,12 +352,49 @@ class TimesModel(myModel):
             return True
         return False
         
+        
+    def update_nr_of_lap(self, dbTime):
+        
+        if(dbTime['lap'] == None):            
+                                    
+            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
+            nr_of_lap = cLaptime.GetNrOfLap(dbTime, mode = cLaptime.OF_THIS_TIME)                                                                    
+             
+            if nr_of_lap != None:                                                        
+                '''ulozeni do db'''
+                #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
+                dbTime['lap'] = nr_of_lap                                                       
+                db.update_from_dict(self.table.name, dbTime) #commit v update()
+    def update_nr_of_laps(self):
+        """
+        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
+        
+        *Ret:*
+            pole čísel závodníků u kterých se nepodařilo časy updatovat   
+        """
+        ret_ko_times = []
+        
+        dbTimes = db.getAll(self.table.name)
+        dbTimes = db.cursor2dicts(dbTimes)
+        
+        for dbTime in dbTimes:
+            
+            '''time'''
+            if(dbTime['lap'] == None):                                                                        
+                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
+                
+                try:                                    
+                    self.update_nr_of_lap(dbTime)
+                except:                    
+                    ret_ko_times.append(dbTime['id'])
+                           
+        return ret_ko_times
     def update_laptime(self, dbTime):
         
         if(dbTime['laptime'] == None):            
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
-            laptime = cLaptime.Calc(dbTime)                                            
+            laptime = cLaptime.Calc(dbTime)                                                                    
              
             if laptime != None:                                                        
                 '''ulozeni do db'''
@@ -484,6 +520,11 @@ class TimesModel(myModel):
             uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
             ret = False
             
+        ko_nrs = self.update_nr_of_laps()        
+        if(ko_nrs != []):
+            uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
+            ret = False
+            
         db.commit()
                           
         myModel.Update(self, "run_id", self.run_id)
@@ -586,7 +627,7 @@ class Times(myTable):
     def ResetCalculatedValues(self, timeid):
         query = \
                 " UPDATE times" +\
-                    " SET time = Null, laptime = Null" +\
+                    " SET time = Null, laptime = Null, lap = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
         res = db.query(query)                        
         db.commit()        
@@ -599,7 +640,7 @@ class Times(myTable):
         print "A: Times: Recalculating.. run id:", run_id
         query = \
                 " UPDATE times" +\
-                    " SET time = Null, laptime = Null" +\
+                    " SET time = Null, laptime = Null, lap = Null" +\
                     " WHERE (times.run_id = \""+str(run_id)+"\")"
                         
         res = db.query(query)
