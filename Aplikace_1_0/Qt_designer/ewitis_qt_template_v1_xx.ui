@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1203</width>
+    <width>1243</width>
     <height>760</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="tabRuns_Times">
        <attribute name="title">
@@ -2303,7 +2303,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>340</width>
+            <width>320</width>
             <height>0</height>
            </size>
           </property>
@@ -2316,7 +2316,7 @@
           <widget class="QComboBox" name="comboTimingMode">
            <property name="geometry">
             <rect>
-             <x>220</x>
+             <x>210</x>
              <y>35</y>
              <width>101</width>
              <height>20</height>
@@ -2425,7 +2425,7 @@
           <widget class="QLabel" name="label_13">
            <property name="geometry">
             <rect>
-             <x>40</x>
+             <x>30</x>
              <y>150</y>
              <width>91</width>
              <height>16</height>
@@ -2487,7 +2487,7 @@
           <widget class="QLabel" name="label_14">
            <property name="geometry">
             <rect>
-             <x>40</x>
+             <x>30</x>
              <y>180</y>
              <width>91</width>
              <height>16</height>
@@ -2505,9 +2505,9 @@
           <widget class="QLabel" name="label_15">
            <property name="geometry">
             <rect>
-             <x>40</x>
+             <x>30</x>
              <y>210</y>
-             <width>121</width>
+             <width>131</width>
              <height>16</height>
             </rect>
            </property>
@@ -2517,7 +2517,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Max. Number of laps:</string>
+            <string>Max. Nr of laps:</string>
            </property>
           </widget>
           <widget class="QLineEdit" name="lineMaxlapnumber">
@@ -2584,7 +2584,7 @@
             <rect>
              <x>60</x>
              <y>270</y>
-             <width>171</width>
+             <width>191</width>
              <height>21</height>
             </rect>
            </property>
@@ -2661,7 +2661,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>300</width>
+            <width>350</width>
             <height>0</height>
            </size>
           </property>
@@ -2678,8 +2678,8 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>100</y>
-             <width>70</width>
+             <y>90</y>
+             <width>111</width>
              <height>17</height>
             </rect>
            </property>
@@ -2727,7 +2727,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>600</y>
+             <y>480</y>
              <width>201</width>
              <height>17</height>
             </rect>
@@ -2743,8 +2743,8 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>120</y>
-             <width>70</width>
+             <y>110</y>
+             <width>111</width>
              <height>17</height>
             </rect>
            </property>
@@ -2762,7 +2762,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>210</y>
+             <y>200</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2785,7 +2785,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>180</y>
+             <y>170</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2808,7 +2808,7 @@
            <property name="geometry">
             <rect>
              <x>50</x>
-             <y>210</y>
+             <y>200</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -2826,7 +2826,7 @@
            <property name="geometry">
             <rect>
              <x>50</x>
-             <y>180</y>
+             <y>170</y>
              <width>51</width>
              <height>16</height>
             </rect>
@@ -2844,7 +2844,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>80</y>
+             <y>70</y>
              <width>231</width>
              <height>17</height>
             </rect>
@@ -2860,14 +2860,14 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>160</y>
-             <width>101</width>
+             <y>150</y>
+             <width>131</width>
              <height>16</height>
             </rect>
            </property>
            <property name="font">
             <font>
-             <pointsize>11</pointsize>
+             <pointsize>10</pointsize>
              <weight>50</weight>
              <bold>false</bold>
             </font>
@@ -2879,9 +2879,9 @@
           <widget class="QGroupBox" name="groupBox_6">
            <property name="geometry">
             <rect>
-             <x>50</x>
-             <y>250</y>
-             <width>241</width>
+             <x>40</x>
+             <y>230</y>
+             <width>281</width>
              <height>80</height>
             </rect>
            </property>
@@ -2924,35 +2924,40 @@
           <widget class="QGroupBox" name="groupBox_15">
            <property name="geometry">
             <rect>
-             <x>50</x>
-             <y>340</y>
-             <width>241</width>
-             <height>131</height>
+             <x>40</x>
+             <y>320</y>
+             <width>301</width>
+             <height>151</height>
             </rect>
            </property>
            <property name="title">
             <string>Points</string>
            </property>
-           <widget class="QSpinBox" name="spinPointsMaximum">
+           <widget class="QSpinBox" name="spinPointsMaximum_1">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="geometry">
              <rect>
-              <x>160</x>
-              <y>100</y>
-              <width>70</width>
-              <height>22</height>
+              <x>240</x>
+              <y>60</y>
+              <width>41</width>
+              <height>21</height>
              </rect>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
             <property name="minimum">
-             <number>-9999</number>
+             <number>-99999</number>
             </property>
             <property name="maximum">
-             <number>9999</number>
+             <number>99999</number>
             </property>
             <property name="value">
-             <number>9999</number>
+             <number>99999</number>
             </property>
            </widget>
            <widget class="QLabel" name="label_84">
@@ -2961,22 +2966,22 @@
             </property>
             <property name="geometry">
              <rect>
-              <x>60</x>
-              <y>100</y>
-              <width>61</width>
+              <x>240</x>
+              <y>40</y>
+              <width>51</width>
               <height>20</height>
              </rect>
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <pointsize>7</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
-             <string>Maximum :</string>
+             <string>Max</string>
             </property>
            </widget>
            <widget class="QRadioButton" name="radioPointsFromTable">
@@ -3001,35 +3006,40 @@
             </property>
             <property name="geometry">
              <rect>
-              <x>60</x>
-              <y>80</y>
-              <width>61</width>
+              <x>180</x>
+              <y>40</y>
+              <width>41</width>
               <height>20</height>
              </rect>
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <pointsize>7</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
-             <string>Minimum :</string>
+             <string>Min</string>
             </property>
            </widget>
-           <widget class="QSpinBox" name="spinPointsMinimum">
+           <widget class="QSpinBox" name="spinPointsMinimum_1">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="geometry">
              <rect>
-              <x>160</x>
-              <y>80</y>
-              <width>70</width>
-              <height>22</height>
+              <x>180</x>
+              <y>60</y>
+              <width>51</width>
+              <height>21</height>
              </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
             </property>
             <property name="minimum">
              <number>-9999</number>
@@ -3041,16 +3051,16 @@
              <number>0</number>
             </property>
            </widget>
-           <widget class="QLineEdit" name="linePointsRule">
+           <widget class="QLineEdit" name="linePointsRule_1">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="geometry">
              <rect>
-              <x>60</x>
+              <x>20</x>
               <y>60</y>
-              <width>171</width>
-              <height>16</height>
+              <width>151</width>
+              <height>21</height>
              </rect>
             </property>
             <property name="font">
@@ -3082,35 +3092,198 @@
              <rect>
               <x>20</x>
               <y>40</y>
-              <width>231</width>
+              <width>161</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>For Formula</string>
+             <string>From Formula</string>
             </property>
             <property name="checked">
              <bool>false</bool>
             </property>
            </widget>
+           <widget class="QSpinBox" name="spinPointsMinimum_2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>90</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="minimum">
+             <number>-9999</number>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="spinPointsMaximum_2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>240</x>
+              <y>90</y>
+              <width>41</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="minimum">
+             <number>-99999</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+            <property name="value">
+             <number>99999</number>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="linePointsRule_2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>90</y>
+              <width>151</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>21 - order</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="spinPointsMinimum_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>120</y>
+              <width>51</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="minimum">
+             <number>-9999</number>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="spinPointsMaximum_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>240</x>
+              <y>120</y>
+              <width>41</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="minimum">
+             <number>-99999</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+            <property name="value">
+             <number>99999</number>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="linePointsRule_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>120</y>
+              <width>151</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>21 - order</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
           </widget>
-          <zorder>checkRfidRace</zorder>
-          <zorder>lineRaceName</zorder>
-          <zorder>checkDownloadFromLast</zorder>
-          <zorder>checkTagFilter</zorder>
-          <zorder>comboStarttimeEvaluation</zorder>
-          <zorder>comboOrderEvaluation</zorder>
-          <zorder>label_90</zorder>
-          <zorder>label_23</zorder>
-          <zorder>checkRemoteRace</zorder>
-          <zorder>label_25</zorder>
-          <zorder>spinPointsMaximum_2</zorder>
-          <zorder>label_193</zorder>
-          <zorder>linePointsRule_2</zorder>
-          <zorder>spinPointsMinimum_2</zorder>
-          <zorder>label_192</zorder>
-          <zorder>groupBox_6</zorder>
-          <zorder>groupBox_15</zorder>
          </widget>
         </item>
         <item>
@@ -3297,17 +3470,54 @@
             <bool>false</bool>
            </property>
           </widget>
-          <zorder>checkAInfoEnabled</zorder>
-          <zorder>checkAInfoOrder</zorder>
-          <zorder>checkAInfoOrderInCategory</zorder>
-          <zorder>checkAInfoLaps</zorder>
-          <zorder>checkAInfoLaptime</zorder>
-          <zorder>label_17</zorder>
-          <zorder>label_20</zorder>
-          <zorder>spinTimesViewLimit</zorder>
-          <zorder>checkAInfoBestLaptime</zorder>
-          <zorder>checkShowOnlyTimesWithOrder</zorder>
-          <zorder>groupTerminal_5</zorder>
+          <widget class="QCheckBox" name="checkAInfoPoints_1">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>220</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Points 1</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkAInfoPoints_2">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>240</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Points 2</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkAInfoPoints_3">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>260</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Points  3</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
         </item>
         <item>
@@ -3674,7 +3884,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>450</y>
+             <y>480</y>
              <width>221</width>
              <height>17</height>
             </rect>
@@ -3684,58 +3894,6 @@
            </property>
            <property name="checked">
             <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QSpinBox" name="spinGrouplapsBy">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>420</y>
-             <width>61</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="maximum">
-            <number>255</number>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_57">
-           <property name="geometry">
-            <rect>
-             <x>80</x>
-             <y>420</y>
-             <width>111</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="text">
-            <string>Group laptimes by :</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_30">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>400</y>
-             <width>101</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Export Laptimes</string>
            </property>
           </widget>
           <widget class="QCheckBox" name="checkExportSex">
@@ -3753,6 +3911,133 @@
            <property name="checked">
             <bool>true</bool>
            </property>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_16">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>310</y>
+             <width>241</width>
+             <height>161</height>
+            </rect>
+           </property>
+           <property name="title">
+            <string>Export Laps Format (F9)</string>
+           </property>
+           <widget class="QRadioButton" name="radioExportLapsLaptimes">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>40</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>laptimes</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioExportLapsTimes">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>times</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="spinGrouplapsBy">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>130</y>
+              <width>61</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_57">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>130</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>Group by :</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioExportLapsPoints_1">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>60</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>points #1</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioExportLapsPoints_2">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>80</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>points #2</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioExportLapsPoints_3">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>100</y>
+              <width>211</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>points #3</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -13468,7 +13753,7 @@
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="cursorWidth">
@@ -13554,8 +13839,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1203</width>
-     <height>21</height>
+     <width>1243</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -14459,6 +14744,385 @@ p, li { white-space: pre-wrap; }
    <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>RunsProxyView</tabstop>
+  <tabstop>TimesFilterLineEdit</tabstop>
+  <tabstop>TimesAdd</tabstop>
+  <tabstop>TimesRemove</tabstop>
+  <tabstop>TimesAddHw</tabstop>
+  <tabstop>TimesRemoveHw</tabstop>
+  <tabstop>TimesDbImport</tabstop>
+  <tabstop>TimesDbExport</tabstop>
+  <tabstop>TimesExport</tabstop>
+  <tabstop>TimesWwwExport</tabstop>
+  <tabstop>TimesRecalculate</tabstop>
+  <tabstop>TimesDelete</tabstop>
+  <tabstop>TimesProxyView</tabstop>
+  <tabstop>timesShowAdditionalInfo</tabstop>
+  <tabstop>RunsAdd</tabstop>
+  <tabstop>RunsRemove</tabstop>
+  <tabstop>RunsExport</tabstop>
+  <tabstop>RunsDelete</tabstop>
+  <tabstop>RunsFilterClear</tabstop>
+  <tabstop>RunsFilterLineEdit</tabstop>
+  <tabstop>TimesFilterColumn</tabstop>
+  <tabstop>TimesFilterClear</tabstop>
+  <tabstop>TimesFilterFinishes</tabstop>
+  <tabstop>TimesFilterStarts</tabstop>
+  <tabstop>UsersFilterLineEdit</tabstop>
+  <tabstop>UsersFilterClear</tabstop>
+  <tabstop>UsersAdd</tabstop>
+  <tabstop>UsersRemove</tabstop>
+  <tabstop>UsersImport</tabstop>
+  <tabstop>UsersExport</tabstop>
+  <tabstop>UsersDelete</tabstop>
+  <tabstop>UsersProxyView</tabstop>
+  <tabstop>CategoriesFilterLineEdit</tabstop>
+  <tabstop>CategoriesFilterClear</tabstop>
+  <tabstop>CategoriesAdd</tabstop>
+  <tabstop>CategoriesRemove</tabstop>
+  <tabstop>CategoriesImport</tabstop>
+  <tabstop>CategoriesExport</tabstop>
+  <tabstop>CategoriesDelete</tabstop>
+  <tabstop>CategoriesProxyView</tabstop>
+  <tabstop>CGroupsFilterLineEdit</tabstop>
+  <tabstop>CGroupsAdd</tabstop>
+  <tabstop>CGroupsRemove</tabstop>
+  <tabstop>CGroupsImport</tabstop>
+  <tabstop>CGroupsExport</tabstop>
+  <tabstop>CGroupsDelete</tabstop>
+  <tabstop>CGroupsProxyView</tabstop>
+  <tabstop>CGroupsFilterClear</tabstop>
+  <tabstop>TagsProxyView</tabstop>
+  <tabstop>TagsFilterLineEdit</tabstop>
+  <tabstop>TagsAdd</tabstop>
+  <tabstop>TagsRemove</tabstop>
+  <tabstop>TagsImport</tabstop>
+  <tabstop>TagsExport</tabstop>
+  <tabstop>TagsDelete</tabstop>
+  <tabstop>TagsFilterClear</tabstop>
+  <tabstop>AlltagsProxyView</tabstop>
+  <tabstop>AlltagsFilterLineEdit</tabstop>
+  <tabstop>AlltagsAdd</tabstop>
+  <tabstop>AlltagsRemove</tabstop>
+  <tabstop>AlltagsImport</tabstop>
+  <tabstop>AlltagsExport</tabstop>
+  <tabstop>AlltagsDelete</tabstop>
+  <tabstop>AlltagsFilterClear</tabstop>
+  <tabstop>PointsProxyView</tabstop>
+  <tabstop>PointsFilterLineEdit</tabstop>
+  <tabstop>PointsAdd</tabstop>
+  <tabstop>PointsRemove</tabstop>
+  <tabstop>PointsImport</tabstop>
+  <tabstop>PointsExport</tabstop>
+  <tabstop>PointsDelete</tabstop>
+  <tabstop>PointsFilterClear</tabstop>
+  <tabstop>RaceInfoFilterClear</tabstop>
+  <tabstop>RaceInfoAdd</tabstop>
+  <tabstop>RaceInfoRemove</tabstop>
+  <tabstop>RaceInfoImport</tabstop>
+  <tabstop>RaceInfoExport</tabstop>
+  <tabstop>RaceInfoDelete</tabstop>
+  <tabstop>RaceInfoProxyView</tabstop>
+  <tabstop>RaceInfoFilterLineEdit</tabstop>
+  <tabstop>spinLimitLaps</tabstop>
+  <tabstop>spinLimitTimeHours</tabstop>
+  <tabstop>spinLimitTimeMinutes</tabstop>
+  <tabstop>spinLimitTimeSeconds</tabstop>
+  <tabstop>spinLimitTimeMiliseconds</tabstop>
+  <tabstop>comboTimingMode</tabstop>
+  <tabstop>lineTimingMode</tabstop>
+  <tabstop>spinTagtime</tabstop>
+  <tabstop>lineFilterTagtime</tabstop>
+  <tabstop>lineFilterMinlaptime</tabstop>
+  <tabstop>spinMinlaptime</tabstop>
+  <tabstop>lineMaxlapnumber</tabstop>
+  <tabstop>spinMaxlapnumber</tabstop>
+  <tabstop>lineTagsReadingEn</tabstop>
+  <tabstop>checkRfidRace</tabstop>
+  <tabstop>lineRaceName</tabstop>
+  <tabstop>checkDownloadFromLast</tabstop>
+  <tabstop>checkTagFilter</tabstop>
+  <tabstop>comboStarttimeEvaluation</tabstop>
+  <tabstop>comboOrderEvaluation</tabstop>
+  <tabstop>checkRemoteRace</tabstop>
+  <tabstop>radioLaptimeCurrentPrevious</tabstop>
+  <tabstop>radioLaptimeFinishStart</tabstop>
+  <tabstop>checkAInfoEnabled</tabstop>
+  <tabstop>radioPointsFromTable</tabstop>
+  <tabstop>radioPointsFromFormula</tabstop>
+  <tabstop>linePointsRule_1</tabstop>
+  <tabstop>spinPointsMinimum_1</tabstop>
+  <tabstop>spinPointsMaximum_1</tabstop>
+  <tabstop>linePointsRule_2</tabstop>
+  <tabstop>spinPointsMinimum_2</tabstop>
+  <tabstop>spinPointsMaximum_2</tabstop>
+  <tabstop>linePointsRule_3</tabstop>
+  <tabstop>spinPointsMinimum_3</tabstop>
+  <tabstop>spinPointsMaximum_3</tabstop>
+  <tabstop>checkShowOnlyTimesWithOrder</tabstop>
+  <tabstop>checkAInfoPoints_1</tabstop>
+  <tabstop>checkExportGap</tabstop>
+  <tabstop>checkExportBestLaptime</tabstop>
+  <tabstop>checkExportLaptime</tabstop>
+  <tabstop>checkExportPointsRace</tabstop>
+  <tabstop>checkExportPointsCategories</tabstop>
+  <tabstop>lineOption3Name</tabstop>
+  <tabstop>checkExportLaps</tabstop>
+  <tabstop>checkExportOption_3</tabstop>
+  <tabstop>checkExportYear</tabstop>
+  <tabstop>lineOption4Name</tabstop>
+  <tabstop>checkExportOption_2</tabstop>
+  <tabstop>lineOption1Name</tabstop>
+  <tabstop>checkExportPointsGroups</tabstop>
+  <tabstop>checkExportClub</tabstop>
+  <tabstop>lineOption2Name</tabstop>
+  <tabstop>checkExportOption_1</tabstop>
+  <tabstop>checkExportOption_4</tabstop>
+  <tabstop>checkExportToDefaultDirectories</tabstop>
+  <tabstop>checkExportSex</tabstop>
+  <tabstop>radioExportLapsLaptimes</tabstop>
+  <tabstop>radioExportLapsTimes</tabstop>
+  <tabstop>spinGrouplapsBy</tabstop>
+  <tabstop>radioExportLapsPoints_1</tabstop>
+  <tabstop>lineCells</tabstop>
+  <tabstop>lineBattery</tabstop>
+  <tabstop>lineHwVersion</tabstop>
+  <tabstop>lineFwVersion</tabstop>
+  <tabstop>pushSynchronizeSystem</tabstop>
+  <tabstop>pushSpeakerKeys_5</tabstop>
+  <tabstop>lineSpeakerKeys</tabstop>
+  <tabstop>pushSpeakerSystem</tabstop>
+  <tabstop>pushSpeakerKeys_3</tabstop>
+  <tabstop>lineDate</tabstop>
+  <tabstop>lineSpeakerSystem</tabstop>
+  <tabstop>lineSpeakerTiming</tabstop>
+  <tabstop>pushSpeakerKeys_4</tabstop>
+  <tabstop>lineTime</tabstop>
+  <tabstop>dateDate</tabstop>
+  <tabstop>pushSpeakerKeys</tabstop>
+  <tabstop>pushSpeakerTiming</tabstop>
+  <tabstop>timeTime</tabstop>
+  <tabstop>lineCellBattery_1</tabstop>
+  <tabstop>comboCellTask_1</tabstop>
+  <tabstop>lineCellTask_1</tabstop>
+  <tabstop>lineCellDiagLongOk_1</tabstop>
+  <tabstop>lineCellDiagLongKo_1</tabstop>
+  <tabstop>pushCellPing_1</tabstop>
+  <tabstop>lineCellDiagLongRatio_1</tabstop>
+  <tabstop>pushCellClearCounters_1</tabstop>
+  <tabstop>lineCellSynchronizedOnce_1</tabstop>
+  <tabstop>lineCellSynchronized_1</tabstop>
+  <tabstop>lineCellIrSinal_1</tabstop>
+  <tabstop>lineCellActive_1</tabstop>
+  <tabstop>lineCellDiagShortKo_1</tabstop>
+  <tabstop>lineCellDiagShortOk_1</tabstop>
+  <tabstop>lineCellDiagShortRatio_1</tabstop>
+  <tabstop>pushCellRunDiagnostic_1</tabstop>
+  <tabstop>lineCellBattery_2</tabstop>
+  <tabstop>comboCellTask_2</tabstop>
+  <tabstop>lineCellTask_2</tabstop>
+  <tabstop>lineCellDiagLongOk_2</tabstop>
+  <tabstop>lineCellDiagLongKo_2</tabstop>
+  <tabstop>pushCellPing_2</tabstop>
+  <tabstop>lineCellDiagLongRatio_2</tabstop>
+  <tabstop>pushCellClearCounters_2</tabstop>
+  <tabstop>lineCellSynchronizedOnce_2</tabstop>
+  <tabstop>lineCellSynchronized_2</tabstop>
+  <tabstop>lineCellIrSinal_2</tabstop>
+  <tabstop>lineCellActive_2</tabstop>
+  <tabstop>lineCellDiagShortKo_2</tabstop>
+  <tabstop>lineCellDiagShortOk_2</tabstop>
+  <tabstop>lineCellDiagShortRatio_2</tabstop>
+  <tabstop>pushCellRunDiagnostic_2</tabstop>
+  <tabstop>lineCellBattery_3</tabstop>
+  <tabstop>comboCellTask_3</tabstop>
+  <tabstop>lineCellTask_3</tabstop>
+  <tabstop>lineCellDiagLongOk_3</tabstop>
+  <tabstop>lineCellDiagLongKo_3</tabstop>
+  <tabstop>pushCellPing_3</tabstop>
+  <tabstop>lineCellDiagLongRatio_3</tabstop>
+  <tabstop>pushCellClearCounters_3</tabstop>
+  <tabstop>lineCellSynchronizedOnce_3</tabstop>
+  <tabstop>lineCellSynchronized_3</tabstop>
+  <tabstop>lineCellIrSinal_3</tabstop>
+  <tabstop>lineCellActive_3</tabstop>
+  <tabstop>lineCellDiagShortKo_3</tabstop>
+  <tabstop>lineCellDiagShortOk_3</tabstop>
+  <tabstop>lineCellDiagShortRatio_3</tabstop>
+  <tabstop>pushCellRunDiagnostic_3</tabstop>
+  <tabstop>lineCellBattery_4</tabstop>
+  <tabstop>comboCellTask_4</tabstop>
+  <tabstop>lineCellTask_4</tabstop>
+  <tabstop>lineCellDiagLongOk_4</tabstop>
+  <tabstop>lineCellDiagLongKo_4</tabstop>
+  <tabstop>pushCellPing_4</tabstop>
+  <tabstop>lineCellDiagLongRatio_4</tabstop>
+  <tabstop>pushCellClearCounters_4</tabstop>
+  <tabstop>lineCellSynchronizedOnce_4</tabstop>
+  <tabstop>lineCellSynchronized_4</tabstop>
+  <tabstop>lineCellIrSinal_4</tabstop>
+  <tabstop>lineCellActive_4</tabstop>
+  <tabstop>lineCellDiagShortKo_4</tabstop>
+  <tabstop>lineCellDiagShortOk_4</tabstop>
+  <tabstop>lineCellDiagShortRatio_4</tabstop>
+  <tabstop>pushCellRunDiagnostic_4</tabstop>
+  <tabstop>lineCellBattery_5</tabstop>
+  <tabstop>comboCellTask_5</tabstop>
+  <tabstop>lineCellTask_5</tabstop>
+  <tabstop>lineCellDiagLongOk_5</tabstop>
+  <tabstop>lineCellDiagLongKo_5</tabstop>
+  <tabstop>pushCellPing_5</tabstop>
+  <tabstop>lineCellDiagLongRatio_5</tabstop>
+  <tabstop>pushCellClearCounters_5</tabstop>
+  <tabstop>lineCellSynchronizedOnce_5</tabstop>
+  <tabstop>lineCellSynchronized_5</tabstop>
+  <tabstop>lineCellIrSinal_5</tabstop>
+  <tabstop>lineCellActive_5</tabstop>
+  <tabstop>lineCellDiagShortKo_5</tabstop>
+  <tabstop>lineCellDiagShortOk_5</tabstop>
+  <tabstop>lineCellDiagShortRatio_5</tabstop>
+  <tabstop>pushCellRunDiagnostic_5</tabstop>
+  <tabstop>lineCellBattery_6</tabstop>
+  <tabstop>comboCellTask_6</tabstop>
+  <tabstop>lineCellTask_6</tabstop>
+  <tabstop>lineCellDiagLongOk_6</tabstop>
+  <tabstop>lineCellDiagLongKo_6</tabstop>
+  <tabstop>pushCellPing_6</tabstop>
+  <tabstop>lineCellDiagLongRatio_6</tabstop>
+  <tabstop>pushCellClearCounters_6</tabstop>
+  <tabstop>lineCellSynchronizedOnce_6</tabstop>
+  <tabstop>lineCellSynchronized_6</tabstop>
+  <tabstop>lineCellIrSinal_6</tabstop>
+  <tabstop>lineCellActive_6</tabstop>
+  <tabstop>lineCellDiagShortKo_6</tabstop>
+  <tabstop>lineCellDiagShortOk_6</tabstop>
+  <tabstop>lineCellDiagShortRatio_6</tabstop>
+  <tabstop>pushCellRunDiagnostic_6</tabstop>
+  <tabstop>lineCellBattery_7</tabstop>
+  <tabstop>comboCellTask_7</tabstop>
+  <tabstop>lineCellTask_7</tabstop>
+  <tabstop>lineCellDiagLongOk_7</tabstop>
+  <tabstop>lineCellDiagLongKo_7</tabstop>
+  <tabstop>pushCellPing_7</tabstop>
+  <tabstop>lineCellDiagLongRatio_7</tabstop>
+  <tabstop>pushCellClearCounters_7</tabstop>
+  <tabstop>lineCellSynchronizedOnce_7</tabstop>
+  <tabstop>lineCellSynchronized_7</tabstop>
+  <tabstop>lineCellIrSinal_7</tabstop>
+  <tabstop>lineCellActive_7</tabstop>
+  <tabstop>lineCellDiagShortKo_7</tabstop>
+  <tabstop>lineCellDiagShortOk_7</tabstop>
+  <tabstop>lineCellDiagShortRatio_7</tabstop>
+  <tabstop>pushCellRunDiagnostic_7</tabstop>
+  <tabstop>lineCellBattery_8</tabstop>
+  <tabstop>comboCellTask_8</tabstop>
+  <tabstop>lineCellTask_8</tabstop>
+  <tabstop>lineCellDiagLongOk_8</tabstop>
+  <tabstop>lineCellDiagLongKo_8</tabstop>
+  <tabstop>pushCellPing_8</tabstop>
+  <tabstop>lineCellDiagLongRatio_8</tabstop>
+  <tabstop>pushCellClearCounters_8</tabstop>
+  <tabstop>lineCellSynchronizedOnce_8</tabstop>
+  <tabstop>lineCellSynchronized_8</tabstop>
+  <tabstop>lineCellIrSinal_8</tabstop>
+  <tabstop>lineCellActive_8</tabstop>
+  <tabstop>lineCellDiagShortKo_8</tabstop>
+  <tabstop>lineCellDiagShortOk_8</tabstop>
+  <tabstop>lineCellDiagShortRatio_8</tabstop>
+  <tabstop>pushCellRunDiagnostic_8</tabstop>
+  <tabstop>lineCellBattery_9</tabstop>
+  <tabstop>comboCellTask_9</tabstop>
+  <tabstop>lineCellTask_9</tabstop>
+  <tabstop>lineCellDiagLongOk_9</tabstop>
+  <tabstop>lineCellDiagLongKo_9</tabstop>
+  <tabstop>pushCellPing_9</tabstop>
+  <tabstop>lineCellDiagLongRatio_9</tabstop>
+  <tabstop>pushCellClearCounters_9</tabstop>
+  <tabstop>lineCellSynchronizedOnce_9</tabstop>
+  <tabstop>lineCellSynchronized_9</tabstop>
+  <tabstop>lineCellIrSinal_9</tabstop>
+  <tabstop>lineCellActive_9</tabstop>
+  <tabstop>lineCellDiagShortKo_9</tabstop>
+  <tabstop>lineCellDiagShortOk_9</tabstop>
+  <tabstop>lineCellDiagShortRatio_9</tabstop>
+  <tabstop>pushCellRunDiagnostic_9</tabstop>
+  <tabstop>lineCellBattery_10</tabstop>
+  <tabstop>comboCellTask_10</tabstop>
+  <tabstop>lineCellTask_10</tabstop>
+  <tabstop>lineCellDiagLongOk_10</tabstop>
+  <tabstop>lineCellDiagLongKo_10</tabstop>
+  <tabstop>pushCellPing_10</tabstop>
+  <tabstop>lineCellDiagLongRatio_10</tabstop>
+  <tabstop>pushCellClearCounters_10</tabstop>
+  <tabstop>lineCellSynchronizedOnce_10</tabstop>
+  <tabstop>lineCellSynchronized_10</tabstop>
+  <tabstop>lineCellIrSinal_10</tabstop>
+  <tabstop>lineCellActive_10</tabstop>
+  <tabstop>lineCellDiagShortKo_10</tabstop>
+  <tabstop>lineCellDiagShortOk_10</tabstop>
+  <tabstop>lineCellDiagShortRatio_10</tabstop>
+  <tabstop>pushCellRunDiagnostic_10</tabstop>
+  <tabstop>lineBacklight_6</tabstop>
+  <tabstop>lineBacklight_9</tabstop>
+  <tabstop>lineBacklight_10</tabstop>
+  <tabstop>lineBacklight_11</tabstop>
+  <tabstop>lineBacklight_12</tabstop>
+  <tabstop>lineBacklight_13</tabstop>
+  <tabstop>lineBacklight_16</tabstop>
+  <tabstop>lineBacklight_17</tabstop>
+  <tabstop>lineBacklight_18</tabstop>
+  <tabstop>lineBacklight_19</tabstop>
+  <tabstop>lineBacklight_20</tabstop>
+  <tabstop>lineBacklight_21</tabstop>
+  <tabstop>lineBacklight_7</tabstop>
+  <tabstop>lineBacklight_22</tabstop>
+  <tabstop>lineBacklight_23</tabstop>
+  <tabstop>lineBacklight_24</tabstop>
+  <tabstop>lineBacklight_25</tabstop>
+  <tabstop>lineBacklight_26</tabstop>
+  <tabstop>lineBacklight_27</tabstop>
+  <tabstop>lineBacklight_28</tabstop>
+  <tabstop>lineBacklight_29</tabstop>
+  <tabstop>lineBacklight_30</tabstop>
+  <tabstop>lineBacklight_31</tabstop>
+  <tabstop>lineBacklight_32</tabstop>
+  <tabstop>lineBacklight_44</tabstop>
+  <tabstop>lineBacklight_45</tabstop>
+  <tabstop>lineBacklight_46</tabstop>
+  <tabstop>lineBacklight_47</tabstop>
+  <tabstop>lineBacklight_48</tabstop>
+  <tabstop>lineBacklight_49</tabstop>
+  <tabstop>lineBacklight_50</tabstop>
+  <tabstop>lineBacklight_51</tabstop>
+  <tabstop>lineBacklight_52</tabstop>
+  <tabstop>lineBacklight_53</tabstop>
+  <tabstop>lineBacklight_54</tabstop>
+  <tabstop>lineBacklight_55</tabstop>
+  <tabstop>lineBacklight_56</tabstop>
+  <tabstop>lineBacklight_135</tabstop>
+  <tabstop>lineBacklight_89</tabstop>
+  <tabstop>comboCommCommand</tabstop>
+  <tabstop>lineCommData</tabstop>
+  <tabstop>pushCommSend</tabstop>
+  <tabstop>spinCommDatalength</tabstop>
+  <tabstop>lineCommCommand</tabstop>
+  <tabstop>textCommLog</tabstop>
+  <tabstop>checkCommLogCyclic</tabstop>
+  <tabstop>pushCommClearLog</tabstop>
+  <tabstop>webViewApp</tabstop>
+  <tabstop>checkAInfoOrderInCategory</tabstop>
+  <tabstop>checkAInfoLaps</tabstop>
+  <tabstop>checkAInfoOrder</tabstop>
+  <tabstop>spinTimesViewLimit</tabstop>
+  <tabstop>checkAInfoBestLaptime</tabstop>
+  <tabstop>checkAInfoLaptime</tabstop>
+  <tabstop>radioExportLapsPoints_2</tabstop>
+  <tabstop>radioExportLapsPoints_3</tabstop>
+  <tabstop>checkAInfoPoints_2</tabstop>
+  <tabstop>checkAInfoPoints_3</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

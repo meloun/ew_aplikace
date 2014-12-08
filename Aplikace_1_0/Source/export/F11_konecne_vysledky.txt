@@ -1,0 +1,24 @@
+F11 - konečné výsledky, 1 čas na řádek
+===========================================================================
+race - poslední časy
+slalom - nejlepší časy
+
+ - race/slalom complete       - _racename.csv
+ - race/slalom categories     - c_categoryname.csv
+ - race/slalom groups         - g_groupname.csv
+ - alltimes complete          - at_racename.csv
+ - alltimes categories        - at_categoryname.csv
+ - alltimes groups            - at_groupname.csv
+
+
+F10 - mezičasové výsledky, N časů na řádek
+===========================================================================
+
+- complete     - _laps_racename
+- categories   - c_laps_categoryname
+- groups       - g_laps_groupname
+
+
+
+
+

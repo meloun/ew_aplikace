@@ -61,7 +61,8 @@ class TimesStarts():
         '''
         najde všechny startovací časy a uloží
         '''        
-        df = psql.read_frame(\
+        #df = psql.read_frame(\
+        df = psql.read_sql(\
                                 "SELECT * FROM times" +\
                                 " WHERE (times.cell = 1 )" +\
                                 " AND (times.run_id = "+ str(run_id ) +")"\

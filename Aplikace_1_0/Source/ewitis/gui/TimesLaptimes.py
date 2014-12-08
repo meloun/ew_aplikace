@@ -16,10 +16,10 @@ import numpy as np
 
 class TimesLaptime():
     '''
-        - Get(self, dbTime, nr) - laptime, tzn. čas kola
-        - Calc(self, dbTime)
+        - Get(self, dbTime, nr) - laptime, tzn. čas kola        
         - GetBest(self, dbTime) - nejlepší čas kola
-        - GetNrOfLap(self, dbTime, mode = OF_THIS_TIME) - číslo daného kola (nebo všech)        
+        - GetNrOfLap(self, dbTime, mode = OF_THIS_TIME) - číslo daného kola (nebo všech)
+        - Calc(self, dbTime)        
     '''
     OF_THIS_TIME, OF_LAST_TIME= range(0,2)
     def __init__(self):                          
@@ -45,7 +45,7 @@ class TimesLaptime():
     
     def Get(self, dbTime, nr):
         '''
-        vyhledá daný laptime (vyhodnocení bodů, laptime1, ..)
+        daný laptime (vyhodnocení bodů - laptime1, laptime2, ..)
         '''
         
         if(self.IsValid(dbTime) == False):
@@ -61,10 +61,48 @@ class TimesLaptime():
             laptime = int(laptime)
         except:            
             laptime = None            
+                                     
+        return laptime # int or none               
+    
         
-        #print dbTime['id'],":", laptime, type(laptime)                       
-        return laptime # int or none                        
+    def GetBest(self, dbTime):
+        return self.Get(dbTime, 1)
+    
+#     def GetBestOld(self, dbTime):
+#         '''
+#         nejlepší čas
+#         '''                                             
+#         if(self.IsValid(dbTime) == False):
+#             return None
+#         
+#         '''count of times - same race, same user, better time, exclude start time'''
+#         try:                
+#             laptime = self.groups.get_group(dbTime['user_id']).sort(['laptime']).iloc[0]['laptime']
+#             laptime = int(laptime)
+#         except:                    
+#             laptime = None                                    
+#                                        
+#         return laptime #return (int or none) 
+        
+    def GetNrOfLap(self, dbTime, mode = OF_THIS_TIME):
+        '''
+        číslo kola
+        '''
+        
+        if(self.IsValid(dbTime) == False):
+            return None 
+               
+        '''count of times - same race, same user, better time, exclude start time'''               
+        try:
+            laptimes = self.groups.get_group(dbTime['user_id'])
+            if mode == self.OF_THIS_TIME:
+                laptimes = laptimes[laptimes.time_raw <= dbTime['time_raw']]                                                    
+            lap_count = len(laptimes.index)
+        except KeyError: #nenalezen spravny cas             
+            lap_count = None            
                 
+        return lap_count # int or none 
+    
     def Calc(self, dbTime):
         '''
         vyhledá přechozí čas a spočítá laptime
@@ -87,43 +125,7 @@ class TimesLaptime():
         if laptime != None:
             laptime = int(laptime)
                                
-        return laptime # int or none    
-        
-    def GetBest(self, dbTime):
-        '''
-        vyhledá přechozí čas a spočítá laptime
-        '''                                             
-        if(self.IsValid(dbTime) == False):
-            return None
-        
-        '''count of times - same race, same user, better time, exclude start time'''
-        try:                
-            laptime = self.groups.get_group(dbTime['user_id']).sort(['laptime']).iloc[0]['laptime']
-            laptime = int(laptime)
-        except:                    
-            laptime = None                                    
-            
-        #return laptime (int or none)                    
-        return laptime
-        
-    def GetNrOfLap(self, dbTime, mode = OF_THIS_TIME):
-        '''
-        číslo kola
-        '''
-        
-        if(self.IsValid(dbTime) == False):
-            return None 
-               
-        '''count of times - same race, same user, better time, exclude start time'''               
-        try:
-            laptimes = self.groups.get_group(dbTime['user_id'])
-            if mode == self.OF_THIS_TIME:
-                laptimes = laptimes[laptimes.time_raw <= dbTime['time_raw']]                                                    
-            lap_count = len(laptimes.index)
-        except KeyError: #nenalezen spravny cas             
-            lap_count = None            
-                
-        return lap_count # int or none    
+        return laptime # int or none   
                          
     
 
@@ -146,7 +148,8 @@ class TimesLaptime():
             " ORDER BY times.time ASC"                                  
         
         #get dataframe
-        df = psql.read_frame(query, db.getDb())
+        #df = psql.read_frame(query, db.getDb())
+        df = psql.read_sql(query, db.getDb())
         
         #assign to global variables
         #self.df = df        

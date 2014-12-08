@@ -37,59 +37,58 @@ class Points(myTable):
         rule = formula['formula']
         minimum = formula['minimum']
         maximum = formula['maximum']
-
         
+        #rule
+        rule = rule.lower()
+            
         #check if data exist
         if ("time" in rule) and (dbTime['time'] == None):
             return None
         if ("laptime" in rule) and (dbTime['laptime'] == None):
             return None
         
-        #rule
-        rule = rule.lower()    
         
-        #convert %rule-timestring% to ruletime(number)
+        '''REPLACE keywords'''
+        
+        # replace keyword: %00:00:01,66% to number(166)
         aux_split = rule.split('%')
-        if(len(aux_split) == 3): #3 parts => ruletime exist, on 2.position                
+        if(len(aux_split) == 3): # 3 parts => ruletime exist, on 2.position                
             try:
                 ruletime = TimesUtils.TimesUtils.timestring2time(aux_split[1], including_days = False) #timestring=>time        
             except TimesUtils.TimeFormat_Error:
-                return None                    
-            #glue expression again                        
-            rule = aux_split[0]+str(ruletime)+aux_split[2]
+                return None                                    
+            rule = aux_split[0] + str(ruletime) + aux_split[2] #glue expression again
 
-        #replace keywords with time values
+        # replace keywords: order, order_cat
         expression_string = rule.replace("order_cat", str(tabTime['order_cat']))                            
         expression_string = expression_string.replace("order", str(tabTime['order']))
 
-        #laptime1, laptime2, .., laptime24
+        # replace keywords: laptime1, laptime2, .., laptime24
         for i in range(1,24):
-            laptimeX = "laptime"+str(i)
+            laptimeX = "laptime" + str(i)
             if (laptimeX in rule):
                 try:                                                
                     expression_string = expression_string.replace(laptimeX, str(cLaptime.Get(dbTime, i)))                
                 except TypeError:                
-                    return None                           
-        if ("laptime" in rule):
-            expression_string = expression_string.replace("laptime", str(dbTime['laptime']))          
-        if ("time" in rule):                    
-            expression_string = expression_string.replace("time", str(dbTime['time']))       
+                    return None
+                                           
+        # replace keywords: laptime, time        
+        expression_string = expression_string.replace("laptime", str(dbTime['laptime']))                                                  
+        expression_string = expression_string.replace("time", str(dbTime['time']))       
                 
-        #evaluate
+        ''' evaluate expresion '''
         try:            
             points = eval(expression_string)        
-        except (SyntaxError,TypeError,NameError):
-            print "I: invalid string for evaluation", expression_string
-            points = expression_string
-            #return None        
+        except (SyntaxError, TypeError, NameError):
+            print "I: invalid string for evaluation", expression_string            
+            return None        
         
-        #restrict               
-#        if points < minimum:
-#            points = minimum
-#        if points > maximum:
-#            points = maximum                     
-        
-        #print "points", points
+        #restrict final value               
+        if points < minimum:
+            points = minimum
+        if points > maximum:
+            points = maximum                     
+                
         return points
 
     
@@ -108,11 +107,9 @@ class Points(myTable):
     
     def getPoints(self, tabTime, dbTime, key = "points_formula1"):
         
-        if(tabTime['cell'] == 1):
-            print "E1"           
+        if(tabTime['cell'] == 1):                       
             return None
         if(tabTime['time'] == None):            
-            print "E2"           
             return None        
                        
             

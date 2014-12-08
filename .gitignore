@@ -1,5 +1,6 @@
 *.pyc
 *.rst
-Aplikace_1_0/Doc/
+aptana-workspace/
+Doc
 build
 dist

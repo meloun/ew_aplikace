@@ -255,7 +255,9 @@ class TimesModel(myModel):
                     if(user_id != None):
                         #write new number                
                         #print "update", {'id':tabRow['id'], 'user_id': tableUsers.getIdOrTagIdParNr(tabRow['nr'])}                    
-                        db.update_from_dict(self.table.name, {'id':tabRow['id'], 'user_id': user_id})  
+                        db.update_from_dict(self.table.name, {'id':tabRow['id'], 'user_id': user_id})
+                        self.table.ResetNrOfLaps()
+                          
                  
                 # STATUS column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
@@ -270,6 +272,7 @@ class TimesModel(myModel):
                         dbTimeraw = TimesUtils.TimesUtils.timestring2time(tabRow['timeraw'])                    
                         #print "update", {'id': tabRow['id'], 'time_raw': dbTimeraw}
                         db.update_from_dict(self.table.name, {'id': tabRow['id'], 'time_raw': dbTimeraw})
+                        self.table.ResetNrOfLaps()
                     except TimesUtils.TimeFormat_Error:
                         uiAccesories.showMessage(self.table.name+" Update error", "Wrong Time format!")
                         
@@ -300,8 +303,9 @@ class TimesModel(myModel):
                     dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                    
                      
                     #update status                
-                    #print "finishtime", dbUser 
-                    db.update_from_dict(tableUsers.name, {'id': dbUser['id'], 'status': 'finished'})
+                    #print "finishtime", dbUser
+                    if dbUser != None: 
+                        db.update_from_dict(tableUsers.name, {'id': dbUser['id'], 'status': 'finished'})
                      
                 
         
@@ -365,6 +369,7 @@ class TimesModel(myModel):
                 #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
                 dbTime['lap'] = nr_of_lap                                                       
                 db.update_from_dict(self.table.name, dbTime) #commit v update()
+                
     def update_nr_of_laps(self):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
@@ -632,6 +637,14 @@ class Times(myTable):
         res = db.query(query)                        
         db.commit()        
         return res
+    
+    def ResetNrOfLaps(self):
+        query = \
+                " UPDATE times" +\
+                    " SET lap = Null"                                                    
+        res = db.query(query)                        
+        db.commit()        
+        return res
         
     
     def sRecalculate(self, run_id):
@@ -806,7 +819,9 @@ class Times(myTable):
         for k, dfTimes in times_groups:                        
                         
             #series with times            
-            if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                                        
+            if dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_TIMES:                                        
+                sTimes = dfTimes.sort(['timeraw']).time
+            elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_LAPTIMES:                                        
                 sTimes = dfTimes.sort(['timeraw']).laptime
             elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS_1:                                        
                 sTimes = dfTimes.sort(['timeraw']).points1
@@ -815,7 +830,7 @@ class Times(myTable):
             elif dstore.Get("export")['lapsformat'] == ExportLapsFormat.FORMAT_POINTS_3:                                        
                 sTimes = dfTimes.sort(['timeraw']).points3
             else:                                                       
-                sTimes = dfTimes.sort(['timeraw']).time
+                print "ExportToDf_laps: Fatal error"
         
             #merge two series             
             sLaps = pd.concat([dfTimes[['nr','name']].iloc[0], sTimes]) 
