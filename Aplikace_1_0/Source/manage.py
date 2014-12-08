@@ -2,7 +2,7 @@
 '''
 Created on 2.1.2014
 
-@author: Meloun
+@author: Meloun2
 '''
 
 
