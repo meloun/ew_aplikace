@@ -1,0 +1,172 @@
+{
+    "evaluation": {
+        "GET_SET": {
+            "value": {
+                "points_formula": [
+                    {
+                        "formula": "abs(time - %00:01:30,00%)",
+                        "minimum": 500,
+                        "maximum": 500
+                    },
+                    {
+                        "formula": "abs(time - %00:01:30,00%)",
+                        "minimum": 500,
+                        "maximum": 500
+                    },
+                    {
+                        "formula": "abs(time - %00:01:30,00%)",
+                        "minimum": 500,
+                        "maximum": 500
+                    }
+                ],
+                "laptime": 0,
+                "order": 1,
+                "starttime": 0,
+                "points": 1
+            }
+        },
+        "permanent": true
+    },
+    "export": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "best_laptime": 0,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lapsformat": 0,
+                    "laps": 0,
+                    "sex": 0,
+                    "laptime": 0,
+                    "year": 0,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "points": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "best_laptime": 0,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lapsformat": 0,
+                    "laps": 0,
+                    "sex": 0,
+                    "laptime": 0,
+                    "year": 0,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "points": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "best_laptime": 0,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lapsformat": 0,
+                    "laps": 0,
+                    "sex": 0,
+                    "laptime": 0,
+                    "year": 0,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "points": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "export"
+    },
+    "additional_info": {
+        "GET_SET": {
+            "value": {
+                "best_laptime": 2,
+                "order_cat": 2,
+                "enabled": 2,
+                "laptime": 2,
+                "lap": 2,
+                "order": 2,
+                "points": [
+                    2,
+                    2,
+                    2
+                ]
+            }
+        },
+        "permanent": true,
+        "name": "additinal info"
+    },
+    "racesettings-app": {
+        "GET_SET": {
+            "changed": false,
+            "value": {
+                "rfid": 0,
+                "remote": 0,
+                "race_name": "Formula Studdent 2013",
+                "tag_filter": 0
+            }
+        },
+        "permanent": true
+    }
+}
