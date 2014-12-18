@@ -174,30 +174,38 @@ class TimesModel(myModel):
             if  additional_info['order_cat']:                                                                                       
                 tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
                                                                                                           
-            '''POINTS1'''
-            #počítá se vždy            
-            if  additional_info['points1']:            
-                #try:        
-                tabTime['points1'] = tablePoints.getPoints(tabTime, dbTime, "points_formula1")                                                    
-                #except:
-                #    print "E: Some points were not succesfully calculated! (points1)"
-                #print "p1:", tabTime['points1'] 
-                    
-            '''POINTS2'''
+            '''POINTS 1 - 3'''
             #počítá se vždy
-            if  additional_info['points2']:            
-                try:        
-                    tabTime['points2'] = tablePoints.getPoints(tabTime, dbTime, "points_formula2")                                                    
-                except:
-                    print "E: Some points were not succesfully calculated! (points2)"
+            for i in range(0, NUMBER_OF.POINTS):                             
+                if  additional_info['points'][i]:            
+                    #try:        
+                    tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
+                    #print 'points'+str(i+1), tabTime['points'+str(i+1)]                                                     
+                    #except:
+                    #    print "E: Some points were not succesfully calculated! (points1)"                     
                     
-            '''POINTS3'''
-            #počítá se vždy
-            if  additional_info['points3']:            
-                try:                                                                                
-                    tabTime['points3'] = tablePoints.getPoints(tabTime, dbTime, "points_formula3")                    
-                except:
-                    print "E: Some points were not succesfully calculated!(points3)"
+#             if  additional_info['points1']:            
+#                 #try:        
+#                 tabTime['points1'] = tablePoints.getPoints(tabTime, dbTime, "points_formula1")                                                    
+#                 #except:
+#                 #    print "E: Some points were not succesfully calculated! (points1)"
+#                 #print "p1:", tabTime['points1'] 
+#                     
+#             '''POINTS2'''
+#             #počítá se vždy
+#             if  additional_info['points2']:            
+#                 try:        
+#                     tabTime['points2'] = tablePoints.getPoints(tabTime, dbTime, "points_formula2")                                                    
+#                 except:
+#                     print "E: Some points were not succesfully calculated! (points2)"
+#                     
+#             '''POINTS3'''
+#             #počítá se vždy
+#             if  additional_info['points3']:            
+#                 try:                                                                                
+#                     tabTime['points3'] = tablePoints.getPoints(tabTime, dbTime, "points_formula3")                    
+#                 except:
+#                     print "E: Some points were not succesfully calculated!(points3)"
             
                       
                                             
@@ -453,7 +461,7 @@ class TimesModel(myModel):
             
             #try:
             '''toDo: misto try catch, Get bude vracet None'''                
-            if dstore.Get('remote') == 2:
+            if dstore.GetItem("racesettings-app", ['remote']) == 2:
                 return None             
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
                 start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
@@ -871,12 +879,12 @@ class Times(myTable):
         if len(exportDf != 0):                         
             #export header
             header_length = len(exportDf.columns)
-            header_racename = [dstore.Get('race_name'),] + (header_length-1) * ['']
+            header_racename = [dstore.GetItem("racesettings-app", ['race_name']),] + (header_length-1) * ['']
             header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
             
             #convert header EN => CZ                        
             exportDf.rename(columns = STRINGS.EN2CZ, inplace = True)               
-            exportDf.rename(columns ={'o1': dstore.Get("export")['option_1_name'], 'o2': dstore.Get("export")['option_2_name'], 'o3': dstore.Get("export")['option_3_name'], 'o4': dstore.Get("export")['option_4_name']}, inplace = True)                           
+            exportDf.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])}, inplace = True)                           
             
             #export times (with collumn's names)            
             try:              
@@ -919,7 +927,7 @@ class Times(myTable):
         #    return         
         
         #get filename, gui dialog        
-        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.Get('race_name')+suffix+"/")
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.GetItem("racesettings-app", ['race_name'])+suffix+"/")
         try:
             os.makedirs(dirname)
         except OSError:
@@ -934,7 +942,7 @@ class Times(myTable):
                         
         '''1. TOTAL'''
         #get name
-        name = utils.get_filename("_"+dstore.Get('race_name'))                
+        name = utils.get_filename("_"+dstore.GetItem("racesettings-app", ['race_name']))                
         
         #write to csv
         df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, export_type = export_type)
@@ -1027,7 +1035,7 @@ class Times(myTable):
         query = "SELECT COUNT(*) FROM(\
                     SELECT COUNT(times.id) from times"
         
-        if(dstore.Get('rfid') == 2):
+        if(dstore.Get("racesettings-app", ['rfid']) == 2):
             query = query + \
                     " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                     " INNER JOIN users ON tags.user_nr = users.nr "

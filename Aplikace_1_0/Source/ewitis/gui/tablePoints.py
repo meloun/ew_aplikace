@@ -105,7 +105,7 @@ class Points(myTable):
         tabPoint = self.model.db2tableRow(dbPoint)        
         return tabPoint
     
-    def getPoints(self, tabTime, dbTime, key = "points_formula1"):
+    def getPoints(self, tabTime, dbTime, index):
         
         if(tabTime['cell'] == 1):                       
             return None
@@ -116,9 +116,9 @@ class Points(myTable):
         points_evaluation = dstore.Get("evaluation")["points"]
         tabPoint = {}
         if(points_evaluation == PointsEvaluation.FROM_TABLE):                                  
-            tabPoint = self.getTabPointParOrder(order)
+            tabPoint = self.getTabPointParOrder(tabTime['order'])
         else:                      
-            points_formula = dstore.Get("evaluation")[key]                                                                        
+            points_formula = dstore.Get("evaluation")["points_formula"][index]                                                                        
             tabPoint['points'] = self.evaluate(points_formula, tabTime, dbTime)                                                    
         
         if isinstance(tabPoint['points'], float):

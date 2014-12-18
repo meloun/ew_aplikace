@@ -13,7 +13,49 @@ from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 
 
+class PointFormulaGroup():
+    
+    def __init__(self,  nr):
+        '''
+        Constructor
+        group items as class members
+        format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
+        '''
+        ui = Ui()
+        
+        self.nr = nr
+        self.rule = getattr(ui, "linePointsRule_" + str(nr))        
+        self.minimum = getattr(ui, "spinPointsMinimum_" + str(nr))
+        self.maximum = getattr(ui, "spinPointsMaximum_" + str(nr))                 
+                    
+        
+    def Init(self):        
+        self.Update()
+        self.createSlots()            
 
+    def CreateSlots(self):                
+        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["points_formula", self.nr-1, "formula"], utils.toUnicode(name)))            
+        QtCore.QObject.connect(self.minimum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula", self.nr-1, "minimum"], x, self.Update))
+        QtCore.QObject.connect(self.maximum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula", self.nr-1, "minimum"], x, self.Update))
+    
+    def GetInfo(self):
+        return dstore.GetItem("evaluation", ["points_formula", self.nr-1])
+     
+    def setEnabled(self, enabled):
+        self.rule.setEnabled(enabled)        
+        self.minimum.setEnabled(enabled)          
+        self.maximum.setEnabled(enabled)
+        
+
+    
+    def Update(self):
+        formula_info = self.GetInfo()                                    
+                            
+        # set min and max
+        self.minimum.setValue(formula_info["minimum"])
+        self.maximum.setValue(formula_info["maximum"])
+        self.rule.setText(formula_info["formula"])                      
+        
 
 class TabRaceSettings():    
       
@@ -28,10 +70,15 @@ class TabRaceSettings():
         self.addSlots()
         
     def addSlots(self):
-        ##tab RACE SETTINGS##
         
-        #race settings          
-        print "tabRaceSettings: addind slots"
+        print "tabRaceSettings: adding slots"
+        
+        #pointgroups - rule, min, max
+        self.pointformulagroups = [None] * NUMBER_OF.POINTS
+        for i in range(0, NUMBER_OF.POINTS):            
+            self.pointformulagroups[i] = PointFormulaGroup(i+1)
+            self.pointformulagroups[i].CreateSlots()                
+              
         #left group
         QtCore.QObject.connect(Ui().comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode) 
         QtCore.QObject.connect(Ui().spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
@@ -40,13 +87,10 @@ class TabRaceSettings():
                 
         #middle group             
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSet("race_name", utils.toUnicode(name), self.Update))        
-        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("remote", state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("rfid", state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSet("tag_filter", state, self.Update))
-        
-     
-        
-             
+        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
+        QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
+        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))
+                                 
 
         
         #start download from last time and run 
@@ -63,17 +107,9 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().radioLaptimeCurrentPrevious,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["laptime"], 1, self.Update) if index else None)        
                                                 
         QtCore.QObject.connect(Ui().radioPointsFromTable,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["points"], 0, self.Update) if index else None)
-        QtCore.QObject.connect(Ui().radioPointsFromFormula,    QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["points"], 1, self.Update) if index else None)        
-        QtCore.QObject.connect(Ui().linePointsRule_1, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["points_formula1","formula"], utils.toUnicode(name)))
-        QtCore.QObject.connect(Ui().spinPointsMinimum_1, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula1","minimum"], x, self.Update))
-        QtCore.QObject.connect(Ui().spinPointsMaximum_1, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula1","maximum"], x, self.Update))        
-        QtCore.QObject.connect(Ui().linePointsRule_2, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["points_formula2","formula"], utils.toUnicode(name)))
-        QtCore.QObject.connect(Ui().spinPointsMinimum_2, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula2","minimum"], x, self.Update))
-        QtCore.QObject.connect(Ui().spinPointsMaximum_2, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula2","maximum"], x, self.Update))
-        QtCore.QObject.connect(Ui().linePointsRule_3, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["points_formula3","formula"], utils.toUnicode(name)))
-        QtCore.QObject.connect(Ui().spinPointsMinimum_3, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula3","minimum"], x, self.Update))
-        QtCore.QObject.connect(Ui().spinPointsMaximum_3, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("evaluation", ["points_formula3","maximum"], x, self.Update))
+        QtCore.QObject.connect(Ui().radioPointsFromFormula,    QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["points"], 1, self.Update) if index else None)
                 
+          
                                                 
         #show
         QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))                
@@ -85,40 +121,23 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().checkAInfoLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["lap"], state, self.Update))
         QtCore.QObject.connect(Ui().checkAInfoLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["laptime"], state, self.Update))
         QtCore.QObject.connect(Ui().checkAInfoBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["best_laptime"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkAInfoPoints_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["points1"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkAInfoPoints_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["points2"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkAInfoPoints_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["points3"], state, self.Update))
         
-        #export
-        QtCore.QObject.connect(Ui().checkExportYear, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["year"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportSex, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["sex"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportClub, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["club"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportLaps, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laps"], state, self.Update))                                
-        QtCore.QObject.connect(Ui().checkExportLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["laptime"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportBestLaptime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["best_laptime"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_1, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_1"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_2, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_2"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_3, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_3"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportOption_4, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["option_4"], state, self.Update))
-        QtCore.QObject.connect(Ui().lineOption1Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_1_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption2Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_2_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption3Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_3_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().lineOption4Name, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("export", ["option_4_name"], utils.toUnicode(name), self.Update))
-        QtCore.QObject.connect(Ui().checkExportGap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["gap"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_race"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsCategories, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_categories"], state, self.Update))
-        QtCore.QObject.connect(Ui().checkExportPointsGroups, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["points_groups"], state, self.Update))
-        QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 0, self.Update) if index else None)
-        QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 1, self.Update) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_1,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 2, self.Update) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_2,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 3, self.Update) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_3,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export", ["lapsformat"], 4, self.Update) if index else None) 
+                  
                 
+        for i in range(0, NUMBER_OF.POINTS):            
+            checkAIPoints = getattr(Ui(), "checkAInfoPoints_" + str(i+1))            
+            QtCore.QObject.connect(checkAIPoints, QtCore.SIGNAL("stateChanged(int)"), lambda state, index=i: uiAccesories.sGuiSetItem("additional_info", ["points", index], state, self.Update))
+          
 
         
     """                 """
     """ EXPLICIT SLOTS  """
     """                 """
+    def sCheckbox(self, state):
+        print "check: ", state
+        uiAccesories.sGuiSetItem("additional_info", ["points", 0], state)
+        print "dstore: ", dstore.GetItem("additional_info", ["points", 0])
+          
     def radio1(self, a):
         print "radio state: ",a           
           
@@ -166,17 +185,22 @@ class TabRaceSettings():
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
         self.Update(UPDATE_MODE.gui)
+        from ewitis.data.presets import presets
+        print presets.GetPreset("blizak")
+        dstore.Update(presets.GetPreset("blizak"))
 
-    def sComboOrderEvaluation(self, index):
-        #print "sComboOrderEvaluation", index                                                               
-        dstore.SetItem("evaluation",['order'], index)                                                                                                    
-        self.Update(UPDATE_MODE.gui)        
+#     def sComboOrderEvaluation(self, index):
+#         #print "sComboOrderEvaluation", index                                                               
+#         print "test"        
+#         dstore.SetItem("evaluation",['order'], index)                                                                                                    
+#         self.Update(UPDATE_MODE.gui)
 
         
         
     def Update(self, mode = UPDATE_MODE.all):                
                 
         """ TIMING SETTINGS"""
+        #print dstore.GetItem("racesettings-app", ["race_name"])
         
         timing_settings_get = dstore.Get("timing_settings", "GET")
         timing_settings_set = dstore.Get("timing_settings", "SET")
@@ -221,107 +245,26 @@ class TabRaceSettings():
         Ui().labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
             
         #APPLICATION
-        if(dstore.IsChanged("race_name") or (self.init == False)):
+        if(dstore.IsChanged("racesettings-app") or (self.init == False)):
             print "RACE CHANGED"
-            Ui().lineRaceName.setText(dstore.Get("race_name"))
-            dstore.ResetChangedFlag("race_name")
-        Ui().checkRemoteRace.setCheckState(dstore.Get("remote"))                                  
-        Ui().checkRfidRace.setCheckState(dstore.Get("rfid"))                                  
-        Ui().checkTagFilter.setCheckState(dstore.Get("tag_filter"))                                  
-        #export
-        Ui().checkExportYear.setCheckState(dstore.Get("export")["year"])                                
-        Ui().checkExportSex.setCheckState(dstore.Get("export")["sex"])                                
-        Ui().checkExportClub.setCheckState(dstore.Get("export")["club"])                                
-        Ui().checkExportLaps.setCheckState(dstore.Get("export")["laps"])                                
-        Ui().checkExportLaptime.setCheckState(dstore.Get("export")["laptime"])
-        Ui().checkExportBestLaptime.setCheckState(dstore.Get("export")["best_laptime"])
-        #export - options
-        if(dstore.IsChanged("export") or (self.init == False)):
-            Ui().checkExportOption_1.setCheckState(dstore.Get("export")["option_1"])
-            Ui().checkExportOption_2.setCheckState(dstore.Get("export")["option_2"])
-            Ui().checkExportOption_3.setCheckState(dstore.Get("export")["option_3"])
-            Ui().checkExportOption_4.setCheckState(dstore.Get("export")["option_4"])
-            Ui().checkExportGap.setCheckState(dstore.Get("export")["gap"])
-            Ui().lineOption1Name.setText(dstore.Get("export")["option_1_name"])
-            Ui().lineOption2Name.setText(dstore.Get("export")["option_2_name"])
-            Ui().lineOption3Name.setText(dstore.Get("export")["option_3_name"])
-            Ui().lineOption4Name.setText(dstore.Get("export")["option_4_name"])                
-            Ui().checkExportPointsRace.setCheckState(dstore.Get("export")["points_race"])
-            Ui().checkExportPointsCategories.setCheckState(dstore.Get("export")["points_categories"])
-            Ui().checkExportPointsGroups.setCheckState(dstore.Get("export")["points_groups"])
-            
-            if dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_TIMES:
-                Ui().radioExportLapsTimes.setChecked(True)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_LAPTIMES:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(True)
-                Ui().radioExportLapsPoints_1.setChecked(False)
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_POINTS_1:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(True)                                
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_POINTS_2:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)                                
-                Ui().radioExportLapsPoints_2.setChecked(True)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif dstore.Get("export")["lapsformat"] == ExportLapsFormat.FORMAT_POINTS_3:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)                                
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(True)
-            else:
-                print "error: export laptimes"
-                
-            dstore.ResetChangedFlag("export")
+            Ui().lineRaceName.setText(dstore.GetItem("racesettings-app", ["race_name"]))
+            dstore.ResetChangedFlag("racesettings-app")        
+        Ui().checkRemoteRace.setCheckState(dstore.GetItem("racesettings-app", ["remote"]))                                  
+        Ui().checkRfidRace.setCheckState(dstore.GetItem("racesettings-app", ["rfid"]))                                  
+        Ui().checkTagFilter.setCheckState(dstore.GetItem("racesettings-app", ["tag_filter"]))                                                          
         
-        #points
+                        
         
-        #points: set checked from radio button
+#         #points
+#         
+#points: set checked from radio button
         points = dstore.Get("evaluation")["points"]
         Ui().radioPointsFromTable.setChecked(not(points))            
-        Ui().radioPointsFromFormula.setChecked(points)
-        #points: set enabled rule, min, max
-        Ui().linePointsRule_1.setEnabled(points)
-        Ui().linePointsRule_2.setEnabled(points)
-        Ui().linePointsRule_3.setEnabled(points)
-        Ui().spinPointsMinimum_1.setEnabled(points) 
-        Ui().spinPointsMinimum_2.setEnabled(points) 
-        Ui().spinPointsMinimum_3.setEnabled(points) 
-        Ui().spinPointsMaximum_1.setEnabled(points)
-        Ui().spinPointsMaximum_2.setEnabled(points)
-        Ui().spinPointsMaximum_3.setEnabled(points)
-        
-        
-        points_formula1 = dstore.Get("evaluation")["points_formula1"]        
-        points_formula2 = dstore.Get("evaluation")["points_formula2"]        
-        points_formula3 = dstore.Get("evaluation")["points_formula3"]        
-                        
-        #points: set formula text
-        if(self.init == False):            
-            Ui().linePointsRule_1.setText(points_formula1["formula"])
-            Ui().linePointsRule_2.setText(points_formula2["formula"])
-            Ui().linePointsRule_3.setText(points_formula3["formula"])
-            #uiAccesories.showMessage("Poinst formula changed:", (dstore.Get("points_formula")["formula"]).toString(), MSGTYPE.statusbar)                       
-            #dstore.ResetChangedFlag("points")
-                            
-        #points: set min and max
-        Ui().spinPointsMinimum_1.setValue(points_formula1["minimum"])
-        Ui().spinPointsMaximum_1.setValue(points_formula1["maximum"])
-        Ui().spinPointsMinimum_2.setValue(points_formula2["minimum"])
-        Ui().spinPointsMaximum_2.setValue(points_formula2["maximum"])
-        Ui().spinPointsMinimum_3.setValue(points_formula3["minimum"])
-        Ui().spinPointsMaximum_3.setValue(points_formula3["maximum"])                                                                                      
+        Ui().radioPointsFromFormula.setChecked(points)        
+        #pointsgroups
+        for i in range(0, NUMBER_OF.POINTS): 
+            self.pointformulagroups[i].setEnabled(points)
+            self.pointformulagroups[i].Update()                                                                                    
             
             
         ##TIMES##
@@ -349,10 +292,10 @@ class TabRaceSettings():
         Ui().checkAInfoOrderInCategory.setCheckState(dstore.Get("additional_info")['order_cat'])
         Ui().checkAInfoLaps.setCheckState(dstore.Get("additional_info")['lap'])
         Ui().checkAInfoLaptime.setCheckState(dstore.Get("additional_info")['laptime'])
-        Ui().checkAInfoBestLaptime.setCheckState(dstore.Get("additional_info")['best_laptime'])
-        Ui().checkAInfoPoints_1.setCheckState(dstore.Get("additional_info")['points1'])        
-        Ui().checkAInfoPoints_2.setCheckState(dstore.Get("additional_info")['points2'])        
-        Ui().checkAInfoPoints_3.setCheckState(dstore.Get("additional_info")['points3'])        
+        Ui().checkAInfoBestLaptime.setCheckState(dstore.Get("additional_info")['best_laptime'])        
+        for i in range(0, NUMBER_OF.POINTS):    
+            checkAIPoints = getattr(Ui(), "checkAInfoPoints_" + str(i+1))
+            checkAIPoints.setCheckState(dstore.Get("additional_info")['points'][i])                             
         
         #view limit
         Ui().spinTimesViewLimit.setValue(dstore.Get("times_view_limit"))

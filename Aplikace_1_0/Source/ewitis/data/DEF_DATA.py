@@ -23,12 +23,12 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 15
+    nr_tabs = 16
     runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings,\
-    device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+    export_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
-              race_settings:"RaceSettings", device:"Device", cells: "Cells",\
+              race_settings:"RaceSettings",  export_settings:"ExportSettings", device:"Device", cells: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
             }
@@ -46,9 +46,18 @@ class ExportLapsFormat:
     FORMAT_TIMES, FORMAT_LAPTIMES, FORMAT_POINTS_1, FORMAT_POINTS_2, FORMAT_POINTS_3 = range(0,5) 
 class PointsEvaluation:
     FROM_TABLE, FROM_FORMULA = range(0,2) 
+class CheckboxValue:
+    unchecked, undefined, checked = range(0,3) 
 #class LOGIC_MODES:
 #    basic, manual, remote_manual, multiple_mass_6b, multiple_mass_6c  = range(1,6)         
     
+
+class NUMBER_OF:
+    CELLS = 10
+    POINTS = 3
+    EXPORTS = 3
+    OPTIONCOLUMNS = 4
+
 
 DEF_DATA = {
                
@@ -63,10 +72,12 @@ DEF_DATA = {
                                                         }
                                               }
                                },
-        "active_tab"         : {"GET_SET"  : {"value":0}},
-        "active_row"         : {"GET_SET"  : {"value":0}},
-        
-        
+        "gui"                : {"GET_SET"  : {"value": {
+                                                        "active_tab": 0,
+                                                        "active_row": 0
+                                                        }
+                                              }
+                               },        
         #tab Race Info
         "race_info"          : {"GET_SET"  : {"value": {
                                                 "limit_laps"      : 1, 
@@ -83,98 +94,71 @@ DEF_DATA = {
         "race_time"          : {"GET_SET"  : { "value"   : 0},},        
         #group timing setting: below
                                     
-        #group timing setting: below                                             
-        "race_name"          : {"name"     : "race_name",
-                                "permanent": True,
-                                "GET_SET"  : {
-                                              "value":u"Formula Student 2013",
-                                              "changed": True
-                                              },
-                                  
-                               },
+        #group timing setting: below
         "evaluation"         : {"permanent": True,
                                 "GET_SET"  : {"value": {
                                                         "order" : OrderEvaluation.SLALOM, 
                                                         "starttime": StarttimeEvaluation.VIA_CATEGORY,
                                                         "laptime":  LaptimeEvaluation.ONLY_FINISHTIME,
-                                                        "points":   PointsEvaluation.FROM_TABLE,
-                                                        "points_formula1":{                                                                     
+                                                        "points":   PointsEvaluation.FROM_FORMULA,
+                                                        
+                                                        "points_formula":[
+                                                                          {                                                                     
                                                                             "formula"           : "abs(time - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
                                                                             "maximum"           : 500                                                                                                                                                                                                                                                                    
-                                                                         },                                                                                                                                                                                                                      
-                                                        "points_formula2":{                                                                     
-                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
-                                                                            "minimum"           : 0, 
-                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
-                                                                         },                                                                                                                                                                                                                      
-                                                        "points_formula3":{                                                                     
-                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
-                                                                            "minimum"           : 0, 
-                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
-                                                                         }                                                                                                                                                                                                                      
+                                                                         }] * NUMBER_OF.POINTS,                                                                                                                                                                                                                                                                                                                                                                                                                                           
                                                         }
                                               }
                                 },
-        "remote"             : {"name"     : "Remote Race",
-                                "permanent": True,
-                                "GET_SET"  : {"value"   : 2}  
-                               },        
-        
-        "rfid"               : {"name"     : "rfid",
-                                "permanent": True,
-                                "GET_SET"  : {"value"   : 0}  
-                               },
-
-        "tag_filter"         : {"permanent": True,
-                                "GET_SET"  : {"value"   : 2}},
+            
+        "racesettings-app"   : {"permanent": True,
+                                "GET_SET"  : {"value": {
+                                                        "race_name"  :      u"Formula Student 2013",
+                                                        "remote"    :       CheckboxValue.unchecked,
+                                                        "rfid"      :       CheckboxValue.unchecked,
+                                                        "tag_filter" :      CheckboxValue.unchecked,
+                                                        },
+                                              "changed": True
+                                      }
+                                },
         "download_from_last" : {"GET_SET"  : {"value": 0} },                   
         "times_view_limit"   : {"name"     : "times view limit",
                                 "GET_SET"  : {"value": 0}  
                                },
         "show"               : {"GET_SET"  : {"value": {                                                         
-                                                        "times_with_order" : 0,                                                                                                      
-                                                        "alltimes"         : 0
+                                                        "times_with_order" : CheckboxValue.unchecked,                                                                                                      
+                                                         #"alltimes"         : CheckboxValue.unchecked
                                                         }
                                               }
                                 },
         "additional_info"    : {"name"     : "additinal info",
                                 "permanent": True,
-                                "GET_SET"  : {"value": {"enabled"       : 2,
-                                                        "order"         : 2,
-                                                        "order_cat"     : 2,
-                                                        "lap"           : 2,                                               
-                                                        "laptime"       : 2,                                               
-                                                        "best_laptime"  : 2,                                               
-                                                        "points1"       : 2,                                               
-                                                        "points2"       : 0,                                               
-                                                        "points3"       : 2                                               
+                                "GET_SET"  : {"value": {"enabled"       : CheckboxValue.checked,
+                                                        "order"         : CheckboxValue.checked,
+                                                        "order_cat"     : CheckboxValue.checked,
+                                                        "lap"           : CheckboxValue.checked,                                               
+                                                        "laptime"       : CheckboxValue.checked,                                               
+                                                        "best_laptime"  : CheckboxValue.checked,                                               
+                                                        "points"        : [CheckboxValue.checked] * NUMBER_OF.POINTS                                               
                                                         }
                                               }  
                                },
         "export"             : {"name"     : "export",
                                 "permanent": True,
-                                "GET_SET"  : {"value": {
-                                                        "year"              : 0, 
-                                                        "club"              : 2, 
-                                                        "sex"               : 0, 
-                                                        "laps"              : 0, 
-                                                        "laptime"           : 0,
-                                                        "best_laptime"      : 0,
-                                                        "option_1"          : 0,
-                                                        "option_2"          : 0,
-                                                        "option_3"          : 0,
-                                                        "option_4"          : 0,
-                                                        "option_1_name"     : "o1",
-                                                        "option_2_name"     : "o2",
-                                                        "option_3_name"     : "o3",
-                                                        "option_4_name"     : "o4",
-                                                        "gap"               : 0,                                                                                                      
-                                                        "points_race"       : 0,                                                                                                      
-                                                        "points_categories" : 0,                                                                                                      
-                                                        "points_groups"     : 0,                                                                                                                                                                                                                                                                    
-                                                        "lapsformat"        : 0,                                                                                                                                                                                                                                                                    
-                                                        },
+                                "GET_SET"  : {"value": [{
+                                                        "year"              : CheckboxValue.unchecked, 
+                                                        "club"              : CheckboxValue.checked, 
+                                                        "sex"               : CheckboxValue.unchecked, 
+                                                        "laps"              : CheckboxValue.unchecked, 
+                                                        "laptime"           : CheckboxValue.unchecked,
+                                                        "best_laptime"      : CheckboxValue.unchecked,
+                                                        "option"            : [CheckboxValue.unchecked] * NUMBER_OF.OPTIONCOLUMNS,
+                                                        "optionname"        : ["optionname"] * NUMBER_OF.OPTIONCOLUMNS,
+                                                        "gap"               : CheckboxValue.unchecked,                                                                                                      
+                                                        "points"            : [CheckboxValue.unchecked] * NUMBER_OF.CELLS,                                                                                                                                                                                                                                                                                                                                                                          
+                                                        "lapsformat"        : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                    
+                                                        }] * NUMBER_OF.EXPORTS,
                                               "changed": True
                                               }  
                                },
@@ -203,15 +187,15 @@ DEF_DATA = {
                                                         },
                                               },
                                 }, 
-        "dir_import_csv"     : {"name"     : "dir_import_csv",
-                                "GET_SET"  : {"value":  u"import/csv/"}  
-                               },
-        "dir_export_csv"     : {"name"     : "dir_export_csv",
-                                "GET_SET"  : {"value":  u"export/csv/"}  
-                               },
-        "dir_export_www"     : {"name"     : "dir_export_www",
-                                "GET_SET"  : {"value":  u"export/www/"}  
-                               },
+#         "dir_import_csv"     : {"name"     : "dir_import_csv",
+#                                 "GET_SET"  : {"value":  u"import/csv/"}  
+#                                },
+#         "dir_export_csv"     : {"name"     : "dir_export_csv",
+#                                 "GET_SET"  : {"value":  u"export/csv/"}  
+#                                },
+#         "dir_export_www"     : {"name"     : "dir_export_www",
+#                                 "GET_SET"  : {"value":  u"export/www/"}  
+#                                },
             
         # DATABASE"
         
@@ -224,11 +208,7 @@ DEF_DATA = {
         # TERMINAL DATA SET"              
         "synchronize_system" : {"SET"     : {"value": 0,
                                              "changed": False},
-                               },                                                                                                       
-        "speaker"            : {"name"    : "speaker",                                                                 
-                                "SET"     : {"value":{"keys": False, "timing": True, "system":True},
-                                             "changed": False},
-                               },                                                                                                       
+                               },                                                                                                                                                                                                             
                                                                                  
         "datetime"           : {"name"    : "datetime",                                                                
                                 "SET"     : {"value": {"year":1999, "month":8, "day":13, "hour":15, "minutes":5, "seconds":7, "dayweek":5},
@@ -255,8 +235,7 @@ DEF_DATA = {
                                                        },
                                              "refresh_countdown": 0                                              
                                              },
-                               },
-        "nr_cells"           : {"GET_SET"  : {"value"   : 10},},                          
+                               },                                  
         "cells_info"         : {"name"    : "cells info", 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1
@@ -272,7 +251,7 @@ DEF_DATA = {
                                                            "diagnostic_short_ok": 0,
                                                            "diagnostic_short_ko": 0
                                                        }                                              
-                                                       ]*10,
+                                                       ] * NUMBER_OF.CELLS,
                                              "refresh_countdown": 0 ,
                                              },
                                 "SET"     : {"value": [
@@ -283,7 +262,7 @@ DEF_DATA = {
                                                             "fu2": None,
                                                             "fu3": None,
                                                             "fu4": None
-                                                       }]*16,
+                                                       }] * NUMBER_OF.CELLS,
                                              "changed": False
                                              },
                                },
@@ -328,9 +307,7 @@ DEF_DATA = {
         "disable_cell"        : { "SET"  : { "value": 0, "changed": False}},
         "generate_celltime"  : { "SET"   : { "value": {'task':0, 'user_id':0}, 
                                              "changed": False},
-                                },
-            
-            
+                                },                        
         "quit_timing"         : {"name"  : "quit timing",                                                                 
                                  "SET"   : { "value"   : False, 
                                              "changed": False},

@@ -12,6 +12,7 @@ from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
+from ewitis.data.DEF_DATA import *
 
 
 
@@ -268,10 +269,9 @@ class TabCells(MyTab):
         print "tabCells: constructor"
         
     def Init(self):
-        '''tab Cells'''        
-        self.nr  = dstore.Get("nr_cells")                      
-        self.cellgroups = [None]*self.nr
-        for i in range(0,self.nr):            
+        '''tab Cells'''                    
+        self.cellgroups = [None] *  NUMBER_OF.CELLS
+        for i in range(0, NUMBER_OF.CELLS):            
             self.cellgroups[i] = CellGroup(i+1)
             self.cellgroups[i].CreateSlots()
             
@@ -294,7 +294,7 @@ class TabCells(MyTab):
     
         
     def Update(self, mode = UPDATE_MODE.all):
-        for i in range(0,self.nr):
+        for i in range(0, NUMBER_OF.CELLS):
             self.cellgroups[i].Update()
         return True        
     

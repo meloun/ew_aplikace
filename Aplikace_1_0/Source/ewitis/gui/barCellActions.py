@@ -116,7 +116,7 @@ class BarCellActions():
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)      
         
         #enable/disable items in cell toolbar 
-        if(dstore.Get('rfid') == 2):
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
             '''RFID RACE'''
             
             #enable 'generate celltime' for START and FINISH

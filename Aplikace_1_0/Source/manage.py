@@ -13,6 +13,7 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.Ui import appWindow    
 from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.data.dstore import dstore
+from ewitis.data.presets import presets
 from ewitis.gui.UiAccesories import MSGTYPE 
 
 #tabs
@@ -27,6 +28,7 @@ from ewitis.gui.tableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
+from ewitis.gui.tabExportSettings import tabExportSettings
 from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.tabCells import tabCells
 from ewitis.gui.tabCommunication import tabCommunication
@@ -65,6 +67,7 @@ def InitTabs():
     tabPoints.Init()
     tabRaceInfo.Init()
     tabRaceSettings.Init()
+    tabExportSettings.Init()
     tabCategories.Init()
     tabUsers.Init()
     tabRunsTimes.Init()  
@@ -81,6 +84,7 @@ def UpdateTabs():
     tabPoints.Update()
     tabRaceInfo.Update()
     tabRaceSettings.Update()
+    tabExportSettings.Update()
     tabCategories.Update()
     tabUsers.Update()
     tabRunsTimes.Update()  
@@ -128,7 +132,7 @@ def sTabChanged(nr):
     #tabName = TAB.NAME[tabIndex]
     #print "new tab", tabName, tabIndex
     
-    dstore.Set("active_tab", tabIndex)
+    dstore.SetItem("gui", ["active_tab"], tabIndex)
     GetCurrentTab().Update(UPDATE_MODE.gui)
                                                              
       

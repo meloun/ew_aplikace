@@ -154,11 +154,12 @@ class Datastore():
         item = self.data[name][section]["value"]
         
         for key in keys[:-1]:          
-            if key in item:                            
-                item = item[key]                
+            if (key in item) or isinstance(key, int): #integer because of index to the array                                                           
+                item = item[key] 
+                               
         self.datalock.acquire() 
         
-        #set data          
+        #set data                        
         item[keys[-1]] = value        
         
         #set flag "changed" for section SET

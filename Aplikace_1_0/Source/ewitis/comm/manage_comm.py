@@ -344,8 +344,8 @@ class ManageComm(Thread):
              - get terminal info
              - set timing settings                                                                          
             """                                                                   
-            if(dstore.Get("active_tab") == TAB.race_settings)\
-                or (dstore.Get("active_tab") == TAB.device):                                
+            if(dstore.GetItem("gui", ["active_tab"]) == TAB.race_settings)\
+                or (dstore.GetItem("gui", ["active_tab"]) == TAB.device):                                
                                                                   
                 """ synchronize system """
                 if(dstore.IsChanged("synchronize_system")):                                                                                     
@@ -381,14 +381,14 @@ class ManageComm(Thread):
             tab CELLs
             - clear diag, run diag, buttons ping,                                                                        
             """ 
-            if(dstore.Get("active_tab") == TAB.cells):
+            if(dstore.GetItem("gui", ["active_tab"]) == TAB.cells):
                 pass
             
             """
             tab DIAGNOSTIC                        
              - get diagnostic                                    
             """
-            if(dstore.Get("active_tab") == TAB.diagnostic):                    
+            if(dstore.GetItem("gui", ["active_tab"]) == TAB.diagnostic):                    
                 """ get diagnostic """
                 #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
                 cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
@@ -428,10 +428,9 @@ class ManageComm(Thread):
                     ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
                     dstore.ResetChangedFlag("cells_info")
                 
-                #GET CELL INFO
-                nr_cell = dstore.Get("nr_cells")                
-                aux_cells_info = [None] * nr_cell                
-                for i in range(0, dstore.Get("nr_cells")):                                       
+                #GET CELL INFO                                
+                aux_cells_info = [None] * NUMBER_OF.CELLS                
+                for i in range(0,  NUMBER_OF.CELLS):                                       
                     aux_cells_info[i] = self.send_receive_frame("GET_CELL_INFO", i+1, diagnostic = diagnostic)                                                 
                 
                     """ store terminal-states to the datastore """ 
@@ -456,7 +455,8 @@ class ManageComm(Thread):
         #print struct.pack('<I', time['user_id']).encode('hex')
                         
         '''alltag filter - activ only when rfid race and tag filter checked'''
-        if(dstore.Get("rfid") == 2) and (dstore.Get("tag_filter") == 2):                
+        racesettings_app = dstore.Get("racesettings-app")
+        if(racesettings_app["rfid"] == 2) and (racesettings_app["tag_filter"] == 2):                
             ''' check tag id from table alltags'''
             if(time['user_id'] != 0) and (time['user_id'] != 1):            
                 dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()

@@ -226,7 +226,7 @@ class TimesOrder():
 
             #ir:    bez tabulky tags  => user_id == users.id
             #rfid:  přes tabulku tags => user_id == tag_id
-            if(dstore.Get('rfid') == 2):
+            if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
                 query_order = query_order + \
                 " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                 " INNER JOIN users ON tags.user_nr = users.nr "
@@ -269,7 +269,7 @@ class TimesOrder():
                     " UNION "+\
                     " SELECT user_id FROM times"
                     
-                if(dstore.Get('rfid') == 2):  
+                if(dstore.Get("racesettings-app", ['rfid']) == 2):  
                     query_order = query_order + \
                         " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                         " INNER JOIN users ON tags.user_nr = users.nr "

@@ -47,7 +47,8 @@ class UiAccesories(UiaDialogs):
     
     def Init(self):
         UiaDialogs.__init__(self)
-        self.showMessage("Race", dstore.Get("race_name"), MSGTYPE.statusbar)
+        print dstore.Get("racesettings-app")
+        self.showMessage("Race", dstore.GetItem("racesettings-app", ["race_name"]), MSGTYPE.statusbar)
                                                                                                     
     def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == dstore.Get(name):
@@ -73,8 +74,8 @@ class UiAccesories(UiaDialogs):
                 
         dstore.SetItem(name, keys, value)
         #self.updateTab(tab)
-        #if callback != None:      
-        #    callback()
+        if callback != None:      
+            callback()
 
 #instance
 uiAccesories = UiAccesories()  

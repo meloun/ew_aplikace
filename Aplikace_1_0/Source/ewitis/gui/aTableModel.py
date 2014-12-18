@@ -352,11 +352,11 @@ class myProxyModel(QtGui.QSortFilterProxyModel, myAbstractModel):
                     '''editovat sloupec nad aktivním řádkem'''
                     
                     '''uložit aktivní řádek do datastore'''
-                    dstore.Set("active_row", topLeft.row())
+                    dstore.SetItem("gui", ["active_row"], topLeft.row())
                     #print "aktivni radek je ted: ", topLeft.row(), dstore.Get("active_row")                    
 
                     '''editovat sloupec nad aktivním řádkem'''                         
-                    myindex = self.index(dstore.Get("active_row")-1, topLeft.column())                    
+                    myindex = self.index(dstore.GetItem("gui", ["active_row"])-1, topLeft.column())                    
                     if(myindex.isValid() == True):                        
                         self.table.gui['view'].edit(myindex)
 

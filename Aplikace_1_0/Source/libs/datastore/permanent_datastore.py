@@ -14,13 +14,24 @@ class PermanentDatastore(datastore.Datastore):
         
         #update datastore from db
         self.Update(self.db.load())
+        
+        
+    def Update(self, update_dict):
+        
+        #update data
+        datastore.Datastore.Update(self, update_dict)
+        
+        #update file with permanents datapoints
+        self.db.dump(self.GetAllPermanents()) 
+        
             
         
-    def Set(self, name, value, section = "GET_SET"):        
-        #set
+    def Set(self, name, value, section = "GET_SET"):
+                
+        #update data
         datastore.Datastore.Set(self, name, value, section)
         
-        #store permanents to the file
+        #update file
         if self.IsPermanent(name):
             self.db.dump(self.GetAllPermanents())                
             #print "DSTORE: Set()", self.data[name]

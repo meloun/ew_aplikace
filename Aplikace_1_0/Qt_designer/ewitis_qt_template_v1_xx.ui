@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1243</width>
-    <height>760</height>
+    <width>1277</width>
+    <height>956</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -30,6 +30,12 @@
    <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <underline>false</underline>
+        <strikeout>false</strikeout>
+       </font>
+      </property>
       <property name="toolTip">
        <string/>
       </property>
@@ -37,7 +43,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="tabRuns_Times">
        <attribute name="title">
@@ -2678,7 +2684,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>90</y>
+             <y>170</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2694,7 +2700,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>30</y>
+             <y>100</y>
              <width>271</width>
              <height>31</height>
             </rect>
@@ -2727,8 +2733,8 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>480</y>
-             <width>201</width>
+             <y>600</y>
+             <width>251</width>
              <height>17</height>
             </rect>
            </property>
@@ -2743,7 +2749,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>110</y>
+             <y>190</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2762,7 +2768,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>200</y>
+             <y>320</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2785,7 +2791,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>170</y>
+             <y>290</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2808,7 +2814,7 @@
            <property name="geometry">
             <rect>
              <x>50</x>
-             <y>200</y>
+             <y>320</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -2826,7 +2832,7 @@
            <property name="geometry">
             <rect>
              <x>50</x>
-             <y>170</y>
+             <y>290</y>
              <width>51</width>
              <height>16</height>
             </rect>
@@ -2844,7 +2850,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>70</y>
+             <y>150</y>
              <width>231</width>
              <height>17</height>
             </rect>
@@ -2860,7 +2866,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>150</y>
+             <y>270</y>
              <width>131</width>
              <height>16</height>
             </rect>
@@ -2880,7 +2886,7 @@
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>230</y>
+             <y>350</y>
              <width>281</width>
              <height>80</height>
             </rect>
@@ -2925,7 +2931,7 @@
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>320</y>
+             <y>440</y>
              <width>301</width>
              <height>151</height>
             </rect>
@@ -3284,6 +3290,47 @@
             </property>
            </widget>
           </widget>
+          <widget class="QLabel" name="label_212">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>20</y>
+             <width>301</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Presets for app and export settings</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBox_2">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>50</y>
+             <width>241</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>Custom</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Classic Rallye: Start -&gt; Finish</string>
+            </property>
+           </item>
+          </widget>
          </widget>
         </item>
         <item>
@@ -3343,7 +3390,7 @@
             <rect>
              <x>60</x>
              <y>140</y>
-             <width>111</width>
+             <width>131</width>
              <height>17</height>
             </rect>
            </property>
@@ -3521,7 +3568,30 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupTerminal_8">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabExportSettings">
+       <attribute name="title">
+        <string>Export Settings</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="groupTerminal_9">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -3530,7 +3600,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>280</width>
+            <width>750</width>
             <height>0</height>
            </size>
           </property>
@@ -3540,352 +3610,12 @@
           <property name="title">
            <string>E X P O R T   R E S U L T S</string>
           </property>
-          <widget class="QCheckBox" name="checkExportGap">
+          <widget class="QCheckBox" name="checkExportToDefaultDirectories_2">
            <property name="geometry">
             <rect>
-             <x>20</x>
-             <y>220</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Gap</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportBestLaptime">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>120</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Best Laptime</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportLaptime">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>100</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Laptime</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportPointsRace">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>240</y>
-             <width>101</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Points for Race</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportPointsCategories">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>260</y>
-             <width>131</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Points for Categories</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineOption3Name">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>180</y>
-             <width>111</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Option #3 name</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportLaps">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>80</y>
-             <width>101</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Laps</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportOption_3">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>180</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Option #3</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportYear">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>20</y>
-             <width>101</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Year</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineOption4Name">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>200</y>
-             <width>111</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Option #4 name</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportOption_2">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>160</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Option #2</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineOption1Name">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>140</y>
-             <width>111</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Option #1 name</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportPointsGroups">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>280</y>
-             <width>101</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Points for Groups</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportClub">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>40</y>
-             <width>101</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Club</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineOption2Name">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>160</y>
-             <width>111</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Option #2 name</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportOption_1">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>140</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Option #1</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportOption_4">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>200</y>
-             <width>111</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Option #4</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QCheckBox" name="checkExportToDefaultDirectories">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>480</y>
-             <width>221</width>
+             <x>30</x>
+             <y>613</y>
+             <width>261</width>
              <height>17</height>
             </rect>
            </property>
@@ -3896,159 +3626,2403 @@
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QCheckBox" name="checkExportSex">
+          <widget class="QGroupBox" name="groupBox_18">
            <property name="geometry">
             <rect>
-             <x>20</x>
-             <y>60</y>
-             <width>101</width>
-             <height>17</height>
+             <x>250</x>
+             <y>30</y>
+             <width>421</width>
+             <height>551</height>
             </rect>
            </property>
-           <property name="text">
-            <string>Sex</string>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QGroupBox" name="groupBox_16">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>310</y>
-             <width>241</width>
-             <height>161</height>
-            </rect>
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="title">
-            <string>Export Laps Format (F9)</string>
+            <string>Export Columns</string>
            </property>
-           <widget class="QRadioButton" name="radioExportLapsLaptimes">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>30</y>
+              <width>21</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>E3</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton">
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>40</y>
-              <width>211</width>
+              <y>30</y>
+              <width>21</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>E1</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_2_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>400</y>
+              <width>21</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>laptimes</string>
+             <string/>
             </property>
             <property name="checked">
              <bool>false</bool>
             </property>
            </widget>
-           <widget class="QRadioButton" name="radioExportLapsTimes">
+           <widget class="QLabel" name="label_200">
             <property name="geometry">
              <rect>
-              <x>20</x>
-              <y>20</y>
-              <width>211</width>
+              <x>83</x>
+              <y>280</y>
+              <width>61</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Option #1</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_2_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>400</y>
+              <width>21</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>times</string>
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaps_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>220</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
             </property>
             <property name="checked">
              <bool>true</bool>
             </property>
            </widget>
-           <widget class="QSpinBox" name="spinGrouplapsBy">
+           <widget class="QCheckBox" name="checkExportOption_3_2">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>130</y>
-              <width>61</width>
-              <height>22</height>
+              <x>43</x>
+              <y>320</y>
+              <width>21</width>
+              <height>17</height>
              </rect>
             </property>
-            <property name="maximum">
-             <number>255</number>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
-           <widget class="QLabel" name="label_57">
+           <widget class="QCheckBox" name="checkExportOption_4_1">
             <property name="geometry">
              <rect>
-              <x>20</x>
-              <y>130</y>
+              <x>23</x>
+              <y>340</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_197">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>340</y>
+              <width>61</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Option #4</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineExportOptionname_1">
+            <property name="geometry">
+             <rect>
+              <x>153</x>
+              <y>280</y>
               <width>111</width>
               <height>16</height>
              </rect>
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <pointsize>8</pointsize>
              </font>
             </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
             </property>
             <property name="text">
-             <string>Group by :</string>
+             <string>Option #1 name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
             </property>
            </widget>
-           <widget class="QRadioButton" name="radioExportLapsPoints_1">
+           <widget class="QCheckBox" name="checkExportSex_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>200</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportBestLaptime_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>260</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_1_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>380</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportGap_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>360</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_5">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>400</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Points #2</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportClub_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>180</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>160</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportBestLaptime_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>260</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportSex_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>200</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_2_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>300</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_196">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>360</y>
+              <width>161</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Gap (only for time #1)</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_3_2">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>420</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_206">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>160</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Year</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_2_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>400</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineExportOptionname_3">
+            <property name="geometry">
+             <rect>
+              <x>153</x>
+              <y>320</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Option #3 name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaptime_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>240</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_3_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>420</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_3_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>420</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_2_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>300</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_1_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>280</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>420</y>
+              <width>91</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Points #3</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_3_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>320</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_4_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>340</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>160</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_10">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>380</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Points #1</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_205">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>180</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Club</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportGap_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>360</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportBestLaptime_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>260</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineExportOptionname_2">
+            <property name="geometry">
+             <rect>
+              <x>153</x>
+              <y>300</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Option #2 name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>160</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineExportOptionname_4">
+            <property name="geometry">
+             <rect>
+              <x>153</x>
+              <y>340</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Option #4 name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaps_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>220</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaps_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>220</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_3_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>320</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_202">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>240</y>
+              <width>161</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Laptime (only for time #1)</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportGap_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>360</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_1_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>380</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportPoints_1_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>380</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportSex_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>200</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_204">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>200</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Sex</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_199">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>300</y>
+              <width>61</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Option #2</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_4_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>340</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_1_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>280</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_1_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>280</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportOption_2_1">
+            <property name="geometry">
+             <rect>
+              <x>23</x>
+              <y>300</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportClub_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>176</y>
+              <width>21</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_201">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>260</y>
+              <width>191</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Best Laptime  (only for time #1)</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaptime_2">
+            <property name="geometry">
+             <rect>
+              <x>43</x>
+              <y>240</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportClub_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>180</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportLaptime_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>63</x>
+              <y>240</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_203">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>220</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Laps</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_198">
+            <property name="geometry">
+             <rect>
+              <x>83</x>
+              <y>320</y>
+              <width>61</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Option #3</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>30</y>
+              <width>21</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>E2</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_214">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>60</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_4">
             <property name="geometry">
              <rect>
               <x>20</x>
               <y>60</y>
-              <width>211</width>
+              <width>21</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>points #1</string>
+             <string>Time #1</string>
             </property>
             <property name="checked">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
-           <widget class="QRadioButton" name="radioExportLapsPoints_2">
+           <widget class="QCheckBox" name="checkExportYear_5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>60</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_6">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>60</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_7">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>80</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_215">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>80</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #2</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_8">
             <property name="geometry">
              <rect>
               <x>20</x>
               <y>80</y>
-              <width>211</width>
+              <width>21</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>points #2</string>
+             <string>Time #1</string>
             </property>
             <property name="checked">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
-           <widget class="QRadioButton" name="radioExportLapsPoints_3">
+           <widget class="QCheckBox" name="checkExportYear_9">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>80</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_216">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>100</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #3</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_10">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>100</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_11">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>100</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_12">
             <property name="geometry">
              <rect>
               <x>20</x>
               <y>100</y>
-              <width>211</width>
+              <width>21</width>
               <height>17</height>
              </rect>
             </property>
             <property name="text">
-             <string>points #3</string>
+             <string>Time #1</string>
             </property>
             <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_13">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>40</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_217">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>80</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order #3</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_218">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>60</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order #2</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_14">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>60</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_15">
+            <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>60</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_219">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>40</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order #1</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_16">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>60</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_17">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>40</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_18">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>80</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_19">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>80</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_20">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>80</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_21">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>40</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Time #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_22">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>100</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_23">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>100</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_24">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>140</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_25">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>140</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_26">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>120</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_27">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>120</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_220">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>120</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #2</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_28">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>140</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_221">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>140</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #3</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_29">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>120</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkExportYear_30">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>100</y>
+              <width>21</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_222">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>100</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Order category #1</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_19">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>160</y>
+             <width>200</width>
+             <height>101</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Filter</string>
+           </property>
+           <widget class="QLineEdit" name="lineOption3Name_4">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>60</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>e3 filter</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_195">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>40</y>
+              <width>20</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E2</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_193">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>60</y>
+              <width>20</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E3</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_194">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>21</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E1</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption2Name_4">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>40</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>e2 filter</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption1Name_4">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>20</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>e1 filter</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_20">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>211</width>
+             <height>121</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Names</string>
+           </property>
+           <widget class="QLineEdit" name="lineOption3Name_3">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>60</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>export#3</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_209">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>60</y>
+              <width>21</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E3</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_210">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>40</y>
+              <width>21</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E2</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_207">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>21</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E1</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption2Name_3">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>40</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>export#2</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption1Name_3">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>20</y>
+              <width>111</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>export#1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_21">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>280</y>
+             <width>200</width>
+             <height>91</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Sorting</string>
+           </property>
+           <widget class="QComboBox" name="comboExportSort_2">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>40</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <item>
+             <property name="text">
+              <string>time</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>points</string>
+             </property>
+            </item>
+           </widget>
+           <widget class="QComboBox" name="comboExportSort_1">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>20</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <item>
+             <property name="text">
+              <string>time</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>points</string>
+             </property>
+            </item>
+           </widget>
+           <widget class="QComboBox" name="comboExportSort_3">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>60</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <item>
+             <property name="text">
+              <string>time</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>points</string>
+             </property>
+            </item>
+           </widget>
+           <widget class="QLabel" name="label_213">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>20</y>
+              <width>21</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E1</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_208">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>40</y>
+              <width>20</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E2</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_211">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>60</y>
+              <width>20</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>E3</string>
             </property>
            </widget>
           </widget>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_17">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Export Laps Format (F9)</string>
+          </property>
+          <widget class="QRadioButton" name="radioExportLapsLaptimes">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>40</y>
+             <width>211</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>laptimes</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioExportLapsTimes">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>20</y>
+             <width>211</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>times</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QSpinBox" name="spinGrouplapsBy_2">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>130</y>
+             <width>61</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="maximum">
+            <number>255</number>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_192">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>130</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="text">
+            <string>Group by :</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioExportLapsPoints_1">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>60</y>
+             <width>211</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>points #1</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioExportLapsPoints_2">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>80</y>
+             <width>211</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>points #2</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioExportLapsPoints_3">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>100</y>
+             <width>211</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>points #3</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_9">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
+            <width>500</width>
             <height>20</height>
            </size>
           </property>
@@ -13839,7 +15813,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1243</width>
+     <width>1277</width>
      <height>26</height>
     </rect>
    </property>
@@ -14863,29 +16837,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinPointsMaximum_3</tabstop>
   <tabstop>checkShowOnlyTimesWithOrder</tabstop>
   <tabstop>checkAInfoPoints_1</tabstop>
-  <tabstop>checkExportGap</tabstop>
-  <tabstop>checkExportBestLaptime</tabstop>
-  <tabstop>checkExportLaptime</tabstop>
-  <tabstop>checkExportPointsRace</tabstop>
-  <tabstop>checkExportPointsCategories</tabstop>
-  <tabstop>lineOption3Name</tabstop>
-  <tabstop>checkExportLaps</tabstop>
-  <tabstop>checkExportOption_3</tabstop>
-  <tabstop>checkExportYear</tabstop>
-  <tabstop>lineOption4Name</tabstop>
-  <tabstop>checkExportOption_2</tabstop>
-  <tabstop>lineOption1Name</tabstop>
-  <tabstop>checkExportPointsGroups</tabstop>
-  <tabstop>checkExportClub</tabstop>
-  <tabstop>lineOption2Name</tabstop>
-  <tabstop>checkExportOption_1</tabstop>
-  <tabstop>checkExportOption_4</tabstop>
-  <tabstop>checkExportToDefaultDirectories</tabstop>
-  <tabstop>checkExportSex</tabstop>
-  <tabstop>radioExportLapsLaptimes</tabstop>
-  <tabstop>radioExportLapsTimes</tabstop>
-  <tabstop>spinGrouplapsBy</tabstop>
-  <tabstop>radioExportLapsPoints_1</tabstop>
   <tabstop>lineCells</tabstop>
   <tabstop>lineBattery</tabstop>
   <tabstop>lineHwVersion</tabstop>
@@ -15118,8 +17069,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinTimesViewLimit</tabstop>
   <tabstop>checkAInfoBestLaptime</tabstop>
   <tabstop>checkAInfoLaptime</tabstop>
-  <tabstop>radioExportLapsPoints_2</tabstop>
-  <tabstop>radioExportLapsPoints_3</tabstop>
   <tabstop>checkAInfoPoints_2</tabstop>
   <tabstop>checkAInfoPoints_3</tabstop>
  </tabstops>

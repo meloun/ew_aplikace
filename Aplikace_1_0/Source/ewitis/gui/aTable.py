@@ -406,7 +406,7 @@ class myTable():
             print "as", "dir_export_"+format.lower()         
             filename = uiAccesories.getSaveFileName("Export table "+self.name+" to "+format.upper(),"dir_export_"+format.lower(), format.upper()+" Files (*."+format.lower()+")", self.name+"."+format.lower())
         else:
-            filename = utils.get_filename("export/"+format.lower()+"/"+self.name+"_"+dstore.Get('race_name')+"."+format.lower())
+            filename = utils.get_filename("export/"+format.lower()+"/"+self.name+"_"+dstore.GetItem("racesettings-app",['race_name'])+"."+format.lower())
                      
         if(filename == ""):
             return                
@@ -420,8 +420,8 @@ class myTable():
         if format == "Csv":                                    
             '''Write to CSV file'''            
             if(exportRows != []) or (exportHeader!= []):
-                print "export race", dstore.Get('race_name'), ":",len(exportRows),"rows"            
-                first_header = [dstore.Get('race_name'), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
+                print "export race", dstore.GetItem("racesettings-app",['race_name']), ":",len(exportRows),"rows"            
+                first_header = [dstore.GetItem("racesettings-app", ['race_name']), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
                 exportRows.insert(0, exportHeader)
                 aux_csv = Db_csv.Db_csv(filename)
                 try:                                     
@@ -431,7 +431,7 @@ class myTable():
         elif format == "Htm":                    
             '''Write to HTML file'''            
             try:                                                                
-                html_page = ew_html.Page_table(filename, title = dstore.Get('race_name'), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
+                html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= ["css/results.css",], lists = exportRows, keys = exportHeader)
                 html_page.save()                             
                 uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
             except IOError:            
