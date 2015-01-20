@@ -54,8 +54,10 @@ class CheckboxValue:
 
 class NUMBER_OF:
     CELLS = 10
-    POINTS = 3
     EXPORTS = 3
+    
+    POINTSCOLUMNS = 3
+    THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
 
 
@@ -100,14 +102,7 @@ DEF_DATA = {
                                                         "order" : OrderEvaluation.SLALOM, 
                                                         "starttime": StarttimeEvaluation.VIA_CATEGORY,
                                                         "laptime":  LaptimeEvaluation.ONLY_FINISHTIME,
-                                                        "points":   PointsEvaluation.FROM_FORMULA,
-                                                        
-                                                        "points_formula":[
-                                                                          {                                                                     
-                                                                            "formula"           : "abs(time - %00:01:30,00%)", 
-                                                                            "minimum"           : 0, 
-                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
-                                                                         }] * NUMBER_OF.POINTS,                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                        "points":   PointsEvaluation.FROM_FORMULA,                                                        
                                                         }
                                               }
                                 },
@@ -135,29 +130,40 @@ DEF_DATA = {
         "additional_info"    : {"name"     : "additinal info",
                                 "permanent": True,
                                 "GET_SET"  : {"value": {"enabled"       : CheckboxValue.checked,
-                                                        "order"         : CheckboxValue.checked,
-                                                        "order_cat"     : CheckboxValue.checked,
-                                                        "lap"           : CheckboxValue.checked,                                               
-                                                        "laptime"       : CheckboxValue.checked,                                               
-                                                        "best_laptime"  : CheckboxValue.checked,                                               
-                                                        "points"        : [CheckboxValue.checked] * NUMBER_OF.POINTS                                               
+                                                        "times"         :[
+                                                                          {                                                                     
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "rule"              : "time - starttime", 
+                                                                            "filter"            : "cell250",
+                                                                         }] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                 
+                                                        "lap"           : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                               
+                                                        "order"         : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                           
+                                                        "points"        :[
+                                                                          {                                                                     
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "rule"              : "abs(time - %00:01:30,00%)", 
+                                                                            "minimum"           : 0, 
+                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
+                                                                         }] * NUMBER_OF.POINTSCOLUMNS,                                                                                                                                                                
                                                         }
                                               }  
                                },
         "export"             : {"name"     : "export",
                                 "permanent": True,
                                 "GET_SET"  : {"value": [{
+                                                        "order"             : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,
+                                                        "number"            : CheckboxValue.checked, 
+                                                        "name"              : CheckboxValue.checked, 
+                                                        "category"          : CheckboxValue.checked, 
                                                         "year"              : CheckboxValue.unchecked, 
                                                         "club"              : CheckboxValue.checked, 
                                                         "sex"               : CheckboxValue.unchecked, 
-                                                        "laps"              : CheckboxValue.unchecked, 
-                                                        "laptime"           : CheckboxValue.unchecked,
-                                                        "best_laptime"      : CheckboxValue.unchecked,
                                                         "option"            : [CheckboxValue.unchecked] * NUMBER_OF.OPTIONCOLUMNS,
                                                         "optionname"        : ["optionname"] * NUMBER_OF.OPTIONCOLUMNS,
                                                         "gap"               : CheckboxValue.unchecked,                                                                                                      
-                                                        "points"            : [CheckboxValue.unchecked] * NUMBER_OF.CELLS,                                                                                                                                                                                                                                                                                                                                                                          
-                                                        "lapsformat"        : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                    
+                                                        "points"            : [CheckboxValue.unchecked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
+                                                        "times"             : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
+                                                        "laps"              : CheckboxValue.unchecked                                                                                                                                                                                                                                                                                                                            
                                                         }] * NUMBER_OF.EXPORTS,
                                               "changed": True
                                               }  

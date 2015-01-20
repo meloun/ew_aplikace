@@ -59,7 +59,7 @@ def unpack_data(command, data, senddata):
         #    aux_time['time_raw'] = aux_time['time_raw'] + 255800
 
         #add data
-        aux_time['time'] = None        
+        aux_time['time1'] = None        
                                                                                
         return aux_time
     

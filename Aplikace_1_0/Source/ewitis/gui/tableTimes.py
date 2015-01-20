@@ -29,7 +29,8 @@ import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
-import ewitis.gui.TimesStartTimes as TimesStarts
+#import ewitis.gui.TimesStartTimes as TimesStarts
+from ewitis.gui.TimesStore import timesstore
 
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
@@ -48,7 +49,8 @@ class TimesModel(myModel):
         
         #
         #self.starts = TimesUtils.TimesStarts()
-        self.starts2 = TimesStarts.TimesStarts()
+        #self.starts2 = TimesStarts.TimesStarts()
+        #self.starts2 = TimesStore.TimesStore()
         
         self.order = TimesUtils.TimesOrder()
         #self.lap = TimesUtils.TimesLap()
@@ -118,97 +120,51 @@ class TimesModel(myModel):
         '''raw time'''        
         tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'], True)
         
-        '''time'''
-        if(dbTime['time'] == None):
+        '''time1'''
+        if(dbTime['time1'] == None):
             '''cas neexistuje'''
-            tabTime['time'] = None
+            tabTime['time1'] = None
         else:            
-            tabTime['time'] = TimesUtils.TimesUtils.time2timestring(dbTime['time'])            
+            tabTime['time1'] = TimesUtils.TimesUtils.time2timestring(dbTime['time1'])            
                 
-        '''NAME'''        
-#        if(dbTime['cell'] == 1):
-#            tabTime['name'] = ''
-        #if(dbTime["user_id"] == 0):
-        #    tabTime['name'] = 'undefined'
-        #else:                       
+        '''NAME'''                       
         tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
         
         '''CATEGORY'''        
         tabTime['category'] = joinUser['category']                                                                                                                              
              
-        tabTime['lap'] = None
-        tabTime['order'] = None
-        tabTime['order_cat'] = None       
-        tabTime['laptime'] = None       
-        tabTime['points1'] = None       
-        tabTime['points2'] = None       
-        tabTime['points3'] = None       
+    
         
         additional_info = dstore.Get("additional_info")
         if  additional_info['enabled']:
         
-            '''LAP'''
-            aux_lap = None #potřebuji lap pro pořadí
-            if additional_info['lap'] or additional_info['order'] or additional_info['order_cat']:                
-                aux_lap = dbTime['lap']
-                if additional_info['lap']:                
-                    tabTime['lap'] = aux_lap        
-                      
-            '''LAPTIME'''     
-            #počítá se jen pokud neexistuje v Update()
-            if dstore.Get("additional_info")['laptime']:           
-                tabTime['laptime'] = TimesUtils.TimesUtils.time2timestring(dbTime['laptime'])                
-        
-            '''BEST LAPTIME'''
-            #počítá se vždy                        
-            if  additional_info['best_laptime']:                                                                                       
-                tabTime['best_laptime'] = TimesUtils.TimesUtils.time2timestring(cLaptime.GetBest(dbTime))                                           
-        
-            '''ORDER'''
-            #počítá se vždy  
-            if  additional_info['order']:                                                                                       
-                tabTime['order']  = self.order.Get(dbTime, aux_lap)        
-                                                        
-            '''ORDER IN CATEGORY'''
-            #počítá se vždy                                                                       
-            if  additional_info['order_cat']:                                                                                       
-                tabTime['order_cat'] = self.order.Get(dbTime, aux_lap, category_id = joinUser['category_id'])        
-                                                                                                          
-            '''POINTS 1 - 3'''
-            #počítá se vždy
-            for i in range(0, NUMBER_OF.POINTS):                             
-                if  additional_info['points'][i]:            
+            '''TIMES Laps'''
+            for i in range(0, NUMBER_OF.POINTS):
+                
+                if additional_info['times'][i]:
+                    tabTime['time'+str(i+1)] = i
+                else: 
+                    tabTime['time'+str(i+1)] = None
+                    
+                if additional_info['laps'][i]:
+                    tabTime['lap'+str(i+1)] = i
+                else:
+                    tabTime['lap'+str(i+1)] = None
+                    
+                if additional_info['order'][i]:
+                    tabTime['order'+str(i+1)] = i
+                else:                                                         
+                    tabTime['order'+str(i+1)] = None
+                
+                if  additional_info['points'][i]:
                     #try:        
                     tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
                     #print 'points'+str(i+1), tabTime['points'+str(i+1)]                                                     
                     #except:
-                    #    print "E: Some points were not succesfully calculated! (points1)"                     
-                    
-#             if  additional_info['points1']:            
-#                 #try:        
-#                 tabTime['points1'] = tablePoints.getPoints(tabTime, dbTime, "points_formula1")                                                    
-#                 #except:
-#                 #    print "E: Some points were not succesfully calculated! (points1)"
-#                 #print "p1:", tabTime['points1'] 
-#                     
-#             '''POINTS2'''
-#             #počítá se vždy
-#             if  additional_info['points2']:            
-#                 try:        
-#                     tabTime['points2'] = tablePoints.getPoints(tabTime, dbTime, "points_formula2")                                                    
-#                 except:
-#                     print "E: Some points were not succesfully calculated! (points2)"
-#                     
-#             '''POINTS3'''
-#             #počítá se vždy
-#             if  additional_info['points3']:            
-#                 try:                                                                                
-#                     tabTime['points3'] = tablePoints.getPoints(tabTime, dbTime, "points_formula3")                    
-#                 except:
-#                     print "E: Some points were not succesfully calculated!(points3)"
-            
-                      
-                                            
+                    #    print "E: Some points were not succesfully calculated! (points1)"
+                else:
+                    tabTime['points'+str(i+1)] = None
+                                                                
         return tabTime
                                                                                    
 
@@ -393,7 +349,7 @@ class TimesModel(myModel):
         for dbTime in dbTimes:
             
             '''time'''
-            if(dbTime['lap'] == None):                                                                        
+            if(dbTime['lap1'] == None):                                                                        
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
                 
                 try:                                    
@@ -442,7 +398,7 @@ class TimesModel(myModel):
                                                        
     def calc_update_time(self, dbTime):
         
-        if(dbTime['time'] == None):
+        if(dbTime['time1'] == None):
             
             '''no time in some cases'''
             
@@ -465,22 +421,22 @@ class TimesModel(myModel):
                 return None             
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
                 start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
-                start_time = self.starts2.Get(start_nr)                    
+                start_time = timesstore.Get(start_nr)                    
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):                                
                 #print "calc_update_time:", dbTime, start_nr
-                start_time = self.starts2.GetLast(dbTime)                    
+                start_time = timesstore.GetPrevious(dbTime, cells = [1,])                    
             else:
                 print "E: Fatal Error: Starttime "
                 return None
                                                                                                              
             #if start_time.empty != True:                                                                                     
-            #print type(start_time)
+            print type(start_time)
             if start_time != None:                                                                                     
                 '''odecteni startovaciho casu a ulozeni do db'''
                 if(dbTime['time_raw'] < start_time['time_raw']):
                     print "E: Times: startime started later as this time!", dbTime 
                 else:                       
-                    dbTime['time'] = dbTime['time_raw'] - start_time['time_raw']
+                    dbTime['time1'] = dbTime['time_raw'] - start_time['time_raw']
                 #except:                         
                 #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
                             
@@ -502,7 +458,8 @@ class TimesModel(myModel):
         for dbTime in dbTimes:
             
             '''time'''
-            if(dbTime['time'] == None):
+            print dbTime
+            if(dbTime['time1'] == None):
             
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
                 try:                                    
@@ -520,7 +477,7 @@ class TimesModel(myModel):
             self.run_id = run_id #update run_id
             
         #update start times      
-        self.starts2.Update(self.run_id)        
+        timesstore.Update(self.run_id)        
         cLaptime.Update(self.run_id, self.df())        
                 
         ko_nrs = self.calc_update_times()        
@@ -771,8 +728,8 @@ class Times(myTable):
             
             #add gap (according to winner)
             if (dstore.GetItem("export", ["gap"]) == 2) and (winner != None):                
-                if ('lap' in tabRow) and ('time' in tabRow):                                           
-                    exportRow['gap'] = self.model.order.GetGap(tabRow['lap'], tabRow['time'], winner['lap'], winner['time']) 
+                if ('lap1' in tabRow) and ('time1' in tabRow):                                           
+                    exportRow['gap'] = self.model.order.GetGap(tabRow['lap1'], tabRow['time1'], winner['lap1'], winner['time1']) 
                     if ('gap' in keys) == False:
                         keys.append('gap')                                
             

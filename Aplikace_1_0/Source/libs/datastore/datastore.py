@@ -240,12 +240,11 @@ class Datastore():
     def GetItem(self, name, keys, section = "GET_SET"):
         '''
         Vrací data
-        '''            
-        #print name, section
-        item = self.data[name][section]["value"]
+        '''        
+        item = self.data[name][section]["value"]        
     
-        for key in keys:          
-            if (key not in item) and (type(key) != int):
+        for key in keys:                      
+            if (key not in item) and not isinstance(key, int):
                 return None
             item = item[key]                
 

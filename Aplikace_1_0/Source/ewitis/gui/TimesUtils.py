@@ -131,10 +131,10 @@ class TimesOrder():
         jde momentálně o poslední/nejlepší čas daného závodníka?
         '''
                
-        if(dbTime['time'] == None):
+        if(dbTime['time1'] == None):
             return True
               
-        if(dbTime['time'] == 0):
+        if(dbTime['time1'] == 0):
             return True
             
         if(dbTime['cell'] == 1):            
@@ -203,10 +203,10 @@ class TimesOrder():
         if(self.IsResultTime(dbTime) == False):
             return None
         
-        if(dbTime['time'] == None):
+        if(dbTime['time1'] == None):
             return None
               
-        if(dbTime['time'] == 0):
+        if(dbTime['time1'] == 0):
             return None
             
         if(dbTime['cell'] == 1):            
@@ -235,7 +235,7 @@ class TimesOrder():
                 " INNER JOIN users ON times.user_id = users.id"
                 
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time']) + ")"            
+                    " WHERE (times.time < " + str(dbTime['time1']) + ")"            
                                     
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
@@ -269,7 +269,7 @@ class TimesOrder():
                     " UNION "+\
                     " SELECT user_id FROM times"
                     
-                if(dstore.Get("racesettings-app", ['rfid']) == 2):  
+                if(dstore.GetItem("racesettings-app", ['rfid']) == 2):  
                     query_order = query_order + \
                         " INNER JOIN tags ON times.user_id = tags.tag_id"+\
                         " INNER JOIN users ON tags.user_nr = users.nr "
@@ -309,7 +309,7 @@ class TimesOrder():
                 "SELECT user_id FROM times"
             
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time']) + ")"                        
+                    " WHERE (times.time < " + str(dbTime['time1']) + ")"                        
 
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
