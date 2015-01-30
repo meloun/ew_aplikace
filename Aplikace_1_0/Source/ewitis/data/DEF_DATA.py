@@ -129,15 +129,14 @@ DEF_DATA = {
                                 },
         "additional_info"    : {"name"     : "additinal info",
                                 "permanent": True,
-                                "GET_SET"  : {"value": {"enabled"       : CheckboxValue.checked,
-                                                        "times"         :[
+                                "GET_SET"  : {"value": {"time"          :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell250",
-                                                                         }] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                 
-                                                        "lap"           : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                               
-                                                        "order"         : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                           
+                                                                         }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
+                                                        "lap"           : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,                                               
+                                                        "order"         : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                           
                                                         "points"        :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,

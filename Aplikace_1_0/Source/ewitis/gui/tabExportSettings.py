@@ -28,8 +28,7 @@ class ExportGroup():
         
         #three columns groups
         self.times = [None] * NUMBER_OF.THREECOLUMNS
-        self.order = [None] * NUMBER_OF.THREECOLUMNS
-        self.order_category = [None] * NUMBER_OF.THREECOLUMNS
+        self.order = [None] * NUMBER_OF.THREECOLUMNS        
         self.points = [None] * NUMBER_OF.THREECOLUMNS  
               
         for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -122,16 +121,15 @@ class ExportGroup():
         #three columns groups      
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.times[i].setCheckState(export_info["times"][i])
-            self.order[i].setCheckState(export_info["order"][i])
-            self.order_category[i].setCheckState(export_info["order_category"][i]) 
+            self.order[i].setCheckState(export_info["order"][i])             
 
         
         self.year.setCheckState(export_info["year"])                                
         self.sex.setCheckState(export_info["sex"])                                
         self.club.setCheckState(export_info["club"])                                
         self.laps.setCheckState(export_info["laps"])                                
-        self.laptime.setCheckState(export_info["laptime"])
-        self.bestlaptime.setCheckState(export_info["best_laptime"])
+        #self.laptime.setCheckState(export_info["laptime"])
+        #self.bestlaptime.setCheckState(export_info["best_laptime"])
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
             self.option[i].setCheckState(export_info["option"][i])
         self.optionname.setText(export_info["optionname"][i])

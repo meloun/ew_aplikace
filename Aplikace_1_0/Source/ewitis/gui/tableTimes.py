@@ -18,6 +18,7 @@ from ewitis.gui.tableCGroups import tableCGroups
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
 from ewitis.gui.TimesLaptimes import cLaptime
+from ewitis.gui.EvaluateUtils import Evaluate
 
 
 from ewitis.data.db import db
@@ -119,13 +120,7 @@ class TimesModel(myModel):
         
         '''raw time'''        
         tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'], True)
-        
-        '''time1'''
-        if(dbTime['time1'] == None):
-            '''cas neexistuje'''
-            tabTime['time1'] = None
-        else:            
-            tabTime['time1'] = TimesUtils.TimesUtils.time2timestring(dbTime['time1'])            
+                  
                 
         '''NAME'''                       
         tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
@@ -135,36 +130,38 @@ class TimesModel(myModel):
              
     
         
-        additional_info = dstore.Get("additional_info")
-        if  additional_info['enabled']:
+        additional_info = dstore.Get("additional_info")        
         
-            '''TIMES Laps'''
-            for i in range(0, NUMBER_OF.POINTS):
+        #time 1-3
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            
+            if additional_info['time'][i]:                
+                timeX = 'time'+str(i+1)
+                if(dbTime[timeX] == None):                    
+                    tabTime[timeX] = None #cas neexistuje
+                else:            
+                    #tabTime[timeX] = i
+                    tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX])  
+            else: 
+                tabTime[timeX] = None
+                                
+        #toDo: dodělat funkcičku která mi prohledá vzorečky u orderů a poitntů a zkusí domyslet jestli je potřeba nejdříve počítat pořadí nebo body
+        #.. 
+        
+        #order 1-3
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            if additional_info['order'][i]:
+                tabTime['order'+str(i+1)] = i
+            else:                                                         
+                tabTime['order'+str(i+1)] = None
                 
-                if additional_info['times'][i]:
-                    tabTime['time'+str(i+1)] = i
-                else: 
-                    tabTime['time'+str(i+1)] = None
-                    
-                if additional_info['laps'][i]:
-                    tabTime['lap'+str(i+1)] = i
-                else:
-                    tabTime['lap'+str(i+1)] = None
-                    
-                if additional_info['order'][i]:
-                    tabTime['order'+str(i+1)] = i
-                else:                                                         
-                    tabTime['order'+str(i+1)] = None
-                
-                if  additional_info['points'][i]:
-                    #try:        
-                    tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
-                    #print 'points'+str(i+1), tabTime['points'+str(i+1)]                                                     
-                    #except:
-                    #    print "E: Some points were not succesfully calculated! (points1)"
-                else:
-                    tabTime['points'+str(i+1)] = None
-                                                                
+        #points 1-3
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            if  additional_info['points'][i]:        
+                tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
+            else:
+                tabTime['points'+str(i+1)] = None
+                                                                        
         return tabTime
                                                                                    
 
@@ -396,9 +393,11 @@ class TimesModel(myModel):
                            
         return ret_ko_times
                                                        
-    def calc_update_time(self, dbTime):
+    def calc_update_time(self, dbTime, index):
         
-        if(dbTime['time1'] == None):
+        timeX = "time"+str(index+1)
+        
+        if(dbTime[timeX] == None):
             
             '''no time in some cases'''
             
@@ -409,34 +408,37 @@ class TimesModel(myModel):
             #user without number => no time          
             tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
             if(tabUser['nr'] == 0):
-                return None      
-                                    
-            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                            
-   
+                return None
             
-            #try:
-            '''toDo: misto try catch, Get bude vracet None'''                
+            #remote mode => no times      
             if dstore.GetItem("racesettings-app", ['remote']) == 2:
-                return None             
-            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
+                return None
+                                    
+
+            
+            if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
                 start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
-                start_time = timesstore.Get(start_nr)                    
+                start_time = timesstore.Get(start_nr, cells = [1,])                                    
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):                                
                 #print "calc_update_time:", dbTime, start_nr
-                start_time = timesstore.GetPrevious(dbTime, cells = [1,])                    
+                start_time = timesstore.GetPrevious(dbTime, cells = [1,])
+                                    
             else:
                 print "E: Fatal Error: Starttime "
                 return None
                                                                                                              
             #if start_time.empty != True:                                                                                     
-            print type(start_time)
+            #print type(start_time)
             if start_time != None:                                                                                     
                 '''odecteni startovaciho casu a ulozeni do db'''
                 if(dbTime['time_raw'] < start_time['time_raw']):
                     print "E: Times: startime started later as this time!", dbTime 
-                else:                       
-                    dbTime['time1'] = dbTime['time_raw'] - start_time['time_raw']
+                else:
+                    '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                               
+                    rule = dstore.GetItem('additional_info', ['time', index])                                                                                                        
+                    dbTime[timeX] =  Evaluate(rule, {}, dbTime) 
+                    #print "EVALL:", index, dbTime['id'], Evaluate(rule, {}, dbTime)                         
+                    #dbTime[timeX] = dbTime['time_raw'] - start_time['time_raw']
                 #except:                         
                 #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
                             
@@ -458,12 +460,11 @@ class TimesModel(myModel):
         for dbTime in dbTimes:
             
             '''time'''
-            print dbTime
-            if(dbTime['time1'] == None):
-            
+            #print dbTime
+            for i in range(0, NUMBER_OF.THREECOLUMNS):                                          
                 '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
                 try:                                    
-                    self.calc_update_time(dbTime)
+                    self.calc_update_time(dbTime, i)
                 except IndexError: #potreba startime, ale nenalezen 
                     ret_ko_times.append(dbTime['id'])                        
         return ret_ko_times
@@ -478,22 +479,22 @@ class TimesModel(myModel):
             
         #update start times      
         timesstore.Update(self.run_id)        
-        cLaptime.Update(self.run_id, self.df())        
+        #cLaptime.Update(self.run_id, self.df())        
                 
         ko_nrs = self.calc_update_times()        
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
             ret = False
             
-        ko_nrs = self.update_laptimes()        
-        if(ko_nrs != []):
-            uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
-            ret = False
-            
-        ko_nrs = self.update_nr_of_laps()        
-        if(ko_nrs != []):
-            uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
-            ret = False
+#         ko_nrs = self.update_laptimes()        
+#         if(ko_nrs != []):
+#             uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
+#             ret = False
+#             
+#         ko_nrs = self.update_nr_of_laps()        
+#         if(ko_nrs != []):
+#             uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
+#             ret = False
             
         db.commit()
                           
@@ -618,7 +619,7 @@ class Times(myTable):
         print "A: Times: Recalculating.. run id:", run_id
         query = \
                 " UPDATE times" +\
-                    " SET time = Null, laptime = Null, lap = Null" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
                     " WHERE (times.run_id = \""+str(run_id)+"\")"
                         
         res = db.query(query)
@@ -943,7 +944,7 @@ class Times(myTable):
         ai = dstore.Get("additional_info")
           
         #show additional info, checkbox                      
-        Ui().timesShowAdditionalInfo.setCheckState(ai['enabled'])
+
         
         #update
         ztime = time.clock()
@@ -953,8 +954,19 @@ class Times(myTable):
         #myModel.myTable.Update(self)        
         self.setColumnWidth()        
         
-        #hide columns
-        self.hiddenCollumns = [k for k,v in ai.items() if v==0]        
+        #create list of columns to hide
+        #print ai.items()
+        columns = []
+        for k,v in ai.items():
+            c = 0
+            for item in v:
+                c = c+1                
+                if(item['checked'] == 0):
+                    columns.append(k+""+str(c))
+                    
+        self.hiddenCollumns =  columns                                                       
+        #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
+                
         self.updateHideColumns()
         
         #update couterns

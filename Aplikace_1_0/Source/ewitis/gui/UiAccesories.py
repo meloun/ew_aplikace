@@ -49,6 +49,11 @@ class UiAccesories(UiaDialogs):
         UiaDialogs.__init__(self)
         print dstore.Get("racesettings-app")
         self.showMessage("Race", dstore.GetItem("racesettings-app", ["race_name"]), MSGTYPE.statusbar)
+        
+    def UpdateText(self, object, text):
+        cursor_position = object.cursorPosition()
+        object.setText(dstore.GetItem("racesettings-app", ["race_name"]))
+        object.setCursorPosition(cursor_position)  
                                                                                                     
     def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == dstore.Get(name):
