@@ -48,8 +48,8 @@ class PointsEvaluation:
     FROM_TABLE, FROM_FORMULA = range(0,2) 
 class CheckboxValue:
     unchecked, undefined, checked = range(0,3) 
-#class LOGIC_MODES:
-#    basic, manual, remote_manual, multiple_mass_6b, multiple_mass_6c  = range(1,6)         
+    
+        
     
 
 class NUMBER_OF:
@@ -84,9 +84,9 @@ DEF_DATA = {
         "race_info"          : {"GET_SET"  : {"value": {
                                                 "limit_laps"      : 1, 
                                                 "limit_time"      : {"hours"             :99,
-                                                                      "minutes"          :59,
-                                                                      "seconds"          :59,
-                                                                      "milliseconds_x10" :99
+                                                                     "minutes"           :59,
+                                                                     "seconds"           :59,
+                                                                     "milliseconds_x10"  :99
                                                                       }                                               
                                                 }
                                       }
@@ -136,11 +136,20 @@ DEF_DATA = {
                                                                             "filter"            : "cell250",
                                                                          }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
                                                         "lap"           : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,                                               
-                                                        "order"         : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                           
+                                                        "order"         : [
+                                                                           {
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "column1"            : "Time1",
+                                                                            "row1"               : "Last",
+                                                                            "order1"             : "Asc",                                                                                  
+                                                                            "column2"            : " - - -",
+                                                                            "row2"               : "last",
+                                                                            "order2"             : "Asc"                                                                                  
+                                                                          }] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                           
                                                         "points"        :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
-                                                                            "rule"              : "abs(time - %00:01:30,00%)", 
+                                                                            "rule"              : "abs(timeraw - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
                                                                             "maximum"           : 500                                                                                                                                                                                                                                                                    
                                                                          }] * NUMBER_OF.POINTSCOLUMNS,                                                                                                                                                                

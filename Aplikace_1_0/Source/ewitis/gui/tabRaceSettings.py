@@ -14,7 +14,7 @@ from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 
 
-class PointFormulaGroup():    
+class PointGroup():    
     def __init__(self,  nr):
         '''
         Constructor
@@ -34,7 +34,7 @@ class PointFormulaGroup():
         QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "checked"], x, self.Update))                          
         QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "rule"], utils.toUnicode(x)))            
         QtCore.QObject.connect(self.minimum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "minimum"], x, self.Update))
-        QtCore.QObject.connect(self.maximum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "minimum"], x, self.Update))
+        QtCore.QObject.connect(self.maximum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "maximum"], x, self.Update))
 
     def GetInfo(self):
         return dstore.GetItem("additional_info", [ "points", self.nr-1])
@@ -46,15 +46,16 @@ class PointFormulaGroup():
     
     def Update(self):                                    
         # set values from datastore
-        formula_info = self.GetInfo()  
-        #print dstore.Get("additional_info")   
-        #print formula_info                              
-        self.checked.setChecked(formula_info["checked"])
-        self.minimum.setValue(formula_info["minimum"])
-        self.maximum.setValue(formula_info["maximum"])
-        self.rule.setText(formula_info["rule"])
+        info = self.GetInfo()  
+                            
+        self.checked.setChecked(info["checked"])
+        self.minimum.setValue(info["minimum"])
+        self.maximum.setValue(info["maximum"])
+        uiAccesories.UpdateText(self.rule, info["rule"]) 
                               
-class TimesFormulaGroup():    
+       
+                     
+class TimesGroup():    
     def __init__(self,  nr):
         '''
         Constructor
@@ -81,12 +82,69 @@ class TimesFormulaGroup():
     
     def Update(self):        
         # set values from datastore              
-        formula_info = self.GetInfo()                                                                    
-        self.checked.setChecked(formula_info["checked"])                      
-        self.rule.setText(formula_info["rule"])                      
-        self.filter.setText(formula_info["filter"])                      
+        info = self.GetInfo()                                                                    
+        self.checked.setChecked(info["checked"])
+        uiAccesories.UpdateText(self.rule, info["rule"]) 
+        uiAccesories.UpdateText(self.filter, info["filter"])  
         
+        
+class OrderGroup():    
+    def __init__(self,  nr):
+        '''
+        Constructor
+        group items as class members        
+        '''
+        ui = Ui()        
+        self.nr = nr
+        
+        self.checked = getattr(ui, "checkAInfoOrder_" + str(nr))        
+        self.column1 = getattr(ui, "comboOrderColumn_" + str(nr) + "_1")                             
+        self.row1 = getattr(ui,    "comboOrderRow_" + str(nr) + "_1")   
+        self.order1 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_1")
+        self.column2 = getattr(ui, "comboOrderColumn_" + str(nr) + "_2")                             
+        self.row2 = getattr(ui,    "comboOrderRow_" + str(nr) + "_2")   
+        self.order2 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_2")                                              
 
+    def CreateSlots(self):
+        
+        QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "checked"], x, self.Update))
+        
+        QtCore.QObject.connect(self.column1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column1"], utils.toUnicode(x)))                          
+        QtCore.QObject.connect(self.row1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row1"], utils.toUnicode(x)))              
+        QtCore.QObject.connect(self.order1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order1"], utils.toUnicode(x)))
+        
+        QtCore.QObject.connect(self.column2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column2"], utils.toUnicode(x)))                          
+        QtCore.QObject.connect(self.row2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row2"], utils.toUnicode(x)))            
+        QtCore.QObject.connect(self.order2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order2"], utils.toUnicode(x)))             
+            
+    def GetInfo(self):
+        return dstore.GetItem("additional_info", [ "order", self.nr-1])
+     
+    def setEnabled(self, enabled):
+        self.column1.setEnabled(enabled)        
+        self.row1.setEnabled(enabled)
+        self.order1.setEnabled(enabled)
+        self.column2.setEnabled(enabled)        
+        self.row2.setEnabled(enabled)
+        self.order2.setEnabled(enabled)
+    
+    def Update(self):        
+        # set values from datastore              
+        info = self.GetInfo()                                                                    
+        self.checked.setChecked(info["checked"])  
+ 
+        uiAccesories.SetCurrentIndex(self.column1, info["column1"])
+        uiAccesories.SetCurrentIndex(self.row1, info["row1"])
+        uiAccesories.SetCurrentIndex(self.order1, info["order1"])
+        
+        uiAccesories.SetCurrentIndex(self.column2, info["column2"])
+        uiAccesories.SetCurrentIndex(self.row2, info["row2"])
+        uiAccesories.SetCurrentIndex(self.order2, info["order2"])
+
+                     
+        
+        
+        
 class TabRaceSettings():    
       
     def __init__(self):
@@ -95,28 +153,19 @@ class TabRaceSettings():
         '''        
         print "tabRaceSettings: constructor"
         self.init = False
-        
-        #define gui widgets
-#         self.pointformulagroups = [None] * NUMBER_OF.POINTSCOLUMNS
-#         self.timesformulagroups = [None] * NUMBER_OF.POINTSCOLUMNS
-#         self.order = [None] * NUMBER_OF.POINTSCOLUMNS
-#         self.lap = [None] * NUMBER_OF.POINTSCOLUMNS
-#         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-#             self.order[i] = getattr(Ui(), "checkAInfoOrder_" + str(nr)) 
-#             self.lap[i] = getattr(Ui(), "checkAInfoLap_" + str(nr)) 
-#             self.timesformulagroups[i] = TimesFormulaGroup(i+1)
-#             self.pointformulagroups[i] = PointFormulaGroup(i+1)                    
+                         
         
     def Init(self):
-        self.pointformulagroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.timesformulagroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.order = [None] * NUMBER_OF.POINTSCOLUMNS
+        self.pointgroups = [None] * NUMBER_OF.POINTSCOLUMNS
+        self.timesgroups = [None] * NUMBER_OF.POINTSCOLUMNS
+        self.ordergroups = [None] * NUMBER_OF.POINTSCOLUMNS
         self.lap = [None] * NUMBER_OF.POINTSCOLUMNS
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            self.order[i] = getattr(Ui(), "checkAInfoOrder_" + str(i+1)) 
+           
             self.lap[i] = getattr(Ui(), "checkAInfoLap_" + str(i+1)) 
-            self.timesformulagroups[i] = TimesFormulaGroup(i+1)
-            self.pointformulagroups[i] = PointFormulaGroup(i+1)                       
+            self.timesgroups[i] = TimesGroup(i+1)
+            self.ordergroups[i] =  OrderGroup(i+1)  
+            self.pointgroups[i] = PointGroup(i+1)                       
         self.addSlots()
         
     def addSlots(self):
@@ -158,10 +207,11 @@ class TabRaceSettings():
         
         #ADDTITIONAL INFO                                                                              
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                         
-            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["order", index, "checked"], state, self.Update))        
+            #QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["order", index, "checked"], state, self.Update))        
             QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["lap", index, "checked"], state, self.Update))            
-            self.pointformulagroups[i].CreateSlots()                            
-            self.timesformulagroups[i].CreateSlots()                  
+            self.pointgroups[i].CreateSlots()
+            self.ordergroups[i].CreateSlots()                              
+            self.timesgroups[i].CreateSlots()                  
                 
         
     """                 """
@@ -243,8 +293,7 @@ class TabRaceSettings():
                         
         """ Filter Tagtime """
         if(timing_settings_get['filter_tagtime'] != None):                                    
-            Ui().lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))
-            #Ui().spinTagtime.setText(str(timing_settings_get['filter_tagtime']))                    
+            Ui().lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))                 
         else:            
             Ui().lineFilterTagtime.setText("- -")
         """ Filter Minlaptime """                
@@ -317,14 +366,16 @@ class TabRaceSettings():
         
         #aditional info        
         for i in range(0, NUMBER_OF.THREECOLUMNS):        
-            self.order[i].setCheckState(dstore.GetItem("additional_info", ['order', i, "checked"]))            
+            #self.order[i].setCheckState(dstore.GetItem("additional_info", ['order', i, "checked"]))            
             self.lap[i].setCheckState(dstore.GetItem("additional_info", ['lap', i, "checked"]))
                                     
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                         
-            self.pointformulagroups[i].setEnabled(points)
-            self.pointformulagroups[i].Update()        
-            self.timesformulagroups[i].setEnabled(points)
-            self.timesformulagroups[i].Update()        
+            self.pointgroups[i].setEnabled(points)
+            self.pointgroups[i].Update() 
+            self.ordergroups[i].setEnabled(points)
+            self.ordergroups[i].Update()           
+            self.timesgroups[i].setEnabled(points)
+            self.timesgroups[i].Update()        
         
         #view limit
         Ui().spinTimesViewLimit.setValue(dstore.Get("times_view_limit"))

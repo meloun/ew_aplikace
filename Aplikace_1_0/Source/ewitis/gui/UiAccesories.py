@@ -52,8 +52,12 @@ class UiAccesories(UiaDialogs):
         
     def UpdateText(self, object, text):
         cursor_position = object.cursorPosition()
-        object.setText(dstore.GetItem("racesettings-app", ["race_name"]))
+        object.setText(text)
         object.setCursorPosition(cursor_position)  
+        
+    def SetCurrentIndex(self, object, text):
+        index = object.findText(text, QtCore.Qt.MatchFixedString)
+        object.setCurrentIndex(index)  
                                                                                                     
     def sGuiSet(self, name, value, tab = None, dialog = False):        
         if value == dstore.Get(name):

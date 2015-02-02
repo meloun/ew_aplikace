@@ -13,12 +13,12 @@ from ewitis.gui.tableUsers import tableUsers
 def Evaluate(rule, tabTime, dbTime):
     points = None
             
-    rule = rule['rule']
     
     minimum =  rule['minimum'] if ('minimum' in rule) else None
     maximum = rule['maximum'] if ('maximum' in rule) else None
     
     #rule
+    rule = rule['rule']
     rule = rule.lower()
         
     #check if data exist
@@ -97,7 +97,7 @@ def Evaluate(rule, tabTime, dbTime):
     expression_string = expression_string.replace("time3", str(dbTime['time3']))
            
     # TIME
-    expression_string = expression_string.replace("time", str(dbTime['time_raw']))
+    expression_string = expression_string.replace("timeraw", str(dbTime['time_raw']))
             
     ''' evaluate expresion '''
     try:            

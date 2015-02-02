@@ -74,96 +74,7 @@ class TimesModel(myModel):
         return row                 
 
     
-    def db2tableRow(self, dbTime):
-        """    
-        ["id", "nr", "cell", "time", "name", "category", "address"]
-        """
-        
-        #ztimeT = time.clock()
-        #print "TIME", dbTime['id']                                
-        
-        if(dstore.Get('show')['times_with_order'] == 2):
-            if(self.order.IsResultTime(dbTime) == False):                
-                return None
-                                                                  
-        
-        ''' 1to1 KEYS '''           
-        tabTime = myModel.db2tableRow(self, dbTime)        
-         
-        ''' get USER
-            - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
-        '''join user, hodnoty z table i db'''                                            
-        joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])
-        
-        ''' get CATEGORY'''                    
-        tabCategory =  tableCategories.getTabRow(joinUser['category_id'])        
-                                        
-        ''' OTHER KEYS ''' 
-        
-        '''NR'''                   
-        tabTime['nr'] = joinUser['nr']
-                                    
-        '''START NR'''
-        if(tabTime['cell'] == 1) or (tabTime['nr']==0) or tabCategory==None: #start time?                           
-            tabTime['start_nr'] = 1 #decrement 1.starttime
-        else:                                
-            tabTime['start_nr'] = tabCategory['start_nr']
-                    
-        '''STATUS'''        
-        if (dbTime['cell'] == 1) or (dbTime["user_id"] == 0):
-            tabTime['status'] = ''        
-        else:                       
-            tabTime['status'] = joinUser['status']
-            
-        '''TIME
-            dbtime 2 tabletime'''                                               
-        
-        '''raw time'''        
-        tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'], True)
-                  
-                
-        '''NAME'''                       
-        tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
-        
-        '''CATEGORY'''        
-        tabTime['category'] = joinUser['category']                                                                                                                              
-             
-    
-        
-        additional_info = dstore.Get("additional_info")        
-        
-        #time 1-3
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            
-            if additional_info['time'][i]:                
-                timeX = 'time'+str(i+1)
-                if(dbTime[timeX] == None):                    
-                    tabTime[timeX] = None #cas neexistuje
-                else:            
-                    #tabTime[timeX] = i
-                    tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX])  
-            else: 
-                tabTime[timeX] = None
-                                
-        #toDo: dodělat funkcičku která mi prohledá vzorečky u orderů a poitntů a zkusí domyslet jestli je potřeba nejdříve počítat pořadí nebo body
-        #.. 
-        
-        #order 1-3
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            if additional_info['order'][i]:
-                tabTime['order'+str(i+1)] = i
-            else:                                                         
-                tabTime['order'+str(i+1)] = None
-                
-        #points 1-3
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            if  additional_info['points'][i]:        
-                tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
-            else:
-                tabTime['points'+str(i+1)] = None
-                                                                        
-        return tabTime
-                                                                                   
+                                                                                 
 
     
     def checkChangedNumber(self, tabRow):
@@ -274,7 +185,107 @@ class TimesModel(myModel):
         return
         
         #end of test
+        
+    def db2tableRow(self, dbTime):
+        """
+        toDo: opsat z db ["id", "user_id", "cell", "status", "timeX",  "timeraw"]
+        ==>    
+        ["id", "nr", "cell", "status", "timeX", "lapX", "name", "category", "orderX", "start_nr", "pointsX", "timeraw"]
+        """
+        
+        #ztimeT = time.clock()
+        #print "TIME", dbTime['id']                                
+        
+        if(dstore.Get('show')['times_with_order'] == 2):
+            if(self.order.IsResultTime(dbTime) == False):                
+                return None
+                                                                  
+        
+        ''' 1to1 KEYS
+        - ID, CELL 
+        '''                   
+        tabTime = myModel.db2tableRow(self, dbTime)        
+         
+        ''' get USER
+            - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
+        '''join user, hodnoty z table i db'''                                            
+        joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])
+        
+        ''' get CATEGORY'''                    
+        tabCategory =  tableCategories.getTabRow(joinUser['category_id'])        
+                                        
+        ''' OTHER KEYS ''' 
+        
+        '''NR'''                   
+        tabTime['nr'] = joinUser['nr']
+        
+        '''NAME'''                       
+        tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
+        
+        '''CATEGORY'''        
+        tabTime['category'] = joinUser['category']  
+                                    
+        '''START NR'''
+        if(tabTime['cell'] == 1) or (tabTime['nr'] == 0) or tabCategory==None: #start time?                           
+            tabTime['start_nr'] = 1
+        else:                                
+            tabTime['start_nr'] = tabCategory['start_nr']
+                    
+        '''STATUS'''        
+        if (dbTime['cell'] == 1) or (dbTime["user_id"] == 0):
+            tabTime['status'] = ''        
+        else:                       
+            tabTime['status'] = joinUser['status']
             
+        '''TIME
+            dbtime 2 tabletime'''                                               
+        
+        '''TIMERAW'''        
+        tabTime['timeraw'] = TimesUtils.TimesUtils.time2timestring(dbTime['time_raw'], True)                                                                                                                        
+        
+        additional_info = dstore.Get("additional_info")        
+        
+        '''TIME 1-3'''
+        '''LAP 1-3'''
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            
+            if additional_info['time'][i]:                
+                timeX = 'time'+str(i+1)
+                if(dbTime[timeX] == None):                    
+                    tabTime[timeX] = None #cas neexistuje
+                else:                    
+                    tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX])  
+            else: 
+                tabTime[timeX] = None
+                
+            if additional_info['lap'][i]:                
+                lapX = 'lap'+str(i+1)
+                if(dbTime[lapX] == None):                    
+                    tabTime[lapX] = None                    
+                else:                                      
+                    tabTime[lapX] = dbTime[lapX]  
+            else: 
+                tabTime[lapX] = None
+
+                                
+        #toDo: dodělat funkcičku která mi prohledá vzorečky u orderů a poitntů a zkusí domyslet jestli je potřeba nejdříve počítat pořadí nebo body
+        #.. 
+        
+        '''ORDER 1-3'''
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            if additional_info['order'][i]:
+                tabTime['order' + str(i+1)] = i
+            else:                                                         
+                tabTime['order' + str(i+1)] = None
+                                        
+        '''POINTS 1-3'''
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            if  additional_info['points'][i]:        
+                tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
+            else:
+                tabTime['points'+str(i+1)] = None
+                                                                        
+        return tabTime            
     
     '''
     dict => dict, vykopírují se hodnoty obsažené v keys (z time nebo user)   
@@ -318,17 +329,20 @@ class TimesModel(myModel):
         return False
         
         
-    def update_nr_of_lap(self, dbTime):
+    def update_nr_of_lap(self, dbTime, index):
         
-        if(dbTime['lap'] == None):            
+        lapX = "lap"+str(index+1)
+        timeX = "time"+str(index+1)
+        
+        if(dbTime[lapX] == None):            
                                     
             '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
-            nr_of_lap = cLaptime.GetNrOfLap(dbTime, mode = cLaptime.OF_THIS_TIME)                                                                    
+            #nr_of_lap = cLaptime.GetNrOfLap(dbTime, mode = cLaptime.OF_THIS_TIME)
+            nr_of_lap = timesstore.GetNrOf2(timeX, dbTime)                                                                           
              
             if nr_of_lap != None:                                                        
-                '''ulozeni do db'''
-                #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
-                dbTime['lap'] = nr_of_lap                                                       
+                '''ulozeni do db'''                  
+                dbTime[lapX] = nr_of_lap                                                       
                 db.update_from_dict(self.table.name, dbTime) #commit v update()
                 
     def update_nr_of_laps(self):
@@ -345,51 +359,12 @@ class TimesModel(myModel):
         
         for dbTime in dbTimes:
             
-            '''time'''
-            if(dbTime['lap1'] == None):                                                                        
-                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                
-                try:                                    
-                    self.update_nr_of_lap(dbTime)
-                except:                    
-                    ret_ko_times.append(dbTime['id'])
-                           
-        return ret_ko_times
-    def update_laptime(self, dbTime):
-        
-        if(dbTime['laptime'] == None):            
-                                    
-            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
-            laptime = cLaptime.Calc(dbTime)                                                                    
-             
-            if laptime != None:                                                        
-                '''ulozeni do db'''
-                #print "Times: update laptime, id:", dbTime['id'],"time:",laptime            
-                dbTime['laptime'] = laptime                                                       
-                db.update_from_dict(self.table.name, dbTime) #commit v update()
-                
-    def update_laptimes(self):
-        """
-        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
-        
-        *Ret:*
-            pole čísel závodníků u kterých se nepodařilo časy updatovat   
-        """
-        ret_ko_times = []
-        
-        dbTimes = db.getAll(self.table.name)
-        dbTimes = db.cursor2dicts(dbTimes)
-        
-        for dbTime in dbTimes:
-            
-            '''time'''
-            if(dbTime['laptime'] == None):                                                                        
-                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                
-                try:                                    
-                    self.update_laptime(dbTime)
-                except:                    
-                    ret_ko_times.append(dbTime['id'])
+            for i in range(0, NUMBER_OF.THREECOLUMNS):          
+                '''vypocet spravneho lapX a ulozeni do databaze pro pristi pouziti'''    
+                #try:                                    
+                self.update_nr_of_lap(dbTime, i)
+                #except:                    
+                #    ret_ko_times.append(dbTime['id'])                    
                            
         return ret_ko_times
                                                        
@@ -402,8 +377,8 @@ class TimesModel(myModel):
             '''no time in some cases'''
             
             #start time => no time
-            if(dbTime['cell'] == 1):                
-                return None
+            #if(dbTime['cell'] == 1):                
+            #    return None
             
             #user without number => no time          
             tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
@@ -413,14 +388,11 @@ class TimesModel(myModel):
             #remote mode => no times      
             if dstore.GetItem("racesettings-app", ['remote']) == 2:
                 return None
-                                    
-
             
             if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
                 start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
                 start_time = timesstore.Get(start_nr, cells = [1,])                                    
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):                                
-                #print "calc_update_time:", dbTime, start_nr
                 start_time = timesstore.GetPrevious(dbTime, cells = [1,])
                                     
             else:
@@ -491,10 +463,10 @@ class TimesModel(myModel):
 #             uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
 #             ret = False
 #             
-#         ko_nrs = self.update_nr_of_laps()        
-#         if(ko_nrs != []):
-#             uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
-#             ret = False
+        ko_nrs = self.update_nr_of_laps()        
+        if(ko_nrs != []):
+            uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
+            ret = False
             
         db.commit()
                           

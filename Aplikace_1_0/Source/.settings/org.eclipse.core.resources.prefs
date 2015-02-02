@@ -11,6 +11,7 @@ encoding//ewitis/exports/ewitis_html.py=utf-8
 encoding//ewitis/gui/DEF_COLUMN.py=utf-8
 encoding//ewitis/gui/TimesLaptimes.py=utf-8
 encoding//ewitis/gui/TimesStartTimes.py=utf-8
+encoding//ewitis/gui/TimesStore.py=utf-8
 encoding//ewitis/gui/TimesUtils.py=utf-8
 encoding//ewitis/gui/Ui.py=utf-8
 encoding//ewitis/gui/UiAccesories.py=utf-8

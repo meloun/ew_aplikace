@@ -70,6 +70,64 @@ class TimesStore():
     def GetFirst(self, user_id = None, cells = None):                    
         
         return self.Get(1, user_id, cells)
+    
+    def GetNrOf(self, dbTime = None, userId = None, cells = None):
+        '''
+        počet
+        dbTime = None, userId = None => počet všech časů
+        dbTime = None, userId = xy   => počet všech časů od daného uřivatele
+        dbTime = xy, userId = None   => počet všech časů lepších dbTime["time_raw"]
+        dbTime = xy, userId = yx     => počet všech časů lepších dbTime["time_raw"] od daného uživatele => LAP 1-3
+        '''
+        
+        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
+            return False
+        
+        # user filter
+        if userId == None:
+            df = self.df
+        else:
+            df = self.groups.get_group(userId)
+        
+        #cell filter
+        if cells != None:
+            df = df[df['cell'].isin(cells)]
+        
+        '''count of times - same race, same user, better time, exclude start time'''
+        if dbTime != None:
+            df = df[df.time_raw <= dbTime['time_raw']]   
+                    
+        try:                                                  
+            lap_count = len(df.index)
+        except KeyError:            
+            lap_count = None  
+            
+        return lap_count # int or none
+    
+    def GetNrOf2(self, column, dbTime = None):
+        '''
+        počet
+        '''
+        
+        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
+            return False
+        
+        # user filter
+        if dbTime == None:
+            df = self.df
+        else:
+            df = self.groups.get_group(dbTime['user_id'])
+        
+        '''count of times - same race, same user, better time, exclude start time'''
+        #if index != None:
+        #df = df[df[column] > 0]   
+                    
+        try:                                                  
+            lap_count = len(df[column])
+        except KeyError:            
+            lap_count = None  
+            
+        return lap_count # int or none    
         
     def Update(self, run_id):
         '''
