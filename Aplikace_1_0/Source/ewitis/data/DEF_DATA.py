@@ -59,6 +59,17 @@ class NUMBER_OF:
     POINTSCOLUMNS = 3
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
+    
+def Assigments2Dict(assigment):                                            
+        if assigment == "":            
+            return None
+        
+        try:
+            assigment_dict = dict([item.split("=") for item in assigment.split(";")])            
+        except ValueError:
+            assigment_dict = None            
+            
+        return assigment_dict    
 
 
 DEF_DATA = {
@@ -98,11 +109,8 @@ DEF_DATA = {
                                     
         #group timing setting: below
         "evaluation"         : {"permanent": True,
-                                "GET_SET"  : {"value": {
-                                                        "order" : OrderEvaluation.SLALOM, 
-                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY,
-                                                        "laptime":  LaptimeEvaluation.ONLY_FINISHTIME,
-                                                        "points":   PointsEvaluation.FROM_FORMULA,                                                        
+                                "GET_SET"  : {"value": {                                                         
+                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY,                                                                                                                                                                        
                                                         }
                                               }
                                 },
@@ -135,7 +143,10 @@ DEF_DATA = {
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell250",
                                                                          }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
-                                                        "lap"           : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,                                               
+                                                        "lap"           : [{
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "filter"            : "",           
+                                                                         }] * NUMBER_OF.THREECOLUMNS,                                    
                                                         "order"         : [
                                                                            {
                                                                             "checked"           : CheckboxValue.checked,
@@ -152,7 +163,9 @@ DEF_DATA = {
                                                                             "rule"              : "abs(timeraw - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
                                                                             "maximum"           : 500                                                                                                                                                                                                                                                                    
-                                                                         }] * NUMBER_OF.POINTSCOLUMNS,                                                                                                                                                                
+                                                                         }] * NUMBER_OF.POINTSCOLUMNS,
+                                                        "un"            : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,
+                                                        "us"            : [{"checked"           : CheckboxValue.checked}],                                                                                                                                                                
                                                         }
                                               }  
                                },

@@ -17,7 +17,6 @@ from ewitis.gui.tablePoints import tablePoints
 from ewitis.gui.tableCGroups import tableCGroups
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
-from ewitis.gui.TimesLaptimes import cLaptime
 from ewitis.gui.EvaluateUtils import Evaluate
 
 
@@ -31,7 +30,7 @@ from ewitis.data.DEF_DATA import *
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 #import ewitis.gui.TimesStartTimes as TimesStarts
-from ewitis.gui.TimesStore import timesstore
+from ewitis.gui.TimesStore import TimesStore, timesstore
 
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
@@ -188,9 +187,9 @@ class TimesModel(myModel):
         
     def db2tableRow(self, dbTime):
         """
-        toDo: opsat z db ["id", "user_id", "cell", "status", "timeX",  "timeraw"]
+        db    ["state", "id", "run_id", "user_id", "cell", "timeraw", "timeX", "lapX"]
         ==>    
-        ["id", "nr", "cell", "status", "timeX", "lapX", "name", "category", "orderX", "start_nr", "pointsX", "timeraw"]
+        table ["id", "nr", "cell", "status", "timeX", "lapX", "name", "category", "orderX", "start_nr", "pointsX", "timeraw"]
         """
         
         #ztimeT = time.clock()
@@ -246,9 +245,9 @@ class TimesModel(myModel):
         additional_info = dstore.Get("additional_info")        
         
         '''TIME 1-3'''
-        '''LAP 1-3'''
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             
+            #TIME 1-3
             if additional_info['time'][i]:                
                 timeX = 'time'+str(i+1)
                 if(dbTime[timeX] == None):                    
@@ -258,6 +257,9 @@ class TimesModel(myModel):
             else: 
                 tabTime[timeX] = None
                 
+        '''LAP 1-3'''
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            #LAP 1-3
             if additional_info['lap'][i]:                
                 lapX = 'lap'+str(i+1)
                 if(dbTime[lapX] == None):                    
@@ -327,118 +329,128 @@ class TimesModel(myModel):
         if cLaptime.GetNrOfLap(dbTime, cLaptime.OF_LAST_TIME) >= dstore.Get('race_info')['limit_laps']:
             return True
         return False
-        
-        
-    def update_nr_of_lap(self, dbTime, index):
-        
-        lapX = "lap"+str(index+1)
-        timeX = "time"+str(index+1)
-        
-        if(dbTime[lapX] == None):            
-                                    
-            '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                                                           
-            #nr_of_lap = cLaptime.GetNrOfLap(dbTime, mode = cLaptime.OF_THIS_TIME)
-            nr_of_lap = timesstore.GetNrOf2(timeX, dbTime)                                                                           
-             
-            if nr_of_lap != None:                                                        
-                '''ulozeni do db'''                  
-                dbTime[lapX] = nr_of_lap                                                       
-                db.update_from_dict(self.table.name, dbTime) #commit v update()
                 
-    def update_nr_of_laps(self):
-        """
-        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
-        
-        *Ret:*
-            pole čísel závodníků u kterých se nepodařilo časy updatovat   
-        """
-        ret_ko_times = []
-        
-        dbTimes = db.getAll(self.table.name)
-        dbTimes = db.cursor2dicts(dbTimes)
-        
-        for dbTime in dbTimes:
-            
-            for i in range(0, NUMBER_OF.THREECOLUMNS):          
-                '''vypocet spravneho lapX a ulozeni do databaze pro pristi pouziti'''    
-                #try:                                    
-                self.update_nr_of_lap(dbTime, i)
-                #except:                    
-                #    ret_ko_times.append(dbTime['id'])                    
-                           
-        return ret_ko_times
                                                        
-    def calc_update_time(self, dbTime, index):
+    
+    def calc_time(self, dbTime, index):
+        '''
+        pokud není čas spočítá čas,
+        pokud je čas a není lap spočítá lap            
+        '''                                                               
+        '''no time in some cases'''        
         
+        #user without number => no time          
+        tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
+        if(tabUser['nr'] == 0):
+            return None
+        
+        #remote mode => no times      
+        if dstore.GetItem("racesettings-app", ['remote']) == 2:
+            return None            
+
         timeX = "time"+str(index+1)
-        
+        ret_dict =  {}        
+                  
+        #calc time
         if(dbTime[timeX] == None):
+            rule = dstore.GetItem('additional_info', ['time', index])                         
+            time = Evaluate(rule, {}, dbTime)
+            #add to dict            
+            if (time != None):
+                ret_dict[timeX] = time
+                    
+        if ret_dict == {}:
+            return None
+        
+        ret_dict['id']=  dbTime['id']                 
+        return ret_dict                                                                                                                                                  
+                    
+    def calc_lap(self, df, dbTime, index):
+        '''
+        pokud není čas spočítá čas,
+        pokud je čas a není lap spočítá lap            
+        '''                                                    
+                     
+        '''no time in some cases'''        
+        
+        #user without number => no time          
+        tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
+        if(tabUser['nr'] == 0):
+            return None
+        
+        #remote mode => no times      
+        if dstore.GetItem("racesettings-app", ['remote']) == 2:
+            return None            
+
+        ret_dict =  {}         
+        timeX = "time"+str(index+1)
+        lapX = "lap"+str(index+1)
+        #print "id", dbTime['id'], "time", dbTime[timeX], "lap", dbTime[lapX]
             
-            '''no time in some cases'''
-            
-            #start time => no time
-            #if(dbTime['cell'] == 1):                
-            #    return None
-            
-            #user without number => no time          
-            tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
-            if(tabUser['nr'] == 0):
-                return None
-            
-            #remote mode => no times      
-            if dstore.GetItem("racesettings-app", ['remote']) == 2:
-                return None
-            
-            if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                                                                                              
-                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
-                start_time = timesstore.Get(start_nr, cells = [1,])                                    
-            elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):                                
-                start_time = timesstore.GetPrevious(dbTime, cells = [1,])
-                                    
-            else:
-                print "E: Fatal Error: Starttime "
-                return None
-                                                                                                             
-            #if start_time.empty != True:                                                                                     
-            #print type(start_time)
-            if start_time != None:                                                                                     
-                '''odecteni startovaciho casu a ulozeni do db'''
-                if(dbTime['time_raw'] < start_time['time_raw']):
-                    print "E: Times: startime started later as this time!", dbTime 
-                else:
-                    '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''                               
-                    rule = dstore.GetItem('additional_info', ['time', index])                                                                                                        
-                    dbTime[timeX] =  Evaluate(rule, {}, dbTime) 
-                    #print "EVALL:", index, dbTime['id'], Evaluate(rule, {}, dbTime)                         
-                    #dbTime[timeX] = dbTime['time_raw'] - start_time['time_raw']
-                #except:                         
-                #    print "E: Times: no starttime nr.",start_nr,", for time", dbTime 
-                            
-                db.update_from_dict(self.table.name, dbTime) #commit v update()                                           
+        #calc lap        
+        #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):
+        if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
+            lap = timesstore.GetNrOf(df, timeX, dbTime, mode = TimesStore.ONLY_SMALLER)
+            if (lap != None):
+                ret_dict[lapX] = lap + 1
+                
+        if ret_dict == {}:
+            return None
+        
+        ret_dict['id']=  dbTime['id']            
+        return ret_dict                                                                                                                                                  
+                                          
             
                 
-    def calc_update_times(self):
+    def update_times_and_laps(self):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
         
         *Ret:*
             pole časů u kterých se nepodařilo časy updatovat   
         """
-        ret_ko_times = []
-        
-        dbTimes = db.getAll(self.table.name)
-        dbTimes = db.cursor2dicts(dbTimes)
-        
-        for dbTime in dbTimes:
+        ret_ko_times = []        
+                
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             
-            '''time'''
-            #print dbTime
-            for i in range(0, NUMBER_OF.THREECOLUMNS):                                          
-                '''vypocet spravneho casu a ulozeni do databaze pro pristi pouziti'''
-                try:                                    
-                    self.calc_update_time(dbTime, i)
+            #prepare filtered df                            
+            filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
+            df = timesstore.FilterFrame(timesstore.df, filter_dict)
+            df = df.where(pd.notnull(df), None)
+            filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
+            df_laps = timesstore.FilterFrame(df, filter_dict)            
+        
+            '''calc times'''
+            for index, dbTime in df.iterrows():
+            
+                dbTime = dbTime.to_dict()                                                                                                                                                
+                                                                              
+                '''calc time'''
+                try:                                                        
+                    update_dict = self.calc_time(dbTime, i)
+                    if update_dict != None:                                                                                
+                        db.update_from_dict(self.table.name, update_dict) #commit v update()
                 except IndexError: #potreba startime, ale nenalezen 
-                    ret_ko_times.append(dbTime['id'])                        
+                    ret_ko_times.append(dbTime['id'])
+
+            '''calc laps'''                        
+            for index, dbTime in df_laps.iterrows():
+                dbTime = dbTime.to_dict()
+                #print dbTime['id'], dbTime['lap1']            
+            
+                '''time'''                                                            
+                if(dbTime['id'] in df_laps.id.values):
+                                         
+                    '''calc lap'''
+                    try:                                                        
+                        update_dict = self.calc_lap(df_laps, dbTime, i)                                                                                                         
+                        if update_dict != None:
+                            #print "updateL2",update_dict                                                                                 
+                            db.update_from_dict(self.table.name, update_dict) #commit v update()                        
+                    except IndexError: #potreba startime, ale nenalezen 
+                        ret_ko_times.append(dbTime['id'])
+                                              
+                              
         return ret_ko_times
     
     #UPDATE TABLE        
@@ -449,24 +461,12 @@ class TimesModel(myModel):
         if(run_id != None):                    
             self.run_id = run_id #update run_id
             
-        #update start times      
-        timesstore.Update(self.run_id)        
-        #cLaptime.Update(self.run_id, self.df())        
-                
-        ko_nrs = self.calc_update_times()        
+        #TIME 1-3              
+        timesstore.Update(self.run_id)                      
+        ko_nrs = self.update_times_and_laps()                
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-            ret = False
-            
-#         ko_nrs = self.update_laptimes()        
-#         if(ko_nrs != []):
-#             uiAccesories.showMessage(self.table.name+" Update error", "Some laptimes can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
-#             ret = False
-#             
-        ko_nrs = self.update_nr_of_laps()        
-        if(ko_nrs != []):
-            uiAccesories.showMessage(self.table.name+" Update error", "Some nr of laps can not be updated"+str(ko_nrs), msgtype = MSGTYPE.statusbar)            
-            ret = False
+            ret = False                                                                                                            
             
         db.commit()
                           
@@ -570,7 +570,7 @@ class Times(myTable):
     def ResetCalculatedValues(self, timeid):
         query = \
                 " UPDATE times" +\
-                    " SET time = Null, laptime = Null, lap = Null" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
         res = db.query(query)                        
         db.commit()        
@@ -579,7 +579,7 @@ class Times(myTable):
     def ResetNrOfLaps(self):
         query = \
                 " UPDATE times" +\
-                    " SET lap = Null"                                                    
+                    " SET lap1 = Null, lap2 = Null, lap3 = Null"                                                    
         res = db.query(query)                        
         db.commit()        
         return res
@@ -929,11 +929,11 @@ class Times(myTable):
         #create list of columns to hide
         #print ai.items()
         columns = []
-        for k,v in ai.items():
+        for k,v in ai.items():            
             c = 0
             for item in v:
                 c = c+1                
-                if(item['checked'] == 0):
+                if(item['checked'] == 0):                    
                     columns.append(k+""+str(c))
                     
         self.hiddenCollumns =  columns                                                       

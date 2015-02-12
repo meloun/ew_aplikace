@@ -3,7 +3,6 @@
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.TimesUtils as TimesUtils
-from ewitis.gui.TimesLaptimes import cLaptime
 from ewitis.data.DEF_DATA import *
 from ewitis.gui.TimesStore import timesstore
 from ewitis.gui.tableCategories import tableCategories
@@ -12,6 +11,13 @@ from ewitis.gui.tableUsers import tableUsers
 
 def Evaluate(rule, tabTime, dbTime):
     points = None
+    
+#     if filter != None:        
+#         for k,v in filter.iteritems():                
+#             if not isinstance(v, list):                          
+#                 if
+#             else:
+#                 df = df[df[k].str.contains(v)]
             
     
     minimum =  rule['minimum'] if ('minimum' in rule) else None
@@ -20,7 +26,7 @@ def Evaluate(rule, tabTime, dbTime):
     #rule
     rule = rule['rule']
     rule = rule.lower()
-        
+    
     #check if data exist
     if ("time1" in rule) and (dbTime['time1'] == None):    
         return None
@@ -42,9 +48,21 @@ def Evaluate(rule, tabTime, dbTime):
             return None                                    
         rule = aux_split[0] + str(ruletime) + aux_split[2] #glue expression again
 
-    # ORDER1-ORDER3
-    expression_string = rule 
-       
+    
+    expression_string = rule
+     
+    #UN1-UN3
+    try:
+        if ("un1" in rule):                                
+            expression_string = expression_string.replace("un1", str(tabTime['un1']))
+        if ("un2" in rule):                                
+            expression_string = expression_string.replace("un2", str(tabTime['un2']))
+        if ("un3" in rule):                                
+            expression_string = expression_string.replace("un3", str(tabTime['un3']))
+    except KeyError:        
+        return None
+    
+    # ORDER1-ORDER3       
     try:
         if ("order1" in rule):                                
             expression_string = expression_string.replace("order1", str(tabTime['order1']))
@@ -52,6 +70,17 @@ def Evaluate(rule, tabTime, dbTime):
             expression_string = expression_string.replace("order2", str(tabTime['order2']))
         if ("order3" in rule):                                
             expression_string = expression_string.replace("order3", str(tabTime['order3']))
+    except KeyError:        
+        return None
+    
+    # POINTS1-POINTS3       
+    try:
+        if ("points1" in rule):                                
+            expression_string = expression_string.replace("points1", str(tabTime['points1']))
+        if ("points2" in rule):                                
+            expression_string = expression_string.replace("points2", str(tabTime['points2']))
+        if ("points3" in rule):                                
+            expression_string = expression_string.replace("points3", str(tabTime['points3']))
     except KeyError:        
         return None
            
@@ -81,10 +110,13 @@ def Evaluate(rule, tabTime, dbTime):
         if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
             #VIA CATEGORY => Xth starttime                                                                                                                              
             start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
-            starttime = timesstore.Get(start_nr, cells = [1,])                                    
+            starttime = timesstore.Get(start_nr, filter = {'cell':1})                                                                                        
         elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
-            #VIA USER => previous startime from the same user                                        
-            starttime = timesstore.GetPrevious(dbTime, cells = [1,])
+            #VIA USER => previous startime from the same user                                                
+            starttime = timesstore.GetPrevious(dbTime, filter = {'cell':1})
+        else:
+            print "E: Fatal Error: Starttime "
+            return None
         
         if starttime != None:
             expression_string = rule.replace("starttime", str(starttime['time_raw']))

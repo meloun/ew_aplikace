@@ -43,7 +43,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabRuns_Times">
        <attribute name="title">
@@ -53,17 +53,7 @@
         <property name="horizontalSpacing">
          <number>0</number>
         </property>
-        <item row="1" column="0" colspan="3">
-         <widget class="QTreeView" name="RunsProxyView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>1</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
+        <item row="0" column="4">
          <widget class="QLineEdit" name="TimesFilterLineEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -73,7 +63,164 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="12">
+        <item row="1" column="4" colspan="8">
+         <widget class="QTreeView" name="TimesProxyView">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>4</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="11">
+         <widget class="QLabel" name="TimesCounter">
+          <property name="text">
+           <string>0/0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="10">
+         <widget class="QCheckBox" name="timesShowAdditionalInfo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Aditinal Info</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="RunsCounter">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>0/0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QSpinBox" name="TimesFilterColumn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>-1</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>-1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8">
+         <widget class="QPushButton" name="TimesFilterClear">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="9">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="7">
+         <widget class="QPushButton" name="TimesFilterFinishes">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/F_arial.png</normaloff>gui/icons/F_arial.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QPushButton" name="TimesFilterStarts">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>gui/icons/S_arial.png</normaloff>gui/icons/S_arial.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="11">
          <widget class="QGroupBox" name="groupBox_3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -351,56 +498,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="5" colspan="8">
-         <widget class="QTreeView" name="TimesProxyView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>4</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="12">
-         <widget class="QLabel" name="TimesCounter">
-          <property name="text">
-           <string>0/0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="11">
-         <widget class="QCheckBox" name="timesShowAdditionalInfo">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Aditinal Info</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
+        <item row="0" column="1">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -519,150 +617,13 @@
           </layout>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="RunsCounter">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>0/0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="RunsFilterClear">
+        <item row="1" column="1">
+         <widget class="QTreeView" name="RunsProxyView">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLineEdit" name="RunsFilterLineEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="dragEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
-         <widget class="QSpinBox" name="TimesFilterColumn">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimum">
-           <number>-1</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="9">
-         <widget class="QPushButton" name="TimesFilterClear">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Preferred</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="8">
-         <widget class="QPushButton" name="TimesFilterFinishes">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>gui/icons/F_arial.png</normaloff>gui/icons/F_arial.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7">
-         <widget class="QPushButton" name="TimesFilterStarts">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>gui/icons/S_arial.png</normaloff>gui/icons/S_arial.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -2684,7 +2645,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>170</y>
+             <y>280</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2700,9 +2661,9 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>100</y>
+             <y>210</y>
              <width>271</width>
-             <height>31</height>
+             <height>32</height>
             </rect>
            </property>
            <property name="font">
@@ -2749,7 +2710,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>190</y>
+             <y>300</y>
              <width>111</width>
              <height>17</height>
             </rect>
@@ -2768,7 +2729,7 @@
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>320</y>
+             <y>430</y>
              <width>101</width>
              <height>20</height>
             </rect>
@@ -2791,7 +2752,7 @@
            <property name="geometry">
             <rect>
              <x>50</x>
-             <y>320</y>
+             <y>430</y>
              <width>61</width>
              <height>16</height>
             </rect>
@@ -2809,7 +2770,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>150</y>
+             <y>260</y>
              <width>231</width>
              <height>17</height>
             </rect>
@@ -2825,7 +2786,7 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>270</y>
+             <y>380</y>
              <width>131</width>
              <height>16</height>
             </rect>
@@ -2840,51 +2801,6 @@
            <property name="text">
             <string>EVALUATION :</string>
            </property>
-          </widget>
-          <widget class="QGroupBox" name="groupBox_6">
-           <property name="geometry">
-            <rect>
-             <x>40</x>
-             <y>350</y>
-             <width>281</width>
-             <height>80</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>Laptime</string>
-           </property>
-           <widget class="QRadioButton" name="radioLaptimeCurrentPrevious">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>40</y>
-              <width>231</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>For all Times (Current - Previous)</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="radioLaptimeFinishStart">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>20</y>
-              <width>211</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Only for finistime (Finish - Start)</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
           </widget>
           <widget class="QLabel" name="label_212">
            <property name="geometry">
@@ -2927,18 +2843,84 @@
             </property>
            </item>
           </widget>
-          <zorder>checkRfidRace</zorder>
-          <zorder>lineRaceName</zorder>
-          <zorder>checkDownloadFromLast</zorder>
-          <zorder>checkTagFilter</zorder>
-          <zorder>comboStarttimeEvaluation</zorder>
-          <zorder>label_90</zorder>
-          <zorder>checkRemoteRace</zorder>
-          <zorder>label_25</zorder>
-          <zorder>groupBox_6</zorder>
-          <zorder>label_212</zorder>
-          <zorder>comboBox_2</zorder>
-          <zorder>groupTerminal_6</zorder>
+          <widget class="QPushButton" name="pushButton">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>102</y>
+             <width>28</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>..</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="linePresetName">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>100</y>
+             <width>261</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Profile Name</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>100</y>
+             <width>32</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>gui/icons/save_icon_24.png</normaloff>gui/icons/save_icon_24.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
         </item>
         <item>
@@ -2980,7 +2962,7 @@
           <widget class="QLabel" name="label_17">
            <property name="geometry">
             <rect>
-             <x>-10</x>
+             <x>60</x>
              <y>670</y>
              <width>91</width>
              <height>16</height>
@@ -3016,7 +2998,7 @@
           <widget class="QSpinBox" name="spinTimesViewLimit">
            <property name="geometry">
             <rect>
-             <x>70</x>
+             <x>180</x>
              <y>670</y>
              <width>61</width>
              <height>22</height>
@@ -3266,7 +3248,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>21 - order</string>
+            <string>time - starttime</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -3302,7 +3284,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>21 - order</string>
+            <string>time - previoustime</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -3338,7 +3320,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>21 - order</string>
+            <string>time - celltime2</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -3692,7 +3674,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>cell1</string>
+            <string>cell = 250;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -3728,7 +3710,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>all</string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -3764,7 +3746,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>cell2 or cell3</string>
+            <string>cell = 250;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -4628,6 +4610,224 @@
             <string>Column</string>
            </property>
           </widget>
+          <widget class="QCheckBox" name="checkAInfoUserNumber_1">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>430</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>User number #1</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkAInfoUserNumber_3">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>470</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>User number #3</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkAInfoUserNumber_2">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>450</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>User number #2</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="checkAInfoUserString_1">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>500</y>
+             <width>101</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>User string #1</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_18">
+           <property name="geometry">
+            <rect>
+             <x>301</x>
+             <y>90</y>
+             <width>20</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>supported keywords :
+ %00:01:30,00%
+ time 
+ starttime
+ celltime1-250  
+ points1-3
+ order1-3
+ un1-3</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>gui/icons/tooltip-qm.png</pixmap>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_19">
+           <property name="geometry">
+            <rect>
+             <x>461</x>
+             <y>90</y>
+             <width>20</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>supported keywords :
+ cell = 1 | 2 | 250;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>gui/icons/tooltip-qm.png</pixmap>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineAInfoLapFilter_1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>330</x>
+             <y>140</y>
+             <width>151</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineAInfoLapFilter_2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>330</x>
+             <y>180</y>
+             <width>151</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineAInfoLapFilter_3">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>330</x>
+             <y>220</y>
+             <width>151</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -4679,9 +4879,9 @@
           <widget class="QGroupBox" name="groupBox_18">
            <property name="geometry">
             <rect>
-             <x>250</x>
+             <x>400</x>
              <y>30</y>
-             <width>421</width>
+             <width>341</width>
              <height>641</height>
             </rect>
            </property>
@@ -6414,8 +6614,8 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>160</y>
-             <width>200</width>
+             <y>270</y>
+             <width>371</width>
              <height>101</height>
             </rect>
            </property>
@@ -6432,7 +6632,7 @@
             </size>
            </property>
            <property name="title">
-            <string>Filter</string>
+            <string>Filters</string>
            </property>
            <widget class="QLineEdit" name="lineOption3Name_4">
             <property name="geometry">
@@ -6601,9 +6801,9 @@
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>30</y>
-             <width>211</width>
-             <height>121</height>
+             <y>80</y>
+             <width>371</width>
+             <height>181</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -6625,8 +6825,8 @@
             <property name="geometry">
              <rect>
               <x>50</x>
-              <y>60</y>
-              <width>111</width>
+              <y>90</y>
+              <width>151</width>
               <height>16</height>
              </rect>
             </property>
@@ -6645,7 +6845,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>export#3</string>
+             <string>%race%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -6658,7 +6858,7 @@
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>60</y>
+              <y>90</y>
               <width>21</width>
               <height>16</height>
              </rect>
@@ -6679,7 +6879,7 @@
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>40</y>
+              <y>70</y>
               <width>21</width>
               <height>16</height>
              </rect>
@@ -6700,7 +6900,7 @@
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>20</y>
+              <y>50</y>
               <width>21</width>
               <height>21</height>
              </rect>
@@ -6721,8 +6921,8 @@
             <property name="geometry">
              <rect>
               <x>50</x>
-              <y>40</y>
-              <width>111</width>
+              <y>70</y>
+              <width>151</width>
               <height>16</height>
              </rect>
             </property>
@@ -6741,7 +6941,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>export#2</string>
+             <string>%race%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -6754,8 +6954,8 @@
             <property name="geometry">
              <rect>
               <x>50</x>
-              <y>20</y>
-              <width>111</width>
+              <y>50</y>
+              <width>151</width>
               <height>16</height>
              </rect>
             </property>
@@ -6774,7 +6974,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>export#1</string>
+             <string>%race%</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -6783,13 +6983,181 @@
              <bool>false</bool>
             </property>
            </widget>
+           <widget class="QLineEdit" name="lineOption1Name_5">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>50</y>
+              <width>151</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>%category%_CLASSIC</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption2Name_5">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>70</y>
+              <width>151</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>%category%</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineOption3Name_5">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>90</y>
+              <width>151</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>%category%</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_241">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>30</y>
+              <width>51</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>Race</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_242">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>30</y>
+              <width>51</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>Category</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_11">
+            <property name="geometry">
+             <rect>
+              <x>340</x>
+              <y>20</y>
+              <width>21</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="toolTip">
+             <string>supported keywords :
+  %race%
+  %category%</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>gui/icons/tooltip-qm.png</pixmap>
+            </property>
+           </widget>
           </widget>
           <widget class="QGroupBox" name="groupBox_21">
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>280</y>
-             <width>200</width>
+             <y>390</y>
+             <width>371</width>
              <height>91</height>
             </rect>
            </property>
@@ -17806,8 +18174,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>RunsRemove</tabstop>
   <tabstop>RunsExport</tabstop>
   <tabstop>RunsDelete</tabstop>
-  <tabstop>RunsFilterClear</tabstop>
-  <tabstop>RunsFilterLineEdit</tabstop>
   <tabstop>TimesFilterColumn</tabstop>
   <tabstop>TimesFilterClear</tabstop>
   <tabstop>TimesFilterFinishes</tabstop>
@@ -17888,8 +18254,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkTagFilter</tabstop>
   <tabstop>comboStarttimeEvaluation</tabstop>
   <tabstop>checkRemoteRace</tabstop>
-  <tabstop>radioLaptimeCurrentPrevious</tabstop>
-  <tabstop>radioLaptimeFinishStart</tabstop>
   <tabstop>lineAInfoPointRule_1</tabstop>
   <tabstop>spinAInfoPointMinimum_1</tabstop>
   <tabstop>spinAInfoPointMaximum_1</tabstop>

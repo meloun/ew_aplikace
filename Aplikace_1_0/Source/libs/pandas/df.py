@@ -6,15 +6,60 @@ Created on 19.6.2014
 '''
 import pandas as pd
 
+
+
+
+
 test = pd.Series()
 test = dict(test)
-print "tz", test, type(test)
+#print "tz", test, type(test)
 
-df = pd.DataFrame(columns = ["AA", "BB", "CC"])
-df.loc[0]= ["a", "b", "c1"]
-df.loc[1]= ["a", "b", "c2"]
-df.loc[2]= ["a", "b", "c3"]
+df = pd.DataFrame(columns = ["AA", "BB", "cell"])
 
+
+
+df.loc[0]= ["a1", "b", "250"]
+df.loc[1]= ["a2", "b", "2"]
+df.loc[2]= ["a3", "b", "220"]
+
+
+print "filter",df[df['cell'].astype(str).str.match('2$')]
+
+df2 = df
+print df
+df2.loc[0]= ["a1", "b", "251"]
+print df2
+print df
+print "============================================="
+
+# 
+# for i in range(0,3):
+#     for v,row in df.iterrows():
+#         print row
+#         
+# print "-------------------------------------------------"        
+        
+        
+
+#print df
+#print  df[df['CC'].str.contains("c1|c2")]
+#print  df[df['CC'].isin(["c1","c2"])]
+
+from ewitis.gui.TimesStore import TimesStore, timesstore
+filter_dict = {'cell':'250'}
+
+
+
+               
+
+        
+for k,v in filter_dict.iteritems():
+    print "kv",k,v, type(k), type(v)        
+    aux_df = df[df[k].astype(str).str.contains(v)]
+    print aux_df
+  
+
+print "!===================================="          
 #print df
 #
 #for s in df.get_values():

@@ -50,9 +50,14 @@ class myTable():
         self.gui['view'] = getattr(Ui(), self.name+"ProxyView") #self.gui['view'] = Ui().PointsProxyView
         
         #FILTER
-        self.gui['filter'] = getattr(Ui(), self.name+"FilterLineEdit") #Ui().PointsFilterLineEdit
-        self.gui['filter_column'] = None
-        self.gui['filterclear'] = getattr(Ui(), self.name+"FilterClear") #Ui().PointsFilterClear
+        try:
+            self.gui['filter'] = getattr(Ui(), self.name+"FilterLineEdit") #Ui().PointsFilterLineEdit
+            self.gui['filter_column'] = None
+            self.gui['filterclear'] = getattr(Ui(), self.name+"FilterClear") #Ui().PointsFilterClear
+        except AttributeError:
+            self.gui['filter'] = None
+            self.gui['filter_column'] = None
+            self.gui['filterclear'] = None
         
         #GROUPBOX
         self.gui['add'] = getattr(Ui(), self.name+"Add") #Ui().PointsAdd
@@ -119,7 +124,8 @@ class myTable():
         self.createSlots()
         
         #update "Counter"
-        self.sFilterRegExp()        
+        if(self.gui['filter']  != None):
+            self.sFilterRegExp()        
         
     def sSelectionChanged(self, selected, deselected):
         #if selected:
@@ -147,7 +153,10 @@ class myTable():
         
         
         # FILTER CHANGE -> CHANGE TABLE
-        QtCore.QObject.connect(self.gui['filter'], QtCore.SIGNAL("textChanged (const QString & )"), self.sFilterRegExp)
+        try:
+            QtCore.QObject.connect(self.gui['filter'], QtCore.SIGNAL("textChanged (const QString & )"), self.sFilterRegExp)
+        except TypeError:
+            self.gui['filter'] = None
         
         # FILTER SPIN BOX CHANGED        
         try:
@@ -157,7 +166,10 @@ class myTable():
     
         
         # CLEAR FILTER BUTTON -> CLEAR FILTER
-        QtCore.QObject.connect(self.gui['filterclear'], QtCore.SIGNAL("clicked()"), self.sFilterClear)
+        try:
+            QtCore.QObject.connect(self.gui['filterclear'], QtCore.SIGNAL("clicked()"), self.sFilterClear)
+        except TypeError:
+            self.gui['filterclear'] = None
           
         
         # ADD ROW BUTTON

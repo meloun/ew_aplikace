@@ -11,8 +11,12 @@ myseries2 = pd.Series( mydict2)
 myseries1.index = ["sl1", "sl2"]
 
 
-print myseries1
-print myseries2
+#print myseries1
+#print myseries2
 
 mydf = pd.DataFrame([myseries1, myseries2], columns = ["sl1", "sl2", "sl3"])
 print mydf
+
+for i in range(0,3):
+    for row in mydf.iterrows():
+        print row

@@ -10,15 +10,38 @@ class TimesStore():
         - Get()
         - Update() - volá se v TimesModel.Update()    
     '''
+    GET_ALL, ONLY_SMALLER, ONLY_BIGGER= range(0,3)
+    SOURCE_DF, SOURCE_FILTERED_DF = range(0,2)
     def __init__(self):
-        pass                                            
+        pass
+        self.all = {}
+        self.filtered = {}                                            
               
     def GetDefault(self):
         return {id:0, 'time_raw':0}
+             
+                        
+    def FilterFrame(self, df, filter):
+        '''
+        filter the filtered frame        
+        '''
+        
+                                      
+        if filter != None:        
+            for k,v in filter.iteritems():                
+                try:
+                    v = str(v)
+                    if(v == "2"):
+                        v="2$"                
+                    v = v.replace("2|", "2$|") #cell=2|250                                                                                                                                                                                                                                                            
+                    df = df[df[k].astype(str).str.match(str(v))]                                        
+                except KeyError:
+                    print "error: race settings: filter", filter               
+        return df    
     
 
     
-    def GetPrevious(self, user_time = None, cells = None):       
+    def GetPrevious(self, user_time = None, filter = None):       
         
         time = {} 
         user_id = user_time['user_id']
@@ -32,9 +55,8 @@ class TimesStore():
         if user_id != None:
             df = self.groups.get_group(user_id)            
         
-        #cell filter
-        if cells != None:            
-            df = df[df['cell'].isin(cells)]                       
+        #filter
+        df =  self.FilterFrame(df, filter)                       
                 
         
         #group        
@@ -49,7 +71,7 @@ class TimesStore():
     '''
     
     '''
-    def Get(self, nr, user_id = None, cells = None):
+    def Get(self, nr, user_id = None, filter = None):
         time = {}
          
         # user filter
@@ -58,77 +80,50 @@ class TimesStore():
         else:
             df = self.groups.get_group(user_id)
         
-        #cell filter
-        if cells != None:
-            df = df[df['cell'].isin(cells)]
+        #filter
+        df = self.FilterFrame(df, filter)                      
                
             
         time = df.iloc[nr-1]
                     
         return dict(time)
     
-    def GetFirst(self, user_id = None, cells = None):                    
+    def GetFirst(self, user_id = None, filter = None):                    
         
-        return self.Get(1, user_id, cells)
+        return self.Get(1, user_id, filter)
     
-    def GetNrOf(self, dbTime = None, userId = None, cells = None):
+   
+    def GetNrOf(self, df, column, dbTime, mode = GET_ALL, filter = None):
         '''
         počet
-        dbTime = None, userId = None => počet všech časů
-        dbTime = None, userId = xy   => počet všech časů od daného uřivatele
-        dbTime = xy, userId = None   => počet všech časů lepších dbTime["time_raw"]
-        dbTime = xy, userId = yx     => počet všech časů lepších dbTime["time_raw"] od daného uživatele => LAP 1-3
-        '''
-        
+        '''        
         if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
-            return False
+            return None
         
-        # user filter
-        if userId == None:
-            df = self.df
-        else:
-            df = self.groups.get_group(userId)
-        
-        #cell filter
-        if cells != None:
-            df = df[df['cell'].isin(cells)]
-        
-        '''count of times - same race, same user, better time, exclude start time'''
+        # one user filter
         if dbTime != None:
-            df = df[df.time_raw <= dbTime['time_raw']]   
+            df = df[df['user_id'] == dbTime['user_id']]            
                     
-        try:                                                  
-            lap_count = len(df.index)
-        except KeyError:            
-            lap_count = None  
-            
-        return lap_count # int or none
-    
-    def GetNrOf2(self, column, dbTime = None):
-        '''
-        počet
-        '''
+        #filter        
+        #if filter != None:
+        #    df =  self.FilterFrame(df, filter) 
         
-        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
-            return False
-        
-        # user filter
-        if dbTime == None:
-            df = self.df
-        else:
-            df = self.groups.get_group(dbTime['user_id'])
-        
-        '''count of times - same race, same user, better time, exclude start time'''
-        #if index != None:
-        #df = df[df[column] > 0]   
+        '''count of times - same race, same user, better time, exclude start time'''        
+        if mode == TimesStore.ONLY_SMALLER:
+            df = df[df[column] < dbTime[column]]           
                     
         try:                                                  
             lap_count = len(df[column])
         except KeyError:            
             lap_count = None  
-            
-        return lap_count # int or none    
         
+        #print "po",lap_count, dbTime, df
+        return lap_count # int or none    
+
+    def Filter(self, run_id):
+      
+        self.groups = self.df.groupby("user_id")
+                
     def Update(self, run_id):
         '''
         najde všechny časy a uloží
@@ -139,6 +134,7 @@ class TimesStore():
                                 , db.getDb())
         
         #assign to global list
+        #self.all = {'df':df, groups: self.df.groupby("user_id")}
         self.df = df        
         self.groups = self.df.groupby("user_id")
 

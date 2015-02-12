@@ -7,7 +7,6 @@ from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.TimesUtils as TimesUtils
-from ewitis.gui.TimesLaptimes import cLaptime
 from ewitis.gui.EvaluateUtils import Evaluate
 from ewitis.data.DEF_DATA import *
      
@@ -57,7 +56,9 @@ class Points(myTable):
             return None        
                        
             
-        points_evaluation = dstore.Get("evaluation")["points"]
+        #points_evaluation = dstore.Get("evaluation")["points"]
+        points_evaluation = PointsEvaluation.FROM_FORMULA
+        
         tabPoint = {}
         if(points_evaluation == PointsEvaluation.FROM_TABLE):                                  
             tabPoint = self.getTabPointParOrder(tabTime['order'])
