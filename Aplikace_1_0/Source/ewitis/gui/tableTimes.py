@@ -168,15 +168,16 @@ class TimesModel(myModel):
 #                 #update status
 #                 dbRow = self.table.getDbRow(tabRow['id'])
                     #                 print "EQ",dbRow
-                if self.IsFinishTime(self.table.getDbRow(tabRow['id'])) == True:
-                                                                                                                                                                                     
-                    #convert sqlite row to dict
-                    dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                    
-                     
-                    #update status                
-                    #print "finishtime", dbUser
-                    if dbUser != None: 
-                        db.update_from_dict(tableUsers.name, {'id': dbUser['id'], 'status': 'finished'})
+                    
+#                 if self.IsFinishTime(self.table.getDbRow(tabRow['id'])) == True:
+#                                                                                                                                                                                      
+#                     #convert sqlite row to dict
+#                     dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                    
+#                      
+#                     #update status                
+#                     #print "finishtime", dbUser
+#                     if dbUser != None: 
+#                         db.update_from_dict(tableUsers.name, {'id': dbUser['id'], 'status': 'finished'})
                      
                 
         
@@ -274,9 +275,9 @@ class TimesModel(myModel):
         #.. 
         
         '''ORDER 1-3'''
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+        for i in range(0, NUMBER_OF.THREECOLUMNS):        
             if additional_info['order'][i]:
-                tabTime['order' + str(i+1)] = i
+                tabTime['order' + str(i+1)] = self.CalcOrder(timesstore.df, dbTime, i)
             else:                                                         
                 tabTime['order' + str(i+1)] = None
                                         
@@ -329,32 +330,40 @@ class TimesModel(myModel):
         if cLaptime.GetNrOfLap(dbTime, cLaptime.OF_LAST_TIME) >= dstore.Get('race_info')['limit_laps']:
             return True
         return False
+    
+    def IsTimeToCalc(self, dbTime):        
+        
+        #remote mode => no calc values      
+        if dstore.GetItem("racesettings-app", ['remote']) != 0:            
+            return False                                                        
+
+        #no user, no calc
+        if(dbTime['user_id'] == 0):
+            return False         
+            
+        return True
                 
                                                        
     
-    def calc_time(self, dbTime, index):
+    def CalcTime(self, dbTime, index):
         '''
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap            
-        '''                                                               
+        '''                        
+                                               
         '''no time in some cases'''        
+        if(self.IsTimeToCalc(dbTime) == False):
+            return None        
         
-        #user without number => no time          
-        tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
-        if(tabUser['nr'] == 0):
-            return None
-        
-        #remote mode => no times      
-        if dstore.GetItem("racesettings-app", ['remote']) == 2:
-            return None            
+        #user without number => no time                  
 
         timeX = "time"+str(index+1)
         ret_dict =  {}        
                   
         #calc time
         if(dbTime[timeX] == None):
-            rule = dstore.GetItem('additional_info', ['time', index])                         
-            time = Evaluate(rule, {}, dbTime)
+            group = dstore.GetItem('additional_info', ['time', index])                         
+            time = Evaluate(group, {}, dbTime)
             #add to dict            
             if (time != None):
                 ret_dict[timeX] = time
@@ -365,32 +374,36 @@ class TimesModel(myModel):
         ret_dict['id']=  dbTime['id']                 
         return ret_dict                                                                                                                                                  
                     
-    def calc_lap(self, df, dbTime, index):
+    def CalcLap(self, df, dbTime, index):
         '''
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap            
         '''                                                    
                      
-        '''no time in some cases'''        
-        
-        #user without number => no time          
-        tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
-        if(tabUser['nr'] == 0):
-            return None
-        
-        #remote mode => no times      
-        if dstore.GetItem("racesettings-app", ['remote']) == 2:
-            return None            
+        '''no time in some cases'''
+        if(self.IsTimeToCalc(dbTime) == False):
+            return None                    
 
         ret_dict =  {}         
         timeX = "time"+str(index+1)
-        lapX = "lap"+str(index+1)
-        #print "id", dbTime['id'], "time", dbTime[timeX], "lap", dbTime[lapX]
+        lapX = "lap"+str(index+1)        
             
         #calc lap        
         #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
-            lap = timesstore.GetNrOf(df, timeX, dbTime, mode = TimesStore.ONLY_SMALLER)
+            #lap = timesstore.GetNrOf(df, dbTime, [['==', 'user_id'], ['<', timeX]])
+            #aux_df = timesstore.SelectFrame(df, dbTime, [['==', 'user_id'], ['<', timeX]])
+            
+            #empty user
+            aux_df = df[df['user_id'] == 0]
+            
+            #same user
+            aux_df = df[df['user_id'] == dbTime['user_id']]            
+            
+            #better times
+            aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]            
+                     
+            lap = len(aux_df['id'])
             if (lap != None):
                 ret_dict[lapX] = lap + 1
                 
@@ -398,11 +411,49 @@ class TimesModel(myModel):
             return None
         
         ret_dict['id']=  dbTime['id']            
-        return ret_dict                                                                                                                                                  
+        return ret_dict         
+                                                                                                                                                     
+    def CalcOrder(self, df, dbTime, index):
+        '''
+        pokud není čas spočítá čas,
+        pokud je čas a není lap spočítá lap            
+        '''                                                            
+                     
+        '''no time in some cases'''
+        if(self.IsTimeToCalc(dbTime) == False):
+            return None
+        
+        group = dstore.GetItem('additional_info', ['order', index])                  
+                 
+
+        ret_dict =  {}                        
+        
+        # no empty users
+        aux_df = df[df['user_id'] != 0]
+        
+        #key muss exist
+        column1 = group['column1'].lower()                            
+        aux_df = aux_df[aux_df[column1].notnull()]
+        
+        #last time from each user        
+        aux_df = aux_df.sort(column1).groupby("user_id").last()             
+        
+        # is this my last time ?        
+        if(not dbTime['id'] in aux_df.id.values):
+            return None        
+        
+        # only better times
+        aux_df = aux_df[aux_df[column1] < dbTime[column1]]        
+        
+        #print "FF:",dbTime['id'], aux_df                        
+                         
+        nr_of_better = len(aux_df)        
+        
+        return nr_of_better + 1                                                                                                                                                  
                                           
             
                 
-    def update_times_and_laps(self):
+    def UpdateTimesLaps(self):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
         
@@ -413,42 +464,48 @@ class TimesModel(myModel):
                 
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             
-            #prepare filtered df                            
-            filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
-            df = timesstore.FilterFrame(timesstore.df, filter_dict)
-            df = df.where(pd.notnull(df), None)
-            filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
-            df_laps = timesstore.FilterFrame(df, filter_dict)            
-        
-            '''calc times'''
-            for index, dbTime in df.iterrows():
+            time_group = dstore.GetItem('additional_info', ['time', i])                        
+            if(time_group['checked'] != 0):                               
+                #prepare filtered df                            
+                filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
+                df = timesstore.FilterFrame(timesstore.df, filter_dict)
+                df = df.where(pd.notnull(df), None)
+                filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
+                df_laps = timesstore.FilterFrame(df, filter_dict)            
             
-                dbTime = dbTime.to_dict()                                                                                                                                                
-                                                                              
-                '''calc time'''
-                try:                                                        
-                    update_dict = self.calc_time(dbTime, i)
-                    if update_dict != None:                                                                                
-                        db.update_from_dict(self.table.name, update_dict) #commit v update()
-                except IndexError: #potreba startime, ale nenalezen 
-                    ret_ko_times.append(dbTime['id'])
+                '''calc times'''
+                for index, dbTime in df.iterrows():
+                
+                    dbTime = dbTime.to_dict()
+                    
+                    if dbTime['time_raw'] != None:                                                                                                                                                                    
+                                                                                  
+                        '''calc time'''
+                        try:                                                        
+                            update_dict = self.CalcTime(dbTime, i)
+                            if update_dict != None:                                                                                
+                                db.update_from_dict(self.table.name, update_dict) #commit v update()
+                        except IndexError: #potreba startime, ale nenalezen 
+                            ret_ko_times.append(dbTime['id'])
 
-            '''calc laps'''                        
-            for index, dbTime in df_laps.iterrows():
-                dbTime = dbTime.to_dict()
-                #print dbTime['id'], dbTime['lap1']            
-            
-                '''time'''                                                            
-                if(dbTime['id'] in df_laps.id.values):
-                                         
-                    '''calc lap'''
-                    try:                                                        
-                        update_dict = self.calc_lap(df_laps, dbTime, i)                                                                                                         
-                        if update_dict != None:
-                            #print "updateL2",update_dict                                                                                 
-                            db.update_from_dict(self.table.name, update_dict) #commit v update()                        
-                    except IndexError: #potreba startime, ale nenalezen 
-                        ret_ko_times.append(dbTime['id'])
+                '''calc laps'''
+                lap_group = dstore.GetItem('additional_info', ['lap', i])
+                if(lap_group['checked'] != 0):                         
+                    for index, dbTime in df_laps.iterrows():
+                        dbTime = dbTime.to_dict()
+                        #print dbTime['id'], dbTime['lap1']            
+                    
+                        '''time'''                                                            
+                        if dbTime['time_raw'] != None:
+                                                 
+                            '''calc lap'''
+                            try:                                                        
+                                update_dict = self.CalcLap(df_laps, dbTime, i)                                                                                                         
+                                if update_dict != None:
+                                    #print "updateL2",update_dict                                                                                 
+                                    db.update_from_dict(self.table.name, update_dict) #commit v update()                        
+                            except IndexError: #potreba startime, ale nenalezen 
+                                ret_ko_times.append(dbTime['id'])
                                               
                               
         return ret_ko_times
@@ -462,8 +519,9 @@ class TimesModel(myModel):
             self.run_id = run_id #update run_id
             
         #TIME 1-3              
-        timesstore.Update(self.run_id)                      
-        ko_nrs = self.update_times_and_laps()                
+        timesstore.Update(self.run_id)
+        self.tableDf = self.df()                      
+        ko_nrs = self.UpdateTimesLaps()                
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
             ret = False                                                                                                            

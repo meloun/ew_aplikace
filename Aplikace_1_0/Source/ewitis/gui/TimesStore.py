@@ -11,7 +11,7 @@ class TimesStore():
         - Update() - volá se v TimesModel.Update()    
     '''
     GET_ALL, ONLY_SMALLER, ONLY_BIGGER= range(0,3)
-    SOURCE_DF, SOURCE_FILTERED_DF = range(0,2)
+    SOURCE_DF, SOURCE_FILTERED_DF = range(0,2)    
     def __init__(self):
         pass
         self.all = {}
@@ -23,7 +23,7 @@ class TimesStore():
                         
     def FilterFrame(self, df, filter):
         '''
-        filter the filtered frame        
+        filter dataframe according to pattern        
         '''
         
                                       
@@ -37,7 +37,25 @@ class TimesStore():
                     df = df[df[k].astype(str).str.match(str(v))]                                        
                 except KeyError:
                     print "error: race settings: filter", filter               
-        return df    
+        return df
+        
+#     def SelectFrame(self, df, dbTime, operations):
+#         '''
+#         select/filter dataframe according to operation        
+#         '''                                              
+#         for operation in operations:
+#             sign = operation[0]
+#             column = operation[1]            
+#             
+#             if(sign == ">"):
+#                 df = df[df[column] > dbTime[column]]
+#             elif(sign == "<"):
+#                 df = df[df[column] < dbTime[column]]
+#             elif(sign == "=="):
+#                 df = df[df[column] == dbTime[column]]
+#             elif(sign == "!="):
+#                 df = df[df[column] != dbTime[column]]               
+#         return df    
     
 
     
@@ -92,33 +110,26 @@ class TimesStore():
         
         return self.Get(1, user_id, filter)
     
-   
-    def GetNrOf(self, df, column, dbTime, mode = GET_ALL, filter = None):
-        '''
-        počet
-        '''        
-        if(dbTime['time_raw'] == None) or (dbTime['time_raw'] == 0):      
-            return None
-        
-        # one user filter
-        if dbTime != None:
-            df = df[df['user_id'] == dbTime['user_id']]            
-                    
-        #filter        
-        #if filter != None:
-        #    df =  self.FilterFrame(df, filter) 
-        
-        '''count of times - same race, same user, better time, exclude start time'''        
-        if mode == TimesStore.ONLY_SMALLER:
-            df = df[df[column] < dbTime[column]]           
-                    
-        try:                                                  
-            lap_count = len(df[column])
-        except KeyError:            
-            lap_count = None  
-        
-        #print "po",lap_count, dbTime, df
-        return lap_count # int or none    
+       
+    
+#     def GetNrOf(self, df, dbTime, operations = None, filter = None):
+#         '''
+#         počet
+#         '''               
+#                     
+#         #filter        
+#         #if filter != None:
+#         #    df =  self.FilterFrame(df, filter) 
+#         
+#         '''count of times - same race, same user, better time, exclude start time'''
+#         aux_df = self.SelectFrame(df, dbTime, operations)                                                             
+#                     
+#         #try:                                                  
+#         lap_count = len(aux_df['id'])
+#         #except KeyError:            
+#         #    lap_count = None  
+#                 
+#         return lap_count # int or none    
 
     def Filter(self, run_id):
       

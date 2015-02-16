@@ -22,7 +22,12 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "gap": 0,
                     "points": [
                         0,
@@ -31,12 +36,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,7 +62,12 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "gap": 0,
                     "points": [
                         0,
@@ -71,12 +76,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,7 +102,12 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "gap": 0,
                     "points": [
                         0,
@@ -111,12 +116,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -171,7 +171,7 @@
                         "rule": "timeraw - starttime"
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2|250",
                         "checked": 2,
                         "rule": "timeraw - starttime"
                     },
