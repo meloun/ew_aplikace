@@ -25,7 +25,11 @@ class myAbstractModel():
         for c in range(self.columnCount()):
             index = self.index(r, c)
             value = self.data(index ).toString()
-            row.append(utils.toUnicode(value))        
+            if(c == 0): #need integer type for id
+                value = int(value)
+            else:                                    
+                value = utils.toUnicode(value)
+            row.append(value)                            
         return row
     
     
@@ -77,8 +81,9 @@ class myAbstractModel():
         vrací tabulku(hodnoty buněk) jako dataframe
         """
         df = pd.DataFrame(columns = self.header())        
-        for i in range(self.rowCount()):
+        for i in range(self.rowCount()):            
             df.loc[i] = self.row(i)
+        df = df.set_index('id',  drop=False)
         return df
 
 

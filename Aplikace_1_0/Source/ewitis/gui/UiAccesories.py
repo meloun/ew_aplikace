@@ -51,9 +51,10 @@ class UiAccesories(UiaDialogs):
         self.showMessage("Race", dstore.GetItem("racesettings-app", ["race_name"]), MSGTYPE.statusbar)
         
     def UpdateText(self, object, text):
-        cursor_position = object.cursorPosition()
-        object.setText(text)
-        object.setCursorPosition(cursor_position)  
+        if(object.text() != text):
+            #cursor_position = object.cursorPosition()
+            object.setText(text)
+            #object.setCursorPosition(cursor_position)  
         
     def SetCurrentIndex(self, object, text):
         index = object.findText(text, QtCore.Qt.MatchFixedString)

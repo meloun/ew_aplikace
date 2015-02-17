@@ -139,12 +139,13 @@ def sTabChanged(nr):
 def sRefresh():
     title = "Manual Refresh"        
     
-    #disable user actions        
+    #disable user actions
+    ztime = time.clock()        
     dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
     ret = GetCurrentTab().Update(UPDATE_MODE.all)    
     if(ret == True):                       
-        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime()), MSGTYPE.statusbar)
+        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)
     
     #enable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                        

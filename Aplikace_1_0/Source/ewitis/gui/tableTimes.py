@@ -269,15 +269,13 @@ class TimesModel(myModel):
                     tabTime[lapX] = dbTime[lapX]  
             else: 
                 tabTime[lapX] = None
-
-                                
-        #toDo: dodělat funkcičku která mi prohledá vzorečky u orderů a poitntů a zkusí domyslet jestli je potřeba nejdříve počítat pořadí nebo body
-        #.. 
+                                 
         
         '''ORDER 1-3'''
         for i in range(0, NUMBER_OF.THREECOLUMNS):        
-            if additional_info['order'][i]:
-                tabTime['order' + str(i+1)] = self.CalcOrder(timesstore.df, dbTime, i)
+            if additional_info['order'][i]:                
+                tabTime['order' + str(i+1)] = self.CalcOrder(timesstore.df, dbTime, i)                                 
+                #print dbTime['id'], 'order', str(i+1), tabTime['order' + str(i+1)] 
             else:                                                         
                 tabTime['order' + str(i+1)] = None
                                         
@@ -370,7 +368,7 @@ class TimesModel(myModel):
                     
         if ret_dict == {}:
             return None
-        
+                
         ret_dict['id']=  dbTime['id']                 
         return ret_dict                                                                                                                                                  
                     
@@ -416,30 +414,40 @@ class TimesModel(myModel):
     def CalcOrder(self, df, dbTime, index):
         '''
         pokud není čas spočítá čas,
-        pokud je čas a není lap spočítá lap            
-        '''                                                            
-                     
+        pokud je čas a není lap spočítá lap                            
+        '''
+                                                                                                    
+                         
         '''no time in some cases'''
         if(self.IsTimeToCalc(dbTime) == False):
-            return None
+            return None        
         
-        group = dstore.GetItem('additional_info', ['order', index])                  
-                 
-
-        ret_dict =  {}                        
+        #get order group
+        group = dstore.GetItem('additional_info', ['order', index])                 
+        column1 = group['column1'].lower()                            
+        
+        #column is empty => no order
+        if(dbTime[column1] == None):
+            return None                              
         
         # no empty users
-        aux_df = df[df['user_id'] != 0]
+        aux_df = df[df['user_id'] != 0]        
         
         #key muss exist
-        column1 = group['column1'].lower()                            
-        aux_df = aux_df[aux_df[column1].notnull()]
+        aux_df = aux_df[aux_df[column1].notnull()]        
+        
+        #is this my last time #1? (optimization) 
+        check_df = aux_df[aux_df['user_id'] == dbTime['user_id']]
+        check_df = check_df[check_df[column1] > dbTime[column1]]                                 
+        if(len(check_df) != 0):
+            return None
         
         #last time from each user        
-        aux_df = aux_df.sort(column1).groupby("user_id").last()             
+        aux_df = aux_df.sort(column1).groupby("user_id").last()                
         
-        # is this my last time ?        
+        #is this my last time?             
         if(not dbTime['id'] in aux_df.id.values):
+            print "CalcOrder: ERROR", column1, dbTime[column1], dbTime['id']                     
             return None        
         
         # only better times
@@ -518,16 +526,23 @@ class TimesModel(myModel):
         if(run_id != None):                    
             self.run_id = run_id #update run_id
             
-        #TIME 1-3              
-        timesstore.Update(self.run_id)
-        self.tableDf = self.df()                      
-        ko_nrs = self.UpdateTimesLaps()                
+        #TIME 1-3                                      
+        timesstore.Update(self.run_id)                
+                      
+        #tabDf = self.df()                                                                                                     
+        #mydf2 = pd.concat([left, right], axis = 1)
+        #columns =  tabDf.columns - timesstore.df.columns                              
+        #mydf = timesstore.df.join(tabDf[columns])
+        #print mydf                                
+                                                      
+        ko_nrs = self.UpdateTimesLaps()                        
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
             ret = False                                                                                                            
             
         db.commit()
                           
+        timesstore.Update(self.run_id)            
         myModel.Update(self, "run_id", self.run_id)
         #db.commit()        
         return ret            
@@ -585,9 +600,7 @@ class Times(myTable):
     def createSlots(self):
         
         #standart slots
-        myTable.createSlots(self)
-        
-        QtCore.QObject.connect(Ui().timesShowAdditionalInfo, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["enabled"], state, self.Update))
+        myTable.createSlots(self)        
                 
         #filter starts/finishes
         QtCore.QObject.connect(self.gui['filter_starts'], QtCore.SIGNAL("clicked()"), self.sFilterStarts) 

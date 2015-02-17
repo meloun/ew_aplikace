@@ -143,6 +143,7 @@ class TimesStore():
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
                                 , db.getDb())
+        df = df.set_index('id',  drop=False)
         
         #assign to global list
         #self.all = {'df':df, groups: self.df.groupby("user_id")}

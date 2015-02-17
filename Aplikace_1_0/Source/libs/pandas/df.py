@@ -29,7 +29,7 @@ df2.loc[1]= [2, "cc2", "b", 2]
 df2.loc[2]= [3, "cc3", "b", 220]
 
 left = pd.DataFrame ({'id': [1, 2, 3], 'key2': ['one', 'two', 'one'], 'lval': [1, 2, 3]})
-right = pd.DataFrame({'id': [1, 2, 3], 'key2': ['one', 'one', 'one'], 'rval': [4, 5, 6]})
+right = pd.DataFrame({'id': [3, 2, 1], 'key2': ['one', 'one', 'one'], 'rval': [4, 5, 6]})
 
 
 
@@ -43,13 +43,19 @@ right = pd.DataFrame({'id': [1, 2, 3], 'key2': ['one', 'one', 'one'], 'rval': [4
 
 print left
 print right
+#c = right.set_index('id')
 print "1============================================="
 #print pd.merge(left,right, on='id')
 #print left.update(right)
 
+print right[['id', 'rval']]
 
-df = pd.merge(left, right, how='outer', on=['id'], suffixes=['', '_tab'])
-print df
+#df0 = pd.concat([left, right[['id', 'rval']]], ignore_index=True)
+df1 = pd.merge(left, right[['id', 'rval']])
+#df2 = left.join(right[['id', 'rval']], on=['id'])
+#print df0
+print df1
+#print df2
 
 #print df[df['cell']<250]
 #print df[df['cell'] == 250]

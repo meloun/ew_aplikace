@@ -21,6 +21,7 @@
                     ],
                     "club": 2,
                     "laps": 0,
+                    "sex": 0,
                     "number": 2,
                     "times": [
                         2,
@@ -28,7 +29,6 @@
                         2,
                         2
                     ],
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -36,7 +36,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -61,6 +61,7 @@
                     ],
                     "club": 2,
                     "laps": 0,
+                    "sex": 0,
                     "number": 2,
                     "times": [
                         2,
@@ -68,7 +69,6 @@
                         2,
                         2
                     ],
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -76,7 +76,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -101,6 +101,7 @@
                     ],
                     "club": 2,
                     "laps": 0,
+                    "sex": 0,
                     "number": 2,
                     "times": [
                         2,
@@ -108,7 +109,6 @@
                         2,
                         2
                     ],
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -116,7 +116,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -171,12 +171,12 @@
                         "rule": "timeraw - starttime"
                     },
                     {
-                        "filter": "cell=2|250",
+                        "filter": "cell=2|3|250",
                         "checked": 2,
                         "rule": "timeraw - starttime"
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "checked": 2,
                         "rule": "timeraw - starttime"
                     }
@@ -198,11 +198,11 @@
                         "checked": 2
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "",
                         "checked": 2
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "",
                         "checked": 2
                     }
                 ],
