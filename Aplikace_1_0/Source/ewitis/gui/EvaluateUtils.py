@@ -8,6 +8,12 @@ from ewitis.gui.TimesStore import timesstore
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
 
+'''
+keywords:
+
+
+'''
+
 
 def Evaluate(rule, tabTime, dbTime):
     points = None
@@ -129,7 +135,7 @@ def Evaluate(rule, tabTime, dbTime):
     expression_string = expression_string.replace("time3", str(dbTime['time3']))
            
     # TIME
-    expression_string = expression_string.replace("timeraw", str(dbTime['time_raw']))
+    expression_string = expression_string.replace("time", str(dbTime['time_raw']))
             
     ''' evaluate expresion '''
     try:            

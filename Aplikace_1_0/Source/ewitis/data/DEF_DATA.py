@@ -141,7 +141,7 @@ DEF_DATA = {
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "time - starttime", 
-                                                                            "filter"            : "cell250",
+                                                                            "filter"            : "cell=2|3|250",
                                                                          }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
                                                         "lap"           : [{
                                                                             "checked"           : CheckboxValue.checked,
@@ -149,7 +149,8 @@ DEF_DATA = {
                                                                          }] * NUMBER_OF.THREECOLUMNS,                                    
                                                         "order"         : [
                                                                            {
-                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "checked"            : CheckboxValue.checked,
+                                                                            "type"               : "All",
                                                                             "column1"            : "Time1",
                                                                             "row1"               : "Last",
                                                                             "order1"             : "Asc",                                                                                  
@@ -160,7 +161,7 @@ DEF_DATA = {
                                                         "points"        :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
-                                                                            "rule"              : "abs(timeraw - %00:01:30,00%)", 
+                                                                            "rule"              : "abs(time1 - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
                                                                             "maximum"           : 500                                                                                                                                                                                                                                                                    
                                                                          }] * NUMBER_OF.POINTSCOLUMNS,

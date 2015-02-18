@@ -13,8 +13,29 @@ from ewitis.gui.Ui import Ui
 from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
+from libs.myqt.mygroups import FilterGroup
+   
+class TimesGroup(FilterGroup):    
+    def __init__(self,  nr):
+        self.rule = getattr(Ui(), "lineAInfoTimeRule_" + str(nr)) 
+        FilterGroup.__init__(self, nr, "Time")
 
-
+    def CreateSlots(self):
+        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "rule"], utils.toUnicode(x)))            
+        FilterGroup.CreateSlots(self)                                                                                    
+     
+    def setEnabled(self, enabled):
+        self.rule.setEnabled(enabled)        
+        FilterGroup.setEnabled(self, enabled)
+    
+    def Update(self):        
+        # set values from datastore              
+        info = self.GetInfo()                                                                            
+        uiAccesories.UpdateText(self.rule, info["rule"]) 
+        FilterGroup.Update(self)
+        
+                  
+                
 class PointGroup():    
     def __init__(self,  nr):
         '''
@@ -58,86 +79,9 @@ class PointGroup():
                               
        
                      
-class FilterGroup():    
-    def __init__(self,  nr, name):
-        '''        
-        checkbox + filter        
-        '''
-        ui = Ui()        
-        self.nr = nr
-        self.name = name.lower()
-        
-        self.checked = getattr(ui, "checkAInfo"+name+ "_"+str(nr))                                     
-        self.filter = getattr(ui, "lineAInfo"+name+"Filter_" + str(nr))                                              
 
-    def CreateSlots(self):
-        QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", [self.name, self.nr-1, "checked"], x, self.Update))                                          
-        QtCore.QObject.connect(self.filter, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", [self.name, self.nr-1, "filter"], utils.toUnicode(x)))            
-        
-    def GetInfo(self):
-        return dstore.GetItem("additional_info", [ self.name, self.nr-1])                 
-    
-     
-    def setEnabled(self, enabled):                
-        self.filter.setEnabled(enabled)
-    
-    def Update(self):        
-        # set values from datastore              
-        info = self.GetInfo()                                                                    
-        self.checked.setChecked(info["checked"])         
-        uiAccesories.UpdateText(self.filter, info["filter"])
-        
-        self.setEnabled(info["checked"])
-        
-        #filter color
-        filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ self.name, self.nr-1])['filter'])        
-        if(dstore.GetItem("additional_info", [ self.name, self.nr-1])['filter'] == ""):
-            self.filter.setStyleSheet("background:"+COLORS.GetColor(None))  
-        else:                    
-            self.filter.setStyleSheet("background:"+COLORS.GetColor(filter_dict != None))
               
-class TimesGroup():    
-    def __init__(self,  nr):
-        '''
-        Constructor
-        group items as class members        
-        '''
-        ui = Ui()        
-        self.nr = nr
-        
-        self.checked = getattr(ui, "checkAInfoTime_" + str(nr))        
-        self.rule = getattr(ui, "lineAInfoTimeRule_" + str(nr))                             
-        self.filter = getattr(ui, "lineAInfoTimeFilter_" + str(nr))                                              
-
-    def CreateSlots(self):
-        QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "checked"], x, self.Update))                          
-        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "rule"], utils.toUnicode(x)))            
-        QtCore.QObject.connect(self.filter, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "filter"], utils.toUnicode(x)))            
-        
-    def GetInfo(self):
-        return dstore.GetItem("additional_info", [ "time", self.nr-1])                 
-    
      
-    def setEnabled(self, enabled):
-        self.rule.setEnabled(enabled)        
-        self.filter.setEnabled(enabled)
-    
-    def Update(self):        
-        # set values from datastore              
-        info = self.GetInfo()                                                                    
-        self.checked.setChecked(info["checked"])
-        uiAccesories.UpdateText(self.rule, info["rule"]) 
-        uiAccesories.UpdateText(self.filter, info["filter"])
-        
-        self.setEnabled(info["checked"])
-        
-        #filter color
-        filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", self.nr-1])['filter'])        
-        if(dstore.GetItem("additional_info", [ "time", self.nr-1])['filter'] == ""):
-            self.filter.setStyleSheet("background:"+COLORS.GetColor(None))  
-        else:                    
-            self.filter.setStyleSheet("background:"+COLORS.GetColor(filter_dict != None))  
-        
         
 class OrderGroup():    
     def __init__(self,  nr):
@@ -148,7 +92,8 @@ class OrderGroup():
         ui = Ui()        
         self.nr = nr
         
-        self.checked = getattr(ui, "checkAInfoOrder_" + str(nr))        
+        self.checked = getattr(ui, "checkAInfoOrder_" + str(nr))
+        self.type = getattr(ui, "comboOrderType_" + str(nr))        
         self.column1 = getattr(ui, "comboOrderColumn_" + str(nr) + "_1")                             
         self.row1 = getattr(ui,    "comboOrderRow_" + str(nr) + "_1")   
         self.order1 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_1")
@@ -159,6 +104,8 @@ class OrderGroup():
     def CreateSlots(self):
         
         QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "checked"], x, self.Update))
+        
+        QtCore.QObject.connect(self.type, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "type"], x, self.Update))
         
         QtCore.QObject.connect(self.column1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column1"], utils.toUnicode(x)))                          
         QtCore.QObject.connect(self.row1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row1"], utils.toUnicode(x)))              
@@ -172,6 +119,7 @@ class OrderGroup():
         return dstore.GetItem("additional_info", [ "order", self.nr-1])
      
     def setEnabled(self, enabled):
+        self.type.setEnabled(enabled)   
         self.column1.setEnabled(enabled)        
         self.row1.setEnabled(enabled)
         self.order1.setEnabled(enabled)
@@ -184,15 +132,15 @@ class OrderGroup():
         info = self.GetInfo()                                                                    
         self.checked.setChecked(info["checked"])  
  
+        uiAccesories.SetCurrentIndex(self.type, info["type"])
+         
         uiAccesories.SetCurrentIndex(self.column1, info["column1"])
         uiAccesories.SetCurrentIndex(self.row1, info["row1"])
         uiAccesories.SetCurrentIndex(self.order1, info["order1"])
         
         uiAccesories.SetCurrentIndex(self.column2, info["column2"])
         uiAccesories.SetCurrentIndex(self.row2, info["row2"])
-        uiAccesories.SetCurrentIndex(self.order2, info["order2"])
-                        
-
+        uiAccesories.SetCurrentIndex(self.order2, info["order2"])                        
                      
         
         
