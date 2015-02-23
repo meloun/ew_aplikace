@@ -22,8 +22,13 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "sex": 0,
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -31,12 +36,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,8 +62,13 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "sex": 0,
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -71,12 +76,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,8 +102,13 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "sex": 0,
-                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -111,12 +116,7 @@
                         0
                     ],
                     "year": 0,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -148,20 +148,20 @@
                     {
                         "minimum": 0,
                         "checked": 2,
-                        "maximum": 500,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "maximum": 5000,
+                        "rule": "abs(time - %00:03:20,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "rule": "abs(time - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "rule": "abs(time - %00:01:30,00%)"
                     }
                 ],
                 "time": [
@@ -172,12 +172,12 @@
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
+                        "checked": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
+                        "checked": 0,
                         "rule": "time - starttime"
                     }
                 ],
@@ -199,11 +199,11 @@
                     },
                     {
                         "filter": "",
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "filter": "",
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "order": [
@@ -212,30 +212,30 @@
                         "row2": "last",
                         "checked": 2,
                         "type": "All",
-                        "column1": "Time1",
-                        "column2": " - - -",
                         "order2": "Asc",
-                        "order1": "Asc"
+                        "order1": "Asc",
+                        "column1": "Time1",
+                        "column2": " - - -"
                     },
                     {
                         "row1": "Last",
                         "row2": "last",
-                        "checked": 2,
+                        "checked": 0,
                         "type": "All",
-                        "column1": "Time1",
-                        "column2": " - - -",
                         "order2": "Asc",
-                        "order1": "Asc"
+                        "order1": "Asc",
+                        "column1": "Time1",
+                        "column2": " - - -"
                     },
                     {
                         "row1": "Last",
                         "row2": "last",
-                        "checked": 2,
+                        "checked": 0,
                         "type": "All",
-                        "column1": "Time1",
-                        "column2": " - - -",
                         "order2": "Asc",
-                        "order1": "Asc"
+                        "order1": "Asc",
+                        "column1": "Time1",
+                        "column2": " - - -"
                     }
                 ]
             }

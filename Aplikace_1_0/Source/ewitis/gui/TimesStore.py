@@ -25,78 +25,53 @@ class TimesStore():
         '''
         filter dataframe according to pattern        
         '''
-        
                                       
         if filter != None:        
             for k,v in filter.iteritems():                
                 try:
+                    #replace
                     v = str(v)
                     if(v == "2"):
                         v="2$"                
-                    v = v.replace("2|", "2$|") #cell=2|250                                                                                                                                                                                                                                                            
+                    v = v.replace("2|", "2$|") #cell=2|250
+                    
+                    # filter frame                                                                                                                                                                                                                                                           
                     df = df[df[k].astype(str).str.match(str(v))]                                        
                 except KeyError:
                     print "error: race settings: filter", filter               
         return df
-        
-#     def SelectFrame(self, df, dbTime, operations):
-#         '''
-#         select/filter dataframe according to operation        
-#         '''                                              
-#         for operation in operations:
-#             sign = operation[0]
-#             column = operation[1]            
-#             
-#             if(sign == ">"):
-#                 df = df[df[column] > dbTime[column]]
-#             elif(sign == "<"):
-#                 df = df[df[column] < dbTime[column]]
-#             elif(sign == "=="):
-#                 df = df[df[column] == dbTime[column]]
-#             elif(sign == "!="):
-#                 df = df[df[column] != dbTime[column]]               
-#         return df    
-    
 
     
-    def GetPrevious(self, user_time = None, filter = None):       
+    def GetPrevious(self, dbTime, filter = None, df = None):
+        print "funguju A"
         
-        time = {} 
-        user_id = user_time['user_id']
-        time_raw = user_time['time_raw']
-        
-        if(user_id == 0) or (user_id == None):            
+        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):            
             return None
         
-        
-        # user filter
-        if user_id != None:
-            df = self.groups.get_group(user_id)            
+        # user and previous filter
+        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]             
         
         #filter
+        #print filter, type(filter)
         df =  self.FilterFrame(df, filter)                       
                 
         
         #group        
         try:            
-            time = df[df.time_raw < time_raw].iloc[-1]                
+            time = df[df.time_raw < dbTime['time_raw']].iloc[-1]                
             time = dict(time)                        
         except:                        
             time = None
+            
+        print "funguju B"
                                    
         return time 
         
     '''
     
     '''
-    def Get(self, nr, user_id = None, filter = None):
+    def Get(self, df, nr, filter = None):
         time = {}
-         
-        # user filter
-        if user_id == None:
-            df = self.df
-        else:
-            df = self.groups.get_group(user_id)
         
         #filter
         df = self.FilterFrame(df, filter)                      
@@ -106,30 +81,10 @@ class TimesStore():
                     
         return dict(time)
     
-    def GetFirst(self, user_id = None, filter = None):                    
+    def GetFirst(self, filter = None):                    
         
-        return self.Get(1, user_id, filter)
-    
-       
-    
-#     def GetNrOf(self, df, dbTime, operations = None, filter = None):
-#         '''
-#         počet
-#         '''               
-#                     
-#         #filter        
-#         #if filter != None:
-#         #    df =  self.FilterFrame(df, filter) 
-#         
-#         '''count of times - same race, same user, better time, exclude start time'''
-#         aux_df = self.SelectFrame(df, dbTime, operations)                                                             
-#                     
-#         #try:                                                  
-#         lap_count = len(aux_df['id'])
-#         #except KeyError:            
-#         #    lap_count = None  
-#                 
-#         return lap_count # int or none    
+        return self.Get(1, filter)
+        
 
     def Filter(self, run_id):
       
@@ -143,12 +98,15 @@ class TimesStore():
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
                                 , db.getDb())
-        df = df.set_index('id',  drop=False)
+        df.set_index('id',  drop=False, inplace = True)
         
         #assign to global list
         #self.all = {'df':df, groups: self.df.groupby("user_id")}
-        self.df = df        
-        self.groups = self.df.groupby("user_id")
+        
+        #self.df = df        
+        #self.groups = self.df.groupby("user_id")
+        
+        return df
 
 timesstore = TimesStore() 
 

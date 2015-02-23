@@ -83,7 +83,7 @@ class myAbstractModel():
         df = pd.DataFrame(columns = self.header())        
         for i in range(self.rowCount()):            
             df.loc[i] = self.row(i)
-        df = df.set_index('id',  drop=False)
+        df.set_index('id',  drop=False, inplace = True)
         return df
 
 

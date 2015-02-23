@@ -21,10 +21,12 @@ print df
 
 grouped = df.groupby('A')
 
+print grouped.last()
+
 
 #print grouped.size()
-print len(grouped)
-print grouped.last()
+#print len(grouped)
+#print grouped.last()
 
 
 #print grouped.agg(np.count)

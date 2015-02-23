@@ -32,7 +32,7 @@ class Points(myTable):
         myTable.__init__(self, "Points")
     
     def evaluate(self, formula, tabTime, dbTime):        
-        return Evaluate(formula, tabTime, dbTime)        
+        return Evaluate(None, formula, tabTime, dbTime)        
 
     
     def getDbPointParOrder(self, order):
@@ -53,18 +53,10 @@ class Points(myTable):
         if(tabTime['cell'] == 1):                       
             return None
         if(tabTime['time1'] == None):            
-            return None        
-                       
-            
-        #points_evaluation = dstore.Get("evaluation")["points"]
-        points_evaluation = PointsEvaluation.FROM_FORMULA
-        
-        tabPoint = {}
-        if(points_evaluation == PointsEvaluation.FROM_TABLE):                                  
-            tabPoint = self.getTabPointParOrder(tabTime['order'])
-        else:                      
-            points_formula = dstore.Get("additional_info")["points"][index]                                                                        
-            tabPoint['points'] = self.evaluate(points_formula, tabTime, dbTime)                                                    
+            return None
+                                        
+        tabPoint = self.getTabPointParOrder(tabTime['order'])
+                                                     
         
         if isinstance(tabPoint['points'], float):
             tabPoint['points'] = "{0:.2f}".format(tabPoint['points'])         

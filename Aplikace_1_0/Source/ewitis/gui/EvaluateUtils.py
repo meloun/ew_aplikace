@@ -15,7 +15,7 @@ keywords:
 '''
 
 
-def Evaluate(rule, tabTime, dbTime):
+def Evaluate(df, rule, tabTime, dbTime):
     points = None
     
 #     if filter != None:        
@@ -25,7 +25,6 @@ def Evaluate(rule, tabTime, dbTime):
 #             else:
 #                 df = df[df[k].str.contains(v)]
             
-    
     minimum =  rule['minimum'] if ('minimum' in rule) else None
     maximum = rule['maximum'] if ('maximum' in rule) else None
     
@@ -34,12 +33,12 @@ def Evaluate(rule, tabTime, dbTime):
     rule = rule.lower()
     
     #check if data exist
-    if ("time1" in rule) and (dbTime['time1'] == None):    
-        return None
-    if ("time2" in rule) and (dbTime['time2'] == None):        
-        return None
-    if ("time3" in rule) and (dbTime['time3'] == None):        
-        return None
+#     if ("time1" in rule) and (dbTime['time1'] == None):    
+#         return None
+#     if ("time2" in rule) and (dbTime['time2'] == None):        
+#         return None
+#     if ("time3" in rule) and (dbTime['time3'] == None):        
+#         return None
 
     
     
@@ -56,6 +55,7 @@ def Evaluate(rule, tabTime, dbTime):
 
     
     expression_string = rule
+    #print expression_string
      
     #UN1-UN3
     try:
@@ -91,19 +91,25 @@ def Evaluate(rule, tabTime, dbTime):
         return None
            
     # CELLTIME2 - CELLTIME250
-    for i in range(2,25):
-        
-        #replace index for finishtime
-        if i == 25:
-            i = 250
-        
-        celltimeX = "celltime" + str(i)
-        if (celltimeX in rule):
-            try:                                                
-                expression_string = expression_string.replace(celltimeX, str(timesstore.GetPrevious(dbTime, [i,])['time1']))                
-            except TypeError:       
-                print "type error"         
-                return None
+    if "celltime" in rule:
+        for i in range(0,25):
+            
+            #expression_string = es
+            i = 25-i
+            
+            #replace index for finishtime
+            if i == 25:
+                i = 250
+            
+            celltimeX = "celltime" + str(i)
+            #print celltimeX, rule
+            if (celltimeX in rule):
+                try:  
+                    celltime = timesstore.GetPrevious(dbTime, {"cell":str(i)}, df) 
+                    expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
+                except TypeError:       
+                    print "type error"         
+                    return None
             
     # STARTTIME    
     #user without number => no time
@@ -116,7 +122,7 @@ def Evaluate(rule, tabTime, dbTime):
         if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
             #VIA CATEGORY => Xth starttime                                                                                                                              
             start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
-            starttime = timesstore.Get(start_nr, filter = {'cell':1})                                                                                        
+            starttime = timesstore.Get(df, start_nr, filter = {'cell':1})                                                                                        
         elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
             #VIA USER => previous startime from the same user                                                
             starttime = timesstore.GetPrevious(dbTime, filter = {'cell':1})
@@ -138,6 +144,7 @@ def Evaluate(rule, tabTime, dbTime):
     expression_string = expression_string.replace("time", str(dbTime['time_raw']))
             
     ''' evaluate expresion '''
+    #print "ES",expression_string 
     try:            
         points = eval(expression_string)        
     except (SyntaxError, TypeError, NameError):
