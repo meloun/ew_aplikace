@@ -358,13 +358,12 @@ class TimesModel(myModel):
         timeX = "time"+str(index+1)
         ret_dict =  {}        
                   
-        #calc time
-        if(dbTime[timeX] == None):
-            group = dstore.GetItem('additional_info', ['time', index])                         
-            time = Evaluate(group, {}, dbTime)
-            #add to dict            
-            if (time != None):
-                ret_dict[timeX] = time
+        #calc time        
+        group = dstore.GetItem('additional_info', ['time', index])                         
+        time = Evaluate(group, {}, dbTime)
+        #add to dict            
+        if (time != None):
+            ret_dict[timeX] = time
                     
         if ret_dict == {}:
             return None
@@ -461,7 +460,7 @@ class TimesModel(myModel):
                                           
             
                 
-    def UpdateTimesLaps(self):
+    def UpdateTimesLaps(self, joinDf):
         """
         u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
         
@@ -472,49 +471,49 @@ class TimesModel(myModel):
                 
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             
-            time_group = dstore.GetItem('additional_info', ['time', i])                        
-            if(time_group['checked'] != 0):                               
+            '''calc times'''
+            time_group = dstore.GetItem('additional_info', ['time', i])
+            if(time_group['checked'] != 0):
+                                               
                 #prepare filtered df                            
                 filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
-                df = timesstore.FilterFrame(timesstore.df, filter_dict)
-                df = df.where(pd.notnull(df), None)
-                filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
-                df_laps = timesstore.FilterFrame(df, filter_dict)            
-            
-                '''calc times'''
-                for index, dbTime in df.iterrows():
+                df_times = timesstore.FilterFrame(joinDf, filter_dict)
                 
+                #prepare filtered df
+                lap_group = dstore.GetItem('additional_info', ['lap', i])
+                if(lap_group['checked'] != 0):                        
+                    filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
+                    df_laps = timesstore.FilterFrame(df_times, filter_dict)
+                
+                #replace nan with None
+                #df = df.where(pd.notnull(df), None)         
+            
+                #calc times
+                for index, dbTime in df_times.iterrows():
+                
+                    #df to dict
                     dbTime = dbTime.to_dict()
                     
                     if dbTime['time_raw'] != None:                                                                                                                                                                    
                                                                                   
-                        '''calc time'''
-                        try:                                                        
-                            update_dict = self.CalcTime(dbTime, i)
-                            if update_dict != None:                                                                                
-                                db.update_from_dict(self.table.name, update_dict) #commit v update()
-                        except IndexError: #potreba startime, ale nenalezen 
-                            ret_ko_times.append(dbTime['id'])
-
-                '''calc laps'''
-                lap_group = dstore.GetItem('additional_info', ['lap', i])
-                if(lap_group['checked'] != 0):                         
-                    for index, dbTime in df_laps.iterrows():
-                        dbTime = dbTime.to_dict()
-                        #print dbTime['id'], dbTime['lap1']            
-                    
-                        '''time'''                                                            
-                        if dbTime['time_raw'] != None:
-                                                 
-                            '''calc lap'''
-                            try:                                                        
+                        '''calc time and lap'''
+                        timeX = "time"+str(i+1)
+                        lapX = "lap"+str(i+1)
+                        update_dict = None                        
+                        if(dbTime[timeX] == None):                                                                                    
+                            '''calc time'''                                                                                   
+                            update_dict = self.CalcTime(dbTime, i)                                                                            
+                        elif (dbTime[lapX] == None) and (lap_group['checked'] != 0):
+                            if dbTime['id'] in df_laps.id.values:
+                                '''calc lap'''                                                                                                                                               
                                 update_dict = self.CalcLap(df_laps, dbTime, i)                                                                                                         
-                                if update_dict != None:
-                                    #print "updateL2",update_dict                                                                                 
-                                    db.update_from_dict(self.table.name, update_dict) #commit v update()                        
+                                    
+                        #update db
+                        if update_dict != None:
+                            try:                                                                                
+                                db.update_from_dict(self.table.name, update_dict) #commit v update()
                             except IndexError: #potreba startime, ale nenalezen 
-                                ret_ko_times.append(dbTime['id'])
-                                              
+                                ret_ko_times.append(dbTime['id'])             
                               
         return ret_ko_times
     
@@ -529,13 +528,13 @@ class TimesModel(myModel):
         #TIME 1-3                                      
         timesstore.Update(self.run_id)                
                       
-        #tabDf = self.df()                                                                                                     
+        tabDf = self.df()                                                                                                     
         #mydf2 = pd.concat([left, right], axis = 1)
-        #columns =  tabDf.columns - timesstore.df.columns                              
-        #mydf = timesstore.df.join(tabDf[columns])
+        columns =  tabDf.columns - timesstore.df.columns                              
+        joinDf = timesstore.df.join(tabDf[columns])
         #print mydf                                
                                                       
-        ko_nrs = self.UpdateTimesLaps()                        
+        ko_nrs = self.UpdateTimesLaps(joinDf)                        
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
             ret = False                                                                                                            

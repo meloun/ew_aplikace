@@ -22,13 +22,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -36,7 +31,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,13 +62,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -76,7 +71,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,13 +102,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -116,7 +111,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -211,31 +211,31 @@
                         "row1": "Last",
                         "row2": "last",
                         "checked": 2,
-                        "order2": "Asc",
                         "type": "All",
-                        "order1": "Asc",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "column2": " - - -",
+                        "order2": "Asc",
+                        "order1": "Asc"
                     },
                     {
                         "row1": "Last",
                         "row2": "last",
                         "checked": 2,
-                        "order2": "Asc",
                         "type": "All",
-                        "order1": "Asc",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "column2": " - - -",
+                        "order2": "Asc",
+                        "order1": "Asc"
                     },
                     {
                         "row1": "Last",
                         "row2": "last",
                         "checked": 2,
-                        "order2": "Asc",
                         "type": "All",
-                        "order1": "Asc",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "column2": " - - -",
+                        "order2": "Asc",
+                        "order1": "Asc"
                     }
                 ]
             }
