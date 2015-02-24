@@ -28,7 +28,7 @@
                         2,
                         2
                     ],
-                    "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -36,7 +36,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -68,7 +68,7 @@
                         2,
                         2
                     ],
-                    "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -76,7 +76,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -108,7 +108,7 @@
                         2,
                         2
                     ],
-                    "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -116,7 +116,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
