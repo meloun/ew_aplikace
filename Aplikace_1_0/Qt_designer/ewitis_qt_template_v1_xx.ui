@@ -43,7 +43,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="tabRuns_Times">
        <attribute name="title">
@@ -3817,9 +3817,9 @@
           <widget class="QComboBox" name="comboOrderColumn_1_1">
            <property name="geometry">
             <rect>
-             <x>190</x>
+             <x>280</x>
              <y>270</y>
-             <width>61</width>
+             <width>71</width>
              <height>20</height>
             </rect>
            </property>
@@ -3875,7 +3875,7 @@
           <widget class="QComboBox" name="comboOrderOrder_1_1">
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>350</x>
              <y>270</y>
              <width>51</width>
              <height>20</height>
@@ -3898,9 +3898,9 @@
           <widget class="QComboBox" name="comboOrderColumn_1_2">
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>410</x>
              <y>270</y>
-             <width>51</width>
+             <width>61</width>
              <height>20</height>
             </rect>
            </property>
@@ -3984,9 +3984,9 @@
           <widget class="QComboBox" name="comboOrderColumn_2_1">
            <property name="geometry">
             <rect>
-             <x>190</x>
+             <x>280</x>
              <y>290</y>
-             <width>61</width>
+             <width>71</width>
              <height>20</height>
             </rect>
            </property>
@@ -4042,9 +4042,9 @@
           <widget class="QComboBox" name="comboOrderColumn_2_2">
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>410</x>
              <y>290</y>
-             <width>51</width>
+             <width>61</width>
              <height>20</height>
             </rect>
            </property>
@@ -4105,7 +4105,7 @@
           <widget class="QComboBox" name="comboOrderOrder_2_1">
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>350</x>
              <y>290</y>
              <width>51</width>
              <height>20</height>
@@ -4151,9 +4151,9 @@
           <widget class="QComboBox" name="comboOrderColumn_3_1">
            <property name="geometry">
             <rect>
-             <x>190</x>
+             <x>280</x>
              <y>310</y>
-             <width>61</width>
+             <width>71</width>
              <height>20</height>
             </rect>
            </property>
@@ -4209,9 +4209,9 @@
           <widget class="QComboBox" name="comboOrderColumn_3_2">
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>410</x>
              <y>310</y>
-             <width>51</width>
+             <width>61</width>
              <height>20</height>
             </rect>
            </property>
@@ -4272,7 +4272,7 @@
           <widget class="QComboBox" name="comboOrderOrder_3_1">
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>350</x>
              <y>310</y>
              <width>51</width>
              <height>20</height>
@@ -4318,9 +4318,9 @@
           <widget class="QComboBox" name="comboOrderRow_1_1">
            <property name="geometry">
             <rect>
-             <x>250</x>
+             <x>180</x>
              <y>270</y>
-             <width>51</width>
+             <width>61</width>
              <height>20</height>
             </rect>
            </property>
@@ -4341,9 +4341,9 @@
           <widget class="QComboBox" name="comboOrderRow_2_1">
            <property name="geometry">
             <rect>
-             <x>250</x>
+             <x>180</x>
              <y>290</y>
-             <width>51</width>
+             <width>61</width>
              <height>20</height>
             </rect>
            </property>
@@ -4364,77 +4364,8 @@
           <widget class="QComboBox" name="comboOrderRow_3_1">
            <property name="geometry">
             <rect>
-             <x>250</x>
+             <x>180</x>
              <y>310</y>
-             <width>51</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="toolTip">
-            <string>Race: order for last times, Slalom: order for best times</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Last</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Best</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QComboBox" name="comboOrderRow_1_2">
-           <property name="geometry">
-            <rect>
-             <x>410</x>
-             <y>270</y>
-             <width>61</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="toolTip">
-            <string>Race: order for last times, Slalom: order for best times</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Last</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Best</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QComboBox" name="comboOrderRow_3_2">
-           <property name="geometry">
-            <rect>
-             <x>410</x>
-             <y>310</y>
-             <width>61</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="toolTip">
-            <string>Race: order for last times, Slalom: order for best times</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Last</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Best</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QComboBox" name="comboOrderRow_2_2">
-           <property name="geometry">
-            <rect>
-             <x>410</x>
-             <y>290</y>
              <width>61</width>
              <height>20</height>
             </rect>
@@ -4459,7 +4390,7 @@
            </property>
            <property name="geometry">
             <rect>
-             <x>190</x>
+             <x>280</x>
              <y>250</y>
              <width>51</width>
              <height>20</height>
@@ -4483,7 +4414,7 @@
            </property>
            <property name="geometry">
             <rect>
-             <x>250</x>
+             <x>180</x>
              <y>250</y>
              <width>51</width>
              <height>20</height>
@@ -4507,7 +4438,7 @@
            </property>
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>350</x>
              <y>250</y>
              <width>51</width>
              <height>20</height>
@@ -4549,37 +4480,13 @@
             <string>Order</string>
            </property>
           </widget>
-          <widget class="QLabel" name="label_239">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>410</x>
-             <y>250</y>
-             <width>51</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="text">
-            <string>Row</string>
-           </property>
-          </widget>
           <widget class="QLabel" name="label_240">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>410</x>
              <y>250</y>
              <width>51</width>
              <height>20</height>
