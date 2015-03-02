@@ -4,7 +4,12 @@ import pandas.io.sql as psql
 import pandas as pd
 from ewitis.data.DEF_DATA import *
 from ewitis.data.dstore import dstore
+import libs.timeutils.timeutils as timeutils
+import ewitis.gui.TimesUtils as TimesUtils
 
+#nešlo by to bez?
+from ewitis.gui.tableUsers import tableUsers
+from ewitis.gui.tableCategories import tableCategories
 
 
 class TimesStore():
@@ -39,7 +44,7 @@ class TimesStore():
                     v = v.replace("2|", "2$|") #cell=2|250
                     
                     # filter frame
-                    print df                                                                                                                                                                                                                                                           
+                    #print df                                                                                                                                                                                                                                                           
                     df = df[df[k].astype(str).str.match(str(v))]                                        
                 except KeyError:
                     print "error: race settings: filter", filter               
@@ -107,26 +112,73 @@ class TimesStore():
         self.joinedDf = self.dbDf.join(self.tabDf[columns])
         
         #update order df
-        self.orderDf = [None, None, None]
+        self.orderDf = [pd.DataFrame()] * NUMBER_OF.POINTSCOLUMNS
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            
               
             #get order group
-            group = dstore.GetItem('additional_info', ['order', i])                 
+            group = dstore.GetItem('additional_info', ['order', i])
+            
+            if (group['checked'] == 0):
+                continue
+                                      
+            print group
             column1 = group['column1'].lower()  
+            column2 = group['column2'].lower()
+            asc1 = 1 if(group['order1'].lower() == "asc") else 0
+            asc2 = 1 if(group['order2'].lower() == "asc") else 0
             
             #filter
             aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) &  (self.joinedDf['user_id']!=0)]
 
             #sort
-            aux_df.sort(column1)
+#             if(column2 in aux_df.columns):
+#                 print "nested sorting", column1, column2, asc1, asc2
+#                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
+#             else:
+#                 print "basic sorting"
+#                 aux_df = aux_df.sort(column1, ascending = asc1)
+
             
-            #last time from each user        
-            aux_df = aux_df.sort(column1).groupby("user_id", as_index = False).last() 
+            #last time from each user                    
+            aux_df = aux_df.sort("time_raw")                                                    
+            aux_df = aux_df.groupby("user_id", as_index = False).last()                        
             aux_df.set_index('id',  drop=False, inplace = True)
             
+            #sort again
+            if(column2 in aux_df.columns):
+                print "nested sorting", column1, column2, asc1, asc2
+                aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
+            else:
+                print "basic sorting"
+                aux_df = aux_df.sort(column1, ascending = asc1)
+            
+            
+           
+            print "odf",i, aux_df 
             self.orderDf[i] = aux_df
             
-        return self.joinedDf
+        #update times df and lap df
+        self.timesDf = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS 
+        self.lapDf = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            
+            '''calc times'''
+            time_group = dstore.GetItem('additional_info', ['time', i])
+            if(time_group['checked'] != 0):
+                                               
+                #prepare filtered df for times                            
+                filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
+                self.timesDf[i] = timesstore.FilterFrame(self.joinedDf, filter_dict)
+                
+                #prepare filtered df for lap
+                lap_group = dstore.GetItem('additional_info', ['lap', i])
+                if(lap_group['checked'] != 0):                        
+                    filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
+                    self.lapDf[i] = timesstore.FilterFrame(self.timesDf[i], filter_dict)                    
+            
+        return self.joinedDf         
+                                                               
                     
     def IsTimeToCalc(self, dbTime):        
         
@@ -150,31 +202,37 @@ class TimesStore():
         '''                                                                                         
                          
         '''no order in some cases'''
-        if(self.IsTimeToCalc(dbTime) == False):
-            return None       
+        if(self.IsTimeToCalc(dbTime) == False):            
+            return None 
+        
         
         #get order group
-        group = dstore.GetItem('additional_info', ['order', index])                 
-        column1 = group['column1'].lower()                           
+        #group = dstore.GetItem('additional_info', ['order', index])                 
+        #column1 = group['column1'].lower()                           
         
         #column is empty => no order
-        if(dbTime[column1] == None):
-            return None               
+        #if(dbTime[column1] == None):            
+        #    return None               
         
         #take order df
         df = self.orderDf[index]
         
-        #is this my last time?
-        if(not dbTime['id'] in df.id.values):                    
+        if df.empty:
+            return None
+        
+              
+        #is this my last time?         
+        if(not dbTime['id'] in df.id.values):                                
             return None
         
         # count only better times
-        aux_df = df[df[column1] < dbTime[column1]]                              
-                         
-        #nr_of_better = len(aux_df) 
-        nr_of_better = aux_df.count()        
+        #aux_df = df[df[column1] < dbTime[column1]]
+        aux_df = df.loc[:dbTime['id']]                               
+                                         
+        order = len(aux_df) 
+        #print "nr",  nr_of_better       
         
-        return nr_of_better + 1  
+        return order  
                 
     def Calc(self, dbTime, index, key):
         '''
@@ -187,7 +245,7 @@ class TimesStore():
                   
         #calc time        
         group = dstore.GetItem('additional_info', [key, index])                                 
-        time = Evaluate(self.joinedDf, group, {}, dbTime)
+        time = timesstore.Evaluate(self.joinedDf, group, {}, dbTime)
              
         return time                                                     
     
@@ -225,12 +283,12 @@ class TimesStore():
             
             #better times
             aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]            
-                     
-            #lap = len(aux_df['id'])
-            lap = aux_df['id'].count()
+                                 
+        
+            lap = len(aux_df)
+                        
             if (lap != None):
-                lap = lap + 1
-                
+                lap = lap + 1                
            
         return lap
     

@@ -41,20 +41,30 @@ right = pd.DataFrame({'id': [3, 2, 1], 'key2': ['one', 'one', 'one'], 'rval': [4
 # df2.loc[0]= ["a1", "b", "251"]
 # print df2
 
-print left
-print right
+#print left
+#print right
 #c = right.set_index('id')
 print "1============================================="
 #print pd.merge(left,right, on='id')
 #print left.update(right)
 
-print right[['id', 'rval']]
+#print right[['id', 'rval']]
 
 #df0 = pd.concat([left, right[['id', 'rval']]], ignore_index=True)
 df1 = pd.merge(left, right[['id', 'rval']])
 #df2 = left.join(right[['id', 'rval']], on=['id'])
 #print df0
 print df1
+df_sorted =  df1.sort(["key2","rval"], ascending = [1,0])
+print df_sorted
+
+import numpy as np
+#print (np.where(df.index==2)[0])
+print df_sorted.loc[:2] 
+
+
+
+
 #print df2
 
 #print df[df['cell']<250]

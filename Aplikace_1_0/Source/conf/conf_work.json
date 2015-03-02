@@ -22,12 +22,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -36,7 +31,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,12 +62,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -76,7 +71,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,12 +102,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -116,7 +111,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",

@@ -7,7 +7,7 @@ from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.TimesUtils as TimesUtils
-from ewitis.gui.EvaluateUtils import Evaluate
+from ewitis.gui.TimesStore import TimesStore, timesstore
 from ewitis.data.DEF_DATA import *
      
              
@@ -32,7 +32,7 @@ class Points(myTable):
         myTable.__init__(self, "Points")
     
     def evaluate(self, formula, tabTime, dbTime):        
-        return Evaluate(None, formula, tabTime, dbTime)        
+        return timesstore.Evaluate(None, formula, tabTime, dbTime)        
 
     
     def getDbPointParOrder(self, order):

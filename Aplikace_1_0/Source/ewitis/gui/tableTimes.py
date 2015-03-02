@@ -17,7 +17,6 @@ from ewitis.gui.tablePoints import tablePoints
 from ewitis.gui.tableCGroups import tableCGroups
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
-from ewitis.gui.EvaluateUtils import Evaluate
 
 
 from ewitis.data.db import db
@@ -280,7 +279,7 @@ class TimesModel(myModel):
                 #print "I: 1:",time.clock() - ztime,"s"          
                 #print type(self.orderDf[i])
                 #ztime = time.clock()
-                #print self.orderDf[i]
+                #print self.orderDf[i]                
                 tabTime['order' + str(i+1)] = timesstore.CalcOrder(dbTime, i)                                
                 #print "I: 2:",time.clock() - ztime,"s"
                 #print dbTime['id'], 'order', str(i+1), tabTime['order' + str(i+1)] 
@@ -336,111 +335,7 @@ class TimesModel(myModel):
         '''
         if cLaptime.GetNrOfLap(dbTime, cLaptime.OF_LAST_TIME) >= dstore.Get('race_info')['limit_laps']:
             return True
-        return False
-    
-#     def IsTimeToCalc(self, dbTime):        
-#         
-#         #remote mode => no calc values      
-#         if dstore.GetItem("racesettings-app", ['remote']) != 0:            
-#             return False                                                        
-# 
-#         #no user, no calc
-#         if(dbTime['user_id'] == 0):
-#             return False   
-#         
-#         if dbTime['time_raw'] == None:
-#             return False         
-#             
-#         return True
-#                 
-#     def Calc(self, df, dbTime, index, key):
-#         '''
-#         společná funkce pro počítání time, lap
-#         '''                        
-#                                                
-#         '''no time in some cases'''        
-#         if(self.IsTimeToCalc(dbTime) == False):
-#             return None               
-#                   
-#         #calc time        
-#         group = dstore.GetItem('additional_info', [key, index])  
-#         #print group, key, index                       
-#         time = Evaluate(df, group, {}, dbTime)
-#              
-#         return time                                                     
-#     
-#     def CalcTime(self, df, dbTime, index):
-#         return self.Calc(df, dbTime, index, 'time')
-#     def CalcPoints(self, df, dbTime, index):
-#         return self.Calc(df, dbTime, index, 'points')
-#                     
-#     def CalcLap(self, df, dbTime, index):
-#         '''
-#         pokud není čas spočítá čas,
-#         pokud je čas a není lap spočítá lap            
-#         '''                                                    
-#                      
-#         '''no time in some cases'''
-#         if(self.IsTimeToCalc(dbTime) == False):
-#             return None                    
-# 
-#         ret_dict =  {}         
-#         timeX = "time"+str(index+1)
-#         lapX = "lap"+str(index+1)        
-#             
-#         #calc lap        
-#         #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):
-#         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
-#             #lap = timesstore.GetNrOf(df, dbTime, [['==', 'user_id'], ['<', timeX]])
-#             #aux_df = timesstore.SelectFrame(df, dbTime, [['==', 'user_id'], ['<', timeX]])
-#             
-#             #empty user
-#             aux_df = df[df['user_id'] == 0]
-#             
-#             #same user
-#             aux_df = df[df['user_id'] == dbTime['user_id']]            
-#             
-#             #better times
-#             aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]            
-#                      
-#             #lap = len(aux_df['id'])
-#             lap = aux_df['id'].count()
-#             if (lap != None):
-#                 lap = lap + 1
-#                 
-#            
-#         return lap         
-                                                                                                                                                     
-#     def CalcOrder(self, df, dbTime, index):
-#         '''
-#         pokud není čas spočítá čas,
-#         pokud je čas a není lap spočítá lap                            
-#         '''                                                                                         
-#                          
-#         '''no order in some cases'''
-#         if(self.IsTimeToCalc(dbTime) == False):
-#             return None       
-#         
-#         #get order group
-#         group = dstore.GetItem('additional_info', ['order', index])                 
-#         column1 = group['column1'].lower()                           
-#         
-#         #column is empty => no order
-#         if(dbTime[column1] == None):
-#             return None               
-#         
-#         #is this my last time?
-#         if(not dbTime['id'] in df.id.values):                    
-#             return None
-#         
-#         # count only better times
-#         aux_df = df[df[column1] < dbTime[column1]]                              
-#                          
-#         #nr_of_better = len(aux_df) 
-#         nr_of_better = aux_df.count()        
-#         
-#         return nr_of_better + 1                                                                                                                                                  
-                                          
+        return False                                          
             
                 
     def UpdateTimesLaps(self, joinDf):
@@ -454,26 +349,15 @@ class TimesModel(myModel):
                 
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             
-            '''calc times'''
-            time_group = dstore.GetItem('additional_info', ['time', i])
-            if(time_group['checked'] != 0):
-                                               
-                #prepare filtered df for times                            
-                filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
-                print joinDf
-                df_times = timesstore.FilterFrame(joinDf, filter_dict)
-                
-                #prepare filtered df for lap
+             '''calc times'''
+             time_group = dstore.GetItem('additional_info', ['time', i])
+             if(time_group['checked'] != 0):
                 lap_group = dstore.GetItem('additional_info', ['lap', i])
-                if(lap_group['checked'] != 0):                        
-                    filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
-                    df_laps = timesstore.FilterFrame(df_times, filter_dict)
-                
                 #replace nan with None
                 #df = df.where(pd.notnull(df), None)         
             
                 #calc times
-                for index, dbTime in df_times.iterrows():
+                for index, dbTime in timesstore.timesDf[i].iterrows():
                 
                     #df to dict
                     dbTime = dbTime.to_dict()
@@ -483,12 +367,12 @@ class TimesModel(myModel):
                     lapX = "lap"+str(i+1)
                     value = None                        
                     if(dbTime[timeX] == None):                                                                                    
-                        '''calc time'''                                                                                   
-                        value = self.CalcTime(self.dbDf, dbTime, i)  
+                        '''calc time'''                                                                                                                                                                                                                                                          
+                        value = timesstore.CalcTime(dbTime, i)  
                         key = timeX                                                                         
-                    elif (dbTime[lapX] == None) and (lap_group['checked'] != 0) and (dbTime['id'] in df_laps.id.values):
-                        '''calc lap'''                                                                                                                                               
-                        value = self.CalcLap(df_laps, dbTime, i)
+                    elif (dbTime[lapX] == None) and (lap_group['checked'] != 0) and (dbTime['id'] in timesstore.lapDf[i].id.values):
+                        '''calc lap'''                                                                                     
+                        value = timesstore.CalcLap(dbTime, i)
                         key = lapX                                                                                                          
                                 
                     #update db
