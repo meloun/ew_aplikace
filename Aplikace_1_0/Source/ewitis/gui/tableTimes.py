@@ -396,7 +396,7 @@ class TimesModel(myModel):
         tabDf = self.df()
         
         #TIME 1-3                                      
-        joinDf = timesstore.Update(self.run_id, tabDf)                
+        joinDf = timesstore.Update(self.run_id, tabDf)            
                       
         #self.tabDf = self.df()                                                                                                     
         #mydf2 = pd.concat([left, right], axis = 1)

@@ -116,12 +116,14 @@ DEF_DATA = {
                                 },
             
         "racesettings-app"   : {"permanent": True,
+                                "name": "race settings",
                                 "GET_SET"  : {"value": {
                                                         "race_name"  :      u"Formula Student 2013",
-                                                        "remote"    :       CheckboxValue.unchecked,
-                                                        "rfid"      :       CheckboxValue.unchecked,
+                                                        "profile"    :      u"- - -",
+                                                        "remote"     :       CheckboxValue.unchecked,
+                                                        "rfid"       :       CheckboxValue.unchecked,
                                                         "tag_filter" :      CheckboxValue.unchecked,
-                                                        },
+                                                        },                                              
                                               "changed": True
                                       }
                                 },
@@ -151,11 +153,10 @@ DEF_DATA = {
                                                                            {
                                                                             "checked"            : CheckboxValue.checked,
                                                                             "type"               : "All",
+                                                                            "row"                : "Last",
                                                                             "column1"            : "Time1",
-                                                                            "row1"               : "Last",
                                                                             "order1"             : "Asc",                                                                                  
-                                                                            "column2"            : " - - -",
-                                                                            "row2"               : "last",
+                                                                            "column2"            : " - - -",                                                                           
                                                                             "order2"             : "Asc"                                                                                  
                                                                           }] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                           
                                                         "points"        :[
@@ -163,7 +164,7 @@ DEF_DATA = {
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "abs(time1 - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
-                                                                            "maximum"           : 500                                                                                                                                                                                                                                                                    
+                                                                            "maximum"           : 9999                                                                                                                                                                                                                                                                    
                                                                          }] * NUMBER_OF.POINTSCOLUMNS,
                                                         "un"            : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,
                                                         "us"            : [{"checked"           : CheckboxValue.checked}],                                                                                                                                                                
@@ -205,25 +206,6 @@ DEF_DATA = {
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
                                },
-        "directories"        : {"name"     : "directories",
-                                "GET_SET"  : {"value": { 
-                                                        "import"        :   u"import/",
-                                                        "export"        :   u"export/",                                                        
-                                                        "import_csv"    :   u"import/csv/",                                                
-                                                        "export_csv"    :   u"export/csv/",                                               
-                                                        "export_www"    :   u"export/www/"                                                
-                                                        },
-                                              },
-                                }, 
-#         "dir_import_csv"     : {"name"     : "dir_import_csv",
-#                                 "GET_SET"  : {"value":  u"import/csv/"}  
-#                                },
-#         "dir_export_csv"     : {"name"     : "dir_export_csv",
-#                                 "GET_SET"  : {"value":  u"export/csv/"}  
-#                                },
-#         "dir_export_www"     : {"name"     : "dir_export_www",
-#                                 "GET_SET"  : {"value":  u"export/www/"}  
-#                                },
             
         # DATABASE"
         

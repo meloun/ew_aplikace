@@ -2810,31 +2810,11 @@
             <string>Presets for app and export settings</string>
            </property>
           </widget>
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QPushButton" name="pushLoadProfile">
            <property name="geometry">
             <rect>
-             <x>30</x>
-             <y>50</y>
-             <width>241</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>Custom</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Classic Rallye: Start -&gt; Finish</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QPushButton" name="pushButton">
-           <property name="geometry">
-            <rect>
-             <x>280</x>
-             <y>102</y>
+             <x>350</x>
+             <y>70</y>
              <width>28</width>
              <height>28</height>
             </rect>
@@ -2843,18 +2823,18 @@
             <string>..</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="linePresetName">
+          <widget class="QLineEdit" name="lineProfileName">
            <property name="geometry">
             <rect>
              <x>10</x>
              <y>100</y>
-             <width>261</width>
+             <width>401</width>
              <height>32</height>
             </rect>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>6</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
@@ -2867,7 +2847,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Profile Name</string>
+            <string>- - - - - -</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -2876,11 +2856,11 @@
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="pushSaveProfile">
            <property name="geometry">
             <rect>
-             <x>310</x>
-             <y>100</y>
+             <x>380</x>
+             <y>68</y>
              <width>32</width>
              <height>32</height>
             </rect>
@@ -3858,17 +3838,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Point1</string>
+             <string>Points1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point2</string>
+             <string>Points2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point3</string>
+             <string>Points3</string>
             </property>
            </item>
           </widget>
@@ -3944,17 +3924,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Point1</string>
+             <string>Points1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point2</string>
+             <string>Points2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point3</string>
+             <string>Points3</string>
             </property>
            </item>
           </widget>
@@ -4025,17 +4005,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Point1</string>
+             <string>Points1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point2</string>
+             <string>Points2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point3</string>
+             <string>Points3</string>
             </property>
            </item>
           </widget>
@@ -4088,17 +4068,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Point1</string>
+             <string>Points1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point2</string>
+             <string>Points2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point3</string>
+             <string>Points3</string>
             </property>
            </item>
           </widget>
@@ -4255,17 +4235,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Point1</string>
+             <string>Points1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point2</string>
+             <string>Points2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Point3</string>
+             <string>Points3</string>
             </property>
            </item>
           </widget>
@@ -4315,7 +4295,10 @@
             </property>
            </item>
           </widget>
-          <widget class="QComboBox" name="comboOrderRow_1_1">
+          <widget class="QComboBox" name="comboOrderRow_1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>180</x>
@@ -4338,7 +4321,10 @@
             </property>
            </item>
           </widget>
-          <widget class="QComboBox" name="comboOrderRow_2_1">
+          <widget class="QComboBox" name="comboOrderRow_2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>180</x>
@@ -4361,7 +4347,10 @@
             </property>
            </item>
           </widget>
-          <widget class="QComboBox" name="comboOrderRow_3_1">
+          <widget class="QComboBox" name="comboOrderRow_3">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>180</x>

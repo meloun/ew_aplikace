@@ -14,6 +14,8 @@ from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
 from libs.myqt.mygroups import FilterGroup
+import simplejson as json
+import codecs 
    
 class TimesGroup(FilterGroup):    
     def __init__(self,  nr):
@@ -94,11 +96,10 @@ class OrderGroup():
         
         self.checked = getattr(ui, "checkAInfoOrder_" + str(nr))
         self.type = getattr(ui, "comboOrderType_" + str(nr))        
-        self.column1 = getattr(ui, "comboOrderColumn_" + str(nr) + "_1")                             
-        self.row1 = getattr(ui,    "comboOrderRow_" + str(nr) + "_1")   
+        self.row = getattr(ui,    "comboOrderRow_" + str(nr))
+        self.column1 = getattr(ui, "comboOrderColumn_" + str(nr) + "_1")                                
         self.order1 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_1")
         self.column2 = getattr(ui, "comboOrderColumn_" + str(nr) + "_2")                             
-        self.row2 = getattr(ui,    "comboOrderRow_" + str(nr) + "_2")   
         self.order2 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_2")                                              
 
     def CreateSlots(self):
@@ -107,12 +108,12 @@ class OrderGroup():
         
         QtCore.QObject.connect(self.type, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "type"], x, self.Update))
         
+        QtCore.QObject.connect(self.row, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row"], utils.toUnicode(x)))
+                      
         QtCore.QObject.connect(self.column1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column1"], utils.toUnicode(x)))                          
-        QtCore.QObject.connect(self.row1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row1"], utils.toUnicode(x)))              
         QtCore.QObject.connect(self.order1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order1"], utils.toUnicode(x)))
         
-        QtCore.QObject.connect(self.column2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column2"], utils.toUnicode(x)))                          
-        QtCore.QObject.connect(self.row2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row2"], utils.toUnicode(x)))            
+        QtCore.QObject.connect(self.column2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column2"], utils.toUnicode(x)))                                      
         QtCore.QObject.connect(self.order2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order2"], utils.toUnicode(x)))             
             
     def GetInfo(self):
@@ -133,13 +134,12 @@ class OrderGroup():
         self.checked.setChecked(info["checked"])  
  
         uiAccesories.SetCurrentIndex(self.type, info["type"])
+        uiAccesories.SetCurrentIndex(self.row, info["row"])
          
         uiAccesories.SetCurrentIndex(self.column1, info["column1"])
-        uiAccesories.SetCurrentIndex(self.row1, info["row1"])
         uiAccesories.SetCurrentIndex(self.order1, info["order1"])
         
-        uiAccesories.SetCurrentIndex(self.column2, info["column2"])
-        uiAccesories.SetCurrentIndex(self.row2, info["row2"])
+        uiAccesories.SetCurrentIndex(self.column2, info["column2"])        
         uiAccesories.SetCurrentIndex(self.order2, info["order2"])                        
                      
         
@@ -185,7 +185,10 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
         QtCore.QObject.connect(Ui().spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
                 
-        #middle group             
+        #middle group 
+        QtCore.QObject.connect(Ui().pushLoadProfile, QtCore.SIGNAL('clicked()'), self.sLoadProfile)
+        QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)
+                    
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
@@ -218,6 +221,19 @@ class TabRaceSettings():
     """                 """
     """ EXPLICIT SLOTS  """
     """                 """
+    def sLoadProfile(self):
+        
+        #gui dialog                        
+        filename = uiAccesories.getOpenFileName("Load profile","dir_import_csv","Profile Files (*.json)", "profile.json")                
+        if(filename == ""):                        
+            return  
+        preset = json.load(codecs.open(filename, 'r', 'utf-8'))
+        dstore.Update(preset)
+        uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
+        
+        
+    def sSaveProfile(self):
+        print "Save profile"
     def sCheckbox(self, state):
         print "check: ", state
         uiAccesories.sGuiSetItem("additional_info", ["points", 0], state)
@@ -327,6 +343,7 @@ class TabRaceSettings():
         #Ui().lineRaceName.setText(dstore.GetItem("racesettings-app", ["race_name"]))
         #Ui().lineRaceName.setCursorPosition(cursor_position)
         
+        uiAccesories.UpdateText(Ui().lineProfileName, dstore.GetItem("racesettings-app", ["profile"]))
         uiAccesories.UpdateText(Ui().lineRaceName, dstore.GetItem("racesettings-app", ["race_name"]))
         
                     

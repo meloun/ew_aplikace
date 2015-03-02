@@ -22,13 +22,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -36,7 +31,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,13 +62,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -76,7 +71,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,13 +102,8 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
                     "sex": 0,
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -116,7 +111,12 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -209,30 +209,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ]
             }
@@ -244,7 +244,7 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/_meloun/myEwitis/aplikace_githubclone/ew_aplikace/Aplikace_1_0/Source/conf/conf_work.json",
+                "profile": "C:/_meloun/myEwitis/aplikace_githubclone/ew_aplikace/Aplikace_1_0/Source/conf/blizak.json",
                 "rfid": 2,
                 "remote": 0,
                 "race_name": "Blizák 2015",

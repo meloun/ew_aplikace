@@ -24,9 +24,20 @@ class myAbstractModel():
         row = []
         for c in range(self.columnCount()):
             index = self.index(r, c)
-            value = self.data(index ).toString()
-            if(c == 0): #need integer type for id
-                value = int(value)
+            column = str(self.headerData(c, QtCore.Qt.Horizontal).toString())
+            value = self.data(index ).toString()       
+            
+#             if(column == "id") or (column == "points2"): #need integer type for id
+#                 print "yeah1", column, type(value)
+#                 value = int(value)
+#             else:                                    
+#                 value = utils.toUnicode(value)
+                
+            if (column in self.table.TABLE_COLLUMN_DEF) and ("type" in  self.table.TABLE_COLLUMN_DEF[column]) and (self.table.TABLE_COLLUMN_DEF[column]["type"] == "number"):
+                try:
+                    value = int(value)
+                except ValueError:
+                    value = None                    
             else:                                    
                 value = utils.toUnicode(value)
             row.append(value)                            

@@ -42,6 +42,7 @@ class TimesStore():
                     if(v == "2"):
                         v="2$"                
                     v = v.replace("2|", "2$|") #cell=2|250
+                    v = v.replace(" ", "") #mezery pryc
                     
                     # filter frame
                     #print df                                                                                                                                                                                                                                                           
@@ -122,13 +123,14 @@ class TimesStore():
             if (group['checked'] == 0):
                 continue
                                       
-            print group
+            #print group
             column1 = group['column1'].lower()  
             column2 = group['column2'].lower()
             asc1 = 1 if(group['order1'].lower() == "asc") else 0
             asc2 = 1 if(group['order2'].lower() == "asc") else 0
             
             #filter
+            #print "jDf", self.joinedDf
             aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) &  (self.joinedDf['user_id']!=0)]
 
             #sort
@@ -154,8 +156,8 @@ class TimesStore():
                 aux_df = aux_df.sort(column1, ascending = asc1)
             
             
-           
-            print "odf",i, aux_df 
+            #print "odf",i, aux_df.dtypes
+            #print "odf",i, aux_df[["id","order1", "points2"]]
             self.orderDf[i] = aux_df
             
         #update times df and lap df
@@ -252,7 +254,9 @@ class TimesStore():
     def CalcTime(self, dbTime, index):
         return self.Calc(dbTime, index, 'time')
     def CalcPoints(self, dbTime, index):
-        return self.Calc(dbTime, index, 'points')
+        points = self.Calc(dbTime, index, 'points')
+        #print "points", points, type(points)
+        return points
                     
     def CalcLap(self, dbTime, index):
         '''
@@ -336,12 +340,12 @@ class TimesStore():
          
         #UN1-UN3
         try:
-            if ("un1" in rule):                                
-                expression_string = expression_string.replace("un1", str(tabTime['un1']))
+            if ("un1" in rule):
+                expression_string = expression_string.replace("un1", str(dbTime['un1']))
             if ("un2" in rule):                                
-                expression_string = expression_string.replace("un2", str(tabTime['un2']))
+                expression_string = expression_string.replace("un2", str(dbTime['un2']))
             if ("un3" in rule):                                
-                expression_string = expression_string.replace("un3", str(tabTime['un3']))
+                expression_string = expression_string.replace("un3", str(dbTime['un3']))
         except KeyError:        
             return None
         
@@ -434,6 +438,7 @@ class TimesStore():
         if maximum and (points > maximum):
             points = maximum                     
                 
+        #print points, rule
         return points
 
 
