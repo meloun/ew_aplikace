@@ -233,7 +233,12 @@ class TabRaceSettings():
         
         
     def sSaveProfile(self):
-        print "Save profile"
+        #gui dialog                        
+        filename = uiAccesories.getSaveFileName("Save Profile","profiles", "Profile Files (*.json)", "neni treba")               
+        if(filename == ""):                        
+            return  
+        json.dump(dstore.GetAllPermanents(), codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
+        
     def sCheckbox(self, state):
         print "check: ", state
         uiAccesories.sGuiSetItem("additional_info", ["points", 0], state)

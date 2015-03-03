@@ -449,7 +449,8 @@ class ManageComm(Thread):
             
     def AddTimeToDb(self, time):                       
                                     
-        '''console ouput'''                                
+        '''console ouput''' 
+        print time                               
         aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + str(time['run_id']) + ";" + str(time['time_raw']).replace(',', '.')                                
         print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
         #print struct.pack('<I', time['user_id']).encode('hex')
@@ -465,8 +466,8 @@ class ManageComm(Thread):
                     return False #tag not found
                                         
         '''save to database'''        
-        keys = ["state", "id", "run_id", "user_id", "cell", "time_raw", "time"]
-        values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw'], time['time']]
+        keys = ["state", "id", "run_id", "user_id", "cell", "time_raw"]#, "time"]
+        values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
         ret = self.db.insert_from_lists("times", keys, values)
         
         '''return'''

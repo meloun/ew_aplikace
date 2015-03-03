@@ -352,9 +352,7 @@ class TimesModel(myModel):
              '''calc times'''
              time_group = dstore.GetItem('additional_info', ['time', i])
              if(time_group['checked'] != 0):
-                lap_group = dstore.GetItem('additional_info', ['lap', i])
-                #replace nan with None
-                #df = df.where(pd.notnull(df), None)         
+                lap_group = dstore.GetItem('additional_info', ['lap', i])         
             
                 #calc times
                 for index, dbTime in timesstore.timesDf[i].iterrows():
@@ -365,7 +363,7 @@ class TimesModel(myModel):
                     '''calc time and lap'''
                     timeX = "time"+str(i+1)
                     lapX = "lap"+str(i+1)
-                    value = None                        
+                    value = None                     
                     if(dbTime[timeX] == None):                                                                                    
                         '''calc time'''                                                                                                                                                                                                                                                          
                         value = timesstore.CalcTime(dbTime, i)  

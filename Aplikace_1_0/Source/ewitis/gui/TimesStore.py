@@ -107,6 +107,9 @@ class TimesStore():
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
                                 , db.getDb())
         self.dbDf.set_index('id',  drop=False, inplace = True)
+        
+        #replace nan with None
+        self.dbDf = self.dbDf.where(pd.notnull(self.dbDf), None)
                         
         #update joinedDf
         columns =  self.tabDf.columns - self.dbDf.columns                              
