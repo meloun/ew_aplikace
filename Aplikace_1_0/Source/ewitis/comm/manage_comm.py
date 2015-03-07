@@ -437,6 +437,7 @@ class ManageComm(Thread):
                     if not('error' in aux_cells_info[i]):                    
                         if(dstore.IsReadyForRefresh("cells_info")):             
                             dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET")
+                            #print i, aux_cells_info[i]
                         #else:
                         #    print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
                                 

@@ -100,6 +100,7 @@ class TimesStore():
         
         #update table df
         self.tabDf = tabDf
+        #print tabDf
                 
         #update db df
         self.dbDf = psql.read_sql(\
@@ -114,9 +115,12 @@ class TimesStore():
         #update joinedDf
         columns =  self.tabDf.columns - self.dbDf.columns                              
         self.joinedDf = self.dbDf.join(self.tabDf[columns])
+        #replace nan with None
+        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
         #update order df
         self.orderDf = [pd.DataFrame()] * NUMBER_OF.POINTSCOLUMNS
+        self.orderGroupbys = [None] * NUMBER_OF.POINTSCOLUMNS
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             
               
@@ -134,7 +138,7 @@ class TimesStore():
             
             #filter
             #print "jDf", self.joinedDf
-            aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) &  (self.joinedDf['user_id']!=0)]
+            aux_df = self.joinedDf[(self.joinedDf[column1]!=None) &  (self.joinedDf['user_id']!=0)]
 
             #sort
 #             if(column2 in aux_df.columns):
@@ -152,16 +156,34 @@ class TimesStore():
             
             #sort again
             if(column2 in aux_df.columns):
-                print "nested sorting", column1, column2, asc1, asc2
+                #print "nested sorting", column1, column2, asc1, asc2
                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
             else:
-                print "basic sorting"
+                #print "basic sorting"
                 aux_df = aux_df.sort(column1, ascending = asc1)
             
             
+            self.orderDf[i] = aux_df
+            
+            #category order
+            
+            if(group['type'] == "All"):
+                pass
+            elif(group['type'] == "Category"):
+                self.orderGroupbys[i] = aux_df.groupby("category", as_index = False)
+                #print "groupsA:", i, self.orderGroupbys[i].groups                                
+            elif(group['type'] == "Group#1"):                
+                print "ERROR: Group order NOT implemented"
+            elif(group['type'] == "Group#2"):
+                print "ERROR: Group order NOT implemented"                
+            elif(group['type'] == "Group#3"):
+                print "ERROR: Group order NOT implemented"
+            else:
+                print "FATAL ERROR"            
+                
+            
             #print "odf",i, aux_df.dtypes
             #print "odf",i, aux_df[["id","order1", "points2"]]
-            self.orderDf[i] = aux_df
             
         #update times df and lap df
         self.timesDf = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS 
@@ -180,8 +202,9 @@ class TimesStore():
                 lap_group = dstore.GetItem('additional_info', ['lap', i])
                 if(lap_group['checked'] != 0):                        
                     filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
-                    self.lapDf[i] = timesstore.FilterFrame(self.timesDf[i], filter_dict)                    
-            
+                    self.lapDf[i] = timesstore.FilterFrame(self.timesDf[i], filter_dict)
+                                        
+             
         return self.joinedDf         
                                                                
                     
@@ -208,7 +231,7 @@ class TimesStore():
                          
         '''no order in some cases'''
         if(self.IsTimeToCalc(dbTime) == False):            
-            return None 
+            return None          
         
         
         #get order group
@@ -220,7 +243,27 @@ class TimesStore():
         #    return None               
         
         #take order df
-        df = self.orderDf[index]
+        group = dstore.GetItem('additional_info', ['order', index])
+        
+        df = pd.DataFrame() 
+        if(group['type'] == "All"):            
+            df = self.orderDf[index]
+        elif(group['type'] == "Category"):
+            #df = self.orderDf[index]
+            if(dbTime["category"] != None): 
+                groupby = self.orderGroupbys[index]                                                          
+                if (groupby != None) and (groupby.groups !={}):                                                             
+                    df = groupby.get_group(dbTime["category"])               
+        elif(group['type'] == "Group#1"):                
+            print "ERROR: Group order NOT implemented"
+        elif(group['type'] == "Group#2"):
+            print "ERROR: Group order NOT implemented"                
+        elif(group['type'] == "Group#3"):
+            print "ERROR: Group order NOT implemented"
+        else:
+            print "FATAL ERROR"
+        
+        
         
         if df.empty:
             return None
@@ -409,7 +452,7 @@ class TimesStore():
                 starttime = timesstore.Get(df, start_nr, filter = {'cell':1})                                                                                        
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
-                starttime = timesstore.GetPrevious(dbTime, filter = {'cell':1})
+                starttime = timesstore.GetPrevious(dbTime, filter = {'cell':1}, df = df)
             else:
                 print "E: Fatal Error: Starttime "
                 return None

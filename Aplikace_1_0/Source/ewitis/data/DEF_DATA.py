@@ -259,6 +259,7 @@ DEF_DATA = {
                                                            "synchronized": None,
                                                            "address": 1,
                                                            "task": 0,
+                                                           "trigger": 0,
                                                            "diagnostic_long_ok":  0,
                                                            "diagnostic_long_ko":  0,
                                                            "diagnostic_short_ok": 0,
@@ -271,6 +272,7 @@ DEF_DATA = {
                                                        { #cell 1-2
                                                             "address": None,
                                                             "task": 0,
+                                                            "trigger": 0,
                                                             "fu1": None,
                                                             "fu2": None,
                                                             "fu3": None,

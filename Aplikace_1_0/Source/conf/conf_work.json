@@ -2,7 +2,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "starttime": 0
+                "starttime": 1
             }
         },
         "permanent": true
@@ -209,30 +209,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
-                        "column1": "Time1",
-                        "column2": " - - -"
+                        "row": "Last",
+                        "column1": "Points1",
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ]
             }
@@ -245,7 +245,7 @@
             "changed": true,
             "value": {
                 "profile": "- - -",
-                "rfid": 2,
+                "rfid": 0,
                 "remote": 0,
                 "race_name": "Formula Student 2013",
                 "tag_filter": 0

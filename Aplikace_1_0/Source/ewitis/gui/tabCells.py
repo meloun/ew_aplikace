@@ -30,6 +30,8 @@ class CellGroup ():
         self.groupbox = getattr(ui, "groupCell_"+str(nr))        
         self.lineCellTask = getattr(ui, "lineCellTask_"+str(nr))
         self.comboCellTask = getattr(ui, "comboCellTask_"+str(nr))
+        self.lineCellTrigger = getattr(ui, "lineCellTrigger_"+str(nr))
+        self.comboCellTrigger = getattr(ui, "comboCellTrigger_"+str(nr))
         self.lineCellBattery = getattr(ui, "lineCellBattery_"+str(nr))
         self.lineCellIrSinal = getattr(ui, "lineCellIrSinal_"+str(nr))
         self.lineCellActive = getattr(ui, "lineCellActive_"+str(nr))
@@ -50,6 +52,7 @@ class CellGroup ():
         
     def CreateSlots(self):                        
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
+        QtCore.QObject.connect(self.comboCellTrigger, QtCore.SIGNAL("activated(int)"), self.sComboCellTrigger)
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), lambda: dstore.SetItem("set_cell_diag_info", ["address"], self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellRunDiagnostic, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("run_cell_diagnostic", self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("ping_cell", self.nr, "SET"))
@@ -60,14 +63,17 @@ class CellGroup ():
     
     def sComboCellTask(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
-        cell_info = {}
+        cells_info = dstore.Get("cells_info", "GET")
+        get_cell_info = cells_info[self.nr-1]
+        set_cell_info = {}
         task = self.Idx2TaskNr(index)
-        cell_info["task"] = task                               
-        cell_info["address"] = self.nr                               
-        cell_info["fu1"] = 0x00                               
-        cell_info["fu2"] = 0x00                               
-        cell_info["fu3"] = 0x00                               
-        cell_info["fu4"] = 0x00 
+        set_cell_info["task"] = task
+        set_cell_info["trigger"] = get_cell_info["trigger"]                               
+        set_cell_info["address"] = self.nr                               
+        set_cell_info["fu1"] = 0x00                               
+        set_cell_info["fu2"] = 0x00                               
+        set_cell_info["fu3"] = 0x00                               
+
         
         cells_info = dstore.Get("cells_info", "GET")
         
@@ -77,7 +83,32 @@ class CellGroup ():
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
                     return        
                                
-        dstore.SetItem("cells_info", [self.nr-1], cell_info, "SET", changed = self.nr)                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
+        self.Update()
+        
+    def sComboCellTrigger(self, index):                        
+        '''získání a nastavení nové SET hodnoty'''
+        cells_info = dstore.Get("cells_info", "GET")
+        get_cell_info = cells_info[self.nr-1]
+        set_cell_info = {}
+        set_cell_info["task"] = get_cell_info["task"]                                                                      
+        set_cell_info["trigger"] = index
+        set_cell_info["address"] = self.nr                               
+        set_cell_info["fu1"] = 0x00                               
+        set_cell_info["fu2"] = 0x00                               
+        set_cell_info["fu3"] = 0x00                               
+        
+        
+#         if task != 0:
+#             for info in cells_info:
+#                 if info['task'] == task:                    
+#                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
+#                     return        
+                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
@@ -88,6 +119,7 @@ class CellGroup ():
         
         #enable/disable all widgets            
         self.lineCellTask.setEnabled(state)        
+        self.lineCellTrigger.setEnabled(state)        
         self.lineCellBattery.setEnabled(state)
         self.lineCellIrSinal.setEnabled(state)
         self.lineCellActive.setEnabled(state)
@@ -145,7 +177,17 @@ class CellGroup ():
                     
         #na začátku, zpětná vazba
         if(index != None):            
-            self.comboCellTask.setCurrentIndex(index)                        
+            self.comboCellTask.setCurrentIndex(index)
+            
+                                    
+        if(cell_info['trigger'] != None):
+            self.lineCellTrigger.setText(self.comboCellTrigger.itemText(cell_info['trigger']))
+        else:
+            self.lineCellTrigger.setText(" - - - ")        
+                    
+        #na začátku, zpětná vazba
+        if(cell_info['trigger'] != None):            
+            self.comboCellTrigger.setCurrentIndex(cell_info["trigger"])                        
         
         #battery
         if(cell_info['battery'] != None):
