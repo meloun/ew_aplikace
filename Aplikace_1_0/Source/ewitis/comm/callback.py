@@ -228,7 +228,6 @@ def pack_data(command_key, data):
         # SET CELL INFO
         aux_data = struct.pack('<BBBBBB', data['address'], data['task'], data['trigger'],\
                                data['fu1'], data['fu2'], data['fu3'])  
-        print "data", aux_data.encode('hex')
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_DIAG_INFO"]['cmd']):
         # SET CELL DIAG INFO
         aux_data = struct.pack('<BhhBB', data['address'], data['diagnostic_long_ok'], data['diagnostic_long_ko'],\

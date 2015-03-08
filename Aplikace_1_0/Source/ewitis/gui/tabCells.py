@@ -248,7 +248,7 @@ class CellGroup ():
         #diagnostic %
         sum_ko_ok = cell_info['diagnostic_short_ko']+cell_info['diagnostic_short_ok']
         if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (sum_ko_ok != 0):                                    
-            self.lineCellDiagShortRatio.setText(str(cell_info['diagnostic_short_ok']/sum_ko_ok))
+            self.lineCellDiagShortRatio.setText(str((100*cell_info['diagnostic_short_ok'])/sum_ko_ok))
         else:
             self.lineCellDiagShortRatio.setText("- -")
             
@@ -266,7 +266,7 @@ class CellGroup ():
         #diagnostic %
         sum_ko_ok = cell_info['diagnostic_long_ko']+cell_info['diagnostic_long_ok']
         if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (sum_ko_ok != 0):                                    
-            self.lineCellDiagLongRatio.setText(str(cell_info['diagnostic_long_ok']/sum_ko_ok))
+            self.lineCellDiagLongRatio.setText(str((100*cell_info['diagnostic_long_ok'])/sum_ko_ok))
         else:
             self.lineCellDiagLongRatio.setText("- -")
             

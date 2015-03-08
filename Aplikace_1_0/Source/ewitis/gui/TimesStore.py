@@ -137,8 +137,8 @@ class TimesStore():
             asc2 = 1 if(group['order2'].lower() == "asc") else 0
             
             #filter
-            #print "jDf", self.joinedDf
-            aux_df = self.joinedDf[(self.joinedDf[column1]!=None) &  (self.joinedDf['user_id']!=0)]
+            aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) & (self.joinedDf['user_id']!=0)]
+            #print "po", aux_df
 
             #sort
 #             if(column2 in aux_df.columns):
@@ -150,13 +150,18 @@ class TimesStore():
 
             
             #last time from each user                    
-            aux_df = aux_df.sort("time_raw")                                                    
-            aux_df = aux_df.groupby("user_id", as_index = False).last()                        
+            aux_df = aux_df.sort("time_raw")       
+            #print "aa1", aux_df                                             
+            aux_df = aux_df.groupby("user_id", as_index = False).last()
+            aux_df = aux_df.where(pd.notnull(aux_df), None)
+            #print "aa2", aux_df                        
             aux_df.set_index('id',  drop=False, inplace = True)
+            #print "aa3", aux_df
             
             #sort again
             if(column2 in aux_df.columns):
-                #print "nested sorting", column1, column2, asc1, asc2
+                print "nested sorting", column1, column2, asc1, asc2
+                print aux_df
                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
             else:
                 #print "basic sorting"
@@ -252,8 +257,11 @@ class TimesStore():
             #df = self.orderDf[index]
             if(dbTime["category"] != None): 
                 groupby = self.orderGroupbys[index]                                                          
-                if (groupby != None) and (groupby.groups !={}):                                                             
-                    df = groupby.get_group(dbTime["category"])               
+                if (groupby != None) and (groupby.groups !={}): 
+                    try:                                                            
+                        df = groupby.get_group(dbTime["category"])
+                    except KeyError: 
+                        return None              
         elif(group['type'] == "Group#1"):                
             print "ERROR: Group order NOT implemented"
         elif(group['type'] == "Group#2"):
@@ -317,7 +325,7 @@ class TimesStore():
         ret_dict =  {}         
         timeX = "time"+str(index+1)
         lapX = "lap"+str(index+1)
-        df = self.joinedDf        
+        df = self.lapDf[index]     
             
         #calc lap        
         #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):

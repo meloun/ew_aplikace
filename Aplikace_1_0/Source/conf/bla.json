@@ -2,7 +2,7 @@
     "evaluation": {
         "GET_SET": {
             "value": {
-                "starttime": 1
+                "starttime": 0
             }
         },
         "permanent": true
@@ -19,11 +19,16 @@
                         0,
                         0
                     ],
-                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -31,7 +36,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -44,12 +49,7 @@
                         2,
                         2
                     ],
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ]
+                    "name": 2
                 },
                 {
                     "category": 2,
@@ -59,11 +59,16 @@
                         0,
                         0
                     ],
-                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -71,7 +76,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -84,12 +89,7 @@
                         2,
                         2
                     ],
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ]
+                    "name": 2
                 },
                 {
                     "category": 2,
@@ -99,11 +99,16 @@
                         0,
                         0
                     ],
-                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "gap": 0,
                     "points": [
                         0,
                         0,
@@ -111,7 +116,7 @@
                         0
                     ],
                     "year": 0,
-                    "gap": 0,
+                    "sex": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -124,12 +129,7 @@
                         2,
                         2
                     ],
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ]
+                    "name": 2
                 }
             ]
         },
@@ -147,9 +147,9 @@
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
-                        "rule": "un1+abs(time1 - %00:00:15,00%)"
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
@@ -166,14 +166,14 @@
                 ],
                 "time": [
                     {
-                        "filter": "cell=2|250",
+                        "filter": "cell=250",
                         "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
-                        "rule": "time - celltime2"
+                        "checked": 0,
+                        "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
@@ -183,7 +183,7 @@
                 ],
                 "un": [
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "checked": 0
@@ -194,7 +194,7 @@
                 ],
                 "lap": [
                     {
-                        "filter": "cell=250",
+                        "filter": "",
                         "checked": 2
                     },
                     {
@@ -209,30 +209,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
+                        "order1": "Desc",
                         "order2": "Asc",
                         "type": "All",
-                        "order1": "Asc",
-                        "column1": "Time1",
-                        "column2": " - - -"
+                        "column2": "Time1",
+                        "column1": "Lap1",
+                        "row": "Last"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
+                        "order1": "Asc",
                         "order2": "Asc",
                         "type": "Category",
-                        "order1": "Asc",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "row": "Last"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
+                        "order1": "Asc",
                         "order2": "Asc",
                         "type": "All",
-                        "order1": "Asc",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "row": "Last"
                     }
                 ]
             }
@@ -244,8 +244,8 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/_meloun/myEwitis/aplikace_githubclone/ew_aplikace/Aplikace_1_0/Source/conf/rr.json",
-                "rfid": 0,
+                "profile": "- - -",
+                "rfid": 2,
                 "remote": 0,
                 "race_name": "Formula Student 2013",
                 "tag_filter": 0

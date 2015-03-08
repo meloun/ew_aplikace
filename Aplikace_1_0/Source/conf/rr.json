@@ -244,7 +244,7 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/_meloun/myEwitis/aplikace_githubclone/ew_aplikace/Aplikace_1_0/Source/conf/rr.json",
+                "profile": "C:/_meloun/myEwitis/aplikace_githubclone/ew_aplikace/Aplikace_1_0/Source/conf/bla.json",
                 "rfid": 0,
                 "remote": 0,
                 "race_name": "Formula Student 2013",

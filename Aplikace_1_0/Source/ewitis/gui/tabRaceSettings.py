@@ -233,6 +233,7 @@ class TabRaceSettings():
         if(filename == ""):                        
             return  
         json.dump(dstore.GetAllPermanents(), codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
+        uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
     def sCheckbox(self, state):
         print "check: ", state
