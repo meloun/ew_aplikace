@@ -1,0 +1,356 @@
+# -*- coding: utf-8 -*-
+'''
+Created on 8.12.2013
+
+@author: Meloun
+'''
+
+import sys
+from PyQt4 import QtCore, QtGui
+from ewitis.gui.aTab import MyTab, UPDATE_MODE
+from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
+from ewitis.data.dstore import dstore
+from ewitis.gui.Ui import Ui
+from ewitis.data.DEF_ENUM_STRINGS import COLORS
+from ewitis.data.DEF_DATA import *
+
+
+
+class CellGroup ():
+
+    def __init__(self,  nr):
+        '''
+        Constructor
+        group items as class members
+        format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
+        '''
+        ui = Ui()
+                
+        self.nr = nr                        
+        self.groupbox = getattr(ui, "groupCell_"+str(nr))        
+        self.lineCellTask = getattr(ui, "lineCellTask_"+str(nr))
+        self.comboCellTask = getattr(ui, "comboCellTask_"+str(nr))
+        self.lineCellTrigger = getattr(ui, "lineCellTrigger_"+str(nr))
+        self.comboCellTrigger = getattr(ui, "comboCellTrigger_"+str(nr))
+        self.lineCellBattery = getattr(ui, "lineCellBattery_"+str(nr))
+        self.lineCellIrSinal = getattr(ui, "lineCellIrSinal_"+str(nr))
+        self.lineCellActive = getattr(ui, "lineCellActive_"+str(nr))
+        self.lineCellSynchronizedOnce = getattr(ui, "lineCellSynchronizedOnce_"+str(nr))
+        self.lineCellSynchronized = getattr(ui, "lineCellSynchronized_"+str(nr))
+        self.lineCellDiagLongOk = getattr(ui, "lineCellDiagLongOk_"+str(nr))
+        self.lineCellDiagLongKo = getattr(ui, "lineCellDiagLongKo_"+str(nr))
+        self.lineCellDiagLongRatio = getattr(ui, "lineCellDiagLongRatio_"+str(nr))
+        self.lineCellDiagShortOk = getattr(ui, "lineCellDiagShortOk_"+str(nr))
+        self.lineCellDiagShortKo = getattr(ui, "lineCellDiagShortKo_"+str(nr))
+        self.lineCellDiagShortRatio = getattr(ui, "lineCellDiagShortRatio_"+str(nr))
+        self.pushCellClearCounters = getattr(ui, "pushCellClearCounters_"+str(nr))
+        self.pushCellRunDiagnostic = getattr(ui, "pushCellRunDiagnostic_"+str(nr))
+        self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
+    
+    def Init(self):        
+        self.createSlots()
+        
+    def CreateSlots(self):                        
+        QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
+        QtCore.QObject.connect(self.comboCellTrigger, QtCore.SIGNAL("activated(int)"), self.sComboCellTrigger)
+        QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), lambda: dstore.SetItem("set_cell_diag_info", ["address"], self.nr, "SET"))
+        QtCore.QObject.connect(self.pushCellRunDiagnostic, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("run_cell_diagnostic", self.nr, "SET"))
+        QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("ping_cell", self.nr, "SET"))
+
+    '''Slots'''        
+    def sSlot(self, state=None):
+        print "cellgroup" +str(self.nr)+": something happend - ", state 
+    
+    def sComboCellTask(self, index):                        
+        '''získání a nastavení nové SET hodnoty'''
+        cells_info = dstore.Get("cells_info", "GET")
+        get_cell_info = cells_info[self.nr-1]
+        set_cell_info = {}
+        task = self.Idx2TaskNr(index)
+        set_cell_info["task"] = task
+        set_cell_info["trigger"] = get_cell_info["trigger"]                               
+        set_cell_info["address"] = self.nr                               
+        set_cell_info["fu1"] = 0x00                               
+        set_cell_info["fu2"] = 0x00                               
+        set_cell_info["fu3"] = 0x00                               
+
+        
+        cells_info = dstore.Get("cells_info", "GET")
+        
+        if task != 0:
+            for info in cells_info:
+                if info['task'] == task:                    
+                    uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
+                    return        
+                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
+        self.Update()
+        
+    def sComboCellTrigger(self, index):                        
+        '''získání a nastavení nové SET hodnoty'''
+        cells_info = dstore.Get("cells_info", "GET")
+        get_cell_info = cells_info[self.nr-1]
+        set_cell_info = {}
+        set_cell_info["task"] = get_cell_info["task"]                                                                      
+        set_cell_info["trigger"] = index
+        set_cell_info["address"] = self.nr                               
+        set_cell_info["fu1"] = 0x00                               
+        set_cell_info["fu2"] = 0x00                               
+        set_cell_info["fu3"] = 0x00                               
+        
+        
+#         if task != 0:
+#             for info in cells_info:
+#                 if info['task'] == task:                    
+#                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
+#                     return        
+                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
+        self.Update()
+        
+        
+    def SetEnabled(self, state):
+        
+        #enable/disable all widgets            
+        self.lineCellTask.setEnabled(state)        
+        self.lineCellTrigger.setEnabled(state)        
+        self.lineCellBattery.setEnabled(state)
+        self.lineCellIrSinal.setEnabled(state)
+        self.lineCellActive.setEnabled(state)
+        self.lineCellSynchronizedOnce.setEnabled(state)
+        self.lineCellSynchronized.setEnabled(state)
+        self.lineCellDiagShortOk.setEnabled(state)
+        self.lineCellDiagShortKo.setEnabled(state)
+        self.lineCellDiagShortRatio.setEnabled(state)
+        self.lineCellDiagLongOk.setEnabled(state)
+        self.lineCellDiagLongKo.setEnabled(state)
+        self.lineCellDiagLongRatio.setEnabled(state)
+        self.pushCellClearCounters.setEnabled(state)
+        self.pushCellRunDiagnostic.setEnabled(state)
+        self.pushCellPing.setEnabled(state)
+    
+    def GetInfo(self):
+        return dstore.Get("cells_info", "GET")[self.nr-1]
+    
+    def GetTask(self):        
+        #print "d1",self.__dict__
+        return dstore.Get("cells_info", "GET")[self.nr-1]['task']
+    
+    def TaskNr2Idx(self, task):
+        #take care about finish time
+        if task == 250:
+            task = 6
+        return task
+    
+    def Idx2TaskNr(self, idx):
+        #take care about finish time
+        if idx == 6:
+            idx = 250
+        return idx  
+
+    def Update(self):
+        
+        #get cell info from datastore                                      
+        cell_info = self.GetInfo()
+
+        #set enabled
+        if(cell_info['task'] == None) or (cell_info['task'] == 0):
+            self.SetEnabled(False)
+        else: 
+            self.SetEnabled(True)                    
+        
+        #index
+        index = self.TaskNr2Idx(cell_info["task"])                
+        
+        if(cell_info['task'] != None):
+            self.lineCellTask.setText(self.comboCellTask.itemText(index))
+        else:
+            self.lineCellTask.setText(" - - - ")                                    
+        colors_enabled =  cell_info['task']
+        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), cell_info['task']))
+                    
+        #na začátku, zpětná vazba
+        if(index != None):            
+            self.comboCellTask.setCurrentIndex(index)
+            
+                                    
+        if(cell_info['trigger'] != None):
+            self.lineCellTrigger.setText(self.comboCellTrigger.itemText(cell_info['trigger']))
+        else:
+            self.lineCellTrigger.setText(" - - - ")        
+                    
+        #na začátku, zpětná vazba
+        if(cell_info['trigger'] != None):            
+            self.comboCellTrigger.setCurrentIndex(cell_info["trigger"])                        
+        
+        #battery
+        if(cell_info['battery'] != None):
+            self.lineCellBattery.setText(str(cell_info['battery']))                        
+        else:
+            self.lineCellBattery.setText(" - - %")                                                                                  
+        
+        #ir signal                
+        if cell_info["ir_signal"] == True:
+            self.lineCellIrSinal.setText("IR SIGNAL")
+        elif cell_info["ir_signal"] == False:
+            self.lineCellIrSinal.setText("NO IR SIGNAL")
+        else:
+            self.lineCellIrSinal.setText(" - - ")        
+        self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(cell_info["ir_signal"], colors_enabled))
+
+        #active/blocked            
+        if cell_info["active"] == True:
+            self.lineCellActive.setText("ACTIVE")
+        elif cell_info["active"] == False:
+            self.lineCellActive.setText("BLOCKED")
+        else:
+            self.lineCellActive.setText(" - - ")
+        self.lineCellActive.setStyleSheet("background:"+self.GetColor(cell_info["active"], colors_enabled))
+            
+        #synchronized once
+        if cell_info["synchronized_once"] == True:
+            self.lineCellSynchronizedOnce.setText("ONCE")
+            self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
+        elif cell_info["synchronized_once"] == False:
+            self.lineCellSynchronizedOnce.setText("ONCE")
+            self.lineCellSynchronizedOnce.setStyleSheet("background:grey"+COLORS.red)
+        else:
+            self.lineCellSynchronizedOnce.setText(" - - ")
+            self.lineCellSynchronizedOnce.setStyleSheet("")
+        self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(cell_info["synchronized_once"], colors_enabled))
+        
+        #synchronized 10min
+        if cell_info["synchronized"] == True:
+            self.lineCellSynchronized.setText("10MIN")            
+        elif cell_info["synchronized"] == False:
+            self.lineCellSynchronized.setText("10MIN")            
+        else:
+            self.lineCellSynchronized.setText(" - - ")                    
+        self.lineCellSynchronized.setStyleSheet("background:"+self.GetColor(cell_info["synchronized"], colors_enabled))                       
+        
+        #diagnostic shork ok
+        if(cell_info['diagnostic_short_ok'] != None):                                    
+            self.lineCellDiagShortOk.setText(str(cell_info['diagnostic_short_ok']))
+        else:
+            self.lineCellDiagShortOk.setText("- -")
+                                          
+        #diagnostic short ko
+        if(cell_info['diagnostic_short_ko'] != None):                                    
+            self.lineCellDiagShortKo.setText(str(cell_info['diagnostic_short_ko']))
+        else:
+            self.lineCellDiagShortKo.setText("- -")            
+        #diagnostic %
+        sum_ko_ok = cell_info['diagnostic_short_ko']+cell_info['diagnostic_short_ok']
+        if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagShortRatio.setText(str((100*cell_info['diagnostic_short_ok'])/sum_ko_ok))
+        else:
+            self.lineCellDiagShortRatio.setText("- -")
+            
+        #diagnostic shork ok
+        if(cell_info['diagnostic_long_ok'] != None):                                    
+            self.lineCellDiagLongOk.setText(str(cell_info['diagnostic_long_ok']))
+        else:
+            self.lineCellDiagLongOk.setText("- -")
+                                          
+        #diagnostic long ko
+        if(cell_info['diagnostic_long_ko'] != None):                                    
+            self.lineCellDiagLongKo.setText(str(cell_info['diagnostic_long_ko']))
+        else:
+            self.lineCellDiagLongKo.setText("- -")            
+        #diagnostic %
+        sum_ko_ok = cell_info['diagnostic_long_ko']+cell_info['diagnostic_long_ok']
+        if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagLongRatio.setText(str((100*cell_info['diagnostic_long_ok'])/sum_ko_ok))
+        else:
+            self.lineCellDiagLongRatio.setText("- -")
+            
+            
+    def GetColor(self, key, enabled = True):
+        color = None        
+                
+        #task
+        if bool(enabled):                        
+            if type(key)==str or type(key)==QtCore.QString:
+                if("NONE" in key) or ("- -" in key):               
+                    color = ""
+                elif key=="START":   
+                    color = COLORS.green
+                elif key=="FINISH":            
+                    color = COLORS.red
+                elif "SPLIT" in key:
+                    color = COLORS.orange
+                    
+            #battery
+            if type(key) == int:            
+                if key > 60:
+                    color = COLORS.green
+                elif key > 30:
+                    color = COLORS.orange
+                else:                
+                    color = COLORS.red                
+        
+        if color == None:
+            color = COLORS.GetColor(key, enabled)
+
+        return color
+        
+            
+
+class TabCells(MyTab):
+    
+    def __init__(self):
+        '''
+        Constructor
+        '''        
+        print "tabCells: constructor"
+        
+    def Init(self):
+        '''tab Cells'''                    
+        self.cellgroups = [None] *  NUMBER_OF.CELLS
+        for i in range(0, NUMBER_OF.CELLS):            
+            self.cellgroups[i] = CellGroup(i+1)
+            self.cellgroups[i].CreateSlots()
+            
+        self.CreateSlots()
+        
+    def CreateSlots(self):
+        pass
+    
+
+            
+    def GetCellParTask(self, task):        
+        for cellgroup in self.cellgroups:            
+            if cellgroup.GetTask() == task:                
+                return cellgroup
+        return None                                                                           
+    
+        
+    def Update(self, mode = UPDATE_MODE.all):
+        for i in range(0, NUMBER_OF.CELLS):
+            self.cellgroups[i].Update()
+        return True        
+    
+         
+tabCells = TabCells()
+        
+
+if __name__ == "__main__":         
+    import ewitis.gui.Ui_App as Ui_App  
+        
+    app = QtGui.QApplication(sys.argv)
+    MainWindow = QtGui.QMainWindow()
+    ui = Ui_App.Ui_MainWindow()
+    ui.setupUi(MainWindow)     
+
+    GroupWithCheckbox_1 = CellGroup(ui,1)
+    print "title: ", GroupWithCheckbox_1.groupbox.title()
+    print "title: ", GroupWithCheckbox_1.lineCellIrSinal.text()
+
+
+        
