@@ -79,12 +79,7 @@ class PointGroup():
         
         self.setEnabled(info["checked"]) 
                               
-       
-                     
-
-              
-     
-        
+                                                  
 class OrderGroup():    
     def __init__(self,  nr):
         '''
@@ -106,7 +101,7 @@ class OrderGroup():
         
         QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "checked"], x, self.Update))
         
-        QtCore.QObject.connect(self.type, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "type"], x, self.Update))
+        QtCore.QObject.connect(self.type, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "type"], utils.toUnicode(x)))
         
         QtCore.QObject.connect(self.row, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "row"], utils.toUnicode(x)))
                       
@@ -130,9 +125,9 @@ class OrderGroup():
     
     def Update(self):        
         # set values from datastore              
-        info = self.GetInfo()                                                                    
-        self.checked.setChecked(info["checked"])  
- 
+        info = self.GetInfo()                                
+                                            
+        self.checked.setChecked(info["checked"]) 
         uiAccesories.SetCurrentIndex(self.type, info["type"])
         uiAccesories.SetCurrentIndex(self.row, info["row"])
          
@@ -238,6 +233,7 @@ class TabRaceSettings():
         if(filename == ""):                        
             return  
         json.dump(dstore.GetAllPermanents(), codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
+        uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
     def sCheckbox(self, state):
         print "check: ", state

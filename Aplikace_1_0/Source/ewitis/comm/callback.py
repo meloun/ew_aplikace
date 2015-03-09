@@ -138,7 +138,9 @@ def unpack_data(command, data, senddata):
         aux_cell_info['ir_signal'] = bool(aux_flags & 0x01)
         aux_cell_info['synchronized_once'] = bool(aux_flags & 0x02)
         aux_cell_info['synchronized'] = bool(aux_flags & 0x04)
+        aux_cell_info['trigger'] = (aux_flags & 0x18) >> 3
         aux_cell_info['active'] = bool(aux_flags & 0x80)
+        #print "f",aux_flags
                              
                                                         
         return aux_cell_info
@@ -224,8 +226,8 @@ def pack_data(command_key, data):
                                data['filter_minlaptime'], data['filter_maxlapnumber'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]['cmd']):
         # SET CELL INFO
-        aux_data = struct.pack('<BBBBBB', data['address'], data['task'], data['fu1'],\
-                               data['fu2'], data['fu3'], data['fu4'])  
+        aux_data = struct.pack('<BBBBBB', data['address'], data['task'], data['trigger'],\
+                               data['fu1'], data['fu2'], data['fu3'])  
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_DIAG_INFO"]['cmd']):
         # SET CELL DIAG INFO
         aux_data = struct.pack('<BhhBB', data['address'], data['diagnostic_long_ok'], data['diagnostic_long_ko'],\

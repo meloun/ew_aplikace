@@ -25,7 +25,7 @@ class Db():
                         
         
     #read from the file
-    def load(self):
+    def load(self):        
         return json.load(codecs.open(self.filename, 'r', 'utf-8'))
     
     #dump data to the file

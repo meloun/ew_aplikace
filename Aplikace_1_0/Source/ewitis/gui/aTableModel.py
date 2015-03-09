@@ -95,6 +95,9 @@ class myAbstractModel():
         for i in range(self.rowCount()):            
             df.loc[i] = self.row(i)
         df.set_index('id',  drop=False, inplace = True)
+        
+        #replace nan with None
+        df = df.where(pd.notnull(df), None)
         return df
 
 

@@ -279,7 +279,8 @@ class TimesModel(myModel):
                 #print "I: 1:",time.clock() - ztime,"s"          
                 #print type(self.orderDf[i])
                 #ztime = time.clock()
-                #print self.orderDf[i]                
+                #print self.orderDf[i]
+                dbTime["category"] = tabTime["category"]                
                 tabTime['order' + str(i+1)] = timesstore.CalcOrder(dbTime, i)                                
                 #print "I: 2:",time.clock() - ztime,"s"
                 #print dbTime['id'], 'order', str(i+1), tabTime['order' + str(i+1)] 

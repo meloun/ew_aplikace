@@ -424,7 +424,7 @@ class ManageComm(Thread):
                 nr_changed_cell = dstore.IsChanged("cells_info")
                 if(nr_changed_cell):                                        
                     aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell-1], "SET")                                                                                                                                                                                                                                                   
-                    print "COMM: set cell info", nr_changed_cell, aux_cell_info
+                    #print "COMM: set cell info", nr_changed_cell, aux_cell_info
                     ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
                     dstore.ResetChangedFlag("cells_info")
                 
@@ -437,6 +437,7 @@ class ManageComm(Thread):
                     if not('error' in aux_cells_info[i]):                    
                         if(dstore.IsReadyForRefresh("cells_info")):             
                             dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET")
+                            #print i, aux_cells_info[i]
                         #else:
                         #    print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
                                 
