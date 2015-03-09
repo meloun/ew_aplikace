@@ -53,7 +53,7 @@ class CheckboxValue:
     
 
 class NUMBER_OF:
-    CELLS = 10
+    CELLS = 14
     EXPORTS = 3
     
     POINTSCOLUMNS = 3

@@ -209,30 +209,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ]
             }

@@ -277,14 +277,10 @@ class TabCells(MyTab):
             
         self.CreateSlots()
         
-    def CreateSlots(self):                        
-        #QtCore.QObject.connect(Ui().pushCellAllReadOnly, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(False))
-        #QtCore.QObject.connect(Ui().pushCellAllEdit, QtCore.SIGNAL("clicked()"), lambda:self.sEnableAll(True))
+    def CreateSlots(self):
         pass
     
-    def sEnableAll(self, state):        
-        for i in range(0,self.nr):
-            self.cellgroups[i].sCheckbox(state)
+
             
     def GetCellParTask(self, task):        
         for cellgroup in self.cellgroups:            
