@@ -237,7 +237,15 @@ class TabRaceSettings():
         filename = uiAccesories.getSaveFileName("Save Profile","profiles", "Profile Files (*.json)", "neni treba")               
         if(filename == ""):                        
             return  
-        json.dump(dstore.GetAllPermanents(), codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
+        
+        permanentdata = dstore.GetAllPermanents()
+        
+        #get cell task None 
+        for cell in range(NUMBER_OF.CELLS):
+            print permanentdata["cells_info"]['GET']['value']
+            permanentdata["cells_info"]['GET']['value'][cell]["task"] = 0
+        
+        json.dump(permanentdata, codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
     def sCheckbox(self, state):
