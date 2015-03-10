@@ -26,24 +26,33 @@ class PermanentDatastore(datastore.Datastore):
         
             
         
-    def Set(self, name, value, section = "GET_SET"):
+    def Set(self, name, value, section = "GET_SET", permanent = True):
                 
+        if(value == datastore.Datastore.Get(self, name, section)):
+            return True
+        
         #update data
         datastore.Datastore.Set(self, name, value, section)
         
         #update file
-        if self.IsPermanent(name):
-            self.db.dump(self.GetAllPermanents())                
-            #print "DSTORE: Set()", self.data[name]
+        if permanent and self.IsPermanent(name):
+            #print "zapis", name, value
+            self.db.dump(self.GetAllPermanents())
         
-    def SetItem(self, name, keys, value, section = "GET_SET", changed = True):        
-        #set item        
+        
+        
+    def SetItem(self, name, keys, value, section = "GET_SET", permanent = True, changed = True):
+                
+        if(value == datastore.Datastore.GetItem(self, name, keys, section)):
+            return
+        
+        #set item  
         datastore.Datastore.SetItem(self, name, keys, value, section, changed)
         
         #store permanents to the file
-        if self.IsPermanent(name):
+        if permanent and self.IsPermanent(name):
+            #print "zapis", name, keys, value, section
             self.db.dump(self.GetAllPermanents())
-            #print "DSTORE: SetItem()", self.data[name]
                     
 
 if __name__ == "__main__":        

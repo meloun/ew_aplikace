@@ -421,11 +421,12 @@ class ManageComm(Thread):
             """ get cell info """
             if OPTIKA_V2:
                 #SET CELL INFO
-                nr_changed_cell = dstore.IsChanged("cells_info")
-                if(nr_changed_cell):                                        
-                    aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell-1], "SET")                                                                                                                                                                                                                                                   
-                    #print "COMM: set cell info", nr_changed_cell, aux_cell_info
-                    ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
+                nr_changed_cells = dstore.IsChanged("cells_info")
+                if(nr_changed_cells):
+                    for nr_changed_cell in nr_changed_cells:                                          
+                        aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
+                        print "COMM: set cell info", nr_changed_cell, aux_cell_info
+                        ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
                     dstore.ResetChangedFlag("cells_info")
                 
                 #GET CELL INFO                                
@@ -436,10 +437,10 @@ class ManageComm(Thread):
                     """ store terminal-states to the datastore """ 
                     if not('error' in aux_cells_info[i]):                    
                         if(dstore.IsReadyForRefresh("cells_info")):             
-                            dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET")
+                            dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET", permanent = False)
                             #print i, aux_cells_info[i]
                         #else:
-                        #    print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
+                        #print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
                                 
                     
             """

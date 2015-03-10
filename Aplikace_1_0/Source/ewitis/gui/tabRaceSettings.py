@@ -226,6 +226,11 @@ class TabRaceSettings():
         dstore.Update(preset)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
+        #set all cells settings
+        dstore.SetChangedFlag("cells_info", range(NUMBER_OF.CELLS))
+        
+        
+        
         
     def sSaveProfile(self):
         #gui dialog                        

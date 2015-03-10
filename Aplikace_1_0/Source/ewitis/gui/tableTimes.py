@@ -921,9 +921,9 @@ class Times(myTable):
         #first start time? => cant be updated               
         #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
         #if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
-        if(int(id) == (self.model.starts2.GetFirst()['id'])):
-            uiAccesories.showMessage(self.name+" Delete warning", "First start time cant be deleted!")
-            return  
+        #if(int(id) == (self.model.starts2.GetFirst()['id'])):
+        #    uiAccesories.showMessage(self.name+" Delete warning", "First start time cant be deleted!")
+        #    return  
         
         #delete run with additional message
         myTable.sDelete(self)

@@ -83,7 +83,7 @@ class CellGroup ():
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
                     return        
                                
-        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
@@ -108,7 +108,7 @@ class CellGroup ():
 #                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
 #                     return        
                                
-        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = self.nr)                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                

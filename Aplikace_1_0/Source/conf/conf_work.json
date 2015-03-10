@@ -1,4 +1,335 @@
 {
+    "cells_info": {
+        "SET": {
+            "changed": false,
+            "value": [
+                {
+                    "task": 1,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 1
+                },
+                {
+                    "task": 250,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 2
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 3
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 4
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 5
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 6
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 7
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 8
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 9
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 10
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 11
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 12
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 13
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 14
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "cells info",
+        "GET": {
+            "refresh_countdown": 0,
+            "value": [
+                {
+                    "task": 1,
+                    "synchronized": false,
+                    "battery": 0,
+                    "synchronized_once": false,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 620,
+                    "address": 1,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": 250,
+                    "synchronized": false,
+                    "battery": 0,
+                    "synchronized_once": false,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 440,
+                    "address": 2,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 3,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 4,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "task": 0,
+                    "diagnostic_long_ko": 130,
+                    "address": 5,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "task": 0,
+                    "diagnostic_long_ko": 10,
+                    "address": 6,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "task": 0,
+                    "diagnostic_long_ko": 10,
+                    "address": 7,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 8,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 9,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 10,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 11,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 12,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 13,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 14,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                }
+            ]
+        }
+    },
     "evaluation": {
         "GET_SET": {
             "value": {
@@ -22,12 +353,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -36,7 +362,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -62,12 +393,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -76,7 +402,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -102,12 +433,7 @@
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "sex": 0,
                     "gap": 0,
                     "points": [
                         0,
@@ -116,7 +442,12 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -153,13 +484,13 @@
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     }
@@ -172,24 +503,24 @@
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
                 "un": [
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "lap": [
@@ -199,11 +530,11 @@
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "order": [
@@ -217,7 +548,7 @@
                         "order1": "Asc"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "order2": "Asc",
                         "column2": " - - -",
                         "type": "All",
@@ -226,7 +557,7 @@
                         "order1": "Asc"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "order2": "Asc",
                         "column2": " - - -",
                         "type": "All",
@@ -244,8 +575,8 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "- - -",
-                "rfid": 2,
+                "profile": "C:/_meloun/github/ew_aplikace/Aplikace_1_0/Source/conf/uc1.json",
+                "rfid": 0,
                 "remote": 0,
                 "race_name": "Formula Student 2013",
                 "tag_filter": 0

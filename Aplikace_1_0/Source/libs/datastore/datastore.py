@@ -173,7 +173,17 @@ class Datastore():
     
         return None
         
-    
+    def SetChangedFlag(self, name, flag):
+        """
+        Jen pro SET section
+        Vynuluje flag 'changed'
+        volá se po provedení reakce na změnu, typicky poslání do terminálu  
+        """
+        if 'GET_SET' in self.data[name]:
+            self.data[name]['GET_SET']['changed'] = flag
+        else:
+            self.data[name]['SET']['changed'] = flag
+              
     def ResetChangedFlag(self, name):
         """
         Jen pro SET section

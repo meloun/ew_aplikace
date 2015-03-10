@@ -235,7 +235,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.01"},                                                                                                                    
+                                                        "app": "v3.02"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -249,7 +249,8 @@ DEF_DATA = {
                                              "refresh_countdown": 0                                              
                                              },
                                },                                  
-        "cells_info"         : {"name"    : "cells info", 
+        "cells_info"         : {"name"    : "cells info",
+                                "permanent": True, 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1
                                                            "battery": None,
@@ -257,27 +258,27 @@ DEF_DATA = {
                                                            "active": None,
                                                            "synchronized_once": None,
                                                            "synchronized": None,
-                                                           "address": 1,
+                                                           "address": index+1,
                                                            "task": 0,
                                                            "trigger": 0,
                                                            "diagnostic_long_ok":  0,
                                                            "diagnostic_long_ko":  0,
                                                            "diagnostic_short_ok": 0,
                                                            "diagnostic_short_ko": 0
-                                                       }                                              
-                                                       ] * NUMBER_OF.CELLS,
+                                                       } for index in range(NUMBER_OF.CELLS)                                              
+                                                       ],
                                              "refresh_countdown": 0 ,
                                              },
                                 "SET"     : {"value": [
-                                                       { #cell 1-2
-                                                            "address": None,
+                                                       {
+                                                            "address": index+1,
                                                             "task": 0,
                                                             "trigger": 0,
-                                                            "fu1": None,
-                                                            "fu2": None,
-                                                            "fu3": None,
-                                                            "fu4": None
-                                                       }] * NUMBER_OF.CELLS,
+                                                            "fu1": 0,
+                                                            "fu2": 0,
+                                                            "fu3": 0,
+                                                            "fu4": 0
+                                                       }for index in range(NUMBER_OF.CELLS)  ],
                                              "changed": False
                                              },
                                },
