@@ -132,32 +132,32 @@
             "refresh_countdown": 0,
             "value": [
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
+                    "ir_signal": false,
                     "battery": 0,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 720,
                     "address": 1,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
+                    "ir_signal": false,
                     "battery": 0,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 540,
                     "address": 2,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
                     "synchronized_once": false,
@@ -188,18 +188,18 @@
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
+                    "ir_signal": false,
                     "battery": 0,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 170,
                     "address": 5,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
                     "synchronized_once": false,
@@ -350,16 +350,11 @@
                         0,
                         0
                     ],
+                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
+                    "sex": 0,
                     "points": [
                         0,
                         0,
@@ -367,7 +362,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -380,7 +375,12 @@
                         2,
                         2
                     ],
-                    "name": 2
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ]
                 },
                 {
                     "category": 2,
@@ -390,16 +390,11 @@
                         0,
                         0
                     ],
+                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
+                    "sex": 0,
                     "points": [
                         0,
                         0,
@@ -407,7 +402,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -420,7 +415,12 @@
                         2,
                         2
                     ],
-                    "name": 2
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ]
                 },
                 {
                     "category": 2,
@@ -430,16 +430,11 @@
                         0,
                         0
                     ],
+                    "name": 2,
                     "club": 2,
                     "laps": 0,
                     "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
+                    "sex": 0,
                     "points": [
                         0,
                         0,
@@ -447,7 +442,7 @@
                         0
                     ],
                     "year": 0,
-                    "sex": 0,
+                    "gap": 0,
                     "optionname": [
                         "optionname",
                         "optionname",
@@ -460,7 +455,12 @@
                         2,
                         2
                     ],
-                    "name": 2
+                    "times": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ]
                 }
             ]
         },
@@ -540,30 +540,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Last",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ]
             }

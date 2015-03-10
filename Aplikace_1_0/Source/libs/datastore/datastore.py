@@ -216,10 +216,17 @@ class Datastore():
         """                        
         slouží ke zjištění zda je datapoint určen k trvalému ulolžení  
         """
+        import copy
         permanents = {}
         for k,v in self.data.items():            
             if self.IsPermanent(k) == True:
-                permanents[k] = v
+                permanents[k] = copy.deepcopy(v)
+                
+        #get cell task None 
+        #print permanents
+        for idx in range(0, len(permanents["cells_info"]['GET']['value'])):
+            permanents["cells_info"]['GET']['value'][idx]["task"] = 0
+            
                          
         return permanents
 

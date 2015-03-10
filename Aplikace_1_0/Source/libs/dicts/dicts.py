@@ -38,8 +38,13 @@ def toCsv(dict):
 
 if __name__ == "__main__":
     import dicts
-    print "range", range(1,5), type(range(1,5))
     mujDict={'a':'aa','b':'bb','c':'cc','d':'dd'}
+    mujList=range(6)
+    print mujList
+    for item in mujList:
+        print item
+        item = 0
+    print mujList
     dicts1 = [{u'klíč1':u"čeština1", u'klíč2':u"maďarština1", u'klíč3':u"francouština1"},
             {u'klíč1':u"čeština2", u'klíč7':u"maďarština2", u'klíč6':u"francouština2"}
             ]

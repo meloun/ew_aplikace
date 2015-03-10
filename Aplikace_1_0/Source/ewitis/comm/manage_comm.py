@@ -425,7 +425,7 @@ class ManageComm(Thread):
                 if(nr_changed_cells):
                     for nr_changed_cell in nr_changed_cells:                                          
                         aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
-                        print "COMM: set cell info", nr_changed_cell, aux_cell_info
+                        #print "COMM: set cell info", nr_changed_cell, aux_cell_info
                         ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
                     dstore.ResetChangedFlag("cells_info")
                 

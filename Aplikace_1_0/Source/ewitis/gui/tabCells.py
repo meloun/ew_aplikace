@@ -99,14 +99,7 @@ class CellGroup ():
         set_cell_info["address"] = self.nr                               
         set_cell_info["fu1"] = 0x00                               
         set_cell_info["fu2"] = 0x00                               
-        set_cell_info["fu3"] = 0x00                               
-        
-        
-#         if task != 0:
-#             for info in cells_info:
-#                 if info['task'] == task:                    
-#                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
-#                     return        
+        set_cell_info["fu3"] = 0x00       
                                
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
@@ -137,6 +130,8 @@ class CellGroup ():
     
     def GetInfo(self):
         return dstore.Get("cells_info", "GET")[self.nr-1]
+    def SetInfo(self):
+        return dstore.Get("cells_info", "SET")[self.nr-1]
     
     def GetTask(self):        
         #print "d1",self.__dict__
@@ -157,116 +152,117 @@ class CellGroup ():
     def Update(self):
         
         #get cell info from datastore                                      
-        cell_info = self.GetInfo()
+        get_info = self.GetInfo()
+        set_info = self.SetInfo()
 
         #set enabled
-        if(cell_info['task'] == None) or (cell_info['task'] == 0):
+        if(get_info['task'] == None) or (get_info['task'] == 0):
             self.SetEnabled(False)
         else: 
             self.SetEnabled(True)                    
         
         #index
-        index = self.TaskNr2Idx(cell_info["task"])                
+        index = self.TaskNr2Idx(get_info["task"])                
         
-        if(cell_info['task'] != None):
+        if(get_info['task'] != None):
             self.lineCellTask.setText(self.comboCellTask.itemText(index))
         else:
             self.lineCellTask.setText(" - - - ")                                    
-        colors_enabled =  cell_info['task']
-        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), cell_info['task']))
+        colors_enabled =  get_info['task']
+        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), get_info['task']))
                     
         #na začátku, zpětná vazba
-        if(index != None):            
-            self.comboCellTask.setCurrentIndex(index)
+        #if(index != None):            
+        self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(set_info["task"]))
             
                                     
-        if(cell_info['trigger'] != None):
-            self.lineCellTrigger.setText(self.comboCellTrigger.itemText(cell_info['trigger']))
+        if(get_info['trigger'] != None):
+            self.lineCellTrigger.setText(self.comboCellTrigger.itemText(get_info['trigger']))
         else:
             self.lineCellTrigger.setText(" - - - ")        
                     
         #na začátku, zpětná vazba
-        if(cell_info['trigger'] != None):            
-            self.comboCellTrigger.setCurrentIndex(cell_info["trigger"])                        
+        #if(get_info['trigger'] != None):            
+        self.comboCellTrigger.setCurrentIndex(set_info["trigger"])                        
         
         #battery
-        if(cell_info['battery'] != None):
-            self.lineCellBattery.setText(str(cell_info['battery']))                        
+        if(get_info['battery'] != None):
+            self.lineCellBattery.setText(str(get_info['battery']))                        
         else:
             self.lineCellBattery.setText(" - - %")                                                                                  
         
         #ir signal                
-        if cell_info["ir_signal"] == True:
+        if get_info["ir_signal"] == True:
             self.lineCellIrSinal.setText("IR SIGNAL")
-        elif cell_info["ir_signal"] == False:
+        elif get_info["ir_signal"] == False:
             self.lineCellIrSinal.setText("NO IR SIGNAL")
         else:
             self.lineCellIrSinal.setText(" - - ")        
-        self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(cell_info["ir_signal"], colors_enabled))
+        self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(get_info["ir_signal"], colors_enabled))
 
         #active/blocked            
-        if cell_info["active"] == True:
+        if get_info["active"] == True:
             self.lineCellActive.setText("ACTIVE")
-        elif cell_info["active"] == False:
+        elif get_info["active"] == False:
             self.lineCellActive.setText("BLOCKED")
         else:
             self.lineCellActive.setText(" - - ")
-        self.lineCellActive.setStyleSheet("background:"+self.GetColor(cell_info["active"], colors_enabled))
+        self.lineCellActive.setStyleSheet("background:"+self.GetColor(get_info["active"], colors_enabled))
             
         #synchronized once
-        if cell_info["synchronized_once"] == True:
+        if get_info["synchronized_once"] == True:
             self.lineCellSynchronizedOnce.setText("ONCE")
             self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
-        elif cell_info["synchronized_once"] == False:
+        elif get_info["synchronized_once"] == False:
             self.lineCellSynchronizedOnce.setText("ONCE")
             self.lineCellSynchronizedOnce.setStyleSheet("background:grey"+COLORS.red)
         else:
             self.lineCellSynchronizedOnce.setText(" - - ")
             self.lineCellSynchronizedOnce.setStyleSheet("")
-        self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(cell_info["synchronized_once"], colors_enabled))
+        self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(get_info["synchronized_once"], colors_enabled))
         
         #synchronized 10min
-        if cell_info["synchronized"] == True:
+        if get_info["synchronized"] == True:
             self.lineCellSynchronized.setText("10MIN")            
-        elif cell_info["synchronized"] == False:
+        elif get_info["synchronized"] == False:
             self.lineCellSynchronized.setText("10MIN")            
         else:
             self.lineCellSynchronized.setText(" - - ")                    
-        self.lineCellSynchronized.setStyleSheet("background:"+self.GetColor(cell_info["synchronized"], colors_enabled))                       
+        self.lineCellSynchronized.setStyleSheet("background:"+self.GetColor(get_info["synchronized"], colors_enabled))                       
         
         #diagnostic shork ok
-        if(cell_info['diagnostic_short_ok'] != None):                                    
-            self.lineCellDiagShortOk.setText(str(cell_info['diagnostic_short_ok']))
+        if(get_info['diagnostic_short_ok'] != None):                                    
+            self.lineCellDiagShortOk.setText(str(get_info['diagnostic_short_ok']))
         else:
             self.lineCellDiagShortOk.setText("- -")
                                           
         #diagnostic short ko
-        if(cell_info['diagnostic_short_ko'] != None):                                    
-            self.lineCellDiagShortKo.setText(str(cell_info['diagnostic_short_ko']))
+        if(get_info['diagnostic_short_ko'] != None):                                    
+            self.lineCellDiagShortKo.setText(str(get_info['diagnostic_short_ko']))
         else:
             self.lineCellDiagShortKo.setText("- -")            
         #diagnostic %
-        sum_ko_ok = cell_info['diagnostic_short_ko']+cell_info['diagnostic_short_ok']
-        if(cell_info['diagnostic_short_ok'] != None) and (cell_info['diagnostic_short_ko'] != None) and (sum_ko_ok != 0):                                    
-            self.lineCellDiagShortRatio.setText(str((100*cell_info['diagnostic_short_ok'])/sum_ko_ok))
+        sum_ko_ok = get_info['diagnostic_short_ko']+get_info['diagnostic_short_ok']
+        if(get_info['diagnostic_short_ok'] != None) and (get_info['diagnostic_short_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagShortRatio.setText(str((100*get_info['diagnostic_short_ok'])/sum_ko_ok))
         else:
             self.lineCellDiagShortRatio.setText("- -")
             
         #diagnostic shork ok
-        if(cell_info['diagnostic_long_ok'] != None):                                    
-            self.lineCellDiagLongOk.setText(str(cell_info['diagnostic_long_ok']))
+        if(get_info['diagnostic_long_ok'] != None):                                    
+            self.lineCellDiagLongOk.setText(str(get_info['diagnostic_long_ok']))
         else:
             self.lineCellDiagLongOk.setText("- -")
                                           
         #diagnostic long ko
-        if(cell_info['diagnostic_long_ko'] != None):                                    
-            self.lineCellDiagLongKo.setText(str(cell_info['diagnostic_long_ko']))
+        if(get_info['diagnostic_long_ko'] != None):                                    
+            self.lineCellDiagLongKo.setText(str(get_info['diagnostic_long_ko']))
         else:
             self.lineCellDiagLongKo.setText("- -")            
         #diagnostic %
-        sum_ko_ok = cell_info['diagnostic_long_ko']+cell_info['diagnostic_long_ok']
-        if(cell_info['diagnostic_long_ok'] != None) and (cell_info['diagnostic_long_ko'] != None) and (sum_ko_ok != 0):                                    
-            self.lineCellDiagLongRatio.setText(str((100*cell_info['diagnostic_long_ok'])/sum_ko_ok))
+        sum_ko_ok = get_info['diagnostic_long_ko']+get_info['diagnostic_long_ok']
+        if(get_info['diagnostic_long_ok'] != None) and (get_info['diagnostic_long_ko'] != None) and (sum_ko_ok != 0):                                    
+            self.lineCellDiagLongRatio.setText(str((100*get_info['diagnostic_long_ok'])/sum_ko_ok))
         else:
             self.lineCellDiagLongRatio.setText("- -")
             
