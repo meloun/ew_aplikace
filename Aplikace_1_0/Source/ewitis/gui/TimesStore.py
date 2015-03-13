@@ -98,11 +98,10 @@ class TimesStore():
         najde všechny časy a uloží
         '''
         
-        #update table df
-        self.tabDf = tabDf
-        #print tabDf
+        #table df
+        self.tabDf = tabDf        
                 
-        #update db df
+        #db df
         self.dbDf = psql.read_sql(\
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
@@ -115,6 +114,15 @@ class TimesStore():
         #update joinedDf
         columns =  self.tabDf.columns - self.dbDf.columns                              
         self.joinedDf = self.dbDf.join(self.tabDf[columns])
+        
+        
+        #user update
+        self.userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
+        self.userDf = self.userDf[["club", "o1", "o2", "o3", "o4"]]
+        self.joinedDf =  pd.merge(self.joinedDf,  self.userDf, left_on='user_id', right_index=True, how="inner")
+        self.joinedDf.sort("time_raw", inplace=True)                       
+                    
+        
         #replace nan with None
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
@@ -154,7 +162,7 @@ class TimesStore():
             #print "aa1", aux_df                                             
             aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)
-            #print "aa2", aux_df                        
+            #print "aa2", aux_df.columns                        
             aux_df.set_index('id',  drop=False, inplace = True)
             #print "aa3", aux_df
             
@@ -209,6 +217,61 @@ class TimesStore():
                     filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
                     self.lapDf[i] = timesstore.FilterFrame(self.timesDf[i], filter_dict)
                                         
+             
+        return self.joinedDf     
+        
+    def UpdateExportDf(self):
+ 
+        
+        #update order df
+        self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
+        for i in range(0, NUMBER_OF.EXPORTS):
+                          
+            #get expoer group
+            columns = dstore.GetItem('export', [i])
+            
+            if (columns['enabled'] == False):
+                continue
+            
+            #get export group
+            filtersort = dstore.GetItem('export_filtersort', [i])
+                                      
+            #print group
+            sort1 = filtersort['sort1'].lower()  
+            sort2 = filtersort['sort2'].lower()
+            sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
+            sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
+            
+            #filter
+            aux_df = self.joinedDf
+            #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
+            #print "po", aux_df
+            
+            #last time from each user                    
+            aux_df = aux_df.sort("time_raw")                                                                
+            aux_df = aux_df.groupby("user_id", as_index = False).last()
+            aux_df = aux_df.where(pd.notnull(aux_df), None)                        
+            aux_df.set_index('id',  drop=False, inplace = True)
+            #print "aa3", aux_df
+            
+            #sort again
+            if(sort2 in aux_df.columns):
+                print "nested sorting", sort1, sort2, sortorder1, sortorder2
+                print aux_df
+                aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
+            else:
+                print "basic sorting"
+                aux_df = aux_df.sort(sort1, ascending = sortorder1)
+            
+            
+            self.exportDf[i] = aux_df
+            
+            
+            
+#             #update db df
+#             self.userDf = psql.read_sql("SELECT * FROM users", db.getDb())            
+#             self.userDf = self.userDf[["club", "id"]]            
+#             self.exportDf[i] =  pd.merge(aux_df,  self.userDf, left_on='user_id', right_on="id", how="inner")                              
              
         return self.joinedDf         
                                                                

@@ -118,11 +118,12 @@ DEF_DATA = {
         "racesettings-app"   : {"permanent": True,
                                 "name": "race settings",
                                 "GET_SET"  : {"value": {
-                                                        "race_name"  :      u"Formula Student 2013",
-                                                        "profile"    :      u"- - -",
-                                                        "remote"     :       CheckboxValue.unchecked,
-                                                        "rfid"       :       CheckboxValue.unchecked,
-                                                        "tag_filter" :      CheckboxValue.unchecked,
+                                                        "race_name"    :      u"Formula Student 2013",
+                                                        "profile"      :      u"- - -",
+                                                        "profile_desc" :      u"",
+                                                        "remote"       :       CheckboxValue.unchecked,
+                                                        "rfid"         :       CheckboxValue.unchecked,
+                                                        "tag_filter"   :      CheckboxValue.unchecked,
                                                         },                                              
                                               "changed": True
                                       }
@@ -153,7 +154,7 @@ DEF_DATA = {
                                                                            {
                                                                             "checked"            : CheckboxValue.checked,
                                                                             "type"               : "All",
-                                                                            "row"                : "Last",
+                                                                            "row"                : "Lasttimes",
                                                                             "column1"            : "Time1",
                                                                             "order1"             : "Asc",                                                                                  
                                                                             "column2"            : " - - -",                                                                           
@@ -174,8 +175,9 @@ DEF_DATA = {
         "export"             : {"name"     : "export",
                                 "permanent": True,
                                 "GET_SET"  : {"value": [{
-                                                        "order"             : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,
-                                                        "number"            : CheckboxValue.checked, 
+                                                        "enabled"           : True,
+                                                        "order"             : [CheckboxValue.checked] * NUMBER_OF.THREECOLUMNS,
+                                                        "nr"                : CheckboxValue.checked, 
                                                         "name"              : CheckboxValue.checked, 
                                                         "category"          : CheckboxValue.checked, 
                                                         "year"              : CheckboxValue.unchecked, 
@@ -184,10 +186,31 @@ DEF_DATA = {
                                                         "option"            : [CheckboxValue.unchecked] * NUMBER_OF.OPTIONCOLUMNS,
                                                         "optionname"        : ["optionname"] * NUMBER_OF.OPTIONCOLUMNS,
                                                         "gap"               : CheckboxValue.unchecked,                                                                                                      
-                                                        "points"            : [CheckboxValue.unchecked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
-                                                        "times"             : [CheckboxValue.checked] * NUMBER_OF.OPTIONCOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
-                                                        "laps"              : CheckboxValue.unchecked                                                                                                                                                                                                                                                                                                                            
-                                                        }] * NUMBER_OF.EXPORTS,
+                                                        "points"            : [CheckboxValue.unchecked] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
+                                                        "time"              : [CheckboxValue.checked] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                                                                          
+                                                        "lap"               : [CheckboxValue.unchecked] * NUMBER_OF.THREECOLUMNS                                                                                                                                                                                                                                                                                                                           
+                                                        }] * NUMBER_OF.EXPORTS,                                              
+                                              "changed": True
+                                              }  
+                               },
+        "export_sortkeys"    : {"GET_SET"  : {"value": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "gap", "points1","points2","points3","time1","lap1","time2","lap2","time3","lap3"] }},             
+        "export_laps"        : {"name"     : "export_laps",
+                                "permanent": True,
+                                "GET_SET"  : {"value": {
+                                                        "column"             : ExportLapsFormat.FORMAT_TIMES,                                                                                                                                                                                                                                                                                                                     
+                                                        },                                              
+                                              "changed": True
+                                              }  
+                               },
+        "export_filtersort"  : {"name"     : "export_filtersort",
+                                "permanent": True,
+                                "GET_SET"  : {"value": [{
+                                                        "filter"             : "last times",
+                                                        "sort1"              : "order1", 
+                                                        "sortorder1"         : "asc",                                                                                                                                                                                                                                                                                                                            
+                                                        "sort2"              : "- - -", 
+                                                        "sortorder2"         : "asc",                                                                                                                                                                                                                                                                                                                            
+                                                        }] * NUMBER_OF.EXPORTS,                                              
                                               "changed": True
                                               }  
                                },
@@ -282,8 +305,9 @@ DEF_DATA = {
                                              "changed": False
                                              },
                                },
-        "timing_settings"    : {"name"    : "logic timing_settings",                                
-                                "SET"     : {"value": {"logic_mode": 1,
+        "timing_settings"    : {"name"     : "logic timing_settings", 
+                                "permanent": True,                                
+                                "SET"      : {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
                                                        "name_id": 4,
                                                        "filter_tagtime": 5,
@@ -292,7 +316,7 @@ DEF_DATA = {
                                                        "tags_reading_enable": None},
                                               "changed": False
                                             },
-                                "GET"    :  {"value": {"logic_mode": 1,
+                                "GET"      :  {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
                                                        "name_id": 04,
                                                        "filter_tagtime": None,

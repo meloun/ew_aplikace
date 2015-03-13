@@ -17,6 +17,7 @@ from ewitis.gui.tablePoints import tablePoints
 from ewitis.gui.tableCGroups import tableCGroups
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableUsers import tableUsers
+from ewitis.gui.tabExportSettings import tabExportSettings
 
 
 from ewitis.data.db import db
@@ -803,7 +804,7 @@ class Times(myTable):
     '''
      F11 - konečné výsledky, 1 čas na řádek
     '''
-    def sExportDirect(self, export_type = eRESULT_TIMES):        
+    def sExportDirectOld(self, export_type = eRESULT_TIMES):        
         suffix = ""
         if(export_type == self.eALL_TIMES):
             suffix = "_at"
@@ -827,6 +828,79 @@ class Times(myTable):
                             
         exported = {}        
         proxymodelDf = self.proxy_model.df()
+                   
+                        
+        '''1. TOTAL'''
+        #get name
+        name = utils.get_filename("_"+dstore.GetItem("racesettings-app", ['race_name']))                
+        
+        #write to csv
+        df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, export_type = export_type)
+        if(len(df) != 0):
+            exported["total"] = len(df)
+            
+        '''2. CATEGORIES'''
+        dbCategories = tableCategories.getDbRows()                      
+        for dbCategory in dbCategories:
+            
+            #get name
+            name = utils.get_filename("c_"+dbCategory['name'])                                              
+                     
+            #write to csv            
+            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, category = dbCategory,  export_type = export_type)             
+            if(len(df) != 0):
+                exported[name] = len(df) 
+            
+        '''3. GROUPS'''                   
+        dbCGroups = tableCGroups.getDbRows()                                                            
+        for dbCGroup in dbCGroups:
+               
+            #get name
+            name = utils.get_filename("g_"+dbCGroup['label'])
+             
+            #write to csv
+            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, group = dbCGroup, export_type= export_type)
+            if(len(df) != 0):
+                exported[name] = len(df) 
+            
+        
+        exported_string = ""
+        for key in sorted(exported.keys()):
+            exported_string += key + " : " + str(exported[key])+" times\n"        
+        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
+                                    
+    def sExportDirect(self, export_type = eRESULT_TIMES):        
+        suffix = ""
+        if(export_type == self.eALL_TIMES):
+            suffix = "_at"
+        elif(export_type == self.eLAP_TIMES):
+            suffix = "_laps"
+        
+        
+        #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
+        #if ret == False: #cancel button
+        #    return         
+        
+        #get filename, gui dialog        
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.GetItem("racesettings-app", ['race_name'])+suffix+"/")
+        try:
+            os.makedirs(dirname)
+        except OSError:
+            dirname = "export/"
+                                         
+        if(dirname == ""):
+            return
+                            
+        exported = {}
+        timesstore.UpdateExportDf()        
+        aux_df =  timesstore.exportDf[0]
+        mylist = tabExportSettings.exportgroups[0].GetAsList()
+        mylist.remove("enabled")
+        keys = dstore.Get("export_sortkeys")        
+        sortkeys =  sorted(mylist, key=lambda k: keys.index(k))        
+        #print "export df A:", aux_df
+        print "export df B:", aux_df[sortkeys] 
+        return
                    
                         
         '''1. TOTAL'''

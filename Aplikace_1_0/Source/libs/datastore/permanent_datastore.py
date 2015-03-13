@@ -52,9 +52,7 @@ class PermanentDatastore(datastore.Datastore):
         #store permanents to the file
         if permanent and self.IsPermanent(name):
             #print "zapis", name, keys, value, section
-            #self.db.dump(self.GetAllPermanents())
-            self.GetAllPermanents()
-            #pass
+            self.db.dump(self.GetAllPermanents())            
                     
 
 if __name__ == "__main__":        

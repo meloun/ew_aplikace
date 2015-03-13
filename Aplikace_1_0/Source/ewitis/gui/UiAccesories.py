@@ -51,8 +51,15 @@ class UiAccesories(UiaDialogs):
         self.showMessage("Race", dstore.GetItem("racesettings-app", ["race_name"]), MSGTYPE.statusbar)
         
     def UpdateText(self, object, text):
-        if(object.text() != text):
+        try:
+            gui_text = object.text()
+        except AttributeError:
+            gui_text = object.toHtml()
+             
+        if(gui_text != text):
             #cursor_position = object.cursorPosition()
+            #print "nastaveno", gui_text
+            #print "nastavuju", text
             object.setText(text)
             #object.setCursorPosition(cursor_position)  
         

@@ -1,10 +1,202 @@
 {
+    "export_filtersort": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "filter": "last times",
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "sortorder2": "asc",
+                    "sortorder1": "asc"
+                },
+                {
+                    "filter": "last times",
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "sortorder2": "asc",
+                    "sortorder1": "asc"
+                },
+                {
+                    "filter": "last times",
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "sortorder2": "asc",
+                    "sortorder1": "asc"
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "export_filtersort"
+    },
+    "export_laps": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "column": 0
+            }
+        },
+        "permanent": true,
+        "name": "export_laps"
+    },
+    "racesettings-app": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "profile": "- - -",
+                "remote": 0,
+                "race_name": "Formula Student 2013",
+                "rfid": 0,
+                "tag_filter": 0,
+                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"
+            }
+        },
+        "permanent": true,
+        "name": "race settings"
+    },
+    "export": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "category": 2,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lap": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "time": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "enabled": true,
+                    "sex": 0,
+                    "points": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "year": 0,
+                    "nr": 2,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "order": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "name": 2
+                },
+                {
+                    "category": 2,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lap": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "time": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "enabled": true,
+                    "sex": 0,
+                    "points": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "year": 0,
+                    "nr": 2,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "order": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "name": 2
+                },
+                {
+                    "category": 2,
+                    "option": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "club": 2,
+                    "lap": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "time": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "enabled": true,
+                    "sex": 0,
+                    "points": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "year": 0,
+                    "nr": 2,
+                    "gap": 0,
+                    "optionname": [
+                        "optionname",
+                        "optionname",
+                        "optionname",
+                        "optionname"
+                    ],
+                    "order": [
+                        2,
+                        2,
+                        2
+                    ],
+                    "name": 2
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "export"
+    },
     "cells_info": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
                 {
-                    "task": 1,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -12,7 +204,8 @@
                     "address": 1
                 },
                 {
-                    "task": 250,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -38,7 +231,8 @@
                     "address": 4
                 },
                 {
-                    "task": 2,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -46,6 +240,7 @@
                     "address": 5
                 },
                 {
+                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -54,6 +249,7 @@
                     "address": 6
                 },
                 {
+                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -126,208 +322,235 @@
                 }
             ]
         },
-        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 0,
             "value": [
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
+                    "task": 0,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
-                    "diagnostic_long_ko": 720,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
+                    "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
+                    "task": 0,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
-                    "diagnostic_long_ko": 540,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
+                    "diagnostic_long_ko": 0,
                     "address": 2,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
+                    "task": 0,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
-                    "diagnostic_long_ko": 170,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
+                    "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
+                    "task": 0,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
-                    "diagnostic_long_ko": 10,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
+                    "diagnostic_long_ko": 0,
                     "address": 6,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
+                    "task": 0,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
-                    "diagnostic_long_ko": 10,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
+                    "diagnostic_long_ko": 0,
                     "address": 7,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 8,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 9,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 10,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 11,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 12,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 13,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "synchronized": null,
+                    "ir_signal": null,
+                    "battery": null,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ko": 0,
                     "address": 14,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": null
                 }
             ]
+        }
+    },
+    "timing_settings": {
+        "permanent": true,
+        "SET": {
+            "changed": false,
+            "value": {
+                "logic_mode": 1,
+                "filter_maxlapnumber": 0,
+                "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": 60,
+                "filter_tagtime": 5,
+                "tags_reading_enable": null
+            }
+        },
+        "name": "logic timing_settings",
+        "GET": {
+            "refresh_countdown": 0,
+            "value": {
+                "logic_mode": 1,
+                "filter_maxlapnumber": null,
+                "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": null,
+                "filter_tagtime": null,
+                "tags_reading_enable": null
+            }
         }
     },
     "evaluation": {
@@ -337,135 +560,6 @@
             }
         },
         "permanent": true
-    },
-    "export": {
-        "GET_SET": {
-            "changed": true,
-            "value": [
-                {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "laps": 0,
-                    "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
-                    "points": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "year": 0,
-                    "sex": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
-                },
-                {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "laps": 0,
-                    "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
-                    "points": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "year": 0,
-                    "sex": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
-                },
-                {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "laps": 0,
-                    "number": 2,
-                    "times": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "gap": 0,
-                    "points": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "year": 0,
-                    "sex": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
-                }
-            ]
-        },
-        "permanent": true,
-        "name": "export"
     },
     "additional_info": {
         "GET_SET": {
@@ -540,49 +634,35 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Lasttimes",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Lasttimes",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "All",
-                        "order1": "Asc",
+                        "row": "Lasttimes",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ]
             }
         },
         "permanent": true,
         "name": "additinal info"
-    },
-    "racesettings-app": {
-        "GET_SET": {
-            "changed": true,
-            "value": {
-                "profile": "C:/_meloun/github/ew_aplikace/Aplikace_1_0/Source/conf/uc1.json",
-                "rfid": 0,
-                "remote": 0,
-                "race_name": "Formula Student 2013",
-                "tag_filter": 0
-            }
-        },
-        "permanent": true,
-        "name": "race settings"
     }
 }

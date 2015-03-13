@@ -185,6 +185,8 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)
                     
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
+        QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)#lambda text = Ui().textProfileDesc.toHtml(): uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode(text), self.Update))
+        #QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), lambda text = Ui().textProfileDesc.toHtml(): uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode(text), self.Update))
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                 
@@ -216,18 +218,27 @@ class TabRaceSettings():
     """                 """
     """ EXPLICIT SLOTS  """
     """                 """
+    def sTextChanged(self):        
+        uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode( Ui().textProfileDesc.toHtml()), self.Update)
+        
     def sLoadProfile(self):
         
         #gui dialog                        
         filename = uiAccesories.getOpenFileName("Load profile","dir_import_csv","Profile Files (*.json)", "profile.json")                
         if(filename == ""):                        
             return  
-        preset = json.load(codecs.open(filename, 'r', 'utf-8'))
-        dstore.Update(preset)
+        profile = json.load(codecs.open(filename, 'r', 'utf-8'))
+        
+        #get cell task None         
+        for idx in range(0, len(profile["cells_info"]['GET']['value'])):
+            profile["cells_info"]['GET']['value'][idx]["task"] = 0
+            
+        dstore.Update(profile)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
-        #set all cells settings
+        #send update settings to blackblox
         dstore.SetChangedFlag("cells_info", range(NUMBER_OF.CELLS))
+        dstore.SetChangedFlag("timing_settings", True)
         
         
         
@@ -295,9 +306,6 @@ class TabRaceSettings():
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
         self.Update(UPDATE_MODE.gui)
-        from ewitis.data.presets import presets
-        print presets.GetPreset("blizak")
-        dstore.Update(presets.GetPreset("blizak"))
        
         
     def Update(self, mode = UPDATE_MODE.all):                
@@ -353,6 +361,7 @@ class TabRaceSettings():
         #Ui().lineRaceName.setCursorPosition(cursor_position)
         
         uiAccesories.UpdateText(Ui().lineProfileName, dstore.GetItem("racesettings-app", ["profile"]))
+        uiAccesories.UpdateText(Ui().textProfileDesc, dstore.GetItem("racesettings-app", ["profile_desc"]))
         uiAccesories.UpdateText(Ui().lineRaceName, dstore.GetItem("racesettings-app", ["race_name"]))
         
                     
