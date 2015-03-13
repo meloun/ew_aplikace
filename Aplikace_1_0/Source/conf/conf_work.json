@@ -1,28 +1,86 @@
 {
+    "export_sortkeys": {
+        "GET_SET": {
+            "value": {
+                "tocz": {
+                    "sex": "pohlaví",
+                    "year": "rok",
+                    "category": "kategorie",
+                    "points1": "body",
+                    "points2": "body",
+                    "points3": "body",
+                    "time1": "čas",
+                    "time2": "čas",
+                    "time3": "čas",
+                    "nr": "číslo",
+                    "option2": "option 2",
+                    "option3": "option 3",
+                    "option1": "option 1",
+                    "club": "klub",
+                    "gap": "ztráta",
+                    "order2": "pořadí",
+                    "order3": "pořadí",
+                    "order1": "-d - -",
+                    "name": "jméno",
+                    "lap1": "kolo",
+                    "lap3": "- - y-",
+                    "lap2": "kolo"
+                },
+                "sorted": [
+                    "order1",
+                    "order2",
+                    "order3",
+                    "nr",
+                    "name",
+                    "category",
+                    "year",
+                    "club",
+                    "sex",
+                    "option1",
+                    "option2",
+                    "option3",
+                    "gap",
+                    "points1",
+                    "points2",
+                    "points3",
+                    "time1",
+                    "lap1",
+                    "time2",
+                    "lap2",
+                    "time3",
+                    "lap3"
+                ]
+            }
+        },
+        "permanent": true
+    },
     "export_filtersort": {
         "GET_SET": {
             "changed": true,
             "value": [
                 {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
                     "filter": "last times",
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "sortorder2": "asc",
-                    "sortorder1": "asc"
+                    "type": "total"
                 },
                 {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
                     "filter": "last times",
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "sortorder2": "asc",
-                    "sortorder1": "asc"
+                    "type": "total"
                 },
                 {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
                     "filter": "last times",
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "sortorder2": "asc",
-                    "sortorder1": "asc"
+                    "type": "total"
                 }
             ]
         },
@@ -59,130 +117,82 @@
             "changed": true,
             "value": [
                 {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "lap": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "time": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "enabled": true,
+                    "order3": 2,
                     "sex": 0,
-                    "points": [
-                        0,
-                        0,
-                        0
-                    ],
                     "year": 0,
-                    "nr": 2,
+                    "category": 2,
+                    "points1": 0,
+                    "points2": 0,
+                    "points3": 0,
+                    "time1": 2,
+                    "time2": 2,
+                    "time3": 2,
+                    "option4": 0,
+                    "option2": 0,
+                    "option3": 0,
+                    "option1": 0,
+                    "club": 2,
                     "gap": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
+                    "order2": 2,
+                    "nr": 2,
+                    "order1": 2,
+                    "name": 2,
+                    "lap1": 0,
+                    "lap3": 0,
+                    "lap2": 0,
+                    "enabled": true
                 },
                 {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "lap": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "time": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "enabled": true,
+                    "order3": 2,
                     "sex": 0,
-                    "points": [
-                        0,
-                        0,
-                        0
-                    ],
                     "year": 0,
-                    "nr": 2,
+                    "category": 2,
+                    "points1": 0,
+                    "points2": 0,
+                    "points3": 0,
+                    "time1": 2,
+                    "time2": 2,
+                    "time3": 2,
+                    "option4": 0,
+                    "option2": 0,
+                    "option3": 0,
+                    "option1": 0,
+                    "club": 2,
                     "gap": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
+                    "order2": 2,
+                    "nr": 2,
+                    "order1": 2,
+                    "name": 2,
+                    "lap1": 0,
+                    "lap3": 0,
+                    "lap2": 0,
+                    "enabled": true
                 },
                 {
-                    "category": 2,
-                    "option": [
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "club": 2,
-                    "lap": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "time": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "enabled": true,
+                    "order3": 2,
                     "sex": 0,
-                    "points": [
-                        0,
-                        0,
-                        0
-                    ],
                     "year": 0,
-                    "nr": 2,
+                    "category": 2,
+                    "points1": 0,
+                    "points2": 0,
+                    "points3": 0,
+                    "time1": 2,
+                    "time2": 2,
+                    "time3": 2,
+                    "option4": 0,
+                    "option2": 0,
+                    "option3": 0,
+                    "option1": 0,
+                    "club": 2,
                     "gap": 0,
-                    "optionname": [
-                        "optionname",
-                        "optionname",
-                        "optionname",
-                        "optionname"
-                    ],
-                    "order": [
-                        2,
-                        2,
-                        2
-                    ],
-                    "name": 2
+                    "order2": 2,
+                    "nr": 2,
+                    "order1": 2,
+                    "name": 2,
+                    "lap1": 0,
+                    "lap3": 0,
+                    "lap2": 0,
+                    "enabled": true
                 }
             ]
         },
@@ -190,7 +200,6 @@
         "name": "export"
     },
     "cells_info": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
@@ -322,6 +331,7 @@
                 }
             ]
         },
+        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 0,
@@ -329,225 +339,225 @@
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 2,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 6,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 7,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 8,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 9,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 10,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 11,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 12,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 13,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
                     "synchronized": null,
-                    "ir_signal": null,
                     "battery": null,
-                    "trigger": 0,
+                    "synchronized_once": null,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": null,
+                    "ir_signal": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 14,
-                    "active": null
+                    "active": null,
+                    "diagnostic_short_ko": 0
                 }
             ]
         }
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 4,
-                "measurement_state": 0,
                 "filter_minlaptime": 60,
+                "measurement_state": 0,
+                "name_id": 4,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
+        "permanent": true,
         "name": "logic timing_settings",
         "GET": {
             "refresh_countdown": 0,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": null,
-                "name_id": 4,
-                "measurement_state": 0,
                 "filter_minlaptime": null,
+                "measurement_state": 0,
+                "name_id": 4,
                 "filter_tagtime": null,
                 "tags_reading_enable": null
             }
@@ -634,30 +644,30 @@
                 "order": [
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "All",
-                        "row": "Lasttimes",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Lasttimes"
                     },
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "All",
-                        "row": "Lasttimes",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Lasttimes"
                     },
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "All",
-                        "row": "Lasttimes",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Lasttimes"
                     }
                 ]
             }

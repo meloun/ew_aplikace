@@ -10,6 +10,7 @@ import ewitis.gui.TimesUtils as TimesUtils
 #nešlo by to bez?
 from ewitis.gui.tableUsers import tableUsers
 from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.tabExportSettings import tabExportSettings
 
 
 class TimesStore():
@@ -118,7 +119,7 @@ class TimesStore():
         
         #user update
         self.userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
-        self.userDf = self.userDf[["club", "o1", "o2", "o3", "o4"]]
+        self.userDf = self.userDf[["year", "club", "o1", "o2", "o3", "o4"]]
         self.joinedDf =  pd.merge(self.joinedDf,  self.userDf, left_on='user_id', right_index=True, how="inner")
         self.joinedDf.sort("time_raw", inplace=True)                       
                     
@@ -227,7 +228,7 @@ class TimesStore():
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):
                           
-            #get expoer group
+            #get export group
             columns = dstore.GetItem('export', [i])
             
             if (columns['enabled'] == False):
@@ -242,17 +243,14 @@ class TimesStore():
             sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
             sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
             
-            #filter
+            #filter            
             aux_df = self.joinedDf
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
-            #print "po", aux_df
-            
             #last time from each user                    
             aux_df = aux_df.sort("time_raw")                                                                
             aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)                        
             aux_df.set_index('id',  drop=False, inplace = True)
-            #print "aa3", aux_df
             
             #sort again
             if(sort2 in aux_df.columns):
@@ -264,14 +262,9 @@ class TimesStore():
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
             
             
-            self.exportDf[i] = aux_df
-            
-            
-            
-#             #update db df
-#             self.userDf = psql.read_sql("SELECT * FROM users", db.getDb())            
-#             self.userDf = self.userDf[["club", "id"]]            
-#             self.exportDf[i] =  pd.merge(aux_df,  self.userDf, left_on='user_id', right_on="id", how="inner")                              
+            columns = tabExportSettings.exportgroups[i].GetAsList()
+            print columns
+            self.exportDf[i] = aux_df[columns]                            
              
         return self.joinedDf         
                                                                
@@ -557,6 +550,7 @@ class TimesStore():
                 
         #print points, rule
         return points
+    
 
 
 timesstore = TimesStore() 

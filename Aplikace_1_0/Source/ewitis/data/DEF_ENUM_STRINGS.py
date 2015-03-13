@@ -22,26 +22,7 @@ class STRINGS:
     PORT_CONNECT =  {False: "Disconnect", True: "Connect"}
     LANGUAGES = {Languages.CZECH: "čeština", Languages.ENGLISH:"english"}
     ORDER_EVALUATION = {OrderEvaluation.RACE:"Race", OrderEvaluation.SLALOM:"Slalom"}
-    EN2CZ = {
-             'id':                  u'id',
-             'nr':                  u'Číslo',             
-             'sex':                 u'Pohlaví',             
-             'order':               u'Pořadí',             
-             'order_cat':           u'Pořadí',             
-             'order_cat_cat':       u"Pořadí/Kategorie",             
-             'name':                u'Jméno',             
-             'birthday':            u'Ročník', #todo: nahradit year             
-             'year':                u'Ročník',             
-             'club':                u'Klub',             
-             'time':                u'Čas',             
-             'lap':                 u'Okruhy',             
-             'laptime':             u'Čas okruhu',             
-             'best_laptime':        u'Top okruh',             
-             'points':              u'Body',             
-             'points_cat':          u'Body',             
-             'points_groups':       u'Body',             
-             'gap':                 u'Ztráta'             
-    }
+
     
 class COLORS:
     green = "#90EE90"

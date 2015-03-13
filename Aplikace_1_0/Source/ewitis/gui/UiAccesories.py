@@ -89,6 +89,7 @@ class UiAccesories(UiaDialogs):
             if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
                 return
                 
+        print name, keys, value, type(value)
         dstore.SetItem(name, keys, value)
         #self.updateTab(tab)
         if callback != None:      

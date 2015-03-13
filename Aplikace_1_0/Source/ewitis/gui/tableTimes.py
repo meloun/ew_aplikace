@@ -560,61 +560,6 @@ class Times(myTable):
         print "A: Times: Recalculating.. press F5 to finish"
         return res
                  
-    
-
-
-            
-    def GetExportKeys(self, mode):            
-            
-        #"order", "nr", "order_cat", "name"
-        keys = []
-        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP):
-            keys = ["order", "nr", "order_cat_cat", "name"]                                                                      
-        elif(mode == myModel.eCATEGORY):                                       
-            keys = ["order_cat", "nr", "name"]                     
-        
-        # + "club", "sex", "lap", "time"
-        if(mode == myModel.eTOTAL) or (mode == myModel.eGROUP) or (mode == myModel.eCATEGORY):
-            if dstore.GetItem("export", ["year"]) == 2:                    
-                keys.append("birthday")
-            if dstore.GetItem("export", ["sex"]) == 2:                    
-                keys.append("sex")
-            if dstore.GetItem("export", ["club"]) == 2:                                       
-                keys.append("club")
-            # user_field_1             
-            if dstore.GetItem("export", ["option_1"]) == 2:                    
-                keys.append("o1")                    
-            # user_field_2             
-            if dstore.GetItem("export", ["option_2"]) == 2:
-                keys.append("o2")                                        
-            # user_field_3             
-            if dstore.GetItem("export", ["option_3"]) == 2:
-                keys.append("o3")                                                            
-            # user_field_4             
-            if dstore.GetItem("export", ["option_4"]) == 2:
-                keys.append("o4")                                                                                
-            # laps             
-            if dstore.GetItem("export", ["laps"]) == 2:
-                keys.append("lap")                                        
-            # laptime             
-            if dstore.GetItem("export", ["laptime"]) == 2:
-                keys.append("laptime")                                                            
-            # best laptime             
-            if dstore.GetItem("export", ["best_laptime"]) == 2:
-                keys.append("best_laptime")                                                            
-            
-            #time
-            keys.append("time")                                           
-                            
-            #body - total, categories, groups
-            if(dstore.GetItem("export", ["points1"]) == 2):                                                    
-                keys.append('points1')                
-            elif(dstore.GetItem("export", ["points2"]) == 2):                                                    
-                keys.append('points2')                 
-            elif(dstore.GetItem("export", ["points3"]) == 2):                                                    
-                keys.append('points3')                                                                                                
-        return keys
-
         
     '''
     export výsledků: F11 - result times, F10 - all times    
@@ -784,6 +729,40 @@ class Times(myTable):
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                            
         return exportDf
+    '''
+    export jednoho souboru s výsledky
+    '''    
+    def ExportToCsvFileNew(self, filename, df, category = None, group = None):
+
+        '''get the keys and strings'''                
+        if category != None:                                 
+            header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item              
+        elif group != None:            
+            header_strings = ["Skupina: " + group['name'], group['description']] #second line, first and last item
+        else:            
+            header_strings = ["", ""] #second line, first and last item                     
+        
+        
+        '''add & convert header, write to csv file'''
+        if len(df != 0):                         
+            #export header
+            header_length = len(df.columns)
+            header_racename = [dstore.GetItem("racesettings-app", ['race_name']),] + (header_length-1) * ['']
+            header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
+            
+            #convert header EN => CZ
+            tocz_dict = dstore.GetItem("export_sortkeys", ["tocz"])                                     
+            df.rename(columns = tocz_dict, inplace = True)               
+            df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])}, inplace = True)                           
+            
+            #export times (with collumn's names)            
+            try:              
+                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
+                df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")
+            except IOError:
+                uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+                           
+        return df
     
     def GetWinner(self, dfTimes, categoryname = None):
         winner = None
@@ -892,14 +871,12 @@ class Times(myTable):
             return
                             
         exported = {}
+        self.model.Update()
         timesstore.UpdateExportDf()        
         aux_df =  timesstore.exportDf[0]
-        mylist = tabExportSettings.exportgroups[0].GetAsList()
-        mylist.remove("enabled")
-        keys = dstore.Get("export_sortkeys")        
-        sortkeys =  sorted(mylist, key=lambda k: keys.index(k))        
-        #print "export df A:", aux_df
-        print "export df B:", aux_df[sortkeys] 
+        #mylist = tabExportSettings.exportgroups[0].GetAsList()
+        print "export df B:", aux_df #[mylist] 
+        self.ExportToCsvFileNew("test.csv", aux_df)
         return
                    
                         

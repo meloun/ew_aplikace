@@ -21,6 +21,7 @@ class FilterSortGroup():
         ui = Ui()        
         self.index = index
                                 
+        self.type = getattr(ui,    "comboExportType_" + str(index+1))
         self.filter = getattr(ui,    "comboExportFilter_" + str(index+1))
         self.sort1 = getattr(ui, "comboExportSort1_" + str(index+1))                                
         self.sortorder1 = getattr(ui,  "comboExportSortOrder1_" + str(index+1))
@@ -30,6 +31,7 @@ class FilterSortGroup():
     def CreateSlots(self):
         
         
+        QtCore.QObject.connect(self.type, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("export_filtersort", [self.index, "type"], utils.toUnicode(x)))
         QtCore.QObject.connect(self.filter, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("export_filtersort", [self.index, "filter"], utils.toUnicode(x)))
                       
         QtCore.QObject.connect(self.sort1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("export_filtersort", [self.index, "sort1"], utils.toUnicode(x)))                          
@@ -42,6 +44,7 @@ class FilterSortGroup():
         return dstore.GetItem("export_filtersort", [self.index])
      
     def setEnabled(self, enabled):
+        self.type.setEnabled(enabled)
         self.filter.setEnabled(enabled)   
         self.sort1.setEnabled(enabled)        
         self.sortorder1.setEnabled(enabled)
@@ -52,6 +55,7 @@ class FilterSortGroup():
         # set values from datastore              
         info = self.GetInfo()                                
                                                      
+        uiAccesories.SetCurrentIndex(self.type, info["type"])
         uiAccesories.SetCurrentIndex(self.filter, info["filter"])        
          
         uiAccesories.SetCurrentIndex(self.sort1, info["sort1"])
@@ -101,8 +105,7 @@ class ExportGroup():
                 
         self.option = [None] * NUMBER_OF.OPTIONCOLUMNS                
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
-            self.option[i] = getattr(ui, "checkExportOption_"+str(i+1)+"_" + str(index+1))        
-        self.optionname = getattr(ui, "lineExportOptionname_"+str(index+1))
+            self.option[i] = getattr(ui, "checkExportOption_"+str(i+1)+"_" + str(index+1))
                                 
         self.gap = getattr(ui, "checkExportGap_" + str(index+1))
         
@@ -122,9 +125,9 @@ class ExportGroup():
         
         #three columns groups
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "time", idx], state, self.Update)) 
-            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "order", idx], state, self.Update))
-            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: uiAccesories.sGuiSetItem("export", [self.index, "lap" , idx], state, self.Update))                                            
+            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "time"+str(idx+1)], state, self.Update)) 
+            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "order"+str(idx+1)], state, self.Update))
+            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: uiAccesories.sGuiSetItem("export", [self.index, "lap"+str(idx+1)], state, self.Update))                                            
                
         QtCore.QObject.connect(self.nr, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: uiAccesories.sGuiSetItem("export", [idx, "nr"], state, self.Update))                                
         QtCore.QObject.connect(self.name, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: uiAccesories.sGuiSetItem("export", [idx, "name"], state, self.Update))                                
@@ -134,13 +137,13 @@ class ExportGroup():
         QtCore.QObject.connect(self.club, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: uiAccesories.sGuiSetItem("export", [idx, "club"], state, self.Update))
                                 
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
-            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "option", idx], state, self.Update))
-            QtCore.QObject.connect(self.optionname, QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "optionname", idx], utils.toUnicode(name)))
+            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "option"+str(idx+1)], state, self.Update))
+            #QtCore.QObject.connect(self.optionname, QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "optionname", idx], utils.toUnicode(name)))
             
 
         QtCore.QObject.connect(self.gap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", [self.index, "gap"], state, self.Update))
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "points", idx], state, self.Update)) 
+            QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "points"+str(idx+1)], state, self.Update)) 
                 
 
     def setEnabled(self, enabled):
@@ -166,8 +169,12 @@ class ExportGroup():
         
     
     def GetInfo(self):        
-        return dstore.GetItem("export", [self.index])          
+        return dstore.GetItem("export", [self.index])    
+          
     def GetAsList(self):
+        """
+        vrací list zaškrtnutých sloupců, seřazených podle "export_sortkeys"
+        """
         info = self.GetInfo()
         aux_list = []
         
@@ -181,7 +188,13 @@ class ExportGroup():
             else:
                 for i,v2 in enumerate(v):
                     if isinstance(v2, int) and (v2 !=0):                
-                        aux_list.append(k+str(i+1))                                                 
+                        aux_list.append(k+str(i+1))
+                        
+        #sort
+        aux_list.remove("enabled")
+        keys = dstore.GetItem("export_sortkeys", ["sorted"]) 
+        print aux_list       
+        aux_list =  sorted(aux_list, key=lambda k: keys.index(k))                                                  
         return aux_list
 
     
@@ -191,10 +204,11 @@ class ExportGroup():
         self.setEnabled(export_info["enabled"])
         
         #three columns groups               
+        #print export_info
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            self.time[i].setCheckState(export_info["time"][i])
-            self.lap[i].setCheckState(export_info["lap"][i])                                
-            self.order[i].setCheckState(export_info["order"][i])             
+            self.time[i].setCheckState(export_info["time"+str(i+1)])
+            self.lap[i].setCheckState(export_info["lap"+str(i+1)])                              
+            self.order[i].setCheckState(export_info["order"+str(i+1)])             
 
         
         self.nr.setCheckState(export_info["nr"])                                
@@ -206,11 +220,130 @@ class ExportGroup():
         #self.laptime.setCheckState(export_info["laptime"])
         #self.bestlaptime.setCheckState(export_info["best_laptime"])
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
-            self.option[i].setCheckState(export_info["option"][i])
-        self.optionname.setText(export_info["optionname"][i])
+            self.option[i].setCheckState(export_info["option"+str(i+1)])
+        #self.optionname.setText(export_info["optionname"][i])
         self.gap.setCheckState(export_info["gap"])
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
-            self.points[i].setCheckState(export_info["points"][i])
+            self.points[i].setCheckState(export_info["points"+str(i+1)]) 
+            
+class NamesGroup():
+    
+    def __init__(self):
+        '''
+        Constructor
+        group items as class members
+        format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
+        '''
+        ui = Ui()
+        
+        #three columns groups
+        self.time = [None] * NUMBER_OF.THREECOLUMNS
+        self.lap = [None] * NUMBER_OF.THREECOLUMNS        
+        self.order = [None] * NUMBER_OF.THREECOLUMNS        
+        self.points = [None] * NUMBER_OF.THREECOLUMNS  
+              
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            self.time[i] = getattr(ui, "lineExportNameTime"+str(i+1)) 
+            self.lap[i] = getattr(ui, "lineExportNameLap"+str(i+1))
+            self.order[i] = getattr(ui, "lineExportNameOrder"+str(i+1))
+            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
+         
+         
+        self.nr = getattr(ui, "lineExportNameNr")
+        self.name = getattr(ui, "lineExportNameName")
+        self.category = getattr(ui, "lineExportNameCategory")
+        self.year = getattr(ui, "lineExportNameYear")        
+        self.sex = getattr(ui, "lineExportNameSex")        
+        self.club = getattr(ui, "lineExportNameClub")        
+
+                
+        self.option = [None] * NUMBER_OF.OPTIONCOLUMNS                
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
+            self.option[i] = getattr(ui, "lineExportNameOption"+str(i+1))        
+                                
+        self.gap = getattr(ui, "lineExportNameGap")                                                  
+        
+    def Init(self):        
+        self.Update()
+        self.createSlots()            
+
+    def CreateSlots(self):
+        
+        #three columns groups
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "time"+str(idx+1)], str(name), self.Update)) 
+            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "order"+str(idx+1)], str(name), self.Update))
+            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "lap"+str(idx+1)], str(name), self.Update))                                            
+               
+        QtCore.QObject.connect(self.nr, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "nr"], str(name), self.Update))                                
+        QtCore.QObject.connect(self.name, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "name"], str(name), self.Update))                                
+        QtCore.QObject.connect(self.category, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "category"], str(name), self.Update))                                
+        QtCore.QObject.connect(self.year, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "year"], str(name), self.Update))                                
+        QtCore.QObject.connect(self.sex, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "sex"], str(name), self.Update))                                
+        QtCore.QObject.connect(self.club, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "club"], str(name), self.Update))
+                                
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
+            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("stateChanged(int)"),  lambda name, idx = i: uiAccesories.sGuiSetItem("expexport_sortkeysort", ["tocz", "option"+str(idx+1)], str(name), self.Update))
+            #QtCore.QObject.connect(self.optionname, QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", [self.index, "optionname", idx], utils.toUnicode(name)))
+            
+
+        QtCore.QObject.connect(self.gap, QtCore.SIGNAL("stateChanged(int)"),  lambda name: uiAccesories.sGuiSetItem("export_sortkeys", [self.index, "gap"], str(name), self.Update))
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("stateChanged(int)"),  lambda name, idx = i: uiAccesories.sGuiSetItem("export_sortkeys", ["tocz", "points"+str(idx+1)], str(name), self.Update)) 
+                
+
+    def setEnabled(self, enabled):
+        
+        self.enable.setChecked(enabled)
+        
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                
+            self.time[i].setEnabled(enabled)         
+            self.lap[i].setEnabled(enabled)          
+            self.order[i].setEnabled(enabled)            
+        self.nr.setEnabled(enabled)        
+        self.name.setEnabled(enabled)        
+        self.category.setEnabled(enabled)        
+        self.year.setEnabled(enabled)        
+        self.sex.setEnabled(enabled)          
+        self.club.setEnabled(enabled)    
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
+            self.option[i].setEnabled(enabled) 
+        #self.optionname.setEnabled(enabled) #spolecne pro vsechny
+        self.gap.setEnabled(enabled) 
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
+            self.points[i].setEnabled(enabled) 
+        
+    
+    def GetInfo(self):        
+        return dstore.GetItem("export_sortkeys", ["tocz"])    
+
+    
+    def Update(self):
+        info = self.GetInfo()
+        print "I",info
+        
+#         #three columns groups               
+#         #print export_info
+#         for i in range(0, NUMBER_OF.THREECOLUMNS):
+#             self.time[i].setCheckState(export_info["time"+str(i+1)])
+#             self.lap[i].setCheckState(export_info["lap"+str(i+1)])                              
+#             self.order[i].setCheckState(export_info["order"+str(i+1)])             
+# 
+#         
+#         self.nr.setCheckState(export_info["nr"])                                
+#         self.name.setCheckState(export_info["name"])                                
+#         self.category.setCheckState(export_info["category"])                                
+#         self.year.setCheckState(export_info["year"])                                
+#         self.sex.setCheckState(export_info["sex"])                                
+#         self.club.setCheckState(export_info["club"])                                
+#         #self.laptime.setCheckState(export_info["laptime"])
+#         #self.bestlaptime.setCheckState(export_info["best_laptime"])
+#         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
+#             self.option[i].setCheckState(export_info["option"+str(i+1)])
+#         #self.optionname.setText(export_info["optionname"][i])
+#         self.gap.setCheckState(export_info["gap"])
+#         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
+#             self.points[i].setCheckState(export_info["points"+str(i+1)]) 
         
         
 
@@ -230,13 +363,20 @@ class TabExportSettings():
         print "tabExportSettings: adding slots"
         
         #exportgroups - year, club, etc.
+        self.namesgroup = [None] * NUMBER_OF.EXPORTS
         self.exportgroups = [None] * NUMBER_OF.EXPORTS
+        self.filtersortgroups = [None] * NUMBER_OF.EXPORTS
         self.filtersortgroups = [None] * NUMBER_OF.EXPORTS
         for i in range(0, NUMBER_OF.EXPORTS):            
             self.exportgroups[i] = ExportGroup(i)
             self.exportgroups[i].CreateSlots()
             self.filtersortgroups[i] = FilterSortGroup(i)
             self.filtersortgroups[i].CreateSlots()
+        self.namesgroup = NamesGroup()
+        self.namesgroup.CreateSlots()
+        
+            
+        
             
         QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export_laps", ["column"], 0, self.Update) if index else None)
         QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export_laps", ["column"], 1, self.Update) if index else None) 
