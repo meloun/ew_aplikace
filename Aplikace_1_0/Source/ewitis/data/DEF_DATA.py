@@ -239,6 +239,15 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                                },
+        "export_header"      : {"name"     : "export_filtersort",
+                                "permanent": True,
+                                "GET_SET"  : {"value": [{
+                                                "racename"               : u"%race%",
+                                                "categoryname"           : u"%category%"                                                                                                                                                                                                                                                                                                                           
+                                                }] * NUMBER_OF.EXPORTS,                                              
+                                              "changed": True
+                                              }  
+                                },
         "export_filtersort"  : {"name"     : "export_filtersort",
                                 "permanent": True,
                                 "GET_SET"  : {"value": [{

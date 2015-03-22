@@ -434,12 +434,12 @@ class TimesStore():
         rule = rule.lower()
         
         #check if data exist
-    #     if ("time1" in rule) and (dbTime['time1'] == None):    
-    #         return None
-    #     if ("time2" in rule) and (dbTime['time2'] == None):        
-    #         return None
-    #     if ("time3" in rule) and (dbTime['time3'] == None):        
-    #         return None
+        if ("time1" in rule) and (dbTime['time1'] == None):    
+            return None
+        if ("time2" in rule) and (dbTime['time2'] == None):        
+            return None
+        if ("time3" in rule) and (dbTime['time3'] == None):        
+            return None
     
         
         

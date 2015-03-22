@@ -12,6 +12,31 @@ from ewitis.gui.Ui import Ui
 from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 
+class HeaderGroup():    
+    def __init__(self,  index):
+        '''
+        Constructor
+        group items as class members        
+        '''
+        ui = Ui()        
+        self.index = index
+                                
+        self.racename = getattr(ui, "lineExportHeaderRace"+str(index+1))  
+        self.categoryname = getattr(ui, "lineExportHeaderCategory"+str(index+1))                                            
+
+    def CreateSlots(self):                
+        QtCore.QObject.connect(self.racename, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_header", ["header", self.index, "racename"],  utils.toUnicode(name), self.Update))                 
+        QtCore.QObject.connect(self.categoryname, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_header", ["header", self.index, "categoryname"],  utils.toUnicode(name), self.Update))        
+            
+    def GetInfo(self):
+        return dstore.GetItem("export_header", [self.index])
+    
+    def Update(self):        
+        # set values from datastore              
+        info = self.GetInfo() 
+        uiAccesories.UpdateText(self.racename, info["racename"])  
+        uiAccesories.UpdateText(self.categoryname, info["categoryname"])                                            
+
 class FilterSortGroup():    
     def __init__(self,  index):
         '''
@@ -169,8 +194,13 @@ class ExportGroup():
     def GetCheckedInfo(self):        
         return dstore.GetItem("export", ["checked", self.index])    
     
-    def IsEnabled(self):        
-        return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index])) 
+    def IsEnabled(self, key = None):
+        if key == "csv":
+            return bool(dstore.GetItem("export", ["enabled_csv", self.index]))
+        elif key == "htm":
+            return bool(dstore.GetItem("export", ["enabled_htm", self.index]))
+        else:                  
+            return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index])) 
               
     def GetCheckedCollumns(self):
         """
@@ -194,8 +224,17 @@ class ExportGroup():
         
         self.setEnabled(self.IsEnabled())
         
-        self.enable_csv.setChecked(dstore.GetItem("export", ["enabled_csv", self.index]))
-        self.enable_htm.setChecked(dstore.GetItem("export", ["enabled_htm", self.index]))
+        enabled_csv_state = dstore.GetItem("export", ["enabled_csv", self.index])
+        self.enable_csv.setChecked(enabled_csv_state)
+        font = self.enable_csv.font()
+        font.setBold(enabled_csv_state)
+        self.enable_csv.setFont(font)
+        
+        enabled_htm_state = dstore.GetItem("export", ["enabled_htm", self.index])
+        self.enable_htm.setChecked(enabled_htm_state)
+        font = self.enable_htm.font()
+        font.setBold(enabled_htm_state)
+        self.enable_htm.setFont(font)
         
         #three columns groups               
         #print export_info
@@ -350,12 +389,15 @@ class TabExportSettings():
         #exportgroups - year, club, etc.
         self.namesgroup = [None] * NUMBER_OF.EXPORTS
         self.exportgroups = [None] * NUMBER_OF.EXPORTS
+        self.headergroups = [None] * NUMBER_OF.EXPORTS 
         self.filtersortgroups = [None] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):            
-            self.exportgroups[i] = ExportGroup(i)
-            self.exportgroups[i].CreateSlots()
+            self.headergroups[i] = HeaderGroup(i)
+            self.headergroups[i].CreateSlots()
             self.filtersortgroups[i] = FilterSortGroup(i)
             self.filtersortgroups[i].CreateSlots()
+            self.exportgroups[i] = ExportGroup(i)
+            self.exportgroups[i].CreateSlots()
         self.namesgroup = NamesGroup()
         self.namesgroup.CreateSlots()
         
@@ -368,8 +410,8 @@ class TabExportSettings():
         QtCore.QObject.connect(Ui().radioExportLapsPoints_2,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export_laps", ["column"], 3, self.Update) if index else None) 
         QtCore.QObject.connect(Ui().radioExportLapsPoints_3,  QtCore.SIGNAL("toggled(bool)"), lambda index: uiAccesories.sGuiSetItem("export_laps", ["column"], 4, self.Update) if index else None)                                       
             
-    def IsEnabled(self, index):
-        return self.exportgroups[index].IsEnabled()
+    def IsEnabled(self, index, key = None):
+        return self.exportgroups[index].IsEnabled(key)
          
     def Update(self, mode = UPDATE_MODE.all):                                
                                                   
@@ -377,8 +419,9 @@ class TabExportSettings():
         #exportgroups
         self.namesgroup.Update()             
         for i in range(0, NUMBER_OF.EXPORTS):
-            self.exportgroups[i].Update()
+            self.headergroups[i].Update()
             self.filtersortgroups[i].Update()            
+            self.exportgroups[i].Update()
             
             
             column = dstore.GetItem("export_laps", ["column"])

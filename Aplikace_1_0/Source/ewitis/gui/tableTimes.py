@@ -515,10 +515,10 @@ class Times(myTable):
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
                                        
         #export  all times        
-        QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
+        #QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
         
         #export  laptimes        
-        QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
+        #QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
         
         
            
@@ -695,18 +695,17 @@ class Times(myTable):
     '''    
     def ExportToHtmFile(self, filename, df):
         title = "Table '"+self.name + "' HTM Export"
-        try:
-            print "WWW", filename, df.columns                                                                
-            print "WWWDF", df                                                                
+        try:                                                               
             html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= ["css/results.css",], lists = df.values, keys = df.columns)                                                                            
             html_page.save()                                                                                                         
             uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
         except IOError:            
             uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                 
-    def ExportToCsvFileNew(self, filename, df, category = None, group = None):
+    def ExportToCsvFileNew(self, filename, racename, df, category = None, group = None):
 
-        '''get the keys and strings'''                
+        '''get the keys and strings'''
+                      
         if category != None:                                 
             header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item              
         elif group != None:            
@@ -720,13 +719,13 @@ class Times(myTable):
         if len(aux_df != 0):  
             #export header
             header_length = len(aux_df.columns)
-            header_racename = [dstore.GetItem("racesettings-app", ['race_name']),] + (header_length-1) * ['']
+            header_racename = [racename,] + (header_length-1) * ['']
             header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
             
             #convert header EN => CZ
             tocz_dict = dstore.GetItem("export", ["names"])                                                 
             aux_df = aux_df.rename(columns = tocz_dict)                                                              
-            aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
+            #aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
             
             
             #export times (with collumn's names)            
@@ -774,8 +773,13 @@ class Times(myTable):
             
         exported_string = ""
         for key in sorted(exported.keys()):
-            exported_string += key + " : " + str(exported[key])+" times\n"        
-        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)   
+            exported_string += key + " : " + str(exported[key])+" times\n"   
+        
+        if export_type == Times.eHTM_EXPORT:     
+            uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.statusbar)
+        else:
+            uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
+           
             
     def sExportHtm(self):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
@@ -784,11 +788,7 @@ class Times(myTable):
         
         #get filename, gui dialog  
         racename = dstore.GetItem("racesettings-app", ['race_name'])      
-        dirname = utils.get_filename("export/www/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
-        try:
-            os.makedirs(dirname)
-        except OSError:
-            dirname = "export/"
+        dirname = utils.get_filename("export/www/")
                                          
         if(dirname == ""):
             return        
@@ -797,14 +797,14 @@ class Times(myTable):
                 
         for i in range(0, NUMBER_OF.EXPORTS): 
             
-            if (tabExportSettings.IsEnabled(i) == False):
+            if (tabExportSettings.IsEnabled(i, "htm") == False):
                 continue
             
             df =  timesstore.exportDf[i]                     
         
             #complete export
             if(len(df) != 0):
-                self.ExportToHtmFile("export/"+"e"+str(i)+"_"+racename+".htm", df)            
+                self.ExportToHtmFile(dirname+"e"+str(i+1)+"_"+racename+".htm", df)            
                 exported["total"] = len(df)
                  
         return exported
@@ -830,25 +830,34 @@ class Times(myTable):
                 
         for i in range(0, NUMBER_OF.EXPORTS): 
             
-            if (tabExportSettings.IsEnabled(i) == False):
+            if (tabExportSettings.IsEnabled(i, "csv") == False):
                 continue
             
             df =  timesstore.exportDf[i]                     
         
+            #get racename
+            header = dstore.GetItem("export_header", [i])             
+            racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))            
+                        
             #complete export
             if(len(df) != 0):
-                self.ExportToCsvFileNew("export/"+racename+".csv", df)            
+                self.ExportToCsvFileNew(dirname+racename+".csv", racename, df)            
                 exported["total"] = len(df)
             
             #category export                
             c_df = timesstore.exportDf[i]           
             c_df = c_df.set_index("category")
-            category_groupby = c_df.groupby(c_df.index)            
+            category_groupby = c_df.groupby(c_df.index)
             for c_name, c_df in category_groupby:                
                 if(len(c_df) != 0):
                     category = tableCategories.getTabCategoryParName(c_name)
-                    filename = utils.get_filename("c_"+c_name)                    
-                    self.ExportToCsvFileNew("export/"+filename+".csv", c_df, category = category)
+                    
+                    #add prefix and suffix 
+                    c_name =  header["categoryname"].replace("%category%", c_name)
+                    category["name"] = c_name
+                   
+                    filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)                    
+                    self.ExportToCsvFileNew(dirname+filename+".csv", racename, c_df, category = category)
                     exported[filename] = len(c_df) 
                     
             #group export
@@ -856,12 +865,15 @@ class Times(myTable):
             g_df = timesstore.exportDf[i]
             for x in range(1,11):                
                 g_label = "g"+str(x)
-                values = tableCategories.getCategoryNamesParGroupLabel(g_label)                
-                aux_df = g_df[g_df["category"].astype(str).isin([str(v) for v in values])]                                               
+                values = tableCategories.getCategoryNamesParGroupLabel(g_label)   
+                #print "VALUES", values
+                categories = values 
+                #print type(categories[0])#[str(v) for v in values]             
+                aux_df = g_df[g_df["category"].isin(categories)]                                               
                 if(len(aux_df) != 0):
                     group = tableCGroups.getTabCGrouptParLabel(g_label)
-                    filename = utils.get_filename("e"+str(i)+"_"+g_label+"__"+group["name"])                                
-                    self.ExportToCsvFileNew("export/"+filename+".csv", aux_df, group = group)                                       
+                    filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
+                    self.ExportToCsvFileNew(dirname+filename+".csv", racename, aux_df, group = group)                                       
                     exported[filename] = len(aux_df)
                 
 
