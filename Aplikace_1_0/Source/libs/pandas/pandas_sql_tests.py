@@ -45,7 +45,7 @@ if __name__ == "__main__":
     print df1
     print "groupby", df1.groupby('run_id')
     
-    df1.groupby('run_id')[run_id=6]
+    df1.groupby('run_id')[run_id==6]
     
     for item in df1.groupby('run_id'):
         print "user"

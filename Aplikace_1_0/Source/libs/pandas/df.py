@@ -32,7 +32,10 @@ left = pd.DataFrame ({'id1': [1, 2, 3], 'key2': ['one', 'two', 'three'], 'lval':
 right = pd.DataFrame({'id2': [3, 2, 1], 'key2': ['one', 'three', 'two'], 'rval': [4, 5, 6]})
 
 
-
+print df
+print df.values
+for row in df:
+    print row
 
 #print "filter",df[df['cell'].astype(str).str.match('2$')]
 
@@ -44,8 +47,8 @@ right = pd.DataFrame({'id2': [3, 2, 1], 'key2': ['one', 'three', 'two'], 'rval':
 #print left
 #print right
 #c = right.set_index('id')
-print "1============================================="
-print pd.merge(left,right, left_on='id1', right_on="id2", how="outer")
+#print "1============================================="
+#print pd.merge(left,right, left_on='id1', right_on="id2", how="outer")
 #print left.update(right)
 
 #print right[['id', 'rval']]

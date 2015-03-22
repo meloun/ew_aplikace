@@ -21,7 +21,15 @@ print df
 
 grouped = df.groupby('A')
 
-print grouped.last()
+
+
+
+for a, group in grouped:
+    print group.drop('A', 1)
+    
+print grouped.get_group('foo')
+
+#print grouped.last()
 
 
 #print grouped.size()

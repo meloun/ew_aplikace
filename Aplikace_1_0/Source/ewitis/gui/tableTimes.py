@@ -31,6 +31,7 @@ import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 #import ewitis.gui.TimesStartTimes as TimesStarts
 from ewitis.gui.TimesStore import TimesStore, timesstore
+import ewitis.exports.ewitis_html as ew_html
 
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
@@ -452,7 +453,7 @@ class TimesProxyModel(myProxyModel):
 # view <- proxymodel <- model 
 class Times(myTable):   
     
-    (eRESULT_TIMES, eALL_TIMES, eLAP_TIMES) = range(0,3)
+    (eCSV_EXPORT, eHTM_EXPORT) = range(0,2)
       
     def  __init__(self):                
         
@@ -506,17 +507,18 @@ class Times(myTable):
         
          
         #export direct www
-        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myModel.eWWW, False))
+        #QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myModel.eWWW, False))
+        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
         
         #export result times        
         #if (self.gui['aDirectExportCategories'] != None):                                   
-        QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eRESULT_TIMES))
+        QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
                                        
         #export  all times        
-        QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eALL_TIMES))
+        QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
         
         #export  laptimes        
-        QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eLAP_TIMES))
+        QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
         
         
            
@@ -566,72 +568,72 @@ class Times(myTable):
     - tabRow2exportRow vrací slovník s požadovanými hodnotami
     - jeden čas = jeden řádek     
     '''
-    def ExportToDf(self, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):                
-        
-        winner = None
-        
-        '''get keys (and winner)'''
-        if category != None:
-            #get winner
-            if(export_type == self.eRESULT_TIMES):                
-                winner = self.GetWinner(proxymodelDf, category['name'])                       
-            keys = self.GetExportKeys(myModel.eCATEGORY)                          
-        elif group != None:
-            keys = self.GetExportKeys(myModel.eGROUP)            
-        else:
-            #get winner
-            if(export_type == self.eRESULT_TIMES):                
-                winner = self.GetWinner(proxymodelDf)  
-            keys = self.GetExportKeys(myModel.eTOTAL)   
-            
-        #filter: no starttime
-        proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']
-         
-        #filter: category
-        if category != None:
-            proxymodelDf = proxymodelDf[proxymodelDf['category'] == category['name']]
-            
-        #filter: group
-        if group != None:            
-            cat_names = tableCategories.getCategoryNamesParGroupLabel(group['label'])
-            proxymodelDf = proxymodelDf[proxymodelDf['category'].isin(cat_names)]                
-                           
-            
-        '''fill the list (with matching rows/dicts)'''
-        listRows = [] 
-        for index, tabRow in proxymodelDf.iterrows():                 
-            
-            #vrací slovník s požadovanými hodnotami                       
-            exportRow = self.model.tabRow2exportRow(tabRow, keys)                        
-            
-            #add gap (according to winner)
-            if (dstore.GetItem("export", ["gap"]) == 2) and (winner != None):                
-                if ('lap1' in tabRow) and ('time1' in tabRow):                                           
-                    exportRow['gap'] = self.model.order.GetGap(tabRow['lap1'], tabRow['time1'], winner['lap1'], winner['time1']) 
-                    if ('gap' in keys) == False:
-                        keys.append('gap')                                
-            
-            # no values, take next
-            if exportRow == None:
-                continue
-            
-            # append to the list                 
-            dbTime = self.getDbRow(tabRow['id'])
-            if (export_type == self.eALL_TIMES) or (self.model.order.IsResultTime(dbTime) == True):                                                                   
-                listRows.append(exportRow)
-                                  
-        if listRows != []:
-            print "===="
-            if category:
-                print "category: ", category['name']
-            if group:
-                print "group: ", group['label'], group['name']            
-            print "===="
-            
-            #get dataframe (from dicts, keys určují pořadí)
-            return pd.DataFrame(listRows, columns = keys)
-                
-        return pd.DataFrame({}, columns = keys)
+#     def ExportToDf(self, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):                
+#         
+#         winner = None
+#         
+#         '''get keys (and winner)'''
+#         if category != None:
+#             #get winner
+#             if(export_type == self.eRESULT_TIMES):                
+#                 winner = self.GetWinner(proxymodelDf, category['name'])                       
+#             keys = self.GetExportKeys(myModel.eCATEGORY)                          
+#         elif group != None:
+#             keys = self.GetExportKeys(myModel.eGROUP)            
+#         else:
+#             #get winner
+#             if(export_type == self.eRESULT_TIMES):                
+#                 winner = self.GetWinner(proxymodelDf)  
+#             keys = self.GetExportKeys(myModel.eTOTAL)   
+#             
+#         #filter: no starttime
+#         proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']
+#          
+#         #filter: category
+#         if category != None:
+#             proxymodelDf = proxymodelDf[proxymodelDf['category'] == category['name']]
+#             
+#         #filter: group
+#         if group != None:            
+#             cat_names = tableCategories.getCategoryNamesParGroupLabel(group['label'])
+#             proxymodelDf = proxymodelDf[proxymodelDf['category'].isin(cat_names)]                
+#                            
+#             
+#         '''fill the list (with matching rows/dicts)'''
+#         listRows = [] 
+#         for index, tabRow in proxymodelDf.iterrows():                 
+#             
+#             #vrací slovník s požadovanými hodnotami                       
+#             exportRow = self.model.tabRow2exportRow(tabRow, keys)                        
+#             
+#             #add gap (according to winner)
+#             if (dstore.GetItem("export", ["gap"]) == 2) and (winner != None):                
+#                 if ('lap1' in tabRow) and ('time1' in tabRow):                                           
+#                     exportRow['gap'] = self.model.order.GetGap(tabRow['lap1'], tabRow['time1'], winner['lap1'], winner['time1']) 
+#                     if ('gap' in keys) == False:
+#                         keys.append('gap')                                
+#             
+#             # no values, take next
+#             if exportRow == None:
+#                 continue
+#             
+#             # append to the list                 
+#             dbTime = self.getDbRow(tabRow['id'])
+#             if (export_type == self.eALL_TIMES) or (self.model.order.IsResultTime(dbTime) == True):                                                                   
+#                 listRows.append(exportRow)
+#                                   
+#         if listRows != []:
+#             print "===="
+#             if category:
+#                 print "category: ", category['name']
+#             if group:
+#                 print "group: ", group['label'], group['name']            
+#             print "===="
+#             
+#             #get dataframe (from dicts, keys určují pořadí)
+#             return pd.DataFrame(listRows, columns = keys)
+#                 
+#         return pd.DataFrame({}, columns = keys)
     
     '''
     export časů okruhu (F9)
@@ -691,47 +693,17 @@ class Times(myTable):
     '''
     export jednoho souboru s výsledky
     '''    
-    def ExportToCsvFile(self, filename, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):
-
-        '''get the keys and strings'''                
-        if category != None:                                 
-            header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item              
-        elif group != None:            
-            header_strings = ["Skupina: " + group['name'], group['description']] #second line, first and last item
-        else:            
-            header_strings = ["", ""] #second line, first and last item              
-         
-        '''create export dataframe'''        
-        if (export_type == self.eRESULT_TIMES) or (export_type == self.eALL_TIMES):
-            exportDf = self.ExportToDf(proxymodelDf, category, group, export_type = export_type)                  
-        elif(export_type == self.eLAP_TIMES):
-            exportDf = self.ExportToDf_laps(proxymodelDf, category, group)            
-        else:
-            print "FATAL ERROR"        
-        
-        
-        '''add & convert header, write to csv file'''
-        if len(exportDf != 0):                         
-            #export header
-            header_length = len(exportDf.columns)
-            header_racename = [dstore.GetItem("racesettings-app", ['race_name']),] + (header_length-1) * ['']
-            header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
-            
-            #convert header EN => CZ                        
-            exportDf.rename(columns = STRINGS.EN2CZ, inplace = True)               
-            exportDf.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])}, inplace = True)                           
-            
-            #export times (with collumn's names)            
-            try:              
-                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
-                exportDf.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")
-            except IOError:
-                uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
-                           
-        return exportDf
-    '''
-    export jednoho souboru s výsledky
-    '''    
+    def ExportToHtmFile(self, filename, df):
+        title = "Table '"+self.name + "' HTM Export"
+        try:
+            print "WWW", filename, df.columns                                                                
+            print "WWWDF", df                                                                
+            html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= ["css/results.css",], lists = df.values, keys = df.columns)                                                                            
+            html_page.save()                                                                                                         
+            uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
+        except IOError:            
+            uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+                
     def ExportToCsvFileNew(self, filename, df, category = None, group = None):
 
         '''get the keys and strings'''                
@@ -743,26 +715,28 @@ class Times(myTable):
             header_strings = ["", ""] #second line, first and last item                     
         
         
-        '''add & convert header, write to csv file'''
-        if len(df != 0):                         
+        '''add & convert header, write to csv file'''        
+        aux_df = df
+        if len(aux_df != 0):  
             #export header
-            header_length = len(df.columns)
+            header_length = len(aux_df.columns)
             header_racename = [dstore.GetItem("racesettings-app", ['race_name']),] + (header_length-1) * ['']
             header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
             
             #convert header EN => CZ
-            tocz_dict = dstore.GetItem("export_sortkeys", ["tocz"])                                     
-            df.rename(columns = tocz_dict, inplace = True)               
-            df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])}, inplace = True)                           
+            tocz_dict = dstore.GetItem("export", ["names"])                                                 
+            aux_df = aux_df.rename(columns = tocz_dict)                                                              
+            aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
+            
             
             #export times (with collumn's names)            
             try:              
                 pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
-                df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")
+                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")                
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                            
-        return df
+        return aux_df
     
     def GetWinner(self, dfTimes, categoryname = None):
         winner = None
@@ -782,143 +756,117 @@ class Times(myTable):
         
     '''
      F11 - konečné výsledky, 1 čas na řádek
-    '''
-    def sExportDirectOld(self, export_type = eRESULT_TIMES):        
-        suffix = ""
-        if(export_type == self.eALL_TIMES):
-            suffix = "_at"
-        elif(export_type == self.eLAP_TIMES):
-            suffix = "_laps"
+    '''                                    
+    def sExportDirect(self, export_type = eCSV_EXPORT):
         
+        #update dataframes for export
+        self.model.Update()
+        timesstore.UpdateExportDf()
         
-        #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
-        #if ret == False: #cancel button
-        #    return         
-        
-        #get filename, gui dialog        
-        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.GetItem("racesettings-app", ['race_name'])+suffix+"/")
-        try:
-            os.makedirs(dirname)
-        except OSError:
-            dirname = "export/"
-                                         
-        if(dirname == ""):
+        exported = {}
+        if export_type == Times.eCSV_EXPORT:
+            exported = self.sExportCsv()
+        elif export_type == Times.eHTM_EXPORT:
+            exported = self.sExportHtm()
+        else:
+            uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
             return
-                            
-        exported = {}        
-        proxymodelDf = self.proxy_model.df()
-                   
-                        
-        '''1. TOTAL'''
-        #get name
-        name = utils.get_filename("_"+dstore.GetItem("racesettings-app", ['race_name']))                
-        
-        #write to csv
-        df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, export_type = export_type)
-        if(len(df) != 0):
-            exported["total"] = len(df)
             
-        '''2. CATEGORIES'''
-        dbCategories = tableCategories.getDbRows()                      
-        for dbCategory in dbCategories:
-            
-            #get name
-            name = utils.get_filename("c_"+dbCategory['name'])                                              
-                     
-            #write to csv            
-            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, category = dbCategory,  export_type = export_type)             
-            if(len(df) != 0):
-                exported[name] = len(df) 
-            
-        '''3. GROUPS'''                   
-        dbCGroups = tableCGroups.getDbRows()                                                            
-        for dbCGroup in dbCGroups:
-               
-            #get name
-            name = utils.get_filename("g_"+dbCGroup['label'])
-             
-            #write to csv
-            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, group = dbCGroup, export_type= export_type)
-            if(len(df) != 0):
-                exported[name] = len(df) 
-            
-        
         exported_string = ""
         for key in sorted(exported.keys()):
             exported_string += key + " : " + str(exported[key])+" times\n"        
-        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
-                                    
-    def sExportDirect(self, export_type = eRESULT_TIMES):        
-        suffix = ""
-        if(export_type == self.eALL_TIMES):
-            suffix = "_at"
-        elif(export_type == self.eLAP_TIMES):
-            suffix = "_laps"
-        
-        
+        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)   
+            
+    def sExportHtm(self):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
         #    return         
         
-        #get filename, gui dialog        
-        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+dstore.GetItem("racesettings-app", ['race_name'])+suffix+"/")
+        #get filename, gui dialog  
+        racename = dstore.GetItem("racesettings-app", ['race_name'])      
+        dirname = utils.get_filename("export/www/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
         try:
             os.makedirs(dirname)
         except OSError:
             dirname = "export/"
                                          
         if(dirname == ""):
-            return
+            return        
                             
         exported = {}
-        self.model.Update()
-        timesstore.UpdateExportDf()        
-        aux_df =  timesstore.exportDf[0]
-        #mylist = tabExportSettings.exportgroups[0].GetAsList()
-        print "export df B:", aux_df #[mylist] 
-        self.ExportToCsvFileNew("test.csv", aux_df)
-        return
-                   
-                        
-        '''1. TOTAL'''
-        #get name
-        name = utils.get_filename("_"+dstore.GetItem("racesettings-app", ['race_name']))                
+                
+        for i in range(0, NUMBER_OF.EXPORTS): 
+            
+            if (tabExportSettings.IsEnabled(i) == False):
+                continue
+            
+            df =  timesstore.exportDf[i]                     
         
-        #write to csv
-        df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, export_type = export_type)
-        if(len(df) != 0):
-            exported["total"] = len(df)
-            
-        '''2. CATEGORIES'''
-        dbCategories = tableCategories.getDbRows()                      
-        for dbCategory in dbCategories:
-            
-            #get name
-            name = utils.get_filename("c_"+dbCategory['name'])                                              
-                     
-            #write to csv            
-            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, category = dbCategory,  export_type = export_type)             
+            #complete export
             if(len(df) != 0):
-                exported[name] = len(df) 
-            
-        '''3. GROUPS'''                   
-        dbCGroups = tableCGroups.getDbRows()                                                            
-        for dbCGroup in dbCGroups:
-               
-            #get name
-            name = utils.get_filename("g_"+dbCGroup['label'])
-             
-            #write to csv
-            df = self.ExportToCsvFile(dirname+name+".csv", proxymodelDf = proxymodelDf, group = dbCGroup, export_type= export_type)
-            if(len(df) != 0):
-                exported[name] = len(df) 
-            
+                self.ExportToHtmFile("export/"+"e"+str(i)+"_"+racename+".htm", df)            
+                exported["total"] = len(df)
+                 
+        return exported
+                
+    def sExportCsv(self):               
         
-        exported_string = ""
-        for key in sorted(exported.keys()):
-            exported_string += key + " : " + str(exported[key])+" times\n"        
-        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)                            
-                               
+        #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
+        #if ret == False: #cancel button
+        #    return         
+        
+        #get filename, gui dialog  
+        racename = dstore.GetItem("racesettings-app", ['race_name'])      
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+        try:
+            os.makedirs(dirname)
+        except OSError:
+            dirname = "export/"
+                                         
+        if(dirname == ""):
+            return        
+                            
+        exported = {}
+                
+        for i in range(0, NUMBER_OF.EXPORTS): 
+            
+            if (tabExportSettings.IsEnabled(i) == False):
+                continue
+            
+            df =  timesstore.exportDf[i]                     
+        
+            #complete export
+            if(len(df) != 0):
+                self.ExportToCsvFileNew("export/"+racename+".csv", df)            
+                exported["total"] = len(df)
+            
+            #category export                
+            c_df = timesstore.exportDf[i]           
+            c_df = c_df.set_index("category")
+            category_groupby = c_df.groupby(c_df.index)            
+            for c_name, c_df in category_groupby:                
+                if(len(c_df) != 0):
+                    category = tableCategories.getTabCategoryParName(c_name)
+                    filename = utils.get_filename("c_"+c_name)                    
+                    self.ExportToCsvFileNew("export/"+filename+".csv", c_df, category = category)
+                    exported[filename] = len(c_df) 
+                    
+            #group export
+            groups = {}
+            g_df = timesstore.exportDf[i]
+            for x in range(1,11):                
+                g_label = "g"+str(x)
+                values = tableCategories.getCategoryNamesParGroupLabel(g_label)                
+                aux_df = g_df[g_df["category"].astype(str).isin([str(v) for v in values])]                                               
+                if(len(aux_df) != 0):
+                    group = tableCGroups.getTabCGrouptParLabel(g_label)
+                    filename = utils.get_filename("e"+str(i)+"_"+g_label+"__"+group["name"])                                
+                    self.ExportToCsvFileNew("export/"+filename+".csv", aux_df, group = group)                                       
+                    exported[filename] = len(aux_df)
+                
+
+                         
+        return exported                               
                     
     #toDo: sloucit s myModel konstruktorem        
     def Update(self, run_id = None):            

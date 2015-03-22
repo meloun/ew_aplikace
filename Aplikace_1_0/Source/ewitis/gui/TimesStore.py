@@ -222,17 +222,28 @@ class TimesStore():
         return self.joinedDf     
         
     def UpdateExportDf(self):
- 
+        """
+        update dataframes for export
+        
+        1: Filter: Last times: take last time from each user
+                   Best times:
+        2: Sort: basic or nested sorting
+        3: Selection: take only column you need
+        
+        return: filtred, sorted and selected dataframe for total export
+                (for category export has to be filtred) 
+        """
         
         #update order df
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):
                           
-            #get export group
-            columns = dstore.GetItem('export', [i])
-            
-            if (columns['enabled'] == False):
+            if (tabExportSettings.IsEnabled(i) == False):
                 continue
+            
+            
+            #get export group            
+            checked_info = dstore.GetItem('export', ["checked", i])
             
             #get export group
             filtersort = dstore.GetItem('export_filtersort', [i])
@@ -254,18 +265,17 @@ class TimesStore():
             
             #sort again
             if(sort2 in aux_df.columns):
-                print "nested sorting", sort1, sort2, sortorder1, sortorder2
-                print aux_df
+                #print "nested sorting", sort1, sort2, sortorder1, sortorder2
+                #print aux_df
                 aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
             else:
-                print "basic sorting"
+                #print "basic sorting"
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
             
             
-            columns = tabExportSettings.exportgroups[i].GetAsList()
-            print columns
+            columns = tabExportSettings.exportgroups[i].GetCheckedCollumns()                        
             self.exportDf[i] = aux_df[columns]                            
-             
+                     
         return self.joinedDf         
                                                                
                     

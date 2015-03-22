@@ -91,8 +91,8 @@ class html(object):
             
         tabulka <= zahlavi
             
-        #radky
-        for list in lists:
+        #radky        
+        for list in lists:            
             radekTabulky = htmltags.TR()  # inicializace proměnné  
             for item in list:
                 radekTabulky <= htmltags.TD(item)                          

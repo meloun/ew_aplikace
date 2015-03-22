@@ -26,7 +26,7 @@ class Page_table(html.html):
         title = htmltags.H1(self.head["title"])                
 
         #<table> from gui table                               
-        table = self.lists_to_table(self.lists, self.keys)
+        table = self.lists_to_table(self.lists, self.keys)        
         
         #<table> into <div>
         div = htmltags.DIV(table, id="table_container")
