@@ -300,13 +300,13 @@ class myTable():
                   
         #IMPORT CSV TO DATABASE
         #try:
-        print "collumns", db.getCollumnNames("times")            
+        #print "collumns", db.getCollumnNames("times")            
             
         #get sorted keys
         keys = []
         for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
             keys.append(list[0])
-        print "keys", keys
+        #print "keys", keys
             
         #load csv        
         aux_csv = Db_csv.Db_csv(filename)
@@ -320,11 +320,11 @@ class myTable():
         #check csv file format - wrong format                                
         header = rows.pop(0)
         #header = aux_csv.header()
-        for i in range(3): 
-            if not(header[i] in keys):
-                uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
-                print header[i], keys
-                return
+#         for i in range(3): 
+#             if not(header[i] in keys):
+#                 uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+#                 print header[i], keys
+#                 #return
 
         #counters
         state = {'ko':0, 'ok':0}
@@ -333,10 +333,11 @@ class myTable():
         for row in rows:                                                                                                                                    
             #try:
                 #add 1 record
+            #print "row", row
             importRow = dict(zip(keys, row))
-            #
-            dbRow = self.model.importRow2dbRow(importRow)             
-            #dbRow = self.model.import2dbRow(importRow)                     
+                        
+            dbRow = self.model.importRow2dbRow(importRow)            
+                                                         
             if(db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
                 state['ok'] += 1
             else:            
@@ -363,7 +364,15 @@ class myTable():
     
     def GetExportKeys(self, mode):        
         #get sorted table keys 
-        return [item[0] for item in sorted(self.TABLE_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"]))]
+        if mode == myModel.eDB:
+            #get sorted keys
+            keys = []
+            for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
+                keys.append(list[0])                                    
+        else: #total
+            keys = [item[1]["name"] for item in sorted(self.TABLE_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"]))]
+            
+        return keys
             
         
     '''
@@ -373,11 +382,11 @@ class myTable():
     def ExportTable(self, mode):
         exportRows = []                   
         
-        '''table to 2 lists - header and rows(list of lists)'''
-        keys = self.GetExportKeys(myModel.eTOTAL)
+        '''table to 2 lists - header and rows(list of lists)'''        
+        keys = self.GetExportKeys(mode)                
                                                                         
-        for tabRow in self.proxy_model.dicts():                            
-            exportRow = self.model.tabRow2exportRow(tabRow, keys)
+        for tabRow in self.proxy_model.dicts():                                        
+            exportRow = self.model.tabRow2exportRow(tabRow, keys, mode)            
             exportRowList = [(exportRow[key]) for key in keys]                                            
             if (exportRowList == None):
                 continue

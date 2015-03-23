@@ -28,14 +28,13 @@ class PermanentDatastore(datastore.Datastore):
         
     def Set(self, name, value, section = "GET_SET", permanent = True):
                 
-        if(value == datastore.Datastore.Get(self, name, section)):
-            return True
+
         
         #update data
-        datastore.Datastore.Set(self, name, value, section)
+        changed = datastore.Datastore.Set(self, name, value, section)
         
         #update file
-        if permanent and self.IsPermanent(name):
+        if changed and permanent and self.IsPermanent(name):
             #print "zapis", name, value
             self.db.dump(self.GetAllPermanents())
         

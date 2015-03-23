@@ -116,27 +116,29 @@ class Datastore():
     - metodou Get() se získají data pro obsluhu
     - metodou resetFlags() se flag smaže, volá se po obsloužení    
     """    
-    def Set(self, name, value, section = "GET_SET"):
+    def  Set(self, name, value, section = "GET_SET"):
         '''
         Nastaví proměnnou typu "section" a flagy "flags" 
         '''
-        
+        ret = False
+               
         if(name in self.data) and (section in self.data[name]):
              
             #data exist, section exist (GET, SET, ..)
                         
             self.datalock.acquire()   
                      
-            #set data            
-            self.data[name][section]["value"] = value            
-            
             '''set flag "changed" for section SET'''
-            if (section == "SET"):
+            if (section == "SET"):                
                 self.data[name][section]['changed'] = True
-            
+                
+            if(value != self.Get(name, section)):
+                self.data[name][section]["value"] = value
+                ret = True            
+                        
             self.datalock.release() 
             
-        return None
+        return ret
     
     """
     SET ITEM

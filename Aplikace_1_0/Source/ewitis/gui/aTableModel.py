@@ -212,14 +212,17 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
     '''
     tabRow2exportRow()     
     '''
-    def tabRow2exportRow(self, tabRow, keys):                                    
+    def tabRow2exportRow(self, tabRow, keys, mode):                                    
         exportRow = {}        
                           
-        for key in keys:
-            if key in tabRow:            
-                exportRow[key] = tabRow[key]                              
+        if mode == myModel.eDB:
+            exportRow = self.table.getDbRow(tabRow['id'])
+        else:
+            for key in keys:
+                if key in tabRow:            
+                    exportRow[key] = tabRow[key]                              
                                                               
-        return exportRow
+        return dict(exportRow)
     
     
     def importRow2dbRow(self, importRow, mode = eTABLE):            

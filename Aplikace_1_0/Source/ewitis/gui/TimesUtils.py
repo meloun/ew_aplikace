@@ -20,7 +20,7 @@ class TimesUtils():
         '''
         
         if (time == None):
-            return None
+            return None        
         
         '''convert'''
         if(including_days):

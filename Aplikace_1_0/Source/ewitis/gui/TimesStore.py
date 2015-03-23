@@ -53,8 +53,7 @@ class TimesStore():
         return df
 
     
-    def GetPrevious(self, dbTime, filter = None, df = None):
-        print "funguju A"
+    def GetPrevious(self, dbTime, filter = None, df = None):        
         
         if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):            
             return None
@@ -70,9 +69,7 @@ class TimesStore():
             time = df[df.time_raw < dbTime['time_raw']].iloc[-1]                
             time = dict(time)                        
         except:                        
-            time = None
-            
-        print "funguju B"
+            time = None                    
                                    
         return time 
         
@@ -85,10 +82,13 @@ class TimesStore():
         #filter
         df = self.FilterFrame(df, filter)                      
                
+        try:    
+            time = df.iloc[nr-1]
+        except IndexError:
+            time = None
             
-        time = df.iloc[nr-1]
                     
-        return dict(time)
+        return time
     
     def GetFirst(self, filter = None):                    
         

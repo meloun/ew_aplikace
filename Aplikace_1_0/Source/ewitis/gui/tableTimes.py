@@ -254,7 +254,7 @@ class TimesModel(myModel):
                 timeX = 'time'+str(i+1)
                 if(dbTime[timeX] == None):                    
                     tabTime[timeX] = None #cas neexistuje
-                else:                    
+                else:                                 
                     tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX])  
             else: 
                 tabTime[timeX] = None
@@ -302,15 +302,15 @@ class TimesModel(myModel):
     '''
     dict => dict, vykopírují se hodnoty obsažené v keys (z time nebo user)   
     '''                       
-    def tabRow2exportRow(self, tabRow, keys):                        
+    def tabRow2exportRow(self, tabRow, keys, mode):                        
         exportRow = {}
         
         # time values
-        exportRowTimes = myModel.tabRow2exportRow(self, tabRow, keys)
+        exportRowTimes = myModel.tabRow2exportRow(self, tabRow, keys, mode)
         
         # user values
         tabUserRow = tableUsers.getTabUserParNr(tabRow['nr'])
-        exportRowUsers = tableUsers.model.tabRow2exportRow(tabUserRow, keys)
+        exportRowUsers = tableUsers.model.tabRow2exportRow(tabUserRow, keys, mode)
         
         #sloučení time a user
         exportRow = dict(exportRowUsers.items() + exportRowTimes.items())                              
