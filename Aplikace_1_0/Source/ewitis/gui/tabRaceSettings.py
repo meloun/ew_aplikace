@@ -189,20 +189,11 @@ class TabRaceSettings():
         #QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), lambda text = Ui().textProfileDesc.toHtml(): uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode(text), self.Update))
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                 
-        
-        #start download from last time and run 
-        QtCore.QObject.connect(Ui().checkDownloadFromLast, QtCore.SIGNAL("stateChanged(int)"), lambda state: self.sGuiSet("download_from_last", state, self.Update))
-
-        QtCore.QObject.connect(Ui().spinTimesViewLimit, QtCore.SIGNAL("valueChanged(int)"),  lambda state: self.sGuiSet("times_view_limit", state, self.Update))
+        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                                 
         
         #table TIMES
         #order evaluation                                
-        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))                                                                                          
-          
-                                                
-        #show
-        QtCore.QObject.connect(Ui().checkShowOnlyTimesWithOrder, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("show",["times_with_order"], state, self.Update))                
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))                                                                                                                                                                    
         
         #ADDTITIONAL INFO                                                                              
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                         
@@ -373,27 +364,16 @@ class TabRaceSettings():
             
         ##TIMES##
         #evaluations        
-        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])                        
-         
-        
-        #show
-        Ui().checkShowOnlyTimesWithOrder.setChecked(dstore.Get("show")["times_with_order"])        
-        #Ui().checkShowTimesFromAllRuns.setCheckState(dstore.Get("show")["alltimes"])                   
+        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])                                                      
         
         #aditional info
-        for i in range(0, NUMBER_OF.THREECOLUMNS):        
-            #self.order[i].setCheckState(dstore.GetItem("additional_info", ['order', i, "checked"]))            
-            #self.lap[i].setChecked(dstore.GetItem("additional_info", ['lap', i, "checked"]))
-            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                    
-                                                     
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                                     
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
             self.timesgroups[i].Update()
             self.lapgroups[i].Update()
             self.pointgroups[i].Update()             
-            self.ordergroups[i].Update()                       
+            self.ordergroups[i].Update()                
         
-        #view limit
-        Ui().spinTimesViewLimit.setValue(dstore.Get("times_view_limit"))
         
         self.init = True
         return True

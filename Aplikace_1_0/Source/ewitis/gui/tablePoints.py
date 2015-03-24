@@ -31,8 +31,8 @@ class Points(myTable):
     def  __init__(self):                                                     
         myTable.__init__(self, "Points")
     
-    def evaluate(self, formula, tabTime, dbTime):        
-        return timesstore.Evaluate(None, formula, tabTime, dbTime)        
+    #def evaluate(self, formula, tabTime, dbTime):        
+    #    return timesstore.Evaluate(None, formula, tabTime, dbTime)        
 
     
     def getDbPointParOrder(self, order):

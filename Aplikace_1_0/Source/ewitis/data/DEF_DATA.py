@@ -128,16 +128,6 @@ DEF_DATA = {
                                               "changed": True
                                       }
                                 },
-        "download_from_last" : {"GET_SET"  : {"value": 0} },                   
-        "times_view_limit"   : {"name"     : "times view limit",
-                                "GET_SET"  : {"value": 0}  
-                               },
-        "show"               : {"GET_SET"  : {"value": {                                                         
-                                                        "times_with_order" : CheckboxValue.unchecked,                                                                                                      
-                                                         #"alltimes"         : CheckboxValue.unchecked
-                                                        }
-                                              }
-                                },
         "additional_info"    : {"name"     : "additinal info",
                                 "permanent": True,
                                 "GET_SET"  : {"value": {"time"          :[
@@ -305,7 +295,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.03"},                                                                                                                    
+                                                        "app": "v3.04"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

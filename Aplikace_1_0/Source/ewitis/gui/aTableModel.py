@@ -313,10 +313,10 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         if ((parameter == None) and (conditions == None)):                
             rows = db.getAll(self.table.name)
         elif (conditions == None):
-            rows = db.getParX(self.table.name, parameter, value, dstore.Get("times_view_limit"))
+            rows = db.getParX(self.table.name, parameter, value) #, dstore.Get("times_view_limit"))
             #rows = db.getParX(self.params.name, parameter, value)
-        elif (conditions!=[]):
-            rows = db.getParXX(self.table.name, conditions, operation, dstore.Get("times_view_limit"))
+        #elif (conditions!=[]):
+        #    rows = db.getParXX(self.table.name, conditions, operation, dstore.Get("times_view_limit"))
         else:
             rows = []
                                    

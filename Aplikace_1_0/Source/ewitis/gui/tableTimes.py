@@ -195,11 +195,7 @@ class TimesModel(myModel):
         """
         
         #ztimeT = time.clock()
-        #print "TIME", dbTime['id']                                
-        
-        if(dstore.Get('show')['times_with_order'] == 2):
-            if(self.order.IsResultTime(dbTime) == False):                
-                return None
+        #print "TIME", dbTime['id']
                                                                   
         
         ''' 1to1 KEYS

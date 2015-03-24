@@ -100,6 +100,7 @@ class TimesStore():
         '''
         
         #table df
+        #print "tabDf", tabDf
         self.tabDf = tabDf        
                 
         #db df
@@ -314,7 +315,7 @@ class TimesStore():
         #    return None               
         
         #take order df
-        group = dstore.GetItem('additional_info', ['order', index])
+        group = dstore.GetItem('additional_info', ['order', index])                
         
         df = pd.DataFrame() 
         if(group['type'] == "All"):            
@@ -366,8 +367,17 @@ class TimesStore():
             return None               
                   
         #calc time        
-        group = dstore.GetItem('additional_info', [key, index])                                 
-        time = timesstore.Evaluate(self.joinedDf, group, {}, dbTime)
+        group = dstore.GetItem('additional_info', [key, index])
+        
+        if(group["checked"] == 0):
+            return None
+        
+        #get join time
+        joinTime = self.joinedDf[self.joinedDf.id == dbTime['id']]
+        joinTime = joinTime.iloc[0]
+
+        #evalute rule                                         
+        time = timesstore.Evaluate(self.joinedDf, group, joinTime)
              
         return time                                                     
     
@@ -396,18 +406,12 @@ class TimesStore():
         #calc lap        
         #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
-            #lap = timesstore.GetNrOf(df, dbTime, [['==', 'user_id'], ['<', timeX]])
-            #aux_df = timesstore.SelectFrame(df, dbTime, [['==', 'user_id'], ['<', timeX]])
-            
-            #empty user
-            aux_df = df[df['user_id'] == 0]
             
             #same user
             aux_df = df[df['user_id'] == dbTime['user_id']]            
             
             #better times
-            aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]            
-                                 
+            aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                                 
         
             lap = len(aux_df)
                         
@@ -416,15 +420,8 @@ class TimesStore():
            
         return lap
     
-    def Evaluate(self, df, rule, tabTime, dbTime):
+    def Evaluate(self, df, rule, joinTime):
         points = None
-        
-    #     if filter != None:        
-    #         for k,v in filter.iteritems():                
-    #             if not isinstance(v, list):                          
-    #                 if
-    #             else:
-    #                 df = df[df[k].str.contains(v)]
                 
         minimum =  rule['minimum'] if ('minimum' in rule) else None
         maximum = rule['maximum'] if ('maximum' in rule) else None
@@ -434,14 +431,12 @@ class TimesStore():
         rule = rule.lower()
         
         #check if data exist
-        if ("time1" in rule) and (dbTime['time1'] == None):    
+        if ("time1" in rule) and (joinTime['time1'] == None):    
             return None
-        if ("time2" in rule) and (dbTime['time2'] == None):        
+        if ("time2" in rule) and (joinTime['time2'] == None):        
             return None
-        if ("time3" in rule) and (dbTime['time3'] == None):        
-            return None
-    
-        
+        if ("time3" in rule) and (joinTime['time3'] == None):        
+            return None        
         
         '''REPLACE keywords'''
         
@@ -461,33 +456,33 @@ class TimesStore():
         #UN1-UN3
         try:
             if ("un1" in rule):
-                expression_string = expression_string.replace("un1", str(dbTime['un1']))
+                expression_string = expression_string.replace("un1", str(joinTime['un1']))
             if ("un2" in rule):                                
-                expression_string = expression_string.replace("un2", str(dbTime['un2']))
+                expression_string = expression_string.replace("un2", str(joinTime['un2']))
             if ("un3" in rule):                                
-                expression_string = expression_string.replace("un3", str(dbTime['un3']))
+                expression_string = expression_string.replace("un3", str(joinTime['un3']))
         except KeyError:        
             return None
         
         # ORDER1-ORDER3       
         try:
             if ("order1" in rule):                                
-                expression_string = expression_string.replace("order1", str(tabTime['order1']))
+                expression_string = expression_string.replace("order1", str(joinTime['order1']))
             if ("order2" in rule):                                
-                expression_string = expression_string.replace("order2", str(tabTime['order2']))
+                expression_string = expression_string.replace("order2", str(joinTime['order2']))
             if ("order3" in rule):                                
-                expression_string = expression_string.replace("order3", str(tabTime['order3']))
+                expression_string = expression_string.replace("order3", str(joinTime['order3']))
         except KeyError:        
             return None
         
         # POINTS1-POINTS3       
         try:
             if ("points1" in rule):                                
-                expression_string = expression_string.replace("points1", str(tabTime['points1']))
+                expression_string = expression_string.replace("points1", str(joinTime['points1']))
             if ("points2" in rule):                                
-                expression_string = expression_string.replace("points2", str(tabTime['points2']))
+                expression_string = expression_string.replace("points2", str(joinTime['points2']))
             if ("points3" in rule):                                
-                expression_string = expression_string.replace("points3", str(tabTime['points3']))
+                expression_string = expression_string.replace("points3", str(joinTime['points3']))
         except KeyError:        
             return None
                
@@ -506,7 +501,7 @@ class TimesStore():
                 #print celltimeX, rule
                 if (celltimeX in rule):
                     try:  
-                        celltime = timesstore.GetPrevious(dbTime, {"cell":str(i)}, df) 
+                        celltime = timesstore.GetPrevious(joinTime, {"cell":str(i)}, df) 
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
                     except TypeError:       
                         print "type error"         
@@ -516,17 +511,17 @@ class TimesStore():
         #user without number => no time
         if ("starttime" in rule):
             starttime = None          
-            tabUser =  tableUsers.getTabUserParIdOrTagId(dbTime["user_id"])          
+            tabUser =  tableUsers.getTabUserParIdOrTagId(joinTime["user_id"])          
             if(tabUser['nr'] == 0):
                 return None        
         
             if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
                 #VIA CATEGORY => Xth starttime                                                                                                                              
-                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
+                start_nr = tableCategories.getTabRow(joinTime['category_id'])['start_nr'] #get category starttime                
                 starttime = timesstore.Get(df, start_nr, filter = {'cell':1})                                                                                        
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
-                starttime = timesstore.GetPrevious(dbTime, filter = {'cell':1}, df = df)
+                starttime = timesstore.GetPrevious(joinTime, filter = {'cell':1}, df = df)
             else:
                 print "E: Fatal Error: Starttime "
                 return None
@@ -537,19 +532,22 @@ class TimesStore():
                                            
                
         # TIME1-TIME3                                                        
-        expression_string = expression_string.replace("time1", str(dbTime['time1']))       
-        expression_string = expression_string.replace("time2", str(dbTime['time2']))       
-        expression_string = expression_string.replace("time3", str(dbTime['time3']))
+        expression_string = expression_string.replace("time1", str(joinTime['time1']))       
+        expression_string = expression_string.replace("time2", str(joinTime['time2']))       
+        expression_string = expression_string.replace("time3", str(joinTime['time3']))
                
         # TIME
-        expression_string = expression_string.replace("time", str(dbTime['time_raw']))
+        expression_string = expression_string.replace("time", str(joinTime['time_raw']))
                 
         ''' evaluate expresion '''
         #print "ES",expression_string 
+        if (expression_string == "") or ("None" in expression_string):
+            return None
+        
         try:            
             points = eval(expression_string)        
         except (SyntaxError, TypeError, NameError):
-            print "I: invalid string for evaluation", expression_string            
+            print "I: invalid string for evaluation", expression_string, rule            
             return None        
         
         #restrict final value               

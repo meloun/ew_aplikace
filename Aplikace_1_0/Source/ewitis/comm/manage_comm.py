@@ -41,11 +41,11 @@ class ManageComm(Thread):
         self.index_times = 0
         self.no_new_times = 0
         self.no_new_runs = 0
-        if(dstore.Get("download_from_last") == 2):      
-            if(dstore.Get("count")['Runs'] - 1) > 0:          
-                self.index_runs = dstore.Get("count")['Runs'] - 1
-            if(dstore.Get("count")['Times'] - 1) > 0:
-                self.index_times = dstore.Get("count")['Times'] - 1        
+#         if(dstore.Get("download_from_last") == 2):      
+#             if(dstore.Get("count")['Runs'] - 1) > 0:          
+#                 self.index_runs = dstore.Get("count")['Runs'] - 1
+#             if(dstore.Get("count")['Times'] - 1) > 0:
+#                 self.index_times = dstore.Get("count")['Times'] - 1        
                                                                                       
                                                         
         ''' LOAD USER CONFIGURATION - port, baudrate '''            

@@ -38,7 +38,7 @@ class RaceInfoModel(myModel):
         category['name'] = "unknown"        
         return category 
         
-    def Update(self, parameter=None, value=None, conditions=None, operation=None):
+    def Update(self, parameter=None, value=None):
         """
         Update model z databaze
           
