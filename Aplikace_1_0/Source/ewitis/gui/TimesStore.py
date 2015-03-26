@@ -24,7 +24,8 @@ class TimesStore():
     def __init__(self):
         pass
         self.all = {}
-        self.filtered = {}                                            
+        self.filtered = {}  
+        self.joinedDf = pd.DataFrame()                                          
               
     def GetDefault(self):
         return {id:0, 'time_raw':0}
@@ -115,24 +116,21 @@ class TimesStore():
                         
         #update joinedDf
         columns =  self.tabDf.columns - self.dbDf.columns                              
-        self.joinedDf = self.dbDf.join(self.tabDf[columns])
-        
+        self.joinedDf = self.dbDf.join(self.tabDf[columns])        
         
         #user update
         self.userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
         self.userDf = self.userDf[["year", "club", "o1", "o2", "o3", "o4"]]
         self.joinedDf =  pd.merge(self.joinedDf,  self.userDf, left_on='user_id', right_index=True, how="inner")
-        self.joinedDf.sort("time_raw", inplace=True)                       
-                    
+        self.joinedDf.sort("time_raw", inplace=True)                    
         
         #replace nan with None
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
-        #update order df
+        #update order df        
         self.orderDf = [pd.DataFrame()] * NUMBER_OF.POINTSCOLUMNS
         self.orderGroupbys = [None] * NUMBER_OF.POINTSCOLUMNS
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):            
               
             #get order group
             group = dstore.GetItem('additional_info', ['order', i])
@@ -175,13 +173,11 @@ class TimesStore():
                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
             else:
                 #print "basic sorting"
-                aux_df = aux_df.sort(column1, ascending = asc1)
-            
+                aux_df = aux_df.sort(column1, ascending = asc1)            
             
             self.orderDf[i] = aux_df
             
-            #category order
-            
+            #category order            
             if(group['type'] == "All"):
                 pass
             elif(group['type'] == "Category"):
@@ -226,6 +222,8 @@ class TimesStore():
         """
         update dataframes for export
         
+        0: take tabbDf as basis (because of time-format 00:00:01:16)
+           join dbDf and extend of userDf         
         1: Filter: Last times: take last time from each user
                    Best times:
         2: Sort: basic or nested sorting
@@ -233,15 +231,27 @@ class TimesStore():
         
         return: filtred, sorted and selected dataframe for total export
                 (for category export has to be filtred) 
-        """
+        """                
+                                         
+        #update joinedDf        
+        columns =  self.dbDf.columns - self.tabDf.columns                              
+        joinedTabDf = self.tabDf.join(self.dbDf[columns])         
+         
+        #user update
+        userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
+        userDf = self.userDf[["year", "club", "o1", "o2", "o3", "o4"]]
+        joinedTabDf =  pd.merge(joinedTabDf,  userDf, left_on='user_id', right_index=True, how="inner")
+        joinedTabDf.sort("time_raw", inplace=True)                                      
+         
+        #replace nan with None
+        self.joinedTabDf = joinedTabDf.where(pd.notnull(joinedTabDf), None)        
         
         #update order df
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):
                           
             if (tabExportSettings.IsEnabled(i) == False):
-                continue
-            
+                continue            
             
             #get export group            
             checked_info = dstore.GetItem('export', ["checked", i])
@@ -256,7 +266,7 @@ class TimesStore():
             sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
             
             #filter            
-            aux_df = self.joinedDf
+            aux_df = self.joinedTabDf
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
             #last time from each user                    
             aux_df = aux_df.sort("time_raw")                                                                
@@ -372,6 +382,9 @@ class TimesStore():
         if(group["checked"] == 0):
             return None
         
+        if(self.joinedDf.empty):
+            return None
+        
         #get join time
         joinTime = self.joinedDf[self.joinedDf.id == dbTime['id']]
         joinTime = joinTime.iloc[0]
@@ -405,6 +418,7 @@ class TimesStore():
             
         #calc lap        
         #if(pd.notnull(dbTime[timeX])) and (pd.isnull(dbTime[lapX])):
+        #if(dbTime[timeX] != u"") and (dbTime[lapX] == u""):            
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
             
             #same user
@@ -516,8 +530,8 @@ class TimesStore():
                 return None        
         
             if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
-                #VIA CATEGORY => Xth starttime                                                                                                                              
-                start_nr = tableCategories.getTabRow(joinTime['category_id'])['start_nr'] #get category starttime                
+                #VIA CATEGORY => Xth starttime                                                                                                                
+                start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
                 starttime = timesstore.Get(df, start_nr, filter = {'cell':1})                                                                                        
             elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
@@ -525,11 +539,11 @@ class TimesStore():
             else:
                 print "E: Fatal Error: Starttime "
                 return None
-            
-            if starttime != None:
-                expression_string = rule.replace("starttime", str(starttime['time_raw']))
                         
-                                           
+            if starttime.empty :
+                return None
+            
+            expression_string = rule.replace("starttime", str(starttime['time_raw']))                                                   
                
         # TIME1-TIME3                                                        
         expression_string = expression_string.replace("time1", str(joinTime['time1']))       

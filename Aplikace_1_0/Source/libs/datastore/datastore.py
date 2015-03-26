@@ -82,7 +82,7 @@ class Datastore():
         
         #print "Permanents: ", self.GetAllPermanents()
     
-    def ResetValue(self, name, key1 = None, key2 = None):
+    def ResetValueOld(self, name, key1 = None, key2 = None):
         '''
         only for GET section
         set value to None
@@ -95,7 +95,27 @@ class Datastore():
         else:
             self.data[name]['GET']['value'] = None            
             
-        self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN                                
+        self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN  
+                                      
+    def ResetValue(self, name, keys = [], value = None):
+        '''
+        only for GET section
+        set value to None
+        set refresh countdown => GET hodnota se neobnoví hned, ale až po odpočítání countdown 
+        '''        
+        item = self.data[name]["GET"]["value"]
+        
+        for key in keys[:-1]:          
+            if (key in item) or isinstance(key, int): #integer because of index to the array                                                           
+                item = item[key] 
+                               
+        self.datalock.acquire() 
+        
+        #set data                        
+        item[keys[-1]] = value            
+            
+        self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN
+        self.datalock.release()                                 
     
     def IsReadyForRefresh(self, name):
         """
@@ -154,15 +174,15 @@ class Datastore():
         '''
                       
         item = self.data[name][section]["value"]
-        
-        for key in keys[:-1]:          
+                    
+        for key in keys[:-1]:                 
             if (key in item) or isinstance(key, int): #integer because of index to the array                                                           
-                item = item[key] 
-                               
+                item = item[key]                               
         self.datalock.acquire() 
         
-        #set data                        
-        item[keys[-1]] = value        
+        #set data                            
+        item[keys[-1]] = value
+                
         
         #set flag "changed" for section SET
         if (section == "SET"):

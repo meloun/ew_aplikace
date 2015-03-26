@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ewitis.data.DEF_DATA import *
 import libs.datastore.permanent_datastore as datastore
 import time
 import datetime
@@ -10,6 +11,19 @@ class Dstore(datastore.PermanentDatastore):
         
         #init
         datastore.PermanentDatastore.__init__(self, db, data)
+        
+        self.ResetGetValues()
+        
+    def ResetGetValues(self):
+        
+        #get cell task None         
+        for idx in range(0, len(self.Get("cells_info", "GET"))):
+            self.ResetValue("cells_info", [idx, "task"])
+            
+        #timing settings
+        self.ResetValue("timing_settings", ["measurement_state"], MeasurementState.not_active)
+        self.ResetValue("timing_settings", ["logic_mode"])
+                        
                             
     def IsTerminal(self):
         return self.IsDevice("Terminal")
@@ -49,7 +63,7 @@ class Dstore(datastore.PermanentDatastore):
         self.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+added_string+"<BR>")
 
 #create datastore
-from ewitis.data.DEF_DATA import DEF_DATA
+
 print "I: Dstore init"
 dstore = Dstore('conf/conf_work.json', DEF_DATA)
 

@@ -342,7 +342,7 @@ class TabRaceSettings():
             Ui().lineTagsReadingEn.setText("- -")
              
                                                     
-        """ Measurement State"""                       
+        """ Measurement State"""
         Ui().labelMeasurementState.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])                                                                    
             
         #APPLICATION

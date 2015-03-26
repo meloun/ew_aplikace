@@ -69,8 +69,8 @@ def Assigments2Dict(assigment):
         except ValueError:
             assigment_dict = None            
             
-        return assigment_dict    
-
+        return assigment_dict
+     
 
 DEF_DATA = {
                
@@ -130,7 +130,8 @@ DEF_DATA = {
                                 },
         "additional_info"    : {"name"     : "additinal info",
                                 "permanent": True,
-                                "GET_SET"  : {"value": {"time"          :[
+                                "GET_SET"  : {"value": {"status"        :{"checked"           : CheckboxValue.unchecked},
+                                                        "time"          :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "time - starttime", 
@@ -342,7 +343,7 @@ DEF_DATA = {
                                              "changed": False
                                              },
                                },
-        "timing_settings"    : {"name"     : "logic timing_settings", 
+        "timing_settings"    : {"name"     : "timing_settings", 
                                 "permanent": True,                                
                                 "SET"      : {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
@@ -350,7 +351,8 @@ DEF_DATA = {
                                                        "filter_tagtime": 5,
                                                        "filter_minlaptime": 60,
                                                        "filter_maxlapnumber": 0, 
-                                                       "tags_reading_enable": None},
+                                                       "tags_reading_enable": None
+                                                       },
                                               "changed": False
                                             },
                                 "GET"      :  {"value": {"logic_mode": 1,
@@ -359,7 +361,8 @@ DEF_DATA = {
                                                        "filter_tagtime": None,
                                                        "filter_minlaptime": None,
                                                        "filter_maxlapnumber": None,
-                                                       "tags_reading_enable": None},
+                                                       "tags_reading_enable": None
+                                                       },
                                              "refresh_countdown": 0 
                                              },                                
                                 },

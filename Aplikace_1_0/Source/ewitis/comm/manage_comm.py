@@ -112,11 +112,9 @@ class ManageComm(Thread):
         try:
             self.protokol.open_port()
         except serial.SerialException:
-            print "E: Cant open port"
-            #dstore.Set("port_enable", False)                        
+            print "E: Cant open port"                                    
             dstore.SetItem("port", ["opened"], False)                        
             return            
-            #raise serial.SerialException
         
         
         """ DATABASE """        

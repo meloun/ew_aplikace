@@ -327,14 +327,18 @@ class TimesModel(myModel):
         importRow['run_id'] = self.run_id            
         return importRow
         
-    def IsFinishTime(self, dbTime):
+    def IsTimeFinished(self, dbTime):
         '''
         splňuje závodník podmínky pro "finished"?
             - (počet kol větší než X) nebo (čas větší než Y)
         '''
         if cLaptime.GetNrOfLap(dbTime, cLaptime.OF_LAST_TIME) >= dstore.Get('race_info')['limit_laps']:
             return True
-        return False                                          
+        return False
+    
+    def UpdateStatus(self, joinDf):
+        pass
+                                                  
             
                 
     def UpdateTimesLaps(self, joinDf):
@@ -362,11 +366,13 @@ class TimesModel(myModel):
                     '''calc time and lap'''
                     timeX = "time"+str(i+1)
                     lapX = "lap"+str(i+1)
-                    value = None                     
+                    value = None                                                                                                                                                                                                                                                                           
+                    #if(dbTime[timeX] == u""):                                                                                    
                     if(dbTime[timeX] == None):                                                                                    
-                        '''calc time'''                                                                                                                                                                                                                                                          
+                        '''calc time'''   
                         value = timesstore.CalcTime(dbTime, i)  
                         key = timeX                                                                         
+                    #elif (dbTime[lapX] == u"") and (lap_group['checked'] != 0) and (dbTime['id'] in timesstore.lapDf[i].id.values):
                     elif (dbTime[lapX] == None) and (lap_group['checked'] != 0) and (dbTime['id'] in timesstore.lapDf[i].id.values):
                         '''calc lap'''                                                                                     
                         value = timesstore.CalcLap(dbTime, i)
@@ -887,7 +893,7 @@ class Times(myTable):
         #update
         ztime = time.clock()
         ret = self.model.Update(run_id = run_id)                                
-        print "I: Times: update:",time.clock() - ztime,"s"
+        #print "I: Times: update:",time.clock() - ztime,"s"
         
         #myModel.myTable.Update(self)        
         self.setColumnWidth()        
@@ -895,14 +901,25 @@ class Times(myTable):
         #create list of columns to hide
         #print ai.items()
         columns = []
-        for k,v in ai.items():            
+        for k,v in ai.items():
+            
+            #dict            
+            if "checked" in v:
+                print "dict", v
+                columns.append(k)
+                continue
+
+            #list of dict                            
             c = 0
             for item in v:
                 c = c+1                
                 if(item['checked'] == 0):                    
                     columns.append(k+""+str(c))
                     
-        self.hiddenCollumns =  columns                                                       
+        
+                    
+        self.hiddenCollumns =  columns  
+        print columns                                                     
         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
                 
         self.updateHideColumns()

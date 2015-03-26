@@ -123,7 +123,7 @@ class RaceInfo(myTable):
         pass
     
 tableRaceInfo = RaceInfo()
-tabRaceInfo = MyTab(items = [tableRaceInfo,])         
+tabRaceInfo = MyTab(tables = [tableRaceInfo,])         
                             
 
 
