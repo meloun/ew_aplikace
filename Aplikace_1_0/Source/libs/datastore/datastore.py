@@ -104,14 +104,14 @@ class Datastore():
         set refresh countdown => GET hodnota se neobnoví hned, ale až po odpočítání countdown 
         '''        
         item = self.data[name]["GET"]["value"]
-        
+                
         for key in keys[:-1]:          
-            if (key in item) or isinstance(key, int): #integer because of index to the array                                                           
+            if (key in item) or isinstance(key, int): #integer because of index to the array                                                                           
                 item = item[key] 
                                
         self.datalock.acquire() 
         
-        #set data                        
+        #set data                                        
         item[keys[-1]] = value            
             
         self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN

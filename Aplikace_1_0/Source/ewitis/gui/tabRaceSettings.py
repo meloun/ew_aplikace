@@ -261,7 +261,7 @@ class TabRaceSettings():
         dstore.Set("timing_settings", aux_timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", 'logic_mode')                                                                
+        dstore.ResetValue("timing_settings", ["logic_mode"])                                                                
         self.Update(UPDATE_MODE.gui)
     
     
@@ -273,7 +273,7 @@ class TabRaceSettings():
         dstore.Set("timing_settings", timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", 'filter_tagtime')                                                                
+        dstore.ResetValue("timing_settings", ['filter_tagtime'])                                                                
         self.Update(UPDATE_MODE.gui)
     
     def sFilterMinlaptime(self, value):
@@ -284,7 +284,7 @@ class TabRaceSettings():
         dstore.Set("timing_settings", timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", 'filter_minlaptime')                                                                
+        dstore.ResetValue("timing_settings", ['filter_minlaptime'])                                                                
         self.Update(UPDATE_MODE.gui)
         
     def sFilterMaxlapnumber(self, value):
@@ -295,7 +295,7 @@ class TabRaceSettings():
         dstore.Set("timing_settings", timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", 'filter_maxlapnumber')                                                                
+        dstore.ResetValue("timing_settings", ['filter_maxlapnumber'])                                                                
         self.Update(UPDATE_MODE.gui)
        
         

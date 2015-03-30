@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Fri Mar 27 10:38:31 2015
+# Created: Mon Mar 30 20:59:27 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!

@@ -227,6 +227,23 @@ class ExportGroup():
         
         self.setEnabled(self.IsEnabled())
         
+        if(self.IsEnabled()):
+            ai = dstore.Get("additional_info")
+            for i in range(0, NUMBER_OF.THREECOLUMNS):
+                if(ai["time"][i]["checked"] == 0):                
+                    self.time[i].setEnabled(False)
+                if(ai["lap"][i]["checked"] == 0):                    
+                    self.lap[i].setEnabled(False)
+                if(ai["order"][i]["checked"] == 0):                              
+                    self.order[i].setEnabled(False)
+                if(ai["points"][i]["checked"] == 0):                              
+                    self.points[i].setEnabled(False)
+                #if(ai["un"][i]["checked"] == 0):                              
+                #    self.un[i].setEnabled(False) 
+            #if(ai["un"][0]["checked"] == 0):                              
+            #    self.un[0].setEnabled(False)             
+            
+        
         enabled_csv_state = dstore.GetItem("export", ["enabled_csv", self.index])
         self.enable_csv.setChecked(enabled_csv_state)
         font = self.enable_csv.font()

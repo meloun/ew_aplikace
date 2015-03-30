@@ -86,7 +86,7 @@ class CellGroup ():
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
+        dstore.ResetValue("cells_info", [self.nr-1, 'task'])                                                                
         self.Update()
         
     def sComboCellTrigger(self, index):                        
@@ -104,7 +104,7 @@ class CellGroup ():
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", self.nr-1, 'task')                                                                
+        dstore.ResetValue("cells_info", [self.nr-1, 'task'])                                                                
         self.Update()
         
         

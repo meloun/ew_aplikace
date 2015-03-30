@@ -445,12 +445,13 @@ class TimesStore():
         rule = rule.lower()
         
         #check if data exist
-        if ("time1" in rule) and (joinTime['time1'] == None):    
-            return None
-        if ("time2" in rule) and (joinTime['time2'] == None):        
-            return None
-        if ("time3" in rule) and (joinTime['time3'] == None):        
-            return None        
+        #nelze rusi mi celltime2
+#         if ("time1" in rule) and (joinTime['time1'] == None):    
+#             return None
+#         if ("time2" in rule) and (joinTime['time2'] == None):        
+#             return None
+#         if ("time3" in rule) and (joinTime['time3'] == None):        
+#             return None        
         
         '''REPLACE keywords'''
         
@@ -465,7 +466,7 @@ class TimesStore():
     
         
         expression_string = rule
-        #print expression_string
+        #print "es", expression_string
          
         #UN1-UN3
         try:
@@ -500,9 +501,9 @@ class TimesStore():
         except KeyError:        
             return None
                
-        # CELLTIME2 - CELLTIME250
+        # CELLTIME2 - CELLTIME250                
         if "celltime" in rule:
-            for i in range(0,25):
+            for i in range(0,25):                
                 
                 #expression_string = es
                 i = 25-i
@@ -511,9 +512,8 @@ class TimesStore():
                 if i == 25:
                     i = 250
                 
-                celltimeX = "celltime" + str(i)
-                #print celltimeX, rule
-                if (celltimeX in rule):
+                celltimeX = "celltime" + str(i)                
+                if (celltimeX in rule):                    
                     try:  
                         celltime = timesstore.GetPrevious(joinTime, {"cell":str(i)}, df) 
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 

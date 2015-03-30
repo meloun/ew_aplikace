@@ -46,7 +46,7 @@ class TabDevice():
         dstore.Set("speaker", aux_speaker, "SET")
 
         '''reset GET hodnoty'''                
-        dstore.ResetValue("terminal_info", 'speaker', key)                                                          
+        dstore.ResetValue("terminal_info", ['speaker', key])                                                          
         self.Update()
                                      
 
