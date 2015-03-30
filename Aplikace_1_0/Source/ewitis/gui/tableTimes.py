@@ -400,38 +400,20 @@ class TimesModel(myModel):
         
         #TIME 1-3                                      
         joinDf = timesstore.Update(self.run_id, tabDf)            
-                      
-        #self.tabDf = self.df()                                                                                                     
-        #mydf2 = pd.concat([left, right], axis = 1)
-        #columns =  self.tabDf.columns - self.dbDf.columns                              
-        #joinDf = self.dbDf.join(self.tabDf[columns])
-#         #print mydf       
-#         
-#         '''POINTS DFs'''
-#         self.orderDf = [None, None, None]
-#         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-#               
-#             #get order group
-#             group = dstore.GetItem('additional_info', ['order', i])                 
-#             column1 = group['column1'].lower()  
-#             
-#             #filter joindf
-#             aux_df = joinDf[(joinDf[column1].notnull()) &  (joinDf['user_id']!=0)]
-# 
-#             #sort
-#             aux_df.sort(column1)
-#             
-#             #last time from each user        
-#             aux_df = aux_df.sort(column1).groupby("user_id", as_index = False).last() 
-#             aux_df.set_index('id',  drop=False, inplace = True)
-#             
-#             self.orderDf[i] = aux_df               
-                                                      
-        ko_nrs = self.UpdateTimesLaps(joinDf)                        
+                                    
+        
+        #calc times and laps                                                      
+        ko_nrs = self.UpdateTimesLaps(joinDf)                                
         if(ko_nrs != []):            
             uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-            ret = False                                                                                                            
-            
+            ret = False                                                                                                                        
+        db.commit()
+        
+        #second times, calc from just calculated values
+        ko_nrs = self.UpdateTimesLaps(joinDf)                                
+        if(ko_nrs != []):            
+            uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+            ret = False                                                                                                                        
         db.commit()
                           
         #timesstore.Update(self.run_id)            
@@ -854,9 +836,10 @@ class Times(myTable):
                 if(len(c_df) != 0):
                     category = tableCategories.getTabCategoryParName(c_name)
                     
-                    #add prefix and suffix 
+                    #add prefix and suffix for category name and desription
                     c_name =  header["categoryname"].replace("%category%", c_name)
-                    category["name"] = c_name
+                    category["name"] = c_name                    
+                    category["description"]  =  header["description"].replace("%description%", category["description"])
                    
                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)                    
                     self.ExportToCsvFileNew(dirname+filename+".csv", racename, c_df, category = category)

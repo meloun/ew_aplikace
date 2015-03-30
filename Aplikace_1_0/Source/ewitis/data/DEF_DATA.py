@@ -110,7 +110,7 @@ DEF_DATA = {
         #group timing setting: below
         "evaluation"         : {"permanent": True,
                                 "GET_SET"  : {"value": {                                                         
-                                                        "starttime": StarttimeEvaluation.VIA_CATEGORY,                                                                                                                                                                        
+                                                        "starttime": StarttimeEvaluation.VIA_USER,                                                                                                                                                                        
                                                         }
                                               }
                                 },
@@ -234,7 +234,8 @@ DEF_DATA = {
                                 "permanent": True,
                                 "GET_SET"  : {"value": [{
                                                 "racename"               : u"%race%",
-                                                "categoryname"           : u"%category%"                                                                                                                                                                                                                                                                                                                           
+                                                "categoryname"           : u"%category%",                                                                                                                                                                                                                                                                                                                           
+                                                "description"            : u"%description%"                                                                                                                                                                                                                                                                                                                           
                                                 }] * NUMBER_OF.EXPORTS,                                              
                                               "changed": True
                                               }  

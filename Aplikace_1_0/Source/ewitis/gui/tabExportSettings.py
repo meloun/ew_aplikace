@@ -23,10 +23,12 @@ class HeaderGroup():
                                 
         self.racename = getattr(ui, "lineExportHeaderRace"+str(index+1))  
         self.categoryname = getattr(ui, "lineExportHeaderCategory"+str(index+1))                                            
+        self.description = getattr(ui, "lineExportHeaderDescription"+str(index+1))
 
     def CreateSlots(self):                
         QtCore.QObject.connect(self.racename, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_header", ["header", self.index, "racename"],  utils.toUnicode(name), self.Update))                 
         QtCore.QObject.connect(self.categoryname, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_header", ["header", self.index, "categoryname"],  utils.toUnicode(name), self.Update))        
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export_header", ["header", self.index, "description"],  utils.toUnicode(name), self.Update))        
             
     def GetInfo(self):
         return dstore.GetItem("export_header", [self.index])
@@ -36,6 +38,7 @@ class HeaderGroup():
         info = self.GetInfo() 
         uiAccesories.UpdateText(self.racename, info["racename"])  
         uiAccesories.UpdateText(self.categoryname, info["categoryname"])                                            
+        uiAccesories.UpdateText(self.description, info["description"])                                            
 
 class FilterSortGroup():    
     def __init__(self,  index):

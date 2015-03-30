@@ -539,8 +539,8 @@ class TimesStore():
             else:
                 print "E: Fatal Error: Starttime "
                 return None
-                        
-            if starttime.empty :
+                                    
+            if starttime == None:
                 return None
             
             expression_string = rule.replace("starttime", str(starttime['time_raw']))                                                   
