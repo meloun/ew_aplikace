@@ -116,12 +116,18 @@ class ExportGroup():
         self.lap = [None] * NUMBER_OF.THREECOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
         self.points = [None] * NUMBER_OF.THREECOLUMNS  
+        self.un = [None] * NUMBER_OF.THREECOLUMNS  
+        self.us = [None] * 1
               
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.time[i] = getattr(ui, "checkExportTime_"+str(i+1)+"_" + str(index+1)) 
             self.lap[i] = getattr(ui, "checkExportLap_"+str(i+1)+"_" + str(index+1))
             self.order[i] = getattr(ui, "checkExportOrder_"+str(i+1)+"_" + str(index+1))
             self.points[i] = getattr(ui, "checkExportPoints_"+str(i+1)+"_" + str(index+1))
+            self.un[i] = getattr(ui, "checkExportUn_"+str(i+1)+"_" + str(index+1))
+
+        i=0            
+        self.us[i] = getattr(ui, "checkExportUs_"+str(i+1)+"_" + str(index+1))
          
          
         self.nr = getattr(ui, "checkExportNumber_" + str(index+1))
@@ -136,7 +142,9 @@ class ExportGroup():
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
             self.option[i] = getattr(ui, "checkExportOption_"+str(i+1)+"_" + str(index+1))
                                 
-        self.gap = getattr(ui, "checkExportGap_" + str(index+1))
+        
+        self.gap = getattr(ui, "checkExportGap_" + str(index+1))        
+        self.status = getattr(ui, "checkExportStatus_" + str(index+1))
         
         
                 
@@ -156,8 +164,12 @@ class ExportGroup():
         #three columns groups
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "time"+str(idx+1)], state, self.Update)) 
-            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "order"+str(idx+1)], state, self.Update))
             QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "lap"+str(idx+1)], state, self.Update))                                            
+            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "order"+str(idx+1)], state, self.Update))
+            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "un"+str(idx+1)], state, self.Update))
+            
+        i=0
+        QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "us"+str(idx+1)], state, self.Update))
                
         QtCore.QObject.connect(self.nr, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: uiAccesories.sGuiSetItem("export", ["checked", idx, "nr"], state, self.Update))                                
         QtCore.QObject.connect(self.name, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: uiAccesories.sGuiSetItem("export", ["checked", idx, "name"], state, self.Update))                                
@@ -171,9 +183,11 @@ class ExportGroup():
             
 
         QtCore.QObject.connect(self.gap, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["checked", self.index, "gap"], state, self.Update))
+        
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: uiAccesories.sGuiSetItem("export", ["checked", self.index, "points"+str(idx+1)], state, self.Update)) 
                 
+        QtCore.QObject.connect(self.status, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export", ["checked", self.index, "status"], state, self.Update))
 
     def setEnabled(self, enabled):        
         
@@ -181,6 +195,8 @@ class ExportGroup():
             self.time[i].setEnabled(enabled)         
             self.lap[i].setEnabled(enabled)          
             self.order[i].setEnabled(enabled)            
+            self.un[i].setEnabled(enabled)            
+        self.us[0].setEnabled(enabled)            
         self.nr.setEnabled(enabled)        
         self.name.setEnabled(enabled)        
         self.category.setEnabled(enabled)        
@@ -190,8 +206,10 @@ class ExportGroup():
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
             self.option[i].setEnabled(enabled)        
         self.gap.setEnabled(enabled) 
+        self.status.setEnabled(enabled) 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
-            self.points[i].setEnabled(enabled) 
+            self.points[i].setEnabled(enabled)
+        self.status.setEnabled(enabled) 
         
     
     def GetCheckedInfo(self):        
@@ -227,6 +245,7 @@ class ExportGroup():
         
         self.setEnabled(self.IsEnabled())
         
+        #enabled in additional info
         if(self.IsEnabled()):
             ai = dstore.Get("additional_info")
             for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -238,10 +257,10 @@ class ExportGroup():
                     self.order[i].setEnabled(False)
                 if(ai["points"][i]["checked"] == 0):                              
                     self.points[i].setEnabled(False)
-                #if(ai["un"][i]["checked"] == 0):                              
-                #    self.un[i].setEnabled(False) 
-            #if(ai["un"][0]["checked"] == 0):                              
-            #    self.un[0].setEnabled(False)             
+                if(ai["un"][i]["checked"] == 0):                              
+                    self.un[i].setEnabled(False)                                          
+            if(ai["us"][0]["checked"] == 0):
+                self.us[0].setEnabled(False)             
             
         
         enabled_csv_state = dstore.GetItem("export", ["enabled_csv", self.index])
@@ -262,6 +281,10 @@ class ExportGroup():
             self.time[i].setCheckState(checked_info["time"+str(i+1)])
             self.lap[i].setCheckState(checked_info["lap"+str(i+1)])                              
             self.order[i].setCheckState(checked_info["order"+str(i+1)])             
+            self.un[i].setCheckState(checked_info["un"+str(i+1)])
+            
+        i=0
+        self.us[i].setCheckState(checked_info["us"+str(i+1)])             
 
         
         self.nr.setCheckState(checked_info["nr"])                                
@@ -273,6 +296,7 @@ class ExportGroup():
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
             self.option[i].setCheckState(checked_info["option"+str(i+1)])        
         self.gap.setCheckState(checked_info["gap"])
+        self.status.setCheckState(checked_info["status"])
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             self.points[i].setCheckState(checked_info["points"+str(i+1)]) 
             
@@ -291,12 +315,17 @@ class NamesGroup():
         self.lap = [None] * NUMBER_OF.THREECOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
         self.points = [None] * NUMBER_OF.THREECOLUMNS  
+        self.un = [None] * NUMBER_OF.THREECOLUMNS  
+        self.us = [None] * 1  
               
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.time[i] = getattr(ui, "lineExportNameTime"+str(i+1)) 
             self.lap[i] = getattr(ui, "lineExportNameLap"+str(i+1))
             self.order[i] = getattr(ui, "lineExportNameOrder"+str(i+1))
             self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
+            self.un[i] = getattr(ui, "lineExportNameUn"+str(i+1))
+        i=0
+        self.us[i] = getattr(ui, "lineExportNameUs"+str(i+1))
          
          
         self.nr = getattr(ui, "lineExportNameNr")
@@ -321,9 +350,12 @@ class NamesGroup():
         
         #three columns groups
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "time"+str(idx+1)],  utils.toUnicode(name), self.Update)) 
             QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "order"+str(idx+1)],  utils.toUnicode(name), self.Update))
+            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "time"+str(idx+1)],  utils.toUnicode(name), self.Update)) 
             QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "lap"+str(idx+1)],  utils.toUnicode(name), self.Update))                                            
+            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "un"+str(idx+1)],  utils.toUnicode(name), self.Update))
+        i=0                                            
+        QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: uiAccesories.sGuiSetItem("export", ["names", "us"+str(idx+1)],  utils.toUnicode(name), self.Update))                                            
                
         QtCore.QObject.connect(self.nr, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export", ["names", "nr"],  utils.toUnicode(name), self.Update))                                
         QtCore.QObject.connect(self.name, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: uiAccesories.sGuiSetItem("export", ["names", "name"],  utils.toUnicode(name), self.Update))                                
@@ -346,9 +378,11 @@ class NamesGroup():
         self.enable.setChecked(enabled)
         
         for i in range(0, NUMBER_OF.THREECOLUMNS):                
+            self.order[i].setEnabled(enabled)            
             self.time[i].setEnabled(enabled)         
             self.lap[i].setEnabled(enabled)          
-            self.order[i].setEnabled(enabled)            
+            self.un[i].setEnabled(enabled)          
+        self.us[0].setEnabled(enabled)          
         self.nr.setEnabled(enabled)        
         self.name.setEnabled(enabled)        
         self.category.setEnabled(enabled)        
@@ -373,9 +407,12 @@ class NamesGroup():
         #three columns groups               
         #print export_info
         for i in range(0, NUMBER_OF.THREECOLUMNS):
+            uiAccesories.UpdateText(self.order[i], info["order"+str(i+1)])
             uiAccesories.UpdateText(self.time[i], info["time"+str(i+1)])
             uiAccesories.UpdateText(self.lap[i], info["lap"+str(i+1)])
-            uiAccesories.UpdateText(self.order[i], info["order"+str(i+1)])
+            uiAccesories.UpdateText(self.un[i], info["un"+str(i+1)])
+        i=0
+        uiAccesories.UpdateText(self.un[i], info["un"+str(i+1)])
                       
         uiAccesories.UpdateText(self.nr, info["nr"])                                
         uiAccesories.UpdateText(self.name, info["name"])                                

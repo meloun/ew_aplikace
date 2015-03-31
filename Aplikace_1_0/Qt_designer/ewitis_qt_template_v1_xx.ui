@@ -4800,7 +4800,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>720</width>
+                <width>500</width>
                 <height>200</height>
                </size>
               </property>
@@ -5802,7 +5802,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>374</y>
+                 <y>493</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -5831,7 +5831,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>374</y>
+                 <y>493</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -5847,7 +5847,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>434</y>
+                 <y>374</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -5907,7 +5907,7 @@
               <widget class="QLineEdit" name="lineExportNameOption1">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>254</y>
                  <width>111</width>
                  <height>16</height>
@@ -5960,7 +5960,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>354</y>
+                 <y>473</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -5992,7 +5992,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>374</y>
+                 <y>493</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -6088,7 +6088,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>394</y>
+                 <y>513</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6120,7 +6120,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>374</y>
+                 <y>493</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6135,7 +6135,7 @@
               <widget class="QLineEdit" name="lineExportNameOption3">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>294</y>
                  <width>111</width>
                  <height>16</height>
@@ -6169,7 +6169,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>394</y>
+                 <y>513</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6188,7 +6188,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>394</y>
+                 <y>513</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6239,7 +6239,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>394</y>
+                 <y>513</y>
                  <width>91</width>
                  <height>16</height>
                 </rect>
@@ -6303,7 +6303,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>354</y>
+                 <y>473</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -6347,7 +6347,7 @@
               <widget class="QLineEdit" name="lineExportNameOption2">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>274</y>
                  <width>111</width>
                  <height>16</height>
@@ -6399,7 +6399,7 @@
               <widget class="QLineEdit" name="lineExportNameOption4">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>314</y>
                  <width>111</width>
                  <height>16</height>
@@ -6433,7 +6433,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>434</y>
+                 <y>374</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6452,7 +6452,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>434</y>
+                 <y>374</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6503,7 +6503,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>354</y>
+                 <y>473</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6519,7 +6519,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>354</y>
+                 <y>473</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6679,7 +6679,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>434</y>
+                 <y>374</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -6733,7 +6733,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>414</y>
+                 <y>354</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -6746,7 +6746,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>414</y>
+                 <y>354</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6765,7 +6765,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>414</y>
+                 <y>354</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6781,7 +6781,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>414</y>
+                 <y>354</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6797,7 +6797,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>454</y>
+                 <y>394</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6813,7 +6813,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>454</y>
+                 <y>394</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -6826,7 +6826,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>454</y>
+                 <y>394</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6845,7 +6845,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>454</y>
+                 <y>394</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6861,7 +6861,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>494</y>
+                 <y>434</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -6874,7 +6874,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>494</y>
+                 <y>434</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6893,7 +6893,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>494</y>
+                 <y>434</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -6909,7 +6909,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>494</y>
+                 <y>434</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7117,7 +7117,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>474</y>
+                 <y>414</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -7133,7 +7133,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>474</y>
+                 <y>414</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7149,7 +7149,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>474</y>
+                 <y>414</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7165,7 +7165,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>474</y>
+                 <y>414</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7181,7 +7181,7 @@
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>514</y>
+                 <y>454</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7200,7 +7200,7 @@
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>514</y>
+                 <y>454</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7216,7 +7216,7 @@
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>514</y>
+                 <y>454</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -7229,7 +7229,7 @@
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>514</y>
+                 <y>454</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7454,7 +7454,7 @@
               <widget class="QLineEdit" name="lineExportNameOrder2">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>94</y>
                  <width>111</width>
                  <height>16</height>
@@ -7487,7 +7487,7 @@
               <widget class="QLineEdit" name="lineExportNameOrder1">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>74</y>
                  <width>111</width>
                  <height>16</height>
@@ -7520,7 +7520,7 @@
               <widget class="QLineEdit" name="lineExportNameOrder3">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>114</y>
                  <width>111</width>
                  <height>16</height>
@@ -7553,7 +7553,7 @@
               <widget class="QLineEdit" name="lineExportNameNr">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>134</y>
                  <width>111</width>
                  <height>16</height>
@@ -7586,7 +7586,7 @@
               <widget class="QLineEdit" name="lineExportNameCategory">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>174</y>
                  <width>111</width>
                  <height>16</height>
@@ -7619,7 +7619,7 @@
               <widget class="QLineEdit" name="lineExportNameName">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>154</y>
                  <width>111</width>
                  <height>16</height>
@@ -7652,7 +7652,7 @@
               <widget class="QLineEdit" name="lineExportNameYear">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>194</y>
                  <width>111</width>
                  <height>16</height>
@@ -7685,7 +7685,7 @@
               <widget class="QLineEdit" name="lineExportNameClub">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>214</y>
                  <width>111</width>
                  <height>16</height>
@@ -7718,7 +7718,7 @@
               <widget class="QLineEdit" name="lineExportNameSex">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>234</y>
                  <width>111</width>
                  <height>16</height>
@@ -7751,7 +7751,7 @@
               <widget class="QLineEdit" name="lineExportNameGap">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
+                 <x>170</x>
                  <y>334</y>
                  <width>111</width>
                  <height>16</height>
@@ -7784,8 +7784,8 @@
               <widget class="QLineEdit" name="lineExportNamePoints2">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>374</y>
+                 <x>170</x>
+                 <y>493</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7817,8 +7817,8 @@
               <widget class="QLineEdit" name="lineExportNamePoints1">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>354</y>
+                 <x>170</x>
+                 <y>473</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7850,8 +7850,8 @@
               <widget class="QLineEdit" name="lineExportNameLap1">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>434</y>
+                 <x>170</x>
+                 <y>374</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7883,8 +7883,8 @@
               <widget class="QLineEdit" name="lineExportNamePoints3">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>394</y>
+                 <x>170</x>
+                 <y>513</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7916,8 +7916,8 @@
               <widget class="QLineEdit" name="lineExportNameTime1">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>414</y>
+                 <x>170</x>
+                 <y>354</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7949,8 +7949,8 @@
               <widget class="QLineEdit" name="lineExportNameLap2">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>474</y>
+                 <x>170</x>
+                 <y>414</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7982,8 +7982,8 @@
               <widget class="QLineEdit" name="lineExportNameTime2">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>454</y>
+                 <x>170</x>
+                 <y>394</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8015,8 +8015,8 @@
               <widget class="QLineEdit" name="lineExportNameLap3">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>514</y>
+                 <x>170</x>
+                 <y>454</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8048,8 +8048,8 @@
               <widget class="QLineEdit" name="lineExportNameTime3">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>494</y>
+                 <x>170</x>
+                 <y>434</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8192,6 +8192,497 @@
                </property>
                <property name="flat">
                 <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportStatus_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>614</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportStatus_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>614</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameStatus">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>614</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportStatus_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>614</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_309">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>614</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Status</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameUn1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>533</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_3_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>573</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_2_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>553</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_23">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>533</y>
+                 <width>91</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>User number #1</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameUn2">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>553</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_3_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>573</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_1_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>533</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_2_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>553</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_1_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>533</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_24">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>553</y>
+                 <width>91</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>User number #2</string>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_2_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>553</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_3_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>573</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_25">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>573</y>
+                 <width>91</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>User number #3</string>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUn_1_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>533</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameUn3">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>573</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUs_1_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>594</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUs_1_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>594</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportUs_1_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>594</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameUs1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>594</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_57">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>594</y>
+                 <width>91</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>User string #1</string>
                </property>
               </widget>
              </widget>

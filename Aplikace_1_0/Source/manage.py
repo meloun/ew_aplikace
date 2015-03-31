@@ -13,7 +13,6 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.Ui import appWindow    
 from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.data.dstore import dstore
-from ewitis.data.presets import presets
 from ewitis.gui.UiAccesories import MSGTYPE 
 
 #tabs

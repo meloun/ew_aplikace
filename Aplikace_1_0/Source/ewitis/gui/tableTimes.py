@@ -679,7 +679,11 @@ class Times(myTable):
     '''    
     def ExportToHtmFile(self, filename, df):
         title = "Table '"+self.name + "' HTM Export"
-        try:                                                               
+        try:
+            #convert header EN => CZ
+            tocz_dict = dstore.GetItem("export", ["names"])                                                 
+            df = df.rename(columns = tocz_dict)
+                                                                           
             html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= ["css/results.css",], lists = df.values, keys = df.columns)                                                                            
             html_page.save()                                                                                                         
             uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            

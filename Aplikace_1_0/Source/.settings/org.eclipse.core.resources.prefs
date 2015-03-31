@@ -6,7 +6,6 @@ encoding//ewitis/comm/manage_comm.py=utf-8
 encoding//ewitis/data/DEF_DATA.py=utf-8
 encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8
-encoding//ewitis/data/presets.py=utf-8
 encoding//ewitis/exports/ewitis_html.py=utf-8
 encoding//ewitis/gui/DEF_COLUMN.py=utf-8
 encoding//ewitis/gui/TimesStore.py=utf-8

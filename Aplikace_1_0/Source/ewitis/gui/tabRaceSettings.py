@@ -185,8 +185,7 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)
                     
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
-        QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)#lambda text = Ui().textProfileDesc.toHtml(): uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode(text), self.Update))
-        #QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), lambda text = Ui().textProfileDesc.toHtml(): uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode(text), self.Update))
+        QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)        
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                                 
@@ -196,14 +195,14 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))                                                                                                                                                                    
         
         #ADDTITIONAL INFO                                                                              
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                         
-            #QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["order", index, "checked"], state, self.Update))        
-            #QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["lap", index, "checked"], state, self.Update))            
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                                                     
             QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))            
             self.timesgroups[i].CreateSlots()                  
             self.lapgroups[i].CreateSlots()                  
             self.pointgroups[i].CreateSlots()
             self.ordergroups[i].CreateSlots()                              
+        i=0
+        QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["us", index, "checked"], state, self.Update))
                 
         
     """                 """
