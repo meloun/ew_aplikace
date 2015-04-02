@@ -15,7 +15,7 @@ class RaceInfoModel(myModel):
     states:
         - race (default)    
         - dns (manually set)
-        - dnq (manually set)
+        - dsq (manually set)
         - dnf (manually set)
         - finished (time received)
     
@@ -26,7 +26,7 @@ class RaceInfoModel(myModel):
         - finished = with time
         - race + dnf = DNF
         - dns = DNS
-        - dnq = DNQ                
+        - dsq = DSQ                
     """
     def __init__(self, table):                
         myModel.__init__(self, table)        

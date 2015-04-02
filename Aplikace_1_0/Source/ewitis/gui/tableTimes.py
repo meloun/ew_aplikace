@@ -133,10 +133,11 @@ class TimesModel(myModel):
                  
                 # STATUS column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
-                    if tableUsers.model.checkChangedStatus(tabRow) == True:
-                        dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                
-                        #print "update",  {'id':dbUser['id'], 'status': tabRow['status']}
-                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})  
+                    if tableUsers.model.checkChangedStatus(tabRow, dialog = True) == True:
+                        dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
+                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})
+                    else:
+                        return  
                 
                 # TIMERAW column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['timeraw']['index']):                    
@@ -206,7 +207,7 @@ class TimesModel(myModel):
         ''' get USER
             - user_id je id v tabulce Users(bunky) nebo tag_id(rfid) '''
         '''join user, hodnoty z table i db'''                                            
-        joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])
+        joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])        
         
         ''' get CATEGORY'''                    
         tabCategory =  tableCategories.getTabRow(joinUser['category_id'])        
@@ -230,8 +231,8 @@ class TimesModel(myModel):
                     
         '''STATUS'''        
         if (dbTime['cell'] == 1) or (dbTime["user_id"] == 0):
-            tabTime['status'] = ''        
-        else:                       
+            tabTime['status'] = ''                    
+        else:                               
             tabTime['status'] = joinUser['status']
             
         '''TIME
@@ -243,7 +244,7 @@ class TimesModel(myModel):
         additional_info = dstore.Get("additional_info")        
         
         '''TIME 1-3'''
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             
             #TIME 1-3
             if additional_info['time'][i]:                
@@ -256,7 +257,7 @@ class TimesModel(myModel):
                 tabTime[timeX] = None
                 
         '''LAP 1-3'''
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             #LAP 1-3
             if additional_info['lap'][i]:                
                 lapX = 'lap'+str(i+1)
@@ -337,7 +338,39 @@ class TimesModel(myModel):
         return False
     
     def UpdateStatus(self, joinDf):
-        pass
+        ret_ko_times = []  
+ 
+        for index, dbTime in timesstore.joinedDf.iterrows():
+            
+            #df to dict
+            dbTime = dbTime.to_dict()
+            
+            if (dbTime['status'] == "dsq") or (dbTime['status'] == "dnf"):                
+                continue
+             
+            if (dbTime['status'] != "finished") and (dbTime['status'] != "race") and (dbTime['status'] != "dns") and (dbTime['status'] != "") and (dbTime['status'] != None):                               
+                continue 
+            
+            if timesstore.IsFinishTime(dbTime) == False:                
+                continue
+                        
+            dbTime['status'] = "finished"
+            
+            
+            #update db
+            try:                                                                                
+                # STATUS column                    
+                print "AA"
+                if tableUsers.model.checkChangedStatus(dbTime) == True:
+                    print "BB"
+                    dbUser = tableUsers.getDbUserParNr(dbTime['nr'])
+                    if dbUser != None:
+                        print "CC"
+                        print "update userstatus", dbUser['id'], dbTime['status']
+                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': dbTime['status']})   #commit v update()
+            except IndexError: #potreba startime, ale nenalezen 
+                ret_ko_times.append(dbTime['id'])        
+        return ret_ko_times   
                                                   
             
                 
@@ -396,27 +429,25 @@ class TimesModel(myModel):
             self.run_id = run_id #update run_id
         
         #table df    
-        tabDf = self.df()
+        tabDf = self.df()       
+                                                                                                                  
+        #calc times and laps
+        for i in range(0,4):
+            joinDf = timesstore.Update(self.run_id, tabDf) 
+            ko_nrs = self.UpdateTimesLaps(joinDf)                                
+            if(ko_nrs != []):            
+                uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+                ret = False                                                                                                                        
+            db.commit()        
         
-        #TIME 1-3                                      
+        #status            
         joinDf = timesstore.Update(self.run_id, tabDf)            
-                                    
-        
-        #calc times and laps                                                      
-        ko_nrs = self.UpdateTimesLaps(joinDf)                                
+        ko_nrs = self.UpdateStatus(joinDf)                                
         if(ko_nrs != []):            
-            uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-            ret = False                                                                                                                        
+            uiAccesories.showMessage(self.table.name+" Update Status error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+            ret = False
         db.commit()
-        
-        #second times, calc from just calculated values
-        ko_nrs = self.UpdateTimesLaps(joinDf)                                
-        if(ko_nrs != []):            
-            uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-            ret = False                                                                                                                        
-        db.commit()
-                          
-        #timesstore.Update(self.run_id)            
+                                                                      
         myModel.Update(self, "run_id", self.run_id)
         #db.commit()        
         return ret            
@@ -518,14 +549,23 @@ class Times(myTable):
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
-        res = db.query(query)                        
-        db.commit()        
+        res = db.query(query) 
+        db.commit()                       
         return res
     
     def ResetNrOfLaps(self):
         query = \
                 " UPDATE times" +\
                     " SET lap1 = Null, lap2 = Null, lap3 = Null"                                                    
+        res = db.query(query)                        
+        db.commit()        
+        return res
+    
+    def ResetStatus(self):
+        query = \
+                " UPDATE users" +\
+                    " SET status = Null"  +\
+                    " WHERE (users.status != \"dsq\") AND (users.status != \"dnf\")"                                                   
         res = db.query(query)                        
         db.commit()        
         return res
@@ -541,6 +581,8 @@ class Times(myTable):
                     " WHERE (times.run_id = \""+str(run_id)+"\")"
                         
         res = db.query(query)
+                
+        self.ResetStatus() 
                         
         db.commit()
         print "A: Times: Recalculating.. press F5 to finish"
@@ -748,6 +790,8 @@ class Times(myTable):
         
         #update dataframes for export
         self.model.Update()
+        self.model.Update()
+        
         timesstore.UpdateExportDf()
         
         exported = {}
@@ -886,14 +930,13 @@ class Times(myTable):
         self.setColumnWidth()        
         
         #create list of columns to hide
-        #print ai.items()
         columns = []
         for k,v in ai.items():
             
             #dict            
-            if "checked" in v:
-                print "dict", v
-                columns.append(k)
+            if ("checked" in v):
+                if(v['checked'] == 0):
+                    columns.append(k)
                 continue
 
             #list of dict                            
@@ -903,10 +946,7 @@ class Times(myTable):
                 if(item['checked'] == 0):                    
                     columns.append(k+""+str(c))
                     
-        
-                    
-        self.hiddenCollumns =  columns  
-        print columns                                                     
+        self.hiddenCollumns =  columns                                                     
         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
                 
         self.updateHideColumns()
@@ -927,62 +967,10 @@ class Times(myTable):
             id = self.proxy_model.data(rows[0]).toString()
         except:
             uiAccesories.showMessage(self.name+" Delete error", "Cant be deleted")
-            return
-            
-        #first start time? => cant be updated               
-        #if(int(id) == (self.model.utils.getFirstStartTime(self.model.run_id)['id'])):
-        #if(int(id) == (self.model.starts.GetFirst(self.model.run_id)['id'])):
-        #if(int(id) == (self.model.starts2.GetFirst()['id'])):
-        #    uiAccesories.showMessage(self.name+" Delete warning", "First start time cant be deleted!")
-        #    return  
+            return 
         
         #delete run with additional message
         myTable.sDelete(self)
-                                                                                                                                  
-    #
-    def getCount(self, run_id, dbCategory = None, minimal_laps = None):
-        run_id_esc = str(run_id)                                       
-        
-        query = "SELECT COUNT(*) FROM(\
-                    SELECT COUNT(times.id) from times"
-        
-        if(dstore.Get("racesettings-app", ['rfid']) == 2):
-            query = query + \
-                    " INNER JOIN tags ON times.user_id = tags.tag_id"+\
-                    " INNER JOIN users ON tags.user_nr = users.nr "
-        else:
-            query = query + \
-                    " INNER JOIN users ON times.user_id = users.id"
-            
-        query = query + \
-                    " WHERE (times.run_id = "+run_id_esc+")"\
-                        " AND (users.state != \"dns\")"\
-                        " AND (users.state != \"dnf\")"\
-                        " AND (users.state != \"dnq\")"
-        if dbCategory:
-            category_id_esc = str(dbCategory["id"])                        
-            query = query + \
-                        " AND (users.category_id = "+category_id_esc+")"
-        query = query + \
-                    " GROUP by times.user_id"
-                    
-        if minimal_laps:
-            query = query + \
-                    " HAVING count(*) >= " + str(minimal_laps)
-                    
-        query = query + ")"     
-        
-        #print query
-        res = db.query(query)
-        return res.fetchone()[0]                                                            
-        
-                                    
-                                                                                            
-    
+                                                                                                                                                                                                                                                                                              
 tableTimes = Times()   
-            
-            
 
-        
-        
-    

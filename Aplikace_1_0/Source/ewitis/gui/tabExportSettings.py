@@ -115,7 +115,7 @@ class ExportGroup():
         self.time = [None] * NUMBER_OF.THREECOLUMNS
         self.lap = [None] * NUMBER_OF.THREECOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
-        self.points = [None] * NUMBER_OF.THREECOLUMNS  
+        self.points = [None] * NUMBER_OF.POINTSCOLUMNS  
         self.un = [None] * NUMBER_OF.THREECOLUMNS  
         self.us = [None] * 1
               
@@ -125,6 +125,9 @@ class ExportGroup():
             self.order[i] = getattr(ui, "checkExportOrder_"+str(i+1)+"_" + str(index+1))
             self.points[i] = getattr(ui, "checkExportPoints_"+str(i+1)+"_" + str(index+1))
             self.un[i] = getattr(ui, "checkExportUn_"+str(i+1)+"_" + str(index+1))
+            
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            self.points[i] = getattr(ui, "checkExportPoints_"+str(i+1)+"_" + str(index+1))
 
         i=0            
         self.us[i] = getattr(ui, "checkExportUs_"+str(i+1)+"_" + str(index+1))
@@ -314,7 +317,7 @@ class NamesGroup():
         self.time = [None] * NUMBER_OF.THREECOLUMNS
         self.lap = [None] * NUMBER_OF.THREECOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
-        self.points = [None] * NUMBER_OF.THREECOLUMNS  
+        self.points = [None] * NUMBER_OF.POINTSCOLUMNS  
         self.un = [None] * NUMBER_OF.THREECOLUMNS  
         self.us = [None] * 1  
               
@@ -326,7 +329,8 @@ class NamesGroup():
             self.un[i] = getattr(ui, "lineExportNameUn"+str(i+1))
         i=0
         self.us[i] = getattr(ui, "lineExportNameUs"+str(i+1))
-         
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
          
         self.nr = getattr(ui, "lineExportNameNr")
         self.name = getattr(ui, "lineExportNameName")

@@ -70,20 +70,23 @@ class UsersModel(myModel):
     
 
    
-    def checkChangedStatus(self, tabRow):
+    def checkChangedStatus(self, tabRow, dialog = False):
         '''ZMĚNA STATUSu'''
-        '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dnq'            
+        '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dsq'            
         '''
         
         #check rights and format
         if(int(tabRow['cell']) == 1):
-            uiAccesories.showMessage("Status update error", "Status can NOT be set to starttime")
-            return False                
-        elif(int(tabRow['nr']) == 0):   
-            uiAccesories.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
+            if dialog:
+                uiAccesories.showMessage("Status update error", "Status can NOT be set to starttime")
+            return False               
+        elif(tabRow['nr'] == None) or (int(tabRow['nr']) == 0):
+            if dialog:   
+                uiAccesories.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
             return False              
         elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
-            uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
+            if dialog:
+                uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
             return False
                                                                                                                                                                                                                                     
         return True 

@@ -151,22 +151,24 @@ class TabRaceSettings():
                          
         
     def Init(self):
+        
         self.pointgroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.timesgroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.ordergroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.lapgroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.un = [None] * NUMBER_OF.POINTSCOLUMNS
+        self.timesgroups = [None] * NUMBER_OF.THREECOLUMNS
+        self.ordergroups = [None] * NUMBER_OF.THREECOLUMNS
+        self.lapgroups = [None] * NUMBER_OF.THREECOLUMNS
+        self.un = [None] * NUMBER_OF.THREECOLUMNS
         self.us = [None] * 1
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-           
-            #self.lap[i] = getattr(Ui(), "checkAInfoLap_" + str(i+1)) 
+        
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.timesgroups[i] = TimesGroup(i+1)
             self.lapgroups[i] = FilterGroup(i+1, "Lap") 
-            self.ordergroups[i] =  OrderGroup(i+1)  
-            self.pointgroups[i] = PointGroup(i+1)
+            self.ordergroups[i] =  OrderGroup(i+1)
             self.un[i] = getattr(Ui(), "checkAInfoUserNumber_" + str(i+1))
-                                      
         self.us[0] = getattr(Ui(), "checkAInfoUserString_" + str(1))
+        self.status = getattr(Ui(), "checkAInfoStatus")
+                                      
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS): 
+            self.pointgroups[i] = PointGroup(i+1)
         
         self.addSlots()
         
@@ -182,27 +184,28 @@ class TabRaceSettings():
                 
         #middle group 
         QtCore.QObject.connect(Ui().pushLoadProfile, QtCore.SIGNAL('clicked()'), self.sLoadProfile)
-        QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)
-                    
+        QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)                    
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)        
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                                 
-        
-        #table TIMES
-        #order evaluation                                
-        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda index: uiAccesories.sGuiSetItem("evaluation", ["starttime"], index, self.Update))                                                                                                                                                                    
+        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                                                               
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda state: uiAccesories.sGuiSetItem("evaluation", ["starttime"], state, self.Update))
+        QtCore.QObject.connect(Ui().spinFinishLaps, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("evaluation", ["finishtime", "laps"], state, self.Update))                                                                                                                                                                   
+        QtCore.QObject.connect(Ui().lineFinishTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("evaluation", ["finishtime", "time"], utils.toUnicode(name), self.Update))                    
         
         #ADDTITIONAL INFO                                                                              
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                                                     
+        QtCore.QObject.connect(self.status, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["status", "checked"], state, self.Update))
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                                                                     
             QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))            
             self.timesgroups[i].CreateSlots()                  
-            self.lapgroups[i].CreateSlots()                  
-            self.pointgroups[i].CreateSlots()
+            self.lapgroups[i].CreateSlots()
             self.ordergroups[i].CreateSlots()                              
         i=0
         QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["us", index, "checked"], state, self.Update))
+        
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                                                                    
+            self.pointgroups[i].CreateSlots()                           
                 
         
     """                 """
@@ -360,18 +363,23 @@ class TabRaceSettings():
         Ui().checkRfidRace.setChecked(dstore.GetItem("racesettings-app", ["rfid"]))                                  
         Ui().checkTagFilter.setChecked(dstore.GetItem("racesettings-app", ["tag_filter"]))                                                                                                                                                                                                             
             
-            
-        ##TIMES##
         #evaluations        
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.Get("evaluation")['starttime'])                                                      
+        Ui().spinFinishLaps.setValue(dstore.GetItem("evaluation", ['finishtime', "laps"]))                                                      
+        uiAccesories.UpdateText(Ui().lineFinishTime, dstore.GetItem("evaluation", ["finishtime", "time"]))
         
         #aditional info
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
             self.timesgroups[i].Update()
-            self.lapgroups[i].Update()
-            self.pointgroups[i].Update()             
-            self.ordergroups[i].Update()                
+            self.lapgroups[i].Update()          
+            self.ordergroups[i].Update()
+        i=0
+        self.us[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
+        self.status.setChecked(dstore.GetItem("additional_info", ['status',"checked"]))                                                                                                                                      
+                            
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            self.pointgroups[i].Update()      
         
         
         self.init = True

@@ -56,13 +56,14 @@ class NUMBER_OF:
     CELLS = 14
     EXPORTS = 3
     
-    POINTSCOLUMNS = 3
+    POINTSCOLUMNS = 4
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
     
 def Assigments2Dict(assigment):                                            
         if assigment == "":            
             return None
+        assigment = assigment.replace(" ", "") #mezery pryc
         
         try:
             assigment_dict = dict([item.split("=") for item in assigment.split(";")])            
@@ -90,19 +91,7 @@ DEF_DATA = {
                                                         "active_row": 0
                                                         }
                                               }
-                               },        
-        #tab Race Info
-        "race_info"          : {"GET_SET"  : {"value": {
-                                                "limit_laps"      : 1, 
-                                                "limit_time"      : {"hours"             :99,
-                                                                     "minutes"           :59,
-                                                                     "seconds"           :59,
-                                                                     "milliseconds_x10"  :99
-                                                                      }                                               
-                                                }
-                                      }
-                        },
-            
+                               },
         #tab RACE SETTINGS
         "race_time"          : {"GET_SET"  : { "value"   : 0},},        
         #group timing setting: below
@@ -110,7 +99,8 @@ DEF_DATA = {
         #group timing setting: below
         "evaluation"         : {"permanent": True,
                                 "GET_SET"  : {"value": {                                                         
-                                                        "starttime": StarttimeEvaluation.VIA_USER,                                                                                                                                                                        
+                                                        "starttime": StarttimeEvaluation.VIA_USER, 
+                                                        "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
                                                         }
                                               }
                                 },
@@ -166,7 +156,7 @@ DEF_DATA = {
         "export"              : {"name"     : "export",
                                 "permanent": True,                                
                                 "GET_SET"  : {"value": {
-                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "option4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","un1","un2","un3","us1","status"],
+                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "option4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","un1","un2","un3","us1","status"],
                                                         "names":  {                                                
                                                                 "order1"            : u"pořadí",
                                                                 "order2"            : u"pořadí",
@@ -190,7 +180,8 @@ DEF_DATA = {
                                                                 "lap3"              : u"kolo",                                                                                                                                  
                                                                 "points1"           : u"body",
                                                                 "points2"           : u"body", 
-                                                                "points3"           : u"body",                                                                                                                                                                                                                                                                                                                                                                         
+                                                                "points3"           : u"body",
+                                                                "points4"           : u"body",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "un1"               : u"un 1",
                                                                 "un2"               : u"un 2", 
                                                                 "un3"               : u"un 3",                                                                                                                                                                                                                                                                                                                                                                         
@@ -223,6 +214,7 @@ DEF_DATA = {
                                                                 "points1"           : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "points2"           : CheckboxValue.unchecked,
                                                                 "points3"           : CheckboxValue.unchecked,
+                                                                "points4"           : CheckboxValue.unchecked,
                                                                 "un1"               : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "un2"               : CheckboxValue.unchecked,
                                                                 "un3"               : CheckboxValue.unchecked,

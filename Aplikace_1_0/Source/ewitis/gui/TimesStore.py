@@ -34,23 +34,25 @@ class TimesStore():
     def FilterFrame(self, df, filter):
         '''
         filter dataframe according to pattern        
-        '''
-                                      
+        '''                                              
         if filter != None:        
             for k,v in filter.iteritems():                
                 try:
                     #replace
                     v = str(v)
-                    if(v == "2"):
+                    
+                    if(k == "cell") and (v == "2"):
                         v="2$"                
                     v = v.replace("2|", "2$|") #cell=2|250
                     v = v.replace(" ", "") #mezery pryc
                     
                     # filter frame
-                    #print df                                                                                                                                                                                                                                                           
-                    df = df[df[k].astype(str).str.match(str(v))]                                        
-                except KeyError:
-                    print "error: race settings: filter", filter               
+                    df = df[df[k].notnull()]                                                                                                                                                                                                                                                                  
+                    df = df[df[k].astype(int).astype(str).str.match(str(v))] #convert to int because of float type (3.0)
+                           
+                except (KeyError):
+                    print "error: race settings: filter", k, v, filter
+                    continue
         return df
 
     
@@ -128,9 +130,9 @@ class TimesStore():
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
         #update order df        
-        self.orderDf = [pd.DataFrame()] * NUMBER_OF.POINTSCOLUMNS
-        self.orderGroupbys = [None] * NUMBER_OF.POINTSCOLUMNS
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):            
+        self.orderDf = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS
+        self.orderGroupbys = [None] * NUMBER_OF.THREECOLUMNS
+        for i in range(0, NUMBER_OF.THREECOLUMNS):            
               
             #get order group
             group = dstore.GetItem('additional_info', ['order', i])
@@ -208,10 +210,13 @@ class TimesStore():
                 #prepare filtered df for times                            
                 filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "time", i])['filter'])
                 self.timesDf[i] = timesstore.FilterFrame(self.joinedDf, filter_dict)
+                #print "KL", i, filter_dict, len(self.timesDf[i])
+ 
                 
                 #prepare filtered df for lap
                 lap_group = dstore.GetItem('additional_info', ['lap', i])
-                if(lap_group['checked'] != 0):                        
+                #print lap_group
+                if(lap_group['checked'] != 0):
                     filter_dict = Assigments2Dict(dstore.GetItem("additional_info", [ "lap", i])['filter'])
                     self.lapDf[i] = timesstore.FilterFrame(self.timesDf[i], filter_dict)
                                         
@@ -304,6 +309,21 @@ class TimesStore():
             return False         
             
         return True
+    
+    def IsFinishTime(self, dbTime): 
+        
+        if self.IsTimeToCalc(dbTime) == False:
+            return False       
+        
+        eval_finish = dstore.GetItem("evaluation", ['finishtime'])
+        
+        if(dbTime['time1'] < TimesUtils.TimesUtils.timestring2time(eval_finish["time"], including_days = False)):
+            return False
+        
+        if(dbTime['lap1'] < eval_finish["laps"]):
+            return False
+            
+        return True
 
     def CalcOrder(self, dbTime, index):
         '''
@@ -372,7 +392,7 @@ class TimesStore():
         společná funkce pro počítání time, lap
         '''                        
                                                
-        '''no time in some cases'''        
+        '''no time in some cases'''     
         if(self.IsTimeToCalc(dbTime) == False):
             return None               
                   
@@ -498,6 +518,8 @@ class TimesStore():
                 expression_string = expression_string.replace("points2", str(joinTime['points2']))
             if ("points3" in rule):                                
                 expression_string = expression_string.replace("points3", str(joinTime['points3']))
+            if ("points4" in rule):                                
+                expression_string = expression_string.replace("points4", str(joinTime['points4']))
         except KeyError:        
             return None
                
@@ -518,8 +540,18 @@ class TimesStore():
                         celltime = timesstore.GetPrevious(joinTime, {"cell":str(i)}, df) 
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
                     except TypeError:       
-                        print "type error"         
+                        print "type error celltime"         
                         return None
+        # previoustime                
+        if "previoustime" in rule:                              
+            try:  
+                time = timesstore.GetPrevious(joinTime, {}, df)
+                if(time == None):
+                    return None 
+                expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
+            except TypeError:       
+                print "type error previoustime"         
+                return None
                 
         # STARTTIME    
         #user without number => no time
@@ -569,8 +601,7 @@ class TimesStore():
             points = minimum
         if maximum and (points > maximum):
             points = maximum                     
-                
-        #print points, rule
+                                
         return points
     
 

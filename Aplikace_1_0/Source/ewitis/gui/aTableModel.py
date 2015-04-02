@@ -320,15 +320,13 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         else:
             rows = []
                                    
-                                                                 
         #pridat radky do modelu/tabulky
         row_dicts = []         
 #        for row in rows:
 #                        
 #            #convert "db-row" to dict (in dict can be added record)
 #            row_dicts.append(db.dict_factory(rows, row))
-        row_dicts = db.cursor2dicts(rows)                                                
-            
+        row_dicts = db.cursor2dicts(rows)            
                             
         for row_dict in row_dicts:            
             #call table-specific function, return "table-row"                                           
