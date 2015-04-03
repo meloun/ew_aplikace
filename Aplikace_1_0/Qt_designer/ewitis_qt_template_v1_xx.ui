@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>9</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -2917,27 +2917,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <string>AND</string>
                </property>
               </widget>
-              <zorder>checkRfidRace</zorder>
-              <zorder>lineRaceName</zorder>
-              <zorder>checkTagFilter</zorder>
-              <zorder>comboStarttimeEvaluation</zorder>
-              <zorder>label_90</zorder>
-              <zorder>checkRemoteRace</zorder>
-              <zorder>pushLoadProfile</zorder>
-              <zorder>lineProfileName</zorder>
-              <zorder>pushSaveProfile</zorder>
-              <zorder>textProfileDesc</zorder>
-              <zorder>label_29</zorder>
-              <zorder>label_30</zorder>
-              <zorder>label_211</zorder>
-              <zorder>label_212</zorder>
-              <zorder>spinFinishLaps</zorder>
-              <zorder>lineFinishTime</zorder>
-              <zorder>label_310</zorder>
-              <zorder>label_311</zorder>
-              <zorder>groupTerminal_6</zorder>
-              <zorder>groupTerminal_6</zorder>
-              <zorder>label_312</zorder>
              </widget>
             </item>
             <item>
@@ -4928,76 +4907,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <bool>true</bool>
                </property>
               </widget>
-              <zorder>checkAInfoOrder_1</zorder>
-              <zorder>label_20</zorder>
-              <zorder>checkAInfoPoints_1</zorder>
-              <zorder>checkAInfoPoints_2</zorder>
-              <zorder>checkAInfoPoints_3</zorder>
-              <zorder>checkAInfoLap_1</zorder>
-              <zorder>checkAInfoLap_3</zorder>
-              <zorder>checkAInfoLap_2</zorder>
-              <zorder>checkAInfoTime_3</zorder>
-              <zorder>checkAInfoTime_1</zorder>
-              <zorder>checkAInfoTime_2</zorder>
-              <zorder>checkAInfoOrder_2</zorder>
-              <zorder>checkAInfoOrder_3</zorder>
-              <zorder>lineAInfoTimeRule_1</zorder>
-              <zorder>lineAInfoTimeRule_2</zorder>
-              <zorder>lineAInfoTimeRule_3</zorder>
-              <zorder>spinAInfoPointMaximum_3</zorder>
-              <zorder>spinAInfoPointMaximum_2</zorder>
-              <zorder>lineAInfoPointRule_1</zorder>
-              <zorder>spinAInfoPointMinimum_3</zorder>
-              <zorder>spinAInfoPointMinimum_2</zorder>
-              <zorder>spinAInfoPointMinimum_1</zorder>
-              <zorder>lineAInfoPointRule_3</zorder>
-              <zorder>spinAInfoPointMaximum_1</zorder>
-              <zorder>lineAInfoPointRule_2</zorder>
-              <zorder>label_64</zorder>
-              <zorder>label_84</zorder>
-              <zorder>lineAInfoTimeFilter_1</zorder>
-              <zorder>lineAInfoTimeFilter_2</zorder>
-              <zorder>lineAInfoTimeFilter_3</zorder>
-              <zorder>label_231</zorder>
-              <zorder>label_232</zorder>
-              <zorder>label_233</zorder>
-              <zorder>comboOrderColumn_1_1</zorder>
-              <zorder>comboOrderOrder_1_1</zorder>
-              <zorder>comboOrderColumn_1_2</zorder>
-              <zorder>comboOrderOrder_1_2</zorder>
-              <zorder>comboOrderColumn_2_1</zorder>
-              <zorder>comboOrderColumn_2_2</zorder>
-              <zorder>comboOrderOrder_2_1</zorder>
-              <zorder>comboOrderOrder_2_2</zorder>
-              <zorder>comboOrderColumn_3_1</zorder>
-              <zorder>comboOrderColumn_3_2</zorder>
-              <zorder>comboOrderOrder_3_1</zorder>
-              <zorder>comboOrderOrder_3_2</zorder>
-              <zorder>comboOrderRow_1</zorder>
-              <zorder>comboOrderRow_2</zorder>
-              <zorder>comboOrderRow_3</zorder>
-              <zorder>label_235</zorder>
-              <zorder>label_236</zorder>
-              <zorder>label_240</zorder>
-              <zorder>checkAInfoUserNumber_1</zorder>
-              <zorder>checkAInfoUserNumber_3</zorder>
-              <zorder>checkAInfoUserNumber_2</zorder>
-              <zorder>checkAInfoUserString_1</zorder>
-              <zorder>label_18</zorder>
-              <zorder>label_19</zorder>
-              <zorder>lineAInfoLapFilter_1</zorder>
-              <zorder>lineAInfoLapFilter_2</zorder>
-              <zorder>lineAInfoLapFilter_3</zorder>
-              <zorder>label_243</zorder>
-              <zorder>comboOrderType_1</zorder>
-              <zorder>comboOrderType_2</zorder>
-              <zorder>comboOrderType_3</zorder>
-              <zorder>checkAInfoPoints_4</zorder>
-              <zorder>spinAInfoPointMinimum_4</zorder>
-              <zorder>lineAInfoPointRule_4</zorder>
-              <zorder>spinAInfoPointMaximum_4</zorder>
-              <zorder>checkAInfoStatus</zorder>
-              <zorder>groupTerminal_5</zorder>
              </widget>
             </item>
            </layout>
@@ -5007,805 +4916,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <string>Export Settings</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_13">
-            <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox_19">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>500</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Filter and Sort</string>
-              </property>
-              <widget class="QLabel" name="label_195">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>70</y>
-                 <width>20</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E2</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_193">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>90</y>
-                 <width>20</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E3</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_194">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>50</y>
-                 <width>21</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E1</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="comboExportFilter_1">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>140</x>
-                 <y>50</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>all times</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>last times</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportFilter_2">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>140</x>
-                 <y>70</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>all times</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>last times</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportFilter_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>140</x>
-                 <y>90</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>all times</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>last times</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort1_1">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>50</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_305">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>140</x>
-                 <y>30</y>
-                 <width>51</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="text">
-                <string>Filter</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_306">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>30</y>
-                 <width>51</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="text">
-                <string>Sort 1</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder1_1">
-               <property name="geometry">
-                <rect>
-                 <x>300</x>
-                 <y>50</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder1_2">
-               <property name="geometry">
-                <rect>
-                 <x>300</x>
-                 <y>70</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder1_3">
-               <property name="geometry">
-                <rect>
-                 <x>300</x>
-                 <y>90</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder2_1">
-               <property name="geometry">
-                <rect>
-                 <x>430</x>
-                 <y>50</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder2_3">
-               <property name="geometry">
-                <rect>
-                 <x>430</x>
-                 <y>90</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSortOrder2_2">
-               <property name="geometry">
-                <rect>
-                 <x>430</x>
-                 <y>70</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>asc</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>desc</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_307">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>360</x>
-                 <y>30</y>
-                 <width>51</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="text">
-                <string>Sort 2</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort1_2">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>70</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort1_3">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>90</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort2_1">
-               <property name="geometry">
-                <rect>
-                 <x>360</x>
-                 <y>50</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>- - -</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort2_2">
-               <property name="geometry">
-                <rect>
-                 <x>360</x>
-                 <y>70</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>- - -</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportSort2_3">
-               <property name="geometry">
-                <rect>
-                 <x>360</x>
-                 <y>90</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>- - -</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>order3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>time3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>points3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportType_1">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>50</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>categories</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportType_2">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>70</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>categories</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_308">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>30</y>
-                 <width>51</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="text">
-                <string>Type</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="comboExportType_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>90</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>categories</string>
-                </property>
-               </item>
-              </widget>
-             </widget>
-            </item>
             <item row="0" column="2" rowspan="3">
              <widget class="QGroupBox" name="groupBox_17">
               <property name="sizePolicy">
@@ -9029,7 +8139,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>720</width>
+                <width>725</width>
                 <height>0</height>
                </size>
               </property>
@@ -9499,6 +8609,925 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox_19">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>725</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>Filter and Sort</string>
+              </property>
+              <widget class="QLabel" name="label_195">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>70</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E2</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_193">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>90</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E3</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_194">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>50</y>
+                 <width>21</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E1</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboExportFilter_1">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>50</y>
+                 <width>191</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>last times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportFilter_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>70</y>
+                 <width>191</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>last times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportFilter_3">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>90</y>
+                 <width>191</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>last times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>last times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time1 or time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort1_1">
+               <property name="geometry">
+                <rect>
+                 <x>350</x>
+                 <y>50</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QLabel" name="label_305">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>30</y>
+                 <width>51</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Filter</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_306">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>350</x>
+                 <y>30</y>
+                 <width>51</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Sort 1</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder1_1">
+               <property name="geometry">
+                <rect>
+                 <x>420</x>
+                 <y>50</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder1_2">
+               <property name="geometry">
+                <rect>
+                 <x>420</x>
+                 <y>70</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder1_3">
+               <property name="geometry">
+                <rect>
+                 <x>420</x>
+                 <y>90</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder2_1">
+               <property name="geometry">
+                <rect>
+                 <x>550</x>
+                 <y>50</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder2_3">
+               <property name="geometry">
+                <rect>
+                 <x>550</x>
+                 <y>90</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSortOrder2_2">
+               <property name="geometry">
+                <rect>
+                 <x>550</x>
+                 <y>70</y>
+                 <width>51</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>asc</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>desc</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QLabel" name="label_307">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>30</y>
+                 <width>51</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Sort 2</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort1_2">
+               <property name="geometry">
+                <rect>
+                 <x>350</x>
+                 <y>70</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort1_3">
+               <property name="geometry">
+                <rect>
+                 <x>350</x>
+                 <y>90</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort2_1">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>50</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>- - -</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort2_2">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>70</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>- - -</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportSort2_3">
+               <property name="geometry">
+                <rect>
+                 <x>480</x>
+                 <y>90</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>- - -</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>order3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points3</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportType_1">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>50</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>categories</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportType_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>70</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>categories</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QLabel" name="label_308">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>30</y>
+                 <width>51</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Type</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboExportType_3">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>90</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>categories</string>
+                </property>
+               </item>
+              </widget>
+             </widget>
             </item>
            </layout>
           </widget>

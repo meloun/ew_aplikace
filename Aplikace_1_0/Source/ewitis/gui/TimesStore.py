@@ -265,17 +265,32 @@ class TimesStore():
             filtersort = dstore.GetItem('export_filtersort', [i])
                                       
             #print group
+            filter = filtersort['filter']
             sort1 = filtersort['sort1'].lower()  
             sort2 = filtersort['sort2'].lower()
             sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
             sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
             
-            #filter            
             aux_df = self.joinedTabDf
+            #filter 
+            filter_split_keys = filter.split(" ")
+            filter_keys = []
+            for key in filter_split_keys:
+                if(key in aux_df.columns):
+                    filter_keys.append(key)
+                
+            print filter_keys, len(filter_keys)
+            
+            if(len(filter_keys) == 1):
+                aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
+            elif(len(filter_keys) == 2):
+                aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
+            
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
             #last time from each user                    
-            aux_df = aux_df.sort("time_raw")                                                                
-            aux_df = aux_df.groupby("user_id", as_index = False).last()
+            aux_df = aux_df.sort("time_raw")
+            if("last" in filter):                                                                
+                aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)                        
             aux_df.set_index('id',  drop=False, inplace = True)
             

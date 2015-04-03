@@ -360,13 +360,10 @@ class TimesModel(myModel):
             #update db
             try:                                                                                
                 # STATUS column                    
-                print "AA"
                 if tableUsers.model.checkChangedStatus(dbTime) == True:
-                    print "BB"
                     dbUser = tableUsers.getDbUserParNr(dbTime['nr'])
                     if dbUser != None:
-                        print "CC"
-                        print "update userstatus", dbUser['id'], dbTime['status']
+                        #print "update userstatus", dbUser['id'], dbTime['status']
                         db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': dbTime['status']})   #commit v update()
             except IndexError: #potreba startime, ale nenalezen 
                 ret_ko_times.append(dbTime['id'])        
