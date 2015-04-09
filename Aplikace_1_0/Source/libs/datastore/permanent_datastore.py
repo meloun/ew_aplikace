@@ -43,7 +43,7 @@ class PermanentDatastore(datastore.Datastore):
     def SetItem(self, name, keys, value, section = "GET_SET", permanent = True, changed = True):
                 
         if(value == datastore.Datastore.GetItem(self, name, keys, section)):
-            return
+            return                
         
         #set item  
         datastore.Datastore.SetItem(self, name, keys, value, section, changed)

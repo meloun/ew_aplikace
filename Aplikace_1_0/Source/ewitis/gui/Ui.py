@@ -30,7 +30,7 @@ class AppWindow(QtGui.QMainWindow):
         #insert my own design
         self.setupUi()      
         
-    def setupUi(self):
+    def setupUi(self):        
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar_time = QtGui.QLabel("00:00:00,00")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_time)    

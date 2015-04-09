@@ -80,19 +80,18 @@ class UiAccesories(UiaDialogs):
         #self.updateTab(tab)
         
         
-    def sGuiSetItem(self, name, keys, value, callback = None, dialog = False):        
+    def sGuiSetItem(self, name, keys, value, callback = None, dialog = False, dialog_string = ""):        
         if value == dstore.GetItem(name, keys):
             return
                 
         if(dialog == True):            
             name_string = dstore.GetName(name)            
-            if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n ", MSGTYPE.warning_dialog) != True):            
+            if (self.showMessage(name_string, "Are you sure you want to change \""+name_string+"\"? \n "+dialog_string+"\n", MSGTYPE.warning_dialog) != True):            
                 return
-                
-        print name, keys, value, type(value)
+                        
         dstore.SetItem(name, keys, value)
         #self.updateTab(tab)
-        if callback != None:      
+        if callback != None:                
             callback()
 
 #instance

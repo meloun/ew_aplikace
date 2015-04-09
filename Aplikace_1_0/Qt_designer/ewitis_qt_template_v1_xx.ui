@@ -3830,6 +3830,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Points5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_1_1">
                <property name="geometry">
@@ -3859,7 +3869,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>410</x>
                  <y>230</y>
-                 <width>61</width>
+                 <width>71</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -3916,11 +3926,21 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Points5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_1_2">
                <property name="geometry">
                 <rect>
-                 <x>470</x>
+                 <x>480</x>
                  <y>230</y>
                  <width>51</width>
                  <height>20</height>
@@ -3997,13 +4017,23 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Points5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderColumn_2_2">
                <property name="geometry">
                 <rect>
                  <x>410</x>
                  <y>250</y>
-                 <width>61</width>
+                 <width>71</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -4060,6 +4090,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Points5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_2_1">
                <property name="geometry">
@@ -4087,7 +4127,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboOrderOrder_2_2">
                <property name="geometry">
                 <rect>
-                 <x>470</x>
+                 <x>480</x>
                  <y>250</y>
                  <width>51</width>
                  <height>20</height>
@@ -4164,13 +4204,23 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Point3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Point4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Point5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderColumn_3_2">
                <property name="geometry">
                 <rect>
                  <x>410</x>
                  <y>270</y>
-                 <width>61</width>
+                 <width>71</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -4227,6 +4277,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Points5</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_3_1">
                <property name="geometry">
@@ -4254,7 +4314,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboOrderOrder_3_2">
                <property name="geometry">
                 <rect>
-                 <x>470</x>
+                 <x>480</x>
                  <y>270</y>
                  <width>51</width>
                  <height>20</height>
@@ -4907,6 +4967,187 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <bool>true</bool>
                </property>
               </widget>
+              <widget class="QCheckBox" name="checkAInfoPoints_5">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>400</y>
+                 <width>101</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Points #5</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinAInfoPointMaximum_5">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>450</x>
+                 <y>400</y>
+                 <width>61</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>-99999</number>
+               </property>
+               <property name="maximum">
+                <number>99999</number>
+               </property>
+               <property name="value">
+                <number>99999</number>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineAInfoPointRule_5">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>400</y>
+                 <width>231</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>21 - order</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinAInfoPointMinimum_5">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>370</x>
+                 <y>400</y>
+                 <width>71</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>-9999</number>
+               </property>
+               <property name="maximum">
+                <number>9999</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportMinuteTimeformat_1">
+               <property name="geometry">
+                <rect>
+                 <x>530</x>
+                 <y>82</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportMinuteTimeformat_2">
+               <property name="geometry">
+                <rect>
+                 <x>530</x>
+                 <y>122</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportMinuteTimeformat_3">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>530</x>
+                 <y>162</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_58">
+               <property name="geometry">
+                <rect>
+                 <x>530</x>
+                 <y>40</y>
+                 <width>41</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Minutes Time format</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
              </widget>
             </item>
            </layout>
@@ -4916,7 +5157,20 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <string>Export Settings</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_13">
-            <item row="0" column="2" rowspan="3">
+            <item row="0" column="4">
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>50</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="2" rowspan="4">
              <widget class="QGroupBox" name="groupBox_17">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -5049,7 +5303,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </widget>
              </widget>
             </item>
-            <item row="0" column="1" rowspan="3">
+            <item row="0" column="1" rowspan="4">
              <widget class="QGroupBox" name="groupBox_18">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -7528,7 +7782,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>634</y>
+                 <y>654</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7544,7 +7798,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>634</y>
+                 <y>654</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7560,7 +7814,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>634</y>
+                 <y>654</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7593,7 +7847,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>634</y>
+                 <y>654</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7609,7 +7863,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>634</y>
+                 <y>654</y>
                  <width>71</width>
                  <height>16</height>
                 </rect>
@@ -7622,7 +7876,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>553</y>
+                 <y>573</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7655,7 +7909,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>593</y>
+                 <y>613</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7671,7 +7925,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>573</y>
+                 <y>593</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7687,7 +7941,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>553</y>
+                 <y>573</y>
                  <width>101</width>
                  <height>16</height>
                 </rect>
@@ -7705,7 +7959,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>573</y>
+                 <y>593</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7741,7 +7995,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>593</y>
+                 <y>613</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7760,7 +8014,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>553</y>
+                 <y>573</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7779,7 +8033,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>573</y>
+                 <y>593</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7795,7 +8049,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>553</y>
+                 <y>573</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7811,7 +8065,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>573</y>
+                 <y>593</y>
                  <width>101</width>
                  <height>16</height>
                 </rect>
@@ -7829,7 +8083,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>573</y>
+                 <y>593</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7848,7 +8102,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>593</y>
+                 <y>613</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7864,7 +8118,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>593</y>
+                 <y>613</y>
                  <width>101</width>
                  <height>16</height>
                 </rect>
@@ -7882,7 +8136,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>553</y>
+                 <y>573</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7898,7 +8152,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>593</y>
+                 <y>613</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7934,7 +8188,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>614</y>
+                 <y>634</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7953,7 +8207,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>614</y>
+                 <y>634</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7969,7 +8223,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>614</y>
+                 <y>634</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7985,7 +8239,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>614</y>
+                 <y>634</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8018,7 +8272,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>614</y>
+                 <y>634</y>
                  <width>91</width>
                  <height>16</height>
                 </rect>
@@ -8116,6 +8370,106 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>40</x>
                  <y>533</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNamePoints5">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>553</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportPoints_5_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>553</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportPoints_5_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>553</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_316">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>553</y>
+                 <width>91</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Points #5</string>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportPoints_5_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>553</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -8597,19 +8951,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </layout>
              </widget>
             </item>
-            <item row="0" column="4">
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>50</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item row="1" column="0">
              <widget class="QGroupBox" name="groupBox_19">
               <property name="sizePolicy">
@@ -8621,7 +8962,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <property name="minimumSize">
                <size>
                 <width>725</width>
-                <height>200</height>
+                <height>150</height>
                </size>
               </property>
               <property name="title">
@@ -8878,7 +9219,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>350</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8925,6 +9266,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
                 </property>
                </item>
                <item>
@@ -8984,7 +9335,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder1_1">
                <property name="geometry">
                 <rect>
-                 <x>420</x>
+                 <x>440</x>
                  <y>50</y>
                  <width>51</width>
                  <height>16</height>
@@ -9004,7 +9355,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder1_2">
                <property name="geometry">
                 <rect>
-                 <x>420</x>
+                 <x>440</x>
                  <y>70</y>
                  <width>51</width>
                  <height>16</height>
@@ -9024,7 +9375,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder1_3">
                <property name="geometry">
                 <rect>
-                 <x>420</x>
+                 <x>440</x>
                  <y>90</y>
                  <width>51</width>
                  <height>16</height>
@@ -9044,7 +9395,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder2_1">
                <property name="geometry">
                 <rect>
-                 <x>550</x>
+                 <x>600</x>
                  <y>50</y>
                  <width>51</width>
                  <height>16</height>
@@ -9064,7 +9415,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder2_3">
                <property name="geometry">
                 <rect>
-                 <x>550</x>
+                 <x>600</x>
                  <y>90</y>
                  <width>51</width>
                  <height>16</height>
@@ -9084,7 +9435,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSortOrder2_2">
                <property name="geometry">
                 <rect>
-                 <x>550</x>
+                 <x>600</x>
                  <y>70</y>
                  <width>51</width>
                  <height>16</height>
@@ -9107,7 +9458,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>510</x>
                  <y>30</y>
                  <width>51</width>
                  <height>20</height>
@@ -9130,7 +9481,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>350</x>
                  <y>70</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9177,6 +9528,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
                 </property>
                </item>
                <item>
@@ -9190,7 +9551,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>350</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9237,6 +9598,16 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
                 </property>
                </item>
                <item>
@@ -9248,9 +9619,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <widget class="QComboBox" name="comboExportSort2_1">
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>510</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9302,15 +9673,30 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
                 </property>
                </item>
               </widget>
               <widget class="QComboBox" name="comboExportSort2_2">
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>510</x>
                  <y>70</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9362,15 +9748,30 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
                 </property>
                </item>
               </widget>
               <widget class="QComboBox" name="comboExportSort2_3">
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>510</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>91</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9422,6 +9823,21 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>points3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>points5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>timeraw</string>
                 </property>
                </item>
               </widget>
@@ -9526,6 +9942,157 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>categories</string>
                 </property>
                </item>
+              </widget>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>725</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>CSS files for WWW export</string>
+              </property>
+              <widget class="QLabel" name="label_314">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>70</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E3</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_213">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>50</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E2</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_313">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>30</y>
+                 <width>21</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E1</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss1">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>30</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>50</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss3">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>70</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss1">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>30</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss2">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>50</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss3">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>70</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
               </widget>
              </widget>
             </item>

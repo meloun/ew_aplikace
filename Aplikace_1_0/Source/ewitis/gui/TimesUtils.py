@@ -14,7 +14,7 @@ class TimesUtils():
         pass                        
     
     @staticmethod
-    def time2timestring(time, including_days = False):
+    def time2timestring(time, including_days = False, including_hours = True):
         '''
         321561546 => 1293| 12:01:02,11
         '''
@@ -39,6 +39,10 @@ class TimesUtils():
         
         if(including_days):
             return '%02d| %02d:%02d:%02d,%02d' % (days, hours, minutes, seconds, milliseconds_x10)
+        
+        if(including_hours == False):
+            return '%02d:%02d,%02d' % (minutes, seconds, milliseconds_x10)
+        
         
         return '%02d:%02d:%02d,%02d' % (hours, minutes, seconds, milliseconds_x10)
         

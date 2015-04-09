@@ -172,6 +172,8 @@ class Datastore():
         '''
         Nastaví proměnnou typu "section" a flagy "flags"             
         '''
+        
+        print name, keys, value, type(value)
                       
         item = self.data[name][section]["value"]
                     

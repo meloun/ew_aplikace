@@ -56,7 +56,7 @@ class NUMBER_OF:
     CELLS = 14
     EXPORTS = 3
     
-    POINTSCOLUMNS = 4
+    POINTSCOLUMNS = 5
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
     
@@ -126,6 +126,7 @@ DEF_DATA = {
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell=2|3|250",
+                                                                            "minute_timeformat" : CheckboxValue.unchecked,
                                                                          }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
                                                         "lap"           : [{
                                                                             "checked"           : CheckboxValue.checked,
@@ -135,7 +136,7 @@ DEF_DATA = {
                                                                            {
                                                                             "checked"            : CheckboxValue.checked,
                                                                             "type"               : "All",
-                                                                            "row"                : "Lasttimes",
+                                                                            "row"                : "Last times",
                                                                             "column1"            : "Time1",
                                                                             "order1"             : "Asc",                                                                                  
                                                                             "column2"            : " - - -",                                                                           
@@ -156,7 +157,7 @@ DEF_DATA = {
         "export"              : {"name"     : "export",
                                 "permanent": True,                                
                                 "GET_SET"  : {"value": {
-                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "option4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","un1","un2","un3","us1","status"],
+                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "option4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","points5","un1","un2","un3","us1","status"],
                                                         "names":  {                                                
                                                                 "order1"            : u"pořadí",
                                                                 "order2"            : u"pořadí",
@@ -182,11 +183,12 @@ DEF_DATA = {
                                                                 "points2"           : u"body", 
                                                                 "points3"           : u"body",
                                                                 "points4"           : u"body",                                                                                                                                                                                                                                                                                                                                                                         
+                                                                "points5"           : u"body",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "un1"               : u"un 1",
                                                                 "un2"               : u"un 2", 
                                                                 "un3"               : u"un 3",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "us1"               : u"us 1",                                                                                                                                                                                                                                                                                                                                                                         
-                                                                "status"            : u"status",                                                                                                                                                                                                                                                                                                                                                                         
+                                                                "status"            : u"status"                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                                                 },
                                                         "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
                                                         "enabled_htm":  [False]* NUMBER_OF.EXPORTS,                                                        
@@ -215,11 +217,12 @@ DEF_DATA = {
                                                                 "points2"           : CheckboxValue.unchecked,
                                                                 "points3"           : CheckboxValue.unchecked,
                                                                 "points4"           : CheckboxValue.unchecked,
+                                                                "points5"           : CheckboxValue.unchecked,
                                                                 "un1"               : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "un2"               : CheckboxValue.unchecked,
                                                                 "un3"               : CheckboxValue.unchecked,
                                                                 "us1"               : CheckboxValue.unchecked,                                                                
-                                                                "status"            : CheckboxValue.unchecked,                                                                
+                                                                "status"            : CheckboxValue.unchecked                                                                                                                                
                                                                 }] * NUMBER_OF.EXPORTS
                                                         }
                                               }
@@ -232,8 +235,7 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                                },
-        "export_header"      : {"name"     : "export_filtersort",
-                                "permanent": True,
+        "export_header"      : {"permanent": True,
                                 "GET_SET"  : {"value": [{
                                                 "racename"               : u"%race%",
                                                 "categoryname"           : u"%category%",                                                                                                                                                                                                                                                                                                                           
@@ -242,11 +244,10 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                                 },
-        "export_filtersort"  : {"name"     : "export_filtersort",
-                                "permanent": True,
+        "export_filtersort"  : {"permanent": True,
                                 "GET_SET"  : {"value": [{
                                                         "type"               : "total",
-                                                        "filter"             : "last times",
+                                                        "filter"             : "last times with time1",
                                                         "sort1"              : "order1", 
                                                         "sortorder1"         : "asc",                                                                                                                                                                                                                                                                                                                            
                                                         "sort2"              : "- - -", 
@@ -255,6 +256,13 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                                },
+        "export_www"         : {"permanent": True,
+                                "GET_SET"  : {"value": [{
+                                                "css_filename"           : u"css/results.css",                                                                                                                                                                                                                                                                                                                       
+                                                }] * NUMBER_OF.EXPORTS,                                              
+                                              "changed": True
+                                              }  
+                        },
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "sendcommandkey": None,
                                                         "senddata": 0,
@@ -299,7 +307,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.09"},                                                                                                                    
+                                                        "app": "v3.10"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

@@ -8,7 +8,9 @@ Created on 8.12.2013
 from PyQt4 import QtCore
 from ewitis.data.DEF_DATA import NUMBER_OF, Assigments2Dict
 from ewitis.data.DEF_ENUM_STRINGS import *
+from ewitis.gui.tabExportSettings import tabExportSettings
 from ewitis.gui.UiAccesories import uiAccesories
+
 from ewitis.gui.Ui import Ui
 from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
@@ -19,21 +21,25 @@ import codecs
    
 class TimesGroup(FilterGroup):    
     def __init__(self,  nr):
-        self.rule = getattr(Ui(), "lineAInfoTimeRule_" + str(nr)) 
+        self.rule = getattr(Ui(), "lineAInfoTimeRule_" + str(nr))
+        self.minute_timeformat = getattr(Ui(), "checkExportMinuteTimeformat_" + str(nr)) 
         FilterGroup.__init__(self, nr, "Time")
 
     def CreateSlots(self):
-        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "rule"], utils.toUnicode(x)))            
+        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "rule"], utils.toUnicode(x)))
+        QtCore.QObject.connect(self.minute_timeformat, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "minute_timeformat"], state, self.Update))            
         FilterGroup.CreateSlots(self)                                                                                    
      
     def setEnabled(self, enabled):
         self.rule.setEnabled(enabled)        
+        self.minute_timeformat.setEnabled(enabled)
         FilterGroup.setEnabled(self, enabled)
     
     def Update(self):        
         # set values from datastore              
         info = self.GetInfo()                                                                            
-        uiAccesories.UpdateText(self.rule, info["rule"]) 
+        uiAccesories.UpdateText(self.rule, info["rule"])        
+        self.minute_timeformat.setCheckState(info["minute_timeformat"]) 
         FilterGroup.Update(self)
         
                   
@@ -135,7 +141,7 @@ class OrderGroup():
         uiAccesories.SetCurrentIndex(self.order1, info["order1"])
         
         uiAccesories.SetCurrentIndex(self.column2, info["column2"])        
-        uiAccesories.SetCurrentIndex(self.order2, info["order2"])                        
+        uiAccesories.SetCurrentIndex(self.order2, info["order2"])                                
                      
         
         
@@ -217,21 +223,27 @@ class TabRaceSettings():
     def sLoadProfile(self):
         
         #gui dialog                        
-        filename = uiAccesories.getOpenFileName("Load profile","dir_import_csv","Profile Files (*.json)", "profile.json")                
+        filename = uiAccesories.getOpenFileName("Load profile","profiles_directory","Profile Files (*.json)", "profile.json")                
         if(filename == ""):                        
             return  
         profile = json.load(codecs.open(filename, 'r', 'utf-8'))
         
+        #reset some values
         #get cell task None         
         for idx in range(0, len(profile["cells_info"]['GET']['value'])):
             profile["cells_info"]['GET']['value'][idx]["task"] = 0
+            profile["cells_info"]['SET']['value'][idx]["task"] = 0
+            profile["cells_info"]['GET']['value'][idx]["trigger"] = 0
+            profile["cells_info"]['SET']['value'][idx]["trigger"] = 0
+        profile["timing_settings"]['GET']['value']["logic_mode"] = 1
+        profile["timing_settings"]['SET']['value']["logic_mode"] = 1
             
         dstore.Update(profile)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
         
         #send update settings to blackblox
-        dstore.SetChangedFlag("cells_info", range(NUMBER_OF.CELLS))
-        dstore.SetChangedFlag("timing_settings", True)
+        #dstore.SetChangedFlag("cells_info", range(NUMBER_OF.CELLS))
+        #dstore.SetChangedFlag("timing_settings", True)
         
         
         
@@ -375,11 +387,15 @@ class TabRaceSettings():
             self.lapgroups[i].Update()          
             self.ordergroups[i].Update()
         i=0
-        self.us[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
+        self.us[i].setChecked(dstore.GetItem("additional_info", ['us', i, "checked"]))                                                                                                                                      
         self.status.setChecked(dstore.GetItem("additional_info", ['status',"checked"]))                                                                                                                                      
                             
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            self.pointgroups[i].Update()      
+            self.pointgroups[i].Update()  
+            
+            
+        #disable columns for export also
+        tabExportSettings.Update()    
         
         
         self.init = True

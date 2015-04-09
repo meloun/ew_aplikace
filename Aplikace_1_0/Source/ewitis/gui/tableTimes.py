@@ -201,7 +201,7 @@ class TimesModel(myModel):
         
         ''' 1to1 KEYS
         - ID, CELL 
-        '''                   
+        '''                           
         tabTime = myModel.db2tableRow(self, dbTime)        
          
         ''' get USER
@@ -251,8 +251,9 @@ class TimesModel(myModel):
                 timeX = 'time'+str(i+1)
                 if(dbTime[timeX] == None):                    
                     tabTime[timeX] = None #cas neexistuje
-                else:                                 
-                    tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX])  
+                else:
+                    minute_timeformat = dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])                    
+                    tabTime[timeX] = TimesUtils.TimesUtils.time2timestring(dbTime[timeX], including_hours = not(minute_timeformat))  
             else: 
                 tabTime[timeX] = None
                 
@@ -290,7 +291,8 @@ class TimesModel(myModel):
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             if  additional_info['points'][i]:        
                 #tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
-                tabTime['points'+str(i+1)] = timesstore.CalcPoints(dbTime, i)
+                #print 'points',str(i+1), tabTime
+                tabTime['points'+str(i+1)] = timesstore.CalcPoints(tabTime, i)                                   
             else:
                 tabTime['points'+str(i+1)] = None
                                                                         
@@ -429,7 +431,7 @@ class TimesModel(myModel):
         tabDf = self.df()       
                                                                                                                   
         #calc times and laps
-        for i in range(0,4):
+        for i in range(0,2):
             joinDf = timesstore.Update(self.run_id, tabDf) 
             ko_nrs = self.UpdateTimesLaps(joinDf)                                
             if(ko_nrs != []):            
@@ -716,14 +718,14 @@ class Times(myTable):
     '''
     export jednoho souboru s výsledky
     '''    
-    def ExportToHtmFile(self, filename, df):
+    def ExportToHtmFile(self, filename, df, css_filename = "css/results.css"):
         title = "Table '"+self.name + "' HTM Export"
         try:
-            #convert header EN => CZ
+            #convert header EN => CZ            
             tocz_dict = dstore.GetItem("export", ["names"])                                                 
             df = df.rename(columns = tocz_dict)
-                                                                           
-            html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= ["css/results.css",], lists = df.values, keys = df.columns)                                                                            
+                                                                                                   
+            html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
             html_page.save()                                                                                                         
             uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
         except IOError:            
@@ -788,8 +790,8 @@ class Times(myTable):
         #update dataframes for export
         self.model.Update()
         self.model.Update()
-        
-        timesstore.UpdateExportDf()
+                
+        timesstore.UpdateExportDf()        
         
         exported = {}
         if export_type == Times.eCSV_EXPORT:
@@ -829,11 +831,12 @@ class Times(myTable):
             if (tabExportSettings.IsEnabled(i, "htm") == False):
                 continue
             
-            df =  timesstore.exportDf[i]                     
+            df =  timesstore.exportDf[i]
+            css_filename = dstore.GetItem("export_www", [i, "css_filename"])                      
         
-            #complete export
+            #complete export            
             if(len(df) != 0):
-                self.ExportToHtmFile(dirname+"e"+str(i+1)+"_"+racename+".htm", df)            
+                self.ExportToHtmFile(dirname+"e"+str(i+1)+"_"+racename+".htm", df, css_filename)            
                 exported["total"] = len(df)
                  
         return exported
@@ -921,7 +924,7 @@ class Times(myTable):
         #update
         ztime = time.clock()
         ret = self.model.Update(run_id = run_id)                                
-        #print "I: Times: update:",time.clock() - ztime,"s"
+        print "I: Times: update:",time.clock() - ztime,"s"
         
         #myModel.myTable.Update(self)        
         self.setColumnWidth()        

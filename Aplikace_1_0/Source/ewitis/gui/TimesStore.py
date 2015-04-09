@@ -279,7 +279,7 @@ class TimesStore():
                 if(key in aux_df.columns):
                     filter_keys.append(key)
                 
-            print filter_keys, len(filter_keys)
+            #print filter_keys, len(filter_keys)
             
             if(len(filter_keys) == 1):
                 aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
@@ -304,7 +304,7 @@ class TimesStore():
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
             
             
-            columns = tabExportSettings.exportgroups[i].GetCheckedCollumns()                        
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()                        
             self.exportDf[i] = aux_df[columns]                            
                      
         return self.joinedDf         
@@ -381,34 +381,29 @@ class TimesStore():
         elif(group['type'] == "Group#3"):
             print "ERROR: Group order NOT implemented"
         else:
-            print "FATAL ERROR"
-        
-        
+            print "FATAL ERROR"                
         
         if df.empty:
-            return None
-        
+            return None        
               
         #is this my last time?         
         if(not dbTime['id'] in df.id.values):                                
             return None
         
-        # count only better times
-        #aux_df = df[df[column1] < dbTime[column1]]
+        # count only better times, df already sorted        
         aux_df = df.loc[:dbTime['id']]                               
                                          
-        order = len(aux_df) 
-        #print "nr",  nr_of_better       
+        order = len(aux_df)               
         
         return order  
                 
-    def Calc(self, dbTime, index, key):
+    def Calc(self, tabTime, index, key):
         '''
         společná funkce pro počítání time, lap
         '''                        
                                                
         '''no time in some cases'''     
-        if(self.IsTimeToCalc(dbTime) == False):
+        if(self.IsTimeToCalc(tabTime) == False):            
             return None               
                   
         #calc time        
@@ -420,20 +415,19 @@ class TimesStore():
         if(self.joinedDf.empty):
             return None
         
-        #get join time
-        joinTime = self.joinedDf[self.joinedDf.id == dbTime['id']]
+        #get join time        
+        joinTime = self.joinedDf[self.joinedDf.id == tabTime['id']]
         joinTime = joinTime.iloc[0]
 
         #evalute rule                                         
-        time = timesstore.Evaluate(self.joinedDf, group, joinTime)
+        time = timesstore.Evaluate(self.joinedDf, group, joinTime, tabTime)
              
         return time                                                     
     
     def CalcTime(self, dbTime, index):
         return self.Calc(dbTime, index, 'time')
-    def CalcPoints(self, dbTime, index):
-        points = self.Calc(dbTime, index, 'points')
-        #print "points", points, type(points)
+    def CalcPoints(self, tabTime, index):
+        points = self.Calc(tabTime, index, 'points')        
         return points
                     
     def CalcLap(self, dbTime, index):
@@ -468,8 +462,11 @@ class TimesStore():
                 lap = lap + 1                
            
         return lap
-    
-    def Evaluate(self, df, rule, joinTime):
+    """
+    joinTime - z df, db i tab data(older) i user data
+    tabTime - aktualizovaná data z tabulky, points, order atd.
+    """
+    def Evaluate(self, df, rule, joinTime, tabTime):
         points = None
                 
         minimum =  rule['minimum'] if ('minimum' in rule) else None
@@ -478,6 +475,7 @@ class TimesStore():
         #rule
         rule = rule['rule']
         rule = rule.lower()
+                
         
         #check if data exist
         #nelze rusi mi celltime2
@@ -527,14 +525,17 @@ class TimesStore():
         
         # POINTS1-POINTS3       
         try:
-            if ("points1" in rule):                                
-                expression_string = expression_string.replace("points1", str(joinTime['points1']))
+            if ("points1" in rule):
+                #print rule, joinTime                                
+                expression_string = expression_string.replace("points1", str(tabTime['points1']))
             if ("points2" in rule):                                
-                expression_string = expression_string.replace("points2", str(joinTime['points2']))
+                expression_string = expression_string.replace("points2", str(tabTime['points2']))
             if ("points3" in rule):                                
-                expression_string = expression_string.replace("points3", str(joinTime['points3']))
+                expression_string = expression_string.replace("points3", str(tabTime['points3']))
             if ("points4" in rule):                                
-                expression_string = expression_string.replace("points4", str(joinTime['points4']))
+                expression_string = expression_string.replace("points4", str(tabTime['points4']))
+            if ("points5" in rule):                                
+                expression_string = expression_string.replace("points5", str(tabTime['points5']))
         except KeyError:        
             return None
                

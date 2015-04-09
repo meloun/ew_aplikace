@@ -26,7 +26,7 @@ class FilterGroup():
         self.filter = getattr(ui, "lineAInfo"+name+"Filter_" + str(nr))                                              
 
     def CreateSlots(self):
-        QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", [self.name, self.nr-1, "checked"], x, self.Update))                                          
+        QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", [self.name, self.nr-1, "checked"], x))                                          
         QtCore.QObject.connect(self.filter, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", [self.name, self.nr-1, "filter"], utils.toUnicode(x)))            
         
     def GetInfo(self):
