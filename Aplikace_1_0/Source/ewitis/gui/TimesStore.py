@@ -304,7 +304,8 @@ class TimesStore():
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
             
             
-            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()                        
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns() 
+            print aux_df.columns                       
             self.exportDf[i] = aux_df[columns]                            
                      
         return self.joinedDf         

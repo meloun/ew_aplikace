@@ -183,7 +183,7 @@ class ExportGroup():
         QtCore.QObject.connect(self.club, QtCore.SIGNAL("stateChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["checked", idx, "club"], state))
                                 
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
-            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "option"+str(idx+1)], state))            
+            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "o"+str(idx+1)], state))            
             
 
         QtCore.QObject.connect(self.gap, QtCore.SIGNAL("stateChanged(int)"), lambda state: dstore.SetItem("export", ["checked", self.index, "gap"], state))
@@ -209,7 +209,7 @@ class ExportGroup():
         self.club.setEnabled(enabled)    
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
             self.option[i].setEnabled(enabled)        
-        self.gap.setEnabled(enabled) 
+        #self.gap.setEnabled(enabled) 
         self.status.setEnabled(enabled) 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             self.points[i].setEnabled(enabled)
@@ -274,8 +274,8 @@ class ExportGroup():
                     self.points[i].setEnabled(False)
                                         
             i = 0
-            if(ai["us"][i]["checked"] == 0):
-                dstore.SetItem("export", ["checked", self.index, "us1"+str(i+1)], 0)                              
+            if(ai["us"][i]["checked"] == 0):                
+                dstore.SetItem("export", ["checked", self.index, "us"+str(i+1)], 0)                              
                 self.us[i].setEnabled(False)             
                 
             if(checked_columns != self.GetCheckedColumns()):                
@@ -302,7 +302,7 @@ class ExportGroup():
             self.order[i].setCheckState(checked_info["order"+str(i+1)])             
             self.un[i].setCheckState(checked_info["un"+str(i+1)])
             
-        i=0
+        i=0        
         self.us[i].setCheckState(checked_info["us"+str(i+1)])             
 
         
@@ -313,8 +313,8 @@ class ExportGroup():
         self.sex.setCheckState(checked_info["sex"])                                
         self.club.setCheckState(checked_info["club"])                                
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
-            self.option[i].setCheckState(checked_info["option"+str(i+1)])        
-        self.gap.setCheckState(checked_info["gap"])
+            self.option[i].setCheckState(checked_info["o"+str(i+1)])        
+        #self.gap.setCheckState(checked_info["gap"])
         self.status.setCheckState(checked_info["status"])
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             self.points[i].setCheckState(checked_info["points"+str(i+1)]) 
@@ -387,7 +387,7 @@ class NamesGroup():
         QtCore.QObject.connect(self.club, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "club"],  utils.toUnicode(name)))
                                 
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
-            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", "option"+str(idx+1)],  utils.toUnicode(name)))            
+            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", "o"+str(idx+1)],  utils.toUnicode(name)))            
             
 
         QtCore.QObject.connect(self.gap, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", [self.index, "gap"],  utils.toUnicode(name)))
@@ -413,7 +413,7 @@ class NamesGroup():
         self.club.setEnabled(enabled)    
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
             self.option[i].setEnabled(enabled)        
-        self.gap.setEnabled(enabled) 
+        #self.gap.setEnabled(enabled) 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             self.points[i].setEnabled(enabled) 
         
@@ -443,8 +443,8 @@ class NamesGroup():
         uiAccesories.UpdateText(self.sex, info["sex"])                                
         uiAccesories.UpdateText(self.club, info["club"])                                
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
-            uiAccesories.UpdateText(self.option[i], info["option"+str(i+1)])        
-        uiAccesories.UpdateText(self.gap, info["gap"])
+            uiAccesories.UpdateText(self.option[i], info["o"+str(i+1)])        
+        #uiAccesories.UpdateText(self.gap, info["gap"])
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             uiAccesories.UpdateText(self.points[i], info["points"+str(i+1)]) 
         

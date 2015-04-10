@@ -106,7 +106,8 @@ class ManageComm(Thread):
         return data
                                                             
     def run(self):       
-        print "COMM: zakladam vlakno.."       
+        print "COMM: zakladam vlakno.."
+        dstore.Set("com_init", 2)       
         
         ''' CONNECT TO EWITIS '''        
         try:
@@ -421,6 +422,7 @@ class ManageComm(Thread):
                 #SET CELL INFO
                 nr_changed_cells = dstore.IsChanged("cells_info")
                 if(nr_changed_cells):
+                    print nr_changed_cells
                     for nr_changed_cell in nr_changed_cells:                                          
                         aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
                         #print "COMM: set cell info", nr_changed_cell, aux_cell_info
@@ -436,15 +438,19 @@ class ManageComm(Thread):
                     if not('error' in aux_cells_info[i]):                    
                         if(dstore.IsReadyForRefresh("cells_info")):             
                             dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET", permanent = False)
-                            #print i, aux_cells_info[i]
-                        #else:
-                        #print "I: COMM: cell info: not ready for refresh", aux_cells_info[i]            
-                                
-                    
+                            if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
+                                #print "nastavuju", aux_cells_info[i]["task"]
+                                dstore.SetItem("cells_info", [i, "task"], aux_cells_info[i]["task"], "SET", permanent = False, changed = False)                                                              
+            
             """
             ALL SETs            
              - potom bude parametr refreh v datastore zbytecny                                    
+            """            
+            
             """
+            """
+            if dstore.Get("com_init") != 0:
+                dstore.Set("com_init", dstore.Get("com_init") - 1) 
             
             
     def AddTimeToDb(self, time):                       

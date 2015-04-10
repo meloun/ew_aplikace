@@ -256,8 +256,8 @@ class sqlite_db(object):
         #print "query", query                                       
               
         res = self.query(query)
-        #if commit == True:      
-        #    self.commit()            
+        if commit == True:  #musi tu byt! napr. zmena kategorie, zapis do db    
+            self.commit()            
         return res
         
 

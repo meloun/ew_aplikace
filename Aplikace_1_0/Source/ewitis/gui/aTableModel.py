@@ -301,7 +301,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         Update(parameter, value) => vsechny radky s parametrem = value
         Update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1] 
         """        
-        #print self.params.name+": model update (s)"
+        #print self.table.name+": model update (s)"
        
         #disable user actions        
         dstore.Set("user_actions", dstore.Get("user_actions")+1)          
@@ -328,7 +328,7 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
 #            row_dicts.append(db.dict_factory(rows, row))
         row_dicts = db.cursor2dicts(rows)            
                             
-        for row_dict in row_dicts:            
+        for row_dict in row_dicts:                        
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)                                                                                                                                                     
             #add row to the table             

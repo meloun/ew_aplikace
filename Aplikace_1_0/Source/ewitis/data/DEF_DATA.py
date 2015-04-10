@@ -76,7 +76,8 @@ def Assigments2Dict(assigment):
 DEF_DATA = {
                
         
-        # LOKÁLNÍ DATA (neposílájí se do terminálu)                       
+        # LOKÁLNÍ DATA (neposílájí se do terminálu)
+        "com_init"           : {"GET_SET"  : { "value"   : False},},                       
         "port"               : {"name"     : "port",
                                 "GET_SET"  : {"value": {
                                                         "opened": False,
@@ -157,7 +158,7 @@ DEF_DATA = {
         "export"              : {"name"     : "export",
                                 "permanent": True,                                
                                 "GET_SET"  : {"value": {
-                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "option1","option2","option3", "option4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","points5","un1","un2","un3","us1","status"],
+                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "o1","o2","o3", "o4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","points5","un1","un2","un3","us1","status"],
                                                         "names":  {                                                
                                                                 "order1"            : u"pořadí",
                                                                 "order2"            : u"pořadí",
@@ -168,10 +169,10 @@ DEF_DATA = {
                                                                 "year"              : u"rok", 
                                                                 "club"              : u"klub", 
                                                                 "sex"               : u"pohlaví", 
-                                                                "option1"           : u"option 1",
-                                                                "option2"           : u"option 2",
-                                                                "option3"           : u"option 3",
-                                                                "option4"           : u"option 4",
+                                                                "o1"                : u"option 1",
+                                                                "o2"                : u"option 2",
+                                                                "o3"                : u"option 3",
+                                                                "o4"                : u"option 4",
                                                                 "gap"               : u"ztráta",                                                                                                 
                                                                 "time1"             : u"čas",                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap1"              : u"kolo",
@@ -202,10 +203,10 @@ DEF_DATA = {
                                                                 "year"              : CheckboxValue.unchecked, 
                                                                 "club"              : CheckboxValue.checked, 
                                                                 "sex"               : CheckboxValue.unchecked, 
-                                                                "option1"           : CheckboxValue.unchecked,
-                                                                "option2"           : CheckboxValue.unchecked,
-                                                                "option3"           : CheckboxValue.unchecked,
-                                                                "option4"           : CheckboxValue.unchecked,
+                                                                "o1"                : CheckboxValue.unchecked,
+                                                                "o2"                : CheckboxValue.unchecked,
+                                                                "o3"                : CheckboxValue.unchecked,
+                                                                "o4"                : CheckboxValue.unchecked,
                                                                 "gap"               : CheckboxValue.unchecked,                                                                                                      
                                                                 "time1"             : CheckboxValue.checked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap1"              : CheckboxValue.unchecked, 
@@ -307,7 +308,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.10b"},                                                                                                                    
+                                                        "app": "v3.10c"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -322,7 +323,7 @@ DEF_DATA = {
                                              },
                                },                                  
         "cells_info"         : {"name"    : "cells info",
-                                "permanent": True, 
+                                "permanent": False, 
                                 "GET"     : {"value": [                                                       
                                                        { #cell 1
                                                            "battery": None,

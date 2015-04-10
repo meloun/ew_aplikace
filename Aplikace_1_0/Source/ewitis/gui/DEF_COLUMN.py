@@ -273,7 +273,7 @@ RACEINFO['database'] = {
                       "dns"         :    {"index": 3,  "name": "dns"   ,        "default": 0},                      
                       "finished"    :    {"index": 4,  "name": "finished",      "default": 0},
                       "dnf"         :    {"index": 5,  "name": "dnf",           "default": 0},
-                      "dsq"         :    {"index": 6,  "name": "dsq",           "default": 0},
+                      "dq"          :    {"index": 6,  "name": "dq",            "default": 0},
                       "race"        :    {"index": 7,  "name": "race",          "default": 0},
                       }
 """ table collumns """
@@ -284,7 +284,7 @@ RACEINFO['table'] =    {
                       "dns"         :    {"index": 3,  "name": "dns"   ,        "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
                       "finished"    :    {"index": 4,  "name": "finished",      "default": 0,         "width": 2*WIDTH_NUMBER_4DIGIT,       "write":False},                                                                                    
                       "dnf"         :    {"index": 5,  "name": "dnf",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
-                      "dsq"         :    {"index": 6,  "name": "dsq",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
+                      "dq"          :    {"index": 6,  "name": "dq",            "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
                       "race"        :    {"index": 7,  "name": "race",          "default": 0,         "width": 2*WIDTH_NUMBER_4DIGIT,       "write":False},               
                       "check"       :    {"index": 8,  "name": "check",         "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},                       
                       "-"           :    {"index": 9,  "name": "-",             "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},                       

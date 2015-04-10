@@ -72,11 +72,11 @@ class UsersModel(myModel):
    
     def checkChangedStatus(self, tabRow, dialog = False):
         '''ZMĚNA STATUSu'''
-        '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dsq'            
+        '''- pro nestartovcí časy lze do času zapsat 'dns', 'dnf' nebo 'dq'            
         '''
         
         #check rights and format
-        if(int(tabRow['cell']) == 1):
+        if ('cell' in tabRow) and (int(tabRow['cell']) == 1):
             if dialog:
                 uiAccesories.showMessage("Status update error", "Status can NOT be set to starttime")
             return False               
@@ -84,35 +84,40 @@ class UsersModel(myModel):
             if dialog:   
                 uiAccesories.showMessage("Status update error", "Status can NOT be set to user with nr. 0")
             return False              
-        elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'dns' and tabRow['status'] != 'dnf' and tabRow['status'] != 'dsq':
+        elif tabRow['status'] != 'finished' and tabRow['status'] != 'race' and tabRow['status'] != 'DNS' and tabRow['status'] != 'DNF' and tabRow['status'] != 'DQ':
             if dialog:
-                uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','dns', dnf' or 'dsq'!")
+                uiAccesories.showMessage("Status update error", "Wrong format of status! \n\nPossible only 'race','DNS', DNF' or 'DQ'!")
             return False
                                                                                                                                                                                                                                     
         return True 
     
     def sModelChanged(self, item):
+        ret = False
                                 
         if(dstore.Get("user_actions") == 0):                       
             
             ''' user has changed something '''
             
-            #handle common columns
-            ret = myModel.sModelChanged(self, item)
+            #get changed row, dict{}
+            tabRow = self.row_dict(item.row())                                
+             
+            # STATUS column
+            if(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                
+                if(tabRow['status'] == "dns") or (tabRow['status'] == "dq") or (tabRow['status'] == "dnf"):                    
+                    tabRow['status'] = tabRow['status'].upper()                
+                                        
+                if self.checkChangedStatus(tabRow, dialog = True) == True:
+                    dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                
+                    #print "update",  {'id':dbUser['id'], 'status': tabRow['status']}
+                    
+                    db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})                    
+            else:                    
+                #handle common columns
+                ret = myModel.sModelChanged(self, item)
         
             if(ret == False):
-                
-                #get changed row, dict{}
-                tabRow = self.row_dict(item.row())                                
-                 
-                # STATUS column
-                if(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
-                    if self.sStatusChanged_Check(tabRow) == True:
-                        dbUser = tableUsers.getDbUserParNr(tabRow['nr'])                
-                        #print "update",  {'id':dbUser['id'], 'status': tabRow['status']}
-                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})
                         
-                elif(item.column() == self.table.TABLE_COLLUMN_DEF['category']['index']):                    
+                if(item.column() == self.table.TABLE_COLLUMN_DEF['category']['index']):                    
                 
                     '''category_id'''        
                     dbCategory = tableCategories.getDbCategoryParName(tabRow['category']) 
@@ -120,11 +125,11 @@ class UsersModel(myModel):
                     if(dbCategory == None):
                         '''category not found => nothing to save'''
                         uiAccesories.showMessage(self.table.name+" Update error", "No category with this name "+(tabRow['category'])+"!")
-                        return None                    
-                    db.update_from_dict(tableUsers.name, {'id':tabRow['id'], 'category_id': dbCategory['id']})
+                    else:                    
+                        db.update_from_dict(tableUsers.name, {'id':tabRow['id'], 'category_id': dbCategory['id']})
                                         
-                #update whole model
-                self.Update()                                                                                     
+            #update whole model
+            self.Update()                                                                                     
          
         return
     

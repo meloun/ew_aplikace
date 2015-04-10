@@ -15,7 +15,7 @@ class RaceInfoModel(myModel):
     states:
         - race (default)    
         - dns (manually set)
-        - dsq (manually set)
+        - dq (manually set)
         - dnf (manually set)
         - finished (time received)
     
@@ -26,7 +26,7 @@ class RaceInfoModel(myModel):
         - finished = with time
         - race + dnf = DNF
         - dns = DNS
-        - dsq = DSQ                
+        - dq = DQ                
     """
     def __init__(self, table):                
         myModel.__init__(self, table)        
@@ -65,11 +65,11 @@ class RaceInfoModel(myModel):
         row_table["startlist"] = tableUsers.getCount()  
         row_table["dns"] = tableUsers.getCount("dns")          
         row_table["finished"] = tableUsers.getCount("finished")
-        row_table["dsq"] = tableUsers.getCount("dsq")  
+        row_table["dq"] = tableUsers.getCount("dq")  
         row_table["dnf"] = tableUsers.getCount("dnf")
         row_table["race"] = tableUsers.getCount("race")              
                                             
-        if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
+        if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dq"] + row_table["dnf"] + row_table["race"]:
             row_table["check"] = "ok"
         else:
             row_table["check"] = "ko"        
@@ -88,11 +88,11 @@ class RaceInfoModel(myModel):
             row_table["startlist"] = tableUsers.getCount(dbCategory = dbCategory)  
             row_table["dns"] = tableUsers.getCount("dns", dbCategory)              
             row_table["finished"] = tableUsers.getCount("finish", dbCategory)
-            row_table["dsq"] = tableUsers.getCount("dsq", dbCategory)  
+            row_table["dq"] = tableUsers.getCount("dq", dbCategory)  
             row_table["dnf"] = tableUsers.getCount("dnf", dbCategory)              
             row_table["race"] = tableUsers.getCount("race", dbCategory)
             
-            if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dsq"] + row_table["dnf"] + row_table["race"]:
+            if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dq"] + row_table["dnf"] + row_table["race"]:
                 row_table["check"] = "ok"
             else:
                 row_table["check"] = "ko"                          

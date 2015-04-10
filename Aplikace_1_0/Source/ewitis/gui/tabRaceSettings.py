@@ -237,6 +237,7 @@ class TabRaceSettings():
             profile["cells_info"]['SET']['value'][idx]["trigger"] = 0
         profile["timing_settings"]['GET']['value']["logic_mode"] = 1
         profile["timing_settings"]['SET']['value']["logic_mode"] = 1
+        dstore.Set("com_init", 2) 
             
         dstore.Update(profile)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))

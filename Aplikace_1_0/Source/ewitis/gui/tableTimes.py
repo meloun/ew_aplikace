@@ -132,7 +132,9 @@ class TimesModel(myModel):
                           
                  
                 # STATUS column
-                elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                    
+                elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                                        
+                    if(tabRow['status'] == "dns") or (tabRow['status'] == "dq") or (tabRow['status'] == "dnf"):
+                        tabRow['status'] = tabRow['status'].upper()
                     if tableUsers.model.checkChangedStatus(tabRow, dialog = True) == True:
                         dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
                         db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': tabRow['status']})
@@ -347,10 +349,10 @@ class TimesModel(myModel):
             #df to dict
             dbTime = dbTime.to_dict()
             
-            if (dbTime['status'] == "dsq") or (dbTime['status'] == "dnf"):                
+            if (dbTime['status'] == "DQ") or (dbTime['status'] == "DNF"):                
                 continue
              
-            if (dbTime['status'] != "finished") and (dbTime['status'] != "race") and (dbTime['status'] != "dns") and (dbTime['status'] != "") and (dbTime['status'] != None):                               
+            if (dbTime['status'] != "finished") and (dbTime['status'] != "race") and (dbTime['status'] != "DNS") and (dbTime['status'] != "") and (dbTime['status'] != None):                               
                 continue 
             
             if timesstore.IsFinishTime(dbTime) == False:                
@@ -366,7 +368,7 @@ class TimesModel(myModel):
                     dbUser = tableUsers.getDbUserParNr(dbTime['nr'])
                     if dbUser != None:
                         #print "update userstatus", dbUser['id'], dbTime['status']
-                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': dbTime['status']})   #commit v update()
+                        db.update_from_dict(tableUsers.name, {'id':dbUser['id'], 'status': dbTime['status']}, commit = False)   #commit v update()
             except IndexError: #potreba startime, ale nenalezen 
                 ret_ko_times.append(dbTime['id'])        
         return ret_ko_times   
@@ -413,7 +415,7 @@ class TimesModel(myModel):
                     #update db
                     if value != None:
                         try:                                                                                
-                            db.update_from_dict(self.table.name, {'id':dbTime['id'], key:value}) #commit v update()
+                            db.update_from_dict(self.table.name, {'id':dbTime['id'], key:value}, commit = False) #commit v update()
                         except IndexError: #potreba startime, ale nenalezen 
                             ret_ko_times.append(dbTime['id'])             
                               
@@ -564,7 +566,7 @@ class Times(myTable):
         query = \
                 " UPDATE users" +\
                     " SET status = Null"  +\
-                    " WHERE (users.status != \"dsq\") AND (users.status != \"dnf\")"                                                   
+                    " WHERE (users.status != \"DQ\") AND (users.status != \"DNF\")"                                                   
         res = db.query(query)                        
         db.commit()        
         return res

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
+    <width>1342</width>
     <height>1012</height>
    </rect>
   </property>
@@ -5578,6 +5578,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
               </widget>
               <widget class="QCheckBox" name="checkExportGap_1">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="geometry">
                 <rect>
                  <x>20</x>
@@ -5674,6 +5677,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
               </widget>
               <widget class="QLabel" name="label_196">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="geometry">
                 <rect>
                  <x>80</x>
@@ -6089,6 +6095,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
               </widget>
               <widget class="QCheckBox" name="checkExportGap_2">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="geometry">
                 <rect>
                  <x>40</x>
@@ -7354,6 +7363,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
               </widget>
               <widget class="QLineEdit" name="lineExportNameGap">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -10856,7 +10868,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -10907,9 +10919,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -10963,7 +10975,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11188,7 +11200,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11217,9 +11229,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11263,7 +11275,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11286,9 +11298,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -11520,7 +11532,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11549,9 +11561,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -11612,7 +11624,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -11663,9 +11675,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -11719,7 +11731,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11949,7 +11961,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -11978,9 +11990,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12024,7 +12036,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12047,9 +12059,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -12279,9 +12291,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -12315,7 +12327,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12373,7 +12385,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -12424,9 +12436,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -12480,7 +12492,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12705,7 +12717,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12734,9 +12746,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12780,7 +12792,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -12803,9 +12815,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13037,7 +13049,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13066,9 +13078,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13129,7 +13141,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -13180,9 +13192,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13236,7 +13248,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13461,7 +13473,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13490,9 +13502,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13536,7 +13548,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13559,9 +13571,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13793,7 +13805,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -13822,9 +13834,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13885,7 +13897,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>230</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -13942,9 +13954,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -13998,7 +14010,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14234,7 +14246,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14263,9 +14275,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14309,7 +14321,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14332,9 +14344,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -14567,9 +14579,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -14623,7 +14635,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14661,7 +14673,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -14712,9 +14724,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -14768,7 +14780,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -14993,7 +15005,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15022,9 +15034,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15068,7 +15080,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15091,9 +15103,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -15325,7 +15337,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15354,9 +15366,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -15417,7 +15429,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -15468,9 +15480,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -15524,7 +15536,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15749,7 +15761,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15778,9 +15790,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15824,7 +15836,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -15847,9 +15859,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -16081,7 +16093,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16110,9 +16122,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -16173,7 +16185,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -16224,9 +16236,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -16280,7 +16292,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16505,7 +16517,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16534,9 +16546,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16580,7 +16592,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16603,9 +16615,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -16855,9 +16867,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -16891,7 +16903,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -16929,7 +16941,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -16980,9 +16992,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -17036,7 +17048,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -17261,7 +17273,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -17290,9 +17302,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -17336,7 +17348,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -17359,9 +17371,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -17593,7 +17605,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -17642,9 +17654,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -17685,7 +17697,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -17736,9 +17748,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -17792,7 +17804,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18017,7 +18029,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18046,9 +18058,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18092,7 +18104,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18115,9 +18127,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -18349,7 +18361,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18378,9 +18390,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -18441,7 +18453,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -18492,9 +18504,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -18548,7 +18560,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18773,7 +18785,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18802,9 +18814,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18848,7 +18860,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -18871,9 +18883,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -19123,9 +19135,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -19159,7 +19171,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19197,7 +19209,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -19248,9 +19260,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -19304,7 +19316,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19534,7 +19546,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19563,9 +19575,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19609,7 +19621,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19632,9 +19644,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -19884,9 +19896,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -19920,7 +19932,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -19958,7 +19970,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -20009,9 +20021,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -20065,7 +20077,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -20290,7 +20302,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -20319,9 +20331,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -20365,7 +20377,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -20388,9 +20400,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -20622,7 +20634,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -20651,9 +20663,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -20714,7 +20726,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -20765,9 +20777,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -20821,7 +20833,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21046,7 +21058,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21075,9 +21087,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21121,7 +21133,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21144,9 +21156,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -21378,7 +21390,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21407,9 +21419,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -21470,7 +21482,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
               <property name="minimumSize">
                <size>
-                <width>240</width>
+                <width>250</width>
                 <height>241</height>
                </size>
               </property>
@@ -21521,9 +21533,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -21577,7 +21589,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>30</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21807,7 +21819,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>110</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21836,9 +21848,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>110</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21882,7 +21894,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>90</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -21905,9 +21917,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>90</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -22139,7 +22151,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <rect>
                  <x>60</x>
                  <y>50</y>
-                 <width>81</width>
+                 <width>90</width>
                  <height>19</height>
                 </rect>
                </property>
@@ -22168,9 +22180,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="geometry">
                 <rect>
-                 <x>150</x>
+                 <x>155</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>90</width>
                  <height>20</height>
                 </rect>
                </property>
@@ -24641,7 +24653,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>1342</width>
      <height>26</height>
     </rect>
    </property>
@@ -25547,106 +25559,106 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>RunsProxyView</tabstop>
-  <tabstop>TimesFilterLineEdit</tabstop>
-  <tabstop>TimesAdd</tabstop>
-  <tabstop>TimesRemove</tabstop>
-  <tabstop>TimesAddHw</tabstop>
-  <tabstop>TimesRemoveHw</tabstop>
-  <tabstop>TimesDbImport</tabstop>
-  <tabstop>TimesDbExport</tabstop>
-  <tabstop>TimesExport</tabstop>
-  <tabstop>TimesWwwExport</tabstop>
-  <tabstop>TimesRecalculate</tabstop>
-  <tabstop>TimesDelete</tabstop>
-  <tabstop>TimesProxyView</tabstop>
-  <tabstop>RunsAdd</tabstop>
-  <tabstop>RunsRemove</tabstop>
+  <tabstop>lineExportHeaderRace1</tabstop>
+  <tabstop>lineExportHeaderCategory1</tabstop>
+  <tabstop>lineExportHeaderDescription1</tabstop>
+  <tabstop>lineExportHeaderRace2</tabstop>
+  <tabstop>lineExportHeaderCategory2</tabstop>
+  <tabstop>lineExportHeaderDescription2</tabstop>
+  <tabstop>lineExportHeaderRace3</tabstop>
+  <tabstop>lineExportHeaderCategory3</tabstop>
+  <tabstop>lineExportHeaderDescription3</tabstop>
+  <tabstop>comboExportType_1</tabstop>
+  <tabstop>comboExportFilter_1</tabstop>
+  <tabstop>comboExportSort1_1</tabstop>
+  <tabstop>comboExportSortOrder1_1</tabstop>
+  <tabstop>comboExportSort2_1</tabstop>
+  <tabstop>comboExportSortOrder2_1</tabstop>
   <tabstop>RunsExport</tabstop>
-  <tabstop>RunsDelete</tabstop>
-  <tabstop>TimesFilterColumn</tabstop>
-  <tabstop>TimesFilterClear</tabstop>
-  <tabstop>TimesFilterFinishes</tabstop>
   <tabstop>TimesFilterStarts</tabstop>
-  <tabstop>UsersFilterLineEdit</tabstop>
-  <tabstop>UsersFilterClear</tabstop>
-  <tabstop>UsersAdd</tabstop>
-  <tabstop>UsersRemove</tabstop>
-  <tabstop>UsersImport</tabstop>
-  <tabstop>UsersExport</tabstop>
-  <tabstop>UsersDelete</tabstop>
-  <tabstop>UsersProxyView</tabstop>
-  <tabstop>CategoriesFilterLineEdit</tabstop>
-  <tabstop>CategoriesFilterClear</tabstop>
-  <tabstop>CategoriesAdd</tabstop>
-  <tabstop>CategoriesRemove</tabstop>
-  <tabstop>CategoriesImport</tabstop>
-  <tabstop>CategoriesExport</tabstop>
-  <tabstop>CategoriesDelete</tabstop>
-  <tabstop>CategoriesProxyView</tabstop>
-  <tabstop>CGroupsFilterLineEdit</tabstop>
-  <tabstop>CGroupsAdd</tabstop>
-  <tabstop>CGroupsRemove</tabstop>
-  <tabstop>CGroupsImport</tabstop>
-  <tabstop>CGroupsExport</tabstop>
-  <tabstop>CGroupsDelete</tabstop>
-  <tabstop>CGroupsProxyView</tabstop>
-  <tabstop>CGroupsFilterClear</tabstop>
-  <tabstop>TagsProxyView</tabstop>
-  <tabstop>TagsFilterLineEdit</tabstop>
-  <tabstop>TagsAdd</tabstop>
-  <tabstop>TagsRemove</tabstop>
-  <tabstop>TagsImport</tabstop>
-  <tabstop>TagsExport</tabstop>
-  <tabstop>TagsDelete</tabstop>
-  <tabstop>TagsFilterClear</tabstop>
-  <tabstop>AlltagsProxyView</tabstop>
-  <tabstop>AlltagsFilterLineEdit</tabstop>
-  <tabstop>AlltagsAdd</tabstop>
-  <tabstop>AlltagsRemove</tabstop>
-  <tabstop>AlltagsImport</tabstop>
-  <tabstop>AlltagsExport</tabstop>
-  <tabstop>AlltagsDelete</tabstop>
-  <tabstop>AlltagsFilterClear</tabstop>
-  <tabstop>PointsProxyView</tabstop>
-  <tabstop>PointsFilterLineEdit</tabstop>
+  <tabstop>comboExportType_2</tabstop>
+  <tabstop>TimesFilterFinishes</tabstop>
+  <tabstop>comboExportFilter_2</tabstop>
+  <tabstop>comboExportSort1_2</tabstop>
+  <tabstop>comboExportSortOrder1_2</tabstop>
+  <tabstop>comboExportSort2_2</tabstop>
+  <tabstop>comboExportSortOrder2_2</tabstop>
+  <tabstop>comboExportType_3</tabstop>
+  <tabstop>comboExportFilter_3</tabstop>
+  <tabstop>comboExportSort1_3</tabstop>
+  <tabstop>comboExportSortOrder1_3</tabstop>
+  <tabstop>comboExportSort2_3</tabstop>
+  <tabstop>comboExportSortOrder2_3</tabstop>
+  <tabstop>lineExportCss1</tabstop>
+  <tabstop>lineExportCss2</tabstop>
+  <tabstop>lineExportCss3</tabstop>
+  <tabstop>lineExportNameOrder1</tabstop>
+  <tabstop>lineExportNameOrder2</tabstop>
+  <tabstop>lineExportNameOrder3</tabstop>
+  <tabstop>lineExportNameNr</tabstop>
+  <tabstop>lineExportNameName</tabstop>
+  <tabstop>lineExportNameCategory</tabstop>
+  <tabstop>lineExportNameYear</tabstop>
+  <tabstop>lineExportNameClub</tabstop>
+  <tabstop>lineExportNameSex</tabstop>
+  <tabstop>lineExportNameOption1</tabstop>
+  <tabstop>lineExportNameOption2</tabstop>
+  <tabstop>lineExportNameOption3</tabstop>
+  <tabstop>lineExportNameOption4</tabstop>
+  <tabstop>lineExportNameGap</tabstop>
+  <tabstop>lineExportNameTime1</tabstop>
+  <tabstop>lineExportNameLap1</tabstop>
+  <tabstop>lineExportNameTime2</tabstop>
+  <tabstop>lineExportNameLap2</tabstop>
+  <tabstop>lineExportNameTime3</tabstop>
+  <tabstop>lineExportNameLap3</tabstop>
+  <tabstop>lineExportNamePoints1</tabstop>
+  <tabstop>lineExportNamePoints2</tabstop>
+  <tabstop>lineExportNamePoints3</tabstop>
+  <tabstop>lineExportNamePoints4</tabstop>
+  <tabstop>lineExportNamePoints5</tabstop>
+  <tabstop>lineExportNameUn1</tabstop>
+  <tabstop>lineExportNameUn2</tabstop>
+  <tabstop>lineExportNameUn3</tabstop>
+  <tabstop>lineExportNameUs1</tabstop>
+  <tabstop>lineExportNameStatus</tabstop>
   <tabstop>PointsAdd</tabstop>
-  <tabstop>PointsRemove</tabstop>
   <tabstop>PointsImport</tabstop>
-  <tabstop>PointsExport</tabstop>
-  <tabstop>PointsDelete</tabstop>
-  <tabstop>PointsFilterClear</tabstop>
-  <tabstop>RaceInfoFilterClear</tabstop>
-  <tabstop>RaceInfoAdd</tabstop>
-  <tabstop>RaceInfoRemove</tabstop>
-  <tabstop>RaceInfoImport</tabstop>
-  <tabstop>RaceInfoExport</tabstop>
-  <tabstop>RaceInfoDelete</tabstop>
-  <tabstop>RaceInfoProxyView</tabstop>
-  <tabstop>RaceInfoFilterLineEdit</tabstop>
-  <tabstop>comboTimingMode</tabstop>
   <tabstop>lineTimingMode</tabstop>
-  <tabstop>spinTagtime</tabstop>
-  <tabstop>lineFilterTagtime</tabstop>
-  <tabstop>lineFilterMinlaptime</tabstop>
-  <tabstop>spinMinlaptime</tabstop>
-  <tabstop>lineMaxlapnumber</tabstop>
-  <tabstop>spinMaxlapnumber</tabstop>
+  <tabstop>comboTimingMode</tabstop>
   <tabstop>lineTagsReadingEn</tabstop>
-  <tabstop>checkRfidRace</tabstop>
+  <tabstop>PointsFilterClear</tabstop>
+  <tabstop>spinTagtime</tabstop>
+  <tabstop>spinMinlaptime</tabstop>
+  <tabstop>spinMaxlapnumber</tabstop>
+  <tabstop>lineProfileName</tabstop>
+  <tabstop>textProfileDesc</tabstop>
   <tabstop>lineRaceName</tabstop>
+  <tabstop>checkRemoteRace</tabstop>
+  <tabstop>checkRfidRace</tabstop>
   <tabstop>checkTagFilter</tabstop>
   <tabstop>comboStarttimeEvaluation</tabstop>
-  <tabstop>checkRemoteRace</tabstop>
-  <tabstop>lineAInfoPointRule_1</tabstop>
-  <tabstop>spinAInfoPointMinimum_1</tabstop>
-  <tabstop>spinAInfoPointMaximum_1</tabstop>
-  <tabstop>lineAInfoPointRule_2</tabstop>
-  <tabstop>spinAInfoPointMinimum_2</tabstop>
-  <tabstop>spinAInfoPointMaximum_2</tabstop>
-  <tabstop>lineAInfoPointRule_3</tabstop>
-  <tabstop>spinAInfoPointMinimum_3</tabstop>
-  <tabstop>spinAInfoPointMaximum_3</tabstop>
+  <tabstop>spinFinishLaps</tabstop>
+  <tabstop>lineFinishTime</tabstop>
+  <tabstop>lineFilterMinlaptime</tabstop>
+  <tabstop>RaceInfoAdd</tabstop>
+  <tabstop>lineMaxlapnumber</tabstop>
+  <tabstop>RaceInfoRemove</tabstop>
+  <tabstop>PointsDelete</tabstop>
+  <tabstop>RaceInfoFilterLineEdit</tabstop>
+  <tabstop>RaceInfoDelete</tabstop>
+  <tabstop>PointsExport</tabstop>
+  <tabstop>PointsRemove</tabstop>
+  <tabstop>RaceInfoProxyView</tabstop>
+  <tabstop>comboOrderOrder_2_1</tabstop>
+  <tabstop>checkAInfoUserNumber_1</tabstop>
+  <tabstop>comboOrderRow_1</tabstop>
+  <tabstop>comboOrderOrder_2_2</tabstop>
+  <tabstop>comboOrderOrder_1_1</tabstop>
+  <tabstop>comboOrderOrder_3_2</tabstop>
+  <tabstop>comboOrderColumn_3_1</tabstop>
+  <tabstop>comboOrderRow_2</tabstop>
+  <tabstop>comboOrderRow_3</tabstop>
   <tabstop>checkAInfoPoints_1</tabstop>
   <tabstop>lineCells</tabstop>
   <tabstop>lineBattery</tabstop>
@@ -25877,6 +25889,340 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkAInfoOrder_1</tabstop>
   <tabstop>checkAInfoPoints_2</tabstop>
   <tabstop>checkAInfoPoints_3</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>pushLoadProfile</tabstop>
+  <tabstop>RaceInfoImport</tabstop>
+  <tabstop>pushSaveProfile</tabstop>
+  <tabstop>RaceInfoExport</tabstop>
+  <tabstop>RaceInfoFilterClear</tabstop>
+  <tabstop>lineFilterTagtime</tabstop>
+  <tabstop>checkAInfoLap_1</tabstop>
+  <tabstop>checkAInfoLap_3</tabstop>
+  <tabstop>checkAInfoLap_2</tabstop>
+  <tabstop>checkAInfoTime_3</tabstop>
+  <tabstop>checkAInfoTime_1</tabstop>
+  <tabstop>checkAInfoTime_2</tabstop>
+  <tabstop>checkAInfoOrder_2</tabstop>
+  <tabstop>checkAInfoOrder_3</tabstop>
+  <tabstop>comboOrderOrder_1_2</tabstop>
+  <tabstop>lineAInfoTimeRule_1</tabstop>
+  <tabstop>lineAInfoTimeFilter_1</tabstop>
+  <tabstop>comboOrderColumn_2_1</tabstop>
+  <tabstop>lineAInfoLapFilter_1</tabstop>
+  <tabstop>lineAInfoTimeRule_2</tabstop>
+  <tabstop>comboOrderColumn_1_1</tabstop>
+  <tabstop>lineAInfoTimeFilter_2</tabstop>
+  <tabstop>lineAInfoLapFilter_2</tabstop>
+  <tabstop>lineAInfoTimeRule_3</tabstop>
+  <tabstop>lineAInfoTimeFilter_3</tabstop>
+  <tabstop>lineAInfoLapFilter_3</tabstop>
+  <tabstop>lineAInfoPointRule_1</tabstop>
+  <tabstop>spinAInfoPointMinimum_1</tabstop>
+  <tabstop>spinAInfoPointMaximum_1</tabstop>
+  <tabstop>lineAInfoPointRule_2</tabstop>
+  <tabstop>spinAInfoPointMinimum_2</tabstop>
+  <tabstop>spinAInfoPointMaximum_2</tabstop>
+  <tabstop>lineAInfoPointRule_3</tabstop>
+  <tabstop>spinAInfoPointMinimum_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_3</tabstop>
+  <tabstop>lineAInfoPointRule_4</tabstop>
+  <tabstop>checkAInfoUserNumber_3</tabstop>
+  <tabstop>spinAInfoPointMinimum_4</tabstop>
+  <tabstop>spinAInfoPointMaximum_4</tabstop>
+  <tabstop>lineAInfoPointRule_5</tabstop>
+  <tabstop>spinAInfoPointMinimum_5</tabstop>
+  <tabstop>spinAInfoPointMaximum_5</tabstop>
+  <tabstop>comboOrderType_1</tabstop>
+  <tabstop>comboOrderType_2</tabstop>
+  <tabstop>comboOrderType_3</tabstop>
+  <tabstop>checkAInfoPoints_4</tabstop>
+  <tabstop>checkAInfoUserNumber_2</tabstop>
+  <tabstop>comboOrderColumn_3_2</tabstop>
+  <tabstop>checkAInfoUserString_1</tabstop>
+  <tabstop>checkAInfoStatus</tabstop>
+  <tabstop>checkAInfoPoints_5</tabstop>
+  <tabstop>comboOrderColumn_2_2</tabstop>
+  <tabstop>comboOrderOrder_3_1</tabstop>
+  <tabstop>comboOrderColumn_1_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_1</tabstop>
+  <tabstop>checkExportMinuteTimeformat_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_3</tabstop>
+  <tabstop>radioExportLapsLaptimes</tabstop>
+  <tabstop>radioExportLapsTimes</tabstop>
+  <tabstop>spinGrouplapsBy_2</tabstop>
+  <tabstop>radioExportLapsPoints_1</tabstop>
+  <tabstop>radioExportLapsPoints_2</tabstop>
+  <tabstop>radioExportLapsPoints_3</tabstop>
+  <tabstop>pushExportHtmEnable_3</tabstop>
+  <tabstop>pushExportHtmEnable_1</tabstop>
+  <tabstop>checkExportPoints_2_2</tabstop>
+  <tabstop>checkExportPoints_2_1</tabstop>
+  <tabstop>checkExportLap_1_2</tabstop>
+  <tabstop>checkExportOption_3_2</tabstop>
+  <tabstop>checkExportOption_4_1</tabstop>
+  <tabstop>CGroupsDelete</tabstop>
+  <tabstop>checkExportSex_2</tabstop>
+  <tabstop>checkExportPoints_1_3</tabstop>
+  <tabstop>checkExportGap_1</tabstop>
+  <tabstop>checkExportClub_1</tabstop>
+  <tabstop>checkExportYear_1</tabstop>
+  <tabstop>checkExportSex_1</tabstop>
+  <tabstop>checkExportOption_2_3</tabstop>
+  <tabstop>checkExportPoints_3_2</tabstop>
+  <tabstop>checkExportPoints_2_3</tabstop>
+  <tabstop>CGroupsFilterClear</tabstop>
+  <tabstop>checkExportPoints_3_1</tabstop>
+  <tabstop>checkExportPoints_3_3</tabstop>
+  <tabstop>checkExportOption_2_2</tabstop>
+  <tabstop>checkExportOption_1_3</tabstop>
+  <tabstop>checkExportOption_3_1</tabstop>
+  <tabstop>checkExportOption_4_3</tabstop>
+  <tabstop>checkExportYear_2</tabstop>
+  <tabstop>checkExportGap_3</tabstop>
+  <tabstop>CGroupsProxyView</tabstop>
+  <tabstop>checkExportYear_3</tabstop>
+  <tabstop>TagsProxyView</tabstop>
+  <tabstop>checkExportLap_1_1</tabstop>
+  <tabstop>checkExportLap_1_3</tabstop>
+  <tabstop>checkExportOption_3_3</tabstop>
+  <tabstop>checkExportGap_2</tabstop>
+  <tabstop>checkExportPoints_1_2</tabstop>
+  <tabstop>checkExportPoints_1_1</tabstop>
+  <tabstop>checkExportSex_3</tabstop>
+  <tabstop>checkExportOption_4_2</tabstop>
+  <tabstop>checkExportOption_1_2</tabstop>
+  <tabstop>checkExportOption_1_1</tabstop>
+  <tabstop>checkExportOption_2_1</tabstop>
+  <tabstop>checkExportClub_2</tabstop>
+  <tabstop>checkExportClub_3</tabstop>
+  <tabstop>pushExportHtmEnable_2</tabstop>
+  <tabstop>checkExportTime_1_1</tabstop>
+  <tabstop>checkExportTime_1_3</tabstop>
+  <tabstop>checkExportTime_1_2</tabstop>
+  <tabstop>checkExportTime_2_2</tabstop>
+  <tabstop>checkExportTime_2_1</tabstop>
+  <tabstop>checkExportTime_2_3</tabstop>
+  <tabstop>checkExportTime_3_2</tabstop>
+  <tabstop>checkExportTime_3_3</tabstop>
+  <tabstop>checkExportTime_3_1</tabstop>
+  <tabstop>checkExportOrder_1_2</tabstop>
+  <tabstop>checkExportOrder_2_2</tabstop>
+  <tabstop>checkExportOrder_2_3</tabstop>
+  <tabstop>checkExportOrder_2_1</tabstop>
+  <tabstop>checkExportOrder_1_1</tabstop>
+  <tabstop>checkExportOrder_3_1</tabstop>
+  <tabstop>checkExportOrder_3_2</tabstop>
+  <tabstop>checkExportOrder_3_3</tabstop>
+  <tabstop>checkExportOrder_1_3</tabstop>
+  <tabstop>checkExportLap_2_3</tabstop>
+  <tabstop>checkExportLap_2_2</tabstop>
+  <tabstop>checkExportLap_2_1</tabstop>
+  <tabstop>checkExportLap_3_1</tabstop>
+  <tabstop>checkExportLap_3_3</tabstop>
+  <tabstop>checkExportLap_3_2</tabstop>
+  <tabstop>checkExportName_3</tabstop>
+  <tabstop>checkExportName_2</tabstop>
+  <tabstop>checkExportName_1</tabstop>
+  <tabstop>checkExportCategory_1</tabstop>
+  <tabstop>checkExportCategory_2</tabstop>
+  <tabstop>checkExportCategory_3</tabstop>
+  <tabstop>checkExportNumber_1</tabstop>
+  <tabstop>checkExportNumber_2</tabstop>
+  <tabstop>checkExportNumber_3</tabstop>
+  <tabstop>CategoriesExport</tabstop>
+  <tabstop>RunsProxyView</tabstop>
+  <tabstop>CategoriesDelete</tabstop>
+  <tabstop>CategoriesProxyView</tabstop>
+  <tabstop>CGroupsAdd</tabstop>
+  <tabstop>CGroupsFilterLineEdit</tabstop>
+  <tabstop>CGroupsRemove</tabstop>
+  <tabstop>CGroupsImport</tabstop>
+  <tabstop>CGroupsExport</tabstop>
+  <tabstop>TagsFilterLineEdit</tabstop>
+  <tabstop>AlltagsFilterLineEdit</tabstop>
+  <tabstop>AlltagsProxyView</tabstop>
+  <tabstop>TagsRemove</tabstop>
+  <tabstop>AlltagsAdd</tabstop>
+  <tabstop>TagsAdd</tabstop>
+  <tabstop>TagsExport</tabstop>
+  <tabstop>TagsImport</tabstop>
+  <tabstop>TagsFilterClear</tabstop>
+  <tabstop>TagsDelete</tabstop>
+  <tabstop>pushExportCsvEnable_3</tabstop>
+  <tabstop>pushExportCsvEnable_2</tabstop>
+  <tabstop>pushExportCsvEnable_1</tabstop>
+  <tabstop>checkExportStatus_3</tabstop>
+  <tabstop>checkExportStatus_2</tabstop>
+  <tabstop>PointsFilterLineEdit</tabstop>
+  <tabstop>checkExportStatus_1</tabstop>
+  <tabstop>AlltagsExport</tabstop>
+  <tabstop>checkExportUn_3_1</tabstop>
+  <tabstop>checkExportUn_2_2</tabstop>
+  <tabstop>AlltagsDelete</tabstop>
+  <tabstop>checkExportUn_3_2</tabstop>
+  <tabstop>checkExportUn_1_3</tabstop>
+  <tabstop>checkExportUn_2_3</tabstop>
+  <tabstop>checkExportUn_1_1</tabstop>
+  <tabstop>checkExportUn_2_1</tabstop>
+  <tabstop>checkExportUn_3_3</tabstop>
+  <tabstop>checkExportUn_1_2</tabstop>
+  <tabstop>AlltagsFilterClear</tabstop>
+  <tabstop>checkExportUs_1_3</tabstop>
+  <tabstop>checkExportUs_1_2</tabstop>
+  <tabstop>checkExportUs_1_1</tabstop>
+  <tabstop>PointsProxyView</tabstop>
+  <tabstop>checkExportPoints_4_1</tabstop>
+  <tabstop>AlltagsRemove</tabstop>
+  <tabstop>checkExportPoints_4_3</tabstop>
+  <tabstop>checkExportPoints_4_2</tabstop>
+  <tabstop>AlltagsImport</tabstop>
+  <tabstop>checkExportPoints_5_3</tabstop>
+  <tabstop>checkExportPoints_5_1</tabstop>
+  <tabstop>checkExportPoints_5_2</tabstop>
+  <tabstop>CategoriesImport</tabstop>
+  <tabstop>TimesRemove</tabstop>
+  <tabstop>TimesDbImport</tabstop>
+  <tabstop>TimesDbExport</tabstop>
+  <tabstop>TimesFilterLineEdit</tabstop>
+  <tabstop>TimesAddHw</tabstop>
+  <tabstop>TimesRemoveHw</tabstop>
+  <tabstop>TimesAdd</tabstop>
+  <tabstop>TimesExport</tabstop>
+  <tabstop>TimesRecalculate</tabstop>
+  <tabstop>RunsDelete</tabstop>
+  <tabstop>UsersImport</tabstop>
+  <tabstop>TimesDelete</tabstop>
+  <tabstop>TimesProxyView</tabstop>
+  <tabstop>TimesFilterColumn</tabstop>
+  <tabstop>UsersDelete</tabstop>
+  <tabstop>RunsRemove</tabstop>
+  <tabstop>CategoriesFilterLineEdit</tabstop>
+  <tabstop>UsersAdd</tabstop>
+  <tabstop>UsersFilterLineEdit</tabstop>
+  <tabstop>UsersExport</tabstop>
+  <tabstop>RunsAdd</tabstop>
+  <tabstop>UsersFilterClear</tabstop>
+  <tabstop>UsersProxyView</tabstop>
+  <tabstop>TimesWwwExport</tabstop>
+  <tabstop>TimesFilterClear</tabstop>
+  <tabstop>UsersRemove</tabstop>
+  <tabstop>CategoriesFilterClear</tabstop>
+  <tabstop>CategoriesAdd</tabstop>
+  <tabstop>CategoriesRemove</tabstop>
+  <tabstop>pushExportLoadCss1</tabstop>
+  <tabstop>pushExportLoadCss2</tabstop>
+  <tabstop>pushExportLoadCss3</tabstop>
+  <tabstop>lineCellBattery_11</tabstop>
+  <tabstop>comboCellTask_11</tabstop>
+  <tabstop>lineCellTask_11</tabstop>
+  <tabstop>lineCellDiagLongOk_11</tabstop>
+  <tabstop>lineCellDiagLongKo_11</tabstop>
+  <tabstop>pushCellPing_11</tabstop>
+  <tabstop>lineCellDiagLongRatio_11</tabstop>
+  <tabstop>pushCellClearCounters_11</tabstop>
+  <tabstop>lineCellSynchronizedOnce_11</tabstop>
+  <tabstop>lineCellSynchronized_11</tabstop>
+  <tabstop>lineCellIrSinal_11</tabstop>
+  <tabstop>lineCellActive_11</tabstop>
+  <tabstop>lineCellDiagShortKo_11</tabstop>
+  <tabstop>lineCellDiagShortOk_11</tabstop>
+  <tabstop>lineCellDiagShortRatio_11</tabstop>
+  <tabstop>pushCellRunDiagnostic_11</tabstop>
+  <tabstop>lineCellTrigger_11</tabstop>
+  <tabstop>comboCellTrigger_11</tabstop>
+  <tabstop>comboCellTrigger_2</tabstop>
+  <tabstop>lineCellTrigger_2</tabstop>
+  <tabstop>lineCellBattery_12</tabstop>
+  <tabstop>comboCellTask_12</tabstop>
+  <tabstop>lineCellTask_12</tabstop>
+  <tabstop>lineCellDiagLongOk_12</tabstop>
+  <tabstop>lineCellDiagLongKo_12</tabstop>
+  <tabstop>pushCellPing_12</tabstop>
+  <tabstop>lineCellDiagLongRatio_12</tabstop>
+  <tabstop>pushCellClearCounters_12</tabstop>
+  <tabstop>lineCellSynchronizedOnce_12</tabstop>
+  <tabstop>lineCellSynchronized_12</tabstop>
+  <tabstop>lineCellIrSinal_12</tabstop>
+  <tabstop>lineCellActive_12</tabstop>
+  <tabstop>lineCellDiagShortKo_12</tabstop>
+  <tabstop>lineCellDiagShortOk_12</tabstop>
+  <tabstop>lineCellDiagShortRatio_12</tabstop>
+  <tabstop>pushCellRunDiagnostic_12</tabstop>
+  <tabstop>lineCellTrigger_12</tabstop>
+  <tabstop>comboCellTrigger_12</tabstop>
+  <tabstop>lineCellTrigger_6</tabstop>
+  <tabstop>comboCellTrigger_6</tabstop>
+  <tabstop>comboCellTrigger_1</tabstop>
+  <tabstop>lineCellTrigger_1</tabstop>
+  <tabstop>lineCellTrigger_10</tabstop>
+  <tabstop>comboCellTrigger_10</tabstop>
+  <tabstop>lineCellTrigger_8</tabstop>
+  <tabstop>comboCellTrigger_8</tabstop>
+  <tabstop>lineCellBattery_15</tabstop>
+  <tabstop>comboCellTask_15</tabstop>
+  <tabstop>lineCellTask_15</tabstop>
+  <tabstop>lineCellDiagLongOk_15</tabstop>
+  <tabstop>lineCellDiagLongKo_15</tabstop>
+  <tabstop>pushCellPing_15</tabstop>
+  <tabstop>lineCellDiagLongRatio_15</tabstop>
+  <tabstop>pushCellClearCounters_15</tabstop>
+  <tabstop>lineCellSynchronizedOnce_15</tabstop>
+  <tabstop>lineCellSynchronized_15</tabstop>
+  <tabstop>lineCellIrSinal_15</tabstop>
+  <tabstop>lineCellActive_15</tabstop>
+  <tabstop>lineCellDiagShortKo_15</tabstop>
+  <tabstop>lineCellDiagShortOk_15</tabstop>
+  <tabstop>lineCellDiagShortRatio_15</tabstop>
+  <tabstop>pushCellRunDiagnostic_15</tabstop>
+  <tabstop>comboCellTrigger_15</tabstop>
+  <tabstop>lineCellTrigger_15</tabstop>
+  <tabstop>lineCellTrigger_4</tabstop>
+  <tabstop>comboCellTrigger_4</tabstop>
+  <tabstop>lineCellTrigger_7</tabstop>
+  <tabstop>comboCellTrigger_7</tabstop>
+  <tabstop>comboCellTrigger_9</tabstop>
+  <tabstop>lineCellTrigger_9</tabstop>
+  <tabstop>comboCellTrigger_3</tabstop>
+  <tabstop>lineCellTrigger_3</tabstop>
+  <tabstop>lineCellBattery_14</tabstop>
+  <tabstop>comboCellTask_14</tabstop>
+  <tabstop>lineCellTask_14</tabstop>
+  <tabstop>lineCellDiagLongOk_14</tabstop>
+  <tabstop>lineCellDiagLongKo_14</tabstop>
+  <tabstop>pushCellPing_14</tabstop>
+  <tabstop>lineCellDiagLongRatio_14</tabstop>
+  <tabstop>pushCellClearCounters_14</tabstop>
+  <tabstop>lineCellSynchronizedOnce_14</tabstop>
+  <tabstop>lineCellSynchronized_14</tabstop>
+  <tabstop>lineCellIrSinal_14</tabstop>
+  <tabstop>lineCellActive_14</tabstop>
+  <tabstop>lineCellDiagShortKo_14</tabstop>
+  <tabstop>lineCellDiagShortOk_14</tabstop>
+  <tabstop>lineCellDiagShortRatio_14</tabstop>
+  <tabstop>pushCellRunDiagnostic_14</tabstop>
+  <tabstop>lineCellTrigger_14</tabstop>
+  <tabstop>comboCellTrigger_14</tabstop>
+  <tabstop>lineCellBattery_13</tabstop>
+  <tabstop>comboCellTask_13</tabstop>
+  <tabstop>lineCellTask_13</tabstop>
+  <tabstop>lineCellDiagLongOk_13</tabstop>
+  <tabstop>lineCellDiagLongKo_13</tabstop>
+  <tabstop>pushCellPing_13</tabstop>
+  <tabstop>lineCellDiagLongRatio_13</tabstop>
+  <tabstop>pushCellClearCounters_13</tabstop>
+  <tabstop>lineCellSynchronizedOnce_13</tabstop>
+  <tabstop>lineCellSynchronized_13</tabstop>
+  <tabstop>lineCellIrSinal_13</tabstop>
+  <tabstop>lineCellActive_13</tabstop>
+  <tabstop>lineCellDiagShortKo_13</tabstop>
+  <tabstop>lineCellDiagShortOk_13</tabstop>
+  <tabstop>lineCellDiagShortRatio_13</tabstop>
+  <tabstop>pushCellRunDiagnostic_13</tabstop>
+  <tabstop>lineCellTrigger_13</tabstop>
+  <tabstop>comboCellTrigger_13</tabstop>
+  <tabstop>lineCellTrigger_5</tabstop>
+  <tabstop>comboCellTrigger_5</tabstop>
  </tabstops>
  <resources/>
  <connections/>
