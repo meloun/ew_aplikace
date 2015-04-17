@@ -869,10 +869,23 @@ class Times(myTable):
             
             df =  timesstore.exportDf[i]
             
-            if(dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])):
-                df.time1[df.time1>"30:00,00"] = "DNF"
-            else:
-                df.time1[df.time1>"00:30:00,00"] = "DNF"                     
+            if "time1" in df:
+                if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
+                    df.time1[df.time1>"30:00,00"] = "DNF"
+                else:
+                    df.time1[df.time1>"00:30:00,00"] = "DNF" 
+                        
+            if "time2" in df:
+                if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
+                    df.time2[df.time2>"30:00,00"] = "DNF"
+                else:
+                    df.time2[df.time2>"00:30:00,00"] = "DNF" 
+                        
+            if "time3" in df:
+                if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
+                    df.time3[df.time3>"30:00,00"] = "DNF"
+                else:
+                    df.time3[df.time3>"00:30:00,00"] = "DNF"             
         
             #get racename
             header = dstore.GetItem("export_header", [i])             
