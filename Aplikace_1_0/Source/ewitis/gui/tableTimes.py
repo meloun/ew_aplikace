@@ -867,7 +867,12 @@ class Times(myTable):
             if (tabExportSettings.IsEnabled(i, "csv") == False):
                 continue
             
-            df =  timesstore.exportDf[i]                     
+            df =  timesstore.exportDf[i]
+            
+            if(dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])):
+                df.time1[df.time1>"30:00,00"] = "DNF"
+            else:
+                df.time1[df.time1>"00:30:00,00"] = "DNF"                     
         
             #get racename
             header = dstore.GetItem("export_header", [i])             
