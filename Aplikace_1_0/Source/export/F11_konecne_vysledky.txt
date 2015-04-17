@@ -1,4 +1,4 @@
-F11 - konečné výsledky, 1 čas na řádek
+﻿F11  - konečné výsledky, 1 čas na řádek
 ===========================================================================
 race - poslední časy
 slalom - nejlepší časy
