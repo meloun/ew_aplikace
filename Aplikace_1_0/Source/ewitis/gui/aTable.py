@@ -62,7 +62,10 @@ class myTable():
         #GROUPBOX
         self.gui['add'] = getattr(Ui(), self.name+"Add") #Ui().PointsAdd
         self.gui['remove'] = getattr(Ui(), self.name+"Remove")# Ui().PointsRemove
-        self.gui['export'] = getattr(Ui(), self.name+"Export") #Ui().PointsExport
+        try:
+            self.gui['export'] = getattr(Ui(), self.name+"Export") #Ui().PointsExport
+        except AttributeError:
+            self.gui['export'] = None
         self.gui['export_www'] = None        
         try:
             self.gui['import'] = getattr(Ui(), self.name+"Import") #Ui().PointsImport

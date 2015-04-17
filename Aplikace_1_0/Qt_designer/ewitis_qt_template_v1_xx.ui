@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -85,16 +85,6 @@
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="4" colspan="7">
-             <widget class="QTreeView" name="TimesProxyView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>4</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
@@ -120,7 +110,7 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>20</width>
+                <width>10</width>
                 <height>20</height>
                </size>
               </property>
@@ -231,16 +221,6 @@
               </property>
               <property name="flat">
                <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QTreeView" name="RunsProxyView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
               </property>
              </widget>
             </item>
@@ -593,29 +573,6 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="RunsExport">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/export.png</normaloff>gui/icons/export.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QPushButton" name="RunsDelete">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -639,6 +596,32 @@
                 </widget>
                </item>
               </layout>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QTreeView" name="RunsProxyView">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>110</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4" colspan="7">
+             <widget class="QTreeView" name="TimesProxyView">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>4</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
              </widget>
             </item>
            </layout>
@@ -25574,7 +25557,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboExportSortOrder1_1</tabstop>
   <tabstop>comboExportSort2_1</tabstop>
   <tabstop>comboExportSortOrder2_1</tabstop>
-  <tabstop>RunsExport</tabstop>
   <tabstop>TimesFilterStarts</tabstop>
   <tabstop>comboExportType_2</tabstop>
   <tabstop>TimesFilterFinishes</tabstop>
@@ -25651,7 +25633,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>PointsRemove</tabstop>
   <tabstop>RaceInfoProxyView</tabstop>
   <tabstop>comboOrderOrder_2_1</tabstop>
-  <tabstop>checkAInfoUserNumber_1</tabstop>
+  <tabstop>checkExportLap_1_2</tabstop>
   <tabstop>comboOrderRow_1</tabstop>
   <tabstop>comboOrderOrder_2_2</tabstop>
   <tabstop>comboOrderOrder_1_1</tabstop>
@@ -25659,7 +25641,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboOrderColumn_3_1</tabstop>
   <tabstop>comboOrderRow_2</tabstop>
   <tabstop>comboOrderRow_3</tabstop>
-  <tabstop>checkAInfoPoints_1</tabstop>
+  <tabstop>radioExportLapsPoints_3</tabstop>
   <tabstop>lineCells</tabstop>
   <tabstop>lineBattery</tabstop>
   <tabstop>lineHwVersion</tabstop>
@@ -25886,9 +25868,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkCommLogCyclic</tabstop>
   <tabstop>pushCommClearLog</tabstop>
   <tabstop>webViewApp</tabstop>
-  <tabstop>checkAInfoOrder_1</tabstop>
-  <tabstop>checkAInfoPoints_2</tabstop>
-  <tabstop>checkAInfoPoints_3</tabstop>
+  <tabstop>radioExportLapsLaptimes</tabstop>
+  <tabstop>pushExportHtmEnable_3</tabstop>
+  <tabstop>pushExportHtmEnable_1</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>pushLoadProfile</tabstop>
@@ -25897,26 +25879,26 @@ p, li { white-space: pre-wrap; }
   <tabstop>RaceInfoExport</tabstop>
   <tabstop>RaceInfoFilterClear</tabstop>
   <tabstop>lineFilterTagtime</tabstop>
-  <tabstop>checkAInfoLap_1</tabstop>
-  <tabstop>checkAInfoLap_3</tabstop>
-  <tabstop>checkAInfoLap_2</tabstop>
-  <tabstop>checkAInfoTime_3</tabstop>
-  <tabstop>checkAInfoTime_1</tabstop>
-  <tabstop>checkAInfoTime_2</tabstop>
-  <tabstop>checkAInfoOrder_2</tabstop>
-  <tabstop>checkAInfoOrder_3</tabstop>
+  <tabstop>checkExportPoints_2_1</tabstop>
+  <tabstop>comboOrderOrder_3_1</tabstop>
+  <tabstop>comboOrderColumn_1_2</tabstop>
+  <tabstop>comboOrderColumn_2_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_1</tabstop>
+  <tabstop>checkExportMinuteTimeformat_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_3</tabstop>
+  <tabstop>radioExportLapsTimes</tabstop>
   <tabstop>comboOrderOrder_1_2</tabstop>
   <tabstop>lineAInfoTimeRule_1</tabstop>
   <tabstop>lineAInfoTimeFilter_1</tabstop>
-  <tabstop>comboOrderColumn_2_1</tabstop>
   <tabstop>lineAInfoLapFilter_1</tabstop>
   <tabstop>lineAInfoTimeRule_2</tabstop>
-  <tabstop>comboOrderColumn_1_1</tabstop>
   <tabstop>lineAInfoTimeFilter_2</tabstop>
   <tabstop>lineAInfoLapFilter_2</tabstop>
   <tabstop>lineAInfoTimeRule_3</tabstop>
+  <tabstop>comboOrderColumn_2_1</tabstop>
   <tabstop>lineAInfoTimeFilter_3</tabstop>
   <tabstop>lineAInfoLapFilter_3</tabstop>
+  <tabstop>comboOrderColumn_1_1</tabstop>
   <tabstop>lineAInfoPointRule_1</tabstop>
   <tabstop>spinAInfoPointMinimum_1</tabstop>
   <tabstop>spinAInfoPointMaximum_1</tabstop>
@@ -25927,7 +25909,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinAInfoPointMinimum_3</tabstop>
   <tabstop>spinAInfoPointMaximum_3</tabstop>
   <tabstop>lineAInfoPointRule_4</tabstop>
-  <tabstop>checkAInfoUserNumber_3</tabstop>
+  <tabstop>checkExportOption_4_1</tabstop>
   <tabstop>spinAInfoPointMinimum_4</tabstop>
   <tabstop>spinAInfoPointMaximum_4</tabstop>
   <tabstop>lineAInfoPointRule_5</tabstop>
@@ -25936,31 +25918,31 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboOrderType_1</tabstop>
   <tabstop>comboOrderType_2</tabstop>
   <tabstop>comboOrderType_3</tabstop>
-  <tabstop>checkAInfoPoints_4</tabstop>
-  <tabstop>checkAInfoUserNumber_2</tabstop>
+  <tabstop>checkExportPoints_2_2</tabstop>
+  <tabstop>checkExportOption_3_2</tabstop>
   <tabstop>comboOrderColumn_3_2</tabstop>
   <tabstop>checkAInfoUserString_1</tabstop>
   <tabstop>checkAInfoStatus</tabstop>
-  <tabstop>checkAInfoPoints_5</tabstop>
-  <tabstop>comboOrderColumn_2_2</tabstop>
-  <tabstop>comboOrderOrder_3_1</tabstop>
-  <tabstop>comboOrderColumn_1_2</tabstop>
-  <tabstop>checkExportMinuteTimeformat_1</tabstop>
-  <tabstop>checkExportMinuteTimeformat_2</tabstop>
-  <tabstop>checkExportMinuteTimeformat_3</tabstop>
-  <tabstop>radioExportLapsLaptimes</tabstop>
-  <tabstop>radioExportLapsTimes</tabstop>
+  <tabstop>checkAInfoTime_1</tabstop>
+  <tabstop>checkAInfoLap_1</tabstop>
+  <tabstop>checkAInfoTime_2</tabstop>
+  <tabstop>checkAInfoLap_2</tabstop>
+  <tabstop>checkAInfoTime_3</tabstop>
+  <tabstop>checkAInfoLap_3</tabstop>
   <tabstop>spinGrouplapsBy_2</tabstop>
   <tabstop>radioExportLapsPoints_1</tabstop>
   <tabstop>radioExportLapsPoints_2</tabstop>
-  <tabstop>radioExportLapsPoints_3</tabstop>
-  <tabstop>pushExportHtmEnable_3</tabstop>
-  <tabstop>pushExportHtmEnable_1</tabstop>
-  <tabstop>checkExportPoints_2_2</tabstop>
-  <tabstop>checkExportPoints_2_1</tabstop>
-  <tabstop>checkExportLap_1_2</tabstop>
-  <tabstop>checkExportOption_3_2</tabstop>
-  <tabstop>checkExportOption_4_1</tabstop>
+  <tabstop>checkAInfoOrder_1</tabstop>
+  <tabstop>checkAInfoOrder_2</tabstop>
+  <tabstop>checkAInfoOrder_3</tabstop>
+  <tabstop>checkAInfoPoints_1</tabstop>
+  <tabstop>checkAInfoPoints_2</tabstop>
+  <tabstop>checkAInfoPoints_3</tabstop>
+  <tabstop>checkAInfoPoints_4</tabstop>
+  <tabstop>checkAInfoPoints_5</tabstop>
+  <tabstop>checkAInfoUserNumber_1</tabstop>
+  <tabstop>checkAInfoUserNumber_2</tabstop>
+  <tabstop>checkAInfoUserNumber_3</tabstop>
   <tabstop>CGroupsDelete</tabstop>
   <tabstop>checkExportSex_2</tabstop>
   <tabstop>checkExportPoints_1_3</tabstop>

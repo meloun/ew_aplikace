@@ -28,8 +28,8 @@ RUNS['database'] = {
 """ table collumns """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "default": 0,                       "width": WIDTH_NUMBER_4DIGIT,   "write": False},                                
-                 "date"          :     {"index": 1,  "name": "date",        "default": "0.0. 2000 00:00:00",    "width": 70,                    "write": True},                                                 
-                 "description"   :     {"index": 2,  "name": "description", "default": "",                      "width": 10,                    "write": True}                                
+                 #"date"          :     {"index": 1,  "name": "date",        "default": "0.0. 2000 00:00:00",    "width": 70,                    "write": True},                                                 
+                 #"description"   :     {"index": 2,  "name": "description", "default": "",                      "width": 10,                    "write": True}                                
                  }  
 
 """

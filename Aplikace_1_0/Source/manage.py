@@ -163,6 +163,7 @@ if __name__ == "__main__":
     Init()
             
     #show app        
-    appWindow.show()    
+    #appWindow.show()
+    appWindow.showMaximized()    
     sys.exit(app.exec_())
 

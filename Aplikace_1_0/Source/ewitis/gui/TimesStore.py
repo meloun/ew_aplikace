@@ -122,7 +122,7 @@ class TimesStore():
         
         #user update
         self.userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
-        self.userDf = self.userDf[["year", "club", "o1", "o2", "o3", "o4"]]
+        self.userDf = self.userDf[["year", "club", "sex", "o1", "o2", "o3", "o4"]]
         self.joinedDf =  pd.merge(self.joinedDf,  self.userDf, left_on='user_id', right_index=True, how="inner")
         self.joinedDf.sort("time_raw", inplace=True)                    
         
@@ -244,7 +244,7 @@ class TimesStore():
          
         #user update
         userDf = psql.read_sql("SELECT * FROM users", db.getDb(), index_col = "id")        
-        userDf = self.userDf[["year", "club", "o1", "o2", "o3", "o4"]]
+        userDf = self.userDf[["year", "club", "sex", "o1", "o2", "o3", "o4"]]
         joinedTabDf =  pd.merge(joinedTabDf,  userDf, left_on='user_id', right_index=True, how="inner")
         joinedTabDf.sort("time_raw", inplace=True)                                      
          
@@ -557,7 +557,7 @@ class TimesStore():
                         celltime = timesstore.GetPrevious(joinTime, {"cell":str(i)}, df) 
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
                     except TypeError:       
-                        print "type error celltime"         
+                        print "type error celltime: ", rule         
                         return None
         # previoustime                
         if "previoustime" in rule:                              

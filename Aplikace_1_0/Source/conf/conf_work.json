@@ -100,7 +100,7 @@
         "GET_SET": {
             "value": {
                 "enabled_htm": [
-                    true,
+                    false,
                     false,
                     false
                 ],
@@ -149,19 +149,19 @@
                         "points3": 0,
                         "points4": 0,
                         "time1": 2,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
                         "o2": 0,
-                        "o1": 2,
+                        "o1": 0,
                         "status": 0,
                         "club": 2,
                         "gap": 0,
                         "points5": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "name": 2,
                         "lap1": 0,
@@ -181,8 +181,8 @@
                         "points3": 0,
                         "points4": 0,
                         "time1": 2,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
@@ -192,8 +192,8 @@
                         "club": 2,
                         "gap": 0,
                         "points5": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "name": 2,
                         "lap1": 0,
@@ -202,7 +202,7 @@
                         "us1": 0
                     },
                     {
-                        "sex": 0,
+                        "sex": 2,
                         "year": 0,
                         "category": 2,
                         "un1": 0,
@@ -213,10 +213,10 @@
                         "points3": 0,
                         "points4": 0,
                         "time1": 2,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "nr": 2,
-                        "o4": 2,
+                        "o4": 0,
                         "o3": 0,
                         "o2": 0,
                         "o1": 0,
@@ -224,8 +224,8 @@
                         "club": 2,
                         "gap": 0,
                         "points5": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "name": 2,
                         "lap1": 0,
@@ -235,36 +235,36 @@
                     }
                 ],
                 "names": {
-                    "sex": "pohlaví",
-                    "year": "rok",
-                    "category": "kategorie",
-                    "un1": "un 1",
-                    "un2": "un 2",
-                    "un3": "un 3",
-                    "points1": "body",
-                    "points2": "body",
-                    "points3": "body",
-                    "points4": "body",
-                    "time1": "čas",
-                    "time2": "čas",
-                    "time3": "čas",
-                    "nr": "číslo",
-                    "o4": "option 4",
-                    "o3": "option 3",
-                    "o2": "option 2",
-                    "o1": "option 1",
-                    "status": "status",
-                    "club": "klub",
-                    "gap": "ztráta",
-                    "points5": "body",
-                    "order2": "pořadí",
-                    "order3": "pořadí",
-                    "order1": "pořadí",
-                    "name": "jméno",
-                    "lap1": "kolo",
-                    "lap3": "kolo",
-                    "lap2": "kolo",
-                    "us1": "us 1"
+                    "sex": "Pohlaví",
+                    "year": "Rok",
+                    "category": "Kategorie",
+                    "un1": "Un 1",
+                    "un2": "Un 2",
+                    "un3": "Un 3",
+                    "points1": "Body",
+                    "points2": "Body",
+                    "points3": "Body",
+                    "points4": "Body",
+                    "time1": "Čas",
+                    "time2": "Čas",
+                    "time3": "Čas",
+                    "nr": "Číslo",
+                    "o4": "Option 4",
+                    "o3": "Option 3",
+                    "o2": "Option 2",
+                    "o1": "Option 1",
+                    "status": "Status",
+                    "club": "Klub",
+                    "gap": "Ztráta",
+                    "points5": "Body",
+                    "order2": "Pořadí",
+                    "order3": "Pořadí",
+                    "order1": "Pořadí",
+                    "name": "Jméno",
+                    "lap1": "Kolo",
+                    "lap3": "Kolo",
+                    "lap2": "Kolo",
+                    "us1": "Us 1"
                 },
                 "enabled_csv": [
                     true,
@@ -275,6 +275,342 @@
         },
         "permanent": true,
         "name": "export"
+    },
+    "cells_info": {
+        "SET": {
+            "changed": false,
+            "value": [
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 1
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 2
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 3
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 4
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 5
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 6
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 7
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 8
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 9
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 10
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 11
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 12
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 13
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 14
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "cells info",
+        "GET": {
+            "refresh_countdown": 1,
+            "value": [
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 1,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 2,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 3,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 4,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 5,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 6,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 7,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 8,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 9,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 10,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 11,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 12,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 13,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "task": null,
+                    "synchronized": null,
+                    "battery": null,
+                    "synchronized_once": null,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": null,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 14,
+                    "active": null,
+                    "diagnostic_short_ko": 0
+                }
+            ]
+        }
     },
     "timing_settings": {
         "SET": {
@@ -292,15 +628,15 @@
         "permanent": true,
         "name": "timing_settings",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": {
-                "logic_mode": 1,
-                "filter_maxlapnumber": 0,
-                "filter_minlaptime": 0,
-                "measurement_state": 2,
-                "name_id": 1,
-                "filter_tagtime": 0,
-                "tags_reading_enable": 1
+                "logic_mode": null,
+                "filter_maxlapnumber": null,
+                "filter_minlaptime": null,
+                "measurement_state": 0,
+                "name_id": 4,
+                "filter_tagtime": null,
+                "tags_reading_enable": null
             }
         }
     },
@@ -320,11 +656,11 @@
         "GET_SET": {
             "value": {
                 "status": {
-                    "checked": 2
+                    "checked": 0
                 },
                 "us": [
                     {
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "un": [
@@ -332,7 +668,7 @@
                         "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "checked": 2
@@ -340,22 +676,22 @@
                 ],
                 "time": [
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "time - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "celltime3 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "celltime2 - celltime1"
+                        "rule": "time - starttime"
                     }
                 ],
                 "lap": [
@@ -383,7 +719,7 @@
                         "row": "Last times"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "order1": "Asc",
                         "order2": "Asc",
                         "type": "All",
@@ -392,7 +728,7 @@
                         "row": "Last times"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "order1": "Asc",
                         "order2": "Asc",
                         "type": "All",
@@ -410,25 +746,25 @@
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     }
