@@ -157,8 +157,15 @@ DEF_DATA = {
                                },
         "export"              : {"name"     : "export",
                                 "permanent": True,                                
-                                "GET_SET"  : {"value": {
-                                                        "sorted": ["order1", "order2", "order3", "nr", "name", "category", "year", "club", "sex", "o1","o2","o3", "o4", "gap", "time1","lap1","time2","lap2","time3","lap3","points1","points2","points3","points4","points5","un1","un2","un3","us1","status"],
+                                "GET_SET"  : {"value": {                                                        
+                                                        "sorted": [{"order1":1, "order2":2, "order3":3, 
+                                                                    "nr":4, "name":5, "category":6, "year":7, "club":8, "sex":9,
+                                                                    "o1":10,"o2":11,"o3":12, "o4":13, 
+                                                                    "gap":14, 
+                                                                    "time1":15,"lap1":16,"time2":17,"lap2":18,"time3":19,"lap3":20,
+                                                                    "points1":21,"points2":22,"points3":23,"points4":24,"points5":25,
+                                                                    "un1":26,"un2":27,"un3":28,"us1":29,"status":30
+                                                                   }] * NUMBER_OF.EXPORTS,
                                                         "names":  {                                                
                                                                 "order1"            : u"Pořadí",
                                                                 "order2"            : u"Pořadí",
@@ -308,7 +315,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.10f"},                                                                                                                    
+                                                        "app": "v3.11a"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

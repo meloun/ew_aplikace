@@ -139,17 +139,51 @@ class ExportGroup():
         self.category = getattr(ui, "checkExportCategory_" + str(index+1))
         self.year = getattr(ui, "checkExportYear_" + str(index+1))        
         self.sex = getattr(ui, "checkExportSex_" + str(index+1))        
-        self.club = getattr(ui, "checkExportClub_" + str(index+1))        
-
-                
+        self.club = getattr(ui, "checkExportClub_" + str(index+1))      
+                        
         self.option = [None] * NUMBER_OF.OPTIONCOLUMNS                
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
             self.option[i] = getattr(ui, "checkExportOption_"+str(i+1)+"_" + str(index+1))
                                 
         
         self.gap = getattr(ui, "checkExportGap_" + str(index+1))        
-        self.status = getattr(ui, "checkExportStatus_" + str(index+1))        
+        self.status = getattr(ui, "checkExportStatus_" + str(index+1))    
         
+        
+        #collumns sorting
+        self.s_time = [None] * NUMBER_OF.THREECOLUMNS
+        self.s_lap = [None] * NUMBER_OF.THREECOLUMNS        
+        self.s_order = [None] * NUMBER_OF.THREECOLUMNS        
+        self.s_points = [None] * NUMBER_OF.POINTSCOLUMNS  
+        self.s_un = [None] * NUMBER_OF.THREECOLUMNS  
+        self.s_us = [None] * 1
+              
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            self.s_time[i] = getattr(ui, "spinExportSortTime"+str(i+1)+"_" + str(index+1)) 
+            self.s_lap[i] = getattr(ui, "spinExportSortLap"+str(i+1)+"_" + str(index+1))
+            self.s_order[i] = getattr(ui, "spinExportSortOrder"+str(i+1)+"_" + str(index+1))
+            self.s_points[i] = getattr(ui, "spinExportSortPoints"+str(i+1)+"_" + str(index+1))
+            self.s_un[i] = getattr(ui, "spinExportSortUn"+str(i+1)+"_" + str(index+1))
+            
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            self.s_points[i] = getattr(ui, "spinExportSortPoints"+str(i+1)+"_" + str(index+1))
+
+        i=0            
+        self.s_us[i] = getattr(ui, "spinExportSortUs"+str(i+1)+"_" + str(index+1))         
+         
+        self.s_nr = getattr(ui, "spinExportSortNumber_" + str(index+1))
+        self.s_name = getattr(ui, "spinExportSortName_" + str(index+1))
+        self.s_category = getattr(ui, "spinExportSortCategory_" + str(index+1))
+        self.s_year = getattr(ui, "spinExportSortYear_" + str(index+1))        
+        self.s_sex = getattr(ui, "spinExportSortSex_" + str(index+1))        
+        self.s_club = getattr(ui, "spinExportSortClub_" + str(index+1))     
+        
+        self.s_option = [None] * NUMBER_OF.OPTIONCOLUMNS                
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
+            self.s_option[i] = getattr(ui, "spinExportSortOption"+str(i+1)+"_" + str(index+1))
+                                        
+        self.s_gap = getattr(ui, "spinExportSortGap_" + str(index+1))        
+        self.s_status = getattr(ui, "spinExportSortStatus_" + str(index+1))
         
                 
                                                   
@@ -164,6 +198,8 @@ class ExportGroup():
         #export        
         QtCore.QObject.connect(self.enable_csv, QtCore.SIGNAL('toggled(bool)'), lambda state: dstore.SetItem("export", ["enabled_csv", self.index], state))
         QtCore.QObject.connect(self.enable_htm, QtCore.SIGNAL('toggled(bool)'), lambda state: dstore.SetItem("export", ["enabled_htm", self.index], state))
+        
+        """columns enable checkboxes """
         
         #three columns groups
         for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -191,7 +227,39 @@ class ExportGroup():
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "points"+str(idx+1)], state)) 
                 
-        QtCore.QObject.connect(self.status, QtCore.SIGNAL("stateChanged(int)"), lambda state: dstore.SetItem("export", ["checked", self.index, "status"], state))        
+        QtCore.QObject.connect(self.status, QtCore.SIGNAL("stateChanged(int)"), lambda state: dstore.SetItem("export", ["checked", self.index, "status"], state))
+        
+        
+        """columns sorting """
+        
+        #three columns groups
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            QtCore.QObject.connect(self.s_time[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "time"+str(idx+1)], state)) 
+            QtCore.QObject.connect(self.s_lap[i], QtCore.SIGNAL("valueChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["sorted", self.index, "lap"+str(idx+1)], state))                                            
+            QtCore.QObject.connect(self.s_order[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "order"+str(idx+1)], state))
+            QtCore.QObject.connect(self.s_un[i], QtCore.SIGNAL("valueChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["sorted", self.index, "un"+str(idx+1)], state))
+            
+        i=0
+        QtCore.QObject.connect(self.s_us[i], QtCore.SIGNAL("valueChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["sorted", self.index, "us"+str(idx+1)], state))
+               
+        QtCore.QObject.connect(self.s_nr, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "nr"], state))                                
+        QtCore.QObject.connect(self.s_name, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "name"], state))                                
+        QtCore.QObject.connect(self.s_category, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "category"], state))                                
+        QtCore.QObject.connect(self.s_year, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "year"], state))                                
+        QtCore.QObject.connect(self.s_sex, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "sex"], state))                                
+        QtCore.QObject.connect(self.s_club, QtCore.SIGNAL("valueChanged(int)"), lambda state, idx=self.index: dstore.SetItem("export", ["sorted", idx, "club"], state))
+                                
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
+            QtCore.QObject.connect(self.s_option[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "o"+str(idx+1)], state))            
+            
+
+        QtCore.QObject.connect(self.s_gap, QtCore.SIGNAL("valueChanged(int)"), lambda state: dstore.SetItem("export", ["sorted", self.index, "gap"], state))
+        
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            QtCore.QObject.connect(self.s_points[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "points"+str(idx+1)], state)) 
+                
+        QtCore.QObject.connect(self.s_status, QtCore.SIGNAL("valueChanged(int)"), lambda state: dstore.SetItem("export", ["sorted", self.index, "status"], state))   
+                
 
     def setEnabled(self, enabled):        
         
@@ -213,12 +281,36 @@ class ExportGroup():
         self.status.setEnabled(enabled) 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
             self.points[i].setEnabled(enabled)
-        self.status.setEnabled(enabled) 
+        self.status.setEnabled(enabled)
+        
+        #sorting columns 
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                
+            self.s_time[i].setEnabled(enabled)         
+            self.s_lap[i].setEnabled(enabled)          
+            self.s_order[i].setEnabled(enabled)            
+            self.s_un[i].setEnabled(enabled)            
+        self.s_us[0].setEnabled(enabled)            
+        self.s_nr.setEnabled(enabled)        
+        self.s_name.setEnabled(enabled)        
+        self.s_category.setEnabled(enabled)        
+        self.s_year.setEnabled(enabled)        
+        self.s_sex.setEnabled(enabled)          
+        self.s_club.setEnabled(enabled)    
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
+            self.s_option[i].setEnabled(enabled)        
+        self.s_gap.setEnabled(enabled) 
+        self.s_status.setEnabled(enabled) 
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
+            self.s_points[i].setEnabled(enabled)
+        self.s_status.setEnabled(enabled) 
          
         
     
     def GetCheckedInfo(self):        
-        return dstore.GetItem("export", ["checked", self.index])    
+        return dstore.GetItem("export", ["checked", self.index])
+        
+    def GetSortedInfo(self):                
+        return dstore.GetItem("export", ["sorted", self.index])    
     
     def IsEnabled(self, key = None):
         if key == "csv":
@@ -238,9 +330,9 @@ class ExportGroup():
         if(self.IsEnabled() == False):
             return aux_list                
                 
-        keys = {k: v for k, v in info.items() if v!=0}                
-        keys_order = dstore.GetItem("export", ["sorted"])         
-        aux_list =  sorted(keys, key=lambda k: keys_order.index(k))
+        keys = {k: v for k, v in info.items() if v!=0}
+        keys_order = dstore.GetItem("export", ["sorted", self.index])         
+        aux_list =  sorted(keys, key=lambda k: keys_order[k])
                                                
         return aux_list
 
@@ -259,8 +351,10 @@ class ExportGroup():
                 if(ai["time"][i]["checked"] == 0):
                     dstore.SetItem("export", ["checked", self.index, "time"+str(i+1)], 0)
                     self.time[i].setEnabled(False)                
+                    self.s_time[i].setEnabled(False)                
                 if(ai["lap"][i]["checked"] == 0):                    
                     self.lap[i].setEnabled(False)
+                    self.s_lap[i].setEnabled(False)
                     dstore.SetItem("export", ["checked", self.index, "lap"+str(i+1)], 0)                       
                 if(ai["order"][i]["checked"] == 0):
                     dstore.SetItem("export", ["checked", self.index, "order"+str(i+1)], 0)                              
@@ -268,15 +362,18 @@ class ExportGroup():
                 if(ai["un"][i]["checked"] == 0):                            
                     dstore.SetItem("export", ["checked", self.index, "un"+str(i+1)], 0)                              
                     self.un[i].setEnabled(False)
+                    self.s_un[i].setEnabled(False)
             for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
                 if(ai["points"][i]["checked"] == 0):
                     dstore.SetItem("export", ["checked", self.index, "points"+str(i+1)], 0)                              
                     self.points[i].setEnabled(False)
+                    self.s_points[i].setEnabled(False)
                                         
             i = 0
             if(ai["us"][i]["checked"] == 0):                
                 dstore.SetItem("export", ["checked", self.index, "us"+str(i+1)], 0)                              
                 self.us[i].setEnabled(False)             
+                self.s_us[i].setEnabled(False)             
                 
             if(checked_columns != self.GetCheckedColumns()):                
                 changed = True #because of dialog from tab race settings: aditional info
@@ -294,8 +391,9 @@ class ExportGroup():
         font.setBold(enabled_htm_state)
         self.enable_htm.setFont(font)
         
-        #three columns groups               
-        #print export_info
+        """enabled checkboxes"""
+        
+        #three columns groups                       
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.time[i].setCheckState(checked_info["time"+str(i+1)])
             self.lap[i].setCheckState(checked_info["lap"+str(i+1)])                              
@@ -304,7 +402,6 @@ class ExportGroup():
             
         i=0        
         self.us[i].setCheckState(checked_info["us"+str(i+1)])             
-
         
         self.nr.setCheckState(checked_info["nr"])                                
         self.name.setCheckState(checked_info["name"])                                
@@ -317,7 +414,33 @@ class ExportGroup():
         #self.gap.setCheckState(checked_info["gap"])
         self.status.setCheckState(checked_info["status"])
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
-            self.points[i].setCheckState(checked_info["points"+str(i+1)]) 
+            self.points[i].setCheckState(checked_info["points"+str(i+1)])
+             
+        """sorting spinboxes"""
+        sorted_info = self.GetSortedInfo()
+        
+        #three columns groups                       
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            self.s_time[i].setValue(sorted_info["time"+str(i+1)])
+            self.s_lap[i].setValue(sorted_info["lap"+str(i+1)])                              
+            self.s_order[i].setValue(sorted_info["order"+str(i+1)])             
+            self.s_un[i].setValue(sorted_info["un"+str(i+1)])
+            
+        i=0        
+        self.s_us[i].setValue(sorted_info["us"+str(i+1)])             
+        
+        self.s_nr.setValue(sorted_info["nr"])                                
+        self.s_name.setValue(sorted_info["name"])                                
+        self.s_category.setValue(sorted_info["category"])                                
+        self.s_year.setValue(sorted_info["year"])                                
+        self.s_sex.setValue(sorted_info["sex"])                                
+        self.s_club.setValue(sorted_info["club"])                                
+        for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
+            self.s_option[i].setValue(sorted_info["o"+str(i+1)])        
+        self.s_gap.setValue(sorted_info["gap"])
+        self.s_status.setValue(sorted_info["status"])
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
+            self.s_points[i].setValue(sorted_info["points"+str(i+1)]) 
             
         return changed
             

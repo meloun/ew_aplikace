@@ -171,7 +171,7 @@ class TimesStore():
             #sort again
             if(column2 in aux_df.columns):
                 print "nested sorting", column1, column2, asc1, asc2
-                print aux_df
+                #print aux_df
                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
             else:
                 #print "basic sorting"

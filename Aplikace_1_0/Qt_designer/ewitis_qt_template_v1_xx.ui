@@ -37,7 +37,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-16</y>
+         <y>0</y>
          <width>1322</width>
          <height>772</height>
         </rect>
@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>9</number>
+           <number>8</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -3847,6 +3847,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points5</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_1_1">
                <property name="geometry">
@@ -3943,6 +3978,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points5</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderOrder_1_2">
                <property name="geometry">
@@ -4034,6 +4104,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Points5</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderColumn_2_2">
                <property name="geometry">
@@ -4105,6 +4210,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>Points5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
                 </property>
                </item>
               </widget>
@@ -4221,6 +4361,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Point5</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderColumn_3_2">
                <property name="geometry">
@@ -4292,6 +4467,41 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>Points5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Year</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Club</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Sex</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>O4</string>
                 </property>
                </item>
               </widget>
@@ -10737,7 +10947,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <number>28</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUn1_2">
+              <widget class="QSpinBox" name="spinExportSortUn1_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11346,7 +11556,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <number>3</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUn1_3">
+              <widget class="QSpinBox" name="spinExportSortUn1_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -11640,7 +11850,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                 <number>21</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUn1_4">
+              <widget class="QSpinBox" name="spinExportSortUn1_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -28198,7 +28408,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinExportSortPoints3_1</tabstop>
   <tabstop>spinExportSortPoints4_1</tabstop>
   <tabstop>spinExportSortPoints5_1</tabstop>
-  <tabstop>spinExportSortUn1_2</tabstop>
+  <tabstop>spinExportSortUn1_1</tabstop>
   <tabstop>spinExportSortUn2_1</tabstop>
   <tabstop>spinExportSortUn3_1</tabstop>
   <tabstop>spinExportSortUs1_1</tabstop>
@@ -28228,7 +28438,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinExportSortPoints3_2</tabstop>
   <tabstop>spinExportSortPoints4_2</tabstop>
   <tabstop>spinExportSortPoints5_2</tabstop>
-  <tabstop>spinExportSortUn1_3</tabstop>
+  <tabstop>spinExportSortUn1_2</tabstop>
   <tabstop>spinExportSortUn2_2</tabstop>
   <tabstop>spinExportSortUn3_2</tabstop>
   <tabstop>spinExportSortUs1_2</tabstop>
