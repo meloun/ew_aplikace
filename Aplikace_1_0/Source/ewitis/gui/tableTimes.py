@@ -92,7 +92,7 @@ class TimesModel(myModel):
             #user exist?                    
             dbUser = tableUsers.getDbUserParNr(tabRow['nr'])
             if dbUser == None:
-                uiAccesories.showMessage(self.table.name+" Update error", "Cant find user with nr. "+ tabRow['nr'])
+                uiAccesories.showMessage(self.table.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
                 return None
             #category exist?                                                                                              
             dbCategory = tableCategories.getDbRow(dbUser['category_id'])
