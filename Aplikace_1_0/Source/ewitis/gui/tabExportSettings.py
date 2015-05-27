@@ -284,25 +284,27 @@ class ExportGroup():
         self.status.setEnabled(enabled)
         
         #sorting columns 
-        for i in range(0, NUMBER_OF.THREECOLUMNS):                
-            self.s_time[i].setEnabled(enabled)         
-            self.s_lap[i].setEnabled(enabled)          
-            self.s_order[i].setEnabled(enabled)            
-            self.s_un[i].setEnabled(enabled)            
-        self.s_us[0].setEnabled(enabled)            
-        self.s_nr.setEnabled(enabled)        
-        self.s_name.setEnabled(enabled)        
-        self.s_category.setEnabled(enabled)        
-        self.s_year.setEnabled(enabled)        
-        self.s_sex.setEnabled(enabled)          
-        self.s_club.setEnabled(enabled)    
+        checked_info = self.GetCheckedInfo()        
+        
+        #print checked_info
+        for i in range(0, NUMBER_OF.THREECOLUMNS):              
+            self.s_time[i].setEnabled(enabled  and  bool(checked_info["time"+str(i+1)]))         
+            self.s_lap[i].setEnabled(enabled   and  bool(checked_info["lap"+str(i+1)]))          
+            self.s_order[i].setEnabled(enabled and  bool(checked_info["order"+str(i+1)]))            
+            self.s_un[i].setEnabled(enabled and bool(checked_info["un"+str(i+1)]))            
+        self.s_us[0].setEnabled(enabled and bool(checked_info["us"+str(0+1)]))            
+        self.s_nr.setEnabled(enabled and bool(checked_info["nr"]))        
+        self.s_name.setEnabled(enabled and bool(checked_info["name"]))        
+        self.s_category.setEnabled(enabled and bool(checked_info["category"]))        
+        self.s_year.setEnabled(enabled and bool(checked_info["year"]))        
+        self.s_sex.setEnabled(enabled and bool(checked_info["sex"]))          
+        self.s_club.setEnabled(enabled and bool(checked_info["club"]))    
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):                                                                        
-            self.s_option[i].setEnabled(enabled)        
-        self.s_gap.setEnabled(enabled) 
-        self.s_status.setEnabled(enabled) 
+            self.s_option[i].setEnabled(enabled and bool(checked_info["o"+str(i+1)]))        
+        self.s_gap.setEnabled(enabled  and bool(checked_info["gap"])) 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
-            self.s_points[i].setEnabled(enabled)
-        self.s_status.setEnabled(enabled) 
+            self.s_points[i].setEnabled(enabled and bool(checked_info["points"+str(i+1)]))
+        self.s_status.setEnabled(enabled and bool(checked_info["status"])) 
          
         
     
@@ -320,7 +322,7 @@ class ExportGroup():
         else:                  
             return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index])) 
               
-    def GetCheckedColumns(self):
+    def GetCheckedColumns(self, only_checked = True):
         """
         vrací list zaškrtnutých sloupců, seřazených podle "export, sortkeys"
         """
@@ -330,9 +332,16 @@ class ExportGroup():
         if(self.IsEnabled() == False):
             return aux_list                
                 
-        keys = {k: v for k, v in info.items() if v!=0}
-        keys_order = dstore.GetItem("export", ["sorted", self.index])         
-        aux_list =  sorted(keys, key=lambda k: keys_order[k])
+        if only_checked:
+            keys = [k for k, v in info.items() if v!=0]
+        else:
+            keys = info.keys()
+                    
+        keys_order = dstore.GetItem("export", ["sorted", self.index])   
+        #print "KEYS: ", keys      
+        #print "ORDER: ", keys_order
+        aux_list =  sorted(keys, key=lambda k: keys_order[k])  
+        #print "RESULT: ", aux_list      
                                                
         return aux_list
 

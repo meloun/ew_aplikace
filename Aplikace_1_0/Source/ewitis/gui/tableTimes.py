@@ -838,7 +838,8 @@ class Times(myTable):
         
             #complete export            
             if(len(df) != 0):
-                self.ExportToHtmFile(dirname+"e"+str(i+1)+"_"+racename+".htm", df, css_filename)            
+                filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
+                self.ExportToHtmFile(filename, df, css_filename)            
                 exported["total"] = len(df)
                  
         return exported
@@ -893,6 +894,7 @@ class Times(myTable):
                         
             #complete export
             if(len(df) != 0):
+                filename = utils.get_filename(dirname+racename+".csv")
                 self.ExportToCsvFileNew(dirname+racename+".csv", racename, df)            
                 exported["total"] = len(df)
             

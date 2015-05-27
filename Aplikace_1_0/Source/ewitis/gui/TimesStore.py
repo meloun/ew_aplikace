@@ -159,9 +159,22 @@ class TimesStore():
 #                 aux_df = aux_df.sort(column1, ascending = asc1)
 
             
-            #last time from each user                    
-            aux_df = aux_df.sort("time_raw")       
-            #print "aa1", aux_df                                             
+            #FILTER only one time from each user            
+            if group['row'] == u'Best times1':
+                #print u'Best times1'                 
+                aux_df = aux_df.sort("time1", ascending = False )
+            elif group['row'] == u'Best times2':
+                #print u'Best times2'                 
+                aux_df = aux_df.sort("time2", ascending = False ) 
+            elif group['row'] == u'Best times3':
+                #print u'Best times3'                 
+                aux_df = aux_df.sort("time3", ascending = False )    
+            elif group['row'] == u'Last times':
+                #print u'Last times'                 
+                aux_df = aux_df.sort("time_raw")
+            else:
+                print "ERROR: no row specified!!!", group        
+                                                         
             aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)
             #print "aa2", aux_df.columns                        
@@ -282,13 +295,18 @@ class TimesStore():
             #print filter_keys, len(filter_keys)
             
             if(len(filter_keys) == 1):
+                #print "====", filter_keys
                 aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
+                aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
+                #print aux_df[filter_keys[0]]
+                
             elif(len(filter_keys) == 2):
                 aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
+                aux_df =  aux_df[(aux_df[filter_keys[0]] != None) | (aux_df[filter_keys[1]] != None)]
             
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
             #last time from each user                    
-            aux_df = aux_df.sort("time_raw")
+            aux_df = aux_df.sort("time_raw")                        
             if("last" in filter):                                                                
                 aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)                        
