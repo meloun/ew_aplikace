@@ -21,8 +21,7 @@ RUNS['database'] = {
                     "id"            :     {"name": "id",            "default": 0},
                     "starttime_id"  :     {"name": "starttime_id",  "default": 0},
                     "date"          :     {"name": "date",          "default": "0.0. 2000 00:00:00"},
-                    "name_id"       :     {"name": "name_id",       "default": 0},
-                    "time_raw"      :     {"name": "time_raw",      "default": 0},
+                    "name_id"       :     {"name": "name_id",       "default": 0},                    
                     "description"   :     {"name": "description",   "default": ""}                                
                   }
 """ table collumns """

@@ -93,8 +93,17 @@ DEF_DATA = {
                                                         }
                                               }
                                },
+        #tab TIMES
+        "times"                : {"GET_SET"  : {"value": {
+                                                          "auto_number": 0,
+                                                          "auto_refresh": 0
+                                                         }
+                                                }
+                                  },        
         #tab RACE SETTINGS
         "race_time"          : {"GET_SET"  : { "value"   : 0},},        
+        "current_run"        : {"GET_SET"  : { "value"   : 0},},
+                
         #group timing setting: below
                                     
         #group timing setting: below
@@ -159,18 +168,24 @@ DEF_DATA = {
                                 "permanent": True,                                
                                 "GET_SET"  : {"value": {                                                        
                                                         "sorted": [{"order1":1, "order2":2, "order3":3, 
-                                                                    "nr":4, "name":5, "category":6, "year":7, "club":8, "sex":9,
-                                                                    "o1":10,"o2":11,"o3":12, "o4":13, 
-                                                                    "gap":14, 
-                                                                    "time1":15,"lap1":16,"time2":17,"lap2":18,"time3":19,"lap3":20,
-                                                                    "points1":21,"points2":22,"points3":23,"points4":24,"points5":25,
-                                                                    "un1":26,"un2":27,"un3":28,"us1":29,"status":30
+                                                                    "nr":4, 
+                                                                    "ordercat1":5, "ordercat2":6, "ordercat3":7, 
+                                                                    "name":8, "category":9, "year":10, "club":11, "sex":12,
+                                                                    "o1":13,"o2":14,"o3":15, "o4":16, 
+                                                                    "gap":17, 
+                                                                    "time1":18,"lap1":19,"time2":20,"lap2":21,"time3":22,"lap3":23,
+                                                                    "points1":24,"points2":25,"points3":26,"points4":27,"points5":28,
+                                                                    "un1":29,"un2":30,"un3":31,
+                                                                    "us1":31,"status":32
                                                                    }] * NUMBER_OF.EXPORTS,
                                                         "names":  {                                                
                                                                 "order1"            : u"Pořadí",
                                                                 "order2"            : u"Pořadí",
                                                                 "order3"            : u"Pořadí",
                                                                 "nr"                : u"Číslo", 
+                                                                "ordercat1"         : u"Pořadí/Kategorie",
+                                                                "ordercat2"         : u"Pořadí/Kategorie",
+                                                                "ordercat3"         : u"Pořadí/Kategorie",
                                                                 "name"              : u"Jméno", 
                                                                 "category"          : u"Kategorie", 
                                                                 "year"              : u"Rok", 
@@ -204,7 +219,10 @@ DEF_DATA = {
                                                                 "order1"            : CheckboxValue.checked,
                                                                 "order2"            : CheckboxValue.checked,
                                                                 "order3"            : CheckboxValue.checked,
-                                                                "nr"                : CheckboxValue.checked, 
+                                                                "nr"                : CheckboxValue.checked,
+                                                                "ordercat1"         : CheckboxValue.unchecked,
+                                                                "ordercat2"         : CheckboxValue.unchecked,
+                                                                "ordercat3"         : CheckboxValue.unchecked, 
                                                                 "name"              : CheckboxValue.checked, 
                                                                 "category"          : CheckboxValue.checked, 
                                                                 "year"              : CheckboxValue.unchecked, 
@@ -315,7 +333,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.11c"},                                                                                                                    
+                                                        "app": "v3.12a"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

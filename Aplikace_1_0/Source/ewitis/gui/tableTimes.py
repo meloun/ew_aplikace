@@ -6,6 +6,7 @@ import time
 import datetime
 import os
 from PyQt4 import QtCore, QtGui, Qt
+from threading import Timer
 from ewitis.gui.Ui import Ui
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 
@@ -35,6 +36,7 @@ import ewitis.exports.ewitis_html as ew_html
 
 import pandas as pd 
 from ewitis.data.DEF_ENUM_STRINGS import *
+from manage_calc import manage_calc, myevent   
 
 
 '''
@@ -54,28 +56,13 @@ class TimesModel(myModel):
         #self.starts2 = TimesStore.TimesStore()
         
         self.order = TimesUtils.TimesOrder()
-        #self.lap = TimesUtils.TimesLap()
-        #self.laptime = TimesLaptimes.TimesLaptime()
-                                                           
-        #update with first run        
-        first_run = db.getFirst("runs")
-        if(first_run != None):
-            self.run_id = first_run['id']
-        else:
-            self.run_id = 0 #no times for run_id = 0 
-                                
-                   
-
-    
+        self.changedRow = None                                                 
   
     def getDefaultDbRow(self): 
         row = myModel.getDefaultDbRow(self)
-        row['run_id'] = self.run_id                                                                                                                     
-        return row                 
-
-    
-                                                                                 
-
+        row['run_id'] = dstore.Get("current_run")                                                                                                                     
+        return row
+                                                            
     
     def checkChangedNumber(self, tabRow):
         '''ZMĚNA ČÍSLA'''
@@ -119,7 +106,18 @@ class TimesModel(myModel):
             if(ret == False):
                 
                 #get changed row, dict{}
-                tabRow = self.row_dict(item.row())                
+                tabRow = self.row_dict(item.row())
+                
+                #changed row
+                self.changedRow = self.getDefaultTableRow()
+                self.changedRow['id'] = tabRow['id']
+                self.changedRow['nr'] = tabRow['nr']
+                self.changedRow['timeraw'] = tabRow['timeraw']                
+                user_id = tableUsers.getIdOrTagIdParNr(tabRow['nr'])
+                if user_id:
+                    joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
+                    self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
+                    self.changedRow['category'] = joinUser['category']                                             
                 
                 # NR column
                 if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):                        
@@ -154,8 +152,12 @@ class TimesModel(myModel):
                 #reset all calculated values for this row
                 self.table.ResetCalculatedValues(tabRow['id'])
                 
-                #update whole model
-                self.Update()                
+                #update whole model                                
+                self.Update()
+                myevent.set()
+                #manage_calc.new_df = False                             
+                #t = Timer(2, self.Update)
+                #t.start() # after 30 seconds, "hello, world" will be printed                
                             
                     
                 
@@ -197,7 +199,7 @@ class TimesModel(myModel):
         table ["id", "nr", "cell", "status", "timeX", "lapX", "name", "category", "orderX", "start_nr", "pointsX", "timeraw"]
         """
         
-        #ztimeT = time.clock()
+        #ytime = time.clock()        
         #print "TIME", dbTime['id']
                                                                   
         
@@ -263,40 +265,32 @@ class TimesModel(myModel):
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             #LAP 1-3
             if additional_info['lap'][i]:                
-                lapX = 'lap'+str(i+1)
-                if(dbTime[lapX] == None):                    
-                    tabTime[lapX] = None                    
-                else:                                      
-                    tabTime[lapX] = dbTime[lapX]  
+                lapX = 'lap'+str(i+1)                                      
+                tabTime[lapX] = dbTime[lapX]  
             else: 
                 tabTime[lapX] = None
                                  
         
         '''ORDER 1-3'''
+        #ztime = time.clock()
         for i in range(0, NUMBER_OF.THREECOLUMNS):        
-            if additional_info['order'][i]:      
-                #ztime = time.clock()  
-                #print self.dbDf                                      
-                #tabTime['order' + str(i+1)] = self.CalcOrder(self.dbDf, dbTime, i) 
-                #print "I: 1:",time.clock() - ztime,"s"          
-                #print type(self.orderDf[i])
-                #ztime = time.clock()
-                #print self.orderDf[i]
-                dbTime["category"] = tabTime["category"]                
-                tabTime['order' + str(i+1)] = timesstore.CalcOrder(dbTime, i)                                
-                #print "I: 2:",time.clock() - ztime,"s"
-                #print dbTime['id'], 'order', str(i+1), tabTime['order' + str(i+1)] 
+            if additional_info['order'][i] and ('order'+str(i+1)) in dbTime:                                      
+                tabTime['order' + str(i+1)] =  dbTime['order' + str(i+1)] #timesstore.CalcOrder(dbTime, i)                                         
             else:                                                         
                 tabTime['order' + str(i+1)] = None
+        
                                         
         '''POINTS 1-3'''
+        #ztime = time.clock()
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             if  additional_info['points'][i]:        
                 #tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
                 #print 'points',str(i+1), tabTime
-                tabTime['points'+str(i+1)] = timesstore.CalcPoints(tabTime, i)                                   
+                tabTime['points'+str(i+1)] = 0 #timesstore.CalcPoints(tabTime, i)                                   
             else:
                 tabTime['points'+str(i+1)] = None
+        #print "I: POINTS CALC:",time.clock() - ztime,"s"
+        #print "I: DB2TAB CALC:",time.clock() - ytime,"s"
                                                                         
         return tabTime            
     
@@ -329,7 +323,7 @@ class TimesModel(myModel):
             importRow['id'] = int(importRow['id']) + 10000
         except:
             pass
-        importRow['run_id'] = self.run_id            
+        importRow['run_id'] = dstore.Get("current_run") #self.run_id            
         return importRow
         
     def IsTimeFinished(self, dbTime):
@@ -377,7 +371,7 @@ class TimesModel(myModel):
                 
     def UpdateTimesLaps(self, joinDf):
         """
-        u časů kde 'time'=None, do počítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
+        u časů kde 'time'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calc_update_time()
         
         *Ret:*
             pole časů u kterých se nepodařilo časy updatovat   
@@ -422,34 +416,67 @@ class TimesModel(myModel):
         return ret_ko_times
     
     #UPDATE TABLE        
-    def Update(self, run_id = None):        
+    def Update(self):        
         
+        ztime = time.clock() 
         ret = True
         
-        if(run_id != None):                    
-            self.run_id = run_id #update run_id
+        #if(run_id != None):                    
+        #    self.run_id = run_id #update run_id        
         
         #table df    
-        tabDf = self.df()       
+#        tabDf = self.df()       
                                                                                                                   
-        #calc times and laps
-        for i in range(0,2):
-            joinDf = timesstore.Update(self.run_id, tabDf) 
-            ko_nrs = self.UpdateTimesLaps(joinDf)                                
-            if(ko_nrs != []):            
-                uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-                ret = False                                                                                                                        
-            db.commit()        
+#         #calc times and laps
+#         for i in range(0,2):
+#             joinDf = timesstore.Update(self.run_id, tabDf) 
+#             #print "I: Ts update time&laps A:",i,time.clock() - ztime,"s"
+#             #print joinDf.columns                                                                                                                        
+#             ko_nrs = self.UpdateTimesLaps(joinDf)                                
+#             #print "I: Ts update time&laps B:",i,time.clock() - ztime,"s"                                                                                                                        
+#             if(ko_nrs != []):            
+#                 uiAccesories.showMessage(self.table.name+" Update error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+#                 ret = False
+#             #print "I: Ts update time&laps:",i,time.clock() - ztime,"s"                                                                                                                        
+#             db.commit()        
+#             #print "I: Ts update time&laps commit:",i,time.clock() - ztime,"s"                                                                                                                        
         
         #status            
-        joinDf = timesstore.Update(self.run_id, tabDf)            
-        ko_nrs = self.UpdateStatus(joinDf)                                
-        if(ko_nrs != []):            
-            uiAccesories.showMessage(self.table.name+" Update Status error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
-            ret = False
-        db.commit()
+#        joinDf = timesstore.Update(self.run_id, tabDf)            
+#         ko_nrs = self.UpdateStatus(joinDf)                                
+#         if(ko_nrs != []):            
+#             uiAccesories.showMessage(self.table.name+" Update Status error", "Some times have no start times, ids: "+str(ko_nrs), msgtype = MSGTYPE.statusbar)
+#             ret = False                                                                                                                                
+#         db.commit()
                                                                       
-        myModel.Update(self, "run_id", self.run_id)
+        #print "I: TimesModel bez TableModel.update()",i,time.clock() - ztime,"s"                                                                                                                        
+        #myModel.Update(self, "run_id", self.run_id)
+        
+        #disable user actions        
+        dstore.Set("user_actions", dstore.Get("user_actions")+1)          
+                      
+        #smazat vsechny radky
+        self.removeRows(0, self.rowCount())          
+                                                                                       
+        ytime = time.clock() 
+        for id, row_dict in manage_calc.joinedDfFreeze.iterrows():
+            #row_dict = row_dict.to_dict()                        
+            #call table-specific function, return "table-row"                                           
+            row_table = self.db2tableRow(row_dict)
+                                                                                                                                                                 
+            #add row to the table
+            if self.changedRow and (id == self.changedRow["id"]):             
+                self.addRow(self.changedRow)
+                self.changedRow = None
+            else:
+                self.addRow(row_table)
+        print "I: Model update db2table:", time.clock() - ytime,"s"                                                                                                                        
+
+        #enable user actions                                                                                                                                                                                                   
+        dstore.Set("user_actions", dstore.Get("user_actions")-1)
+        
+        print "I: Model update:", time.clock() - ztime,"s"                                                                                                                        
+                                                                                                                            
         #db.commit()        
         return ret            
                                                                                        
@@ -478,14 +505,14 @@ class Times(myTable):
         
          
                 
+        self.auto_refresh_cnt = 0
+        
         #special slots
         #self.slots = Slots.TimesSlots(self)                                       
        
         #TIMERs
         #self.timer1s = QtCore.QTimer(); 
-        #self.timer1s.start(1000);
-                
-        self.system = 0
+        #self.timer1s.start(1000);                        
                 
         
     def InitGui(self):
@@ -501,6 +528,10 @@ class Times(myTable):
         self.gui['filter_column'] = Ui().TimesFilterColumn
         self.gui['filter_starts'] = Ui().TimesFilterStarts
         self.gui['filter_finishes'] = Ui().TimesFilterFinishes        
+        self.gui['auto_number'] = Ui().TimesAutoNumber
+        self.gui['auto_refresh'] = Ui().TimesAutoRefresh
+        self.gui['auto_number_clear'] = Ui().TimesAutoNumberClear
+        self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         
         
     def createSlots(self):
@@ -512,6 +543,12 @@ class Times(myTable):
         QtCore.QObject.connect(self.gui['filter_starts'], QtCore.SIGNAL("clicked()"), self.sFilterStarts) 
         QtCore.QObject.connect(self.gui['filter_finishes'], QtCore.SIGNAL("clicked()"), self.sFilterFinishes)
         
+        #automativally number and refresh
+        QtCore.QObject.connect(self.gui['auto_number'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number"], state, self.UpdateGui))     
+        QtCore.QObject.connect(self.gui['auto_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_refresh"], state, self.UpdateGui), setattr(self, "auto_refresh_cnt", state)))
+        QtCore.QObject.connect(self.gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], 0, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
+        
         #import table (db format)
         QtCore.QObject.connect(self.gui['times_db_import'], QtCore.SIGNAL("clicked()"), lambda:myTable.sImport(self))
         
@@ -519,7 +556,7 @@ class Times(myTable):
         QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:myTable.sExport(self, myModel.eDB, True))
         
         #button Recalculate
-        QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(self.model.run_id))
+        QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(dstore.Get("current_run")))
         
          
         #export direct www
@@ -534,9 +571,7 @@ class Times(myTable):
         #QtCore.QObject.connect(self.gui['aExportAllTimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
         
         #export  laptimes        
-        #QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
-        
-        
+        #QtCore.QObject.connect(self.gui['aExportLaptimes'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))   
            
     def sFilterStarts(self):
         self.gui['filter_column'].setValue(2)
@@ -551,7 +586,7 @@ class Times(myTable):
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
         res = db.query(query) 
-        db.commit()                       
+        db.commit()                                                              
         return res
     
     def ResetNrOfLaps(self):
@@ -586,6 +621,7 @@ class Times(myTable):
         self.ResetStatus() 
                         
         db.commit()
+        myevent.set()
         print "A: Times: Recalculating.. press F5 to finish"
         return res
                  
@@ -818,7 +854,7 @@ class Times(myTable):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
         #    return         
-        
+                        
         #get filename, gui dialog  
         racename = dstore.GetItem("racesettings-app", ['race_name'])      
         dirname = utils.get_filename("export/www/")
@@ -832,7 +868,7 @@ class Times(myTable):
             
             if (tabExportSettings.IsEnabled(i, "htm") == False):
                 continue
-            
+                        
             df =  timesstore.exportDf[i]
             css_filename = dstore.GetItem("export_www", [i, "css_filename"])                      
         
@@ -894,8 +930,8 @@ class Times(myTable):
                         
             #complete export
             if(len(df) != 0):
-                filename = utils.get_filename(dirname+racename+".csv")
-                self.ExportToCsvFileNew(dirname+racename+".csv", racename, df)            
+                filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
+                self.ExportToCsvFileNew(dirname+filename+".csv", racename, df)            
                 exported["total"] = len(df)
             
             #category export                
@@ -935,23 +971,79 @@ class Times(myTable):
                          
         return exported                               
                     
-    #toDo: sloucit s myModel konstruktorem        
-    def Update(self, run_id = None):            
+    def AutoUpdate(self):
+            ztime = time.clock()                   
+            autorefresh = dstore.GetItem("times", ["auto_refresh"])
+            if(autorefresh == 0):
+                pass
+            elif(self.auto_refresh_cnt == 0):
+                self.auto_refresh_cnt = autorefresh                
+            elif((self.auto_refresh_cnt-1) != 0):        
+                self.auto_refresh_cnt = self.auto_refresh_cnt - 1                  
+            else:
+                print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
+                self.auto_refresh_cnt = autorefresh
+                ret = self.Update()
+                if(ret == True):                       
+                    uiAccesories.showMessage("Auto Refresh", time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)
+            
+                
+                
+    def UpdateGui(self): 
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
+            dstore.SetItem("times",['auto_number'], 0)
+            self.gui['auto_number'].setEnabled(False)
+        else:
+            self.gui['auto_number'].setEnabled(True)                               
+
+              
+        times = dstore.Get("times")
+            
+        self.gui['auto_number'].setValue(times["auto_number"]) 
+        self.gui['auto_refresh'].setValue(times["auto_refresh"])
         
-        ai = dstore.Get("additional_info")
+        #stylesheets
+#         if(times["auto_refresh"] == 0):
+#             self.gui['auto_refresh'].setStyleSheet("")
+#         else:
+#             self.gui['auto_refresh'].setStyleSheet("background:"+COLORS.green)
+#             
+#             
+#         if(times["auto_number"] == 0):            
+#             self.gui['auto_number'].setStyleSheet("")
+#         else:
+#             if(tableUsers.getDbUserParNr(times["auto_number"]) != None):
+#                 if(self.gui['auto_number'].styleSheet() != "background:"+COLORS.green):
+#                     self.gui['auto_number'].setStyleSheet("")
+#             else:
+#                 if(self.gui['auto_number'].styleSheet() != "background:"+COLORS.red):
+#                     self.gui['auto_number'].setStyleSheet("background:"+COLORS.red)
+        return  
+            
+
+                                        
+        
+    #toDo: sloucit s myModel konstruktorem        
+    def Update(self):                            
+        
+        ai = dstore.Get("additional_info")                
           
         #show additional info, checkbox                      
 
         
         #update
         ztime = time.clock()
-        ret = self.model.Update(run_id = run_id)                                
+        ret = self.model.Update()
+        self.UpdateGui()
         print "I: Times: update:",time.clock() - ztime,"s"
         
         #myModel.myTable.Update(self)        
+        ztime = time.clock()
         self.setColumnWidth()        
+        print "I: Times: setColumnWidth:",time.clock() - ztime,"s"
         
         #create list of columns to hide
+        ztime = time.clock()
         columns = []
         for k,v in ai.items():
             
@@ -968,14 +1060,14 @@ class Times(myTable):
                 if(item['checked'] == 0):                    
                     columns.append(k+""+str(c))
                     
-        self.hiddenCollumns =  columns                                                     
+        self.hiddenCollumns =  columns                                                             
         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
                 
-        self.updateHideColumns()
+        self.updateHideColumns()        
         
         #update couterns
         self.updateTabCounter()
-        self.updateDbCounter()
+        self.updateDbCounter()        
         return ret
             
 

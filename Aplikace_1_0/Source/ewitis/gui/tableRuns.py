@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import time
 from PyQt4 import QtCore, QtGui
 from ewitis.gui.aTab import MyTab 
 from ewitis.gui.aTableModel import myModel, myProxyModel 
@@ -64,7 +65,13 @@ class Runs(myTable):
         #MODE EDIT/REFRESH        
         self.system = 0
         
-        self.run_id = 0                       
+        first_run = db.getFirst("runs")
+        if(first_run != None):
+            self.run_id = first_run['id']
+        else:
+            self.run_id = 0 #no times for run_id = 0
+        dstore.Set("current_run", self.run_id)
+        #self.run_id = 0                       
                                
         #set selection to first row
         self.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)                
@@ -107,8 +114,11 @@ class Runs(myTable):
             #ziskani id z vybraneho radku                                         
             self.run_id = (self.proxy_model.data(rows[0]).toInt()[0])                 
                                      
-            #get TIMES from database & add them to the table                        
-            tableTimes.Update(run_id = self.run_id)                                     
+            #update table times
+            dstore.Set("current_run", self.run_id)              
+            time.sleep(0.3)                                     
+            tableTimes.Update()                                     
+            #tableTimes.Update(run_id = self.run_id)                                     
         except:
             print "I: Times: nelze aktualizovat! id:", self.run_id                    
         

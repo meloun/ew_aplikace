@@ -6,6 +6,7 @@ Created on 2.1.2014
 '''
 
 
+import threading
 import sys, time
 from PyQt4 import QtGui, QtCore
 
@@ -13,8 +14,8 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.Ui import appWindow    
 from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.data.dstore import dstore
-from ewitis.gui.UiAccesories import MSGTYPE 
-
+from ewitis.gui.UiAccesories import MSGTYPE
+ 
 #tabs
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
 from ewitis.gui.tableAlltags import tabAlltags
@@ -41,6 +42,7 @@ from ewitis.data.DEF_DATA import TAB
 
     
 timer1 = QtCore.QTimer();
+timer1_1s_cnt = 0
        
 def Init():                            
     
@@ -106,7 +108,7 @@ def UpdateTab(mode = UPDATE_MODE.all):
 def CreateSlots():
     
     #timer 500ms
-    global  timer1
+    global  timer1    
     timer1.start(500); #500ms
     QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)    
     
@@ -116,13 +118,22 @@ def CreateSlots():
     #tab changed
     QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
     
-def sTimer():    
+def sTimer():  
+    global timer1_1s_cnt  
              
     #update current tab           
     GetCurrentTab().Update(UPDATE_MODE.gui)
     
     #toolbars, statusbars
     bars.Update()
+    
+    if(timer1_1s_cnt == 0):
+        timer1_1s_cnt = 1
+    else:
+        #timer auto-updates
+        tabRunsTimes.tables[1].AutoUpdate() #table times
+        timer1_1s_cnt = 0
+    
     
 def sTabChanged(nr):
                     
@@ -142,18 +153,16 @@ def sRefresh():
     ztime = time.clock()        
     dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
-    ret = GetCurrentTab().Update(UPDATE_MODE.all)    
+    ret = GetCurrentTab().Update(UPDATE_MODE.all)        
     if(ret == True):                       
-        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)
+        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)        
     
     #enable user actions        
-    dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                        
-
-
-         
+    dstore.Set("user_actions", dstore.Get("user_actions")-1)    
+        
 if __name__ == "__main__":
     
-    import sys
+    import sys, time
     from PyQt4 import QtGui    
 
     
@@ -161,9 +170,15 @@ if __name__ == "__main__":
        
     #init all tabs
     Init()
+    
+    from manage_calc import manage_calc        
+    manage_calc.start()
+    time.sleep(0.4)
+    tabRunsTimes.Update()    
+    #print "tv", 5, manage_calc.my_manage_calc.tv, type(manage_calc.my_manage_calc.tv)    
             
     #show app        
     #appWindow.show()
     appWindow.showMaximized()    
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())    
 

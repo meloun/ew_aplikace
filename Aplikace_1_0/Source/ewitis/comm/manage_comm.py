@@ -234,7 +234,7 @@ class ManageComm(Thread):
             #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")                                                                                                                                                                    
                     
             """ STORE NEW TIME TO THE DATABASE """
-            if(aux_time['error'] == 0):
+            if(aux_time['error'] == 0):                 
                 self.AddTimeToDb(aux_time)                                                                                                                           
                 self.index_times += 1 # done, take next                                                                             
             else:
@@ -459,8 +459,17 @@ class ManageComm(Thread):
         print time                               
         aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + str(time['run_id']) + ";" + str(time['time_raw']).replace(',', '.')                                
         print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
+        
         #print struct.pack('<I', time['user_id']).encode('hex')
-                        
+
+        '''auto number'''
+        auto_number = dstore.GetItem("times", ["auto_number"])
+        if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
+            dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
+            if dbUser != None:
+                time['user_id'] = dbUser['id']
+            
+                                
         '''alltag filter - activ only when rfid race and tag filter checked'''
         racesettings_app = dstore.Get("racesettings-app")
         if(racesettings_app["rfid"] == 2) and (racesettings_app["tag_filter"] == 2):                

@@ -52,7 +52,7 @@ class UsersModel(myModel):
     #===============================================================   
     #DB:  "id", "nr", "name", "first_name", "category", "address"
     #GUI: "id", "nr", "name", "first_name", "category", "address"    
-    def db2tableRow(self, dbUser):                                        
+    def db2tableRow(self, dbUser, db_con = None):                                     
         
         #1to1 keys just copy
         tabUser = myModel.db2tableRow(self, dbUser) 
@@ -61,7 +61,7 @@ class UsersModel(myModel):
         if dbUser == None:
             tabCategory = tableCategories.model.getDefaultTableRow()
         else:
-            tabCategory = tableCategories.getTabRow(dbUser['category_id'])        
+            tabCategory = tableCategories.getTabRow(dbUser['category_id'], db_con)        
         
         tabUser['category'] = tabCategory['name']
                         
@@ -195,24 +195,25 @@ class Users(myTable):
                         
         return db_user
     
-    def getDbUserParIdOrTagId(self, id):        
+    def getDbUserParIdOrTagId(self, id, db_con = None):                                 
+        if db_con == None:
+            db_con = self.db_con        
              
-        if(dstore.Get("rfid") == 2):                    
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):                    
             '''tag id'''            
             dbUser = self.getDbUserParTagId(id)
         else:                
             '''id'''            
-            dbUser = self.getDbRow(id)
+            dbUser = self.getDbRow(id, db_con)
                      
         return dbUser
     
-    def getTabUserParIdOrTagId(self, id):
+    def getTabUserParIdOrTagId(self, id, db_con = None):        
+        if db_con == None:
+            db_con = self.db_con        
         
-        
-        dbUser = self.getDbUserParIdOrTagId(id)                 
-        
-        
-        tabUser = self.model.db2tableRow(dbUser)
+        dbUser = self.getDbUserParIdOrTagId(id, db_con)        
+        tabUser = self.model.db2tableRow(dbUser, db_con)
         return tabUser
     
     def getJoinUserParIdOrTagId(self, user_id):        
@@ -228,7 +229,7 @@ class Users(myTable):
     
     def getIdOrTagIdParNr(self, nr):
         
-        if(dstore.Get("rfid") == 2):    
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):    
             '''tag id'''
             try:
                 dbTag = tableTags.getDbTagParUserNr(nr)                        
@@ -237,8 +238,11 @@ class Users(myTable):
                 return None  
         else:       
             '''id'''
-            dbUser = self.getDbUserParNr(nr)
-            return dbUser['id']    
+            try:
+                dbUser = self.getDbUserParNr(nr)
+                return dbUser['id']  
+            except TypeError:
+                return None   
         
                 
     #

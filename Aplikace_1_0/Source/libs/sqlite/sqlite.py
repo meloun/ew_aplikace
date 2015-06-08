@@ -6,10 +6,12 @@ Created on 01.06.2010
 '''
 import sys
 from pysqlite2 import dbapi2 as sqlite
+from threading import RLock
 #from sqlite3 import dbapi2 as sqlite #older, less patches, slowly
 import time
 import libs.db_csv.db_csv as Db_csv
 import libs.utils.utils as utils
+from ewitis.data.dstore import dstore
 
 
 class CSV_FILE_Error(Exception): pass
@@ -19,6 +21,7 @@ class CSV_FILE_Error(Exception): pass
 class sqlite_db(object):
     def __init__(self, db_name):        
         self.db_name = db_name 
+        self.datalock = RLock(False)
         
     def hallo(self):
         print "hallo"
@@ -64,7 +67,7 @@ class sqlite_db(object):
         self.db = sqlite.connect(self.db_name, 5)        
         self.db.row_factory = sqlite.Row
         
-    def commit(self):        
+    def commit(self):                
         res = self.db.commit()                                                  
         return res 
             
@@ -74,12 +77,12 @@ class sqlite_db(object):
         
         #z1 = time.clock()                
         #print "QUERY:  ",query
-        #try:
-        last_result = self.db.execute(query)
-        #except (sqlite.OperationalError)  as (strerror):            
-        #    print "E: pysqlite2._sqlite.OperationalError", strerror
-        #    print "query: ", query
-        #    return None
+        try:
+            last_result = self.db.execute(query)
+        except (sqlite.OperationalError)  as (strerror):            
+            print "E: pysqlite2._sqlite.OperationalError", strerror
+            print "query: ", query
+            return None
         #except:
         #    print "E: query fatal error", sys.exc_info()[0]
         #    print "query: ", query
@@ -101,7 +104,9 @@ class sqlite_db(object):
     def getFirst(self, tablename):                
         query = "SELECT * from " + tablename + " LIMIT 1"         
         res = self.query(query)  
-        return res.fetchone()          
+        if res != None:
+            res = res.fetchone() 
+        return res         
         
     def getParId(self, tablename, id):
         query = "select * from " + tablename + " where id = " + str(id) + " LIMIT 1"
@@ -239,7 +244,7 @@ class sqlite_db(object):
     def update_from_dict(self, tablename, dict, commit = True):                        
     
         keys = dict.keys()
-        values = dict.values()
+        values = dict.values()        
                 
         res = ''                 
                            
@@ -253,11 +258,12 @@ class sqlite_db(object):
         '''sestaveni a provedeni dotazu'''
         query = u"update %s SET %s WHERE id = \"%s\"" % (tablename, mystring, dict['id']) 
         query = query.replace('\'None\'', 'Null')
-        #print "query", query                                       
-              
-        res = self.query(query)
-        if commit == True:  #musi tu byt! napr. zmena kategorie, zapis do db    
-            self.commit()            
+                                               
+        
+        res = self.query(query)        
+        if commit == True:  #musi tu byt! napr. zmena kategorie, zapis do db                           
+            self.commit()                                               
+                    
         return res
         
 

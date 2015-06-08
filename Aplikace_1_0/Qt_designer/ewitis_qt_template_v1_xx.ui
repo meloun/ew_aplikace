@@ -39,7 +39,7 @@
          <x>0</x>
          <y>0</y>
          <width>1322</width>
-         <height>772</height>
+         <height>815</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_14">
@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -90,7 +90,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="10">
+            <item row="2" column="18">
              <widget class="QLabel" name="TimesCounter">
               <property name="text">
                <string>0/0</string>
@@ -174,7 +174,7 @@
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Preferred</enum>
+               <enum>QSizePolicy::Fixed</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -224,7 +224,23 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="10">
+            <item row="0" column="15">
+             <widget class="QSpinBox" name="TimesAutoRefresh">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="18">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -598,6 +614,22 @@
               </layout>
              </widget>
             </item>
+            <item row="0" column="13">
+             <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item row="1" column="1">
              <widget class="QTreeView" name="RunsProxyView">
               <property name="sizePolicy">
@@ -614,13 +646,138 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="4" colspan="7">
+            <item row="1" column="4" colspan="15">
              <widget class="QTreeView" name="TimesProxyView">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>4</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="14">
+             <widget class="QLabel" name="label_62">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Refresh:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="12">
+             <widget class="QPushButton" name="TimesAutoNumberClear">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../Source/gui/icons/mail-delete.png</normaloff>../Source/gui/icons/mail-delete.png</iconset>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="11">
+             <widget class="QSpinBox" name="TimesAutoNumber">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>50</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="17">
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="10">
+             <widget class="QLabel" name="label_61">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>20</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Nr:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="16">
+             <widget class="QPushButton" name="TimesAutoRefreshClear">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../Source/gui/icons/mail-delete.png</normaloff>../Source/gui/icons/mail-delete.png</iconset>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -7300,7 +7457,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>493</y>
+                 <y>553</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7322,8 +7479,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>254</y>
-                 <width>81</width>
+                 <y>314</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7338,7 +7495,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>493</y>
+                 <y>553</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7360,7 +7517,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>374</y>
+                 <y>434</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7382,7 +7539,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>294</y>
+                 <y>354</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7404,7 +7561,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7426,8 +7583,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>314</y>
-                 <width>61</width>
+                 <y>374</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7439,7 +7596,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7472,7 +7629,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>234</y>
+                 <y>294</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7497,7 +7654,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>473</y>
+                 <y>533</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7522,7 +7679,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>334</y>
+                 <y>394</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7544,8 +7701,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>493</y>
-                 <width>81</width>
+                 <y>553</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7560,7 +7717,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>214</y>
+                 <y>274</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7582,7 +7739,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>194</y>
+                 <y>254</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7604,7 +7761,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>234</y>
+                 <y>294</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7629,7 +7786,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>274</y>
+                 <y>334</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7654,8 +7811,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>334</y>
-                 <width>81</width>
+                 <y>394</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7673,7 +7830,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>513</y>
+                 <y>573</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7695,8 +7852,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>194</y>
-                 <width>71</width>
+                 <y>254</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7711,7 +7868,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>493</y>
+                 <y>553</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7733,7 +7890,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>294</y>
+                 <y>354</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -7766,7 +7923,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>513</y>
+                 <y>573</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7791,7 +7948,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>513</y>
+                 <y>573</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7813,7 +7970,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>274</y>
+                 <y>334</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7838,7 +7995,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7860,8 +8017,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>513</y>
-                 <width>91</width>
+                 <y>573</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7873,7 +8030,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>294</y>
+                 <y>354</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7898,7 +8055,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7920,7 +8077,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>194</y>
+                 <y>254</y>
                  <width>21</width>
                  <height>17</height>
                 </rect>
@@ -7936,8 +8093,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>473</y>
-                 <width>111</width>
+                 <y>533</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7949,8 +8106,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>214</y>
-                 <width>81</width>
+                 <y>274</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -7968,7 +8125,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>334</y>
+                 <y>394</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -7990,7 +8147,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>274</y>
+                 <y>334</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8026,7 +8183,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>194</y>
+                 <y>254</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8048,7 +8205,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8081,7 +8238,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>374</y>
+                 <y>434</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8106,7 +8263,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>374</y>
+                 <y>434</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8131,7 +8288,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>294</y>
+                 <y>354</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8156,7 +8313,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>334</y>
+                 <y>394</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8178,7 +8335,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>473</y>
+                 <y>533</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8200,7 +8357,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>473</y>
+                 <y>533</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8225,7 +8382,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>234</y>
+                 <y>294</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8247,8 +8404,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>234</y>
-                 <width>71</width>
+                 <y>294</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8260,8 +8417,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>274</y>
-                 <width>61</width>
+                 <y>334</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8273,7 +8430,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8295,7 +8452,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8317,7 +8474,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8339,7 +8496,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>274</y>
+                 <y>334</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8361,7 +8518,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>214</y>
+                 <y>274</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8386,7 +8543,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>214</y>
+                 <y>274</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8408,8 +8565,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>374</y>
-                 <width>81</width>
+                 <y>434</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8424,8 +8581,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>294</y>
-                 <width>81</width>
+                 <y>354</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8468,8 +8625,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>354</y>
-                 <width>71</width>
+                 <y>414</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8481,7 +8638,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>354</y>
+                 <y>414</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8506,7 +8663,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>354</y>
+                 <y>414</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8528,7 +8685,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>354</y>
+                 <y>414</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8550,7 +8707,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>394</y>
+                 <y>454</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8572,8 +8729,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>394</y>
-                 <width>71</width>
+                 <y>454</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8585,7 +8742,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>394</y>
+                 <y>454</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8610,7 +8767,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>394</y>
+                 <y>454</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8632,8 +8789,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>434</y>
-                 <width>71</width>
+                 <y>494</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8645,7 +8802,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8670,7 +8827,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8692,7 +8849,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8737,7 +8894,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>80</x>
                  <y>114</y>
-                 <width>71</width>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8750,7 +8907,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>80</x>
                  <y>94</y>
-                 <width>81</width>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8813,7 +8970,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>80</x>
                  <y>74</y>
-                 <width>71</width>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8963,8 +9120,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>414</y>
-                 <width>81</width>
+                 <y>474</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -8982,7 +9139,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>414</y>
+                 <y>474</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9004,7 +9161,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>414</y>
+                 <y>474</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9026,7 +9183,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>414</y>
+                 <y>474</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9048,7 +9205,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>454</y>
+                 <y>514</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9073,7 +9230,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>454</y>
+                 <y>514</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9095,8 +9252,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>454</y>
-                 <width>81</width>
+                 <y>514</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9111,7 +9268,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>454</y>
+                 <y>514</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9133,8 +9290,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>154</y>
-                 <width>71</width>
+                 <y>214</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9149,7 +9306,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>154</y>
+                 <y>214</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9174,7 +9331,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>154</y>
+                 <y>214</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9199,7 +9356,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>154</y>
+                 <y>214</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9224,7 +9381,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>174</y>
+                 <y>234</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9249,7 +9406,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>174</y>
+                 <y>234</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9274,7 +9431,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>174</y>
+                 <y>234</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9296,8 +9453,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>174</y>
-                 <width>81</width>
+                 <y>234</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9388,7 +9545,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>80</x>
                  <y>134</y>
-                 <width>81</width>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -9535,7 +9692,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>174</y>
+                 <y>234</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9568,7 +9725,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>154</y>
+                 <y>214</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9601,7 +9758,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>194</y>
+                 <y>254</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9634,7 +9791,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>214</y>
+                 <y>274</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9667,7 +9824,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>234</y>
+                 <y>294</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9703,7 +9860,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>334</y>
+                 <y>394</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9736,7 +9893,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>493</y>
+                 <y>553</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9769,7 +9926,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>473</y>
+                 <y>533</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9802,7 +9959,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>374</y>
+                 <y>434</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9835,7 +9992,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>513</y>
+                 <y>573</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9868,7 +10025,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>354</y>
+                 <y>414</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9901,7 +10058,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>414</y>
+                 <y>474</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9934,7 +10091,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>394</y>
+                 <y>454</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9967,7 +10124,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>454</y>
+                 <y>514</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10000,7 +10157,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10152,7 +10309,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>654</y>
+                 <y>714</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10174,7 +10331,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>654</y>
+                 <y>714</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10196,7 +10353,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>654</y>
+                 <y>714</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10229,7 +10386,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>654</y>
+                 <y>714</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10251,8 +10408,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>654</y>
-                 <width>81</width>
+                 <y>714</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10267,7 +10424,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>573</y>
+                 <y>633</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10300,7 +10457,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>613</y>
+                 <y>673</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10322,7 +10479,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>593</y>
+                 <y>653</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10344,8 +10501,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>573</y>
-                 <width>81</width>
+                 <y>633</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10365,7 +10522,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>593</y>
+                 <y>653</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10401,7 +10558,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>613</y>
+                 <y>673</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10426,7 +10583,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>573</y>
+                 <y>633</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10451,7 +10608,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>593</y>
+                 <y>653</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10473,7 +10630,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>573</y>
+                 <y>633</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10495,8 +10652,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>593</y>
-                 <width>101</width>
+                 <y>653</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10513,7 +10670,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>593</y>
+                 <y>653</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10538,7 +10695,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>613</y>
+                 <y>673</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10560,8 +10717,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>613</y>
-                 <width>81</width>
+                 <y>673</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10581,7 +10738,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>573</y>
+                 <y>633</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10603,7 +10760,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>613</y>
+                 <y>673</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10639,7 +10796,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>634</y>
+                 <y>694</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10664,7 +10821,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>634</y>
+                 <y>694</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10686,7 +10843,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>634</y>
+                 <y>694</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10708,7 +10865,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>634</y>
+                 <y>694</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10741,8 +10898,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>634</y>
-                 <width>91</width>
+                 <y>694</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10754,7 +10911,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>533</y>
+                 <y>593</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10776,7 +10933,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>533</y>
+                 <y>593</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10812,7 +10969,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>533</y>
+                 <y>593</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10834,8 +10991,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>533</y>
-                 <width>81</width>
+                 <y>593</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10853,7 +11010,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>533</y>
+                 <y>593</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10875,7 +11032,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>553</y>
+                 <y>613</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -10911,7 +11068,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>553</y>
+                 <y>613</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10933,7 +11090,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>553</y>
+                 <y>613</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -10955,8 +11112,8 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>553</y>
-                 <width>91</width>
+                 <y>613</y>
+                 <width>85</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -10971,7 +11128,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>553</y>
+                 <y>613</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -11031,7 +11188,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>2</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder3_1">
@@ -11052,7 +11209,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>3</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortNumber_1">
@@ -11076,76 +11233,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>4</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortName_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>154</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>5</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortCategory_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>174</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>6</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortYear_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>194</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>7</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortClub_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11159,17 +11250,14 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>8</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortSex_1">
+              <widget class="QSpinBox" name="spinExportSortCategory_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11183,27 +11271,6 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>9</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortOption3_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>294</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -11211,31 +11278,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>12</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortOption2_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>274</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>11</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortOption1_1">
+              <widget class="QSpinBox" name="spinExportSortYear_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11249,42 +11295,18 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>10</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortOption4_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>314</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>13</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortGap_1">
+              <widget class="QSpinBox" name="spinExportSortClub_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>334</y>
+                 <y>274</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11301,10 +11323,31 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>14</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortTime1_1">
+              <widget class="QSpinBox" name="spinExportSortSex_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>294</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOption3_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11318,18 +11361,42 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>15</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortLap1_1">
+              <widget class="QSpinBox" name="spinExportSortOption2_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>374</y>
+                 <y>334</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOption1_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>314</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11346,7 +11413,97 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>16</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOption4_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>374</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortGap_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>394</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime1_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>414</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap1_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>434</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QLabel" name="label_315">
@@ -11426,7 +11583,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>414</y>
+                 <y>474</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11443,52 +11600,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>18</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortTime2_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>394</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>17</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortTime3_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>434</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>19</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap3_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11502,17 +11617,14 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>20</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints2_1">
+              <widget class="QSpinBox" name="spinExportSortTime3_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11526,41 +11638,14 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>22</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints4_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>534</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>24</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints3_1">
+              <widget class="QSpinBox" name="spinExportSortLap3_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11574,35 +11659,17 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>23</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints1_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>474</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
                </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>21</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints5_1">
+              <widget class="QSpinBox" name="spinExportSortPoints2_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11616,27 +11683,6 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>25</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortUn3_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>614</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -11644,34 +11690,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>28</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortUn1_1">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>574</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>26</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUn2_1">
+              <widget class="QSpinBox" name="spinExportSortPoints4_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
@@ -11685,18 +11707,21 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>27</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUs1_1">
+              <widget class="QSpinBox" name="spinExportSortPoints3_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>634</y>
+                 <y>574</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11710,14 +11735,56 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>29</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortStatus_1">
+              <widget class="QSpinBox" name="spinExportSortPoints1_1">
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>654</y>
+                 <y>534</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints5_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>614</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUn3_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>674</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11734,7 +11801,97 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>30</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUn1_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>634</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUn2_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>654</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUs1_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>694</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortStatus_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>714</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortNumber_2">
@@ -11758,14 +11915,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>4</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortUs1_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>634</y>
+                 <y>694</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11779,76 +11936,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>29</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortName_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>154</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>5</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortStatus_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>654</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>30</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortTime2_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>394</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>17</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortClub_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -11862,6 +11953,27 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortStatus_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>714</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -11869,14 +11981,59 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>8</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime2_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>454</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortClub_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>274</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortLap1_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>374</y>
+                 <y>434</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11893,118 +12050,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>16</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortPoints1_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>474</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>21</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortUn3_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>614</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>28</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints3_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>514</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>23</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortTime1_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>354</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>15</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortSex_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>234</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>9</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints4_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -12018,21 +12067,18 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>24</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortOption3_2">
+              <widget class="QSpinBox" name="spinExportSortUn3_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>294</y>
+                 <y>674</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12049,7 +12095,118 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>12</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints3_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>574</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime1_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>414</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortSex_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>294</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints4_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>594</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOption3_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>354</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder2_2">
@@ -12073,14 +12230,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>2</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption1_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12097,79 +12254,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>10</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption2_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>274</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>11</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortCategory_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>174</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>6</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap2_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>414</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>18</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortGap_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -12183,6 +12271,27 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortCategory_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>234</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -12190,14 +12299,62 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>14</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap2_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>474</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortGap_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>394</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortTime3_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12211,7 +12368,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>19</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder1_2">
@@ -12239,7 +12396,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>594</y>
+                 <y>654</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12253,14 +12410,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>27</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption4_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12274,7 +12431,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>13</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder3_2">
@@ -12295,14 +12452,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>3</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortUn1_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>574</y>
+                 <y>634</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12319,10 +12476,55 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>26</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortPoints5_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>614</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap3_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>514</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints2_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -12336,27 +12538,6 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>25</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap3_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>454</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -12364,38 +12545,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>20</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints2_2">
-               <property name="geometry">
-                <rect>
-                 <x>210</x>
-                 <y>494</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
                 <number>1</number>
-               </property>
-               <property name="value">
-                <number>22</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortYear_2">
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>194</y>
+                 <y>254</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12409,79 +12566,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>7</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption3_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>294</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>12</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap2_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>414</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>18</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortUs1_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>634</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>29</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortTime1_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -12495,48 +12583,6 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>15</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints5_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>554</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>25</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints4_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>534</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -12544,55 +12590,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>24</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints2_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>494</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>22</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortSex_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>234</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>9</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints1_3">
+              <widget class="QSpinBox" name="spinExportSortLap2_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -12606,14 +12607,194 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>21</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUs1_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>694</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime1_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>414</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints5_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>614</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints4_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>594</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints2_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>554</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortSex_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>294</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints1_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>534</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortUn1_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>634</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortPoints3_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -12627,6 +12808,27 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortCategory_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>234</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -12634,10 +12836,34 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>26</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortPoints3_3">
+              <widget class="QSpinBox" name="spinExportSortLap1_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>434</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap3_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -12651,27 +12877,6 @@ Best timesX : only best times will have an order</string>
                  <pointsize>7</pointsize>
                 </font>
                </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>23</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortCategory_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>174</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background:#FFF8DC;</string>
                </property>
@@ -12679,55 +12884,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>6</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap1_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>374</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
                 <number>1</number>
-               </property>
-               <property name="value">
-                <number>16</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortLap3_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>454</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background:#FFF8DC;</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>20</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder3_3">
@@ -12748,7 +12905,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>3</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortNumber_3">
@@ -12772,14 +12929,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>4</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortClub_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>214</y>
+                 <y>274</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12796,14 +12953,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>8</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortGap_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>334</y>
+                 <y>394</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12820,14 +12977,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>14</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption1_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>254</y>
+                 <y>314</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12844,7 +13001,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>10</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder1_3">
@@ -12872,7 +13029,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>614</y>
+                 <y>674</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12889,14 +13046,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>28</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortStatus_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>654</y>
+                 <y>714</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12913,7 +13070,7 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>30</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOrder2_3">
@@ -12937,14 +13094,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>2</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption4_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>314</y>
+                 <y>374</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12958,14 +13115,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>13</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortOption2_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>274</y>
+                 <y>334</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -12979,14 +13136,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>11</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortTime3_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>434</y>
+                 <y>494</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -13000,10 +13157,118 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>19</number>
+                <number>1</number>
                </property>
               </widget>
               <widget class="QSpinBox" name="spinExportSortName_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>214</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime2_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>454</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortYear_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>254</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortUn2_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>654</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat2_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>174</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat1_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -13021,31 +13286,10 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>5</number>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinExportSortTime2_3">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>394</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>7</pointsize>
-                </font>
-               </property>
-               <property name="minimum">
                 <number>1</number>
                </property>
-               <property name="value">
-                <number>17</number>
-               </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortYear_3">
+              <widget class="QSpinBox" name="spinExportSortOrderCat3_3">
                <property name="geometry">
                 <rect>
                  <x>250</x>
@@ -13063,14 +13307,14 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>7</number>
+                <number>1</number>
                </property>
               </widget>
-              <widget class="QSpinBox" name="spinExportSortUn2_3">
+              <widget class="QSpinBox" name="spinExportSortOrderCat1_1">
                <property name="geometry">
                 <rect>
-                 <x>250</x>
-                 <y>594</y>
+                 <x>170</x>
+                 <y>154</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -13084,7 +13328,481 @@ Best timesX : only best times will have an order</string>
                 <number>1</number>
                </property>
                <property name="value">
-                <number>27</number>
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat2_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>174</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_2_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>174</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameOrderCat3">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>194</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_2_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>174</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_320">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>174</y>
+                 <width>85</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="text">
+                <string>Order#2/Category</string>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_1_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>154</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_321">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>154</y>
+                 <width>85</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Order#1/Category</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameOrderCat2">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>174</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat1_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>154</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_1_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>154</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_3_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>194</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_3_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>194</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_3_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>194</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_1_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>154</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat3_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>194</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_322">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>194</y>
+                 <width>85</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Order#3/Category</string>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportOrderCat_2_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>174</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat3_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>194</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameOrderCat1">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>154</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortOrderCat2_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>174</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
                </property>
               </widget>
              </widget>
@@ -27520,7 +28238,7 @@ Best timesX : only best times will have an order</string>
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="cursorWidth">
@@ -27611,7 +28329,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1342</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">

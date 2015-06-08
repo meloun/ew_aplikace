@@ -10,8 +10,9 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 import libs.utils.utils as utils
-from ewitis.data.dstore import dstore
+import libs.sqlite.sqlite_utils as db_utils
 from ewitis.data.db import db  
+from ewitis.data.dstore import dstore
 from ewitis.gui.aTableModel import * 
 
 import libs.db_csv.db_csv as Db_csv
@@ -26,6 +27,7 @@ class myTable():
     def  __init__(self, name):                                                                
         self.name = name
         self.InitCollumns()
+        self.db_con = db.getDb()
         
     def InitCollumns(self):                        
         self.DB_COLLUMN_DEF = getattr(DEF_COLUMN, self.name.upper())['database']
@@ -531,41 +533,58 @@ class myTable():
     def updateDbCounter(self):        
         dstore.SetItem("count", [self.name,], self.getDbCount())
             
-                         
-    def getDbCollumns(self):
-        return db.getCollumnNames(self.name)
-    
-    def getDbRow(self, id):
-                 
-        dbRow = db.getParX(self.name, "id", id).fetchone()                            
-        return dbRow
-    
-    def getTabRow(self, id):
-                             
+
+    def getTabRow(self, id, db_con = None):
+        if db_con == None:
+            db_con = self.db_con                            
         #get db row
-        dbRow = self.getDbRow(id)
-        
-        tabRow = self.model.db2tableRow(dbRow)  
-            
+        dbRow = self.getDbRow(id, db_con)        
+        tabRow = self.model.db2tableRow(dbRow)              
         return tabRow
     
-    def getDbRows(self):                                 
-        dbRows = db.getAll(self.name)                      
+    
+    """ database functions """
+                             
+    def getDbCollumns(self, db_con = None):
+        if db_con == None:
+            db_con = self.db_con
+        return db_utils.getCollumnNames(db_con, self.name)
+    
+    def getDbRow(self, id, db_con = None):
+        if db_con == None:
+            db_con = self.db_con
+                 
+        #dbRow = db.getParX(self.name, "id", id).fetchone()        
+        dbRow = db_utils.getParId(db_con, self.name, id)                            
+        return dbRow
+        
+    def getDbRows(self, db_con = None):                                 
+        if db_con == None:
+            db_con = self.db_con
+        #dbRows = db.getAll(self.name)                      
+        dbRows = db_utils.getAll(db_con, self.name)                      
         return dbRows
             
-    def getDbCount(self):                                 
-        count = db.getCount(self.name)                              
+    def getDbCount(self, db_con = None):                                 
+        if db_con == None:
+            db_con = self.db_con
+        #count = db.getCount(self.name)                              
+        count = db_utils.getCount(db_con, self.name)                                                    
         return count        
     
-    def delete(self, id):
-        db.delete(self.name, id)                          
+    def delete(self, id, db_con = None):
+        if db_con == None:
+            db_con = self.db_con
+        #db.delete(self.name, id)                          
+        db_utils.delete(db_con, self.name, id)                                                    
         self.model.Update()
         
-    def deleteAll(self):
-        #print "table deleteall"
-        db.deleteAll(self.name)
+    def deleteAll(self, db_con = None):        
+        if db_con == None:
+            db_con = self.db_con
+        #db.deleteAll(self.name)
+        db_utils.deleteAll(db_con, self.name)                                                    
         self.model.Update()        
-         
 
 if __name__ == "__main__":
     import sys
