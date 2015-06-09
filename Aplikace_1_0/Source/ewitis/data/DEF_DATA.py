@@ -145,7 +145,7 @@ DEF_DATA = {
                                                         "order"         : [
                                                                            {
                                                                             "checked"            : CheckboxValue.checked,
-                                                                            "type"               : "All",
+                                                                            "type"               : "Total",
                                                                             "row"                : "Last times",
                                                                             "column1"            : "Time1",
                                                                             "order1"             : "Asc",                                                                                  

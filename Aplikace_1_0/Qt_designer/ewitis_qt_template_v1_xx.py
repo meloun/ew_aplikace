@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Mon Jun 08 18:21:48 2015
+# Created: Tue Jun 09 22:16:55 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1322, 815))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1322, 772))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_14 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_14.setObjectName(_fromUtf8("gridLayout_14"))
@@ -9667,7 +9667,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.scrollArea)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1342, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1342, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuSettings = QtGui.QMenu(self.menubar)
         self.menuSettings.setObjectName(_fromUtf8("menuSettings"))
@@ -9741,8 +9741,8 @@ class Ui_MainWindow(object):
         self.actionAbout.setObjectName(_fromUtf8("actionAbout"))
         self.actionHelp = QtGui.QAction(MainWindow)
         self.actionHelp.setObjectName(_fromUtf8("actionHelp"))
-        self.aDirectWwwExport = QtGui.QAction(MainWindow)
-        self.aDirectWwwExport.setObjectName(_fromUtf8("aDirectWwwExport"))
+        self.aWwwExportDirect = QtGui.QAction(MainWindow)
+        self.aWwwExportDirect.setObjectName(_fromUtf8("aWwwExportDirect"))
         self.aShortcuts = QtGui.QAction(MainWindow)
         self.aShortcuts.setObjectName(_fromUtf8("aShortcuts"))
         self.aExportResults = QtGui.QAction(MainWindow)
@@ -9919,6 +9919,8 @@ class Ui_MainWindow(object):
         self.aGenerateCelltime_5.setObjectName(_fromUtf8("aGenerateCelltime_5"))
         self.aExportAllTimes = QtGui.QAction(MainWindow)
         self.aExportAllTimes.setObjectName(_fromUtf8("aExportAllTimes"))
+        self.aWwwExportLogo = QtGui.QAction(MainWindow)
+        self.aWwwExportLogo.setObjectName(_fromUtf8("aWwwExportLogo"))
         self.menuLoad_Configuration.addAction(self.aSettingsLoadRfid)
         self.menuLoad_Configuration.addAction(self.aSettingsLoadIr)
         self.menuSettings.addAction(self.menuLoad_Configuration.menuAction())
@@ -9930,7 +9932,8 @@ class Ui_MainWindow(object):
         self.menuActions.addAction(self.aExportLaptimes)
         self.menuActions.addAction(self.aExportAllTimes)
         self.menuActions.addAction(self.aExportResults)
-        self.menuActions.addAction(self.aDirectWwwExport)
+        self.menuActions.addAction(self.aWwwExportDirect)
+        self.menuActions.addAction(self.aWwwExportLogo)
         self.menubar.addAction(self.menuSettings.menuAction())
         self.menubar.addAction(self.menuActions.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -10005,7 +10008,7 @@ class Ui_MainWindow(object):
         self.toolBar_9.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(9)
         self.comboExportFilter_1.setCurrentIndex(0)
         self.comboExportFilter_2.setCurrentIndex(0)
         self.comboExportFilter_3.setCurrentIndex(0)
@@ -10998,19 +11001,19 @@ class Ui_MainWindow(object):
         self.label_243.setToolTip(_translate("MainWindow", "asf", None))
         self.label_243.setText(_translate("MainWindow", "Type", None))
         self.comboOrderType_1.setToolTip(_translate("MainWindow", "Race: order for last times, Slalom: order for best times", None))
-        self.comboOrderType_1.setItemText(0, _translate("MainWindow", "All", None))
+        self.comboOrderType_1.setItemText(0, _translate("MainWindow", "Total", None))
         self.comboOrderType_1.setItemText(1, _translate("MainWindow", "Category", None))
         self.comboOrderType_1.setItemText(2, _translate("MainWindow", "Group#1", None))
         self.comboOrderType_1.setItemText(3, _translate("MainWindow", "Group#2", None))
         self.comboOrderType_1.setItemText(4, _translate("MainWindow", "Group#3", None))
         self.comboOrderType_2.setToolTip(_translate("MainWindow", "Race: order for last times, Slalom: order for best times", None))
-        self.comboOrderType_2.setItemText(0, _translate("MainWindow", "All", None))
+        self.comboOrderType_2.setItemText(0, _translate("MainWindow", "Total", None))
         self.comboOrderType_2.setItemText(1, _translate("MainWindow", "Category", None))
         self.comboOrderType_2.setItemText(2, _translate("MainWindow", "Group#1", None))
         self.comboOrderType_2.setItemText(3, _translate("MainWindow", "Group#2", None))
         self.comboOrderType_2.setItemText(4, _translate("MainWindow", "Group#3", None))
         self.comboOrderType_3.setToolTip(_translate("MainWindow", "Race: order for last times, Slalom: order for best times", None))
-        self.comboOrderType_3.setItemText(0, _translate("MainWindow", "All", None))
+        self.comboOrderType_3.setItemText(0, _translate("MainWindow", "Total", None))
         self.comboOrderType_3.setItemText(1, _translate("MainWindow", "Category", None))
         self.comboOrderType_3.setItemText(2, _translate("MainWindow", "Group#1", None))
         self.comboOrderType_3.setItemText(3, _translate("MainWindow", "Group#2", None))
@@ -11986,7 +11989,7 @@ class Ui_MainWindow(object):
         self.textCommLog.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\"><br /></span></p></body></html>", None))
         self.checkCommLogCyclic.setToolTip(_translate("MainWindow", "get run, get time, get timing settings", None))
         self.checkCommLogCyclic.setText(_translate("MainWindow", "Log Cyclic Telegrams", None))
@@ -12016,8 +12019,8 @@ class Ui_MainWindow(object):
         self.aConnectPort.setText(_translate("MainWindow", "Connect", None))
         self.actionAbout.setText(_translate("MainWindow", "About", None))
         self.actionHelp.setText(_translate("MainWindow", "Help", None))
-        self.aDirectWwwExport.setText(_translate("MainWindow", "Direct WWW Export", None))
-        self.aDirectWwwExport.setShortcut(_translate("MainWindow", "F12", None))
+        self.aWwwExportDirect.setText(_translate("MainWindow", "Direct WWW Export", None))
+        self.aWwwExportDirect.setShortcut(_translate("MainWindow", "F12", None))
         self.aShortcuts.setText(_translate("MainWindow", "Shortcuts", None))
         self.aExportResults.setText(_translate("MainWindow", "Export Results", None))
         self.aExportResults.setShortcut(_translate("MainWindow", "F11", None))
@@ -12117,6 +12120,9 @@ class Ui_MainWindow(object):
         self.aGenerateCelltime_5.setShortcut(_translate("MainWindow", "Ctrl+5", None))
         self.aExportAllTimes.setText(_translate("MainWindow", "Export All Times (at)", None))
         self.aExportAllTimes.setShortcut(_translate("MainWindow", "F10", None))
+        self.aWwwExportLogo.setText(_translate("MainWindow", "WWW Export - Logo", None))
+        self.aWwwExportLogo.setToolTip(_translate("MainWindow", "WWW Export - Logo", None))
+        self.aWwwExportLogo.setShortcut(_translate("MainWindow", "Ctrl+F12", None))
 
 from PyQt4 import QtWebKit
 

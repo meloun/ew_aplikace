@@ -91,13 +91,15 @@ class myAbstractModel():
         """
         vrací tabulku(hodnoty buněk) jako dataframe
         """
-        df = pd.DataFrame(columns = self.header())        
-        for i in range(self.rowCount()):            
+        df = pd.DataFrame(columns = self.header())                
+        for i in range(self.rowCount()):                    
             df.loc[i] = self.row(i)
         df.set_index('id',  drop=False, inplace = True)
         
-        #replace nan with None
+        
+        #replace nan with None                
         df = df.where(pd.notnull(df), None)
+        #print df.columns        
         return df
 
 

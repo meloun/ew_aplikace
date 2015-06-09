@@ -47,7 +47,7 @@ class UiAccesories(UiaDialogs):
     
     def Init(self):
         UiaDialogs.__init__(self)
-        print dstore.Get("racesettings-app")
+        #print dstore.Get("racesettings-app")
         self.showMessage("Race", dstore.GetItem("racesettings-app", ["race_name"]), MSGTYPE.statusbar)
         
     def UpdateText(self, object, text):

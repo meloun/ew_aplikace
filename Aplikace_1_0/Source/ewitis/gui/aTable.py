@@ -78,9 +78,8 @@ class myTable():
         #COUNTER
         self.gui['counter'] = getattr(Ui(), self.name+"Counter") #Ui().PointsCounter
     
-    def InitModels(self): 
-        print __name__       
-        module = __import__("table"+self.name, globals=globals())
+    def InitModels(self):
+        module = __import__("table"+self.name, globals=globals())                          
         
         #create PROXY MODEL               
         self.proxy_model = getattr(module, self.name+"ProxyModel")(self) #self.params.classProxyModel(self.gui)        
@@ -151,7 +150,7 @@ class myTable():
                 #print index, key, width                        
         
     def createSlots(self):
-        print "I: ",self.name," vytvarim sloty.."
+        print "I:",self.name,": adding slots.."
         
         #TIMEOUT
         #QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.slot_Timer1s)

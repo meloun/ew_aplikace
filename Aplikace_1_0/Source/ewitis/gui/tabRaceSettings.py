@@ -179,8 +179,8 @@ class TabRaceSettings():
         self.addSlots()
         
     def addSlots(self):
-        
-        print "tabRaceSettings: adding slots"               
+                
+        print "I: tabRaceSettings: adding slots.."               
               
         #left group
         QtCore.QObject.connect(Ui().comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode) 

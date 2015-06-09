@@ -272,7 +272,7 @@ class TimesModel(myModel):
                                  
         
         '''ORDER 1-3'''
-        #ztime = time.clock()
+        #ztime = time.clock()        
         for i in range(0, NUMBER_OF.THREECOLUMNS):        
             if additional_info['order'][i] and ('order'+str(i+1)) in dbTime:                                      
                 tabTime['order' + str(i+1)] =  dbTime['order' + str(i+1)] #timesstore.CalcOrder(dbTime, i)                                         
@@ -286,7 +286,7 @@ class TimesModel(myModel):
             if  additional_info['points'][i]:        
                 #tabTime['points'+str(i+1)] = tablePoints.getPoints(tabTime, dbTime, i)
                 #print 'points',str(i+1), tabTime
-                tabTime['points'+str(i+1)] = 0 #timesstore.CalcPoints(tabTime, i)                                   
+                tabTime['points'+str(i+1)] = dbTime['points' + str(i+1)] #timesstore.CalcPoints(tabTime, i)                                   
             else:
                 tabTime['points'+str(i+1)] = None
         #print "I: POINTS CALC:",time.clock() - ztime,"s"
@@ -469,13 +469,10 @@ class TimesModel(myModel):
                 self.addRow(self.changedRow)
                 self.changedRow = None
             else:
-                self.addRow(row_table)
-        print "I: Model update db2table:", time.clock() - ytime,"s"                                                                                                                        
+                self.addRow(row_table)                                                                                                                                
 
         #enable user actions                                                                                                                                                                                                   
-        dstore.Set("user_actions", dstore.Get("user_actions")-1)
-        
-        print "I: Model update:", time.clock() - ztime,"s"                                                                                                                        
+        dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                                                                                
                                                                                                                             
         #db.commit()        
         return ret            
@@ -496,7 +493,7 @@ class TimesProxyModel(myProxyModel):
 # view <- proxymodel <- model 
 class Times(myTable):   
     
-    (eCSV_EXPORT, eHTM_EXPORT) = range(0,2)
+    (eCSV_EXPORT, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,3)
       
     def  __init__(self):                
         
@@ -519,7 +516,8 @@ class Times(myTable):
         myTable.InitGui(self)        
         self.gui['export_www'] = Ui().TimesWwwExport         
         self.gui['recalculate'] = Ui().TimesRecalculate        
-        self.gui['aDirectWwwExport'] = Ui().aDirectWwwExport
+        self.gui['aWwwExportDirect'] = Ui().aWwwExportDirect
+        self.gui['aWwwExportLogo'] = Ui().aWwwExportLogo
         self.gui['aExportResults'] = Ui().aExportResults
         self.gui['aExportAllTimes'] = Ui().aExportAllTimes 
         self.gui['aExportLaptimes'] = Ui().aExportLaptimes 
@@ -559,9 +557,9 @@ class Times(myTable):
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(dstore.Get("current_run")))
         
          
-        #export direct www
-        #QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda:myTable.sExport(self, myModel.eWWW, False))
-        QtCore.QObject.connect(self.gui['aDirectWwwExport'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
+        #www export
+        QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
+        QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))
         
         #export result times        
         #if (self.gui['aDirectExportCategories'] != None):                                   
@@ -624,79 +622,6 @@ class Times(myTable):
         myevent.set()
         print "A: Times: Recalculating.. press F5 to finish"
         return res
-                 
-        
-    '''
-    export výsledků: F11 - result times, F10 - all times    
-    - tabRow2exportRow vrací slovník s požadovanými hodnotami
-    - jeden čas = jeden řádek     
-    '''
-#     def ExportToDf(self, proxymodelDf = None, category = None, group = None, export_type = eRESULT_TIMES):                
-#         
-#         winner = None
-#         
-#         '''get keys (and winner)'''
-#         if category != None:
-#             #get winner
-#             if(export_type == self.eRESULT_TIMES):                
-#                 winner = self.GetWinner(proxymodelDf, category['name'])                       
-#             keys = self.GetExportKeys(myModel.eCATEGORY)                          
-#         elif group != None:
-#             keys = self.GetExportKeys(myModel.eGROUP)            
-#         else:
-#             #get winner
-#             if(export_type == self.eRESULT_TIMES):                
-#                 winner = self.GetWinner(proxymodelDf)  
-#             keys = self.GetExportKeys(myModel.eTOTAL)   
-#             
-#         #filter: no starttime
-#         proxymodelDf = proxymodelDf[proxymodelDf['cell'] != '1']
-#          
-#         #filter: category
-#         if category != None:
-#             proxymodelDf = proxymodelDf[proxymodelDf['category'] == category['name']]
-#             
-#         #filter: group
-#         if group != None:            
-#             cat_names = tableCategories.getCategoryNamesParGroupLabel(group['label'])
-#             proxymodelDf = proxymodelDf[proxymodelDf['category'].isin(cat_names)]                
-#                            
-#             
-#         '''fill the list (with matching rows/dicts)'''
-#         listRows = [] 
-#         for index, tabRow in proxymodelDf.iterrows():                 
-#             
-#             #vrací slovník s požadovanými hodnotami                       
-#             exportRow = self.model.tabRow2exportRow(tabRow, keys)                        
-#             
-#             #add gap (according to winner)
-#             if (dstore.GetItem("export", ["gap"]) == 2) and (winner != None):                
-#                 if ('lap1' in tabRow) and ('time1' in tabRow):                                           
-#                     exportRow['gap'] = self.model.order.GetGap(tabRow['lap1'], tabRow['time1'], winner['lap1'], winner['time1']) 
-#                     if ('gap' in keys) == False:
-#                         keys.append('gap')                                
-#             
-#             # no values, take next
-#             if exportRow == None:
-#                 continue
-#             
-#             # append to the list                 
-#             dbTime = self.getDbRow(tabRow['id'])
-#             if (export_type == self.eALL_TIMES) or (self.model.order.IsResultTime(dbTime) == True):                                                                   
-#                 listRows.append(exportRow)
-#                                   
-#         if listRows != []:
-#             print "===="
-#             if category:
-#                 print "category: ", category['name']
-#             if group:
-#                 print "group: ", group['label'], group['name']            
-#             print "===="
-#             
-#             #get dataframe (from dicts, keys určují pořadí)
-#             return pd.DataFrame(listRows, columns = keys)
-#                 
-#         return pd.DataFrame({}, columns = keys)
     
     '''
     export časů okruhu (F9)
@@ -756,18 +681,18 @@ class Times(myTable):
     '''
     export jednoho souboru s výsledky
     '''    
-    def ExportToHtmFile(self, filename, df, css_filename = "css/results.css"):
-        title = "Table '"+self.name + "' HTM Export"
+    def ExportToHtmFile(self, filename, df, css_filename = "css/results.css", title = ""):
+        title_msg = "Table '"+self.name + "' HTM Export"
         try:
             #convert header EN => CZ            
-            tocz_dict = dstore.GetItem("export", ["names"])                                                 
+            tocz_dict = dstore.GetItem("export", ["names"])                                               
             df = df.rename(columns = tocz_dict)
                                                                                                    
-            html_page = ew_html.Page_table(filename, title = dstore.GetItem("racesettings-app", ['race_name']), styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
+            html_page = ew_html.Page_table(filename, title, styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
             html_page.save()                                                                                                         
-            uiAccesories.showMessage(title, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
+            uiAccesories.showMessage(title_msg, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
         except IOError:            
-            uiAccesories.showMessage(title, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+            uiAccesories.showMessage(title_msg, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                 
     def ExportToCsvFileNew(self, filename, racename, df, category = None, group = None):
 
@@ -829,13 +754,15 @@ class Times(myTable):
         self.model.Update()
         self.model.Update()
                 
-        timesstore.UpdateExportDf()        
+        manage_calc.UpdateExportDf(self.model.df(), db.getDb())        
         
         exported = {}
         if export_type == Times.eCSV_EXPORT:
             exported = self.sExportCsv()
         elif export_type == Times.eHTM_EXPORT:
-            exported = self.sExportHtm()
+            exported = self.sExportHtm(export_type)
+        elif export_type == Times.eHTM_EXPORT_LOGO:
+            exported = self.sExportHtm(export_type)
         else:
             uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
             return
@@ -844,13 +771,13 @@ class Times(myTable):
         for key in sorted(exported.keys()):
             exported_string += key + " : " + str(exported[key])+" times\n"   
         
-        if export_type == Times.eHTM_EXPORT:     
+        if export_type == Times.eHTM_EXPORT or export_type == Times.eHTM_EXPORT_LOGO:     
             uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.statusbar)
         else:
             uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
            
             
-    def sExportHtm(self):
+    def sExportHtm(self, type):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
         #    return         
@@ -868,14 +795,22 @@ class Times(myTable):
             
             if (tabExportSettings.IsEnabled(i, "htm") == False):
                 continue
-                        
-            df =  timesstore.exportDf[i]
-            css_filename = dstore.GetItem("export_www", [i, "css_filename"])                      
-        
+            
+            df = pd.DataFrame()
+            if(type == Times.eHTM_EXPORT):            
+                df =  manage_calc.exportDf[i]
+                css_filename = dstore.GetItem("export_www", [i, "css_filename"])
+                title = dstore.GetItem("racesettings-app", ['race_name']) 
+            elif(type == Times.eHTM_EXPORT_LOGO):                      
+                css_filename = u"css/logo.css"
+                title = "Časomíra Ewitis - <i>Vy závodíte, my měříme..</i>"
+            else:
+                uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
+                return
             #complete export            
-            if(len(df) != 0):
+            if(len(df) != 0) or (type == Times.eHTM_EXPORT_LOGO):
                 filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
-                self.ExportToHtmFile(filename, df, css_filename)            
+                self.ExportToHtmFile(filename, df, css_filename, title)            
                 exported["total"] = len(df)
                  
         return exported
@@ -904,25 +839,26 @@ class Times(myTable):
             if (tabExportSettings.IsEnabled(i, "csv") == False):
                 continue
             
-            df =  timesstore.exportDf[i]
+            df =  manage_calc.exportDf[i]
             
-            if "time1" in df:
-                if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
-                    df.time1[df.time1>"30:00,00"] = "DNF"
-                else:
-                    df.time1[df.time1>"00:30:00,00"] = "DNF" 
-                        
-            if "time2" in df:
-                if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
-                    df.time2[df.time2>"30:00,00"] = "DNF"
-                else:
-                    df.time2[df.time2>"00:30:00,00"] = "DNF" 
-                        
-            if "time3" in df:
-                if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
-                    df.time3[df.time3>"30:00,00"] = "DNF"
-                else:
-                    df.time3[df.time3>"00:30:00,00"] = "DNF"             
+            if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
+                if "time1" in df:
+                    if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
+                        df.time1[df.time1>"30:00,00"] = "DNF"
+                    else:
+                        df.time1[df.time1>"00:30:00,00"] = "DNF" 
+                            
+                if "time2" in df:
+                    if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
+                        df.time2[df.time2>"30:00,00"] = "DNF"
+                    else:
+                        df.time2[df.time2>"00:30:00,00"] = "DNF" 
+                            
+                if "time3" in df:
+                    if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
+                        df.time3[df.time3>"30:00,00"] = "DNF"
+                    else:
+                        df.time3[df.time3>"00:30:00,00"] = "DNF"             
         
             #get racename
             header = dstore.GetItem("export_header", [i])             
@@ -935,7 +871,7 @@ class Times(myTable):
                 exported["total"] = len(df)
             
             #category export                
-            c_df = timesstore.exportDf[i]           
+            c_df = manage_calc.exportDf[i]           
             c_df = c_df.set_index("category")
             category_groupby = c_df.groupby(c_df.index)
             for c_name, c_df in category_groupby:                
@@ -953,7 +889,7 @@ class Times(myTable):
                     
             #group export
             groups = {}
-            g_df = timesstore.exportDf[i]
+            g_df = manage_calc.exportDf[i]
             for x in range(1,11):                
                 g_label = "g"+str(x)
                 values = tableCategories.getCategoryNamesParGroupLabel(g_label)   
@@ -1040,7 +976,6 @@ class Times(myTable):
         #myModel.myTable.Update(self)        
         ztime = time.clock()
         self.setColumnWidth()        
-        print "I: Times: setColumnWidth:",time.clock() - ztime,"s"
         
         #create list of columns to hide
         ztime = time.clock()
