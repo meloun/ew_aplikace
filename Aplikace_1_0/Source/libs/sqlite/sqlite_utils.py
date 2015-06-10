@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-  
 '''
-Created on 01.06.2010
+Created on 01.06.2010commit
+
 
 @author: MELICHARL
 '''
@@ -86,50 +87,50 @@ def getParXX(db, tablename, conditions, operation, limit = None):
     if (limit != None) and (limit != 0):
         query_string = query_string + " LIMIT "+str(limit)
     
-    res = query(query_string)
+    res = query(db, query_string)
     return res
     
 def getMax(db, tablename, parameter):
     query_string = u"select max("+parameter+") from "+tablename        
-    res = query(query_string)
+    res = query(db, query_string)
     return res.fetchone()[0]
 
 def getCollumnNames(db, tablename):
     query_string = u"select * from "+tablename        
-    res = query(query_string)
+    res = query(db, query_string)
     return list(map(lambda x: x[0], res.description))
 
-###########
-# INSERT
-###########
-    
-def insert_from_lists(self, tablename, keys, values, commit_flag = True):
-            
-    ret = True
-    
-    '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
-    values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
-    keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
-    
-    '''sestaveni a provedeni dotazu'''
-    query_string = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
-    query_string = query_string.replace('\'None\'', 'Null')    
-            
-    try:
-        query(query_string)
-    except sqlite.IntegrityError:
-        ret = False  #this entry probably already exist
-    except:
-        print "E: DB: insert from lists, some error"
-        ret = False
-    
-    if(commit_flag == True):
-        commit()
-    return ret
-    
-'''vlozeni jednoho zaznamu z dict'''
-def insert_from_dict(self, tablename, dict,  commit_flag = True):                
-    return self.insert_from_lists(tablename, dict.keys(), dict.values(), commit_flag = commit )        
+# ###########
+# # INSERT
+# ###########
+#     
+# def insert_from_lists(self, tablename, keys, values, commit_flag = True):
+#             
+#     ret = True
+#     
+#     '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
+#     values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
+#     keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
+#     
+#     '''sestaveni a provedeni dotazu'''
+#     query_string = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
+#     query_string = query_string.replace('\'None\'', 'Null')    
+#             
+#     try:
+#         query(query_string)
+#     except sqlite.IntegrityError:
+#         ret = False  #this entry probably already exist
+#     except:
+#         print "E: DB: insert from lists, some error"
+#         ret = False
+#     
+#     if(commit_flag == True):
+#         commit()
+#     return ret
+#     
+# '''vlozeni jednoho zaznamu z dict'''
+# def insert_from_dict(self, tablename, dict,  commit_flag = True):                
+#     return self.insert_from_lists(tablename, dict.keys(), dict.values(), commit_flag = commit )        
     
 # ###########
 # # REPLACE
@@ -174,7 +175,7 @@ def update_from_dict(db, tablename, dict, commit_flag = True):
     
     res = query(db, query_string)        
     if commit_flag == True:  #musi tu byt! napr. zmena kategorie, zapis do db                           
-        commit()                                               
+        commit(db)                                               
                 
     return res    
 
@@ -204,13 +205,13 @@ def update_from_dict(db, tablename, dict, commit_flag = True):
 ###########                
 def delete(db, tablename, id):
     query_string = "delete from " + tablename + " where id = " + str(id)        
-    res = query(query_string)
-    commit()
+    res = query(db, query_string)
+    commit(db)
     
 def deleteAll(db, tablename):
     query_string = "delete from " + tablename        
-    res = query(query_string)
-    commit()
+    res = query(db, query_string)
+    commit(db)
     
 
         

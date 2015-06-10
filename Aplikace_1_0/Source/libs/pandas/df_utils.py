@@ -34,7 +34,7 @@ def Get(df, nr, filter = None):
     row = {}
     
     #filter
-    df = FilterFrame(df, filter)                      
+    df = Filter(df, filter)                      
 
     #find x-th row           
     try:    

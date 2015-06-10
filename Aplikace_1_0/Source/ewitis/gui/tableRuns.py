@@ -9,6 +9,7 @@ from ewitis.gui.tableTimes import tableTimes
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
+from manage_calc import manage_calc, myevent 
 
 class RunsModel(myModel):
     def __init__(self, table):                                        
@@ -115,10 +116,10 @@ class Runs(myTable):
             self.run_id = (self.proxy_model.data(rows[0]).toInt()[0])                 
                                      
             #update table times
-            dstore.Set("current_run", self.run_id)              
-            time.sleep(0.3)                                     
-            tableTimes.Update()                                     
-            #tableTimes.Update(run_id = self.run_id)                                     
+            dstore.Set("current_run", self.run_id)
+            myevent.set()              
+            time.sleep(0.4)                                     
+            tableTimes.Update()                                                                          
         except:
             print "I: Times: nelze aktualizovat! id:", self.run_id                    
         
@@ -129,12 +130,17 @@ class Runs(myTable):
         myTable.sDelete(self, "and ALL TIMES belonging to him")
         
         #delete times
-        db.deleteParX("times", "run_id", self.run_id)               
+        db.deleteParX("times", "run_id", self.run_id)
+        myevent.set()
+        time.sleep(0.4)               
         tableTimes.Update()
         
     def deleteAll(self):        
         myTable.deleteAll(self)
         tableTimes.deleteAll()
+        myevent.set()
+        time.sleep(0.4)               
+        tableTimes.Update()
         
         
 tableRuns = Runs()

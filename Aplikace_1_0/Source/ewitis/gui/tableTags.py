@@ -3,6 +3,7 @@ from ewitis.gui.aTab import MyTab
 from ewitis.gui.aTableModel import myModel, myProxyModel 
 from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
+import libs.sqlite.sqlite_utils as db_utils
 
     
 class TagsModel(myModel):
@@ -19,15 +20,21 @@ class Tags(myTable):
     def  __init__(self):                                                              
         myTable.__init__(self, "Tags")
         
-    def getDbTagParTagId(self, tag_id):
+    def getDbTagParTagId(self, tag_id, db_con = None):
+        if db_con == None:
+            db_con = self.db_con
                  
-        dbTag = db.getParX("tags", "tag_id", tag_id, limit = 1).fetchone()        
+        dbTag = db_utils.getParX(db_con, "tags", "tag_id", tag_id, limit = 1).fetchone() 
+        #dbTag = db.getParX("tags", "tag_id", tag_id, limit = 1).fetchone()        
                         
         return dbTag   
     
-    def getDbTagParUserNr(self, user_nr):
+    def getDbTagParUserNr(self, user_nr, db_con = None):
+        if db_con == None:
+            db_con = self.db_con
                  
-        dbTag = db.getParX("tags", "user_nr", user_nr, limit = 1).fetchone()        
+        dbTag = db_utils.getParX(db_con, "tags", "user_nr", user_nr, limit = 1).fetchone()
+        #dbTag = db.getParX("tags", "user_nr", user_nr, limit = 1).fetchone()        
                         
         return dbTag
     

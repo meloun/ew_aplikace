@@ -94,8 +94,19 @@ class ManageCalc(threading.Thread):
                     
         # join USER df
         uDf = psql.read_sql("SELECT * FROM users", self.db, index_col = "id")        
-        uDf = uDf[["category_id", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
-        joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_id', right_index=True, how="left")
+        uDf = uDf[["nr", "category_id", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
+        
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
+            tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
+            tDf = tDf[["user_nr", "tag_id"]]
+            joinedDf =  pd.merge(joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
+            joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_nr', right_on='nr',  how="left")
+            joinedDf.set_index('id',  drop=False, inplace = True) 
+        else:
+            joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_id', right_index=True, how="left")
+        
+
+
         joinedDf.sort("time_raw", inplace=True)            
         
         #replace nan with None
@@ -281,10 +292,11 @@ class ManageCalc(threading.Thread):
         *Ret:*
             updated dataframe with all order   
         """
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            orderX = "order"+str(i+1)                                    
-            joinedDf[orderX] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
-        joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+        if joinedDf.empty == False:
+            for i in range(0, NUMBER_OF.THREECOLUMNS):
+                orderX = "order"+str(i+1)                                    
+                joinedDf[orderX] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
+            joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
         return joinedDf
     
@@ -293,10 +305,11 @@ class ManageCalc(threading.Thread):
         *Ret:*
             updated dataframe with all points   
         """
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            pointsX = "points"+str(i+1)                                    
-            joinedDf[pointsX] = joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
-        joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+        if joinedDf.empty == False:
+            for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+                pointsX = "points"+str(i+1)                                  
+                joinedDf[pointsX] = joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
+            joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
         return joinedDf
     
@@ -338,7 +351,7 @@ class ManageCalc(threading.Thread):
         if(self.joinedDf.empty):
             return None
         
-        #get join time, loc is faster than old solution                                                                       
+        #get join time, loc is faster than old solution                                                                             
         joinTime = self.joinedDf.loc[tabTime['id']]                
 
         #evalute rule
@@ -408,7 +421,7 @@ class ManageCalc(threading.Thread):
             aux_groupby = df['category']
             if(dbTime["category_id"] != None):                                                                                       
                 if (aux_groupby) and (aux_groupby.groups !={}): 
-                    #try:                                                                
+                    #try:                                                          
                     aux_df = aux_groupby.get_group(dbTime["category_id"])                                                                 
                     #except KeyError: 
                     #    return None
@@ -562,14 +575,16 @@ class ManageCalc(threading.Thread):
         #user without number => no time
         if ("starttime" in rule):
             starttime = None          
-            tabUser =   self.tableUsers.getTabUserParIdOrTagId(joinTime["user_id"], self.db)          
-            if(tabUser['nr'] == 0):
-                return None        
+       
         
             if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
-                #VIA CATEGORY => Xth starttime                                                                                                                
-                start_nr = self.tableCategories.getTabRow(tabUser['category_id'], self.db)['start_nr'] #get category starttime                
-                starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                        
+                #VIA CATEGORY => Xth starttime    
+                dbUser =   self.tableUsers.getDbUserParIdOrTagId(joinTime["user_id"], self.db)          
+                if(dbUser == None):
+                    return None                                                                                                             
+                start_nr = self.tableCategories.getTabRow(dbUser['category_id'], self.db)['start_nr'] #get category starttime                
+                starttime = df_utils.Get(df, start_nr, filter = {'cell':1}) 
+                starttime = dict(starttime)                                                                                       
             elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
                 starttime = timesstore.GetPrevious(joinTime, filter = {'cell':1}, df = df)

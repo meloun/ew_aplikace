@@ -7,6 +7,7 @@ from ewitis.data.dstore import dstore
 from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.tableTags import tableTags
 from ewitis.gui.UiAccesories import uiAccesories
+import libs.sqlite.sqlite_utils as db_utils
         
                
 class UsersModel(myModel):
@@ -20,7 +21,7 @@ class UsersModel(myModel):
         
     def getDefaultTableRow(self): 
         user = myModel.getDefaultTableRow(self)                        
-        user['category'] = tableCategories.getTabCategoryFirst()['name']                          
+        user['category'] = tableCategories.getTabCategoryFirst()['name']     
         return user
     
     def getDefaultDbRow(self, dbTag = None): 
@@ -164,9 +165,12 @@ class Users(myTable):
         #self.timer1s.start(1000);
             
             
-    def getDbUserParNr(self, nr):
+    def getDbUserParNr(self, nr, db_con = None):
+        if db_con == None:
+            db_con = self.db_con  
                  
-        db_user = db.getParX("users", "nr", nr, limit = 1).fetchone()        
+        db_user = db_utils.getParX(db_con, "users", "nr", nr, limit = 1).fetchone()
+        #db_user = db.getParX("users", "nr", nr, limit = 1).fetchone()        
                         
         return db_user
     
@@ -179,16 +183,19 @@ class Users(myTable):
             
         return tabRow
     
-    def getDbUserParTagId(self, tag_id):
+    def getDbUserParTagId(self, tag_id, db_con = None):
+        if db_con == None:
+            db_con = self.db_con  
         
         '''get tag because of number'''
-        dbTag = tableTags.getDbTagParTagId(tag_id) 
+        dbTag = tableTags.getDbTagParTagId(tag_id, db_con) 
                  
         if (dbTag == None):
             return None
         
         '''get user par number'''
-        db_user = db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()
+        db_user = db_utils.getParX(db_con, "users", "nr", dbTag['user_nr'], limit = 1).fetchone()
+        #db_user = db.getParX("users", "nr", dbTag['user_nr'], limit = 1).fetchone()
         
         if(db_user == None):
             return self.model.getDefaultDbRow(dbTag)        
@@ -201,9 +208,9 @@ class Users(myTable):
              
         if(dstore.GetItem("racesettings-app", ['rfid']) == 2):                    
             '''tag id'''            
-            dbUser = self.getDbUserParTagId(id)
+            dbUser = self.getDbUserParTagId(id, db_con)
         else:                
-            '''id'''            
+            '''id'''          
             dbUser = self.getDbRow(id, db_con)
                      
         return dbUser
