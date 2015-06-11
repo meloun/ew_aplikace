@@ -688,7 +688,7 @@
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>../Source/gui/icons/mail-delete.png</normaloff>../Source/gui/icons/mail-delete.png</iconset>
+                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
               </property>
               <property name="flat">
                <bool>true</bool>
@@ -774,7 +774,7 @@
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>../Source/gui/icons/mail-delete.png</normaloff>../Source/gui/icons/mail-delete.png</iconset>
+                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
               </property>
               <property name="flat">
                <bool>true</bool>

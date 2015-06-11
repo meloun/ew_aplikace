@@ -39,6 +39,7 @@ def Get(df, nr, filter = None):
     #find x-th row           
     try:    
         row = df.iloc[nr-1]
+        row = dict(row)                        
     except IndexError:
         row = None                        
     return row

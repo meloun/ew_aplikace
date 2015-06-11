@@ -4,3 +4,12 @@ pořadí;číslo;jméno;kategorie;rok;klub;čas;čas
 1;103;BENEŠ JOSEF Žáčková Jana;TP5A Exclusive;;;88.0;88.0
 2;104;VÁCLAVOVSKÝ PETR Špolcová Kateřina;TP5A Exclusive;;;97.0;97.0
 3;101;STEINBAUER PETR Steinbauer Petr;TP5A Exclusive;;;185.0;185.0
+
+
+{u'status': {u'checked': 0}, u'us': [{u'checked': 2}], u'un': [{u'checked': 0}, {u'checked': 0}, {u'checked': 0}], u'time': [{u'filter': u'cell=2|3|250', u'checked': 2, u'minute_timeformat': 0, u'rule': u'time - starttime'}, {u'filter': u'cell=2|3|250', u'checked': 0, u'minute_timeformat': 0, u'rule': u'time - starttime'}, {u'filter': u'cell=2|3|250', u'checked': 0, u'minute_timeformat': 0, u'rule': u'time - starttime'}], u'lap': [{u'filter': u'', u'checked': 2}, {u'filter': u'', u'checked': 0}, {u'filter': u'', u'checked': 0}], 
+u'order': 
+[{u'checked': 2, u'order1': u'Asc', u'order2': u'Asc', u'type': u'Total', u'column2': u' - - -', u'column1': u'Time1', u'row': u'Last times'},
+ {u'checked': 2, u'order1': u'Asc', u'order2': u'Asc', u'type': u'Category', u'column2': u' - - -', u'column1': u'Time1', u'row': u'Last times'},
+ {u'checked': 0, u'order1': u'Asc', u'order2': u'Asc', u'type': u'Group#1', u'column2': u' - - -', u'column1': u'Time1', u'row': u'Last times'}], 
+ 
+ u'points': [{u'minimum': 0, u'checked': 0, u'maximum': 9999, u'rule': u'abs(time1 - %00:01:30,00%)'}, {u'minimum': 0, u'checked': 0, u'maximum': 9999, u'rule': u'abs(time1 - %00:01:30,00%)'}, {u'minimum': 0, u'checked': 0, u'maximum': 9999, u'rule': u'abs(time1 - %00:01:30,00%)'}, {u'minimum': 0, u'checked': 0, u'maximum': 9999, u'rule': u'abs(time1 - %00:01:30,00%)'}, {u'minimum': 0, u'checked': 0, u'maximum': 9999, u'rule': u'abs(time1 - %00:01:30,00%)'}]}

@@ -47,7 +47,15 @@ class ManageCalc(threading.Thread):
             #update times
             self.joinedDf = self.GetJoinedDf()                    
             self.timesDfs = self.GetTimesDfs(self.joinedDf)            
-            ko_nrs = self.UpdateTimes(self.timesDfs)                             
+            ko_nrs = self.UpdateTimes(self.timesDfs, 0)
+             
+            self.joinedDf = self.GetJoinedDf()                    
+            self.timesDfs = self.GetTimesDfs(self.joinedDf)                             
+            ko_nrs = self.UpdateTimes(self.timesDfs, 1)
+            
+            self.joinedDf = self.GetJoinedDf()                    
+            self.timesDfs = self.GetTimesDfs(self.joinedDf) 
+            ko_nrs = self.UpdateTimes(self.timesDfs, 2)
             if(ko_nrs != []):            
                 print(" Update times error: Some times have no start times, ids: "+str(ko_nrs))            
                                                                                                                                                                                         
@@ -73,6 +81,8 @@ class ManageCalc(threading.Thread):
             #self.joinedDf = self.GetJoinedDf()
             self.joinedDfFreeze = self.joinedDf.copy()
             #print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            #print(".",end='')
+            sys.stdout.write('.')
             myevent.wait(2)
             myevent.clear()        
             
@@ -165,8 +175,7 @@ class ManageCalc(threading.Thread):
         for i in range(0, NUMBER_OF.THREECOLUMNS):            
               
             #get order group
-            group = self.dstore.GetItem('additional_info', ['order', i])
-            
+            group = self.dstore.GetItem('additional_info', ['order', i])          
             if (group['checked'] == 0):
                 continue
                                       
@@ -212,11 +221,12 @@ class ManageCalc(threading.Thread):
             elif(group['type'] == "Category"):                    
                 #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)                                                    
                 orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
-            elif(group['type'] == "Group#1"):                
+            elif(group['type'] == "Group#1"):
                 print "ERROR: Group order NOT implemented"
             elif(group['type'] == "Group#2"):
                 print "ERROR: Group order NOT implemented"                
             elif(group['type'] == "Group#3"):
+                print group                
                 print "ERROR: Group order NOT implemented"
             else:
                 print "FATAL ERROR",group['type']
@@ -224,7 +234,7 @@ class ManageCalc(threading.Thread):
                     
 
                                                                                            
-    def UpdateTimes(self, timesDfs):
+    def UpdateTimes(self, timesDfs, i):
         """
         u časů kde 'timeX'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calcTime()        
         
@@ -234,22 +244,22 @@ class ManageCalc(threading.Thread):
         ret_ko_times = []        
                 
         commit_flag = False                               
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            timeX = "time"+str(i+1)                               
-                                             
-            for index, dbTime in timesDfs[i].iterrows():
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-                #calc time                    
-                dbTime = dbTime.to_dict()  #df to dict                                                                                                            
-                time = self.CalcTime(dbTime, i)                                                                                                                                                         
-                            
-                #update db                
-                if time != None:
-                    try:             
-                        commit_flag = True                                                                                                                                            
-                        db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], timeX:time}, commit_flag = False) #commit na konci funkce
-                    except IndexError: #potreba startime, ale nenalezen 
-                        ret_ko_times.append(dbTime['id'])
+        #for i in range(0, NUMBER_OF.THREECOLUMNS):
+        timeX = "time"+str(i+1)                               
+                                         
+        for index, dbTime in timesDfs[i].iterrows():
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+            #calc time                    
+            dbTime = dbTime.to_dict()  #df to dict                                                                                                            
+            time = self.CalcTime(dbTime, i)                                                                                                                                                         
+                        
+            #update db                
+            if time != None:
+                try:             
+                    commit_flag = True                                                                                                                                            
+                    db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], timeX:time}, commit_flag = False) #commit na konci funkce
+                except IndexError: #potreba startime, ale nenalezen 
+                    ret_ko_times.append(dbTime['id'])
         if commit_flag:                            
             db_utils.commit(self.db)                                                                     
                           
@@ -294,8 +304,9 @@ class ManageCalc(threading.Thread):
         """
         if joinedDf.empty == False:
             for i in range(0, NUMBER_OF.THREECOLUMNS):
-                orderX = "order"+str(i+1)                                    
-                joinedDf[orderX] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
+                if orderDfs[i] == None:
+                    continue                                                  
+                joinedDf["order"+str(i+1)] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
             joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
         return joinedDf
@@ -409,32 +420,39 @@ class ManageCalc(threading.Thread):
         
         #column is empty => no order
         #if(dbTime[column1] == None):            
-        #    return None               
+        #    return None
         
+        #get order group
+        group = self.dstore.GetItem('additional_info', ['order', index])          
+        if (group['checked'] == 0):
+            return None                
+        
+        aux_df = pd.DataFrame()         
         #take order df
         group = dstore.GetItem('additional_info', ['order', index])                
         
-        aux_df = None         
         if(group['type'] == "Total"):            
             aux_df = df['total']            
         elif(group['type'] == "Category"):
             aux_groupby = df['category']
             if(dbTime["category_id"] != None):                                                                                       
                 if (aux_groupby) and (aux_groupby.groups !={}): 
-                    #try:                                                          
-                    aux_df = aux_groupby.get_group(dbTime["category_id"])                                                                 
-                    #except KeyError: 
-                    #    return None
+                    try:         
+                    #print dbTime, type(dbTime)  
+                    #print aux_groupby.groups                                              
+                        aux_df = aux_groupby.get_group(dbTime["category_id"])                                                                 
+                    except KeyError: 
+                        return None
                 else:
                     return None
             else:
                 return None              
         elif(group['type'] == "Group#1"):                
-            print "ERROR: Group order NOT implemented"
+            print "ERROR: Group1 order NOT implemented", index, self.dstore.Get('additional_info')
         elif(group['type'] == "Group#2"):
-            print "ERROR: Group order NOT implemented"                
+            print "ERROR: Group2 order NOT implemented"                
         elif(group['type'] == "Group#3"):
-            print "ERROR: Group order NOT implemented"
+            print "ERROR: Group3 order NOT implemented"
         else:
             print "FATAL ERROR1", group['type']                
        
@@ -583,8 +601,7 @@ class ManageCalc(threading.Thread):
                 if(dbUser == None):
                     return None                                                                                                             
                 start_nr = self.tableCategories.getTabRow(dbUser['category_id'], self.db)['start_nr'] #get category starttime                
-                starttime = df_utils.Get(df, start_nr, filter = {'cell':1}) 
-                starttime = dict(starttime)                                                                                       
+                starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                                            
             elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
                 starttime = timesstore.GetPrevious(joinTime, filter = {'cell':1}, df = df)

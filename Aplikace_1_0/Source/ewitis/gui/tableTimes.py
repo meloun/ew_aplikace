@@ -111,13 +111,10 @@ class TimesModel(myModel):
                 #changed row
                 self.changedRow = self.getDefaultTableRow()
                 self.changedRow['id'] = tabRow['id']
+                self.changedRow['cell'] = tabRow['cell']
                 self.changedRow['nr'] = tabRow['nr']
                 self.changedRow['timeraw'] = tabRow['timeraw']                
                 user_id = tableUsers.getIdOrTagIdParNr(tabRow['nr'])
-                if user_id:
-                    joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
-                    self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
-                    self.changedRow['category'] = joinUser['category']                                             
                 
                 # NR column
                 if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):                        
@@ -128,6 +125,10 @@ class TimesModel(myModel):
                         db.update_from_dict(self.table.name, {'id':tabRow['id'], 'user_id': user_id})
                         self.table.ResetNrOfLaps()
                           
+                if user_id:
+                    joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
+                    self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
+                    self.changedRow['category'] = joinUser['category']                                             
                  
                 # STATUS column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                                        
