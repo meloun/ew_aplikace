@@ -67,12 +67,16 @@ class ManageCalc(threading.Thread):
                 print(" Update laps error: Some times have no start times, ids: "+str(ko_nrs))                                                                                                                                                                                    
             
             #update orderX 
-            self.joinedDf = self.GetJoinedDf()
+#             self.joinedDf = self.GetJoinedDf()
             self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
             self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)                                                
             
             #update points                                                  
             self.joinedDf = self.UpdatePoints(self.joinedDf)        
+            
+            #update orderX 
+            self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
+            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)   
             
             
             #update status
@@ -186,6 +190,9 @@ class ManageCalc(threading.Thread):
             asc2 = 1 if(group['order2'].lower() == "asc") else 0
             
             #filter
+            #print joinedDf.columns
+            if not(column1 in joinedDf):
+                continue
             aux_df = joinedDf[(joinedDf[column1].notnull()) & (joinedDf['user_id']!=0)]
                 
             #FILTER only one time from each user, LAST or BEST                            
@@ -307,7 +314,7 @@ class ManageCalc(threading.Thread):
                 if orderDfs[i] == None:
                     continue                                                  
                 joinedDf["order"+str(i+1)] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
-            joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+                joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
         return joinedDf
     
@@ -320,8 +327,9 @@ class ManageCalc(threading.Thread):
             for i in range(0, NUMBER_OF.POINTSCOLUMNS):
                 pointsX = "points"+str(i+1)                                  
                 joinedDf[pointsX] = joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
-            joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+                joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
+        #print joinedDf
         return joinedDf
     
     def IsTimeToCalc(self, dbTime):        

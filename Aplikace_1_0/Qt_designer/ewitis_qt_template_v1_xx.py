@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Fri Jun 12 00:03:33 2015
+# Created: Fri Jun 12 19:02:55 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12120,7 +12120,7 @@ class Ui_MainWindow(object):
         self.aExportAllTimes.setShortcut(_translate("MainWindow", "F10", None))
         self.aWwwExportLogo.setText(_translate("MainWindow", "WWW Export - Logo", None))
         self.aWwwExportLogo.setToolTip(_translate("MainWindow", "WWW Export - Logo", None))
-        self.aWwwExportLogo.setShortcut(_translate("MainWindow", "Ctrl+F12", None))
+        self.aWwwExportLogo.setShortcut(_translate("MainWindow", "Alt+F12", None))
 
 from PyQt4 import QtWebKit
 

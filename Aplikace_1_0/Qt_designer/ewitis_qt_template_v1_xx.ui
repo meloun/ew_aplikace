@@ -29234,7 +29234,7 @@ p, li { white-space: pre-wrap; }
     <string>WWW Export - Logo</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F12</string>
+    <string>Alt+F12</string>
    </property>
   </action>
  </widget>
