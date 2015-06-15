@@ -113,22 +113,22 @@ class TimesModel(myModel):
                 self.changedRow['id'] = tabRow['id']
                 self.changedRow['cell'] = tabRow['cell']
                 self.changedRow['nr'] = tabRow['nr']
-                self.changedRow['timeraw'] = tabRow['timeraw']                
+                self.changedRow['timeraw'] = tabRow['timeraw']  
+                #print self.changedRow['timeraw'], item.column(), self.table.TABLE_COLLUMN_DEF['timeraw']['index']                
                 user_id = tableUsers.getIdOrTagIdParNr(tabRow['nr'])
                 
                 # NR column
                 if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):                        
                     user_id = self.checkChangedNumber(tabRow)
-                    if(user_id != None):
+                    if user_id:
+                        joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
+                        self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
+                        self.changedRow['category'] = joinUser['category']
                         #write new number                
                         #print "update", {'id':tabRow['id'], 'user_id': tableUsers.getIdOrTagIdParNr(tabRow['nr'])}                    
                         db.update_from_dict(self.table.name, {'id':tabRow['id'], 'user_id': user_id})
                         self.table.ResetNrOfLaps()
                           
-                if user_id:
-                    joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
-                    self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
-                    self.changedRow['category'] = joinUser['category']                                             
                  
                 # STATUS column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['status']['index']):                                        
@@ -143,8 +143,8 @@ class TimesModel(myModel):
                 # TIMERAW column
                 elif(item.column() == self.table.TABLE_COLLUMN_DEF['timeraw']['index']):                    
                     try:
-                        dbTimeraw = TimesUtils.TimesUtils.timestring2time(tabRow['timeraw'])                    
                         #print "update", {'id': tabRow['id'], 'time_raw': dbTimeraw}
+                        dbTimeraw = TimesUtils.TimesUtils.timestring2time(tabRow['timeraw'])                    
                         db.update_from_dict(self.table.name, {'id': tabRow['id'], 'time_raw': dbTimeraw})
                         self.table.ResetNrOfLaps()
                     except TimesUtils.TimeFormat_Error:
@@ -214,7 +214,8 @@ class TimesModel(myModel):
         '''join user, hodnoty z table i db'''                                            
         joinUser =  tableUsers.getJoinUserParIdOrTagId(dbTime["user_id"])        
         
-        ''' get CATEGORY'''                    
+        ''' get CATEGORY''' 
+        #print "ASF", joinUser['category_id']                   
         tabCategory =  tableCategories.getTabRow(joinUser['category_id'])        
                                         
         ''' OTHER KEYS ''' 
@@ -461,7 +462,8 @@ class TimesModel(myModel):
                                                                                        
         ytime = time.clock() 
         for id, row_dict in manage_calc.joinedDfFreeze.iterrows():
-            #row_dict = row_dict.to_dict()                        
+            row_dict = row_dict.to_dict()   
+            print "idd", id, row_dict                     
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)
                                                                                                                                                                  

@@ -198,8 +198,8 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         tabRow = {}
         
         #exist?
-        #if dbRow == None:
-        #    tabRow = self.getDefaultTableRow()
+        if dbRow == None:
+             tabRow = self.getDefaultTableRow()
         
         #kopie všeho z db do tab    
         for key in self.table.DB_COLLUMN_DEF:
