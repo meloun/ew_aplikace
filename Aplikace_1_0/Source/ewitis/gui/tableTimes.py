@@ -463,7 +463,7 @@ class TimesModel(myModel):
         ytime = time.clock() 
         for id, row_dict in manage_calc.joinedDfFreeze.iterrows():
             row_dict = row_dict.to_dict()   
-            print "idd", id, row_dict                     
+            #print "idd", id, row_dict                     
             #call table-specific function, return "table-row"                                           
             row_table = self.db2tableRow(row_dict)
                                                                                                                                                                  

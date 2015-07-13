@@ -144,7 +144,7 @@ class ManageCalc(threading.Thread):
                 tempDf = df_utils.Filter(joinedDf, filter_dict)                    
                 tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                          
                                          
-            timesDfs[i] = tempDf
+                timesDfs[i] = tempDf
         return timesDfs
                 
                             
@@ -586,12 +586,26 @@ class ManageCalc(threading.Thread):
                     except TypeError:       
                         print "type error celltime: ", rule         
                         return None
+
+        # previoustime 1-3
+        for i in range(1, NUMBER_OF.THREECOLUMNS + 1):                   
+            previoustimeX = "previoustime" + str(i)
+            if previoustimeX in rule:
+                try:  
+                    time = timesstore.GetPrevious(joinTime, {}, df)
+                    if(time == None):
+                        return None                     
+                    expression_string = expression_string.replace(previoustimeX, str(time['time'+str(i)]))                           
+                except TypeError:       
+                    print "type error", previoustimeX         
+                    return None
+            
         # previoustime                
         if "previoustime" in rule:                              
             try:  
                 time = timesstore.GetPrevious(joinTime, {}, df)
                 if(time == None):
-                    return None 
+                    return None                
                 expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
             except TypeError:       
                 print "type error previoustime"         
