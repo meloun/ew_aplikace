@@ -131,7 +131,7 @@ class ManageCalc(threading.Thread):
     """ update TIMES df """
     def GetTimesDfs(self, joinedDf):
         
-        timesDfs = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS             
+        timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]             
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             
             timeX = "time"+str(i+1)                
@@ -145,13 +145,20 @@ class ManageCalc(threading.Thread):
                 tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                          
                                          
                 timesDfs[i] = tempDf
+#         print "tDdfs 0",timesDfs[0]
+#         print "=================="
+#         print "tDdfs 1",timesDfs[1]
+#         print "=================="
+#         print "tDdfs 2",timesDfs[2]
+#         print "=================="
+#         print "=================="
         return timesDfs
                 
                             
     """ update LAP df """
     def GetLapsDfs(self, joinedDf):
                      
-        lapsDfs = [pd.DataFrame()] * NUMBER_OF.THREECOLUMNS
+        lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
         for i in range(0, NUMBER_OF.THREECOLUMNS):
                                     
             timeX = "time"+str(i+1)                
@@ -174,7 +181,7 @@ class ManageCalc(threading.Thread):
     """ update ORDER df """
     def GetOrderDfs(self, joinedDf):
                     
-        orderDfs = [{'total':pd.DataFrame(), "category":  None}] * NUMBER_OF.THREECOLUMNS
+        orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
         #self.orderGroupbys = [None] * NUMBER_OF.THREECOLUMNS
         for i in range(0, NUMBER_OF.THREECOLUMNS):            
               
@@ -217,14 +224,24 @@ class ManageCalc(threading.Thread):
             
             #sort again
             if(column2 in aux_df.columns):
-                print "nested sorting", column1, column2, asc1, asc2                
+                #print "nested sorting", column1, column2, asc1, asc2                
                 aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
             else:                    
                 aux_df = aux_df.sort(column1, ascending = asc1)            
             
             #category order            
             if(group['type'] == "Total"):
+#                 print "dfb",i
+#                 print "============"
+#                 print "0", orderDfs[0]
+#                 print "1", orderDfs[1]
+#                 print "2", orderDfs[2]
                 orderDfs[i]['total'] = aux_df                    
+#                 print "dfa",i
+#                 print "============"
+#                 print "0", orderDfs[0]
+#                 print "1", orderDfs[1]
+#                 print "2", orderDfs[2]
             elif(group['type'] == "Category"):                    
                 #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)                                                    
                 orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
@@ -237,6 +254,8 @@ class ManageCalc(threading.Thread):
                 print "ERROR: Group order NOT implemented"
             else:
                 print "FATAL ERROR",group['type']
+                
+        #print "return", orderDfs[0]['total']
         return orderDfs
                     
 
@@ -257,13 +276,14 @@ class ManageCalc(threading.Thread):
         for index, dbTime in timesDfs[i].iterrows():
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
             #calc time                    
-            dbTime = dbTime.to_dict()  #df to dict                                                                                                            
-            time = self.CalcTime(dbTime, i)                                                                                                                                                         
+            dbTime = dbTime.to_dict()  #df to dict
+                                                                                                                        
+            time = self.CalcTime(dbTime, i)                                                            
                         
             #update db                
             if time != None:
                 try:             
-                    commit_flag = True                                                                                                                                            
+                    commit_flag = True                                                                                                                                                                
                     db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], timeX:time}, commit_flag = False) #commit na konci funkce
                 except IndexError: #potreba startime, ale nenalezen 
                     ret_ko_times.append(dbTime['id'])
@@ -374,9 +394,12 @@ class ManageCalc(threading.Thread):
         joinTime = self.joinedDf.loc[tabTime['id']]                
 
         #evalute rule
-        #print "EVALUATING", group                                       
+        #print "EVALUATING a", group                                       
+        
                   
-        ret_time = self.Evaluate(self.joinedDf, group, joinTime, tabTime)  
+
+        ret_time = self.Evaluate(self.joinedDf, group, joinTime, tabTime)
+         
         return ret_time
     
     def CalcLap(self, df, dbTime, index):
@@ -471,22 +494,22 @@ class ManageCalc(threading.Thread):
             order = len(aux_df)                                                        
         return order  
     
-    def GetPrevious(self, dbTime, filter = None, df = None):        
+    def GetPrevious(self, dbTime, filter = None, df = None, nr = -1):        
         
-        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):            
+        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):                        
             return None
         
-        # user and previous filter
-        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]             
+        # user and previous filter        
+        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]                     
         
         #filter        
         df =  df_utils.Filter(df, filter)                                       
         
         #group        
         try:            
-            time = df[df.time_raw < dbTime['time_raw']].iloc[-1]                
+            time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
             time = dict(time)                        
-        except:                        
+        except:                                    
             time = None                    
                                    
         return time 
@@ -587,23 +610,24 @@ class ManageCalc(threading.Thread):
                         print "type error celltime: ", rule         
                         return None
 
-        # previoustime 1-3
-        for i in range(1, NUMBER_OF.THREECOLUMNS + 1):                   
-            previoustimeX = "previoustime" + str(i)
-            if previoustimeX in rule:
-                try:  
-                    time = timesstore.GetPrevious(joinTime, {}, df)
-                    if(time == None):
-                        return None                     
-                    expression_string = expression_string.replace(previoustimeX, str(time['time'+str(i)]))                           
-                except TypeError:       
-                    print "type error", previoustimeX         
-                    return None
-            
+        # prevI-timeX
+        for prev_i in range(1, 4):
+            for i in range(1, NUMBER_OF.THREECOLUMNS + 1):                   
+                previoustimeX = "prev"+str(prev_i)+"-time" + str(i)
+                if previoustimeX in rule:                    
+                    try:  
+                        time = self.GetPrevious(joinTime, {}, df, prev_i * -1)                        
+                        if(time == None):
+                            return None                     
+                        expression_string = expression_string.replace(previoustimeX, str(time['time'+str(i)]))                           
+                    except TypeError:       
+                        print "type error", previoustimeX         
+                        return None                    
+    
         # previoustime                
-        if "previoustime" in rule:                              
+        if ("previoustime" in rule) or ("prev-time"):                              
             try:  
-                time = timesstore.GetPrevious(joinTime, {}, df)
+                time = self.GetPrevious(joinTime, {}, df)
                 if(time == None):
                     return None                
                 expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
@@ -626,7 +650,7 @@ class ManageCalc(threading.Thread):
                 starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                                            
             elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
                 #VIA USER => previous startime from the same user                                                
-                starttime = timesstore.GetPrevious(joinTime, filter = {'cell':1}, df = df)
+                starttime = self.GetPrevious(joinTime, filter = {'cell':1}, df = df)
             else:
                 print "E: Fatal Error: Starttime "
                 return None

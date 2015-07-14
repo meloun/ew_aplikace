@@ -118,9 +118,10 @@ class TimesModel(myModel):
                 user_id = tableUsers.getIdOrTagIdParNr(tabRow['nr'])
                 
                 # NR column
-                if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):                        
-                    user_id = self.checkChangedNumber(tabRow)
-                    if user_id:
+                if(item.column() == self.table.TABLE_COLLUMN_DEF['nr']['index']):
+                    user_id = self.checkChangedNumber(tabRow)                                            
+                    if user_id != None:
+                        print "ok"
                         joinUser = tableUsers.getJoinUserParIdOrTagId(user_id)                                        
                         self.changedRow['name'] = joinUser['name'].upper() +' '+joinUser['first_name']                                        
                         self.changedRow['category'] = joinUser['category']

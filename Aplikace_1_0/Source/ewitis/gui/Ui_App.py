@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Fri Jun 12 19:02:55 2015
+# Created: Tue Jul 14 20:39:59 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -10984,14 +10984,20 @@ class Ui_MainWindow(object):
         self.checkAInfoUserNumber_3.setText(_translate("MainWindow", "User number #3", None))
         self.checkAInfoUserNumber_2.setText(_translate("MainWindow", "User number #2", None))
         self.checkAInfoUserString_1.setText(_translate("MainWindow", "User string #1", None))
-        self.label_18.setToolTip(_translate("MainWindow", "supported keywords :\n"
-" %00:01:30,00%\n"
-" time \n"
-" starttime\n"
-" celltime1-250  \n"
-" points1-4\n"
-" order1-3\n"
-" un1-3", None))
+        self.label_18.setToolTip(_translate("MainWindow", "\"*time - rawtime, aktuální čas závodníka\n"
+"*previoustime, prev-time - rawtime, předchozí čas závodníka\n"
+"*celltimeX - rawtime, aktuální nebo předchozí čas závodníka od dané buňky\n"
+"*starttime - rawtime, startovací čas závodníka\n"
+"*%00:01:30,00% - rawtime, pevný čas závodníka\n"
+"*pointsX\n"
+"*orderX\n"
+"*unX\n"
+"*timeX - string (jen samostatně ve vzorci), X.tý čas závodníka\n"
+"*prev1-timeX - string (jen samostatně ve vzorci), 1.předchozí čas závodníka \n"
+"*prev2-timeX - string (jen samostatně ve vzorci), 2.předchozí čas závodníka \n"
+"*prev3-timeX - string (jen samostatně ve vzorci), 3.předchozí čas závodníka \n"
+"\n"
+"\"", None))
         self.label_19.setToolTip(_translate("MainWindow", "examples:\n"
 " cell = 250; \n"
 " cell = 2 | 250; \n"

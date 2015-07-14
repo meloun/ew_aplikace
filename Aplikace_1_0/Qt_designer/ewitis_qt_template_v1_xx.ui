@@ -4966,14 +4966,20 @@ Best timesX : only best times will have an order</string>
                 </rect>
                </property>
                <property name="toolTip">
-                <string>supported keywords :
- %00:01:30,00%
- time 
- starttime
- celltime1-250  
- points1-4
- order1-3
- un1-3</string>
+                <string>&quot;*time - rawtime, aktuální čas závodníka
+*previoustime, prev-time - rawtime, předchozí čas závodníka
+*celltimeX - rawtime, aktuální nebo předchozí čas závodníka od dané buňky
+*starttime - rawtime, startovací čas závodníka
+*%00:01:30,00% - rawtime, pevný čas závodníka
+*pointsX
+*orderX
+*unX
+*timeX - string (jen samostatně ve vzorci), X.tý čas závodníka
+*prev1-timeX - string (jen samostatně ve vzorci), 1.předchozí čas závodníka 
+*prev2-timeX - string (jen samostatně ve vzorci), 2.předchozí čas závodníka 
+*prev3-timeX - string (jen samostatně ve vzorci), 3.předchozí čas závodníka 
+
+&quot;</string>
                </property>
                <property name="text">
                 <string/>

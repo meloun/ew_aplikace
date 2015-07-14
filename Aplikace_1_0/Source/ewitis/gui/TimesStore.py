@@ -34,20 +34,21 @@ class TimesStore():
     def GetDefault(self):
         return {id:0, 'time_raw':0}
     
-    def GetPrevious(self, dbTime, filter = None, df = None):        
+    def GetPrevious(self, dbTime, filter = None, df = None, nr = -1):        
         
         if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):            
             return None
         
-        # user and previous filter
-        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]             
+        # user and previous filter        
+        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]
+                     
         
         #filter        
         df =  df_utils.Filter(df, filter)                                       
         
         #group        
         try:            
-            time = df[df.time_raw < dbTime['time_raw']].iloc[-1]                
+            time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
             time = dict(time)                        
         except:                        
             time = None                    

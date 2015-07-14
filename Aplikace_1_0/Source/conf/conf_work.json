@@ -5,8 +5,8 @@
             "value": [
                 {
                     "racename": "%race%",
-                    "categoryname": "TP2",
-                    "description": "Savoy Westend (2200m/132sec)"
+                    "categoryname": "TP5",
+                    "description": "Auto motor a sport Classic (60m/12sec, 170m/30sec)"
                 },
                 {
                     "racename": "%race%",
@@ -46,7 +46,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "last times with time2",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -85,12 +85,12 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "- - -",
+                "profile": "C:/v3_12m/conf/profily/TP5.json",
                 "remote": 0,
-                "race_name": "Formula Student 2013",
+                "race_name": "Carlsbad Classic 2015",
                 "rfid": 0,
                 "tag_filter": 0,
-                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S--&gt;C </span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">2200m: 132sec = 2:12 = 2,2 min</span></p></body></html>"
+                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S1--&gt;S2--&gt;C2--&gt;C1</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S2--&gt;C2: 60m: 12sec</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S1--&gt;C1: 170m: 30sec = 0,5min</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p></body></html>"
             }
         },
         "permanent": true,
@@ -107,19 +107,19 @@
                 "sorted": [
                     {
                         "sex": 12,
-                        "year": 10,
-                        "category": 9,
+                        "year": 7,
+                        "category": 8,
                         "un1": 29,
                         "un2": 30,
                         "un3": 31,
                         "points1": 24,
                         "points2": 25,
-                        "points3": 10,
-                        "points4": 11,
-                        "points5": 12,
-                        "time2": 20,
-                        "time3": 22,
-                        "time1": 7,
+                        "points3": 11,
+                        "points4": 12,
+                        "points5": 13,
+                        "time2": 9,
+                        "time3": 10,
+                        "time1": 8,
                         "nr": 2,
                         "o4": 16,
                         "o3": 15,
@@ -214,8 +214,8 @@
                 "checked": [
                     {
                         "sex": 0,
-                        "year": 0,
-                        "category": 0,
+                        "year": 2,
+                        "category": 2,
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
@@ -224,9 +224,9 @@
                         "points3": 2,
                         "points4": 2,
                         "points5": 2,
-                        "time2": 0,
-                        "time3": 0,
-                        "time1": 2,
+                        "time2": 2,
+                        "time3": 2,
+                        "time1": 0,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
@@ -320,7 +320,7 @@
                 ],
                 "names": {
                     "sex": "Pohlaví",
-                    "year": "Rok",
+                    "year": "RV",
                     "category": "Kategorie",
                     "un1": "Un 1",
                     "un2": "Un 2",
@@ -330,8 +330,8 @@
                     "points3": "Body",
                     "points4": "Penalizace",
                     "points5": "Body celkem",
-                    "time2": "Čas",
-                    "time3": "Čas",
+                    "time2": "Čas 1",
+                    "time3": "Čas 2",
                     "time1": "Čas",
                     "nr": "Číslo",
                     "o4": "Option 4",
@@ -368,7 +368,6 @@
             "changed": false,
             "value": [
                 {
-                    "fu4": 0,
                     "task": 1,
                     "fu2": 0,
                     "fu3": 0,
@@ -377,7 +376,6 @@
                     "address": 1
                 },
                 {
-                    "fu4": 0,
                     "task": 2,
                     "fu2": 0,
                     "fu3": 0,
@@ -386,7 +384,6 @@
                     "address": 2
                 },
                 {
-                    "fu4": 0,
                     "task": 250,
                     "fu2": 0,
                     "fu3": 0,
@@ -396,7 +393,7 @@
                 },
                 {
                     "fu4": 0,
-                    "task": 0,
+                    "task": 3,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -498,199 +495,199 @@
         "permanent": true,
         "name": "cells info",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": [
                 {
-                    "task": 1,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
-                    "diagnostic_long_ko": 430,
+                    "task": null,
+                    "diagnostic_long_ko": 14444,
                     "address": 1,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 2,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
-                    "diagnostic_long_ko": 460,
+                    "task": null,
+                    "diagnostic_long_ko": 14614,
                     "address": 2,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 250,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
-                    "diagnostic_long_ko": 450,
+                    "task": null,
+                    "diagnostic_long_ko": 14585,
                     "address": 3,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
-                    "diagnostic_long_ko": 0,
+                    "task": null,
+                    "diagnostic_long_ko": 5646,
                     "address": 4,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 5,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 6,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 13,
                     "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "synchronized_once": false,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": false,
@@ -715,13 +712,13 @@
         "permanent": true,
         "name": "timing_settings",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": {
-                "logic_mode": 1,
+                "logic_mode": null,
                 "filter_maxlapnumber": 0,
+                "filter_minlaptime": 3,
+                "measurement_state": 0,
                 "name_id": 1,
-                "measurement_state": 2,
-                "filter_minlaptime": 0,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -763,28 +760,28 @@
                 ],
                 "time": [
                     {
+                        "filter": "cell=2",
+                        "minute_timeformat": 2,
+                        "checked": 2,
+                        "rule": "time - previoustime"
+                    },
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 2,
+                        "rule": "prev1-time1"
+                    },
+                    {
                         "filter": "cell=250",
                         "minute_timeformat": 2,
                         "checked": 2,
                         "rule": "time - celltime1"
-                    },
-                    {
-                        "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
-                        "checked": 0,
-                        "rule": "time - starttime"
-                    },
-                    {
-                        "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
-                        "checked": 0,
-                        "rule": "time - starttime"
                     }
                 ],
                 "lap": [
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
@@ -798,30 +795,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": "Year",
+                        "order1": "Asc",
                         "column1": "Points5",
-                        "row": "Last times"
+                        "column2": "Year"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [
@@ -829,13 +826,13 @@
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:02:12,00%)"
+                        "rule": "abs(time2 - %00:00:12,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 500,
-                        "rule": "0"
+                        "rule": "abs(time3 - %00:00:30,00%)"
                     },
                     {
                         "minimum": 0,
