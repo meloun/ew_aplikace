@@ -4966,7 +4966,7 @@ Best timesX : only best times will have an order</string>
                 </rect>
                </property>
                <property name="toolTip">
-                <string>&quot;*time - rawtime, aktuální čas závodníka
+                <string>*time - rawtime, aktuální čas závodníka
 *previoustime, prev-time - rawtime, předchozí čas závodníka
 *celltimeX - rawtime, aktuální nebo předchozí čas závodníka od dané buňky
 *starttime - rawtime, startovací čas závodníka
@@ -4979,7 +4979,7 @@ Best timesX : only best times will have an order</string>
 *prev2-timeX - string (jen samostatně ve vzorci), 2.předchozí čas závodníka 
 *prev3-timeX - string (jen samostatně ve vzorci), 3.předchozí čas závodníka 
 
-&quot;</string>
+</string>
                </property>
                <property name="text">
                 <string/>
