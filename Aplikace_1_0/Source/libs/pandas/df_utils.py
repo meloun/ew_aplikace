@@ -5,12 +5,12 @@ Created on 29.05.2015
 
 def Filter(df, filter):
     '''
-    filter dataframe according to pattern        
+    filter dataframe according to pattern {"cell":"2|250";"lap":"2|4"}        
     '''                                              
     if filter != None:        
         for k,v in filter.iteritems():                
             try:
-                #replace
+                #replace                
                 v = str(v)
                 
                 if(k == "cell") and (v == "2"):
@@ -20,7 +20,7 @@ def Filter(df, filter):
                 
                 # filter frame
                 df = df[df[k].notnull()]                                                                                                                                                                                                                                                                  
-                df = df[df[k].astype(int).astype(str).str.match(str(v))] #convert to int because of float type (3.0)
+                df = df[df[k].astype(int).astype(str).str.match(v)] #convert to int because of float type (3.0)
                        
             except (KeyError):
                 print "error: race settings: filter", k, v, filter

@@ -12,7 +12,7 @@ import pandas as pd
 import libs.sqlite.sqlite_utils as db_utils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.DEF_DATA import *
-from ewitis.gui.TimesStore import TimesStore, timesstore
+#from ewitis.gui.TimesStore import TimesStore, timesstore
 from ewitis.gui.tabExportSettings import tabExportSettings
 import ewitis.gui.TimesUtils as TimesUtils
 
@@ -174,7 +174,7 @@ class ManageCalc(threading.Thread):
                 tempDf = df_utils.Filter(tempDf, filter_dict)
                 lapDf =  tempDf[(tempDf[timeX].notnull()) & (tempDf[lapX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                                                                
             
-                lapsDfs[i] = lapDf
+                lapsDfs[i] = lapDf            
         return lapsDfs
                         
 
@@ -310,7 +310,7 @@ class ManageCalc(threading.Thread):
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                 #calc lap                                                                                                                         
                 dbTime = dbTime.to_dict()  #df to dict                                                                                                            
-                lap = self.CalcLap(lapsDfs[i], dbTime, i)                                                                                                                          
+                lap = self.CalcLap(self.joinedDf, dbTime, i)                                                                                                                          
                             
                 #update db                
                 if lap != None:
@@ -422,10 +422,21 @@ class ManageCalc(threading.Thread):
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
             
             #same user
-            aux_df = df[df['user_id'] == dbTime['user_id']]                        
+            aux_df = df[df['user_id'] == dbTime['user_id']]
+                        
+            
+            #get sarttime
+            starttime = self.GetStarttime(dbTime, aux_df)
+            #print "s", starttime, dbTime["time_raw"], aux_df
+            if(starttime == None):
+                return None
+                                       
+            
             
             #better times
-            aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                                 
+            #aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                                             
+            aux_df = aux_df[aux_df["time_raw"] < dbTime["time_raw"]]
+            aux_df = aux_df[aux_df["time_raw"] > starttime["time_raw"]]
         
             lap = len(aux_df)
                         
@@ -496,10 +507,10 @@ class ManageCalc(threading.Thread):
     
     def GetPrevious(self, dbTime, filter = None, df = None, nr = -1):        
         
-        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):                        
+        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):                                    
             return None
         
-        # user and previous filter        
+        # user and previoustime filter                
         df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw < dbTime['time_raw'])]                     
         
         #filter        
@@ -507,12 +518,39 @@ class ManageCalc(threading.Thread):
         
         #group        
         try:            
-            time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
+            #time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
+            time = df.iloc[nr]
             time = dict(time)                        
         except:                                    
             time = None                    
                                    
-        return time 
+        return time
+    
+    
+    
+    
+    def GetStarttime(self, dbTime, df = None):
+        filter = {'cell':1}
+        starttime = None
+                
+        
+        if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+            #VIA CATEGORY => Xth starttime    
+            dbUser =   self.tableUsers.getDbUserParIdOrTagId(dbTime["user_id"], self.db)          
+            if(dbUser == None):
+                return None                                                                                                             
+            start_nr = self.tableCategories.getTabRow(dbUser['category_id'], self.db)['start_nr'] #get category starttime                
+            starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                                            
+        elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+            #VIA USER => previous startime from the same user                                                
+            starttime = self.GetPrevious(dbTime, filter = {'cell':1}, df = df)
+
+            
+        return starttime    
+    
+    
+    
+     
     """
     joinTime - z df, db i tab data(older) i user data
     tabTime - aktualizovaná data z tabulky, points, order atd.
@@ -625,7 +663,7 @@ class ManageCalc(threading.Thread):
                         return None                    
     
         # previoustime                
-        if ("previoustime" in rule) or ("prev-time"):                              
+        if ("previoustime" in rule) or ("prev-time" in rule):                              
             try:  
                 time = self.GetPrevious(joinTime, {}, df)
                 if(time == None):
@@ -637,27 +675,12 @@ class ManageCalc(threading.Thread):
                 
         # STARTTIME    
         #user without number => no time
-        if ("starttime" in rule):
-            starttime = None          
-       
-        
-            if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
-                #VIA CATEGORY => Xth starttime    
-                dbUser =   self.tableUsers.getDbUserParIdOrTagId(joinTime["user_id"], self.db)          
-                if(dbUser == None):
-                    return None                                                                                                             
-                start_nr = self.tableCategories.getTabRow(dbUser['category_id'], self.db)['start_nr'] #get category starttime                
-                starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                                            
-            elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
-                #VIA USER => previous startime from the same user                                                
-                starttime = self.GetPrevious(joinTime, filter = {'cell':1}, df = df)
-            else:
-                print "E: Fatal Error: Starttime "
-                return None
+        if ("starttime" in rule):            
+            starttime = self.GetStarttime(joinTime, df)            
                                     
             if starttime == None:
                 return None
-            
+                        
             expression_string = rule.replace("starttime", str(starttime['time_raw']))                                                   
                
         # TIME1-TIME3                                                        

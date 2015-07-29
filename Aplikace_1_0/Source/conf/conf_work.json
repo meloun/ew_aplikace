@@ -5,8 +5,8 @@
             "value": [
                 {
                     "racename": "%race%",
-                    "categoryname": "TP5",
-                    "description": "Auto motor a sport Classic (60m/12sec, 170m/30sec)"
+                    "categoryname": "TP3",
+                    "description": "Pivní lázně (100m/14sec)"
                 },
                 {
                     "racename": "%race%",
@@ -46,7 +46,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time2",
+                    "filter": "last times with time1",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -85,12 +85,12 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/v3_12m/conf/profily/TP5.json",
+                "profile": "C:/Data/Dropbox/casomira/Zavody/2015_07_17-18-CBC/Importy/profily/TP3.json",
                 "remote": 0,
                 "race_name": "Carlsbad Classic 2015",
                 "rfid": 0,
                 "tag_filter": 0,
-                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S1--&gt;S2--&gt;C2--&gt;C1</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S2--&gt;C2: 60m: 12sec</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S1--&gt;C1: 170m: 30sec = 0,5min</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p></body></html>"
+                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">S--&gt;C</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">100m: 14sec</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p></body></html>"
             }
         },
         "permanent": true,
@@ -108,17 +108,17 @@
                     {
                         "sex": 12,
                         "year": 7,
-                        "category": 8,
+                        "category": 9,
                         "un1": 29,
                         "un2": 30,
                         "un3": 31,
                         "points1": 24,
                         "points2": 25,
-                        "points3": 11,
-                        "points4": 12,
-                        "points5": 13,
-                        "time2": 9,
-                        "time3": 10,
+                        "points3": 10,
+                        "points4": 11,
+                        "points5": 12,
+                        "time2": 20,
+                        "time3": 22,
                         "time1": 8,
                         "nr": 2,
                         "o4": 16,
@@ -221,12 +221,12 @@
                         "un3": 0,
                         "points1": 0,
                         "points2": 0,
-                        "points3": 2,
-                        "points4": 2,
-                        "points5": 2,
-                        "time2": 2,
-                        "time3": 2,
-                        "time1": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "time1": 2,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
@@ -237,7 +237,7 @@
                         "gap": 0,
                         "order2": 0,
                         "order3": 0,
-                        "order1": 2,
+                        "order1": 0,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
@@ -330,8 +330,8 @@
                     "points3": "Body",
                     "points4": "Penalizace",
                     "points5": "Body celkem",
-                    "time2": "Čas 1",
-                    "time3": "Čas 2",
+                    "time2": "Čas",
+                    "time3": "Čas",
                     "time1": "Čas",
                     "nr": "Číslo",
                     "o4": "Option 4",
@@ -364,11 +364,13 @@
         "name": "export"
     },
     "cells_info": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
                 {
-                    "task": 1,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -376,7 +378,7 @@
                     "address": 1
                 },
                 {
-                    "task": 2,
+                    "task": 1,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -393,7 +395,7 @@
                 },
                 {
                     "fu4": 0,
-                    "task": 3,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -419,7 +421,6 @@
                     "address": 6
                 },
                 {
-                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -428,7 +429,6 @@
                     "address": 7
                 },
                 {
-                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -492,7 +492,6 @@
                 }
             ]
         },
-        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 1,
@@ -501,12 +500,12 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
-                    "diagnostic_long_ko": 14444,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
                     "address": 1,
                     "active": false,
                     "diagnostic_short_ko": 0
@@ -515,12 +514,12 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
-                    "diagnostic_long_ko": 14614,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 30,
                     "address": 2,
                     "active": false,
                     "diagnostic_short_ko": 0
@@ -529,12 +528,12 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
-                    "diagnostic_long_ko": 14585,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 120,
                     "address": 3,
                     "active": false,
                     "diagnostic_short_ko": 0
@@ -543,12 +542,12 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
-                    "diagnostic_long_ko": 5646,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
                     "address": 4,
                     "active": false,
                     "diagnostic_short_ko": 0
@@ -557,11 +556,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 5,
                     "active": false,
@@ -571,11 +570,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 6,
                     "active": false,
@@ -585,11 +584,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": false,
@@ -599,11 +598,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": false,
@@ -613,11 +612,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": false,
@@ -627,11 +626,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": false,
@@ -641,11 +640,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": false,
@@ -655,11 +654,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": false,
@@ -669,11 +668,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 13,
                     "active": false,
@@ -683,11 +682,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": false,
@@ -697,28 +696,28 @@
         }
     },
     "timing_settings": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 60,
-                "measurement_state": 0,
                 "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": 60,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
-        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 1,
             "value": {
                 "logic_mode": null,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 3,
-                "measurement_state": 0,
                 "name_id": 1,
+                "measurement_state": 0,
+                "filter_minlaptime": 0,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -744,12 +743,12 @@
                 },
                 "us": [
                     {
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "un": [
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "checked": 0
@@ -760,22 +759,22 @@
                 ],
                 "time": [
                     {
-                        "filter": "cell=2",
-                        "minute_timeformat": 2,
+                        "filter": "cell=250",
                         "checked": 2,
+                        "minute_timeformat": 2,
                         "rule": "time - previoustime"
                     },
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "checked": 2,
-                        "rule": "prev1-time1"
+                        "filter": "cell=2|3|250",
+                        "checked": 0,
+                        "minute_timeformat": 0,
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "checked": 2,
-                        "rule": "time - celltime1"
+                        "filter": "cell=2|3|250",
+                        "checked": 0,
+                        "minute_timeformat": 0,
+                        "rule": "time - starttime"
                     }
                 ],
                 "lap": [
@@ -794,7 +793,7 @@
                 ],
                 "order": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
@@ -824,31 +823,31 @@
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
-                        "rule": "abs(time2 - %00:00:12,00%)"
+                        "rule": "abs(time1 - %00:00:14,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
-                        "rule": "abs(time3 - %00:00:30,00%)"
+                        "rule": "0"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
-                        "rule": "points1+points2"
+                        "rule": "points1"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 1000,
                         "rule": "un1"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 1000,
                         "rule": "points3 + points4"
                     }

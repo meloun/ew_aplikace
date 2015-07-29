@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Tue Jul 14 20:39:59 2015
+# Created: Tue Jul 28 21:28:22 2015
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -10984,7 +10984,7 @@ class Ui_MainWindow(object):
         self.checkAInfoUserNumber_3.setText(_translate("MainWindow", "User number #3", None))
         self.checkAInfoUserNumber_2.setText(_translate("MainWindow", "User number #2", None))
         self.checkAInfoUserString_1.setText(_translate("MainWindow", "User string #1", None))
-        self.label_18.setToolTip(_translate("MainWindow", "\"*time - rawtime, aktuální čas závodníka\n"
+        self.label_18.setToolTip(_translate("MainWindow", "*time - rawtime, aktuální čas závodníka\n"
 "*previoustime, prev-time - rawtime, předchozí čas závodníka\n"
 "*celltimeX - rawtime, aktuální nebo předchozí čas závodníka od dané buňky\n"
 "*starttime - rawtime, startovací čas závodníka\n"
@@ -10997,7 +10997,7 @@ class Ui_MainWindow(object):
 "*prev2-timeX - string (jen samostatně ve vzorci), 2.předchozí čas závodníka \n"
 "*prev3-timeX - string (jen samostatně ve vzorci), 3.předchozí čas závodníka \n"
 "\n"
-"\"", None))
+"", None))
         self.label_19.setToolTip(_translate("MainWindow", "examples:\n"
 " cell = 250; \n"
 " cell = 2 | 250; \n"
