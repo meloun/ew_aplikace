@@ -15,6 +15,7 @@ from ewitis.data.DEF_DATA import *
 #from ewitis.gui.TimesStore import TimesStore, timesstore
 from ewitis.gui.tabExportSettings import tabExportSettings
 import ewitis.gui.TimesUtils as TimesUtils
+import ewitis.gui.DEF_COLUMN as DEF_COLUMN
 
 
 class ManageCalc(threading.Thread):            
@@ -44,49 +45,59 @@ class ManageCalc(threading.Thread):
                                 
             """ update DFs """
             
-            #update times
-            self.joinedDf = self.GetJoinedDf()                    
+            #
+            self.joinedDf = self.GetJoinedDf()            
+
+            #time1                                            
             self.timesDfs = self.GetTimesDfs(self.joinedDf)            
-            ko_nrs = self.UpdateTimes(self.timesDfs, 0)
-             
-            self.joinedDf = self.GetJoinedDf()                    
-            self.timesDfs = self.GetTimesDfs(self.joinedDf)                             
-            ko_nrs = self.UpdateTimes(self.timesDfs, 1)
+            ko_nrs = self.UpdateTimes(self.timesDfs, 0)                        
+            self.joinedDf = self.GetJoinedDf()
             
-            self.joinedDf = self.GetJoinedDf()                    
+            #time2                    
+            self.timesDfs = self.GetTimesDfs(self.joinedDf)                             
+            ko_nrs = self.UpdateTimes(self.timesDfs, 1)                        
+            self.joinedDf = self.GetJoinedDf()
+
+            #time3                                
             self.timesDfs = self.GetTimesDfs(self.joinedDf) 
             ko_nrs = self.UpdateTimes(self.timesDfs, 2)
+            self.joinedDf = self.GetJoinedDf()            
+            
             if(ko_nrs != []):            
-                print(" Update times error: Some times have no start times, ids: "+str(ko_nrs))            
+                print(" Update times error: Some times have no start times, ids: "+str(ko_nrs))                        
                                                                                                                                                                                         
-            #update laps
-            self.joinedDf = self.GetJoinedDf()                        
+            #laps
             self.lapsDfs = self.GetLapsDfs(self.joinedDf)                         
             ko_nrs = self.UpdateLaps(self.lapsDfs)                        
+            self.joinedDf = self.GetJoinedDf()
             if(ko_nrs != []):            
                 print(" Update laps error: Some times have no start times, ids: "+str(ko_nrs))                                                                                                                                                                                    
-            
-            #update orderX 
-#             self.joinedDf = self.GetJoinedDf()
+                        
+            #orderX 
             self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
-            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)                                                
+            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)            
             
-            #update points                                                  
-            self.joinedDf = self.UpdatePoints(self.joinedDf)        
+            #points                                                  
+            self.joinedDf = self.UpdatePoints(self.joinedDf)
             
-            #update orderX 
+            #orderX 
             self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
-            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)   
+            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)                        
             
-            
-            #update status
-            #self.UpdateJoinedDf()
-                                     
+            #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
-            self.joinedDfFreeze = self.joinedDf.copy()
-            #print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            
+            #convert times to string format
+            self.joinedDf = self.df2tableDf(self.joinedDf)
+            
+            #sort and copy            
+            columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
+            self.joinedDfFreeze = self.joinedDf[columns].copy()
+            #self.joinedDfFreeze = self.joinedDf.copy()            
+            
             #print(".",end='')
-            sys.stdout.write('.')
+            #sys.stdout.write('.')
+            #print "I: Calc: COMPLETE", time.clock() - ztime,"s"
             myevent.wait(2)
             myevent.clear()        
             
@@ -106,9 +117,18 @@ class ManageCalc(threading.Thread):
         #replace nan with None            
         joinedDf = joinedDf.where(pd.notnull(joinedDf), None)       
                     
-        # join USER df
-        uDf = psql.read_sql("SELECT * FROM users", self.db, index_col = "id")        
-        uDf = uDf[["nr", "category_id", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
+        # USER df
+        uDf = psql.read_sql("SELECT * FROM users", self.db, index_col = "id")                 
+        uDf["name"] = uDf['name'].str.upper() +' '+uDf['first_name']      
+        
+        # CATEGORY df
+        cDf = psql.read_sql("SELECT id, name, start_nr FROM categories", self.db)
+        cDf.columns = ['id', 'category', "start_nr"]                                  
+        uDf =  pd.merge(uDf,  cDf, left_on='category_id', right_on='id', how="left")        
+        
+               
+        #print "u", uDf.columns 
+        uDf = uDf[["nr", "status", "name", "category", "start_nr", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
         
         if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
             tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
@@ -120,13 +140,37 @@ class ManageCalc(threading.Thread):
             joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_id', right_index=True, how="left")
         
 
-
         joinedDf.sort("time_raw", inplace=True)            
         
         #replace nan with None
         joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
         
-        return joinedDf                                    
+        return joinedDf
+    
+    def df2tableDf(self, df):
+
+        '''NAME'''                       
+        #tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
+                                                                                    
+        '''TIMERAW'''
+        df['timeraw'] = df['time_raw'].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, True))                                                                                                                                        
+        
+        additional_info = dstore.Get("additional_info")        
+        
+        '''TIME 1-3'''
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            
+            #TIME 1-3
+            if additional_info['time'][i]:                
+                timeX = 'time'+str(i+1)
+                if(df[timeX].empty == False):                                                                        
+                    minute_timeformat = dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
+                    df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                         
+            else: 
+                df[timeX] = None
+                                                                                         
+                                                                        
+        return df                                     
         
     """ update TIMES df """
     def GetTimesDfs(self, joinedDf):

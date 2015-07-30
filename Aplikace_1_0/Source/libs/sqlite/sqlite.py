@@ -23,8 +23,6 @@ class sqlite_db(object):
         self.db_name = db_name 
         self.datalock = RLock(False)
         
-    def hallo(self):
-        print "hallo"
     def getDb(self):
         return self.db
         
@@ -39,10 +37,7 @@ class sqlite_db(object):
         for row in cursor:            
             mydict = self.dict_factory(cursor, row)            
             mylist.append(mydict)
-        return mylist
-            
-                 
-        
+        return mylist                                    
     
     #convert "db-row" to lists 
     def lists_factory(self, cursor):                

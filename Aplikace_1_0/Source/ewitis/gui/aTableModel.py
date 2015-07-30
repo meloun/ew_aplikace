@@ -276,8 +276,8 @@ class myModel(QtGui.QStandardItemModel, myAbstractModel):
         
         nr_column = 0                        
 
-        if (row == None):            
-            return
+        #if (row == None):            
+        #    return
             
         #novy radek
         self.insertRow(0)                

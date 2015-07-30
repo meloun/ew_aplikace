@@ -5,7 +5,8 @@ from PyQt4 import QtCore, QtGui
 from ewitis.gui.aTab import MyTab 
 from ewitis.gui.aTableModel import myModel, myProxyModel 
 from ewitis.gui.aTable import myTable
-from ewitis.gui.tableTimes import tableTimes
+#from ewitis.gui.tableTimes import tableTimes
+from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN

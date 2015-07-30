@@ -24,7 +24,7 @@ class MyTab():
         
     def Update(self, mode = UPDATE_MODE.all):
         ret1 = True
-        ret2 = True
+        ret2 = True        
         
         #update tables
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):

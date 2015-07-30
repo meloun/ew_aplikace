@@ -460,26 +460,50 @@ class TimesModel(myModel):
                       
         #smazat vsechny radky
         self.removeRows(0, self.rowCount())          
+        
                                                                                        
         ytime = time.clock() 
+        i = 0
+        #print self.table.TABLE_COLLUMN_DEF.keys()
+        mycolumns = sorted(self.table.TABLE_COLLUMN_DEF.keys(), key = lambda (k): (self.table.TABLE_COLLUMN_DEF[k]["index"]))
+        
+        if(manage_calc.joinedDfFreeze.empty != True):
+            #print manage_calc.joinedDfFreeze.columns
+            #print mydf.columns
+            mydf =  manage_calc.joinedDfFreeze[mycolumns]
+        
         for id, row_dict in manage_calc.joinedDfFreeze.iterrows():
-            row_dict = row_dict.to_dict()   
+            
+            ztime = time.clock() 
+            #print row_dict
+            
+            
+            #row_dict = row_dict.to_dict()   
+            
             #print "idd", id, row_dict                     
-            #call table-specific function, return "table-row"                                           
-            row_table = self.db2tableRow(row_dict)
-                                                                                                                                                                 
+            #call table-specific function, return "table-row"             
+                                                          
+            #row_table = self.db2tableRow(row_dict)
+             
+                                                                                                                                                                  
             #add row to the table
             if self.changedRow and (id == self.changedRow["id"]):             
                 self.addRow(self.changedRow)
                 self.changedRow = None
-            else:
-                self.addRow(row_table)                                                                                                                                
+            else:                
+                #self.insertRow(0, row_dict) 
+                self.addRow(row_dict)
+            
+                #print type(row_dict), row_dict
+                #self.insertRow(0, row_dict)                                        
+                
+        print "I: Model: update: COMPLETE",i, time.clock() - ytime,"s"                                                                                                                                
 
         #enable user actions                                                                                                                                                                                                   
         dstore.Set("user_actions", dstore.Get("user_actions")-1)                                                                                                                                
                                                                                                                             
         #db.commit()        
-        return ret            
+        return ret  
                                                                                        
 
 class TimesProxyModel(myProxyModel):

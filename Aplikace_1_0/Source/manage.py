@@ -102,7 +102,7 @@ def GetCurrentTab():
     tab = getattr(sys.modules[__name__], "tab"+tabName)
     return tab
             
-def UpdateTab(mode = UPDATE_MODE.all):
+def UpdateTab(mode = UPDATE_MODE.all):    
     GetCurrentTab().Update(mode)        
     
 def CreateSlots():

@@ -40,6 +40,7 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1288, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         MainWindow.setMenuBar(self.menubar)
+        self.button = QtGui.QPushButton(MainWindow)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
