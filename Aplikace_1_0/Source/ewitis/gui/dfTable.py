@@ -75,7 +75,7 @@ class DfTable():
         #COUNTER
         self.gui['counter'] = getattr(Ui(), self.name+"Counter")
     
-    #def InitModels(self):
+    
     def InitModels(self):
         module = __import__("dfTable"+self.name, globals=globals())
                                   
@@ -85,7 +85,7 @@ class DfTable():
         #self.proxy_model = proxymodel        
         
         #create MODEL        
-        self.model = getattr(module, "DfModel"+self.name)()
+        self.model = getattr(module, "DfModel"+self.name)(self.name)
         #self.model = model                                 
         
         
@@ -94,18 +94,9 @@ class DfTable():
         
         #assign MODEL to PROXY MODEL
         self.proxy_model.setSourceModel(self.model)
-           
-    def Init(self):              
-                
-        #list of hidden collumns
-        self.hiddenCollumns = []
         
-        # init Gui
-        self.InitGui()
         
-        # init Models                                
-        self.InitModels()
-        
+    def InitView(self):
         #nastaveni proxy modelu        
         self.gui['view'].setModel(self.proxy_model)
         
@@ -123,7 +114,17 @@ class DfTable():
         try:
             self.gui['view'].verticalHeader().setDefaultSectionSize(18)
         except:
-            pass                                
+            pass   
+           
+    def Init(self):              
+                
+        #list of hidden collumns
+        self.hiddenCollumns = []
+        
+        # init Gui/Models/View
+        self.InitGui()                               
+        self.InitModels()
+        self.InitView()    
                          
         #TIMERs
         #self.timer1s = QtCore.QTimer(); 
@@ -200,7 +201,7 @@ class DfTable():
             
         # EXPORT BUTTON
         try:
-            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(self, myModel.eTABLE, True))        
+            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: self.sExport(myModel.eTABLE, True))        
         except TypeError:
             self.gui['export'] = None
         
@@ -388,20 +389,13 @@ class DfTable():
      - z tabulky vytvoří dva listy - header(list) a rows(lists of lists) 
     '''
     def ExportTable(self, mode):
-        exportRows = []                   
-        
-        '''table to 2 lists - header and rows(list of lists)'''        
-        keys = self.GetExportKeys(mode)                
-                                                                        
-        for tabRow in self.proxy_model.dicts():                                        
-            exportRow = self.model.tabRow2exportRow(tabRow, keys, mode)            
-            exportRowList = [(exportRow[key]) for key in keys]                                            
-            if (exportRowList == None):
-                continue
-                                                                  
-            exportRows.append(exportRowList)                                 
-                            
-        return (keys, exportRows)  
+        exportRows = []     
+
+        '''table to 2 lists - header and rows(list of lists)'''
+        header = self.model.header()
+        rows = self.proxy_model.rows()
+        print rows
+        return(header, rows)
         
     '''
     sExport()    
@@ -516,7 +510,7 @@ class DfTable():
         self.updateTabCounter()
         self.updateDbCounter()
         #print "db counter:",self.params.name, dstore.Get("count")
-        print "dfTimes.Update()", self.name, time.clock() - ztime,"s"
+        print "dfTable.Update()", self.name, time.clock() - ztime,"s"
           
                 
         

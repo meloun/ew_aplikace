@@ -21,7 +21,7 @@ from ewitis.gui.aTab import MyTab, UPDATE_MODE
 from ewitis.gui.tableAlltags import tabAlltags
 from ewitis.gui.tableTags import tabTags
 from ewitis.gui.tablePoints import tabPoints
-from ewitis.gui.tableCGroups import tabCGroups
+from ewitis.gui.dfTableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tableCategories import tabCategories
 from ewitis.gui.tableUsers import tabUsers

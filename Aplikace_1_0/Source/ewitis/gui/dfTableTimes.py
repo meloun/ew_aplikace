@@ -2,7 +2,7 @@
 '''
 Created on 30.07.2015
 
-@author: z002ys1y
+@author: Meloun
 '''
 
 import time
@@ -19,15 +19,14 @@ from manage_calc import manage_calc, myevent
 Model
 '''
 class DfModelTimes(DataframeTableModel):
-    def __init__(self, parent = None):
-        super(DfModelTimes, self).__init__()              
+    def __init__(self, name, parent = None):
+        super(DfModelTimes, self).__init__(name)              
         
     def sModelChanged(self, index1, index2):
         print "TIME MODEL CHANGED", index1, index2
         
     def GetDataframe(self):        
         return manage_calc.joinedDfFreeze
-        
                 
     
 '''
@@ -190,17 +189,8 @@ class DfTableTimes(DfTable):
 #                     
 #         self.hiddenCollumns =  columns                                                             
 #         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
-#                 
-        
-         
-        
-        
-          
-                
-        
-                                       
+#                                      
 
-tableTimes = DfTableTimes() 
     
 if __name__ == "__main__":    
 
@@ -221,9 +211,12 @@ if __name__ == "__main__":
     proxymodel = DfProxymodelTimes()
     
     dfTableTimes = DfTableTimes()
-    dfTableTimes.Init(model, proxymodel)    
-    dfTableTimes.update()
+    dfTableTimes.Init()    
+    dfTableTimes.Update()
         
     appWindow.show()    
     sys.exit(app.exec_())
+    
+    
+tableTimes = DfTableTimes()     
     
