@@ -176,7 +176,7 @@ class sqlite_db(object):
         #print "qq2", query
                 
         try:
-            self.query(query)
+            ret = self.query(query)
         except sqlite.IntegrityError:
             ret = False  #this entry probably already exist
         except:
@@ -185,6 +185,9 @@ class sqlite_db(object):
         
         if(commit == True):
             self.commit()
+            
+        if ret == None:
+            ret = False
         return ret
     
     '''vlozeni jednoho zaznamu z dict'''

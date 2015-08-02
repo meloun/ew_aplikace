@@ -57,7 +57,7 @@ class MyDialogs():
                 ret = True
                                                                                        
         #integer
-        elif(msgtype == MSGTYPE.get_integer):           
+        elif(msgtype == MSGTYPE.get_integer):  
             i, ok = QtGui.QInputDialog.getInteger(self.parent, title, message, value = params[0])
             if ok:
                 return i

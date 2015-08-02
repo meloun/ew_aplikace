@@ -23,11 +23,11 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 16
-    runs_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings,\
+    nr_tabs = 15
+    runs_times, users, categories, cgroups, tags, alltags, race_info, race_settings,\
     export_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
-              tags:"Tags", alltags:"Alltags", points:"Points", race_info:"RaceInfo", \
+              tags:"Tags", alltags:"Alltags", race_info:"RaceInfo", \
               race_settings:"RaceSettings",  export_settings:"ExportSettings", device:"Device", cells: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \

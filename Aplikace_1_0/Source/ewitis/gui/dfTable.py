@@ -254,7 +254,8 @@ class DfTable():
         
         #get ID for default record
         #row = self.model.getDefaultTableRow()
-        dbRow = self.model.getDefaultDbRow()    
+        dbRow = self.model.getDefaultRow()    
+        
         #print row                        
         dbRow['id'] = uiAccesories.showMessage(title,"ID: ", MSGTYPE.get_integer, dbRow['id'])                
         if dbRow['id'] == None:
@@ -307,52 +308,35 @@ class DfTable():
         if(filename == ""):                        
             return        
                   
-        #IMPORT CSV TO DATABASE
-        #try:
-        #print "collumns", db.getCollumnNames("times")            
+        #IMPORT CSV TO DATABASE         
             
         #get sorted keys
         keys = []
         for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
             keys.append(list[0])
-        #print "keys", keys
             
-        #load csv        
-        aux_csv = Db_csv.Db_csv(filename)
-        rows =  aux_csv.load()
-                    
-        #check csv file format - emty file
-        if(rows==[]):                
-            uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
+        #load csv to df
+        try:
+            #df = pd.read_csv(str(filename), sep=";", na_values=" aNaN")
+            df = pd.DataFrame.from_csv(str(filename), sep=";", encoding = "utf8")
+            df.drop([df.columns[-1]], axis=1, inplace=True)
+            df.fillna("", inplace=True)
+        except:
+            uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n empty file or wrong format")
             return
-        
-        #check csv file format - wrong format                                
-        header = rows.pop(0)
-        #header = aux_csv.header()
-#         for i in range(3): 
-#             if not(header[i] in keys):
-#                 uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n wrong file format")
-#                 print header[i], keys
-#                 #return
 
         #counters
         state = {'ko':0, 'ok':0}
         
-        #adding records to DB                        
-        for row in rows:                                                                                                                                    
-            #try:
-                #add 1 record
-            #print "row", row
-            importRow = dict(zip(keys, row))
-                        
-            dbRow = self.model.importRow2dbRow(importRow)            
+        #adding rows to DB                        
+        for row in df.iterrows():                                                                                                                                              
                                                          
-            if(db.insert_from_dict(self.name, dbRow, commit = False) == True):                                      
+            if(db.insert_from_lists(self.name, df.columns, row[1], commit = False) != False):  
+                print "ok"                                    
                 state['ok'] += 1
             else:            
                 state['ko'] += 1 #increment errors for error message
-            #except:
-            #    state['ko'] += 1 #increment errors for error message
+                print "ko"
 
         db.commit()                        
         self.model.Update()
@@ -367,7 +351,7 @@ class DfTable():
         title = "Table '"+self.name + "' CSV Import"
         
         if(state['ko'] != 0) :
-            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Probably already exist.")                                                            
+            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Wrong format or already exist.")                                                            
         else:
             uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                                       
     
@@ -412,19 +396,18 @@ class DfTable():
     def sExport(self, mode, dialog):
         
         print "I: ", self.name, ": export"
+
         if (mode == myModel.eTABLE):                
             format = "Csv"
             prefix = ""
-        elif (mode == myModel.eDB):
-            format = "Csv"
-            prefix = "db_"
         elif mode == myModel.eWWW:
             format = "Htm"
             prefix = ""
+        else:
+            print "sExport: ERROR"
             
                 
-        '''get filename, gui dialog, save path to datastore'''                                 
-        #filename = uiAccesories.getSaveFileName("Export table "+self.name+" to CSV", "dir_export_csv","Csv Files (*.csv)", self.name+".csv")                        
+        '''get filename, gui dialog, save path to datastore'''                        
         if dialog:
             print "as", "dir_export_"+format.lower()         
             filename = uiAccesories.getSaveFileName("Export table "+self.name+" to "+format.upper(),"dir_export_"+format.lower(), format.upper()+" Files (*."+format.lower()+")", self.name+"."+format.lower())

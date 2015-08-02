@@ -849,8 +849,9 @@ class ManageCalc(threading.Thread):
         #print str(i), self.exportDf[i]                     
         return self.joinedDf             
     
-from ewitis.gui.tableCategories import tabCategories
-from ewitis.gui.tableUsers import tabUsers
+#from ewitis.gui.tableCategories import tabCategories
+from ewitis.gui.dfTableCategories import tabCategories
+from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.data.dstore import dstore   
 myevent =  threading.Event()
 manage_calc = ManageCalc(tabUsers.tables[0], tabCategories.tables[0], dstore)

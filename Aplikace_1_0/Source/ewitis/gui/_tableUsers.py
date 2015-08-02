@@ -4,8 +4,9 @@ from ewitis.gui.aTableModel import myModel, myProxyModel
 from ewitis.gui.aTable import myTable
 from ewitis.data.db import db
 from ewitis.data.dstore import dstore
-from ewitis.gui.tableCategories import tableCategories
-from ewitis.gui.tableTags import tableTags
+#from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.dfTableCategories import tableCategories
+from ewitis.gui.dfTableTags import tableTags
 from ewitis.gui.UiAccesories import uiAccesories
 import libs.sqlite.sqlite_utils as db_utils
         

@@ -3,8 +3,8 @@ from PyQt4 import QtCore
 from ewitis.gui.aTab import MyTab
 from ewitis.gui.aTableModel import myModel, myProxyModel 
 from ewitis.gui.aTable import myTable
-from ewitis.gui.tableUsers import tableUsers
-from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.dfTableUsers import tableUsers
+from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.tableRuns import tableRuns
 from ewitis.data.dstore import dstore
             
@@ -62,12 +62,12 @@ class RaceInfoModel(myModel):
         row_table = {}
         row_table["id"] = row_id
         row_table["name"] = "Run id:"+ str(run_id)
-        row_table["startlist"] = tableUsers.getCount()  
-        row_table["dns"] = tableUsers.getCount("dns")          
-        row_table["finished"] = tableUsers.getCount("finished")
-        row_table["dq"] = tableUsers.getCount("dq")  
-        row_table["dnf"] = tableUsers.getCount("dnf")
-        row_table["race"] = tableUsers.getCount("race")              
+        row_table["startlist"] = 0 #tableUsers.getCount()  
+        row_table["dns"] = 0#tableUsers.getCount("dns")          
+        row_table["finished"] = 0#tableUsers.getCount("finished")
+        row_table["dq"] = 0#tableUsers.getCount("dq")  
+        row_table["dnf"] = 0#tableUsers.getCount("dnf")
+        row_table["race"] = 0#tableUsers.getCount("race")              
                                             
         if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dq"] + row_table["dnf"] + row_table["race"]:
             row_table["check"] = "ok"
@@ -85,12 +85,12 @@ class RaceInfoModel(myModel):
             row_table = {}
             row_table["id"] = row_id
             row_table["name"] = dbCategory["name"]                        
-            row_table["startlist"] = tableUsers.getCount(dbCategory = dbCategory)  
-            row_table["dns"] = tableUsers.getCount("dns", dbCategory)              
-            row_table["finished"] = tableUsers.getCount("finish", dbCategory)
-            row_table["dq"] = tableUsers.getCount("dq", dbCategory)  
-            row_table["dnf"] = tableUsers.getCount("dnf", dbCategory)              
-            row_table["race"] = tableUsers.getCount("race", dbCategory)
+            row_table["startlist"] = 0# tableUsers.getCount(dbCategory = dbCategory)  
+            row_table["dns"] = 0# tableUsers.getCount("dns", dbCategory)              
+            row_table["finished"] = 0# tableUsers.getCount("finish", dbCategory)
+            row_table["dq"] = 0# tableUsers.getCount("dq", dbCategory)  
+            row_table["dnf"] = 0# tableUsers.getCount("dnf", dbCategory)              
+            row_table["race"] = 0# tableUsers.getCount("race", dbCategory)
             
             if row_table["startlist"] ==  row_table["dns"] + row_table["finished"] + row_table["dq"] + row_table["dnf"] + row_table["race"]:
                 row_table["check"] = "ok"

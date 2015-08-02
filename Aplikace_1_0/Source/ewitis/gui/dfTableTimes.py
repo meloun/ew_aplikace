@@ -98,7 +98,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))                                                    
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
          
-        
+                    
     def sFilterStarts(self):
         self.gui['filter_column'].setValue(2)
         self.gui['filter'].setText("1")        

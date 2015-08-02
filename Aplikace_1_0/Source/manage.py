@@ -18,13 +18,12 @@ from ewitis.gui.UiAccesories import MSGTYPE
  
 #tabs
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
-from ewitis.gui.tableAlltags import tabAlltags
-from ewitis.gui.tableTags import tabTags
-from ewitis.gui.tablePoints import tabPoints
+from ewitis.gui.dfTableAlltags import tabAlltags
+from ewitis.gui.dfTableTags import tabTags
 from ewitis.gui.dfTableCGroups import tabCGroups
 from ewitis.gui.tableRaceInfo import tabRaceInfo
-from ewitis.gui.tableCategories import tabCategories
-from ewitis.gui.tableUsers import tabUsers
+from ewitis.gui.dfTableCategories import tabCategories
+from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
@@ -65,7 +64,6 @@ def InitTabs():
     tabAlltags.Init()
     tabTags.Init()
     tabCGroups.Init()
-    tabPoints.Init()
     tabRaceInfo.Init()
     tabRaceSettings.Init()
     tabExportSettings.Init()
@@ -82,7 +80,6 @@ def UpdateTabs():
     tabAlltags.Update()
     tabTags.Update()
     tabCGroups.Update()
-    tabPoints.Update()
     tabRaceInfo.Update()
     tabRaceSettings.Update()
     tabExportSettings.Update()

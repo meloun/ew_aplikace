@@ -62,6 +62,17 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         print "GetDataframe"
         return df
     
+    def getDefaultRow(self):
+        """
+        vraci radek naplneny zakladnimi daty
+        """
+        if self.df.empty == False:
+            id = self.df["id"].max() + 1
+        else:
+            id = 1
+        row = {"id":id}
+        return row
+    
     def sModelChanged(self, index1, index2):
         print "MODEL CHANGED", self.data(index1), self.data(index2)
         self.Update()

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
-Created on 1. 8. 2015
+Created on 2. 8. 2015
 
 @author: Meloun
 '''
-
 
 import time
 import pandas as pd
@@ -22,10 +21,13 @@ from ewitis.gui.Ui import Ui
 '''
 Model
 '''
-class DfModelCGroups(DataframeTableModel):
+class DfModelTags(DataframeTableModel):
     def __init__(self, name, parent = None):
-        super(DfModelCGroups, self).__init__(name)              
-        
+        super(DfModelTags, self).__init__(name)
+                      
+    #jen prozatim
+    def db2tableRow(self, dbRow):
+        return dbRow
    
     def GetDataframe(self): 
         df = psql.read_sql(\
@@ -42,16 +44,19 @@ class DfModelCGroups(DataframeTableModel):
         vraci radek naplneny zakladnimi daty
         """ 
         row = DataframeTableModel.getDefaultRow(self)
-        row['name'] = "unknown"        
-        row['label'] = "gx"
         return row
+    
+    def getTagParTagid(self, tag_id):
+        tag = df_utils.Get(self.df, 0, {"tag_id":tag_id})
+        return tag
+        
 
     
     
 '''
 Proxy Model
 '''    
-class DfProxymodelCGroups(QtGui.QSortFilterProxyModel, ModelUtils):
+class DfProxymodelTags(QtGui.QSortFilterProxyModel, ModelUtils):
     def __init__(self):        
         QtGui.QSortFilterProxyModel.__init__(self)
         
@@ -66,50 +71,23 @@ class DfProxymodelCGroups(QtGui.QSortFilterProxyModel, ModelUtils):
 '''
 Table
 '''        
-class DfTableCGroups(DfTable):
+class DfTableTags(DfTable):
     def  __init__(self):        
-        DfTable.__init__(self, "CGroups")
+        DfTable.__init__(self, "Tags")
         
     def InitGui(self):
         DfTable.InitGui(self)        
      
     def createSlots(self):
-        DfTable.createSlots(self)   
-       
-    def Update(self):                                                        
+        DfTable.createSlots(self)        
+                
+    def Update(self):                                                                                  
         DfTable.Update(self)
         
-          
+
+
+tableTags = DfTableTags()
+tabTags = MyTab(tables = [tableTags,])          
                 
         
-                                       
-    
-if __name__ == "__main__":    
-
-    
-    import sys
-    from PyQt4 import QtGui
-    from Ui_App import Ui_MainWindow
-    from ewitis.gui.Ui import appWindow
-    from ewitis.gui.Ui import Ui
-    from ewitis.gui.UiAccesories import uiAccesories
-    print "START"
-    
-    app = QtGui.QApplication(sys.argv)
-    appWindow.Init()
-    uiAccesories.Init()
-    
-    dfTableTimes = DfTableCGroups()
-    dfTableTimes.Init()    
-    dfTableTimes.Update()
-        
-    appWindow.show()    
-    sys.exit(app.exec_())
-    
-
-    
-        
-tableCGroups = DfTableCGroups()
-tabCGroups = MyTab(tables = [tableCGroups,]) 
-       
-                        
+ 

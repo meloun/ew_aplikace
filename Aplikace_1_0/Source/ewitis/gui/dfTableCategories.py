@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-Created on 1. 8. 2015
+Created on 2. 8. 2015
 
 @author: Meloun
 '''
@@ -22,10 +22,13 @@ from ewitis.gui.Ui import Ui
 '''
 Model
 '''
-class DfModelCGroups(DataframeTableModel):
+class DfModelCategories(DataframeTableModel):
     def __init__(self, name, parent = None):
-        super(DfModelCGroups, self).__init__(name)              
-        
+        super(DfModelCategories, self).__init__(name)
+                      
+    #jen prozatim
+    def db2tableRow(self, dbRow):
+        return dbRow
    
     def GetDataframe(self): 
         df = psql.read_sql(\
@@ -42,16 +45,25 @@ class DfModelCGroups(DataframeTableModel):
         vraci radek naplneny zakladnimi daty
         """ 
         row = DataframeTableModel.getDefaultRow(self)
-        row['name'] = "unknown"        
-        row['label'] = "gx"
+        row["name"] = "undefined"
         return row
+    
+    def getCategoryParName(self, name):
+        category = df_utils.Get(self.df, 0, {"name":name})
+        print category
+        return category
+    
+    def getCategoriesParGroupLabel(self, label):
+        categories = df_utils.Filter(self.df, {label: 1})
+        print categories
+        return categories
 
     
     
 '''
 Proxy Model
 '''    
-class DfProxymodelCGroups(QtGui.QSortFilterProxyModel, ModelUtils):
+class DfProxymodelCategories(QtGui.QSortFilterProxyModel, ModelUtils):
     def __init__(self):        
         QtGui.QSortFilterProxyModel.__init__(self)
         
@@ -66,17 +78,17 @@ class DfProxymodelCGroups(QtGui.QSortFilterProxyModel, ModelUtils):
 '''
 Table
 '''        
-class DfTableCGroups(DfTable):
+class DfTableCategories(DfTable):
     def  __init__(self):        
-        DfTable.__init__(self, "CGroups")
+        DfTable.__init__(self, "Categories")
         
     def InitGui(self):
         DfTable.InitGui(self)        
      
     def createSlots(self):
-        DfTable.createSlots(self)   
-       
-    def Update(self):                                                        
+        DfTable.createSlots(self)        
+                
+    def Update(self):                                                                                  
         DfTable.Update(self)
         
           
@@ -99,7 +111,7 @@ if __name__ == "__main__":
     appWindow.Init()
     uiAccesories.Init()
     
-    dfTableTimes = DfTableCGroups()
+    dfTableTimes = DfTableCategories()
     dfTableTimes.Init()    
     dfTableTimes.Update()
         
@@ -107,9 +119,9 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
     
 
-    
-        
-tableCGroups = DfTableCGroups()
-tabCGroups = MyTab(tables = [tableCGroups,]) 
+
+tableCategories = DfTableCategories()
+tabCategories = MyTab(tables = [tableCategories,])       
+
        
                         

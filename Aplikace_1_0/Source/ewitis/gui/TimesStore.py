@@ -10,7 +10,8 @@ import ewitis.gui.TimesUtils as TimesUtils
 
 #nešlo by to bez?
 from ewitis.gui.tableUsers import tableUsers
-from ewitis.gui.tableCategories import tableCategories
+#from ewitis.gui.tableCategories import tableCategories
+from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.tabExportSettings import tabExportSettings
 
 import libs.pandas.df_utils as df_utils
