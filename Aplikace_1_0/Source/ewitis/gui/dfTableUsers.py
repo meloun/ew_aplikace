@@ -16,8 +16,10 @@ from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.gui.aTab import MyTab
 from ewitis.gui.dfTableTags import tableTags
+from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
+from ewitis.gui.UiAccesories import uiAccesories
 
 
 '''
@@ -45,6 +47,18 @@ class DfModelUsers(DataframeTableModel):
     
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name
+        
+        #category changed
+        if "category" in mydict:                         
+            try:
+                mydict["category_id"] = tableCategories.model.getCategoryParName(str(mydict["category"]))['id']            
+                del mydict["category"]
+            except IndexError:            
+                uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
+                return
+                
+        
+        #update db from mydict
         db.update_from_dict(self.name, mydict)
         
     def getDefaultRow(self):
@@ -96,9 +110,13 @@ class DfTableUsers(DfTable):
      
     def createSlots(self):
         DfTable.createSlots(self)        
-                
+
+    def importDf2dbDdf(self, df):        
+        df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)        
+        df.drop(["category"], axis=1, inplace=True)        
+        return df                
     def Update(self):                                                                                  
-        DfTable.Update(self)
+        return DfTable.Update(self)
         
         
         

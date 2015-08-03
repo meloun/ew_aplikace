@@ -15,17 +15,20 @@ from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
+from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.aTab import MyTab
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
+from manage_calc import manage_calc
+from ewitis.gui.events import myevent, myevent2 
 
 
 '''
 Model
 '''
-class DfModelCategories(DataframeTableModel):
+class DfModelRuns(DataframeTableModel):
     def __init__(self, name, parent = None):
-        super(DfModelCategories, self).__init__(name)
+        super(DfModelRuns, self).__init__(name)        
                       
     #jen prozatim
     def db2tableRow(self, dbRow):
@@ -33,7 +36,7 @@ class DfModelCategories(DataframeTableModel):
    
     def GetDataframe(self): 
         df = psql.read_sql(\
-            "SELECT * FROM " + str(self.name )
+            "SELECT id FROM " + str(self.name )
             , db.getDb())
         return df
     
@@ -45,8 +48,7 @@ class DfModelCategories(DataframeTableModel):
         """
         vraci radek naplneny zakladnimi daty
         """ 
-        row = DataframeTableModel.getDefaultRow(self)
-        row["name"] = "undefined"
+        row = DataframeTableModel.getDefaultRow(self)        
         return row
     
     def getCategoryParName(self, name):        
@@ -67,7 +69,7 @@ class DfModelCategories(DataframeTableModel):
 '''
 Proxy Model
 '''    
-class DfProxymodelCategories(QtGui.QSortFilterProxyModel, ModelUtils):
+class DfProxymodelRuns(QtGui.QSortFilterProxyModel, ModelUtils):
     def __init__(self):        
         QtGui.QSortFilterProxyModel.__init__(self)
         
@@ -82,9 +84,17 @@ class DfProxymodelCategories(QtGui.QSortFilterProxyModel, ModelUtils):
 '''
 Table
 '''        
-class DfTableCategories(DfTable):
+class DfTableRuns(DfTable):
     def  __init__(self):        
-        DfTable.__init__(self, "Categories")
+        DfTable.__init__(self, "Runs")
+        
+    def Init(self):
+        DfTable.Init(self)
+        self.model.Update()
+        self.run_id = self.model.df.iloc[-1]['id']        
+        dstore.Set("current_run", self.run_id)
+        #set selection to first row
+        self.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)
         
     def InitGui(self):
         DfTable.InitGui(self)        
@@ -94,9 +104,20 @@ class DfTableCategories(DfTable):
                 
     def Update(self):                                                                                  
         return DfTable.Update(self)
+    
+    #=======================================================================
+    # SLOTS
+    #=======================================================================        
+    def sSelectionChanged(self, selected, deselected):    
         
-          
-                
+           
+        idx = selected.indexes()[0]        
+        if(self.run_id != self.proxy_model.data(idx).toInt()[0]):             
+            self.run_id = self.proxy_model.data(idx).toInt()[0] 
+            dstore.Set("current_run", self.run_id)
+            myevent.set()              
+            time.sleep(0.9)           
+            tableTimes.Update()
         
                                        
     
@@ -124,8 +145,8 @@ if __name__ == "__main__":
     
 
 
-tableCategories = DfTableCategories()
-tabCategories = MyTab(tables = [tableCategories,])       
+tableRuns = DfTableRuns()
+       
 
        
                         

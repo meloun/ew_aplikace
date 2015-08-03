@@ -82,7 +82,7 @@ class DfTableTags(DfTable):
         DfTable.createSlots(self)        
                 
     def Update(self):                                                                                  
-        DfTable.Update(self)
+        return DfTable.Update(self)
         
 
 

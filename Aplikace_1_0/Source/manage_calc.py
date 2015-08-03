@@ -16,6 +16,10 @@ from ewitis.data.DEF_DATA import *
 from ewitis.gui.tabExportSettings import tabExportSettings
 import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
+from ewitis.gui.Ui import Ui
+from PyQt4 import QtGui, QtCore
+from ewitis.gui.events import myevent, myevent2
+from ewitis.gui.Ui import appWindow
 
 
 class ManageCalc(threading.Thread):            
@@ -25,11 +29,19 @@ class ManageCalc(threading.Thread):
         self.dstore = dstore                
         self.joinedDfFreeze = pd.DataFrame()                                        
         threading.Thread.__init__(self)
+        self.calctime = 0
+        self.maxcalctime = 0
+        self.a = 0
+        self.commit_flag = False
+        self.tick = 0
+
                          
-        
+    def sRefresh(self):
+        print "manage refresh"    
              
     def run(self):
         print "CALC: zakladam vlakno.."
+        myevent2.set()                    
         
         """ DATABASE """                
         try:           
@@ -37,52 +49,62 @@ class ManageCalc(threading.Thread):
         except:                    
             print "E: Database"
             
+                
+            
             
         while(1):
             
             #delay
-            ztime = time.clock()                                               
+            ztime = time.clock()
+            
+            self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
+            self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
+            self.orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]                                            
                                 
             """ update DFs """
+            ytime = time.clock() 
+            self.ucDf = self.GetUserCategoryDf()
+            print "C: GetUserCategoryDf()", time.clock() - ytime,"s"
             
-            #
-            self.joinedDf = self.GetJoinedDf()            
+            
+            """ update joined DF"""
+            ytime = time.clock() 
+            self.GetJoinedDf()            
+            print "C: GetJoinedDf() 1", time.clock() - ytime,"s"
+            
 
-            #time1                                            
-            self.timesDfs = self.GetTimesDfs(self.joinedDf)            
-            ko_nrs = self.UpdateTimes(self.timesDfs, 0)                        
-            self.joinedDf = self.GetJoinedDf()
+            """ update times """                                            
+            ytime = time.clock() 
+            self.GetTimesDfs()                                                 
+            self.UpdateTimes(self.timesDfs)                                                        
+            self.GetJoinedDf()
+            print "C: UpdateTimes()", time.clock() - ytime,"s"
             
-            #time2                    
-            self.timesDfs = self.GetTimesDfs(self.joinedDf)                             
-            ko_nrs = self.UpdateTimes(self.timesDfs, 1)                        
-            self.joinedDf = self.GetJoinedDf()
-
-            #time3                                
-            self.timesDfs = self.GetTimesDfs(self.joinedDf) 
-            ko_nrs = self.UpdateTimes(self.timesDfs, 2)
-            self.joinedDf = self.GetJoinedDf()            
-            
-            if(ko_nrs != []):            
-                print(" Update times error: Some times have no start times, ids: "+str(ko_nrs))                        
                                                                                                                                                                                         
             #laps
-            self.lapsDfs = self.GetLapsDfs(self.joinedDf)                         
-            ko_nrs = self.UpdateLaps(self.lapsDfs)                        
-            self.joinedDf = self.GetJoinedDf()
-            if(ko_nrs != []):            
-                print(" Update laps error: Some times have no start times, ids: "+str(ko_nrs))                                                                                                                                                                                    
+            ytime = time.clock()
+            self.GetLapsDfs()                                                                         
+            self.UpdateLaps(self.lapsDfs)
+            self.GetJoinedDf()                                                                                                                                                                                                                        
+            print "C: UpdateLaps()", time.clock() - ytime,"s"
                         
             #orderX 
-            self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
-            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)            
+            ytime = time.clock()
+            self.orderDfs = self.GetOrderDfs()                                                   
+            self.joinedDf = self.UpdateOrder()                        
+            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #points                                                  
+            ytime = time.clock()
             self.joinedDf = self.UpdatePoints(self.joinedDf)
+            print "C: UpdatePoints()", time.clock() - ytime,"s"                        
             
             #orderX 
-            self.orderDfs = self.GetOrderDfs(self.joinedDf)                                                   
-            self.joinedDf = self.UpdateOrder(self.joinedDf, self.orderDfs)                        
+            ytime = time.clock()
+            self.GetOrderDfs()                                                                                       
+            ytime = time.clock()
+            self.UpdateOrder()                                    
+            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
@@ -90,33 +112,32 @@ class ManageCalc(threading.Thread):
             #convert times to string format
             self.joinedDf = self.df2tableDf(self.joinedDf)
             
-            #sort and copy            
-            columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
-            self.joinedDfFreeze = self.joinedDf[columns].copy()
-            #self.joinedDfFreeze = self.joinedDf.copy()            
+            #sort and copy 
+            ytime = time.clock()           
+            if self.joinedDf.empty:
+                self.joinedDfFreeze = pd.DataFrame()
+            else:                              
+                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]            
+                self.joinedDfFreeze = self.joinedDf[columns].copy()
+            print "C: sort and copy", time.clock() - ytime,"s"                                 
             
             #print(".",end='')
-            #sys.stdout.write('.')
-            #print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            
+            sys.stdout.write('.')
+            self.calctime = time.clock() - ztime
+            if self.calctime > self.maxcalctime:
+                self.maxcalctime = self.calctime
+                print "MAX CALC-TIME:", self.maxcalctime
+                            
             myevent.wait(2)
-            myevent.clear()        
+            myevent.clear() 
+            myevent2.wait()   
             
-    def GetJoinedDf(self):
-        run_id = dstore.Get("current_run")
-            
-        # DB df 
-        #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
-        joinedDf = psql.read_sql(\
-                                "SELECT * FROM times" +\
-                                " WHERE (times.run_id = "+ str(run_id ) +")"\
-                                , self.db)            
-        
-        #set index = id
-        joinedDf.set_index('id',  drop=False, inplace = True)            
-        
-        #replace nan with None            
-        joinedDf = joinedDf.where(pd.notnull(joinedDf), None)       
-                    
+    def LastCalcTime(self):
+        return self.calctime
+
+    def GetUserCategoryDf(self):
         # USER df
         uDf = psql.read_sql("SELECT * FROM users", self.db, index_col = "id")                 
         uDf["name"] = uDf['name'].str.upper() +' '+uDf['first_name']      
@@ -129,23 +150,41 @@ class ManageCalc(threading.Thread):
                
         #print "u", uDf.columns 
         uDf = uDf[["nr", "status", "name", "category", "start_nr", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
+        return uDf
+                    
+    def GetJoinedDf(self):
+        run_id = dstore.Get("current_run")
+            
+        # DB df 
+        #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
+        self.joinedDf = psql.read_sql(\
+                                "SELECT * FROM times" +\
+                                " WHERE (times.run_id = "+ str(run_id ) +")"\
+                                , self.db)            
+        
+        #set index = id
+        self.joinedDf.set_index('id',  drop=False, inplace = True)            
+        
+        #replace nan with None            
+        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)                    
+
         
         if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
             tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
             tDf = tDf[["user_nr", "tag_id"]]
-            joinedDf =  pd.merge(joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
-            joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_nr', right_on='nr',  how="left")
-            joinedDf.set_index('id',  drop=False, inplace = True) 
+            self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
+            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")
+            self.joinedDf.set_index('id',  drop=False, inplace = True) 
         else:
-            joinedDf =  pd.merge(joinedDf,  uDf, left_on='user_id', right_index=True, how="left")
+            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_id', right_index=True, how="left")
         
 
-        joinedDf.sort("time_raw", inplace=True)            
+        self.joinedDf.sort("time_raw", inplace=True)            
         
         #replace nan with None
-        joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
-        
-        return joinedDf
+        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
+                
+        return self.joinedDf
     
     def df2tableDf(self, df):
 
@@ -173,9 +212,9 @@ class ManageCalc(threading.Thread):
         return df                                     
         
     """ update TIMES df """
-    def GetTimesDfs(self, joinedDf):
+    def GetTimesDfs(self):
         
-        timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]             
+                     
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             
             timeX = "time"+str(i+1)                
@@ -185,10 +224,10 @@ class ManageCalc(threading.Thread):
                                                 
                 #prepare filtered df for times                                                
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
-                tempDf = df_utils.Filter(joinedDf, filter_dict)                    
+                tempDf = df_utils.Filter(self.joinedDf, filter_dict)                    
                 tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                          
                                          
-                timesDfs[i] = tempDf
+                self.timesDfs[i] = tempDf
 #         print "tDdfs 0",timesDfs[0]
 #         print "=================="
 #         print "tDdfs 1",timesDfs[1]
@@ -196,13 +235,12 @@ class ManageCalc(threading.Thread):
 #         print "tDdfs 2",timesDfs[2]
 #         print "=================="
 #         print "=================="
-        return timesDfs
+        return self.timesDfs
                 
                             
     """ update LAP df """
-    def GetLapsDfs(self, joinedDf):
-                     
-        lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
+    def GetLapsDfs(self):
+                             
         for i in range(0, NUMBER_OF.THREECOLUMNS):
                                     
             timeX = "time"+str(i+1)                
@@ -213,19 +251,19 @@ class ManageCalc(threading.Thread):
             lap_group = self.dstore.GetItem('additional_info', ['lap', i])                    
             if(lap_group['checked'] != 0):
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
-                tempDf = df_utils.Filter(joinedDf, filter_dict)  
+                tempDf = df_utils.Filter(self.joinedDf, filter_dict)  
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "lap", i])['filter'])                        
                 tempDf = df_utils.Filter(tempDf, filter_dict)
                 lapDf =  tempDf[(tempDf[timeX].notnull()) & (tempDf[lapX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                                                                
             
-                lapsDfs[i] = lapDf            
-        return lapsDfs
+                self.lapsDfs[i] = lapDf            
+        return self.lapsDfs
                         
 
     """ update ORDER df """
-    def GetOrderDfs(self, joinedDf):
+    def GetOrderDfs(self):
                     
-        orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
+        #orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
         #self.orderGroupbys = [None] * NUMBER_OF.THREECOLUMNS
         for i in range(0, NUMBER_OF.THREECOLUMNS):            
               
@@ -242,9 +280,9 @@ class ManageCalc(threading.Thread):
             
             #filter
             #print joinedDf.columns
-            if not(column1 in joinedDf):
+            if not(column1 in self.joinedDf):
                 continue
-            aux_df = joinedDf[(joinedDf[column1].notnull()) & (joinedDf['user_id']!=0)]
+            aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) & (self.joinedDf['user_id']!=0)]
                 
             #FILTER only one time from each user, LAST or BEST                            
             if group['row'] == u'Best times1':
@@ -269,26 +307,19 @@ class ManageCalc(threading.Thread):
             #sort again
             if(column2 in aux_df.columns):
                 #print "nested sorting", column1, column2, asc1, asc2                
-                aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
+                try:                
+                    aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
+                except IndexError:
+                    aux_df = aux_df.sort(column1, ascending = asc1)
             else:                    
                 aux_df = aux_df.sort(column1, ascending = asc1)            
             
             #category order            
             if(group['type'] == "Total"):
-#                 print "dfb",i
-#                 print "============"
-#                 print "0", orderDfs[0]
-#                 print "1", orderDfs[1]
-#                 print "2", orderDfs[2]
-                orderDfs[i]['total'] = aux_df                    
-#                 print "dfa",i
-#                 print "============"
-#                 print "0", orderDfs[0]
-#                 print "1", orderDfs[1]
-#                 print "2", orderDfs[2]
+                self.orderDfs[i]['total'] = aux_df                    
             elif(group['type'] == "Category"):                    
                 #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)                                                    
-                orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
+                self.orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
             elif(group['type'] == "Group#1"):
                 print "ERROR: Group order NOT implemented"
             elif(group['type'] == "Group#2"):
@@ -300,38 +331,24 @@ class ManageCalc(threading.Thread):
                 print "FATAL ERROR",group['type']
                 
         #print "return", orderDfs[0]['total']
-        return orderDfs
+        return self.orderDfs
                     
 
                                                                                            
-    def UpdateTimes(self, timesDfs, i):
+    def UpdateTimes(self, timesDfs):
         """
         u časů kde 'timeX'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calcTime()        
         
         *Ret:*
             pole časů u kterých se nepodařilo časy updatovat   
         """
-        ret_ko_times = []        
-                
-        commit_flag = False                               
-        #for i in range(0, NUMBER_OF.THREECOLUMNS):
-        timeX = "time"+str(i+1)                               
-                                         
-        for index, dbTime in timesDfs[i].iterrows():
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-            #calc time                    
-            dbTime = dbTime.to_dict()  #df to dict
-                                                                                                                        
-            time = self.CalcTime(dbTime, i)                                                            
-                        
-            #update db                
-            if time != None:
-                try:             
-                    commit_flag = True                                                                                                                                                                
-                    db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], timeX:time}, commit_flag = False) #commit na konci funkce
-                except IndexError: #potreba startime, ale nenalezen 
-                    ret_ko_times.append(dbTime['id'])
-        if commit_flag:                            
+        ret_ko_times = []                
+                                       
+        self.commit_flag = False
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                                               
+            timesDfs[i].apply(lambda row: self.CalcAndUpdateTime(row, i), axis = 1)                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        if self.commit_flag:                          
             db_utils.commit(self.db)                                                                     
                           
         return ret_ko_times
@@ -345,56 +362,45 @@ class ManageCalc(threading.Thread):
             pole časů u kterých se nepodařilo časy updatovat   
         """
         ret_ko_times = []        
-                
-        commit_flag = False
+                        
+        self.commit_flag = False
         for i in range(0, NUMBER_OF.THREECOLUMNS):                        
-            lapX = "lap"+str(i+1)                                    
-                                                         
-            for index, dbTime in lapsDfs[i].iterrows():
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-                #calc lap                                                                                                                         
-                dbTime = dbTime.to_dict()  #df to dict                                                                                                            
-                lap = self.CalcLap(self.joinedDf, dbTime, i)                                                                                                                          
-                            
-                #update db                
-                if lap != None:
-                    try:             
-                        commit_flag = True                                                    
-                        db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], lapX:lap}, commit_flag = False) #commit na konci funkce
-                    except IndexError: #potreba startime, ale nenalezen 
-                        ret_ko_times.append(dbTime['id'])
-        if commit_flag:
-            db_utils.commit(self.db)                                         
+            self.joinedDf["lap"+str(i+1)] = self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
+                                                                                                    
+        if self.commit_flag:
+            db_utils.commit(self.db) 
+            self.commit_flag = False                                        
                                                       
         return ret_ko_times
       
-    def UpdateOrder(self, joinedDf, orderDfs):
+    def UpdateOrder(self):
         """        
         *Ret:*
             updated dataframe with all order   
         """
-        if joinedDf.empty == False:
-            for i in range(0, NUMBER_OF.THREECOLUMNS):
-                if orderDfs[i] == None:
+        if self.joinedDf.empty == False:
+            for i in range(0, NUMBER_OF.THREECOLUMNS):                
+                if self.orderDfs[i] == None:
                     continue                                                  
-                joinedDf["order"+str(i+1)] = joinedDf.apply(lambda row: self.CalcOrder(orderDfs[i], row, i), axis = 1)
-                joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+                self.joinedDf["order"+str(i+1)] = self.joinedDf.apply(lambda row: self.CalcOrder(row, i), axis = 1)
+                self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
-        return joinedDf
+        return self.joinedDf
     
     def UpdatePoints(self, joinedDf):
         """        
         *Ret:*
             updated dataframe with all points   
         """
-        if joinedDf.empty == False:
+        if self.joinedDf.empty == False:
             for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+                QtCore.QCoreApplication.processEvents()
                 pointsX = "points"+str(i+1)                                  
-                joinedDf[pointsX] = joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
-                joinedDf = joinedDf.where(pd.notnull(joinedDf), None)
+                self.joinedDf[pointsX] = self.joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
+                self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         
         #print joinedDf
-        return joinedDf
+        return self.joinedDf
     
     def IsTimeToCalc(self, dbTime):        
         
@@ -413,10 +419,29 @@ class ManageCalc(threading.Thread):
     
     def CalcTime(self, dbTime, index):
         return self.Calc(dbTime, index, 'time')
+    def CalcAndUpdateTime(self, dbTime, index):        
+        time = self.CalcTime(dbTime, index)                                                                                                                                                                              
+        if time != None:                                                                                             
+            db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], "time"+str(index+1):time}, commit_flag = False)
+            self.commit_flag = True                                                                                                           
+            return time
+        return time
+    
     def CalcPoints(self, tabTime, index):
+        self.tick = self.tick + 1
+        if(self.tick>100):            
+            time.sleep(0.02)
+            self.tick = 0
+        ytime = time.clock()
         points = self.Calc(tabTime, index, 'points')        
         return points
-    
+    def CalcAndUpdatePoints(self, tabTime, index):
+        points = self.CalcPoints(tabTime, index)
+        if points != None:                                                                                 
+            db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], lapX:lap}, commit_flag = False)
+            return True
+        return False
+
     def Calc(self, tabTime, index, key):
         '''
         společná funkce pro počítání time, lap
@@ -446,7 +471,7 @@ class ManageCalc(threading.Thread):
          
         return ret_time
     
-    def CalcLap(self, df, dbTime, index):
+    def CalcLap(self, dbTime, index):
         '''
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap            
@@ -466,7 +491,7 @@ class ManageCalc(threading.Thread):
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
             
             #same user
-            aux_df = df[df['user_id'] == dbTime['user_id']]
+            aux_df = self.joinedDf[self.joinedDf['user_id'] == dbTime['user_id']]
                         
             
             #get sarttime
@@ -489,11 +514,26 @@ class ManageCalc(threading.Thread):
            
         return lap
     
-    def CalcOrder(self, df, dbTime, index):
+    def CalcAndUpdateLap(self, dbTime, index):        
+        lap = self.CalcLap(dbTime, index)                                                                                                                                                                              
+        if lap != None:                                                                                             
+            db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], "lap"+str(index+1):lap}, commit_flag = False)
+            self.commit_flag = True                                                                                                 
+            return True
+        return False
+    
+    def CalcOrder(self, dbTime, index):
         '''
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap                            
-        '''                                                                                         
+        '''    
+        self.tick = self.tick + 1
+        if(self.tick>100):            
+            time.sleep(0.02)            
+            self.tick = 0
+        #QtCore.QCoreApplication.processEvents()
+        
+        df = self.orderDfs[index]                                                    
                          
         #'''no order in some cases'''
         #if(self.IsTimeToCalc(dbTime) == False):            
@@ -685,11 +725,11 @@ class ManageCalc(threading.Thread):
                 
                 celltimeX = "celltime" + str(i)                
                 if (celltimeX in rule):                    
-                    try:  
-                        celltime = self.GetPrevious(joinTime, {"cell":str(i)}, df) 
+                    try:                    
+                        celltime = self.GetPrevious(joinTime, {"cell":str(i)}, df)
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
                     except TypeError:       
-                        print "type error celltime: ", rule         
+                        print "type error celltime: ", rule, joinTime         
                         return None
 
         # prevI-timeX
@@ -853,7 +893,7 @@ class ManageCalc(threading.Thread):
 from ewitis.gui.dfTableCategories import tabCategories
 from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.data.dstore import dstore   
-myevent =  threading.Event()
+
 manage_calc = ManageCalc(tabUsers.tables[0], tabCategories.tables[0], dstore)
     
        

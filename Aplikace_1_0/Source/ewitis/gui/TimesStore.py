@@ -9,7 +9,7 @@ import libs.timeutils.timeutils as timeutils
 import ewitis.gui.TimesUtils as TimesUtils
 
 #nešlo by to bez?
-from ewitis.gui.tableUsers import tableUsers
+from ewitis.gui.dfTableUsers import tableUsers
 #from ewitis.gui.tableCategories import tableCategories
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.tabExportSettings import tabExportSettings

@@ -221,9 +221,9 @@
                         "un3": 0,
                         "points1": 0,
                         "points2": 0,
-                        "points3": 2,
-                        "points4": 2,
-                        "points5": 2,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
                         "time2": 2,
                         "time3": 0,
                         "time1": 2,
@@ -237,7 +237,7 @@
                         "gap": 0,
                         "order2": 0,
                         "order3": 0,
-                        "order1": 2,
+                        "order1": 0,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
@@ -740,7 +740,7 @@
         "GET_SET": {
             "value": {
                 "status": {
-                    "checked": 0
+                    "checked": 2
                 },
                 "us": [
                     {
@@ -755,7 +755,7 @@
                         "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "time": [
@@ -774,81 +774,81 @@
                     {
                         "filter": "cell=2|3|250",
                         "minute_timeformat": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
                 "lap": [
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "order": [
                     {
-                        "checked": 2,
-                        "row": "Last times",
+                        "checked": 0,
+                        "order1": "Asc",
                         "order2": "Asc",
                         "type": "Total",
-                        "order1": "Asc",
+                        "column2": "Year",
                         "column1": "Points5",
-                        "column2": "Year"
+                        "row": "Last times"
                     },
                     {
                         "checked": 0,
-                        "row": "Last times",
+                        "order1": "Asc",
                         "order2": "Asc",
                         "type": "Total",
-                        "order1": "Asc",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "row": "Last times"
                     },
                     {
                         "checked": 0,
-                        "row": "Last times",
+                        "order1": "Asc",
                         "order2": "Asc",
                         "type": "Total",
-                        "order1": "Asc",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "row": "Last times"
                     }
                 ],
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "rule": "abs(time1 - %00:00:11,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "rule": "abs(time2 - %00:00:11,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "rule": "points1+points2"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 1000,
                         "rule": "un1"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 1000,
                         "rule": "points3 + points4"
                     }

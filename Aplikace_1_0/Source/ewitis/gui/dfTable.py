@@ -18,6 +18,8 @@ from ewitis.gui.aTableModel import *
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
 import libs.utils.utils as utils 
+from ewitis.gui.events import myevent, myevent2
+
 
       
 class DfTable():
@@ -298,6 +300,12 @@ class DfTable():
             self.delete(id)
             uiAccesories.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
                             
+                            
+                            
+    #import callback
+    def importDf2dbDdf(self, importDf):
+        return importDf
+     
     def sImport(self):
         """import"""                                         
                                            
@@ -310,14 +318,8 @@ class DfTable():
                   
         #IMPORT CSV TO DATABASE         
             
-        #get sorted keys
-        keys = []
-        for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
-            keys.append(list[0])
-            
         #load csv to df
-        try:
-            #df = pd.read_csv(str(filename), sep=";", na_values=" aNaN")
+        try:            
             df = pd.DataFrame.from_csv(str(filename), sep=";", encoding = "utf8")
             df.drop([df.columns[-1]], axis=1, inplace=True)
             df.fillna("", inplace=True)
@@ -325,18 +327,19 @@ class DfTable():
             uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n empty file or wrong format")
             return
 
+        #callback
+        df = self.importDf2dbDdf(df)
+        
         #counters
         state = {'ko':0, 'ok':0}
         
         #adding rows to DB                        
         for row in df.iterrows():                                                                                                                                              
                                                          
-            if(db.insert_from_lists(self.name, df.columns, row[1], commit = False) != False):  
-                print "ok"                                    
+            if(db.insert_from_lists(self.name, df.columns, row[1], commit = False) != False):                                                      
                 state['ok'] += 1
             else:            
-                state['ko'] += 1 #increment errors for error message
-                print "ko"
+                state['ko'] += 1 #increment errors for error message                
 
         db.commit()                        
         self.model.Update()
@@ -458,6 +461,7 @@ class DfTable():
             
     def Update(self, selectionback = True):                        
         
+        myevent2.clear()        
         ztime = time.clock()        
         ai = dstore.Get("additional_info")
                                     
@@ -476,7 +480,7 @@ class DfTable():
         #resize collumns to contents        
         #for col in range(self.proxy_model.columnCount()):
         #    self.params.gui['view'].resizeColumnToContents(col)        
-        self.setColumnWidth()        
+        #self.setColumnWidth()        
 
             
         #row-selection back
@@ -492,8 +496,10 @@ class DfTable():
         #update counters
         self.updateTabCounter()
         self.updateDbCounter()
-        #print "db counter:",self.params.name, dstore.Get("count")
+        #print "db counter:",self.params.name, dstore.Get("count")        
         print "dfTable.Update()", self.name, time.clock() - ztime,"s"
+        myevent2.set()
+        return True 
           
                 
         

@@ -12,7 +12,8 @@ from libs.myqt.DataframeTableModel import DataframeTableModel
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from manage_calc import manage_calc, myevent
+from manage_calc import manage_calc
+from ewitis.gui.events import myevent, myevent2
 
  
 '''
@@ -163,8 +164,8 @@ class DfTableTimes(DfTable):
        
     def Update(self):                                                    
                                         
-        DfTable.Update(self)
-        self.UpdateGui()
+        ret = DfTable.Update(self)
+        #self.UpdateGui()
                
       
         
@@ -190,6 +191,7 @@ class DfTableTimes(DfTable):
 #         self.hiddenCollumns =  columns                                                             
 #         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
 #                                      
+        return ret
 
     
 if __name__ == "__main__":    

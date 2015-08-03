@@ -5,7 +5,7 @@ from ewitis.gui.aTableModel import myModel, myProxyModel
 from ewitis.gui.aTable import myTable
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
-from ewitis.gui.tableRuns import tableRuns
+from ewitis.gui.dfTableRuns import tableRuns
 from ewitis.data.dstore import dstore
             
 class RaceInfoModel(myModel):

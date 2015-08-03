@@ -8,7 +8,7 @@ from PyQt4 import QtCore
 from ewitis.gui.aTab import MyTab
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
 #from ewitis.gui.tableTimes import tableTimes
-from ewitis.gui.tableRuns import tableRuns
+from ewitis.gui.dfTableRuns import tableRuns
 from ewitis.gui.dfTableTags import tableTags
 from ewitis.gui.Ui import Ui 
 from ewitis.data.db import db

@@ -144,23 +144,31 @@ def sTabChanged(nr):
                                                              
       
 def sRefresh():
-    title = "Manual Refresh"        
+    title = "Manual Refresh"
+    myevent2.clear()
     
     #disable user actions
     ztime = time.clock()        
     dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
     ret = GetCurrentTab().Update(UPDATE_MODE.all)        
-    if(ret == True):                       
-        uiAccesories.showMessage(title, time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)        
+    if(ret == True):
+        localtime = time.strftime("%H:%M:%S", time.localtime())
+        updatetime = str(time.clock() - ztime)[0:5]+"s"
+        calctime = str(manage_calc.LastCalcTime())[0:5]+"s"                              
+        uiAccesories.showMessage(title, localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)        
     
+    myevent2.set()   
     #enable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")-1)    
         
 if __name__ == "__main__":
     
     import sys, time
-    from PyQt4 import QtGui    
+    from PyQt4 import QtGui
+    from manage_calc import manage_calc
+    from ewitis.gui.events import myevent, myevent2
+        
 
     
     app = QtGui.QApplication(sys.argv)
@@ -168,11 +176,12 @@ if __name__ == "__main__":
     #init all tabs
     Init()
     
-    from manage_calc import manage_calc        
+    
     manage_calc.start()
-    time.sleep(0.4)
+    time.sleep(1.0)
     tabRunsTimes.Update()    
     #print "tv", 5, manage_calc.my_manage_calc.tv, type(manage_calc.my_manage_calc.tv)    
+        
             
     #show app        
     #appWindow.show()

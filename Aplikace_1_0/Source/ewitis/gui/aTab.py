@@ -29,12 +29,13 @@ class MyTab():
         #update tables
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
             for table in self.tables:
-                ret1 = table.Update()                                
+                ret1 = table.Update()                
+                                                
 
         #update gui                
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):
             for item in self.items:
                 ret2 = item.Update()
-                        
+                                
         return (ret1 and ret2)
                 
