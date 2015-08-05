@@ -10,7 +10,6 @@ import threading
 import sys, time
 from PyQt4 import QtGui, QtCore
 
-from ewitis.gui.Ui import Ui
 from ewitis.gui.Ui import appWindow    
 from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.data.dstore import dstore
@@ -25,6 +24,7 @@ from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.dfTableCategories import tabCategories
 from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
+from ewitis.gui.dfTableTimes import q, tableTimes
 
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabExportSettings import tabExportSettings
@@ -38,6 +38,7 @@ from ewitis.gui.tabAbout import tabAbout
 from ewitis.gui.MenusBars import bars
 from ewitis.data.DEF_DATA import TAB
 
+from ewitis.gui.Ui import Ui
 
     
 timer1 = QtCore.QTimer();
@@ -106,7 +107,7 @@ def CreateSlots():
     
     #timer 500ms
     global  timer1    
-    timer1.start(500); #500ms
+    timer1.start(6000); #500ms
     QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)    
     
     #refresh
@@ -116,6 +117,9 @@ def CreateSlots():
     QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
     
 def sTimer():  
+    
+    tableTimes.model.GetDataframe()
+    return
     global timer1_1s_cnt  
              
     #update current tab           
@@ -155,36 +159,52 @@ def sRefresh():
     if(ret == True):
         localtime = time.strftime("%H:%M:%S", time.localtime())
         updatetime = str(time.clock() - ztime)[0:5]+"s"
-        calctime = str(manage_calc.LastCalcTime())[0:5]+"s"                              
+        calctime = ""#str(manage_calc.LastCalcTime())[0:5]+"s"                              
         uiAccesories.showMessage(title, localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)        
     
     myevent2.set()   
     #enable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")-1)    
-        
+
+
 if __name__ == "__main__":
     
     import sys, time
     from PyQt4 import QtGui
-    from manage_calc import manage_calc
+    from manage_calc_process import manage_calc_process
     from ewitis.gui.events import myevent, myevent2
-        
+    import multiprocessing               
 
     
     app = QtGui.QApplication(sys.argv)
        
     #init all tabs
-    Init()
+    Init()    
     
     
-    manage_calc.start()
-    time.sleep(1.0)
-    tabRunsTimes.Update()    
-    #print "tv", 5, manage_calc.my_manage_calc.tv, type(manage_calc.my_manage_calc.tv)    
+    #manage_calc.start()
+    
         
+    print "init dstore for calc-process"
+    mgr = multiprocessing.Manager()   
+    processdict = mgr.dict({"current_run":None, "racesettings-app":None, "additional_info": None})
+    dstore.SetProcessDict(processdict)
+    dstore.UpdateProcessDict("current_run")
+    
+    p = multiprocessing.Process(target=manage_calc_process.run, args=(q, processdict))    
+    p.daemon = True    
+    p.start()
+       
+    time.sleep(1.0)
+    tabRunsTimes.Update() 
+    
             
     #show app        
     #appWindow.show()
-    appWindow.showMaximized()    
-    sys.exit(app.exec_())    
+    appWindow.showMaximized()
+    app.exec_()
+    
+    p.terminate()    
+    print "I: App was properly teminated"
+    sys.exit()     
 

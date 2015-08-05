@@ -137,8 +137,18 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
 
 
+
+
+def f(x):
+    i = 0
+    while(1):
+        print x, str(i)
+        i = i + 1
+        c = i * i
+    return i    
 if __name__ == "__main__":
     from DataframeTableModelUI import Ui_MainWindow
+    from multiprocessing import Pool
     i = 0
     def getDf():
         global i
@@ -148,10 +158,13 @@ if __name__ == "__main__":
         df1 = pd.DataFrame([mytime]*5000 + [mytime1]*5000, columns = myheader)
         i = i+1
         return df1
+
         
     def sButton():        
         myModel2.Update()
         print "refresh"
+        
+
     
     import sys, time
     app = QtGui.QApplication(sys.argv)
@@ -160,16 +173,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     
     QtCore.QObject.connect(ui.button, QtCore.SIGNAL("clicked()"), sButton)
-    
-    #my part
-    
-    myModel = QtGui.model = QtGui.QStandardItemModel(0, 2)  
-    myModel.insertRow(0)  
-    myModel.setData(myModel.index(0, 0), 1)
-    myModel.insertRow(0)  
-    myModel.setData(myModel.index(0, 0), 2)
-
-    
+     
      
     
     myModel2 = DataframeTableModel("CGroups")
@@ -180,17 +184,21 @@ if __name__ == "__main__":
     myModel2.Update()
     
     print "model:", myModel2.headerData(1, QtCore.Qt.Horizontal)
-    print "proxymodel:", myProxymodel.headerData(1, QtCore.Qt.Horizontal).toPyObject()
-    
-    
-        
+    print "proxymodel:", myProxymodel.headerData(1, QtCore.Qt.Horizontal).toPyObject()        
     
         
     ui.tableView.setModel(myProxymodel)
 
     
+
+    p = Pool(2)
+    print(p.apply_async(f, ["A"]))
+    print(p.apply_async(f, ["B"]))
+    while(1):
+        time.sleep(1)
+        print "Konexc"
     
-    #end of my part
+
     
     
     

@@ -19,7 +19,6 @@ from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.aTab import MyTab
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from manage_calc import manage_calc
 from ewitis.gui.events import myevent, myevent2 
 
 

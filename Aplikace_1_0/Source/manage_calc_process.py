@@ -5,42 +5,66 @@ Created on 29.05.2015
 @author: Lubos Melichar
 '''
 
-import threading
+
 import time
 import pandas.io.sql as psql    
 import pandas as pd
 import libs.sqlite.sqlite_utils as db_utils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.DEF_DATA import *
-#from ewitis.gui.TimesStore import TimesStore, timesstore
-from ewitis.gui.tabExportSettings import tabExportSettings
-import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-from ewitis.gui.Ui import Ui
-from PyQt4 import QtGui, QtCore
 from ewitis.gui.events import myevent, myevent2
-from ewitis.gui.Ui import appWindow
+import ewitis.gui.TimesUtils as TimesUtils
+import os
+
+def getDf():
+    myheader = ["name", "test2", "test3"]
+    random_nr = int(round(time.clock() * 13))            
+    myrow1 =   [ random_nr,  random_nr+400, 250]
+    myrow2 =   [ random_nr+1,  random_nr+400, 250]
+    df = pd.DataFrame([myrow1]*100 + [myrow2]*100, columns = myheader)
+    return df
+
+class ProcessDstore():
+    def __init__(self, data):
+        self.data = data
+    def Get(self, name):        
+        return self.data[name]
+    def GetItem(self, name, keys):
+        
+        item = self.data[name]
+        
+        for key in keys:                      
+            if (key not in item) and not isinstance(key, int):
+                return None
+            item = item[key]                
+
+        return item        
 
 
-class ManageCalc(threading.Thread):            
-    def __init__(self, tableUsers, tableCategories, dstore):        
-        self.tableUsers = tableUsers
-        self.tableCategories = tableCategories
-        self.dstore = dstore                
-        self.joinedDfFreeze = pd.DataFrame()                                        
-        threading.Thread.__init__(self)
-        self.calctime = 0
-        self.maxcalctime = 0
-        self.a = 0
-        self.commit_flag = False
-        self.tick = 0
 
+class ManageCalcProcess():            
+    def __init__(self):        
+        self.joinedDfFreeze = pd.DataFrame()  
+        self.i = 0 
+            
+                        
+
+    def mysleepstep(self):        
+        return
+        self.tick = self.tick + 1
+        if(self.tick>50):            
+            time.sleep(0.03)            
+            self.tick = 0
                          
     def sRefresh(self):
         print "manage refresh"    
              
-    def run(self):
-        print "CALC: zakladam vlakno.."
+    def run(self, q, processdict):        
+        print "I:P: CALC: zakladam process.."
+        
+        self.dstore = ProcessDstore(processdict)
+        
         myevent2.set()                    
         
         """ DATABASE """                
@@ -53,7 +77,6 @@ class ManageCalc(threading.Thread):
             
             
         while(1):
-            
             #delay
             ztime = time.clock()
             
@@ -64,13 +87,14 @@ class ManageCalc(threading.Thread):
             """ update DFs """
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
-            print "C: GetUserCategoryDf()", time.clock() - ytime,"s"
+            #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"
+            
             
             
             """ update joined DF"""
             ytime = time.clock() 
-            self.GetJoinedDf()            
-            print "C: GetJoinedDf() 1", time.clock() - ytime,"s"
+            self.GetJoinedDf()
+            #print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
 
             """ update times """                                            
@@ -78,33 +102,33 @@ class ManageCalc(threading.Thread):
             self.GetTimesDfs()                                                 
             self.UpdateTimes(self.timesDfs)                                                        
             self.GetJoinedDf()
-            print "C: UpdateTimes()", time.clock() - ytime,"s"
-            
+            #print "P: C: UpdateTimes()", time.clock() - ytime,"s"
+            #print "P: 2: ucDf", self.joinedDf             
                                                                                                                                                                                         
             #laps
             ytime = time.clock()
             self.GetLapsDfs()                                                                         
             self.UpdateLaps(self.lapsDfs)
             self.GetJoinedDf()                                                                                                                                                                                                                        
-            print "C: UpdateLaps()", time.clock() - ytime,"s"
+            #print "P: C: UpdateLaps()", time.clock() - ytime,"s"
                         
             #orderX 
-            ytime = time.clock()
             self.orderDfs = self.GetOrderDfs()                                                   
+            ytime = time.clock()
             self.joinedDf = self.UpdateOrder()                        
-            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #points                                                  
             ytime = time.clock()
             self.joinedDf = self.UpdatePoints(self.joinedDf)
-            print "C: UpdatePoints()", time.clock() - ytime,"s"                        
+            #print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
             
             #orderX 
             ytime = time.clock()
             self.GetOrderDfs()                                                                                       
             ytime = time.clock()
             self.UpdateOrder()                                    
-            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
@@ -116,23 +140,39 @@ class ManageCalc(threading.Thread):
             ytime = time.clock()           
             if self.joinedDf.empty:
                 self.joinedDfFreeze = pd.DataFrame()
+                print "NIC"
             else:                              
                 columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]            
-                self.joinedDfFreeze = self.joinedDf[columns].copy()
-            print "C: sort and copy", time.clock() - ytime,"s"                                 
+                self.joinedDfFreeze = self.joinedDf[columns].copy()                            
+            #print "P: C: sort and copy", time.clock() - ytime,"s"                                 
             
             #print(".",end='')
-            print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            #print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"
+            #print "==============================================="
+            #print 'process id:', os.getpid()
             
-            sys.stdout.write('.')
-            self.calctime = time.clock() - ztime
-            if self.calctime > self.maxcalctime:
-                self.maxcalctime = self.calctime
-                print "MAX CALC-TIME:", self.maxcalctime
-                            
-            myevent.wait(0.3)
-            myevent.clear() 
-            myevent2.wait()   
+            self.joinedDfFreeze["name"].iloc[0] = self.i
+            self.i =  self.i +1
+            self.joinedDfFreeze = getDf()
+            time.sleep(0.1)
+            
+            
+                        
+            q.put(self.joinedDfFreeze)
+            print "P: name: ",self.joinedDfFreeze["name"].iloc[0], q.empty()
+            sys.stdout.flush()
+            #print "P: df", self.joinedDfFreeze              
+            
+#             sys.stdout.write('.')
+#             self.calctime = time.clock() - ztime
+#             if self.calctime > self.maxcalctime:
+#                 self.maxcalctime = self.calctime
+#                 print "MAX CALC-TIME:", self.maxcalctime
+#                             
+            time.sleep(2)
+            #myevent.wait(2)
+            #myevent.clear() 
+            #myevent2.wait()   
             
     def LastCalcTime(self):
         return self.calctime
@@ -153,14 +193,14 @@ class ManageCalc(threading.Thread):
         return uDf
                     
     def GetJoinedDf(self):
-        run_id = dstore.Get("current_run")
+        run_id = 12332 #dstore.Get("current_run")
             
         # DB df 
         #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
         self.joinedDf = psql.read_sql(\
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
-                                , self.db)            
+                                , self.db)                  
         
         #set index = id
         self.joinedDf.set_index('id',  drop=False, inplace = True)            
@@ -169,7 +209,7 @@ class ManageCalc(threading.Thread):
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)                    
 
         
-        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
+        if(self.dstore.GetItem("racesettings-app", ['rfid']) == 2):
             tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
             tDf = tDf[["user_nr", "tag_id"]]
             self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
@@ -194,7 +234,7 @@ class ManageCalc(threading.Thread):
         '''TIMERAW'''
         df['timeraw'] = df['time_raw'].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, True))                                                                                                                                        
         
-        additional_info = dstore.Get("additional_info")        
+        additional_info = self.dstore.Get("additional_info")        
         
         '''TIME 1-3'''
         for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -203,7 +243,7 @@ class ManageCalc(threading.Thread):
             if additional_info['time'][i]:                
                 timeX = 'time'+str(i+1)
                 if(df[timeX].empty == False):                                                                        
-                    minute_timeformat = dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
+                    minute_timeformat = self.dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
                     df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                         
             else: 
                 df[timeX] = None
@@ -220,7 +260,7 @@ class ManageCalc(threading.Thread):
             timeX = "time"+str(i+1)                
                          
             time_group = self.dstore.GetItem('additional_info', ['time', i])
-            if(time_group['checked'] != 0):
+            if(time_group['checked'] != 0):            
                                                 
                 #prepare filtered df for times                                                
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
@@ -365,7 +405,7 @@ class ManageCalc(threading.Thread):
                         
         self.commit_flag = False
         for i in range(0, NUMBER_OF.THREECOLUMNS):                        
-            self.joinedDf["lap"+str(i+1)] = self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
+            self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
                                                                                                     
         if self.commit_flag:
             db_utils.commit(self.db) 
@@ -393,8 +433,7 @@ class ManageCalc(threading.Thread):
             updated dataframe with all points   
         """
         if self.joinedDf.empty == False:
-            for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-                QtCore.QCoreApplication.processEvents()
+            for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
                 pointsX = "points"+str(i+1)                                  
                 self.joinedDf[pointsX] = self.joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
                 self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
@@ -428,11 +467,7 @@ class ManageCalc(threading.Thread):
         return time
     
     def CalcPoints(self, tabTime, index):
-        self.tick = self.tick + 1
-        if(self.tick>100):            
-            time.sleep(0.02)
-            self.tick = 0
-        ytime = time.clock()
+        self.mysleepstep()       
         points = self.Calc(tabTime, index, 'points')        
         return points
     def CalcAndUpdatePoints(self, tabTime, index):
@@ -527,11 +562,7 @@ class ManageCalc(threading.Thread):
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap                            
         '''    
-        self.tick = self.tick + 1
-        if(self.tick>100):            
-            time.sleep(0.02)            
-            self.tick = 0
-        #QtCore.QCoreApplication.processEvents()
+        self.mysleepstep()        
         
         df = self.orderDfs[index]                                                    
                          
@@ -555,7 +586,7 @@ class ManageCalc(threading.Thread):
         
         aux_df = pd.DataFrame()         
         #take order df
-        group = dstore.GetItem('additional_info', ['order', index])                
+        group = self.dstore.GetItem('additional_info', ['order', index])                
         
         if(group['type'] == "Total"):            
             aux_df = df['total']            
@@ -825,10 +856,10 @@ class ManageCalc(threading.Thread):
                 continue            
             
             #get export group            
-            checked_info = dstore.GetItem('export', ["checked", i])
+            checked_info = self.dstore.GetItem('export', ["checked", i])
             
             #get export group
-            filtersort = dstore.GetItem('export_filtersort', [i])
+            filtersort = self.dstore.GetItem('export_filtersort', [i])
                                       
             #print group
             filter = filtersort['filter']
@@ -889,12 +920,10 @@ class ManageCalc(threading.Thread):
         #print str(i), self.exportDf[i]                     
         return self.joinedDf             
     
-#from ewitis.gui.tableCategories import tabCategories
-from ewitis.gui.dfTableCategories import tabCategories
-from ewitis.gui.dfTableUsers import tabUsers
-from ewitis.data.dstore import dstore   
 
-manage_calc = ManageCalc(tabUsers.tables[0], tabCategories.tables[0], dstore)
+   
+
+manage_calc_process = ManageCalcProcess()
     
        
                                                                          

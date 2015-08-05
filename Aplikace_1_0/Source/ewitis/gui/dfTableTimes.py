@@ -12,8 +12,9 @@ from libs.myqt.DataframeTableModel import DataframeTableModel
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from manage_calc import manage_calc
+from manage_calc_process import manage_calc_process
 from ewitis.gui.events import myevent, myevent2
+
 
  
 '''
@@ -21,13 +22,27 @@ Model
 '''
 class DfModelTimes(DataframeTableModel):
     def __init__(self, name, parent = None):
-        super(DfModelTimes, self).__init__(name)              
+        super(DfModelTimes, self).__init__(name)
+        self.df = pd.DataFrame()              
         
     def sModelChanged(self, index1, index2):
         print "TIME MODEL CHANGED", index1, index2
         
-    def GetDataframe(self):        
-        return manage_calc.joinedDfFreeze
+    def GetDataframe(self):
+                
+        aux_df = pd.DataFrame()
+        while not q.empty():
+            print "beru", q.empty()
+            aux_df = q.get()  # as docs say: Remove and return an item from the queue.
+        
+        if not aux_df.empty:
+            self.df = aux_df
+            print "T: ", self.df["name"].iloc[0], q.empty()                
+        else: 
+            print "T: nothing new"    
+                     
+                                    
+        return self.df #manage_calc_process.joinedDfFreeze
                 
     
 '''
@@ -220,5 +235,10 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
     
     
-tableTimes = DfTableTimes()     
+import multiprocessing
+tableTimes = DfTableTimes()         
+q = multiprocessing.Queue()
+
+        
+ 
     

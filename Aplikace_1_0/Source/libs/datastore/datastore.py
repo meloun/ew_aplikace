@@ -5,7 +5,6 @@ Created on 29.12.2011
 @author: Meloun
 '''
 from threading import RLock
-
 """
 definice DAT pro DATASTORE
  - přenos dat mezi gui a kommunikací

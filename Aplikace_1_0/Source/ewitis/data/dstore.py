@@ -7,12 +7,39 @@ import datetime
 
 class Dstore(datastore.PermanentDatastore):
     
-    def __init__(self, db = None, data = None):
+    def __init__(self, db = None, data = None, process_dict = None):
         
         #init
         datastore.PermanentDatastore.__init__(self, db, data)
         
         self.ResetGetValues()
+        self.process_dict = None
+                
+    
+    def SetProcessDict(self, process_dict):
+        self.process_dict = process_dict
+        
+    #
+    def UpdateProcessDict(self, name):
+        
+        if self.process_dict:           
+            if name in self.process_dict.keys():                
+                for key in self.process_dict.keys():
+                    self.process_dict[key] = self.Get(key)                                                                                        
+
+        
+    #copy dict for calc-process
+    def  Set(self, name, value, section = "GET_SET"):
+        datastore.PermanentDatastore.Set(self, name, value, section)
+        self.UpdateProcessDict(name)
+
+        
+    #copy dict for calc-process    
+    def SetItem(self, name, keys, value, section = "GET_SET", changed = True):
+        datastore.PermanentDatastore.SetItem(self, name, keys, value, section, changed)
+        self.UpdateProcessDict(name)
+        
+         
         
     def ResetGetValues(self):
         
@@ -22,7 +49,7 @@ class Dstore(datastore.PermanentDatastore):
             
         #timing settings
         self.ResetValue("timing_settings", ["measurement_state"], MeasurementState.not_active)
-        self.ResetValue("timing_settings", ["logic_mode"])
+        self.ResetValue("timing_settings", ["logic_mode"])        
                         
                             
     def IsTerminal(self):
@@ -63,9 +90,11 @@ class Dstore(datastore.PermanentDatastore):
         self.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+added_string+"<BR>")
 
 #create datastore
-
 print "I: Dstore init"
 dstore = Dstore('conf/conf_work.json', DEF_DATA)
+print "dstore id", id(dstore)
+#a = multiprocessing.Manager().dict({"current_run":None, "racesettings-app":None, "additional_info": None})
+
 
 #test
 if __name__ == "__main__":
