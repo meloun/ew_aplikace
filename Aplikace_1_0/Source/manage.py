@@ -36,6 +36,9 @@ from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout
 
 from ewitis.gui.MenusBars import bars
+from ewitis.gui.tabManager import tabManager
+from ewitis.gui.multiprocessingManager import mgr
+
 from ewitis.data.DEF_DATA import TAB
 
 from ewitis.gui.Ui import Ui
@@ -44,7 +47,7 @@ from ewitis.gui.Ui import Ui
 timer1 = QtCore.QTimer();
 timer1_1s_cnt = 0
        
-def Init():                            
+def InitGui():                            
     
     #create app window with all gui items
     appWindow.Init()
@@ -52,56 +55,13 @@ def Init():
     #init gui dialogs
     uiAccesories.Init()
     
-    #init tabs
-    InitTabs()
-    
-    #update tabs
-    UpdateTabs()
-    
     #create slots
     CreateSlots()
     
-def InitTabs():
-    tabAlltags.Init()
-    tabTags.Init()
-    tabCGroups.Init()
-    tabRaceInfo.Init()
-    tabRaceSettings.Init()
-    tabExportSettings.Init()
-    tabCategories.Init()
-    tabUsers.Init()
-    tabRunsTimes.Init()  
-    tabCells.Init()
-    tabDevice.Init()        
-    tabCommunication.Init()
-    tabManual.Init()    
-    bars.Init()    
+   
     
-def UpdateTabs():
-    tabAlltags.Update()
-    tabTags.Update()
-    tabCGroups.Update()
-    tabRaceInfo.Update()
-    tabRaceSettings.Update()
-    tabExportSettings.Update()
-    tabCategories.Update()
-    tabUsers.Update()
-    tabRunsTimes.Update()  
-    tabCells.Update()
-    tabDevice.Update()        
-    tabCommunication.Update()
-    tabManual.Update() 
-    tabAbout.Update()  
-    bars.Update()    
-    
-def GetCurrentTab():
-    tabIndex = Ui().tabWidget.currentIndex()
-    tabName = TAB.NAME[tabIndex]    
-    tab = getattr(sys.modules[__name__], "tab"+tabName)
-    return tab
-            
-def UpdateTab(mode = UPDATE_MODE.all):    
-    GetCurrentTab().Update(mode)        
+
+      
     
 def CreateSlots():
     
@@ -114,7 +74,7 @@ def CreateSlots():
     QtCore.QObject.connect(Ui().aRefresh, QtCore.SIGNAL("triggered()"), sRefresh)
     
     #tab changed
-    QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
+    #QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
     
 def sTimer():  
     
@@ -123,7 +83,7 @@ def sTimer():
     global timer1_1s_cnt  
              
     #update current tab           
-    GetCurrentTab().Update(UPDATE_MODE.gui)
+    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)
     
     #toolbars, statusbars
     bars.Update()
@@ -137,6 +97,8 @@ def sTimer():
     
     
 def sTabChanged(nr):
+    
+    print "MAIN AAA", Ui()
                     
     #update current tab
     tabIndex = Ui().tabWidget.currentIndex()
@@ -144,7 +106,7 @@ def sTabChanged(nr):
     #print "new tab", tabName, tabIndex
     
     dstore.SetItem("gui", ["active_tab"], tabIndex)
-    GetCurrentTab().Update(UPDATE_MODE.gui)
+    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)
                                                              
       
 def sRefresh():
@@ -155,7 +117,7 @@ def sRefresh():
     ztime = time.clock()        
     dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
-    ret = GetCurrentTab().Update(UPDATE_MODE.all)        
+    ret = tabManager.GetCurrentTab().Update(UPDATE_MODE.all)        
     if(ret == True):
         localtime = time.strftime("%H:%M:%S", time.localtime())
         updatetime = str(time.clock() - ztime)[0:5]+"s"
@@ -173,25 +135,31 @@ if __name__ == "__main__":
     from PyQt4 import QtGui
     from manage_calc_process import manage_calc_process
     from ewitis.gui.events import myevent, myevent2
-    import multiprocessing               
+    import multiprocessing  
+    import pandas as pd             
 
     
     app = QtGui.QApplication(sys.argv)
        
-    #init all tabs
-    Init()    
+    #gui
+    InitGui()    
     
-    
-    #manage_calc.start()
+
     
         
-    print "init dstore for calc-process"
-    mgr = multiprocessing.Manager()   
-    processdict = mgr.dict({"current_run":None, "racesettings-app":None, "additional_info": None})
-    dstore.SetProcessDict(processdict)
+    print "init dstore for calc-process" 
+    mgr.Init({"dstore"   :  {"current_run":None, "racesettings-app":None, "additional_info": None}, 
+              "dfTable"  :  pd.DataFrame(),
+              "dfExport" :  pd.DataFrame()
+            })
+    dstore.SetProcessDict(mgr.Get())
     dstore.UpdateProcessDict("current_run")
     
-    p = multiprocessing.Process(target=manage_calc_process.run, args=(q, processdict))    
+    #tabs
+    tabManager.Init()
+    tabManager.Update()
+    
+    p = multiprocessing.Process(target=manage_calc_process.run, args=(mgr.Get(),))    
     p.daemon = True    
     p.start()
        

@@ -17,15 +17,23 @@ class Dstore(datastore.PermanentDatastore):
                 
     
     def SetProcessDict(self, process_dict):
+        print "share dict 2", id(process_dict)
         self.process_dict = process_dict
+        print self.process_dict
         
     #
     def UpdateProcessDict(self, name):
         
+        
+        aux_dstore = {}
+        
         if self.process_dict:           
-            if name in self.process_dict.keys():                
-                for key in self.process_dict.keys():
-                    self.process_dict[key] = self.Get(key)                                                                                        
+            if name in self.process_dict["dstore"].keys():                
+                for key in self.process_dict["dstore"].keys():   
+                    aux_dstore[key] = self.Get(key)
+                self.process_dict["dstore"] = aux_dstore            
+                    
+                print "nove hodnoty", name, self.process_dict                                                                                    
 
         
     #copy dict for calc-process

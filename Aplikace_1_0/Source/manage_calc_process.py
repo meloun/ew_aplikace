@@ -32,6 +32,7 @@ class ProcessDstore():
         return self.data[name]
     def GetItem(self, name, keys):
         
+        print "getItem", name, keys, self.data
         item = self.data[name]
         
         for key in keys:                      
@@ -60,10 +61,11 @@ class ManageCalcProcess():
     def sRefresh(self):
         print "manage refresh"    
              
-    def run(self, q, processdict):        
+    def run(self, processdict):        
         print "I:P: CALC: zakladam process.."
         
-        self.dstore = ProcessDstore(processdict)
+        
+        self.dstore = ProcessDstore(processdict["dstore"])
         
         myevent2.set()                    
         
@@ -79,6 +81,7 @@ class ManageCalcProcess():
         while(1):
             #delay
             ztime = time.clock()
+            return
             
             self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
             self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
