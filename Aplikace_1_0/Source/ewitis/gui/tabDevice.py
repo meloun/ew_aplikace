@@ -17,8 +17,8 @@ class TabDevice():
     def __init__(self):
         '''
         Constructor
-        '''        
-        print "tabDevice: constructor"
+        '''                
+        print "I: CREATE: tabDevice"
         
     def Init(self):
         self.CreateSlots()

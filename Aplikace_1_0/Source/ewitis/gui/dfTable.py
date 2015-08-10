@@ -17,8 +17,9 @@ from ewitis.gui.aTableModel import *
 
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
-import libs.utils.utils as utils 
-from ewitis.gui.events import myevent, myevent2
+import libs.utils.utils as utils
+ 
+
 
 
       
@@ -26,7 +27,8 @@ class DfTable():
     """
     
     """
-    def  __init__(self, name):                                                                
+    def  __init__(self, name):
+        print "I: CREATE: table", name                                                                
         self.name = name
         self.InitCollumns()
         self.db_con = db.getDb()
@@ -132,8 +134,7 @@ class DfTable():
         #self.timer1s = QtCore.QTimer(); 
         #self.timer1s.start(1000);                        
                 
-        self.createSlots()
-        print "end of init"
+        self.createSlots()        
         
         #update "Counter"
         if(self.gui['filter']  != None):
@@ -155,7 +156,7 @@ class DfTable():
                 #print index, key, width                        
         
     def createSlots(self):
-        print "I:",self.name,": adding slots.."
+        print "I: SLOTS: ",self.name
         
         #selection changed
         QtCore.QObject.connect(self.gui['view'].selectionModel(), QtCore.SIGNAL("selectionChanged(QItemSelection, QItemSelection)"), self.sSelectionChanged)
@@ -461,7 +462,7 @@ class DfTable():
             
     def Update(self, selectionback = True):                        
         
-        myevent2.clear()        
+        #myevent2.clear()        
         ztime = time.clock()        
         ai = dstore.Get("additional_info")
                                     
@@ -495,13 +496,11 @@ class DfTable():
         
         #update counters
         self.updateTabCounter()
-        self.updateDbCounter()
-        #print "db counter:",self.params.name, dstore.Get("count")        
-        print "dfTable.Update()", self.name, time.clock() - ztime,"s"
-        myevent2.set()
+        self.updateDbCounter()                
+        #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"
+        #myevent2.set()
         return True 
-          
-                
+                          
         
     def updateHideColumns(self):              
         for key,column in self.TABLE_COLLUMN_DEF.items():  

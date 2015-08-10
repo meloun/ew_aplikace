@@ -19,8 +19,8 @@ class TabCommunication(MyTab):
     def __init__(self):
         '''
         Constructor
-        '''        
-        print "tabCommunication: constructor"
+        '''                
+        print "I: CREATE: tabCommunication"
         
     def Init(self):        
         '''init combobox command'''

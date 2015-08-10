@@ -118,7 +118,7 @@ class Runs(myTable):
                                      
             #update table times
             dstore.Set("current_run", self.run_id)
-            myevent.set()              
+            eventCalcNow.set()              
             time.sleep(0.4)                                     
             tableTimes.Update()                                                                          
         except:
@@ -132,14 +132,14 @@ class Runs(myTable):
         
         #delete times
         db.deleteParX("times", "run_id", self.run_id)
-        myevent.set()
+        eventCalcNow.set()
         time.sleep(0.4)               
         tableTimes.Update()
         
     def deleteAll(self):        
         myTable.deleteAll(self)
         tableTimes.deleteAll()
-        myevent.set()
+        eventCalcNow.set()
         time.sleep(0.4)               
         tableTimes.Update()
         

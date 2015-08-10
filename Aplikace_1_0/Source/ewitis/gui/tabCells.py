@@ -304,7 +304,7 @@ class TabCells(MyTab):
         '''
         Constructor
         '''        
-        print "tabCells: constructor"
+        print "I: CREATE: tabCells"
         
     def Init(self):
         '''tab Cells'''                    

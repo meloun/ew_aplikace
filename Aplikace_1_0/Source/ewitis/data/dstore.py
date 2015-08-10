@@ -7,45 +7,39 @@ import datetime
 
 class Dstore(datastore.PermanentDatastore):
     
-    def __init__(self, db = None, data = None, process_dict = None):
+    def __init__(self, db = None, data = None, shared_data = None):
         
         #init
         datastore.PermanentDatastore.__init__(self, db, data)
         
         self.ResetGetValues()
-        self.process_dict = None
+        self.shared_data = None
                 
     
-    def SetProcessDict(self, process_dict):
-        print "share dict 2", id(process_dict)
-        self.process_dict = process_dict
-        print self.process_dict
+    def SetSharedData(self, shared_data):        
+        self.shared_data = shared_data        
         
     #
-    def UpdateProcessDict(self, name):
+    def UpdateSharedData(self, name):        
         
-        
-        aux_dstore = {}
-        
-        if self.process_dict:           
-            if name in self.process_dict["dstore"].keys():                
-                for key in self.process_dict["dstore"].keys():   
-                    aux_dstore[key] = self.Get(key)
-                self.process_dict["dstore"] = aux_dstore            
+        if self.shared_data:           
+            if name in self.shared_data.keys():                
+                for key in self.shared_data.keys():   
+                    self.shared_data[key] = self.Get(key)                           
                     
-                print "nove hodnoty", name, self.process_dict                                                                                    
+                print "shared-data update:", name, self.shared_data, type(self.shared_data)                                                                                    
 
         
     #copy dict for calc-process
     def  Set(self, name, value, section = "GET_SET"):
         datastore.PermanentDatastore.Set(self, name, value, section)
-        self.UpdateProcessDict(name)
+        self.UpdateSharedData(name)
 
         
     #copy dict for calc-process    
     def SetItem(self, name, keys, value, section = "GET_SET", changed = True):
         datastore.PermanentDatastore.SetItem(self, name, keys, value, section, changed)
-        self.UpdateProcessDict(name)
+        self.UpdateSharedData(name)
         
          
         

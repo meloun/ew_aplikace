@@ -651,15 +651,15 @@ class TabExportSettings():
     def __init__(self):
         '''
         Constructor
-        '''        
-        print "tabExportSettings: constructor"        
+        '''                  
+        print "I: CREATE: tabExportSettings"      
         
     def Init(self):                     
         self.addSlots()
         
     def addSlots(self):        
-                       
-        print "I: tabExportSettings: adding slots.."
+                               
+        print "I: SLOTS: tabExportSettings"
         
         #exportgroups - year, club, etc.
         self.namesgroup = [None] * NUMBER_OF.EXPORTS

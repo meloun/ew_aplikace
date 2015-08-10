@@ -19,7 +19,7 @@ from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.aTab import MyTab
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from ewitis.gui.events import myevent, myevent2 
+from ewitis.gui.multiprocessingManager import eventCalcNow 
 
 
 '''
@@ -114,7 +114,7 @@ class DfTableRuns(DfTable):
         if(self.run_id != self.proxy_model.data(idx).toInt()[0]):             
             self.run_id = self.proxy_model.data(idx).toInt()[0] 
             dstore.Set("current_run", self.run_id)
-            myevent.set()              
+            eventCalcNow.set()              
             time.sleep(0.9)           
             tableTimes.Update()
         

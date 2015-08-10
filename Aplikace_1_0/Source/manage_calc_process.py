@@ -13,7 +13,7 @@ import libs.sqlite.sqlite_utils as db_utils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.DEF_DATA import *
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-from ewitis.gui.events import myevent, myevent2
+from ewitis.gui.multiprocessingManager import eventCalcNow
 import ewitis.gui.TimesUtils as TimesUtils
 import os
 
@@ -28,11 +28,13 @@ def getDf():
 class ProcessDstore():
     def __init__(self, data):
         self.data = data
+        
+    def GetData(self):        
+        return self.data
     def Get(self, name):        
         return self.data[name]
-    def GetItem(self, name, keys):
-        
-        print "getItem", name, keys, self.data
+    
+    def GetItem(self, name, keys):        
         item = self.data[name]
         
         for key in keys:                      
@@ -45,9 +47,9 @@ class ProcessDstore():
 
 
 class ManageCalcProcess():            
-    def __init__(self):        
-        self.joinedDfFreeze = pd.DataFrame()  
+    def __init__(self):                
         self.i = 0 
+        self.maxcalctime = 0
             
                         
 
@@ -61,13 +63,15 @@ class ManageCalcProcess():
     def sRefresh(self):
         print "manage refresh"    
              
-    def run(self, processdict):        
-        print "I:P: CALC: zakladam process.."
+    def run(self, dstore, dfs, info, eventCalcNow):        
+        print "I:P: CALC: zakladam process..", dstore
         
         
-        self.dstore = ProcessDstore(processdict["dstore"])
+        self.dstore = ProcessDstore(dstore)    
         
-        myevent2.set()                    
+        print "I:P: CALC: dstore..",  self.dstore.GetData()    
+        
+        #myevent2.set()                    
         
         """ DATABASE """                
         try:           
@@ -81,7 +85,6 @@ class ManageCalcProcess():
         while(1):
             #delay
             ztime = time.clock()
-            return
             
             self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
             self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
@@ -90,16 +93,13 @@ class ManageCalcProcess():
             """ update DFs """
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
-            #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"
-            
-            
+            #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
             
             """ update joined DF"""
             ytime = time.clock() 
             self.GetJoinedDf()
             #print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
-
             """ update times """                                            
             ytime = time.clock() 
             self.GetTimesDfs()                                                 
@@ -142,37 +142,27 @@ class ManageCalcProcess():
             #sort and copy 
             ytime = time.clock()           
             if self.joinedDf.empty:
-                self.joinedDfFreeze = pd.DataFrame()
-                print "NIC"
+                dfs["table"] = pd.DataFrame()                
             else:                              
-                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]            
-                self.joinedDfFreeze = self.joinedDf[columns].copy()                            
+                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
+                self.joinedDf["id"].iloc[0] = self.i
+                self.i =  self.i +1                        
+                dfs["table"] = self.joinedDf[columns].copy()                            
             #print "P: C: sort and copy", time.clock() - ytime,"s"                                 
-            
-            #print(".",end='')
-            #print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"
-            #print "==============================================="
-            #print 'process id:', os.getpid()
-            
-            self.joinedDfFreeze["name"].iloc[0] = self.i
-            self.i =  self.i +1
-            self.joinedDfFreeze = getDf()
-            time.sleep(0.1)
-            
-            
                         
-            q.put(self.joinedDfFreeze)
-            print "P: name: ",self.joinedDfFreeze["name"].iloc[0], q.empty()
-            sys.stdout.flush()
-            #print "P: df", self.joinedDfFreeze              
+            print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
+            #print 'process id:', os.getpid()                                                                    
+            sys.stdout.write('.')
             
-#             sys.stdout.write('.')
-#             self.calctime = time.clock() - ztime
-#             if self.calctime > self.maxcalctime:
-#                 self.maxcalctime = self.calctime
-#                 print "MAX CALC-TIME:", self.maxcalctime
-#                             
-            time.sleep(2)
+            info["lastcalctime"] = time.clock() - ztime
+            if info["lastcalctime"] > self.maxcalctime:
+                self.maxcalctime = info["lastcalctime"]
+                print "MAX CALC-TIME:", self.maxcalctime
+                                         
+            sys.stdout.flush()              
+            eventCalcNow.wait(2)            
+            eventCalcNow.clear()
+            
             #myevent.wait(2)
             #myevent.clear() 
             #myevent2.wait()   

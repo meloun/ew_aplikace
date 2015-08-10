@@ -150,7 +150,7 @@ class myTable():
                 #print index, key, width                        
         
     def createSlots(self):
-        print "I:",self.name,": adding slots.."
+        print "I: SLOTS: ",self.name
         
         #TIMEOUT
         #QtCore.QObject.connect(self.timer1s, QtCore.SIGNAL("timeout()"), self.slot_Timer1s)

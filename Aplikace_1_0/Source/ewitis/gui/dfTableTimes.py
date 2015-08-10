@@ -9,11 +9,14 @@ import time
 import pandas as pd
 from PyQt4 import QtCore, QtGui
 from libs.myqt.DataframeTableModel import DataframeTableModel
+
+from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from manage_calc_process import manage_calc_process
-from ewitis.gui.events import myevent, myevent2
+from ewitis.gui.multiprocessingManager import mgr, eventCalcNow
+from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
+
 
 
  
@@ -23,27 +26,44 @@ Model
 class DfModelTimes(DataframeTableModel):
     def __init__(self, name, parent = None):
         super(DfModelTimes, self).__init__(name)
-        self.df = pd.DataFrame()              
+        self.df = pd.DataFrame()
+        self.editable = ["nr", "cell", "status", "timeraw", "un1", "un2", "un3", "us1"]
         
-    def sModelChanged(self, index1, index2):
-        print "TIME MODEL CHANGED", index1, index2
-        
-    def GetDataframe(self):
+    def flags(self, index):
                 
-        aux_df = pd.DataFrame()
-        while not q.empty():
-            print "beru", q.empty()
-            aux_df = q.get()  # as docs say: Remove and return an item from the queue.
+        column_name =  self.df.columns[index.column()]        
+        if(column_name in self.editable):
+            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable              
         
-        if not aux_df.empty:
-            self.df = aux_df
-            print "T: ", self.df["name"].iloc[0], q.empty()                
-        else: 
-            print "T: nothing new"    
-                     
-                                    
-        return self.df #manage_calc_process.joinedDfFreeze
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable        
                 
+        
+    def sModelChanged(self, index1, index2):        
+        time.sleep(0.8)
+        DataframeTableModel.Update(self)
+        
+    def GetDataframe(self):                    
+        return mgr.GetDfs()["table"]
+    
+       
+    def setDataFromDict(self, mydict):
+        print "setDataFromDict()", mydict, self.name
+        
+        #category changed
+        if "category" in mydict:                         
+            try:
+                mydict["category_id"] = tableCategories.model.getCategoryParName(str(mydict["category"]))['id']            
+                del mydict["category"]
+            except IndexError:            
+                uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
+                return                
+        
+        #update db from mydict
+        db.update_from_dict(self.name, mydict)        
+        eventCalcNow.set()
+
+        
+             
     
 '''
 Proxy Model
@@ -114,7 +134,23 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))                                                    
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
          
-                    
+    def sRecalculate(self, run_id):
+        if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
+            return
+        print "A: Times: Recalculating.. run id:", run_id
+        query = \
+                " UPDATE times" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
+                    " WHERE (times.run_id = \""+str(run_id)+"\")"
+                        
+        res = db.query(query)
+                
+        #self.ResetStatus() 
+                        
+        db.commit()
+        eventCalcNow.set()
+        print "A: Times: Recalculating.. press F5 to finish"
+        return res                
     def sFilterStarts(self):
         self.gui['filter_column'].setValue(2)
         self.gui['filter'].setText("1")        

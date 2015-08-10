@@ -100,7 +100,7 @@ class TabManager():
  
 
     @staticmethod    
-    def GetCurrentTab():
+    def GetCurrentTab():      
         tabIndex = Ui().tabWidget.currentIndex()
         tabName = TAB.NAME[tabIndex]    
         tab = getattr(sys.modules[__name__], "tab"+tabName)
@@ -113,12 +113,7 @@ class TabManager():
  
     def sTabChanged(self, nr):
                     
-        #update current tab
-        #tabIndex = Ui().tabWidget.currentIndex()
-        
-        #tabName = TAB.NAME[tabIndex]
-        #print "new tab", tabName, tabIndex
-        
+        #update current tab        
         dstore.SetItem("gui", ["active_tab"], nr)
         self.GetCurrentTab().Update(UPDATE_MODE.gui)
 

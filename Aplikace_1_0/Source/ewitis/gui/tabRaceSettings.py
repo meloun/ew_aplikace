@@ -152,7 +152,8 @@ class TabRaceSettings():
         '''
         Constructor
         '''        
-        print "tabRaceSettings: constructor"
+        
+        print "I: CREATE: tabRaceSettings"
         self.init = False
                          
         
@@ -180,7 +181,7 @@ class TabRaceSettings():
         
     def addSlots(self):
                 
-        print "I: tabRaceSettings: adding slots.."               
+        print "I: SLOTS: tabRaceSettings"               
               
         #left group
         QtCore.QObject.connect(Ui().comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode) 

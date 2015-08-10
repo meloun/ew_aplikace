@@ -82,7 +82,7 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         self.layoutAboutToBeChanged.emit()        
         self.df = self.GetDataframe()              
         self.layoutChanged.emit()
-        print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
+        #@print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
      
     def rowCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():

@@ -55,8 +55,7 @@ class DfModelUsers(DataframeTableModel):
                 del mydict["category"]
             except IndexError:            
                 uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
-                return
-                
+                return                
         
         #update db from mydict
         db.update_from_dict(self.name, mydict)

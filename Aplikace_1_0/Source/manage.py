@@ -38,6 +38,7 @@ from ewitis.gui.tabAbout import tabAbout
 from ewitis.gui.MenusBars import bars
 from ewitis.gui.tabManager import tabManager
 from ewitis.gui.multiprocessingManager import mgr
+from ewitis.gui.multiprocessingManager import eventCalcNow
 
 from ewitis.data.DEF_DATA import TAB
 
@@ -95,23 +96,12 @@ def sTimer():
         tabRunsTimes.tables[1].AutoUpdate() #table times
         timer1_1s_cnt = 0
     
-    
-def sTabChanged(nr):
-    
-    print "MAIN AAA", Ui()
-                    
-    #update current tab
-    tabIndex = Ui().tabWidget.currentIndex()
-    #tabName = TAB.NAME[tabIndex]
-    #print "new tab", tabName, tabIndex
-    
-    dstore.SetItem("gui", ["active_tab"], tabIndex)
-    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)
+
                                                              
       
 def sRefresh():
     title = "Manual Refresh"
-    myevent2.clear()
+    #myevent2.clear()
     
     #disable user actions
     ztime = time.clock()        
@@ -121,10 +111,10 @@ def sRefresh():
     if(ret == True):
         localtime = time.strftime("%H:%M:%S", time.localtime())
         updatetime = str(time.clock() - ztime)[0:5]+"s"
-        calctime = ""#str(manage_calc.LastCalcTime())[0:5]+"s"                              
+        calctime = str(mgr.GetInfo()["lastcalctime"])[0:5]+"s"                              
         uiAccesories.showMessage(title, localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)        
     
-    myevent2.set()   
+    #myevent2.set()   
     #enable user actions        
     dstore.Set("user_actions", dstore.Get("user_actions")-1)    
 
@@ -133,8 +123,7 @@ if __name__ == "__main__":
     
     import sys, time
     from PyQt4 import QtGui
-    from manage_calc_process import manage_calc_process
-    from ewitis.gui.events import myevent, myevent2
+    from manage_calc_process import manage_calc_process    
     import multiprocessing  
     import pandas as pd             
 
@@ -145,21 +134,24 @@ if __name__ == "__main__":
     InitGui()    
     
 
-    
         
-    print "init dstore for calc-process" 
-    mgr.Init({"dstore"   :  {"current_run":None, "racesettings-app":None, "additional_info": None}, 
-              "dfTable"  :  pd.DataFrame(),
-              "dfExport" :  pd.DataFrame()
-            })
-    dstore.SetProcessDict(mgr.Get())
-    dstore.UpdateProcessDict("current_run")
+    #init shared-data (and sync with dstore)
+    print "I: Init multiprocessing manager"
+    mgr.Init( {"current_run":None, "racesettings-app":None, "additional_info": None, "evaluation": None},  #shared-dstore
+              {"table"  :  pd.DataFrame(), "export" :  pd.DataFrame()},                #shared-dfs
+              {"lastcalctime"  :  " - - - "}                                           #shared-info
+            )    
+    dstore.SetSharedData(mgr.GetDstore())
+    dstore.UpdateSharedData("current_run")  
+    print "I: Shared dstore", mgr.GetDstore()  
     
     #tabs
     tabManager.Init()
     tabManager.Update()
     
-    p = multiprocessing.Process(target=manage_calc_process.run, args=(mgr.Get(),))    
+
+    #start calc-process (wit access to shared data)
+    p = multiprocessing.Process(target=manage_calc_process.run, args=(mgr.GetDstore(), mgr.GetDfs(), mgr.GetInfo(), eventCalcNow))    
     p.daemon = True    
     p.start()
        
