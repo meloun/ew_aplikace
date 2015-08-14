@@ -5,6 +5,7 @@ Created on 28.12.2013
 @author: Meloun
 '''
 import time
+import pandas as pd
 from PyQt4 import Qt, QtCore, QtGui
 from ewitis.gui.Ui import Ui
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
@@ -13,7 +14,7 @@ import libs.utils.utils as utils
 import libs.sqlite.sqlite_utils as db_utils
 from ewitis.data.db import db  
 from ewitis.data.dstore import dstore
-from ewitis.gui.aTableModel import * 
+ 
 
 import libs.db_csv.db_csv as Db_csv
 import ewitis.exports.ewitis_html as ew_html
@@ -27,6 +28,7 @@ class DfTable():
     """
     
     """
+    (eTABLE, eDB, eWWW, eTOTAL, eGROUP, eCATEGORY, eLAPS) = range(0,7) 
     def  __init__(self, name):
         print "I: CREATE: table", name                                                                
         self.name = name
@@ -34,7 +36,7 @@ class DfTable():
         self.db_con = db.getDb()
         
     def InitCollumns(self):                        
-        self.DB_COLLUMN_DEF = getattr(DEF_COLUMN, self.name.upper())['database']
+        #self.DB_COLLUMN_DEF = getattr(DEF_COLUMN, self.name.upper())['database']
         self.TABLE_COLLUMN_DEF = getattr(DEF_COLUMN,  self.name.upper())['table']  
         self.EXPORT_COLLUMN_DEF  = getattr(DEF_COLUMN,  self.name.upper())['table']
         
@@ -204,13 +206,13 @@ class DfTable():
             
         # EXPORT BUTTON
         try:
-            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: self.sExport(myModel.eTABLE, True))        
+            QtCore.QObject.connect(self.gui['export'], QtCore.SIGNAL("clicked()"), lambda: self.sExport(self.eTABLE, True))        
         except TypeError:
             self.gui['export'] = None
         
         # EXPORT WWW BUTTON        
         try:
-            QtCore.QObject.connect(self.gui['export_www'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(myTable.eWWW, True))
+            QtCore.QObject.connect(self.gui['export_www'], QtCore.SIGNAL("clicked()"), lambda: myTable.sExport(eWWW, True))
         except TypeError:
             self.gui['export_www'] = None
         
@@ -322,8 +324,8 @@ class DfTable():
         #load csv to df
         try:            
             df = pd.DataFrame.from_csv(str(filename), sep=";", encoding = "utf8")
-            df.drop([df.columns[-1]], axis=1, inplace=True)
-            df.fillna("", inplace=True)
+            #df.drop([df.columns[-1]], axis=1, inplace=True)
+            df.fillna("", inplace=True)                        
         except:
             uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n empty file or wrong format")
             return
@@ -357,56 +359,17 @@ class DfTable():
         if(state['ko'] != 0) :
             uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Wrong format or already exist.")                                                            
         else:
-            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)                                                       
-    
-    def GetExportKeys(self, mode):        
-        #get sorted table keys 
-        if mode == myModel.eDB:
-            #get sorted keys
-            keys = []
-            for list in sorted(self.DB_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"])):
-                keys.append(list[0])                                    
-        else: #total
-            keys = [item[1]["name"] for item in sorted(self.TABLE_COLLUMN_DEF.items(), key = lambda (k,v): (v["index"]))]
-            
-        return keys
-            
-        
-    '''
-    ExportTable()     
-     - z tabulky vytvoří dva listy - header(list) a rows(lists of lists) 
-    '''
-    def ExportTable(self, mode):
-        exportRows = []     
-
-        '''table to 2 lists - header and rows(list of lists)'''
-        header = self.model.header()
-        rows = self.proxy_model.rows()
-        print rows
-        return(header, rows)
-        
-    '''
-    sExport()    
-     - standartní slot pro export
-     - export aktuálního zobrazení tabulky, co vidíš to dostaneš
-     - 1.řádek header
-    '''
-    '''
-    sExport()    
-     - standartní slot pro export
-     - export aktuálního zobrazení tabulky, co vidíš to dostaneš
-     - 1.řádek header
-    '''      
+            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)
+                                                       
+                                         
     def sExport(self, mode, dialog):
         
         print "I: ", self.name, ": export"
 
-        if (mode == myModel.eTABLE):                
-            format = "Csv"
-            prefix = ""
-        elif mode == myModel.eWWW:
-            format = "Htm"
-            prefix = ""
+        if (mode == self.eTABLE):                
+            format = "Csv"            
+        elif mode == self.eWWW:
+            format = "Htm"            
         else:
             print "sExport: ERROR"
             
@@ -421,23 +384,16 @@ class DfTable():
         if(filename == ""):
             return                
                 
-        title = "Table '"+self.name + "'"+format.upper()+" Export"
-        
-        '''table to 2 lists - header and rows(list of lists)'''
-        (exportHeader, exportRows) = self.ExportTable(mode)
+        title = "Table '"+self.name + "'"+format.upper()+" Export"                        
                 
         '''Write to the file'''
-        if format == "Csv":                                    
-            '''Write to CSV file'''            
-            if(exportRows != []) or (exportHeader!= []):
-                print "export race", dstore.GetItem("racesettings-app",['race_name']), ":",len(exportRows),"rows"            
-                first_header = [dstore.GetItem("racesettings-app", ['race_name']), time.strftime("%d.%m.%Y", time.localtime()), time.strftime("%H:%M:%S", time.localtime())]
-                exportRows.insert(0, exportHeader)
-                aux_csv = Db_csv.Db_csv(filename)
-                try:                                     
-                    aux_csv.save(exportRows)
-                except IOError:
-                    uiAccesories.showMessage(self.name+" Export warning", "Permission denied!")
+        if format == "Csv":
+            
+            #export times (with collumn's names)            
+            try:                                             
+                self.model.df.to_csv(filename, ";", mode="w", index = False, encoding = "utf8")                
+            except IOError:
+                uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")                                                                                
         elif format == "Htm":                    
             '''Write to HTML file'''            
             try:                                                                
@@ -461,10 +417,8 @@ class DfTable():
             
             
     def Update(self, selectionback = True):                        
-        
-        #myevent2.clear()        
-        ztime = time.clock()        
-        ai = dstore.Get("additional_info")
+                        
+        #ztime = time.clock()                
                                     
         #get row-selection
         if(selectionback==True):
@@ -492,13 +446,11 @@ class DfTable():
                 pass            
         
         self.updateHideColumns()    
-       
-        
+               
         #update counters
         self.updateTabCounter()
         self.updateDbCounter()                
-        #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"
-        #myevent2.set()
+        #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"        
         return True 
                           
         

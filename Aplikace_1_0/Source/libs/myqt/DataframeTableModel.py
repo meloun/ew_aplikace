@@ -125,13 +125,24 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
             i = index.row()
             j = index.column()
             item = self.df.iget_value(i, j)
-            if isinstance( item, numpy.int64 ):                
-                item = int(item)            
+            
+            
+            if pd.notnull(item):
+                if isinstance( item, numpy.int64 ):                
+                    item = int(item)                
+                if isinstance( item, numpy.float64 ):                
+                    item = int(item)
+            #else:
+            #    print "data", type(item), item                             
             #return QtCore.QVariant((self.datatable.iget_value(i, j)))
             #return '{0}'.format(self.datatable.iget_value(i, j))
             return item
         else:
             return QtCore.QVariant()
+        
+    def getRow(self, id):
+        row = self.df.loc(id)
+        return row
     
     def flags(self, index):
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable

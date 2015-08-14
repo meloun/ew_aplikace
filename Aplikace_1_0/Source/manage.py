@@ -17,28 +17,29 @@ from ewitis.gui.UiAccesories import MSGTYPE
  
 #tabs
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
-from ewitis.gui.dfTableAlltags import tabAlltags
-from ewitis.gui.dfTableTags import tabTags
-from ewitis.gui.dfTableCGroups import tabCGroups
-from ewitis.gui.tableRaceInfo import tabRaceInfo
-from ewitis.gui.dfTableCategories import tabCategories
-from ewitis.gui.dfTableUsers import tabUsers
+# from ewitis.gui.dfTableAlltags import tabAlltags
+# from ewitis.gui.dfTableTags import tabTags
+# from ewitis.gui.dfTableCGroups import tabCGroups
+# from ewitis.gui.dfTableRaceInfo import tabRaceInfo
+# from ewitis.gui.dfTableCategories import tabCategories
+# from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
-from ewitis.gui.dfTableTimes import q, tableTimes
-
-from ewitis.gui.tabRaceSettings import tabRaceSettings
-from ewitis.gui.tabExportSettings import tabExportSettings
-from ewitis.gui.tabDevice import tabDevice
-from ewitis.gui.tabCells import tabCells
-from ewitis.gui.tabCommunication import tabCommunication
-from ewitis.gui.tabDiagnostic import tabDiagnostic
-from ewitis.gui.tabManual import tabManual
-from ewitis.gui.tabAbout import tabAbout
+from ewitis.gui.dfTableTimes import tableTimes
+from ewitis.gui.dfTableUsers import tableUsers
+# from ewitis.gui.dfTableTimes import tableTimes
+# 
+# from ewitis.gui.tabRaceSettings import tabRaceSettings
+# from ewitis.gui.tabExportSettings import tabExportSettings
+# from ewitis.gui.tabDevice import tabDevice
+# from ewitis.gui.tabCells import tabCells
+# from ewitis.gui.tabCommunication import tabCommunication
+# from ewitis.gui.tabDiagnostic import tabDiagnostic
+# from ewitis.gui.tabManual import tabManual
+# from ewitis.gui.tabAbout import tabAbout
 
 from ewitis.gui.MenusBars import bars
 from ewitis.gui.tabManager import tabManager
-from ewitis.gui.multiprocessingManager import mgr
-from ewitis.gui.multiprocessingManager import eventCalcNow
+from ewitis.gui.multiprocessingManager import mgr, eventCalcNow, eventCalcReady
 
 from ewitis.data.DEF_DATA import TAB
 
@@ -58,36 +59,39 @@ def InitGui():
     
     #create slots
     CreateSlots()
-    
-   
-    
 
       
     
 def CreateSlots():
     
-    #timer 500ms
-    global  timer1    
-    timer1.start(6000); #500ms
+    #timer 500ms        
+    timer1.start(500); #500ms
     QtCore.QObject.connect(timer1, QtCore.SIGNAL("timeout()"), sTimer)    
     
     #refresh
     QtCore.QObject.connect(Ui().aRefresh, QtCore.SIGNAL("triggered()"), sRefresh)
-    
-    #tab changed
-    #QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), sTabChanged) 
+     
     
 def sTimer():  
     
-    tableTimes.model.GetDataframe()
-    return
-    global timer1_1s_cnt  
-             
+    global timer1_1s_cnt    
+                 
     #update current tab           
-    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)
+    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)     
+    
+    #update requests
+    requests = dstore.GetItem("gui", ["update_requests"])    
+    if(requests["tableUsers"]):        
+        tableUsers.Update()
+        dstore.SetItem("gui", ["update_requests", "tableUsers"], False) 
+    if(requests["tableTimes"]):
+        tableTimes.Update()
+        dstore.SetItem("gui", ["update_requests", "tableTimes"], False) 
+    
     
     #toolbars, statusbars
     bars.Update()
+    
     
     if(timer1_1s_cnt == 0):
         timer1_1s_cnt = 1
@@ -95,6 +99,7 @@ def sTimer():
         #timer auto-updates
         tabRunsTimes.tables[1].AutoUpdate() #table times
         timer1_1s_cnt = 0
+    return
     
 
                                                              
@@ -105,35 +110,31 @@ def sRefresh():
     
     #disable user actions
     ztime = time.clock()        
-    dstore.Set("user_actions", dstore.Get("user_actions")+1)
                                      
     ret = tabManager.GetCurrentTab().Update(UPDATE_MODE.all)        
     if(ret == True):
         localtime = time.strftime("%H:%M:%S", time.localtime())
         updatetime = str(time.clock() - ztime)[0:5]+"s"
         calctime = str(mgr.GetInfo()["lastcalctime"])[0:5]+"s"                              
-        uiAccesories.showMessage(title, localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)        
-    
-    #myevent2.set()   
-    #enable user actions        
-    dstore.Set("user_actions", dstore.Get("user_actions")-1)    
+        uiAccesories.showMessage(title, localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)            
 
 
 if __name__ == "__main__":
     
     import sys, time
     from PyQt4 import QtGui
-    from manage_calc_process import manage_calc_process    
+    from manage_calc import manage_calc    
     import multiprocessing  
     import pandas as pd             
 
+        
+    #print "pandas: ", pd.__version__
+    #print "multiprocessing: ", multiprocessing.__version__
     
     app = QtGui.QApplication(sys.argv)
        
     #gui
-    InitGui()    
-    
-
+    InitGui()
         
     #init shared-data (and sync with dstore)
     print "I: Init multiprocessing manager"
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     
 
     #start calc-process (wit access to shared data)
-    p = multiprocessing.Process(target=manage_calc_process.run, args=(mgr.GetDstore(), mgr.GetDfs(), mgr.GetInfo(), eventCalcNow))    
+    p = multiprocessing.Process(target=manage_calc.run, args=(mgr.GetDstore(), mgr.GetDfs(), mgr.GetInfo(), eventCalcNow, eventCalcReady))    
     p.daemon = True    
     p.start()
        

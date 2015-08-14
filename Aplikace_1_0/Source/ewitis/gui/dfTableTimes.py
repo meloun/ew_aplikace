@@ -5,18 +5,55 @@ Created on 30.07.2015
 @author: Meloun
 '''
 
-import time
+import time, os
 import pandas as pd
 from PyQt4 import QtCore, QtGui
 from libs.myqt.DataframeTableModel import DataframeTableModel
+from libs.utils.ListOfDicts import ListOfDicts
+import libs.utils.utils as utils
+import libs.timeutils.timeutils as timeutils
 
+from ewitis.data.DEF_DATA import *
+from ewitis.gui.dfTableUsers import tableUsers
+from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from ewitis.gui.multiprocessingManager import mgr, eventCalcNow
+from ewitis.gui.multiprocessingManager import mgr, eventCalcNow, eventCalcReady
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
+from ewitis.gui.tabExportSettings import tabExportSettings
 
+
+
+CONF_TABLE_TIMES = [                                                                
+        {'name': 'id',       'length':0,   'default': True,   "editable": False },                                      
+        {'name': 'nr',       'length':0,   'default': True,   "editable": True  },
+        {'name': 'cell',     'length':0,   'default': True,   "editable": True  },
+        {'name': 'status',   'length':0,   'default': True,   "editable": True  },
+        {'name': 'time1',    'length':0,   'default': True,   "editable": False },
+        {'name': 'lap1',     'length':0,   'default': True,   "editable": False },
+        {'name': 'time2',    'length':0,   'default': True,   "editable": False },
+        {'name': 'lap2',     'length':0,   'default': True,   "editable": False },
+        {'name': 'time3',    'length':0,   'default': True,   "editable": False },
+        {'name': 'lap3',     'length':0,   'default': True,   "editable": False },
+        {'name': 'name',     'length':0,   'default': True,   "editable": False },
+        {'name': 'category', 'length':0,   'default': True,   "editable": False },
+        {'name': 'order1',   'length':0,   'default': True,   "editable": False },
+        {'name': 'order2',   'length':0,   'default': True,   "editable": False },
+        {'name': 'order3',   'length':0,   'default': True,   "editable": False },
+        {'name': 'start',    'length':0,   'default': True,   "editable": False },
+        {'name': 'points1',  'length':0,   'default': True,   "editable": False },
+        {'name': 'points2',  'length':0,   'default': True,   "editable": False },
+        {'name': 'points3',  'length':0,   'default': True,   "editable": False },
+        {'name': 'points4',  'length':0,   'default': True,   "editable": False },
+        {'name': 'points5',  'length':0,   'default': True,   "editable": False },
+        {'name': 'un1',      'length':0,   'default': True,   "editable": True  },
+        {'name': 'un2',      'length':0,   'default': True,   "editable": True  },
+        {'name': 'un3',      'length':0,   'default': True,   "editable": True  },
+        {'name': 'us1',      'length':0,   'default': True,   "editable": True  },
+        {'name': 'timeraw',  'length':0,   'default': True,   "editable": False },
+]
 
 
  
@@ -27,41 +64,163 @@ class DfModelTimes(DataframeTableModel):
     def __init__(self, name, parent = None):
         super(DfModelTimes, self).__init__(name)
         self.df = pd.DataFrame()
-        self.editable = ["nr", "cell", "status", "timeraw", "un1", "un2", "un3", "us1"]
+        self.conf = ListOfDicts(CONF_TABLE_TIMES) 
+        self.db_con = db.getDb()
+        self.changed_rows = pd.DataFrame()
+                
         
     def flags(self, index):
                 
-        column_name =  self.df.columns[index.column()]        
-        if(column_name in self.editable):
+        column_name =  self.df.columns[index.column()]
+        editable_columns = self.conf.Get("name", ("editable", True))
+                
+        if(column_name in editable_columns):
             return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable              
         
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable        
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable 
+    
+    def getDefaultRow(self):
+        row = DataframeTableModel.getDefaultRow(self)
+        row["run_id"] = dstore.Get("current_run")        
+        return row
+               
                 
         
-    def sModelChanged(self, index1, index2):        
-        time.sleep(0.8)
+    def sModelChanged(self, index1, index2):                
         DataframeTableModel.Update(self)
         
-    def GetDataframe(self):                    
-        return mgr.GetDfs()["table"]
+    def GetDataframe(self):
+        df = mgr.GetDfs()["table"]
+                
+        if eventCalcReady.is_set() == False:
+            #print self.changed_rows
+            for index, row in self.changed_rows.iterrows():
+                if index in df.index:
+                    df.loc[index] = row             
+        else:            
+            self.changed_rows = pd.DataFrame()
+                         
+        return df
     
        
     def setDataFromDict(self, mydict):
-        print "setDataFromDict()", mydict, self.name
+        print "setDataFromDict()", mydict, self.name        
+                
+        tableRow =  self.df.loc[mydict["id"]].to_dict()
+        tableRow.update(mydict)
+        #print "row, ", mydict, tableRow
+        
+        update_flag = True
         
         #category changed
-        if "category" in mydict:                         
-            try:
-                mydict["category_id"] = tableCategories.model.getCategoryParName(str(mydict["category"]))['id']            
-                del mydict["category"]
-            except IndexError:            
-                uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
-                return                
+        if "nr" in mydict:
+            update_flag = False                                    
+            user_id = self.checkChangedNumber(tableRow)                                                 
+            if user_id != None:
+                mydict["user_id"] = user_id
+                del mydict["nr"]
+                update_flag = True
+                 
+                 
+                #print "not cleared", tableRow
+                cleared = self.ClearCalculated(tableRow)
+                #print "CLEARED: ", cleared, type(cleared)                
+                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
+                self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+                self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
+
+                self.ResetNrOfLaps()
+                eventCalcReady.clear()
+                                         
+        elif "cell" in mydict:                                                                      
+
+            cleared = self.ClearCalculated(tableRow)
+            #print "CLEARED: ", cleared, type(cleared)                
+            self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
+            self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+            self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
+            #print "CHANGED:", self.changed_rows
+                    
+            self.ResetNrOfLaps()  
+            eventCalcReady.clear()                       
+            
         
         #update db from mydict
-        db.update_from_dict(self.name, mydict)        
-        eventCalcNow.set()
-
+        if update_flag:        
+            db.update_from_dict(self.name, mydict)
+            self.ResetCalculatedValues(mydict["id"])        
+            eventCalcNow.set()
+            
+    def ClearCalculated(self, tabRow):
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            tabRow["time"+str(i+1)] = None
+            tabRow["lap"+str(i+1)] = None
+            tabRow["order"+str(i+1)] = None
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            tabRow["points"+str(i+1)] = None
+        tabRow["status"] = "wait"
+            
+        #precalculate name and category
+        user = tableUsers.model.getUserParNr(tabRow["nr"])
+        if(user['name']):
+            tabRow['name'] = user['name'].upper()
+        user['name'] = user['name'] +' '+user['first_name']                                        
+        tabRow['category'] = user['category']
+        
+            
+        return tabRow
+        
+        
+    def checkChangedNumber(self, tabRow):
+        '''ZMĚNA ČÍSLA'''
+        '''- kontrola uživatele, categorie, tagu                                
+           - vrací user_id!!
+        '''
+        if(int(tabRow['nr']) == 0):
+            user_id = 0
+        else:
+                        
+            #rigthts to change start cell?
+            if(int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
+                uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
+                return None
+                                        
+            #user exist?                    
+            user = tableUsers.model.getUserParNr(tabRow['nr'])                                    
+            if user == None:
+                uiAccesories.showMessage(self.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
+                return None
+            
+            #category exist?                                                                                              
+            category = tableCategories.model.getCategoryParName(user['category'])                        
+            if category.empty:
+                uiAccesories.showMessage(self.name+" Update error", "Cant find category for this user: " + user['category'])
+                return None 
+            
+#@             #user id exist?                                                                                                                                                         
+#             user_id = tableUsers.getUserParIdOrTagId(user['user_id'])
+#             if user_id == None:
+#                 uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabRow['nr'])+"!")                                                                         
+#                 return None                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                    
+        return user['id']
+    
+    def ResetCalculatedValues(self, timeid):
+        query = \
+                " UPDATE times" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
+                    " WHERE (times.id = \""+str(timeid)+"\")"                                
+        res = db.query(query) 
+        db.commit()                                                              
+        return res
+    
+    def ResetNrOfLaps(self):
+        query = \
+                " UPDATE times" +\
+                    " SET lap1 = Null, lap2 = Null, lap3 = Null"                                                    
+        res = db.query(query)                        
+        db.commit()        
+        return res
         
              
     
@@ -83,6 +242,9 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
 Table
 '''        
 class DfTableTimes(DfTable):
+    
+    (eCSV_EXPORT, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,3)
+    
     def  __init__(self):        
         DfTable.__init__(self, "Times")
         self.i = 1  
@@ -134,6 +296,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))                                                    
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
          
+    
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
@@ -150,13 +313,156 @@ class DfTableTimes(DfTable):
         db.commit()
         eventCalcNow.set()
         print "A: Times: Recalculating.. press F5 to finish"
-        return res                
+        return res                    
+    
     def sFilterStarts(self):
         self.gui['filter_column'].setValue(2)
-        self.gui['filter'].setText("1")        
+        self.gui['filter'].setText("1")
+                
     def sFilterFinishes(self):
         self.gui['filter_column'].setValue(2)
         self.gui['filter'].setText("250")
+        
+        '''
+     F11 - konečné výsledky, 1 čas na řádek
+    '''                                    
+    def sExportDirect(self, export_type = eCSV_EXPORT):
+        print "sExport: start"
+        exported = self.sExportCsv()
+        print "sExport: done", exported
+        
+        
+    def sExportCsv(self):               
+        
+        #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
+        #if ret == False: #cancel button
+        #    return         
+        
+        #get filename  
+        racename = dstore.GetItem("racesettings-app", ['race_name'])      
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+        try:
+            os.makedirs(dirname)
+        except OSError:
+            dirname = "export/"
+                                         
+        if(dirname == ""):
+            return        
+                            
+        exported = {}
+                
+        for i in range(0, NUMBER_OF.EXPORTS): 
+            
+            if (tabExportSettings.IsEnabled(i, "csv") == False):
+                continue
+            
+            #df =  manage_calc.exportDf[i]
+            df = mgr.GetDfs()["table"]
+            
+#             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
+#                 if "time1" in df:
+#                     if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
+#                         df.time1[df.time1>"30:00,00"] = "DNF"
+#                     else:
+#                         df.time1[df.time1>"00:30:00,00"] = "DNF" 
+#                             
+#                 if "time2" in df:
+#                     if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
+#                         df.time2[df.time2>"30:00,00"] = "DNF"
+#                     else:
+#                         df.time2[df.time2>"00:30:00,00"] = "DNF" 
+#                             
+#                 if "time3" in df:
+#                     if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
+#                         df.time3[df.time3>"30:00,00"] = "DNF"
+#                     else:
+#                         df.time3[df.time3>"00:30:00,00"] = "DNF"             
+        
+            #get racename
+            header = dstore.GetItem("export_header", [i])             
+            racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))            
+                        
+            #complete export
+            if(len(df) != 0):
+                filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
+                self.ExportToCsvFile(dirname+filename+".csv", racename, df)            
+                exported["total"] = len(df)
+            
+            
+#             #category export                
+#             c_df = manage_calc.exportDf[i]           
+#             c_df = c_df.set_index("category")
+#             category_groupby = c_df.groupby(c_df.index)
+#             for c_name, c_df in category_groupby:                
+#                 if(len(c_df) != 0):
+#                     category = tableCategories.model.getCategoryParName(c_name)
+#                     
+#                     #add prefix and suffix for category name and desription
+#                     c_name =  header["categoryname"].replace("%category%", c_name)
+#                     category["name"] = c_name                    
+#                     category["description"]  =  header["description"].replace("%description%", category["description"])
+#                    
+#                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)                    
+#                     self.ExportToCsvFile(dirname+filename+".csv", racename, c_df, category = category)
+#                     exported[filename] = len(c_df) 
+#                     
+#             #group export
+#             groups = {}
+#             g_df = manage_calc.exportDf[i]
+#             for x in range(1,11):                
+#                 g_label = "g"+str(x)
+#                 values = tableCategories.getCategoryNamesParGroupLabel(g_label)   
+#                 #print "VALUES", values
+#                 categories = values 
+#                 #print type(categories[0])#[str(v) for v in values]             
+#                 aux_df = g_df[g_df["category"].isin(categories)]                                               
+#                 if(len(aux_df) != 0):
+#                     group = tableCGroups.getTabCGrouptParLabel(g_label)
+#                     filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
+#                     self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df, group = group)                                       
+#                     exported[filename] = len(aux_df)
+                
+
+                         
+        return exported    
+
+    
+    def ExportToCsvFile(self, filename, racename, df, category = None, group = None):
+
+        '''get the keys and strings'''
+                      
+        if category != None:                                 
+            header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item              
+        elif group != None:            
+            header_strings = ["Skupina: " + group['name'], group['description']] #second line, first and last item
+        else:            
+            header_strings = ["", ""] #second line, first and last item                     
+        
+        
+        '''add & convert header, write to csv file'''        
+        aux_df = df
+        if len(aux_df != 0):  
+            #export header
+            header_length = len(aux_df.columns)
+            header_racename = [racename,] + (header_length-1) * ['']
+            header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
+            
+            #convert header EN => CZ
+            tocz_dict = dstore.GetItem("export", ["names"])                                                 
+            aux_df = aux_df.rename(columns = tocz_dict)                                                              
+            #aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
+            
+            
+            #export times (with collumn's names)            
+            try:              
+                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
+                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")                
+            except IOError:
+                uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+                           
+        return aux_df                           
+
+        
         
     ''' 
      end of SLOTS
@@ -174,7 +480,7 @@ class DfTableTimes(DfTable):
         elif((self.auto_refresh_cnt-1) != 0):        
             self.auto_refresh_cnt = self.auto_refresh_cnt - 1                  
         else:
-            print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
+            #print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
             self.auto_refresh_cnt = autorefresh
             ret = self.Update()
             if(ret == True):                       
@@ -271,9 +577,8 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
     
     
-import multiprocessing
 tableTimes = DfTableTimes()         
-q = multiprocessing.Queue()
+
 
         
  

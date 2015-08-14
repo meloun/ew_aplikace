@@ -89,7 +89,11 @@ DEF_DATA = {
                                },
         "gui"                : {"GET_SET"  : {"value": {
                                                         "active_tab": 0,
-                                                        "active_row": 0
+                                                        "active_row": 0,
+                                                        "update_requests":{
+                                                                         "tableUsers":False,
+                                                                         "tableTimes":False 
+                                                                        }
                                                         }
                                               }
                                },

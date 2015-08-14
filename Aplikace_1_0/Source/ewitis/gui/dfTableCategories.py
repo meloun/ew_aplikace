@@ -15,6 +15,7 @@ from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
+#from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.aTab import MyTab
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
@@ -51,8 +52,12 @@ class DfModelCategories(DataframeTableModel):
     
     def getCategoryParName(self, name):        
         #category = df_utils.Get(self.df, 0, {"name":name})
-        categories = self.df[self.df['name'].str.match(name)]          
-        category = categories.iloc[0]
+        print "getCategoryParName", name
+        categories = self.df[self.df['name'].str.match(name)]
+        try:                  
+            category = categories.iloc[0]
+        except IndexError:
+            return pd.DataFrame()
 
                   
         return category
@@ -62,7 +67,11 @@ class DfModelCategories(DataframeTableModel):
         print categories
         return categories
 
-    
+    def Update(self):
+        ret = DataframeTableModel.Update(self)
+        dstore.SetItem("gui", ["update_requests", "tableUsers"], True)
+        return ret
+        
     
 '''
 Proxy Model
@@ -92,8 +101,9 @@ class DfTableCategories(DfTable):
     def createSlots(self):
         DfTable.createSlots(self)           
                 
-    def Update(self):                                                                                  
-        return DfTable.Update(self)
+    def Update(self):    
+        ret = DfTable.Update(self)                                                                                           
+        return ret
         
           
                 

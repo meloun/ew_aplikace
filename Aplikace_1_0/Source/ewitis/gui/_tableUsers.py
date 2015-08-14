@@ -165,6 +165,7 @@ class Users(myTable):
         #self.timer1s = QtCore.QTimer(); 
         #self.timer1s.start(1000);
             
+
             
     def getDbUserParNr(self, nr, db_con = None):
         if db_con == None:

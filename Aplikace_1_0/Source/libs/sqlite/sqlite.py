@@ -12,6 +12,7 @@ import time
 import libs.db_csv.db_csv as Db_csv
 import libs.utils.utils as utils
 from ewitis.data.dstore import dstore
+import numpy
 
 
 class CSV_FILE_Error(Exception): pass
@@ -158,10 +159,14 @@ class sqlite_db(object):
     def insert_from_lists(self, tablename, keys, values, commit = True):
                 
         ret = True
-        
-        '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
-        values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
-        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])      
+                        
+        #float => integer                
+        values = [int(value) if isinstance( value, float) else value for value in values ]
+                       
+        '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot ''' 
+        values_str = u",".join([u"'"+unicode(str(x))+u"'" for x in values])   
+        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
+              
         #mystring =   u",".join([u" "+unicode(k)+u"='"+unicode(v)+u"'" for k,v in zip(keys, values)])    
         
         #keys_str = u",".join(keys)
@@ -172,8 +177,7 @@ class sqlite_db(object):
         
         '''sestaveni a provedeni dotazu'''
         query = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
-        query = query.replace('\'None\'', 'Null')
-        #print "qq2", query
+        query = query.replace('\'None\'', 'Null')        
                 
         try:
             ret = self.query(query)

@@ -20,3 +20,14 @@ cmds = {
 #    print cmd[1]['cmd'], type(cmd)
 
 print sorted(cmds.iteritems(), key=lambda (x, y): y['cmd'])
+
+
+
+cmds = [                                                                
+        {'cmd':0x04,  'length':0,     'blackbox': True,    'terminal': True},                                      
+        {'cmd':0x08,  'length':2,     'blackbox': True,    'terminal': False}                                      
+]
+
+
+print  [ cmd['cmd'] for cmd in cmds]  
+        

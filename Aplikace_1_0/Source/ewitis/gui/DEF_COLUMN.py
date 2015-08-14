@@ -14,16 +14,7 @@ WIDTH_NUMBER_3DIGIT = 35
 RUNS
 """
 RUNS = {}
-        
-""" database columns """
-RUNS['database'] = {
-                    "state"         :     {"name": "state",         "default": 161},
-                    "id"            :     {"name": "id",            "default": 0},
-                    "starttime_id"  :     {"name": "starttime_id",  "default": 0},
-                    "date"          :     {"name": "date",          "default": "0.0. 2000 00:00:00"},
-                    "name_id"       :     {"name": "name_id",       "default": 0},                    
-                    "description"   :     {"name": "description",   "default": ""}                                
-                  }
+
 """ table collumns """
 RUNS['table'] = { 
                  "id"            :     {"index": 0,  "name": "id",          "default": 0,                       "width": WIDTH_NUMBER_4DIGIT,   "write": False},                                
@@ -36,26 +27,7 @@ TIMES
 """
 TIMES = {}
         
-""" database column for times """
-TIMES['database'] = {
-                            "state"        :     {"index": 0,  "name": "state",        "default": 161},
-                            "id"           :     {"index": 1,  "name": "id",           "default": 0},
-                            "run_id"       :     {"index": 2,  "name": "run_id",       "default": 0},
-                            "user_id"      :     {"index": 3,  "name": "user_id",      "default": 0},
-                            "cell"         :     {"index": 4,  "name": "cell",         "default": 250},
-                            "time_raw"     :     {"index": 5,  "name": "time_raw",     "default": 0},
-                            "time1"        :     {"index": 6,  "name": "time1",        "default": None},
-                            "lap1"         :     {"index": 7,  "name": "time1",        "default": None},
-                            "time2"        :     {"index": 8,  "name": "time1",        "default": None},
-                            "lap2"         :     {"index": 9,  "name": "time1",        "default": None},
-                            "time3"        :     {"index": 10,  "name": "time1",       "default": None},
-                            "lap3"         :     {"index": 11,  "name": "time1",       "default": None},
-                            "un1"          :     {"index": 12,  "name": "un1",         "default": 0},
-                            "un2"          :     {"index": 13,  "name": "un2",         "default": 0},
-                            "un3"          :     {"index": 14,  "name": "un3",         "default": 0},
-                            "us1"          :     {"index": 15,  "name": "us1",         "default": 0},
-                            #"time"      :     {"index": 6,  "name": "time",     "default": None},                                
-                      }                            
+                         
 
 """ table collumn for times, mode race """
 TIMES['table'] =   {
@@ -94,27 +66,6 @@ USERS
 USERS = {}
 
 
-""" database columns """
-USERS['database'] = { 
-                    "id"            :     {"index": 0,      "name": "id",           "default": 0},
-                    "nr"            :     {"index": 1,      "name": "nr",           "default": 0},
-                    "status"        :     {"index": 2,      "name": "status",       "default": "race"},    
-                    "name"          :     {"index": 3,      "name": "name",         "default": "unknown"},
-                    "first_name"    :     {"index": 4,      "name": "first_name",   "default": "unknown"},
-                    "category_id"   :     {"index": 5,      "name": "category",     "default": 1},
-                    "club"          :     {"index": 6,      "name": "club",         "default": ""},
-                    "year"          :     {"index": 7,      "name": "year",     "default": ""},
-                    "sex"           :     {"index": 8,      "name": "sex",          "default": ""},
-                    "email"         :     {"index": 9,      "name": "email",        "default": ""},
-                    "symbol"        :     {"index": 10,     "name": "symbol",       "default": ""},
-                    "paid"          :     {"index": 11,     "name": "paid",         "default": ""},
-                    "note"          :     {"index": 12,     "name": "note",         "default": ""},
-                    "o1"            :     {"index": 13,     "name": "o1",           "default": ""},
-                    "o2"            :     {"index": 14,     "name": "o2",           "default": ""},
-                    "o3"            :     {"index": 15,     "name": "o3",           "default": ""},    
-                    "o4"            :     {"index": 16,     "name": "o4",           "default": ""},                                                                                                                                                                                                
-                  }
-
 """ table collumns """
 USERS['table'] = { "id"            :     {"index": 0,   "name": "id",           "name_cz": u"id",        "default": 0,           "width": WIDTH_NUMBER_4DIGIT,   "write":False },                   
                    "nr"            :     {"index": 1,   "name": "nr",           "name_cz": u"Číslo",     "default": 0,           "width": WIDTH_NUMBER_4DIGIT,   "write":True },
@@ -142,23 +93,6 @@ CATEGORIES
 CATEGORIES = {}
 
 
-""" database columns """
-CATEGORIES['database'] = {
-                           "id"            :     {"index": 0,  "name": "id",           "default": 0},
-                           "name"          :     {"index": 1,  "name": "name",         "default": "unknown"},                                                                 
-                           "description"   :     {"index": 2,  "name": "description",  "default": "0"},
-                           "start_nr"      :     {"index": 3,  "name": "start_nr",     "default": 1},
-                           "g1"            :     {"index": 4,  "name": "g1",           "default": 0},
-                           "g2"            :     {"index": 5,  "name": "g2",           "default": 0},
-                           "g3"            :     {"index": 6,  "name": "g3",           "default": 0},
-                           "g4"            :     {"index": 7,  "name": "g4",           "default": 0},
-                           "g5"            :     {"index": 8,  "name": "g5",           "default": 0},
-                           "g6"            :     {"index": 9,  "name": "g6",           "default": 0},
-                           "g7"            :     {"index": 10, "name": "g7",           "default": 0},
-                           "g8"            :     {"index": 11, "name": "g8",           "default": 0},
-                           "g9"            :     {"index": 12, "name": "g9",           "default": 0},
-                           "g10"           :     {"index": 13, "name": "g10",          "default": 0},
-                         }
 """ table collumns """
 CATEGORIES['table'] = {
                         "id"          :     {"index": 0,   "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":False  },
@@ -183,13 +117,6 @@ CATEGORY GROUPS
 CGROUPS = {}
 
 
-""" database columns """
-CGROUPS['database'] = {
-                           "id"            :     {"index": 0,  "name": "id",           "default": 0},
-                           "label"         :     {"index": 1,  "name": "label",        "default": "gx"},                                                                 
-                           "name"          :     {"index": 2,  "name": "name",         "default": ""},                                                                 
-                           "description"   :     {"index": 3,  "name": "description",  "default": ""},                           
-                         }
 """ table collumns """
 CGROUPS['table'] = {
                         "id"          :     {"index": 0,  "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,      "write":False  },
@@ -204,13 +131,6 @@ TAGS
 TAGS = {}
 
 
-""" database columns """
-TAGS['database'] = {
-                           "id"          :     {"index": 0,  "name": "id",            "default": 0},
-                           "tag_id"      :     {"index": 1,  "name": "tag_id",        "default": 0},                                                                 
-                           "printed_nr"  :     {"index": 2,  "name": "printed_nr",    "default": 0},
-                           "user_nr"     :     {"index": 3,  "name": "user_nr",       "default": 0},
-                         }
 """ table collumns """
 TAGS['table'] = {
                         "id"         :     {"index": 0,  "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,        "write":False   },
@@ -245,13 +165,6 @@ POINTS
 """
 POINTS = {}
 
-""" database columns """
-POINTS['database'] = {
-                      "id"          :    {"index": 0,  "name": "id",            "default": 0},
-                      "order_"      :    {"index": 1,  "name": "order",         "default": 0},                                                                 
-                      "points"      :    {"index": 2,  "name": "points",        "default": 0},
-                      "description" :    {"index": 3,  "name": "description",   "default": ""},
-                      }
 """ table collumns """
 POINTS['table'] =    {
                       "id"          :    {"index": 0,  "name": "id",           "default": 0,         "width": WIDTH_NUMBER_4DIGIT,     "write":False},
@@ -264,17 +177,6 @@ POINTS['table'] =    {
 RACE INFO
 """
 RACEINFO = {}
-""" database columns """
-RACEINFO['database'] = {
-                      "id"          :    {"index": 0,  "name": "id",            "default": 0},
-                      "name"        :    {"index": 1,  "name": "id",            "default":"unknown"},                      
-                      "startlist"   :    {"index": 2,  "name": "startlist",     "default": 0},                                                                                       
-                      "dns"         :    {"index": 3,  "name": "dns"   ,        "default": 0},                      
-                      "finished"    :    {"index": 4,  "name": "finished",      "default": 0},
-                      "dnf"         :    {"index": 5,  "name": "dnf",           "default": 0},
-                      "dq"          :    {"index": 6,  "name": "dq",            "default": 0},
-                      "race"        :    {"index": 7,  "name": "race",          "default": 0},
-                      }
 """ table collumns """
 RACEINFO['table'] =    {
                       "id"          :    {"index": 0,  "name": "id",            "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},

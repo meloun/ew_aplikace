@@ -4,7 +4,7 @@ Created on 04.08.2015
 @author: z002ys1y
 '''
 import multiprocessing, time, sys
-import pandas as pd
+
 
 NR_ROWS = 8000
 i = 0
@@ -20,7 +20,7 @@ def f_put_once(q):
      
     data = getList()                
     q.put(data)
-    print "P:", data[0][0], q.empty(), q.full()         
+    print "P:", data[0][0]         
     sys.stdout.flush()                    
     time.sleep(0.5)
         
@@ -30,7 +30,7 @@ def f_put(q):
     while(1): 
         data = getList()                
         q.put(data)
-        print "P:", data[0][0], q.empty(), q.full()      
+        print "P:", data[0][0]      
         sys.stdout.flush()                    
         time.sleep(0.5)
                      
@@ -38,18 +38,13 @@ def f_put(q):
 def f_get(q):                
     data = {}
     
-    while True:
-        try:            
-            data = q.get_nowait()
-            print "get"
-        except:
-            break   
-#     while not q.empty():
-#         data = q.get()
-#         print "get"
+  
+    while not q.empty():
+        data = q.get()
+        print "get"
         
     if data != {}:
-        print "G:", data[0][0], q.empty(), q.full()
+        print "G:", data[0][0]
     else:
         print "nothing new"
     return data
@@ -59,11 +54,8 @@ def f_get(q):
     
 if __name__ == "__main__":
     mgr = multiprocessing.Manager()
-    #q = mgr.Queue()
-    q = multiprocessing.Queue()
-
         
-    #p = multiprocessing.Process(target=f_put, args=(q,))            
+    q = multiprocessing.Queue()            
     p = multiprocessing.Process(target=f_put, args=(q,))
     
     

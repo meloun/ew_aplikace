@@ -30,7 +30,7 @@ from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCGroups import tableCGroups
 from ewitis.gui.dfTableTags import tableTags
 from ewitis.gui.dfTableAlltags import tableAlltags
-from ewitis.gui.tableRaceInfo import RaceInfo
+from ewitis.gui.dfTableRaceInfo import tableRaceInfo
 
 from ewitis.gui.MenusBars import Bars
  
@@ -51,13 +51,13 @@ from ewitis.gui.dfTableTags import tabTags
 from ewitis.gui.dfTableCGroups import tabCGroups
 from ewitis.gui.dfTableCategories import tabCategories
 from ewitis.gui.dfTableUsers import tabUsers
+from ewitis.gui.dfTableRaceInfo import tabRaceInfo
 from ewitis.gui.tabRunsTimes import tabRunsTimes
 from ewitis.gui.tabCells import tabCells 
 from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.tabExportSettings import tabExportSettings
 from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabRaceSettings import tabRaceSettings
-from ewitis.gui.tableRaceInfo import tabRaceInfo
 from ewitis.gui.tabDiagnostic import tabDiagnostic
 from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout

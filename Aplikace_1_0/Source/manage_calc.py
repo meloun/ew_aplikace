@@ -5,43 +5,61 @@ Created on 29.05.2015
 @author: Lubos Melichar
 '''
 
-import threading
+
 import time
 import pandas.io.sql as psql    
 import pandas as pd
+import numpy as np
 import libs.sqlite.sqlite_utils as db_utils
 import libs.pandas.df_utils as df_utils
 from ewitis.data.DEF_DATA import *
-#from ewitis.gui.TimesStore import TimesStore, timesstore
-from ewitis.gui.tabExportSettings import tabExportSettings
-import ewitis.gui.TimesUtils as TimesUtils
 import ewitis.gui.DEF_COLUMN as DEF_COLUMN
-from ewitis.gui.Ui import Ui
-from PyQt4 import QtGui, QtCore
-from ewitis.gui.events import myevent, myevent2
-from ewitis.gui.Ui import appWindow
+from ewitis.gui.multiprocessingManager import eventCalcNow, eventCalcReady
+import ewitis.gui.TimesUtils as TimesUtils
+import os
+
+def getDf():
+    myheader = ["name", "test2", "test3"]
+    random_nr = int(round(time.clock() * 13))            
+    myrow1 =   [ random_nr,  random_nr+400, 250]
+    myrow2 =   [ random_nr+1,  random_nr+400, 250]
+    df = pd.DataFrame([myrow1]*100 + [myrow2]*100, columns = myheader)
+    return df
+
+class ProcessDstore():
+    def __init__(self, data):
+        self.data = data
+        
+    def GetData(self):        
+        return self.data
+    def Get(self, name):        
+        return self.data[name]
+    
+    def GetItem(self, name, keys):        
+        item = self.data[name]
+        
+        for key in keys:                      
+            if (key not in item) and not isinstance(key, int):
+                return None
+            item = item[key]                
+
+        return item        
 
 
-class ManageCalc(threading.Thread):            
-    def __init__(self, tableUsers, tableCategories, dstore):        
-        self.tableUsers = tableUsers
-        self.tableCategories = tableCategories
-        self.dstore = dstore                
-        self.joinedDfFreeze = pd.DataFrame()                                        
-        threading.Thread.__init__(self)
-        self.calctime = 0
-        self.maxcalctime = 0
-        self.a = 0
-        self.commit_flag = False
-        self.tick = 0
 
-                         
-    def sRefresh(self):
-        print "manage refresh"    
+class ManageCalcProcess():            
+    def __init__(self):         
+        self.maxcalctime = 0 
              
-    def run(self):
-        print "CALC: zakladam vlakno.."
-        myevent2.set()                    
+    def run(self, dstore, dfs, info, eventCalcNow, eventCalcReady):        
+        print "I:P: CALC: zakladam process..", dstore
+        
+        
+        self.dstore = ProcessDstore(dstore)    
+        
+        print "I:P: CALC: dstore..",  self.dstore.GetData()    
+        
+        #myevent2.set()                    
         
         """ DATABASE """                
         try:           
@@ -51,10 +69,15 @@ class ManageCalc(threading.Thread):
             
                 
             
-            
+        complete_calc_flag = False    
         while(1):
             
-            #delay
+            
+            #
+            if(eventCalcReady.is_set() == False):
+                complete_calc_flag = True 
+            
+            #delay            
             ztime = time.clock()
             
             self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
@@ -64,47 +87,48 @@ class ManageCalc(threading.Thread):
             """ update DFs """
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
-            print "C: GetUserCategoryDf()", time.clock() - ytime,"s"
-            
+            #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
             
             """ update joined DF"""
             ytime = time.clock() 
-            self.GetJoinedDf()            
-            print "C: GetJoinedDf() 1", time.clock() - ytime,"s"
+            self.GetJoinedDf()
+            #print "#1", self.joinedDf
+            #print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
-
             """ update times """                                            
             ytime = time.clock() 
             self.GetTimesDfs()                                                 
             self.UpdateTimes(self.timesDfs)                                                        
             self.GetJoinedDf()
-            print "C: UpdateTimes()", time.clock() - ytime,"s"
-            
+            #print "#2", self.joinedDf
+            #print "TTT", self.joinedDf.loc[2237]
+            #print "P: C: UpdateTimes()", time.clock() - ytime,"s"                        
                                                                                                                                                                                         
             #laps
             ytime = time.clock()
             self.GetLapsDfs()                                                                         
             self.UpdateLaps(self.lapsDfs)
-            self.GetJoinedDf()                                                                                                                                                                                                                        
-            print "C: UpdateLaps()", time.clock() - ytime,"s"
+            self.GetJoinedDf()  
+            #print "#3", self.joinedDf                                                                                                                                                                                                                      
+            #print "P: C: UpdateLaps()", time.clock() - ytime,"s"
                         
             #orderX 
-            ytime = time.clock()
             self.orderDfs = self.GetOrderDfs()                                                   
+            ytime = time.clock()
             self.joinedDf = self.UpdateOrder()                        
-            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #points                                                  
             ytime = time.clock()
-            self.joinedDf = self.UpdatePoints(self.joinedDf)
-            print "C: UpdatePoints()", time.clock() - ytime,"s"                        
+            self.joinedDf = self.UpdatePoints(self.joinedDf)            
+            #print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
             
             #orderX 
             ytime = time.clock()
             self.GetOrderDfs()                                                                                       
             ytime = time.clock()
             self.UpdateOrder()                                    
-            print "C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
@@ -112,27 +136,34 @@ class ManageCalc(threading.Thread):
             #convert times to string format
             self.joinedDf = self.df2tableDf(self.joinedDf)
             
+            time.sleep(6)
+            
             #sort and copy 
             ytime = time.clock()           
             if self.joinedDf.empty:
-                self.joinedDfFreeze = pd.DataFrame()
+                dfs["table"] = pd.DataFrame()                
             else:                              
-                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]            
-                self.joinedDfFreeze = self.joinedDf[columns].copy()
-            print "C: sort and copy", time.clock() - ytime,"s"                                 
+                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
+                dfs["table"] = self.joinedDf[columns].copy()
             
-            #print(".",end='')
-            print "I: Calc: COMPLETE", time.clock() - ztime,"s"
+            #print "#T", dfs["table"]
             
+            if(complete_calc_flag):
+                eventCalcReady.set()                            
+            #print "P: C: sort and copy", time.clock() - ytime,"s"                                 
+                        
+            print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
+            #print 'process id:', os.getpid()                                                                    
             sys.stdout.write('.')
-            self.calctime = time.clock() - ztime
-            if self.calctime > self.maxcalctime:
-                self.maxcalctime = self.calctime
+            
+            info["lastcalctime"] = time.clock() - ztime
+            if info["lastcalctime"] > self.maxcalctime:
+                self.maxcalctime = info["lastcalctime"]
                 print "MAX CALC-TIME:", self.maxcalctime
-                            
-            myevent.wait(0.3)
-            myevent.clear() 
-            myevent2.wait()   
+                                                     
+            sys.stdout.flush()              
+            eventCalcNow.wait(6)            
+            eventCalcNow.clear()             
             
     def LastCalcTime(self):
         return self.calctime
@@ -140,12 +171,13 @@ class ManageCalc(threading.Thread):
     def GetUserCategoryDf(self):
         # USER df
         uDf = psql.read_sql("SELECT * FROM users", self.db, index_col = "id")                 
-        uDf["name"] = uDf['name'].str.upper() +' '+uDf['first_name']      
+        uDf["name"] = uDf['name'].str.upper() +' '+uDf['first_name']        
         
         # CATEGORY df
-        cDf = psql.read_sql("SELECT id, name, start_nr FROM categories", self.db)
-        cDf.columns = ['id', 'category', "start_nr"]                                  
-        uDf =  pd.merge(uDf,  cDf, left_on='category_id', right_on='id', how="left")        
+        cDf = psql.read_sql("SELECT id, name, start_nr FROM categories", self.db, index_col = "id")
+        cDf.columns = ['category', "start_nr"]                                  
+        #uDf =  pd.merge(uDf,  cDf, left_on='category_id', right_on='index', how="left")       
+        uDf =  uDf.merge(cDf, left_on='category_id', right_index = True, how="left")                
         
                
         #print "u", uDf.columns 
@@ -153,37 +185,43 @@ class ManageCalc(threading.Thread):
         return uDf
                     
     def GetJoinedDf(self):
-        run_id = dstore.Get("current_run")
+        run_id = self.dstore.Get("current_run")
             
         # DB df 
         #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
         self.joinedDf = psql.read_sql(\
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
-                                , self.db)            
+                                , self.db)                  
         
         #set index = id
         self.joinedDf.set_index('id',  drop=False, inplace = True)            
         
         #replace nan with None            
-        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)                    
+        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
+        #print "1111", self.joinedDf.loc[2237]                    
 
         
-        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
+        if(self.dstore.GetItem("racesettings-app", ['rfid']) == 2):
             tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
             tDf = tDf[["user_nr", "tag_id"]]
             self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
             self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")
             self.joinedDf.set_index('id',  drop=False, inplace = True) 
-        else:
-            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_id', right_index=True, how="left")
+        else:                        
+            #print  "left",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
+            #print  "right",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="right")
+            self.joinedDf =  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
+            
         
-
-        self.joinedDf.sort("time_raw", inplace=True)            
         
-        #replace nan with None
-        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
-                
+        self.joinedDf.sort("time_raw", inplace=True)
+        
+        #self.joinedDf["nr"].fillna(0, inplace = True)                     
+        
+        #replace nan with None        
+        self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)        
+                       
         return self.joinedDf
     
     def df2tableDf(self, df):
@@ -194,7 +232,7 @@ class ManageCalc(threading.Thread):
         '''TIMERAW'''
         df['timeraw'] = df['time_raw'].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, True))                                                                                                                                        
         
-        additional_info = dstore.Get("additional_info")        
+        additional_info = self.dstore.Get("additional_info")        
         
         '''TIME 1-3'''
         for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -203,7 +241,7 @@ class ManageCalc(threading.Thread):
             if additional_info['time'][i]:                
                 timeX = 'time'+str(i+1)
                 if(df[timeX].empty == False):                                                                        
-                    minute_timeformat = dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
+                    minute_timeformat = self.dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
                     df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                         
             else: 
                 df[timeX] = None
@@ -220,7 +258,7 @@ class ManageCalc(threading.Thread):
             timeX = "time"+str(i+1)                
                          
             time_group = self.dstore.GetItem('additional_info', ['time', i])
-            if(time_group['checked'] != 0):
+            if(time_group['checked'] != 0):            
                                                 
                 #prepare filtered df for times                                                
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
@@ -365,7 +403,7 @@ class ManageCalc(threading.Thread):
                         
         self.commit_flag = False
         for i in range(0, NUMBER_OF.THREECOLUMNS):                        
-            self.joinedDf["lap"+str(i+1)] = self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
+            self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
                                                                                                     
         if self.commit_flag:
             db_utils.commit(self.db) 
@@ -393,8 +431,7 @@ class ManageCalc(threading.Thread):
             updated dataframe with all points   
         """
         if self.joinedDf.empty == False:
-            for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-                QtCore.QCoreApplication.processEvents()
+            for i in range(0, NUMBER_OF.POINTSCOLUMNS):                
                 pointsX = "points"+str(i+1)                                  
                 self.joinedDf[pointsX] = self.joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
                 self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
@@ -427,12 +464,7 @@ class ManageCalc(threading.Thread):
             return time
         return time
     
-    def CalcPoints(self, tabTime, index):
-        self.tick = self.tick + 1
-        if(self.tick>100):            
-            time.sleep(0.02)
-            self.tick = 0
-        ytime = time.clock()
+    def CalcPoints(self, tabTime, index):        
         points = self.Calc(tabTime, index, 'points')        
         return points
     def CalcAndUpdatePoints(self, tabTime, index):
@@ -526,13 +558,7 @@ class ManageCalc(threading.Thread):
         '''
         pokud není čas spočítá čas,
         pokud je čas a není lap spočítá lap                            
-        '''    
-        self.tick = self.tick + 1
-        if(self.tick>100):            
-            time.sleep(0.02)            
-            self.tick = 0
-        #QtCore.QCoreApplication.processEvents()
-        
+        '''        
         df = self.orderDfs[index]                                                    
                          
         #'''no order in some cases'''
@@ -555,7 +581,7 @@ class ManageCalc(threading.Thread):
         
         aux_df = pd.DataFrame()         
         #take order df
-        group = dstore.GetItem('additional_info', ['order', index])                
+        group = self.dstore.GetItem('additional_info', ['order', index])                
         
         if(group['type'] == "Total"):            
             aux_df = df['total']            
@@ -729,7 +755,7 @@ class ManageCalc(threading.Thread):
                         celltime = self.GetPrevious(joinTime, {"cell":str(i)}, df)
                         expression_string = expression_string.replace(celltimeX, str(celltime['time_raw']))                 
                     except TypeError:       
-                        print "type error celltime: ", rule, joinTime         
+                        print "type error celltime: ", rule, "time id:", joinTime["id"]         
                         return None
 
         # prevI-timeX
@@ -825,10 +851,10 @@ class ManageCalc(threading.Thread):
                 continue            
             
             #get export group            
-            checked_info = dstore.GetItem('export', ["checked", i])
+            checked_info = self.dstore.GetItem('export', ["checked", i])
             
             #get export group
-            filtersort = dstore.GetItem('export_filtersort', [i])
+            filtersort = self.dstore.GetItem('export_filtersort', [i])
                                       
             #print group
             filter = filtersort['filter']
@@ -881,20 +907,13 @@ class ManageCalc(threading.Thread):
                 ordercatX = 'ordercat'+str(oc+1)
                 orderX = 'order'+str(oc+1)                
                 aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
-                                   
-            #print columns
-            #print aux_df.columns
+                                                           
             self.exportDf[i] = aux_df[columns]                            
-
-        #print str(i), self.exportDf[i]                     
+                           
         return self.joinedDf             
     
-#from ewitis.gui.tableCategories import tabCategories
-from ewitis.gui.dfTableCategories import tabCategories
-from ewitis.gui.dfTableUsers import tabUsers
-from ewitis.data.dstore import dstore   
 
-manage_calc = ManageCalc(tabUsers.tables[0], tabCategories.tables[0], dstore)
+manage_calc = ManageCalcProcess()
     
        
                                                                          

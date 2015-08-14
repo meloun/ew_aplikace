@@ -11,6 +11,7 @@ import pandas as pd
 import pandas.io.sql as psql 
 from PyQt4 import QtCore, QtGui
 from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils
+import libs.pandas.df_utils as df_utils
 
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
@@ -53,7 +54,7 @@ class DfModelUsers(DataframeTableModel):
             try:
                 mydict["category_id"] = tableCategories.model.getCategoryParName(str(mydict["category"]))['id']            
                 del mydict["category"]
-            except IndexError:            
+            except KeyError, IndexError:            
                 uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
                 return                
         
@@ -77,8 +78,14 @@ class DfModelUsers(DataframeTableModel):
         user = df_utils.Get(self.df, 0, {"nr":tag['user_nr']})
         return user
 
-    def getDbUserParIdOrTagId(self, id):
-        user = self.getDbUserParTagId(id)
+    def getUserParIdOrTagId(self, id):
+                
+        
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):                                            
+            user = self.getUserParTagId(id) #tag id
+        else:                            
+            user = self.getRow(id) #id
+                     
         return user
         
     
@@ -125,4 +132,3 @@ tableUsers = DfTableUsers()
 tabUsers = MyTab(tables = [tableUsers,])          
                 
         
- 
