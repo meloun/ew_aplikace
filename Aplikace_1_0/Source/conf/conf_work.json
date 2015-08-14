@@ -54,7 +54,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "last times with time2",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -62,7 +62,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "last times with time3",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -224,7 +224,7 @@
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 2,
+                        "time2": 0,
                         "time3": 0,
                         "time1": 2,
                         "nr": 2,
@@ -242,7 +242,7 @@
                         "name": 2,
                         "ordercat3": 0,
                         "ordercat2": 0,
-                        "lap1": 0,
+                        "lap1": 2,
                         "lap3": 0,
                         "lap2": 0,
                         "us1": 0
@@ -259,9 +259,9 @@
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 0,
+                        "time2": 2,
                         "time3": 0,
-                        "time1": 2,
+                        "time1": 0,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
@@ -279,7 +279,7 @@
                         "ordercat2": 0,
                         "lap1": 0,
                         "lap3": 0,
-                        "lap2": 0,
+                        "lap2": 2,
                         "us1": 0
                     },
                     {
@@ -295,8 +295,8 @@
                         "points4": 0,
                         "points5": 0,
                         "time2": 0,
-                        "time3": 0,
-                        "time1": 2,
+                        "time3": 2,
+                        "time1": 0,
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
@@ -313,7 +313,7 @@
                         "ordercat3": 0,
                         "ordercat2": 0,
                         "lap1": 0,
-                        "lap3": 0,
+                        "lap3": 2,
                         "lap2": 0,
                         "us1": 0
                     }
@@ -348,15 +348,15 @@
                     "name": "Jméno",
                     "ordercat3": "Pořadí/Kategorie",
                     "ordercat2": "Pořadí/Kategorie",
-                    "lap1": "Kolo",
+                    "lap1": "Kolo 11",
                     "lap3": "Kolo",
                     "lap2": "Kolo",
                     "us1": "Us 1"
                 },
                 "enabled_csv": [
                     true,
-                    false,
-                    false
+                    true,
+                    true
                 ]
             }
         },
@@ -763,16 +763,16 @@
                         "filter": "cell=250",
                         "checked": 2,
                         "minute_timeformat": 0,
-                        "rule": "celltime2 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
+                        "filter": "cell=2",
                         "checked": 2,
                         "minute_timeformat": 2,
-                        "rule": "time - celltime2"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=2|3|250",
+                        "filter": "cell=3",
                         "checked": 2,
                         "minute_timeformat": 0,
                         "rule": "time - starttime"
@@ -795,30 +795,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": "Year",
+                        "order1": "Asc",
                         "column1": "Points5",
-                        "row": "Last times"
+                        "column2": "Year"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [
@@ -826,7 +826,7 @@
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:00:11,00%)"
+                        "rule": "abs(time2 - %00:00:11,00%)/10"
                     },
                     {
                         "minimum": 0,

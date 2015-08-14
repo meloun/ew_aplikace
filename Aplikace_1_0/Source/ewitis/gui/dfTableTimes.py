@@ -162,10 +162,11 @@ class DfModelTimes(DataframeTableModel):
             
         #precalculate name and category
         user = tableUsers.model.getUserParNr(tabRow["nr"])
-        if(user['name']):
-            tabRow['name'] = user['name'].upper()
-        user['name'] = user['name'] +' '+user['first_name']                                        
-        tabRow['category'] = user['category']
+        if user:
+            if(user['name']):
+                tabRow['name'] = user['name'].upper()
+                user['name'] = user['name'] +' '+user['first_name']                                        
+            tabRow['category'] = user['category']
         
             
         return tabRow
@@ -323,13 +324,123 @@ class DfTableTimes(DfTable):
         self.gui['filter_column'].setValue(2)
         self.gui['filter'].setText("250")
         
-        '''
+    '''
+    - pro sloupce kde se vyskytuje i něco jiného než číslo jsou reprezentovány jako object
+    - to_csv() čísla exportuje jako float ve formátu 2.00
+    - přetypuju je na float a formátem %g nastavím že nuly se přidávají jen když je třeba
+    '''
+    def ConvertToInt(self, df):  
+        df["nr"]  = df["nr"].astype(float)
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            if "lap"+str(i+1) in df:
+                df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
+            if "order"+str(i+1) in df:
+                df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            if "points"+str(i+1) in df:
+                df["points"+str(i+1)]  = df["points"+str(i+1)].astype(float)                
+        return df
+                                       
+    '''
      F11 - konečné výsledky, 1 čas na řádek
-    '''                                    
+    '''  
     def sExportDirect(self, export_type = eCSV_EXPORT):
-        print "sExport: start"
+        #print tableUsers.model.df.columns
+        #print self.model.df.columns
+        cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)
+        cols_to_use = list(cols_to_use)
+        cols_to_use = cols_to_use + ["nr"]
+        aux_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
+
+
+        aux_df2["nr"]  = aux_df2["nr"].astype(float)
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            aux_df2["lap"+str(i+1)]  = aux_df2["lap"+str(i+1)].astype(float)
+            aux_df2["order"+str(i+1)]  = aux_df2["order"+str(i+1)].astype(float)
+        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
+            aux_df2["points"+str(i+1)]  = aux_df2["points"+str(i+1)].astype(float)
+        
+        #update export df
+        self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
+        for i in range(0, NUMBER_OF.EXPORTS):
+                          
+            aux_df = aux_df2.copy()
+            #print "E: ",i,  aux_df.head(5)
+            
+            if (tabExportSettings.IsEnabled(i) == False):
+                continue            
+            
+            #get export group            
+            checked_info = dstore.GetItem('export', ["checked", i])
+            
+            #get export filtersort
+            filtersort = dstore.GetItem('export_filtersort', [i])
+                                      
+            filter = filtersort['filter']
+            sort1 = filtersort['sort1'].lower()  
+            sort2 = filtersort['sort2'].lower()
+            sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
+            sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
+            
+            #filter 
+            filter_split_keys = filter.split(" ")
+            filter_keys = []
+            for key in filter_split_keys:
+                if(key in aux_df.columns):
+                    filter_keys.append(key)
+                
+            #print filter_keys, len(filter_keys)
+            
+            if(len(filter_keys) == 1):
+                #print "====", filter_keys
+                aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
+                aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
+                #print aux_df[filter_keys[0]]
+                
+            elif(len(filter_keys) == 2):
+                aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
+                aux_df =  aux_df[(aux_df[filter_keys[0]] != None) | (aux_df[filter_keys[1]] != None)]
+            
+            #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
+            
+                        
+            #last time from each user                    
+            aux_df = aux_df.sort("timeraw")                        
+            if("last" in filter):                                                                
+                aux_df = aux_df.groupby("nr", as_index = False).last()
+            aux_df = aux_df.where(pd.notnull(aux_df), None)
+            aux_df.set_index('id',  drop=False, inplace = True)
+            
+            #sort again
+            if(sort2 in aux_df.columns):
+                #print "nested sorting", sort1, sort2, sortorder1, sortorder2
+                #print aux_df
+                aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
+            else:
+                #print "basic sorting"
+                aux_df = aux_df.sort(sort1, ascending = sortorder1)
+                        
+            #filter to checked columns
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+            
+            for oc in range(0, NUMBER_OF.EXPORTS):
+                ordercatX = 'ordercat'+str(oc+1)
+                orderX = 'order'+str(oc+1)                
+                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
+                                                           
+            
+            aux_df = self.ConvertToInt(aux_df)                            
+            print "tady si zkontrolovat jestli musim predavat df v return: ",i,  self.exportDf[i].dtypes
+            self.exportDf[i] = aux_df[columns]
+                           
+            
+        
+        
+        #print "sExport: start"
+        #print self.exportDf[0] 
         exported = self.sExportCsv()
         print "sExport: done", exported
+        return #self.joinedDf             
         
         
     def sExportCsv(self):               
@@ -356,8 +467,8 @@ class DfTableTimes(DfTable):
             if (tabExportSettings.IsEnabled(i, "csv") == False):
                 continue
             
-            #df =  manage_calc.exportDf[i]
-            df = mgr.GetDfs()["table"]
+            df =  self.exportDf[i]
+            #df = mgr.GetDfs()["table"]
             
 #             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
 #                 if "time1" in df:
@@ -389,22 +500,24 @@ class DfTableTimes(DfTable):
                 exported["total"] = len(df)
             
             
-#             #category export                
-#             c_df = manage_calc.exportDf[i]           
-#             c_df = c_df.set_index("category")
-#             category_groupby = c_df.groupby(c_df.index)
-#             for c_name, c_df in category_groupby:                
-#                 if(len(c_df) != 0):
-#                     category = tableCategories.model.getCategoryParName(c_name)
-#                     
-#                     #add prefix and suffix for category name and desription
-#                     c_name =  header["categoryname"].replace("%category%", c_name)
-#                     category["name"] = c_name                    
-#                     category["description"]  =  header["description"].replace("%description%", category["description"])
-#                    
-#                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)                    
-#                     self.ExportToCsvFile(dirname+filename+".csv", racename, c_df, category = category)
-#                     exported[filename] = len(c_df) 
+            #category export                
+            c_df = self.exportDf[i]           
+            c_df = c_df.set_index("category")
+            category_groupby = c_df.groupby(c_df.index)
+            for c_name, c_df in category_groupby:                
+                if(len(c_df) != 0):
+                    category = tableCategories.model.getCategoryParName(c_name)
+                    category = category.to_dict()
+                     
+                    #add prefix and suffix for category name and desription
+                    c_name =  header["categoryname"].replace("%category%", c_name)
+                    category["name"] = c_name                    
+                    category["description"]  =  header["description"].replace("%description%", category["description"])
+                    
+                    filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  
+               
+                    self.ExportToCsvFile(dirname+filename+".csv", racename, c_df, category = category)
+                    exported[filename] = len(c_df) 
 #                     
 #             #group export
 #             groups = {}
@@ -446,7 +559,7 @@ class DfTableTimes(DfTable):
             header_length = len(aux_df.columns)
             header_racename = [racename,] + (header_length-1) * ['']
             header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
-            
+                           
             #convert header EN => CZ
             tocz_dict = dstore.GetItem("export", ["names"])                                                 
             aux_df = aux_df.rename(columns = tocz_dict)                                                              
@@ -455,8 +568,8 @@ class DfTableTimes(DfTable):
             
             #export times (with collumn's names)            
             try:              
-                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")               
-                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8")                
+                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
+                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g")                
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                            

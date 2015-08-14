@@ -15,7 +15,7 @@ from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.data.dstore import dstore
 from ewitis.gui.UiAccesories import MSGTYPE
  
-#tabs
+#tabs    
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
 # from ewitis.gui.dfTableAlltags import tabAlltags
 # from ewitis.gui.dfTableTags import tabTags

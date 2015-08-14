@@ -87,6 +87,7 @@ class ManageCalcProcess():
             """ update DFs """
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
+
             #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
             
             """ update joined DF"""
@@ -136,7 +137,7 @@ class ManageCalcProcess():
             #convert times to string format
             self.joinedDf = self.df2tableDf(self.joinedDf)
             
-            time.sleep(6)
+            #time.sleep(6)
             
             #sort and copy 
             ytime = time.clock()           
@@ -144,8 +145,7 @@ class ManageCalcProcess():
                 dfs["table"] = pd.DataFrame()                
             else:                              
                 columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
-                dfs["table"] = self.joinedDf[columns].copy()
-            
+                dfs["table"] = self.joinedDf[columns].copy()            
             #print "#T", dfs["table"]
             
             if(complete_calc_flag):
@@ -162,7 +162,7 @@ class ManageCalcProcess():
                 print "MAX CALC-TIME:", self.maxcalctime
                                                      
             sys.stdout.flush()              
-            eventCalcNow.wait(6)            
+            eventCalcNow.wait(2)            
             eventCalcNow.clear()             
             
     def LastCalcTime(self):
