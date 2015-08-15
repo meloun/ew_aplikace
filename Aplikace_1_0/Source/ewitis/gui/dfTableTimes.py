@@ -580,6 +580,13 @@ class DfTableTimes(DfTable):
         
         
     def AutoUpdate(self):
+        
+        
+           
+
+
+
+
         ztime = time.clock()                   
         autorefresh = dstore.GetItem("times", ["auto_refresh"])
         if(autorefresh == 0):
@@ -592,8 +599,12 @@ class DfTableTimes(DfTable):
             #print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
             self.auto_refresh_cnt = autorefresh
             ret = self.Update()
-            if(ret == True):                       
-                uiAccesories.showMessage("Auto Refresh", time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)
+            if(ret == True):
+                localtime = time.strftime("%H:%M:%S", time.localtime())
+                updatetime = str(time.clock() - ztime)[0:5]+"s"
+                calctime = str(mgr.GetInfo()["lastcalctime"])[0:5]+"s"                              
+                uiAccesories.showMessage("Auto Refresh", localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)                        
+                #uiAccesories.showMessage("Auto Refresh", time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)
             
                 
                 
@@ -635,29 +646,30 @@ class DfTableTimes(DfTable):
                
       
         
-         #ai = dstore.Get("additional_info")       
-         #create list of columns to hide
-#         ztime = time.clock()
-#         columns = []
-#         for k,v in ai.items():
-#             
-#             #dict            
-#             if ("checked" in v):
-#                 if(v['checked'] == 0):
-#                     columns.append(k)
-#                 continue
-# 
-#             #list of dict                            
-#             c = 0
-#             for item in v:
-#                 c = c+1                
-#                 if(item['checked'] == 0):                    
-#                     columns.append(k+""+str(c))
-#                     
-#         self.hiddenCollumns =  columns                                                             
-#         #self.hiddenCollumns = [k for k,v in ai.items() if v==0]
+
 #                                      
         return ret
+    
+    #create list of columns to hide
+    def CollumnsToHide(self):
+    
+        ai = dstore.Get("additional_info")       
+        columns = []
+        for k,v in ai.items():
+             
+            #dict            
+            if ("checked" in v):
+                if(v['checked'] == 0):
+                    columns.append(k)
+                continue
+ 
+            #list of dict                            
+            c = 0
+            for item in v:
+                c = c+1                
+                if(item['checked'] == 0):                    
+                    columns.append(k+""+str(c))
+        return columns                                                             
 
     
 if __name__ == "__main__":    

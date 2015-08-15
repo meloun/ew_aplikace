@@ -445,7 +445,7 @@ class DfTable():
             except:
                 pass            
         
-        self.updateHideColumns()    
+        self.HideColumns()    
                
         #update counters
         self.updateTabCounter()
@@ -453,10 +453,14 @@ class DfTable():
         #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"        
         return True 
                           
-        
-    def updateHideColumns(self):              
+    #need to be override
+    def CollumnsToHide(self):
+        return []    
+    
+    def HideColumns(self):
+        columns = self.CollumnsToHide()            
         for key,column in self.TABLE_COLLUMN_DEF.items():  
-            if key in self.hiddenCollumns:
+            if key in columns:
                 self.gui['view'].hideColumn(column['index'])
             else:
                 self.gui['view'].showColumn(column['index'])

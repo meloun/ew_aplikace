@@ -8,6 +8,11 @@ Created on 2.1.2014
 
 import threading
 import sys, time
+from libs.logger.logger import Logger
+import libs.timeutils.timeutils as timeutils
+
+sys.stdout = Logger('log/'+time.strftime("%Y_%m_%d__%H_%M_", time.localtime())+'00_log.txt') #open('log/log.txt', 'w')
+
 from PyQt4 import QtGui, QtCore
 
 from ewitis.gui.Ui import appWindow    
