@@ -125,7 +125,9 @@ if __name__ == "__main__":
     from PyQt4 import QtGui
     from manage_calc import manage_calc    
     import multiprocessing  
-    import pandas as pd             
+    import pandas as pd     
+    
+    multiprocessing.freeze_support()
 
         
     #print "pandas: ", pd.__version__

@@ -429,12 +429,8 @@ class DfTableTimes(DfTable):
                 aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
                                                            
             
-            aux_df = self.ConvertToInt(aux_df)                            
-            print "tady si zkontrolovat jestli musim predavat df v return: ",i,  self.exportDf[i].dtypes
+            self.ConvertToInt(aux_df)
             self.exportDf[i] = aux_df[columns]
-                           
-            
-        
         
         #print "sExport: start"
         #print self.exportDf[0] 

@@ -26,5 +26,5 @@ class MultiprocessingManager():
         return self.info
     
 eventCalcNow =  multiprocessing.Event()
-eventCalcReady =  multiprocessing.Event()       
+eventCalcReady =  multiprocessing.Event()     
 mgr = MultiprocessingManager()
