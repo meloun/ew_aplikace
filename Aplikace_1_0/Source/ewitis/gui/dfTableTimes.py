@@ -351,21 +351,12 @@ class DfTableTimes(DfTable):
         cols_to_use = list(cols_to_use)
         cols_to_use = cols_to_use + ["nr"]
         aux_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
-
-
-        aux_df2["nr"]  = aux_df2["nr"].astype(float)
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            aux_df2["lap"+str(i+1)]  = aux_df2["lap"+str(i+1)].astype(float)
-            aux_df2["order"+str(i+1)]  = aux_df2["order"+str(i+1)].astype(float)
-        for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            aux_df2["points"+str(i+1)]  = aux_df2["points"+str(i+1)].astype(float)
         
         #update export df
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):
                           
             aux_df = aux_df2.copy()
-            #print "E: ",i,  aux_df.head(5)
             
             if (tabExportSettings.IsEnabled(i) == False):
                 continue            
@@ -389,8 +380,7 @@ class DfTableTimes(DfTable):
                 if(key in aux_df.columns):
                     filter_keys.append(key)
                 
-            #print filter_keys, len(filter_keys)
-            
+            #print filter_keys, len(filter_keys)        
             if(len(filter_keys) == 1):
                 #print "====", filter_keys
                 aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
@@ -413,11 +403,8 @@ class DfTableTimes(DfTable):
             
             #sort again
             if(sort2 in aux_df.columns):
-                #print "nested sorting", sort1, sort2, sortorder1, sortorder2
-                #print aux_df
                 aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
             else:
-                #print "basic sorting"
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
                         
             #filter to checked columns

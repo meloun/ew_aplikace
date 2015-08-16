@@ -1,5 +1,7 @@
 *.pyc
 *.rst
+*.csv
+*.txt
 aptana-workspace/
 Doc
 build

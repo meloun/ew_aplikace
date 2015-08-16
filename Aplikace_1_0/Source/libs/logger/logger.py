@@ -15,8 +15,7 @@ class Logger(object):
         self.log = open(self.filename, "a")
         self.terminal.write(message)
         self.log.write(message)  
-        self.flush()
-        #self.log.close()
+        self.log.close()
         
     def flush(self):
         self.terminal.flush()  

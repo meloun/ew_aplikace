@@ -5,8 +5,7 @@ Created on 29.05.2015
 @author: Lubos Melichar
 '''
 
-
-import time
+import sys, time
 import pandas.io.sql as psql    
 import pandas as pd
 import numpy as np
@@ -67,7 +66,7 @@ class ManageCalcProcess():
         except:                    
             print "E: Database"
             
-                
+        sys.stdout = sys.__stdout__        
             
         complete_calc_flag = False    
         while(1):
