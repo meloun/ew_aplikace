@@ -12,6 +12,7 @@ from libs.myqt.DataframeTableModel import DataframeTableModel
 from libs.utils.ListOfDicts import ListOfDicts
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
+import ewitis.gui.TimesUtils as TimesUtils
 
 from ewitis.data.DEF_DATA import *
 from ewitis.gui.dfTableUsers import tableUsers
@@ -23,6 +24,7 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.multiprocessingManager import mgr, eventCalcNow, eventCalcReady
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
 from ewitis.gui.tabExportSettings import tabExportSettings
+
 
 
 
@@ -52,7 +54,7 @@ CONF_TABLE_TIMES = [
         {'name': 'un2',      'length':0,   'default': True,   "editable": True  },
         {'name': 'un3',      'length':0,   'default': True,   "editable": True  },
         {'name': 'us1',      'length':0,   'default': True,   "editable": True  },
-        {'name': 'timeraw',  'length':0,   'default': True,   "editable": False },
+        {'name': 'timeraw',  'length':0,   'default': True,   "editable": True  },
 ]
 
 
@@ -91,6 +93,7 @@ class DfModelTimes(DataframeTableModel):
         
     def GetDataframe(self):
         df = mgr.GetDfs()["table"]
+        #print df.head(2)
                 
         if eventCalcReady.is_set() == False:
             #print self.changed_rows
@@ -114,12 +117,12 @@ class DfModelTimes(DataframeTableModel):
         
         #category changed
         if "nr" in mydict:
-            update_flag = False                                    
-            user_id = self.checkChangedNumber(tableRow)                                                 
+            update_flag = False                                                
+            user_id = self.checkChangedNumber(tableRow)                                                                                            
             if user_id != None:
                 mydict["user_id"] = user_id
                 del mydict["nr"]
-                update_flag = True
+                update_flag = True                
                  
                  
                 #print "not cleared", tableRow
@@ -142,8 +145,28 @@ class DfModelTimes(DataframeTableModel):
             #print "CHANGED:", self.changed_rows
                     
             self.ResetNrOfLaps()  
-            eventCalcReady.clear()                       
-            
+            eventCalcReady.clear()   
+        # TIMERAW column
+        elif "timeraw" in mydict:   
+            update_flag = False                  
+            try:
+                dbTimeraw = TimesUtils.TimesUtils.timestring2time(mydict['timeraw'])
+                mydict["time_raw"] = dbTimeraw
+                del mydict["timeraw"]
+                update_flag = True
+                
+                cleared = self.ClearCalculated(tableRow)                
+                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
+                self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+                self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
+                                        
+                self.ResetNrOfLaps()  
+                eventCalcReady.clear()                                 
+                                
+            except TimesUtils.TimeFormat_Error:
+                uiAccesories.showMessage(self.name+" Update error", "Wrong Time format!")
+                                    
+    
         
         #update db from mydict
         if update_flag:        
@@ -182,12 +205,12 @@ class DfModelTimes(DataframeTableModel):
         else:
                         
             #rigthts to change start cell?
-            if(int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
+            if(tabRow['cell'] and int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
                 uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
                 return None
                                         
             #user exist?                    
-            user = tableUsers.model.getUserParNr(tabRow['nr'])                                    
+            user = tableUsers.model.getUserParNr(tabRow['nr'])                                               
             if user == None:
                 uiAccesories.showMessage(self.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
                 return None
@@ -325,6 +348,7 @@ class DfTableTimes(DfTable):
         self.gui['filter'].setText("250")
         
     '''
+    ConvertToInt()
     - pro sloupce kde se vyskytuje i něco jiného než číslo jsou reprezentovány jako object
     - to_csv() čísla exportuje jako float ve formátu 2.00
     - přetypuju je na float a formátem %g nastavím že nuly se přidávají jen když je třeba
@@ -340,23 +364,45 @@ class DfTableTimes(DfTable):
             if "points"+str(i+1) in df:
                 df["points"+str(i+1)]  = df["points"+str(i+1)].astype(float)                
         return df
+    
+    '''
+    '''
+    def ToLapsExport(self, df):        
+        columns_to_transpose = ["nr"] + [s for s in df.columns if "time" in s]        
+        
+        aux_df = df[columns_to_transpose]
+        aux_df['colnum'] = aux_df.groupby('nr').cumcount()+1
+        aux_df = aux_df.pivot(index='nr', columns='colnum')
+        aux_df.columns = ['{}{}'.format(col, num) for col,num in aux_df.columns]
+        aux_df = aux_df.reset_index()
+        
+        print "#1", aux_df
+        cols_to_use = df.columns.difference(aux_df.columns)
+        cols_to_use = list(cols_to_use) + ["nr"]  
+        df = pd.merge(aux_df, df[cols_to_use], on="nr")
+        print "#2", df
+                
+        return df
                                        
     '''
      F11 - konečné výsledky, 1 čas na řádek
+     - prepare DFs for export (according to filter, sort, etc.)
+     - call ExportToCsvFiles with these 3 DFs
     '''  
     def sExportDirect(self, export_type = eCSV_EXPORT):
-        #print tableUsers.model.df.columns
-        #print self.model.df.columns
-        cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)
-        cols_to_use = list(cols_to_use)
-        cols_to_use = cols_to_use + ["nr"]
-        aux_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
+        
+        # 3DFs for 3 exports
+        self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
+                
+        #merge table users and times
+        cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
+        cols_to_use = list(cols_to_use) + ["nr"]
+        ut_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
         
         #update export df
-        self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):
                           
-            aux_df = aux_df2.copy()
+            aux_df = ut_df2.copy()
             
             if (tabExportSettings.IsEnabled(i) == False):
                 continue            
@@ -380,12 +426,10 @@ class DfTableTimes(DfTable):
                 if(key in aux_df.columns):
                     filter_keys.append(key)
                 
-            #print filter_keys, len(filter_keys)        
-            if(len(filter_keys) == 1):
-                #print "====", filter_keys
+        
+            if(len(filter_keys) == 1):                
                 aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
                 aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
-                #print aux_df[filter_keys[0]]
                 
             elif(len(filter_keys) == 2):
                 aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
@@ -394,10 +438,12 @@ class DfTableTimes(DfTable):
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
             
                         
-            #last time from each user                    
+            #last time from each user?                    
             aux_df = aux_df.sort("timeraw")                        
             if("last" in filter):                                                                
                 aux_df = aux_df.groupby("nr", as_index = False).last()
+                
+            #beautify
             aux_df = aux_df.where(pd.notnull(aux_df), None)
             aux_df.set_index('id',  drop=False, inplace = True)
             
@@ -416,17 +462,34 @@ class DfTableTimes(DfTable):
                 aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
                                                            
             
+            print "PRED",i, aux_df
+            aux_df = aux_df[columns]
+            aux_df = self.ToLapsExport(aux_df)
+            print "PO",i, aux_df
+            
             self.ConvertToInt(aux_df)
-            self.exportDf[i] = aux_df[columns]
+            self.exportDf[i] = aux_df #[columns]
         
-        #print "sExport: start"
-        #print self.exportDf[0] 
-        exported = self.sExportCsv()
+        #export complete/ category and group results from export DFs
+        
+        exported = self.ExportToCsvFiles()
+        
+        
+        exported_string = ""
+        for key in sorted(exported.keys()):
+            exported_string += key + " : " + str(exported[key])+" times\n"   
+        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
+        
         print "sExport: done", exported
         return #self.joinedDf             
         
         
-    def sExportCsv(self):               
+    '''
+    ExportToCsvFiles
+    - from prepared DFs export complete, category and group export    
+    - prepare header and df and call ExportToCsvFile()
+    '''
+    def ExportToCsvFiles(self):               
         
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
@@ -523,6 +586,16 @@ class DfTableTimes(DfTable):
         return exported    
 
     
+    '''
+    ExportToCsvFile
+    - create 1 file
+    
+    - 1.row: racename
+    - 2.row: category/group info
+    - next df rows
+    
+    - automatically convert column names to CZ    
+    '''    
     def ExportToCsvFile(self, filename, racename, df, category = None, group = None):
 
         '''get the keys and strings'''

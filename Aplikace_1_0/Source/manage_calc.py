@@ -211,6 +211,7 @@ class ManageCalcProcess():
             #print  "left",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
             #print  "right",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="right")
             self.joinedDf =  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
+            #print "HUUU", self.joinedDf[["user_id", "nr", "name"]].head(2)
             
         
         

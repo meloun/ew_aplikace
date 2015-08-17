@@ -50,6 +50,7 @@ class FilterSortGroup():
         ui = Ui()        
         self.index = index
                                 
+        #self.onerow = getattr(ui,  "checkExportOnerow_" + str(index+1))
         self.type = getattr(ui,    "comboExportType_" + str(index+1))
         self.filter = getattr(ui,    "comboExportFilter_" + str(index+1))
         self.sort1 = getattr(ui, "comboExportSort1_" + str(index+1))                                
@@ -60,6 +61,7 @@ class FilterSortGroup():
     def CreateSlots(self):
         
         
+        #QtCore.QObject.connect(self.onerow, QtCore.SIGNAL("stateChanged(int)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "onerow"], x))
         QtCore.QObject.connect(self.type, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "type"], utils.toUnicode(x)))
         QtCore.QObject.connect(self.filter, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "filter"], utils.toUnicode(x)))
                                                      

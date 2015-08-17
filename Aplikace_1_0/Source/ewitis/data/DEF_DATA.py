@@ -276,6 +276,7 @@ DEF_DATA = {
                                 },
         "export_filtersort"  : {"permanent": True,
                                 "GET_SET"  : {"value": [{
+                                                        "onerow"             : CheckboxValue.unchecked,
                                                         "type"               : "total",
                                                         "filter"             : "last times with time1",
                                                         "sort1"              : "order1", 
@@ -337,7 +338,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.14a"},                                                                                                                    
+                                                        "app": "v3.14b"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

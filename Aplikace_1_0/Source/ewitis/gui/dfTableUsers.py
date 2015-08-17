@@ -69,8 +69,8 @@ class DfModelUsers(DataframeTableModel):
         row["category_id"] = 1
         return row
     
-    def getUserParNr(self, nr):
-        user = df_utils.Get(self.df, 0, {"nr":nr})
+    def getUserParNr(self, nr):        
+        user = df_utils.Get(self.df, 0, {"nr": nr})
         return user
     
     def getUserParTagId(self, tag_id):

@@ -67,6 +67,7 @@ encoding//libs/test/cStringIO.py=utf-8
 encoding//libs/test/codepage.py=utf-8
 encoding//libs/test/convert.py=utf-8
 encoding//libs/test/error_unpacking.py=utf-8
+encoding//libs/test/manage_calc_process.py=utf-8
 encoding//libs/test/points_eval.py=utf-8
 encoding//libs/test/unpack.py=utf-8
 encoding//libs/utils/utils.py=utf-8

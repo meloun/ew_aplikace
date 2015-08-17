@@ -337,9 +337,12 @@ class DfTable():
         state = {'ko':0, 'ok':0}
         
         #adding rows to DB                        
-        for row in df.iterrows():                                                                                                                                              
+        for i,row in df.iterrows():     
+            row = list(row)                                                                                                                                         
                                                          
-            if(db.insert_from_lists(self.name, df.columns, row[1], commit = False) != False):                                                      
+            if(db.insert_from_lists(self.name, df.columns, row, commit_flag = False) != False):
+            #if(db.insert_from_dict(self.name, row, commit = False) != False):
+                                                                      
                 state['ok'] += 1
             else:            
                 state['ko'] += 1 #increment errors for error message                

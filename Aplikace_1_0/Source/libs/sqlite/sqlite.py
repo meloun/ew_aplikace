@@ -156,7 +156,32 @@ class sqlite_db(object):
     # INSERT
     ###########
     
-    def insert_from_lists(self, tablename, keys, values, commit = True):
+    
+    def insert_from_lists(self, tablename, keys, values, commit_flag = True):
+                 
+        ret = True
+         
+        '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
+        values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
+        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
+         
+        '''sestaveni a provedeni dotazu'''
+        query_string = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
+        query_string = query_string.replace('\'None\'', 'Null')    
+                 
+        try:
+            self.query(query_string)
+        except sqlite.IntegrityError:
+            ret = False  #this entry probably already exist
+        #except:
+        #    print "E: DB: insert from lists, some error"
+        #    ret = False
+         
+        if(commit_flag == True):
+            self.commit()
+        return ret
+
+    def insert_from_lists2(self, tablename, keys, values, commit = True):
                 
         ret = True
                         
@@ -164,6 +189,7 @@ class sqlite_db(object):
         values = [int(value) if isinstance( value, float) else value for value in values ]
                        
         '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot ''' 
+        print values, type(values)
         values_str = u",".join([u"'"+unicode(str(x))+u"'" for x in values])   
         keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
               
@@ -196,7 +222,7 @@ class sqlite_db(object):
     
     '''vlozeni jednoho zaznamu z dict'''
     def insert_from_dict(self, tablename, dict,  commit = True):                
-        return self.insert_from_lists(tablename, dict.keys(), dict.values(), commit = commit )        
+        return self.insert_from_lists(tablename, dict.keys(), dict.values(), commit_flag = commit )        
     
     ###########
     # REPLACE

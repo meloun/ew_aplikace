@@ -46,7 +46,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "all times with time1",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -214,7 +214,7 @@
                 "checked": [
                     {
                         "sex": 0,
-                        "year": 2,
+                        "year": 0,
                         "category": 2,
                         "un1": 0,
                         "un2": 0,
@@ -230,10 +230,10 @@
                         "nr": 2,
                         "o4": 0,
                         "o3": 0,
-                        "o2": 2,
-                        "o1": 2,
+                        "o2": 0,
+                        "o1": 0,
                         "status": 0,
-                        "club": 2,
+                        "club": 0,
                         "gap": 0,
                         "order2": 0,
                         "order3": 0,
@@ -355,8 +355,8 @@
                 },
                 "enabled_csv": [
                     true,
-                    true,
-                    true
+                    false,
+                    false
                 ]
             }
         },
@@ -364,7 +364,6 @@
         "name": "export"
     },
     "cells_info": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
@@ -493,6 +492,7 @@
                 }
             ]
         },
+        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 1,
@@ -501,11 +501,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 1,
                     "active": false,
@@ -515,11 +515,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 2,
                     "active": false,
@@ -529,11 +529,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 3,
                     "active": false,
@@ -543,11 +543,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 4,
                     "active": false,
@@ -557,11 +557,11 @@
                     "synchronized_once": true,
                     "synchronized": true,
                     "battery": 93,
+                    "trigger": 0,
                     "diagnostic_long_ok": 1,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 5,
                     "active": false,
@@ -571,11 +571,11 @@
                     "synchronized_once": true,
                     "synchronized": true,
                     "battery": 96,
+                    "trigger": 0,
                     "diagnostic_long_ok": 6,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 2,
                     "address": 6,
                     "active": true,
@@ -585,11 +585,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": false,
@@ -599,11 +599,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": false,
@@ -613,11 +613,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": false,
@@ -627,11 +627,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": false,
@@ -641,11 +641,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": false,
@@ -655,11 +655,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": false,
@@ -669,11 +669,11 @@
                     "synchronized_once": true,
                     "synchronized": true,
                     "battery": 96,
+                    "trigger": 1,
                     "diagnostic_long_ok": 7,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "trigger": 1,
+                    "task": null,
                     "diagnostic_long_ko": 1,
                     "address": 13,
                     "active": true,
@@ -683,11 +683,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": false,
@@ -697,28 +697,28 @@
         }
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 4,
-                "measurement_state": 0,
                 "filter_minlaptime": 60,
+                "measurement_state": 0,
+                "name_id": 4,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
+        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 1,
             "value": {
                 "logic_mode": null,
                 "filter_maxlapnumber": 0,
-                "name_id": 1,
-                "measurement_state": 0,
                 "filter_minlaptime": 0,
+                "measurement_state": 0,
+                "name_id": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -761,20 +761,20 @@
                 "time": [
                     {
                         "filter": "cell=250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=2",
+                        "filter": "cell=250",
+                        "minute_timeformat": 0,
                         "checked": 2,
-                        "minute_timeformat": 2,
                         "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=3",
-                        "checked": 2,
+                        "filter": "cell=250",
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
@@ -785,40 +785,40 @@
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "order": [
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
+                        "type": "Total",
                         "column2": "Year",
-                        "type": "Total",
-                        "row": "Last times",
                         "column1": "Points5",
-                        "order1": "Asc"
+                        "row": "Last times"
                     },
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "Total",
-                        "row": "Last times",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Last times"
                     },
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "Total",
-                        "row": "Last times",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Last times"
                     }
                 ],
                 "points": [
