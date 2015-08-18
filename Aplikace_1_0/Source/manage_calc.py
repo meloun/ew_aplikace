@@ -143,9 +143,13 @@ class ManageCalcProcess():
             if self.joinedDf.empty:
                 dfs["table"] = pd.DataFrame()                
             else:                              
-                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]
+                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]   
+                #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
+                self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
+                self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
+                #print self.joinedDf
                 dfs["table"] = self.joinedDf[columns].copy()            
-            #print "#T", dfs["table"]
+            #print "#T", dfs["table"][["nr", "cell"]]
             
             if(complete_calc_flag):
                 eventCalcReady.set()                            
@@ -178,9 +182,11 @@ class ManageCalcProcess():
         #uDf =  pd.merge(uDf,  cDf, left_on='category_id', right_on='index', how="left")       
         uDf =  uDf.merge(cDf, left_on='category_id', right_index = True, how="left")                
         
-               
-        #print "u", uDf.columns 
+                       
         uDf = uDf[["nr", "status", "name", "category", "start_nr", "year", "club", "sex", "o1", "o2", "o3", "o4"]]
+        
+        #adding row for nr 0
+        #uDf.loc[0] = [0, None, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None]        
         return uDf
                     
     def GetJoinedDf(self):
@@ -204,6 +210,8 @@ class ManageCalcProcess():
         if(self.dstore.GetItem("racesettings-app", ['rfid']) == 2):
             tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
             tDf = tDf[["user_nr", "tag_id"]]
+            #adding row for user_id = 0
+            #tDf.loc[0] = [0, 0]  
             self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
             self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")
             self.joinedDf.set_index('id',  drop=False, inplace = True) 

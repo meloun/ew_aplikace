@@ -37,8 +37,8 @@ class Dstore(datastore.PermanentDatastore):
 
         
     #copy dict for calc-process    
-    def SetItem(self, name, keys, value, section = "GET_SET", changed = True):
-        datastore.PermanentDatastore.SetItem(self, name, keys, value, section, changed)
+    def SetItem(self, name, keys, value, section = "GET_SET", permanent=True, changed = True):
+        datastore.PermanentDatastore.SetItem(self, name, keys, value, section, permanent, changed)
         self.UpdateSharedData(name)
         
          

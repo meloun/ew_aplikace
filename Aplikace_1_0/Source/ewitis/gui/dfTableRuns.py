@@ -90,7 +90,12 @@ class DfTableRuns(DfTable):
     def Init(self):
         DfTable.Init(self)
         self.model.Update()
-        self.run_id = self.model.df.iloc[-1]['id']        
+        try:
+            self.run_id = self.model.df.iloc[-1]['id']
+        except IndexError:
+            print "I: no run"
+            self.run_id = 0
+                    
         dstore.Set("current_run", self.run_id)
         #set selection to first row
         self.gui['view'].selectionModel().setCurrentIndex(self.model.index(0,0), QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)
