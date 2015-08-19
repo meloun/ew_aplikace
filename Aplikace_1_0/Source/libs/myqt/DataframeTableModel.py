@@ -46,11 +46,22 @@ Model
 '''
 class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils): 
     header_labels = ['Column 1', 'Column 2', 'Column 3', 'Column 4']
-    def __init__(self, name, parent=None): 
+    def __init__(self, table): 
         super(DataframeTableModel, self).__init__()
-        self.name = name
+        self.table = table
+        self.name = table.name
         self.df = pd.DataFrame()        
-        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), self.sModelChanged)                
+        QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), self.sModelChanged)
+                         
+        
+    def flags(self, index):
+        if(index.column() == 0):
+            return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
+        
+    def IsColumnAutoEditable(self, column):
+        '''pokud true, po uživatelské editaci focus na další řádek''' 
+        return False                
     
     #virtual function to override
     def GetDataframe(self):
@@ -74,13 +85,22 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         return row
     
     def sModelChanged(self, index1, index2):
-        print "MODEL CHANGED", self.data(index1), self.data(index2)
+        print "MODEL CHANGED"        
         self.Update()
+        #edit back
+        # without timer edit: editing failed
+        # http://stackoverflow.com/questions/20267176/qtableviewedit-const-qmodelindex-index-failed
+        #Gself.table.Edit()
+        if(self.IsColumnAutoEditable(index1.column())):
+            QtCore.QTimer.singleShot(100, lambda: self.table.Edit(index1))
         
-    def Update(self):    
+        
+    def Update(self):   
+        
+        
         ztime = time.clock()    
         self.layoutAboutToBeChanged.emit()        
-        self.df = self.GetDataframe()              
+        self.df = self.GetDataframe()                              
         self.layoutChanged.emit()
         #@print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
      
@@ -94,6 +114,9 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
      
     def setData(self, index, value, role = QtCore.Qt.EditRole):  
         if role == QtCore.Qt.EditRole:
+            
+            if self.data(index) == value:                
+                return False #no change
             
             id = self.data(self.index(index.row(), 0))
             header = self.headerData(index.column(), QtCore.Qt.Horizontal)
@@ -127,25 +150,28 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
             item = self.df.iget_value(i, j)
             
             
-            if pd.notnull(item):
-                if isinstance( item, numpy.int64 ):                
+            if pd.notnull(item):            
+                if isinstance( item, numpy.int64 ):                                                        
                     item = int(item)                
                 if isinstance( item, numpy.float64 ):                
-                    item = int(item)
+                    item = float(item)
+                    
+                #if isinstance( item, float ) and j=1:                
+                #    item = int(item)
+                    
             #else:
             #    print "data", type(item), item                             
             #return QtCore.QVariant((self.datatable.iget_value(i, j)))
-            #return '{0}'.format(self.datatable.iget_value(i, j))
+            #return '{0}'.format(self.datatable.iget_value(i, j))           
             return item
-        else:
+        else:            
             return QtCore.QVariant()
         
     def getRow(self, id):
         row = self.df.loc(id)
         return row
     
-    def flags(self, index):
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable
+
 
 
 

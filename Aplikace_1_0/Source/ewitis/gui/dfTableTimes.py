@@ -63,15 +63,15 @@ CONF_TABLE_TIMES = [
 Model
 '''
 class DfModelTimes(DataframeTableModel):
-    def __init__(self, name, parent = None):
-        super(DfModelTimes, self).__init__(name)
+    def __init__(self, table):        
+        super(DfModelTimes, self).__init__(table)
         self.df = pd.DataFrame()
         self.conf = ListOfDicts(CONF_TABLE_TIMES) 
         self.db_con = db.getDb()
         self.changed_rows = pd.DataFrame()
                 
         
-    def flags(self, index):
+    def flags(self, index):                 
                 
         column_name =  self.df.columns[index.column()]
         editable_columns = self.conf.Get("name", ("editable", True))
@@ -79,24 +79,32 @@ class DfModelTimes(DataframeTableModel):
         if(column_name in editable_columns):
             return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable              
         
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable 
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+    
+    def IsColumnAutoEditable(self, column):
+        '''pokud true, po uživatelské editaci focus na další řádek'''
+        
+        #number and cell
+        if(column == 1) or (column == 2):              
+            return True
+        
+        return False
     
     def getDefaultRow(self):
         row = DataframeTableModel.getDefaultRow(self)
         row["run_id"] = dstore.Get("current_run")        
         return row
-               
-                
+                     
+    def sModelChanged(self, index1, index2):                        
+        DataframeTableModel.sModelChanged(self, index1, index2)
         
-    def sModelChanged(self, index1, index2):                
-        DataframeTableModel.Update(self)
-        
+                                                            
     def GetDataframe(self):
         df = mgr.GetDfs()["table"]
         #print df.head(2)
                 
         if eventCalcReady.is_set() == False:
-            #print self.changed_rows
+            #print self.changed_rows            
             for index, row in self.changed_rows.iterrows():
                 if index in df.index:
                     df.loc[index] = row             
@@ -126,10 +134,11 @@ class DfModelTimes(DataframeTableModel):
                  
                  
                 #print "not cleared", tableRow
-                cleared = self.ClearCalculated(tableRow)
-                #print "CLEARED: ", cleared, type(cleared)                
-                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
+                cleared = self.ClearCalculated(tableRow)                                
+                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)                                
                 self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+                self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
+                self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
                 self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
 
                 self.ResetNrOfLaps()
@@ -141,6 +150,8 @@ class DfModelTimes(DataframeTableModel):
             #print "CLEARED: ", cleared, type(cleared)                
             self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
             self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+            self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
+            self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
             self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
             #print "CHANGED:", self.changed_rows
                     
@@ -158,6 +169,8 @@ class DfModelTimes(DataframeTableModel):
                 cleared = self.ClearCalculated(tableRow)                
                 self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
                 self.changed_rows["id"] = self.changed_rows["id"].astype(int)
+                self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
+                self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
                 self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
                                         
                 self.ResetNrOfLaps()  
@@ -206,11 +219,12 @@ class DfModelTimes(DataframeTableModel):
                         
             #rigthts to change start cell?
             if(tabRow['cell'] and int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
-                uiAccesories.showMessage(self.table.name+" Update error", "Cannot assign user to start time!")
+                uiAccesories.showMessage(self.name+" Update error", "Cannot assign user to start time!")
                 return None
                                         
             #user exist?                    
-            user = tableUsers.model.getUserParNr(tabRow['nr'])                                               
+            user = tableUsers.model.getUserParNr(tabRow['nr'])
+            #user_id = tableUsers.model.getIdOrTagIdParNr(tabRow['nr'])                                                           
             if user == None:
                 uiAccesories.showMessage(self.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
                 return None
@@ -221,13 +235,13 @@ class DfModelTimes(DataframeTableModel):
                 uiAccesories.showMessage(self.name+" Update error", "Cant find category for this user: " + user['category'])
                 return None 
             
-#@             #user id exist?                                                                                                                                                         
-#             user_id = tableUsers.getUserParIdOrTagId(user['user_id'])
-#             if user_id == None:
-#                 uiAccesories.showMessage(self.table.name+": Update error", "No user or tag with number "+str(tabRow['nr'])+"!")                                                                         
-#                 return None                                                                                                                                                                                                                                             
+            #user id exist?                                        
+            user_id = tableUsers.model.getIdOrTagIdParNr(user['nr'])                                                                                                                 
+            if user_id == None:
+                uiAccesories.showMessage(self.name+": Update error", "No user or tag with number "+str(tabRow['nr'])+"!")                                                                         
+                return None                                                                                                                                                                                                                                             
                                                                                                                                                                                                                                     
-        return user['id']
+        return user_id
     
     def ResetCalculatedValues(self, timeid):
         query = \
@@ -252,8 +266,10 @@ class DfModelTimes(DataframeTableModel):
 Proxy Model
 '''    
 class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
-    def __init__(self):        
-        QtGui.QSortFilterProxyModel.__init__(self)
+    def __init__(self, parent = None):        
+        QtGui.QSortFilterProxyModel.__init__(self, parent)
+        
+        self.myclass = None 
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)
@@ -261,7 +277,11 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
         #This property holds the column where the key used to filter the contents of the source model is read from.
         #The default value is 0. If the value is -1, the keys will be read from all columns.                
         self.setFilterKeyColumn(-1)
-        
+                
+    
+
+                
+
 '''
 Table
 '''        
@@ -270,11 +290,12 @@ class DfTableTimes(DfTable):
     (eCSV_EXPORT, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,3)
     
     def  __init__(self):        
-        DfTable.__init__(self, "Times")
+        DfTable.__init__(self, "Times")        
         self.i = 1  
         
     def InitGui(self):
-        DfTable.InitGui(self)        
+        DfTable.InitGui(self)          
+              
         self.gui['export_www'] = Ui().TimesWwwExport         
         self.gui['recalculate'] = Ui().TimesRecalculate        
         self.gui['aWwwExportDirect'] = Ui().aWwwExportDirect
@@ -291,6 +312,9 @@ class DfTableTimes(DfTable):
         self.gui['auto_refresh'] = Ui().TimesAutoRefresh
         self.gui['auto_number_clear'] = Ui().TimesAutoNumberClear
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
+        
+    def Init(self):
+        DfTable.Init(self)        
         
     def createSlots(self):
         
@@ -699,9 +723,17 @@ class DfTableTimes(DfTable):
 #                     self.gui['auto_number'].setStyleSheet("background:"+COLORS.red)
         return 
        
-    def Update(self):                                                    
+    def Update(self):                                                           
                                         
         ret = DfTable.Update(self)
+                
+#         # po F5 edituje číslo u prvniho radku
+#         myindex = self.proxy_model.index(0,1)
+#         print myindex, type(myindex), myindex.column(), myindex.row()
+#         if(myindex.isValid() == True):            
+#             self.gui['view'].edit(myindex)
+                 
+   
         #self.UpdateGui()
                
       
@@ -709,6 +741,12 @@ class DfTableTimes(DfTable):
 
 #                                      
         return ret
+    
+    def Edit(self, myindex):            
+        myindex = self.proxy_model.mapFromSource(myindex)                
+        myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
+        if(myindex.isValid() == True):            
+            self.gui['view'].edit(myindex)
     
     #create list of columns to hide
     def CollumnsToHide(self):

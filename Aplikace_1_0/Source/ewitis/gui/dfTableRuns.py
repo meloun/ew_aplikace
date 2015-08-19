@@ -26,8 +26,8 @@ from ewitis.gui.multiprocessingManager import eventCalcNow
 Model
 '''
 class DfModelRuns(DataframeTableModel):
-    def __init__(self, name, parent = None):
-        super(DfModelRuns, self).__init__(name)        
+    def __init__(self, table):
+        super(DfModelRuns, self).__init__(table)        
                       
     #jen prozatim
     def db2tableRow(self, dbRow):
@@ -69,8 +69,8 @@ class DfModelRuns(DataframeTableModel):
 Proxy Model
 '''    
 class DfProxymodelRuns(QtGui.QSortFilterProxyModel, ModelUtils):
-    def __init__(self):        
-        QtGui.QSortFilterProxyModel.__init__(self)
+    def __init__(self, parent = None):        
+        QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)

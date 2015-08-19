@@ -91,7 +91,7 @@ class DfTable():
         #self.proxy_model = proxymodel        
         
         #create MODEL        
-        self.model = getattr(module, "DfModel"+self.name)(self.name)
+        self.model = getattr(module, "DfModel"+self.name)(self)
         #self.model = model                                 
         
         
@@ -427,7 +427,7 @@ class DfTable():
         if(selectionback==True):
             try:
                 rows = self.gui['view'].selectionModel().selectedRows()         
-                model_index = rows[0] #selected row index #row = rows[0].row() if rows else 0         
+                model_index = rows[0] #selected row index #row = rows[0].row() if rows else 0                
             except:
                 pass 
         
@@ -444,8 +444,8 @@ class DfTable():
         #row-selection back
         if(selectionback==True):                           
             try:                
-                self.params.gui['view'].selectionModel().setCurrentIndex(model_index, QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)            
-            except:
+                self.gui['view'].selectionModel().setCurrentIndex(model_index, QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)            
+            except:                
                 pass            
         
         self.HideColumns()    

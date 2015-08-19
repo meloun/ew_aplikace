@@ -27,8 +27,17 @@ from ewitis.gui.UiAccesories import uiAccesories
 Model
 '''
 class DfModelUsers(DataframeTableModel):
-    def __init__(self, name, parent = None):
-        super(DfModelUsers, self).__init__(name)
+    def __init__(self, table):
+        super(DfModelUsers, self).__init__(table)
+        
+    def IsColumnAutoEditable(self, column):
+        '''pokud true, po uživatelské editaci focus na další řádek'''
+        
+        #number
+        if(column == 1):              
+            return True
+        
+        return False
                       
     #jen prozatim
     def db2tableRow(self, dbRow):
@@ -87,14 +96,30 @@ class DfModelUsers(DataframeTableModel):
             user = self.getRow(id) #id
                      
         return user
+    
+    def getIdOrTagIdParNr(self, nr):                              
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):    
+            '''tag id'''
+            try:
+                dbTag = tableTags.model.getTagParUserNr(nr)                        
+                return dbTag['tag_id']
+            except TypeError:
+                return None  
+        else:       
+            '''id'''
+            try:
+                user = self.getUserParNr(nr)
+                return user['id']  
+            except TypeError:
+                return None 
         
     
 '''
 Proxy Model
 '''    
 class DfProxymodelUsers(QtGui.QSortFilterProxyModel, ModelUtils):
-    def __init__(self):        
-        QtGui.QSortFilterProxyModel.__init__(self)
+    def __init__(self, parent = None):        
+        QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)

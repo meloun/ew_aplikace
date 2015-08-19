@@ -91,7 +91,7 @@ class ManageCalcProcess():
             
             """ update joined DF"""
             ytime = time.clock() 
-            self.GetJoinedDf()
+            self.GetJoinedDf()            
             #print "#1", self.joinedDf
             #print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
@@ -147,8 +147,15 @@ class ManageCalcProcess():
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
                 self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
                 self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
+                
                 #print self.joinedDf
-                dfs["table"] = self.joinedDf[columns].copy()            
+                #umele prytypovani na long, defaultne float a 7.00
+                self.joinedDf["nr"] = self.joinedDf["nr"].astype(long)
+                             
+                dfs["table"] = self.joinedDf[columns].copy()
+                
+                #dfs["table"]["nr"] =dfs["table"]["nr"].convert_objects(convert_numeric=True)                             
+                #print dfs["table"]["nr"]
             #print "#T", dfs["table"][["nr", "cell"]]
             
             if(complete_calc_flag):
@@ -198,7 +205,6 @@ class ManageCalcProcess():
                                 "SELECT * FROM times" +\
                                 " WHERE (times.run_id = "+ str(run_id ) +")"\
                                 , self.db)                  
-        
         #set index = id
         self.joinedDf.set_index('id',  drop=False, inplace = True)            
         
@@ -213,7 +219,7 @@ class ManageCalcProcess():
             #adding row for user_id = 0
             #tDf.loc[0] = [0, 0]  
             self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
-            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")
+            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")            
             self.joinedDf.set_index('id',  drop=False, inplace = True) 
         else:                        
             #print  "left",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
@@ -520,32 +526,26 @@ class ManageCalcProcess():
 #         '''no time in some cases'''
 #         if(self.IsTimeToCalc(dbTime) == False):
 #             return None                    
-
-        ret_dict =  {}         
+                
         timeX = "time"+str(index+1)
         lapX = "lap"+str(index+1)
-        lap = None     
-        #df = self.lapsDfs[index]
+        lap = None
             
         #calc lap           
         if(dbTime[timeX] != None) and (dbTime[lapX] == None):            
             
-            #same user
-            aux_df = self.joinedDf[self.joinedDf['user_id'] == dbTime['user_id']]
-                        
             
-            #get sarttime
-            starttime = self.GetStarttime(dbTime, aux_df)
-            #print "s", starttime, dbTime["time_raw"], aux_df
+            # Filter #1: only better times                                                         
+            aux_df = self.joinedDf[self.joinedDf["time_raw"] < dbTime["time_raw"]]  #aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                        
+            
+            # Filter #2: only after starttime            
+            starttime = self.GetStarttime(dbTime, aux_df)                
             if(starttime == None):
-                return None
-                                       
-            
-            
-            #better times
-            #aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                                             
-            aux_df = aux_df[aux_df["time_raw"] < dbTime["time_raw"]]
+                return None                                    
             aux_df = aux_df[aux_df["time_raw"] > starttime["time_raw"]]
+                                            
+            # Filter #3: only times from the same user            
+            aux_df = aux_df[aux_df['user_id'] == dbTime['user_id']]
         
             lap = len(aux_df)
                         
@@ -647,7 +647,18 @@ class ManageCalcProcess():
     
     
     
-    def GetStarttime(self, dbTime, df = None):
+    def GetStarttime(self, time, df = None):        
+        starttime = None                
+        
+        if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+            #VIA CATEGORY => Xth starttime                                                                                                                            
+            starttime = df_utils.Get(df, time["start_nr"] , filter = {'cell':1})                                                                                                            
+        elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+            #VIA USER => previous startime from the same user                                                
+            starttime = self.GetPrevious(time, filter = {'cell':1}, df = df)        
+        return starttime 
+    
+    def GetStarttime_old(self, dbTime, df = None):
         filter = {'cell':1}
         starttime = None
                 

@@ -25,8 +25,8 @@ from ewitis.gui.Ui import Ui
 Model
 '''
 class DfModelCategories(DataframeTableModel):
-    def __init__(self, name, parent = None):
-        super(DfModelCategories, self).__init__(name)
+    def __init__(self, table):
+        super(DfModelCategories, self).__init__(table)
                       
     #jen prozatim
     def db2tableRow(self, dbRow):
@@ -51,8 +51,7 @@ class DfModelCategories(DataframeTableModel):
         return row
     
     def getCategoryParName(self, name):        
-        #category = df_utils.Get(self.df, 0, {"name":name})
-        print "getCategoryParName", name
+        #category = df_utils.Get(self.df, 0, {"name":name})        
         categories = self.df[self.df['name'].str.match(name)]
         try:                  
             category = categories.iloc[0]
@@ -77,8 +76,8 @@ class DfModelCategories(DataframeTableModel):
 Proxy Model
 '''    
 class DfProxymodelCategories(QtGui.QSortFilterProxyModel, ModelUtils):
-    def __init__(self):        
-        QtGui.QSortFilterProxyModel.__init__(self)
+    def __init__(self, parent = None):        
+        QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)

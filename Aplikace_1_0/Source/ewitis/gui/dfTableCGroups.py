@@ -23,8 +23,8 @@ from ewitis.gui.Ui import Ui
 Model
 '''
 class DfModelCGroups(DataframeTableModel):
-    def __init__(self, name, parent = None):
-        super(DfModelCGroups, self).__init__(name)              
+    def __init__(self, table):
+        super(DfModelCGroups, self).__init__(table)              
         
    
     def GetDataframe(self): 
@@ -52,8 +52,8 @@ class DfModelCGroups(DataframeTableModel):
 Proxy Model
 '''    
 class DfProxymodelCGroups(QtGui.QSortFilterProxyModel, ModelUtils):
-    def __init__(self):        
-        QtGui.QSortFilterProxyModel.__init__(self)
+    def __init__(self, parent = None):        
+        QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)

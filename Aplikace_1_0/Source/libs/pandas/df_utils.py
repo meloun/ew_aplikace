@@ -48,7 +48,7 @@ def Get(df, nr, filter = None):
     try:    
         row = df.iloc[nr-1]
         row = dict(row)                        
-    except IndexError:
+    except IndexError, TypeError:
         row = None                        
     return row
  
