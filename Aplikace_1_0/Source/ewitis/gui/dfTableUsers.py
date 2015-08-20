@@ -143,7 +143,8 @@ class DfTableUsers(DfTable):
         DfTable.createSlots(self)        
 
     def importDf2dbDdf(self, df):        
-        df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)        
+        df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)
+                
         df.drop(["category"], axis=1, inplace=True)        
         return df                
     def Update(self):                                                                                  

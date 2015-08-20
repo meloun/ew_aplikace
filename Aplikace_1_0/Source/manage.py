@@ -150,7 +150,7 @@ if __name__ == "__main__":
             )    
     dstore.SetSharedData(mgr.GetDstore())
     dstore.UpdateSharedData("current_run")  
-    print "I: Shared dstore", mgr.GetDstore()  
+    print "I: Shared dstore" #, mgr.GetDstore()  
     
     #tabs
     tabManager.Init()

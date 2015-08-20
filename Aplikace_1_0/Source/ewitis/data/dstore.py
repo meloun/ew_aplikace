@@ -27,7 +27,7 @@ class Dstore(datastore.PermanentDatastore):
                 for key in self.shared_data.keys():   
                     self.shared_data[key] = self.Get(key)                           
                     
-                print "shared-data update:", name, self.shared_data, type(self.shared_data)                                                                                    
+                #print "shared-data update:", name, self.shared_data, type(self.shared_data)                                                                                    
 
         
     #copy dict for calc-process

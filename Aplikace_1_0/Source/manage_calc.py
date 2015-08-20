@@ -51,12 +51,12 @@ class ManageCalcProcess():
         self.maxcalctime = 0 
              
     def run(self, dstore, dfs, info, eventCalcNow, eventCalcReady):        
-        print "I:P: CALC: zakladam process..", dstore
+        print "I:P: CALC: zakladam process.." #, dstore
         
         
         self.dstore = ProcessDstore(dstore)    
         
-        print "I:P: CALC: dstore..",  self.dstore.GetData()    
+        print "I:P: CALC: dstore.." #,  self.dstore.GetData()    
         
         #myevent2.set()                    
         

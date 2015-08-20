@@ -57,7 +57,7 @@ class DfModelCategories(DataframeTableModel):
         try:                  
             category = categories.iloc[0]
         except IndexError:
-            return pd.DataFrame()
+            return self.getDefaultRow() #pd.DataFrame()
 
                   
         return category
