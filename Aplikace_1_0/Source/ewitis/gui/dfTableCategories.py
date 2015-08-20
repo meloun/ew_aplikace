@@ -47,7 +47,8 @@ class DfModelCategories(DataframeTableModel):
         vraci radek naplneny zakladnimi daty
         """ 
         row = DataframeTableModel.getDefaultRow(self)
-        row["name"] = "undefined"
+        row["name"] = "undefined"        
+        row["description"] = ""
         return row
     
     def getCategoryParName(self, name):        

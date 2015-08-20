@@ -93,6 +93,7 @@ class DfModelTimes(DataframeTableModel):
     def getDefaultRow(self):
         row = DataframeTableModel.getDefaultRow(self)
         row["run_id"] = dstore.Get("current_run")        
+        row["cell"] = 250
         return row
                      
     def sModelChanged(self, index1, index2):                        
@@ -116,78 +117,59 @@ class DfModelTimes(DataframeTableModel):
        
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name        
+
+                        
+        dfChange = pd.DataFrame([mydict])
+        dfChange.set_index(dfChange.id, inplace=True)        
                 
-        tableRow =  self.df.loc[mydict["id"]].to_dict()
-        tableRow.update(mydict)
-        #print "row, ", mydict, tableRow
-        
-        update_flag = True
+        dfChangeRow = self.df.loc[dfChange.id]                        
+        dfChangeRow.update(dfChange)
         
         #category changed
-        if "nr" in mydict:
-            update_flag = False                                                
-            user_id = self.checkChangedNumber(tableRow)                                                                                            
-            if user_id != None:
-                mydict["user_id"] = user_id
-                del mydict["nr"]
-                update_flag = True                
-                 
-                 
-                #print "not cleared", tableRow
-                cleared = self.ClearCalculated(tableRow)                                
-                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)                                
-                self.changed_rows["id"] = self.changed_rows["id"].astype(int)
-                self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
-                self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
-                self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
-
-                self.ResetNrOfLaps()
-                eventCalcReady.clear()
+        if "nr" in mydict:            
+                                                            
+            user_id = self.checkChangedNumber(dfChangeRow.iloc[0])                                                                                            
+            if user_id == None: #dialog inside checkChangedNumber()
+                return
+            
+            #adjust dict for writing to db
+            mydict["user_id"] = user_id
+            del mydict["nr"]                            
                                          
         elif "cell" in mydict:                                                                      
-
-            cleared = self.ClearCalculated(tableRow)
-            #print "CLEARED: ", cleared, type(cleared)                
-            self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
-            self.changed_rows["id"] = self.changed_rows["id"].astype(int)
-            self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
-            self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
-            self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
-            #print "CHANGED:", self.changed_rows
-                    
-            self.ResetNrOfLaps()  
-            eventCalcReady.clear()   
+            pass
+                      
         # TIMERAW column
         elif "timeraw" in mydict:   
-            update_flag = False                  
+                              
             try:
                 dbTimeraw = TimesUtils.TimesUtils.timestring2time(mydict['timeraw'])
-                mydict["time_raw"] = dbTimeraw
-                del mydict["timeraw"]
-                update_flag = True
-                
-                cleared = self.ClearCalculated(tableRow)                
-                self.changed_rows = self.changed_rows.append(cleared, ignore_index = True)
-                self.changed_rows["id"] = self.changed_rows["id"].astype(int)
-                self.changed_rows["nr"] = self.changed_rows["nr"].astype(int)
-                self.changed_rows["cell"] = self.changed_rows["cell"].astype(int)
-                self.changed_rows.set_index('id',  drop=False, inplace = True)                                                              
-                                        
-                self.ResetNrOfLaps()  
-                eventCalcReady.clear()                                 
-                                
             except TimesUtils.TimeFormat_Error:
                 uiAccesories.showMessage(self.name+" Update error", "Wrong Time format!")
-                                    
-    
-        
-        #update db from mydict
-        if update_flag:        
-            db.update_from_dict(self.name, mydict)
-            self.ResetCalculatedValues(mydict["id"])        
-            eventCalcNow.set()
+                return
             
-    def ClearCalculated(self, tabRow):
+            #adjust dict for writing to db
+            mydict["time_raw"] = dbTimeraw
+            del mydict["timeraw"]            
+            
+
+        else:
+            uiAccesories.showMessage(self.name+" Update error", "Unexpecting change!")
+            return                                                                                          
+                                    
+        # add changed row to "changed_rows"
+        # keep as dataframe otherwise float issues for "nr" and "cell"
+        cleared = self.ClearCalculated(dfChangeRow)                                                                
+        self.changed_rows = self.changed_rows.append(cleared)
+        eventCalcReady.clear() #s                                 
+                                                                                            
+        #update db from mydict            
+        db.update_from_dict(self.name, mydict)
+        self.ResetCalculatedValues(mydict["id"])        
+        self.ResetNrOfLaps()  
+        eventCalcNow.set()
+            
+    def ClearCalculated(self, tabRow):        
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             tabRow["time"+str(i+1)] = None
             tabRow["lap"+str(i+1)] = None
@@ -202,9 +184,7 @@ class DfModelTimes(DataframeTableModel):
             if(user['name']):
                 tabRow['name'] = user['name'].upper()
                 user['name'] = user['name'] +' '+user['first_name']                                        
-            tabRow['category'] = user['category']
-        
-            
+            tabRow['category'] = user['category']            
         return tabRow
         
         
@@ -213,17 +193,19 @@ class DfModelTimes(DataframeTableModel):
         '''- kontrola uživatele, categorie, tagu                                
            - vrací user_id!!
         '''
-        if(int(tabRow['nr']) == 0):
+        #print "checkChangedNumber", tabRow
+                                                                                                                                                                                                                                                   
+        if(tabRow["nr"] == 0):
             user_id = 0
         else:
                         
             #rigthts to change start cell?
-            if(tabRow['cell'] and int(tabRow['cell']) == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
+            if(tabRow['cell'] == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
                 uiAccesories.showMessage(self.name+" Update error", "Cannot assign user to start time!")
                 return None
                                         
-            #user exist?                    
-            user = tableUsers.model.getUserParNr(tabRow['nr'])
+            #user exist?        
+            user = tableUsers.model.getUserParNr(int(tabRow['nr']))            
             #user_id = tableUsers.model.getIdOrTagIdParNr(tabRow['nr'])                                                           
             if user == None:
                 uiAccesories.showMessage(self.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
@@ -240,6 +222,7 @@ class DfModelTimes(DataframeTableModel):
             if user_id == None:
                 uiAccesories.showMessage(self.name+": Update error", "No user or tag with number "+str(tabRow['nr'])+"!")                                                                         
                 return None                                                                                                                                                                                                                                             
+
                                                                                                                                                                                                                                     
         return user_id
     
@@ -486,10 +469,10 @@ class DfTableTimes(DfTable):
                 aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
                                                            
             
-            print "PRED",i, aux_df
             aux_df = aux_df[columns]
-            aux_df = self.ToLapsExport(aux_df)
-            print "PO",i, aux_df
+            #print "PRED",i, aux_df
+            #aux_df = self.ToLapsExport(aux_df)
+            #print "PO",i, aux_df
             
             self.ConvertToInt(aux_df)
             self.exportDf[i] = aux_df #[columns]
@@ -581,7 +564,7 @@ class DfTableTimes(DfTable):
                      
                     #add prefix and suffix for category name and desription
                     c_name =  header["categoryname"].replace("%category%", c_name)
-                    category["name"] = c_name                    
+                    category["name"] = c_name                                        
                     category["description"]  =  header["description"].replace("%description%", category["description"])
                     
                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  

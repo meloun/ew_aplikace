@@ -5,7 +5,7 @@
             "value": [
                 {
                     "racename": "%race%",
-                    "categoryname": "TP1",
+                    "categoryname": "TP1_%category%",
                     "description": "Victorinox (80m/11sec, 70m/11sec)"
                 },
                 {
@@ -46,7 +46,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "all times with time1",
+                    "filter": "last times with time1",
                     "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
@@ -795,36 +795,36 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "rule": "abs(time1 - %00:00:11,00%)/10"
                     },

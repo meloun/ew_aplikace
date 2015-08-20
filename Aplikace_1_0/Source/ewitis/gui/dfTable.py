@@ -6,6 +6,7 @@ Created on 28.12.2013
 '''
 import time
 import pandas as pd
+import numpy as np
 from PyQt4 import Qt, QtCore, QtGui
 from ewitis.gui.Ui import Ui
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
@@ -338,7 +339,7 @@ class DfTable():
         
         #adding rows to DB                        
         for i,row in df.iterrows():     
-            row = list(row)                                                                                                                                         
+            row = list(row)       
                                                          
             if(db.insert_from_lists(self.name, df.columns, row, commit_flag = False) != False):
             #if(db.insert_from_dict(self.name, row, commit = False) != False):
@@ -393,8 +394,8 @@ class DfTable():
         if format == "Csv":
             
             #export times (with collumn's names)            
-            try:                                             
-                self.model.df.to_csv(filename, ";", mode="w", index = False, encoding = "utf8")                
+            try:
+                self.model.df.to_csv(filename, ";", mode="w", index = False, encoding = "utf8", float_format = "%g")                
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")                                                                                
         elif format == "Htm":                    

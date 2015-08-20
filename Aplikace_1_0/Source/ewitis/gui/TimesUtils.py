@@ -68,10 +68,14 @@ class TimesUtils():
     def timestring2time(timestring, including_days = True):
         '''               
         "12:01:02,11" => 545464683
-        '''
+        '''        
+        
         #get days
         if(including_days == True):
-            time_days = timestring.split("|") 
+            try:
+                time_days = timestring.split("|")
+            except AttributeError:
+                raise TimeFormat_Error
             if (len(time_days)) != 2 :
                 raise TimeFormat_Error
             timestring = time_days[1]
@@ -80,7 +84,10 @@ class TimesUtils():
             time_days = 0
                     
         #split to hours(01), minutes(02) and seconds(35,42)
-        timestring = timestring.split(":")                                         
+        try:
+            timestring = timestring.split(":")                                         
+        except AttributeError:
+            raise TimeFormat_Error
         if (len(timestring)) != 3 : #check: 3x colon?
             raise TimeFormat_Error
         

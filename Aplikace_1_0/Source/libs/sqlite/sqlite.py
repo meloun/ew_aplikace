@@ -161,9 +161,13 @@ class sqlite_db(object):
                  
         ret = True
          
-        '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''  
+        '''vytvoreni stringu pro dotaz, nazvy sloupcu a hodnot '''
+        
+        #float to number string
+        values = [ ('%g' % value) if isinstance(value, float) else value for value in values ]        
+        
         values_str = u",".join([u"'"+unicode(x)+u"'" for x in values])   
-        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])
+        keys_str = u",".join([u"'"+unicode(x)+u"'" for x in keys])          
          
         '''sestaveni a provedeni dotazu'''
         query_string = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
