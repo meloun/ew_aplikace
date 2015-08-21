@@ -85,7 +85,7 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/__TP1/v3_12n/import/TP1.json",
+                "profile": "C:/____slapka/aa.json",
                 "remote": 0,
                 "race_name": "Carlsbad Classic 2015",
                 "rfid": 2,
@@ -712,12 +712,12 @@
         },
         "name": "timing_settings",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": {
-                "logic_mode": 5,
+                "logic_mode": null,
                 "filter_maxlapnumber": 0,
                 "filter_minlaptime": 60,
-                "measurement_state": 2,
+                "measurement_state": 0,
                 "name_id": 1,
                 "filter_tagtime": 5,
                 "tags_reading_enable": 1
@@ -795,30 +795,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Category",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Category",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [

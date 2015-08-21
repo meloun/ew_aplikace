@@ -330,9 +330,16 @@ class DfTable():
         except:
             uiAccesories.showMessage(self.name+" CSV Import", "NOT Succesfully imported\n empty file or wrong format")
             return
+        
+        df["id"] = df.index
 
         #callback
-        df = self.importDf2dbDdf(df)
+        try:
+            df = self.importDf2dbDdf(df)
+        except KeyError:
+            title = "Table '"+self.name + "' CSV Import"
+            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +"Wrong format or not existing data.")
+            return
         
         #counters
         state = {'ko':0, 'ok':0}

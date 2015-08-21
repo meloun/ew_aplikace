@@ -4,6 +4,7 @@
 from libs.myqt.mydialogs import *
 from ewitis.data.dstore import dstore 
 from ewitis.gui.Ui import Ui
+import libs.utils.utils as utils
  
 
 try:
@@ -16,7 +17,7 @@ class UiaDialogs(MyDialogs):
     def __init__(self):
         MyDialogs.__init__(self)                   
     def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
-        print "showMessage", title, message        
+        print "showMessage", title, utils.remove_accents(message)        
         #right statusbar
         if(msgtype == MSGTYPE.right_statusbar):            
             #all time update

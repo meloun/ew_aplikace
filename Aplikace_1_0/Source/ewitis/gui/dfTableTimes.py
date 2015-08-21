@@ -410,7 +410,7 @@ class DfTableTimes(DfTable):
         
         #format a convert na string (kvůli 3.0 => 3)
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            orderX = "order"+str(i)
+            orderX = "order"+str(i+1)
             try:            
                 ut_df2[orderX] = ut_df2[orderX].astype(float).map('{:,g}'.format)            
             except:
@@ -509,10 +509,14 @@ class DfTableTimes(DfTable):
         
         exported_string = ""
         for key in sorted(exported.keys()):
-            exported_string += key + " : " + str(exported[key])+" times\n"   
-        uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
+            exported_string += key + " : " + str(exported[key])+" times\n"
+               
+        if export_type == self.eHTM_EXPORT or export_type == self.eHTM_EXPORT_LOGO: 
+            title_msg = "Table '"+self.name + "' HTM Export"            
+            uiAccesories.showMessage("WWW Export", time.strftime("%H:%M:%S", time.localtime())+" :: exported "+exported_string, MSGTYPE.statusbar)
+        else:
+            uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
         
-        print "sExport: done", exported
         return #self.joinedDf             
         
         
@@ -655,7 +659,6 @@ class DfTableTimes(DfTable):
             #complete export            
             if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
                 filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
-                print "HTM EXPORT",  df[columns],  df[columns].dtypes
                 self.ExportToHtmFile(filename, df[columns], css_filename, title)            
                 exported["total"] = len(df)
              
@@ -673,7 +676,7 @@ class DfTableTimes(DfTable):
                                                                                                    
             html_page = ew_html.Page_table(filename, title, styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
             html_page.save()                                                                                                         
-            uiAccesories.showMessage(title_msg, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
+            #uiAccesories.showMessage(title_msg, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
         except IOError:            
             uiAccesories.showMessage(title_msg, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                
@@ -811,11 +814,12 @@ class DfTableTimes(DfTable):
 #                                      
         return ret
     
-    def Edit(self, myindex):            
-        myindex = self.proxy_model.mapFromSource(myindex)                
-        myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
-        if(myindex.isValid() == True):            
-            self.gui['view'].edit(myindex)
+#zakomentovano kvuli win8 testu
+#     def Edit(self, myindex):            
+#         myindex = self.proxy_model.mapFromSource(myindex)                
+#         myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
+#         if(myindex.isValid() == True):            
+#             self.gui['view'].edit(myindex)
     
     #create list of columns to hide
     def CollumnsToHide(self):
