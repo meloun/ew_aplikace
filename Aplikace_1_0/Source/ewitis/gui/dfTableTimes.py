@@ -17,6 +17,7 @@ import ewitis.gui.TimesUtils as TimesUtils
 from ewitis.data.DEF_DATA import *
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
+from ewitis.gui.dfTableCGroups import tableCGroups
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
@@ -24,6 +25,7 @@ from ewitis.gui.Ui import Ui
 from ewitis.gui.multiprocessingManager import mgr, eventCalcNow, eventCalcReady
 from ewitis.gui.UiAccesories import uiAccesories, MSGTYPE
 from ewitis.gui.tabExportSettings import tabExportSettings
+import ewitis.exports.ewitis_html as ew_html
 
 
 
@@ -204,7 +206,7 @@ class DfModelTimes(DataframeTableModel):
                 uiAccesories.showMessage(self.name+" Update error", "Cannot assign user to start time!")
                 return None
                                         
-            #user exist?        
+            #user exist?            
             user = tableUsers.model.getUserParNr(int(tabRow['nr']))            
             #user_id = tableUsers.model.getIdOrTagIdParNr(tabRow['nr'])                                                           
             if user == None:
@@ -406,6 +408,14 @@ class DfTableTimes(DfTable):
         cols_to_use = list(cols_to_use) + ["nr"]
         ut_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
         
+        #format a convert na string (kvůli 3.0 => 3)
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            orderX = "order"+str(i)
+            try:            
+                ut_df2[orderX] = ut_df2[orderX].astype(float).map('{:,g}'.format)            
+            except:
+                print "W: not succesfully converted: ", orderX  
+        
         #update export df
         for i in range(0, NUMBER_OF.EXPORTS):
                           
@@ -460,26 +470,41 @@ class DfTableTimes(DfTable):
             else:
                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
                         
-            #filter to checked columns
-            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
             
             for oc in range(0, NUMBER_OF.EXPORTS):
                 ordercatX = 'ordercat'+str(oc+1)
                 orderX = 'order'+str(oc+1)                
-                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
-                                                           
+                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category
+               
             
-            aux_df = aux_df[columns]
-            #print "PRED",i, aux_df
+            
+            #filter to checked columns
+            #columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+            #aux_df = aux_df[columns]
+            
+            
             #aux_df = self.ToLapsExport(aux_df)
-            #print "PO",i, aux_df
             
-            self.ConvertToInt(aux_df)
+#             print "PRED",i, aux_df.head(2), aux_df.dtypes
+#             self.ConvertToInt(aux_df)
+#             print "PO",i, aux_df.head(2), aux_df.dtypes                                    
+#             aux_df["nr"] = aux_df["nr"].map('{:,g}'.format)                        
+#             print "PO2", aux_df.head(2), aux_df.dtypes
+                                            
+            
             self.exportDf[i] = aux_df #[columns]
         
-        #export complete/ category and group results from export DFs
-        
-        exported = self.ExportToCsvFiles()
+        #export complete/ category and group results from export DFs        
+        exported = {}
+        if export_type == self.eCSV_EXPORT:
+            exported = self.ExportToCsvFiles()            
+        elif export_type == self.eHTM_EXPORT:
+            exported = self.ExportToHtmFiles(export_type)
+        elif export_type == self.eHTM_EXPORT_LOGO:
+            exported = self.ExportToHtmFiles(export_type)
+        else:
+            uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
+            return
         
         
         exported_string = ""
@@ -520,8 +545,13 @@ class DfTableTimes(DfTable):
             if (tabExportSettings.IsEnabled(i, "csv") == False):
                 continue
             
+            #get df
             df =  self.exportDf[i]
             #df = mgr.GetDfs()["table"]
+                        
+            #filter to checked columns
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+            
             
 #             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
 #                 if "time1" in df:
@@ -549,13 +579,13 @@ class DfTableTimes(DfTable):
             #complete export
             if(len(df) != 0):
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
-                self.ExportToCsvFile(dirname+filename+".csv", racename, df)            
+                self.ExportToCsvFile(dirname+filename+".csv", racename, df[columns])            
                 exported["total"] = len(df)
             
             
             #category export                
             c_df = self.exportDf[i]           
-            c_df = c_df.set_index("category")
+            c_df = c_df.set_index("category", drop = False)
             category_groupby = c_df.groupby(c_df.index)
             for c_name, c_df in category_groupby:                
                 if(len(c_df) != 0):
@@ -569,28 +599,84 @@ class DfTableTimes(DfTable):
                     
                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  
                
-                    self.ExportToCsvFile(dirname+filename+".csv", racename, c_df, category = category)
+                    self.ExportToCsvFile(dirname+filename+".csv", racename, c_df[columns], category = category)
                     exported[filename] = len(c_df) 
-#                     
-#             #group export
-#             groups = {}
-#             g_df = manage_calc.exportDf[i]
-#             for x in range(1,11):                
-#                 g_label = "g"+str(x)
-#                 values = tableCategories.getCategoryNamesParGroupLabel(g_label)   
-#                 #print "VALUES", values
-#                 categories = values 
-#                 #print type(categories[0])#[str(v) for v in values]             
-#                 aux_df = g_df[g_df["category"].isin(categories)]                                               
-#                 if(len(aux_df) != 0):
-#                     group = tableCGroups.getTabCGrouptParLabel(g_label)
-#                     filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
-#                     self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df, group = group)                                       
-#                     exported[filename] = len(aux_df)
+                     
+            #group export            
+            g_df = self.exportDf[i]
+            for x in range(1,11):                
+                g_label = "g"+str(x)
+                categories = tableCategories.model.getCategoriesParGroupLabel(g_label)
+                                                                 
+                aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
+                if(aux_df.empty == False):                                 
+                    group = tableCGroups.model.getCGrouptParLabel(g_label)
+                    filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
+                    self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df[columns], group = group.to_dict())                                       
+                    exported[filename] = len(aux_df)
                 
 
                          
-        return exported    
+        return exported
+    
+    def ExportToHtmFiles(self, type):
+        #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
+        #if ret == False: #cancel button
+        #    return         
+                        
+        #get filename, gui dialog  
+        racename = dstore.GetItem("racesettings-app", ['race_name'])      
+        dirname = utils.get_filename("export/www/")
+                                         
+        if(dirname == ""):
+            return        
+                            
+        exported = {}
+                
+        for i in range(0, NUMBER_OF.EXPORTS): 
+            
+            if (tabExportSettings.IsEnabled(i, "htm") == False):
+                continue
+            
+            #filter to checked columns
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns() 
+            
+            df = pd.DataFrame()
+            if(type == self.eHTM_EXPORT):            
+                df =  self.exportDf[i]
+                css_filename = dstore.GetItem("export_www", [i, "css_filename"])
+                title = dstore.GetItem("racesettings-app", ['race_name']) 
+            elif(type == self.eHTM_EXPORT_LOGO):                      
+                css_filename = u"css/logo.css"
+                title = "Časomíra Ewitis - <i>Vy závodíte, my měříme..</i>"
+            else:
+                uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
+                return
+            #complete export            
+            if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
+                filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
+                print "HTM EXPORT",  df[columns],  df[columns].dtypes
+                self.ExportToHtmFile(filename, df[columns], css_filename, title)            
+                exported["total"] = len(df)
+             
+        return exported 
+    
+    '''
+    export jednoho souboru s výsledky
+    '''    
+    def ExportToHtmFile(self, filename, df, css_filename = "css/results.css", title = ""):
+        title_msg = "Table '"+self.name + "' HTM Export"
+        try:
+            #convert header EN => CZ            
+            tocz_dict = dstore.GetItem("export", ["names"])                                               
+            df = df.rename(columns = tocz_dict)
+                                                                                                   
+            html_page = ew_html.Page_table(filename, title, styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
+            html_page.save()                                                                                                         
+            uiAccesories.showMessage(title_msg, "Succesfully ("+filename+") : "+ time.strftime("%H:%M:%S", time.localtime()), msgtype = MSGTYPE.statusbar)            
+        except IOError:            
+            uiAccesories.showMessage(title_msg, "NOT succesfully \n\nCannot write into the file ("+filename+")")
+               
 
     
     '''

@@ -57,14 +57,14 @@ class DfModelCategories(DataframeTableModel):
         try:                  
             category = categories.iloc[0]
         except IndexError:
-            return self.getDefaultRow() #pd.DataFrame()
+            return pd.DataFrame()
 
                   
         return category
     
     def getCategoriesParGroupLabel(self, label):
         categories = df_utils.Filter(self.df, {label: 1})
-        print categories
+        #print categories
         return categories
 
     def Update(self):

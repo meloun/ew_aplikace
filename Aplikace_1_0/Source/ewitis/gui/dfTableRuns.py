@@ -49,19 +49,6 @@ class DfModelRuns(DataframeTableModel):
         """ 
         row = DataframeTableModel.getDefaultRow(self)        
         return row
-    
-    def getCategoryParName(self, name):        
-        #category = df_utils.Get(self.df, 0, {"name":name})
-        categories = self.df[self.df['name'].str.match(name)]          
-        category = categories.iloc[0]
-
-                  
-        return category
-    
-    def getCategoriesParGroupLabel(self, label):
-        categories = df_utils.Filter(self.df, {label: 1})
-        print categories
-        return categories
 
     
     
@@ -122,6 +109,11 @@ class DfTableRuns(DfTable):
             eventCalcNow.set()              
             time.sleep(0.9)           
             tableTimes.Update()
+            
+    # DELETE BUTTON          
+    def sDeleteAll(self):
+        DfTable.sDeleteAll(self)
+        tableTimes.deleteAll() 
         
                                        
     

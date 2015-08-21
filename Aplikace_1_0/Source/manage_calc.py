@@ -146,23 +146,23 @@ class ManageCalcProcess():
                 columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]   
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
                 self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
-                self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
+                #print self.joinedDf                                
+                #self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN user id: "+self.joinedDf[pd.isnull(self.joinedDf.nr)]["user_id"].astype(str), "not def", 1, None, None, None, None, None, None]
+                self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN user", "not def", 1, None, None, None, None, None, None]
                 
                 #print self.joinedDf
-                #umele prytypovani na long, defaultne float a 7.00
+                #umele pretypovani na long, defaultne float a 7.00
                 self.joinedDf["nr"] = self.joinedDf["nr"].astype(long)
                              
                 dfs["table"] = self.joinedDf[columns].copy()
                 
-                #dfs["table"]["nr"] =dfs["table"]["nr"].convert_objects(convert_numeric=True)                             
-                #print dfs["table"]["nr"]
-            #print "#T", dfs["table"][["nr", "cell"]]
             
             if(complete_calc_flag):
-                eventCalcReady.set()                            
+                eventCalcReady.set()
+                                            
             #print "P: C: sort and copy", time.clock() - ytime,"s"                                 
                         
-            print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
+            #print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
             #print 'process id:', os.getpid()                                                                    
             sys.stdout.write('.')
             
@@ -370,8 +370,10 @@ class ManageCalcProcess():
             if(group['type'] == "Total"):
                 self.orderDfs[i]['total'] = aux_df                    
             elif(group['type'] == "Category"):                    
-                #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)                                                    
-                self.orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
+                #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)
+                #print aux_df                                                    
+                self.orderDfs[i]['category'] = aux_df.groupby("category", as_index = False)                                                    
+                #self.orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
             elif(group['type'] == "Group#1"):
                 print "ERROR: Group order NOT implemented"
             elif(group['type'] == "Group#2"):
@@ -595,12 +597,12 @@ class ManageCalcProcess():
             aux_df = df['total']            
         elif(group['type'] == "Category"):
             aux_groupby = df['category']
-            if(dbTime["category_id"] != None):                                                                                       
+            if(dbTime["category"] != None):                                                                                       
                 if (aux_groupby) and (aux_groupby.groups !={}): 
                     try:         
                     #print dbTime, type(dbTime)  
                     #print aux_groupby.groups                                              
-                        aux_df = aux_groupby.get_group(dbTime["category_id"])                                                                 
+                        aux_df = aux_groupby.get_group(dbTime["category"])                                                                 
                     except KeyError: 
                         return None
                 else:

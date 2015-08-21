@@ -45,6 +45,15 @@ class DfModelCGroups(DataframeTableModel):
         row['name'] = "unknown"        
         row['label'] = "gx"
         return row
+    
+    def getCGrouptParLabel(self, label): 
+        groups = self.df[self.df['label'].str.match(label)]
+        try:                  
+            group = groups.iloc[0]
+        except IndexError:
+            return self.getDefaultRow() #pd.DataFrame()
+                                
+        return group
 
     
     

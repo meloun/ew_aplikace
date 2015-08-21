@@ -41,6 +41,9 @@ def Filter(df, filter):
 def Get(df, nr, filter = None):
     row = {}
     
+    if nr == None:
+        return None
+    
     #filter
     df = Filter(df, filter)                      
 

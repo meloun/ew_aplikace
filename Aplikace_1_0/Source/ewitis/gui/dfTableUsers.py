@@ -33,15 +33,11 @@ class DfModelUsers(DataframeTableModel):
     def IsColumnAutoEditable(self, column):
         '''pokud true, po uživatelské editaci focus na další řádek'''
         
-        #number
-        if(column == 1):              
-            return True
+#         #number
+#         if(column == 1):              
+#             return True
         
         return False
-                      
-    #jen prozatim
-    def db2tableRow(self, dbRow):
-        return dbRow
    
     def GetDataframe(self): 
         uDf = psql.read_sql(\
@@ -60,12 +56,12 @@ class DfModelUsers(DataframeTableModel):
         
         #category changed
         if "category" in mydict:                         
-            try:
-                mydict["category_id"] = tableCategories.model.getCategoryParName(str(mydict["category"]))['id']            
-                del mydict["category"]
-            except KeyError, IndexError:            
+            category = tableCategories.model.getCategoryParName(unicode(mydict["category"]))
+            if category.empty:
                 uiAccesories.showMessage(self.name+" Update error", "No category with this name "+(mydict['category'])+"!")
                 return                
+            mydict["category_id"] = category['id']
+            del mydict["category"]           
         
         #update db from mydict
         db.update_from_dict(self.name, mydict)
@@ -75,7 +71,7 @@ class DfModelUsers(DataframeTableModel):
         vraci radek naplneny zakladnimi daty
         """ 
         row = DataframeTableModel.getDefaultRow(self)
-        row["category_id"] = 1
+        row["category_id"] = 1        
         return row
     
     def getUserParNr(self, nr):        
@@ -135,16 +131,21 @@ Table
 class DfTableUsers(DfTable):
     def  __init__(self):        
         DfTable.__init__(self, "Users")
-        
+
+            
     def InitGui(self):
         DfTable.InitGui(self)        
      
     def createSlots(self):
         DfTable.createSlots(self)        
 
-    def importDf2dbDdf(self, df):        
+    def importDf2dbDdf(self, df): 
+
+        if "description" in df.columns:
+            df.drop(df.columns[16], axis=1, inplace=True)
+            df.drop(["description", "paid", "symbol"], axis=1, inplace=True)
+           
         df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)
-                
         df.drop(["category"], axis=1, inplace=True)        
         return df                
     def Update(self):                                                                                  
