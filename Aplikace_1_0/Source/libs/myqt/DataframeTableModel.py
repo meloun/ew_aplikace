@@ -87,14 +87,12 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
     def sModelChanged(self, index1, index2):
         print "MODEL CHANGED"        
         self.Update()
+        
         #edit back
         # without timer edit: editing failed
         # http://stackoverflow.com/questions/20267176/qtableviewedit-const-qmodelindex-index-failed
-        #Gself.table.Edit()
-        
-        #zakomentovano kvuli win8 testu
-        #if(self.IsColumnAutoEditable(index1.column())):
-        #    QtCore.QTimer.singleShot(100, lambda: self.table.Edit(index1))
+        if(self.IsColumnAutoEditable(index1.column())):
+            QtCore.QTimer.singleShot(100, lambda: self.table.Edit(index1))
         
         
     def Update(self):   

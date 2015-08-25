@@ -814,12 +814,13 @@ class DfTableTimes(DfTable):
 #                                      
         return ret
     
-#zakomentovano kvuli win8 testu
-#     def Edit(self, myindex):            
-#         myindex = self.proxy_model.mapFromSource(myindex)                
-#         myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
-#         if(myindex.isValid() == True):            
-#             self.gui['view'].edit(myindex)
+    #edit back
+    def Edit(self, myindex):
+        myindex = self.proxy_model.mapFromSource(myindex)                
+        if myindex.row() > 0:             
+            myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
+            if(myindex.isValid() == True):            
+                self.gui['view'].edit(myindex)
     
     #create list of columns to hide
     def CollumnsToHide(self):
