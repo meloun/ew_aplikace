@@ -92,9 +92,8 @@ from ewitis.gui.MenusBars import bars
 # bars = Bars()
         
 class TabManager():
-    def __init__(self, mgr):
-        self.mgr = mgr        
-        
+    def __init__(self):
+        pass     
 
         
  
@@ -165,7 +164,7 @@ class TabManager():
 
 
 
-tabManager = TabManager(2)
+tabManager = TabManager()
         
 if __name__ == "__main__":
     print "start"

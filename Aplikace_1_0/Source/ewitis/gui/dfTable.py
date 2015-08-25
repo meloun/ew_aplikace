@@ -429,15 +429,7 @@ class DfTable():
             
     def Update(self, selectionback = True):                        
                         
-        #ztime = time.clock()                
-                                    
-        #get row-selection
-        if(selectionback==True):
-            try:
-                rows = self.gui['view'].selectionModel().selectedRows()         
-                model_index = rows[0] #selected row index #row = rows[0].row() if rows else 0                
-            except:
-                pass 
+        #ztime = time.clock()                                            
         
         #update model
         self.model.Update()
@@ -446,21 +438,14 @@ class DfTable():
         #resize collumns to contents        
         #for col in range(self.proxy_model.columnCount()):
         #    self.params.gui['view'].resizeColumnToContents(col)        
-        #self.setColumnWidth()        
-
-            
-        #row-selection back
-        if(selectionback==True):                           
-            try:                
-                self.gui['view'].selectionModel().setCurrentIndex(model_index, QtGui.QItemSelectionModel.Rows | QtGui.QItemSelectionModel.SelectCurrent)            
-            except:                
-                pass            
+        #self.setColumnWidth()                   
         
         self.HideColumns()    
                
         #update counters
         self.updateTabCounter()
-        self.updateDbCounter()                
+        self.updateDbCounter()     
+                   
         #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"        
         return True 
                           
