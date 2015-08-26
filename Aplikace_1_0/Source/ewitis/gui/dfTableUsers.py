@@ -142,12 +142,22 @@ class DfTableUsers(DfTable):
     def importDf2dbDdf(self, df): 
 
         if "description" in df.columns:
-            df.drop(df.columns[16], axis=1, inplace=True)
+            #df.drop(df.columns[16], axis=1, inplace=True)
             df.drop(["description", "paid", "symbol"], axis=1, inplace=True)
            
-        df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)
-        df.drop(["category"], axis=1, inplace=True)        
-        return df                
+        #df["category_id"] = df.apply(lambda row: tableCategories.model.getCategoryParName(row["category"])['id'], axis = 1)
+        #df.drop(["category"], axis=1, inplace=True)        
+        return df
+    
+    def importRow2dbRow(self, row):
+        #print "cateogory name:",  row["category"]
+        category = tableCategories.model.getCategoryParName(row["category"])
+        #print "cateogory:", category, type(category)
+        #print "ROW1", row  
+        row["category_id"] = category['id']
+        print "ROW2", row  
+        row.drop(["category"], inplace=True) 
+                    
     def Update(self):                                                                                  
         return DfTable.Update(self)
         

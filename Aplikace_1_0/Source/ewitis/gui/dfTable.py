@@ -309,6 +309,9 @@ class DfTable():
     #import callback
     def importDf2dbDdf(self, importDf):
         return importDf
+    
+    def importRow2dbRow(self, row):
+        return row
      
     def sImport(self):
         """import"""                                         
@@ -345,11 +348,19 @@ class DfTable():
         state = {'ko':0, 'ok':0}
         
         #adding rows to DB                        
-        for i,row in df.iterrows():     
-            row = list(row)       
+        for i,row in df.iterrows():
+            
+            try:
+                self.importRow2dbRow(row)
+            except:
+                state['ko'] += 1
+                continue
+                 
+            #to dict because of CZ
+            row = dict(row)       
                                                          
-            if(db.insert_from_lists(self.name, df.columns, row, commit_flag = False) != False):
-            #if(db.insert_from_dict(self.name, row, commit = False) != False):
+            #if(db.insert_from_lists(self.name, columns, row, commit_flag = False) != False):
+            if(db.insert_from_dict(self.name, row, commit = False) != False):
                                                                       
                 state['ok'] += 1
             else:            
