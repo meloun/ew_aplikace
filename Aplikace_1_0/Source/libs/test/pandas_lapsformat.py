@@ -8,8 +8,8 @@ import pandas as pd
 df2 = pd.DataFrame({'id1': [1, 1, 5, 6],'id2': [2, 3, 5, 5], 'lap': [1, 2, 1, 2], 'nr': [2, 2, 3, 3], 'time': [10, 100, 20, 200]})
 print df2
 
-df = df2[['lap','nr','time']]
-df['colnum'] = df.groupby('nr').cumcount()+1
+df2['colnum'] = df2.groupby('nr').cumcount()+1
+df = df2[['lap','nr','time','colnum']]
 df = df.pivot(index='nr', columns='colnum')
 df.columns = ['{}{}'.format(col, num) for col,num in df.columns]
 df = df.reset_index()

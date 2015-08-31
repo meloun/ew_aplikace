@@ -215,7 +215,19 @@ DEF_DATA = {
                                                                 "un2"               : u"Un 2", 
                                                                 "un3"               : u"Un 3",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "us1"               : u"Us 1",                                                                                                                                                                                                                                                                                                                                                                         
-                                                                "status"            : u"Status"                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                "status"            : u"Status",
+                                                                
+                                                                
+                                                                "time11"            : u"Čas1",
+                                                                "time12"            : u"Čas2",
+                                                                "time13"            : u"Čas3",
+                                                                "time14"            : u"Čas4",
+                                                                "time15"            : u"Čas5",
+                                                                "time16"            : u"Čas6",
+                                                                "time17"            : u"Čas7",
+                                                                "time18"            : u"Čas8",
+                                                                "time19"            : u"Čas9"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                                                 },
                                                         "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
                                                         "enabled_htm":  [False]* NUMBER_OF.EXPORTS,                                                        
@@ -338,7 +350,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.14e"},                                                                                                                    
+                                                        "app": "v3.14f_test1"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

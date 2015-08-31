@@ -378,19 +378,22 @@ class DfTableTimes(DfTable):
     '''
     def ToLapsExport(self, df):        
                 
-        columns_to_transpose = ["nr"] + [s for s in df.columns if "time" in s]        
         
         # http://stackoverflow.com/questions/32051676/how-to-transpose-dataframe/32052086
+        print "#0", df
+        df['colnum'] = df.groupby('nr').cumcount()+1
+        
+        columns_to_transpose = ["nr", "colnum"] + [s for s in df.columns if "time" in s]
+                
         aux_df = df[columns_to_transpose]
-        aux_df['colnum'] = aux_df.groupby('nr').cumcount()+1
         aux_df = aux_df.pivot(index='nr', columns='colnum')
         aux_df.columns = ['{}{}'.format(col, num) for col,num in aux_df.columns]
         aux_df = aux_df.reset_index()
         
-        print "#1", aux_df
         cols_to_use = df.columns.difference(aux_df.columns)
         cols_to_use = list(cols_to_use) + ["nr"]  
-        df = pd.merge(aux_df, df[cols_to_use], on="nr")
+        print "#1", aux_df
+        df = pd.merge(aux_df, df[cols_to_use].drop_duplicates(subset = "nr", take_last = True), on="nr", how = "left")
         print "#2", df
                 
         return df
@@ -562,7 +565,15 @@ class DfTableTimes(DfTable):
                         
             #filter to checked columns
             columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
-            
+            if(filtersort["onerow"] != 0):
+                for x in range(0, NUMBER_OF.THREECOLUMNS):
+                    timeX = "time"+str(x+1) 
+                    if timeX in columns:
+                        for y in range(0,50):
+                            timeXY = "time1"+str(y+1)
+                            if timeXY in df.columns:                                            
+                                columns.insert(columns.index(timeX), timeXY)
+                        columns.remove(timeX)            
             
 #             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
 #                 if "time1" in df:
@@ -661,9 +672,11 @@ class DfTableTimes(DfTable):
             df = pd.DataFrame()
             if(type == self.eHTM_EXPORT):            
                 df =  self.exportDf[i]
+                df = df[columns]
                 css_filename = dstore.GetItem("export_www", [i, "css_filename"])
                 title = dstore.GetItem("racesettings-app", ['race_name']) 
-            elif(type == self.eHTM_EXPORT_LOGO):                      
+            elif(type == self.eHTM_EXPORT_LOGO):
+                df =  pd.DataFrame()                      
                 css_filename = u"css/logo.css"
                 title = "Časomíra Ewitis - <i>Vy závodíte, my měříme..</i>"
             else:
@@ -672,7 +685,7 @@ class DfTableTimes(DfTable):
             #complete export            
             if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
                 filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
-                self.ExportToHtmFile(filename, df[columns], css_filename, title)            
+                self.ExportToHtmFile(filename, df, css_filename, title)            
                 exported["total"] = len(df)
              
         return exported 
@@ -727,7 +740,10 @@ class DfTableTimes(DfTable):
                            
             #convert header EN => CZ
             tocz_dict = dstore.GetItem("export", ["names"])                                                 
-            aux_df = aux_df.rename(columns = tocz_dict)                                                              
+            aux_df = aux_df.rename(columns = tocz_dict)      
+            aux_df.columns = aux_df.columns.str.replace("time1", tocz_dict["time1"])                                                        
+            aux_df.columns = aux_df.columns.str.replace("time2", tocz_dict["time2"])                                                        
+            aux_df.columns = aux_df.columns.str.replace("time3", tocz_dict["time3"])                                                        
             #aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
             
             
