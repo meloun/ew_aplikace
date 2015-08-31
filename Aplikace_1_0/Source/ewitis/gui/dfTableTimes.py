@@ -377,8 +377,10 @@ class DfTableTimes(DfTable):
     '''
     '''
     def ToLapsExport(self, df):        
+                
         columns_to_transpose = ["nr"] + [s for s in df.columns if "time" in s]        
         
+        # http://stackoverflow.com/questions/32051676/how-to-transpose-dataframe/32052086
         aux_df = df[columns_to_transpose]
         aux_df['colnum'] = aux_df.groupby('nr').cumcount()+1
         aux_df = aux_df.pivot(index='nr', columns='colnum')
@@ -399,6 +401,9 @@ class DfTableTimes(DfTable):
      - call ExportToCsvFiles with these 3 DFs
     '''  
     def sExportDirect(self, export_type = eCSV_EXPORT):
+        
+        #take last calculated data
+        self.Update()
         
         # 3DFs for 3 exports
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
@@ -482,8 +487,9 @@ class DfTableTimes(DfTable):
             #columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
             #aux_df = aux_df[columns]
             
-            
-            #aux_df = self.ToLapsExport(aux_df)
+            if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):
+                print "ToLapsExport", i, dstore.GetItem('export_filtersort', [i, "onerow"])   
+                aux_df = self.ToLapsExport(aux_df)
             
 #             print "PRED",i, aux_df.head(2), aux_df.dtypes
 #             self.ConvertToInt(aux_df)
@@ -551,6 +557,7 @@ class DfTableTimes(DfTable):
             
             #get df
             df =  self.exportDf[i]
+            filtersort = dstore.GetItem('export_filtersort', [i])
             #df = mgr.GetDfs()["table"]
                         
             #filter to checked columns
@@ -581,44 +588,50 @@ class DfTableTimes(DfTable):
             racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))            
                         
             #complete export
-            if(len(df) != 0):
-                filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
-                self.ExportToCsvFile(dirname+filename+".csv", racename, df[columns])            
-                exported["total"] = len(df)
+            if "total" in filtersort["type"]:
+                print i, "TOTAL"
+                if(len(df) != 0):
+                    filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
+                    self.ExportToCsvFile(dirname+filename+".csv", racename, df[columns])            
+                    exported[filename] = len(df) 
             
             
-            #category export                
-            c_df = self.exportDf[i]           
-            c_df = c_df.set_index("category", drop = False)
-            category_groupby = c_df.groupby(c_df.index)
-            for c_name, c_df in category_groupby:                
-                if(len(c_df) != 0):
-                    category = tableCategories.model.getCategoryParName(c_name)
-                    category = category.to_dict()
+            #category export    
+            if "categories" in filtersort["type"]:
+                print i, "CATEGORIES"            
+                c_df = self.exportDf[i]           
+                c_df = c_df.set_index("category", drop = False)
+                category_groupby = c_df.groupby(c_df.index)
+                for c_name, c_df in category_groupby:                
+                    if(len(c_df) != 0):
+                        category = tableCategories.model.getCategoryParName(c_name)
+                        category = category.to_dict()
+                         
+                        #add prefix and suffix for category name and desription
+                        c_name =  header["categoryname"].replace("%category%", c_name)
+                        category["name"] = c_name                                        
+                        category["description"]  =  header["description"].replace("%description%", category["description"])
+                        
+                        filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  
+                   
+                        self.ExportToCsvFile(dirname+filename+".csv", racename, c_df[columns], category = category)
+                        exported[filename] = len(c_df) 
                      
-                    #add prefix and suffix for category name and desription
-                    c_name =  header["categoryname"].replace("%category%", c_name)
-                    category["name"] = c_name                                        
-                    category["description"]  =  header["description"].replace("%description%", category["description"])
+            #group export 
+            if "groups" in filtersort["type"]: 
+                print i, "GROUPS"          
+                g_df = self.exportDf[i]
+                for x in range(1,11):                
+                    g_label = "g"+str(x)
+                    categories = tableCategories.model.getCategoriesParGroupLabel(g_label)
+                                                                     
+                    aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
+                    if(aux_df.empty == False):                                 
+                        group = tableCGroups.model.getCGrouptParLabel(g_label)
+                        filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
+                        self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df[columns], group = group.to_dict())                                       
+                        exported[filename] = len(aux_df)
                     
-                    filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  
-               
-                    self.ExportToCsvFile(dirname+filename+".csv", racename, c_df[columns], category = category)
-                    exported[filename] = len(c_df) 
-                     
-            #group export            
-            g_df = self.exportDf[i]
-            for x in range(1,11):                
-                g_label = "g"+str(x)
-                categories = tableCategories.model.getCategoriesParGroupLabel(g_label)
-                                                                 
-                aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
-                if(aux_df.empty == False):                                 
-                    group = tableCGroups.model.getCGrouptParLabel(g_label)
-                    filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
-                    self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df[columns], group = group.to_dict())                                       
-                    exported[filename] = len(aux_df)
-                
 
                          
         return exported

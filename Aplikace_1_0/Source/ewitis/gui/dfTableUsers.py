@@ -154,8 +154,7 @@ class DfTableUsers(DfTable):
         category = tableCategories.model.getCategoryParName(row["category"])
         #print "cateogory:", category, type(category)
         #print "ROW1", row  
-        row["category_id"] = category['id']
-        print "ROW2", row  
+        row["category_id"] = category['id']  
         row.drop(["category"], inplace=True) 
                     
     def Update(self):                                                                                  

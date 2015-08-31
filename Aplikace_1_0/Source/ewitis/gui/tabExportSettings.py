@@ -50,7 +50,7 @@ class FilterSortGroup():
         ui = Ui()        
         self.index = index
                                 
-        #self.onerow = getattr(ui,  "checkExportOnerow_" + str(index+1))
+        self.onerow = getattr(ui,  "checkExportOnerow_" + str(index+1))
         self.type = getattr(ui,    "comboExportType_" + str(index+1))
         self.filter = getattr(ui,    "comboExportFilter_" + str(index+1))
         self.sort1 = getattr(ui, "comboExportSort1_" + str(index+1))                                
@@ -61,7 +61,7 @@ class FilterSortGroup():
     def CreateSlots(self):
         
         
-        #QtCore.QObject.connect(self.onerow, QtCore.SIGNAL("stateChanged(int)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "onerow"], x))
+        QtCore.QObject.connect(self.onerow, QtCore.SIGNAL("stateChanged(int)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "onerow"], x))
         QtCore.QObject.connect(self.type, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "type"], utils.toUnicode(x)))
         QtCore.QObject.connect(self.filter, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_filtersort", [self.index, "filter"], utils.toUnicode(x)))
                                                      
@@ -75,6 +75,7 @@ class FilterSortGroup():
         return dstore.GetItem("export_filtersort", [self.index])
      
     def setEnabled(self, enabled):
+        self.onerow.setEnabled(enabled)
         self.type.setEnabled(enabled)
         self.filter.setEnabled(enabled)   
         self.sort1.setEnabled(enabled)        
@@ -86,6 +87,8 @@ class FilterSortGroup():
         # set values from datastore              
         info = self.GetInfo()                                
                                                      
+        self.onerow.setCheckState(info["onerow"])
+        
         uiAccesories.SetCurrentIndex(self.type, info["type"])
         uiAccesories.SetCurrentIndex(self.filter, info["filter"])        
          
@@ -684,11 +687,11 @@ class TabExportSettings():
             
         
             
-        QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 0) if index else None)
-        QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 1) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_1,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 2) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_2,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 3) if index else None) 
-        QtCore.QObject.connect(Ui().radioExportLapsPoints_3,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 4) if index else None)                                       
+        #QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 0) if index else None)
+        #QtCore.QObject.connect(Ui().radioExportLapsLaptimes,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 1) if index else None) 
+        #QtCore.QObject.connect(Ui().radioExportLapsPoints_1,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 2) if index else None) 
+        #QtCore.QObject.connect(Ui().radioExportLapsPoints_2,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 3) if index else None) 
+        #QtCore.QObject.connect(Ui().radioExportLapsPoints_3,  QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 4) if index else None)                                       
             
     def IsEnabled(self, index, key = None):
         return self.exportgroups[index].IsEnabled(key)
@@ -706,39 +709,39 @@ class TabExportSettings():
             a = self.exportgroups[i].Update()            
             changed = changed or a            
             
-            column = dstore.GetItem("export_laps", ["column"])
-            if column == ExportLapsFormat.FORMAT_TIMES:
-                Ui().radioExportLapsTimes.setChecked(True)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif column == ExportLapsFormat.FORMAT_LAPTIMES:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(True)
-                Ui().radioExportLapsPoints_1.setChecked(False)
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif column == ExportLapsFormat.FORMAT_POINTS_1:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(True)                                
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif column == ExportLapsFormat.FORMAT_POINTS_2:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)                                
-                Ui().radioExportLapsPoints_2.setChecked(True)
-                Ui().radioExportLapsPoints_3.setChecked(False)
-            elif column == ExportLapsFormat.FORMAT_POINTS_3:            
-                Ui().radioExportLapsTimes.setChecked(False)            
-                Ui().radioExportLapsLaptimes.setChecked(False)
-                Ui().radioExportLapsPoints_1.setChecked(False)                                
-                Ui().radioExportLapsPoints_2.setChecked(False)
-                Ui().radioExportLapsPoints_3.setChecked(True)
-            else:
-                print "error: export laptimes"
+#             column = dstore.GetItem("export_laps", ["column"])
+#             if column == ExportLapsFormat.FORMAT_TIMES:
+#                 Ui().radioExportLapsTimes.setChecked(True)            
+#                 Ui().radioExportLapsLaptimes.setChecked(False)
+#                 Ui().radioExportLapsPoints_1.setChecked(False)
+#                 Ui().radioExportLapsPoints_2.setChecked(False)
+#                 Ui().radioExportLapsPoints_3.setChecked(False)
+#             elif column == ExportLapsFormat.FORMAT_LAPTIMES:            
+#                 Ui().radioExportLapsTimes.setChecked(False)            
+#                 Ui().radioExportLapsLaptimes.setChecked(True)
+#                 Ui().radioExportLapsPoints_1.setChecked(False)
+#                 Ui().radioExportLapsPoints_2.setChecked(False)
+#                 Ui().radioExportLapsPoints_3.setChecked(False)
+#             elif column == ExportLapsFormat.FORMAT_POINTS_1:            
+#                 Ui().radioExportLapsTimes.setChecked(False)            
+#                 Ui().radioExportLapsLaptimes.setChecked(False)
+#                 Ui().radioExportLapsPoints_1.setChecked(True)                                
+#                 Ui().radioExportLapsPoints_2.setChecked(False)
+#                 Ui().radioExportLapsPoints_3.setChecked(False)
+#             elif column == ExportLapsFormat.FORMAT_POINTS_2:            
+#                 Ui().radioExportLapsTimes.setChecked(False)            
+#                 Ui().radioExportLapsLaptimes.setChecked(False)
+#                 Ui().radioExportLapsPoints_1.setChecked(False)                                
+#                 Ui().radioExportLapsPoints_2.setChecked(True)
+#                 Ui().radioExportLapsPoints_3.setChecked(False)
+#             elif column == ExportLapsFormat.FORMAT_POINTS_3:            
+#                 Ui().radioExportLapsTimes.setChecked(False)            
+#                 Ui().radioExportLapsLaptimes.setChecked(False)
+#                 Ui().radioExportLapsPoints_1.setChecked(False)                                
+#                 Ui().radioExportLapsPoints_2.setChecked(False)
+#                 Ui().radioExportLapsPoints_3.setChecked(True)
+#             else:
+#                 print "error: export laptimes"
                 
         if(changed == True):            
             uiAccesories.showMessage("Additional info", "The column was disabled also for all exports.\n\n See the export tab. \n ", MSGTYPE.warning)

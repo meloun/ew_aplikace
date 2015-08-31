@@ -37,7 +37,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-16</y>
          <width>1322</width>
          <height>772</height>
         </rect>
@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -5382,290 +5382,6 @@ Best timesX : only best times will have an order</string>
               </property>
              </spacer>
             </item>
-            <item row="2" column="0">
-             <widget class="QGroupBox" name="groupBox_6">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>725</width>
-                <height>150</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>CSS files for WWW export</string>
-              </property>
-              <widget class="QLabel" name="label_314">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>70</y>
-                 <width>20</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E3</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_213">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>50</y>
-                 <width>20</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E2</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_313">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>30</y>
-                 <width>21</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>E1</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineExportCss1">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>30</y>
-                 <width>561</width>
-                 <height>20</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineExportCss2">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>50</y>
-                 <width>561</width>
-                 <height>20</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineExportCss3">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>70</y>
-                 <width>561</width>
-                 <height>20</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushExportLoadCss1">
-               <property name="geometry">
-                <rect>
-                 <x>600</x>
-                 <y>30</y>
-                 <width>30</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>..</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushExportLoadCss2">
-               <property name="geometry">
-                <rect>
-                 <x>600</x>
-                 <y>50</y>
-                 <width>30</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>..</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushExportLoadCss3">
-               <property name="geometry">
-                <rect>
-                 <x>600</x>
-                 <y>70</y>
-                 <width>30</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>..</string>
-               </property>
-              </widget>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QGroupBox" name="groupBox_17">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Export Laps Format (F9)</string>
-              </property>
-              <widget class="QRadioButton" name="radioExportLapsLaptimes">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>40</y>
-                 <width>211</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>laptimes</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QRadioButton" name="radioExportLapsTimes">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>20</y>
-                 <width>211</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>times</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinGrouplapsBy_2">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>130</y>
-                 <width>61</width>
-                 <height>22</height>
-                </rect>
-               </property>
-               <property name="maximum">
-                <number>255</number>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_192">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>130</y>
-                 <width>111</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="text">
-                <string>Group by :</string>
-               </property>
-              </widget>
-              <widget class="QRadioButton" name="radioExportLapsPoints_1">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>60</y>
-                 <width>211</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>points #1</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QRadioButton" name="radioExportLapsPoints_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>80</y>
-                 <width>211</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>points #2</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QRadioButton" name="radioExportLapsPoints_3">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>100</y>
-                 <width>211</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>points #3</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </widget>
-            </item>
             <item row="4" column="1">
              <spacer name="verticalSpacer">
               <property name="orientation">
@@ -5772,10 +5488,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_2_2">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>505</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -5783,6 +5499,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -5810,10 +5532,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_2_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>505</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -5821,6 +5543,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -5969,10 +5697,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>490</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -5980,6 +5708,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6145,10 +5879,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>520</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6156,6 +5890,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6183,10 +5923,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>505</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6194,6 +5934,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6238,10 +5984,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_3_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>520</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6249,6 +5995,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6263,10 +6015,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>520</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6274,6 +6026,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6650,10 +6408,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_1_2">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>490</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6661,6 +6419,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6672,10 +6436,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_1_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>490</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6683,6 +6447,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6953,10 +6723,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_1_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>390</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6964,6 +6734,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -6978,10 +6754,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>390</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -6989,6 +6765,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7000,10 +6782,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_1_2">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>390</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7011,6 +6793,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7022,10 +6810,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_2_2">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>420</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7033,6 +6821,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7057,10 +6851,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_2_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>420</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7068,6 +6862,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7082,10 +6882,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>420</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7093,6 +6893,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7117,10 +6923,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_3_2">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>450</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7128,6 +6934,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7142,10 +6954,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>450</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7153,6 +6965,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -7164,10 +6982,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportTime_3_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>450</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -7175,6 +6993,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9226,10 +9050,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_4_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>535</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9237,6 +9061,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9284,10 +9114,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>535</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9295,6 +9125,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9325,10 +9161,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>535</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9336,6 +9172,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9383,10 +9225,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>60</x>
+                 <x>56</x>
                  <y>550</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9394,6 +9236,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9405,10 +9253,10 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkExportPoints_5_1">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>11</x>
                  <y>550</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>25</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9416,6 +9264,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -9443,10 +9297,10 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>40</x>
+                 <x>36</x>
                  <y>550</y>
-                 <width>16</width>
-                 <height>17</height>
+                 <width>20</width>
+                 <height>16</height>
                 </rect>
                </property>
                <property name="minimumSize">
@@ -9454,6 +9308,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -12601,8 +12461,8 @@ Best timesX : only best times will have an order</string>
               </property>
               <property name="minimumSize">
                <size>
-                <width>721</width>
-                <height>150</height>
+                <width>725</width>
+                <height>200</height>
                </size>
               </property>
               <property name="title">
@@ -12611,8 +12471,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QLabel" name="label_195">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>70</y>
+                 <x>380</x>
+                 <y>20</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -12632,8 +12492,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QLabel" name="label_193">
                <property name="geometry">
                 <rect>
-                 <x>11</x>
-                 <y>90</y>
+                 <x>590</x>
+                 <y>20</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -12653,8 +12513,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QLabel" name="label_194">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>50</y>
+                 <x>160</x>
+                 <y>20</y>
                  <width>21</width>
                  <height>16</height>
                 </rect>
@@ -12677,9 +12537,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>190</x>
-                 <y>50</y>
-                 <width>191</width>
+                 <x>90</x>
+                 <y>70</y>
+                 <width>200</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -12753,9 +12613,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>190</x>
+                 <x>300</x>
                  <y>70</y>
-                 <width>191</width>
+                 <width>200</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -12829,9 +12689,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>190</x>
-                 <y>90</y>
-                 <width>191</width>
+                 <x>510</x>
+                 <y>70</y>
+                 <width>200</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -12902,9 +12762,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort1_1">
                <property name="geometry">
                 <rect>
-                 <x>400</x>
-                 <y>50</y>
-                 <width>91</width>
+                 <x>90</x>
+                 <y>90</y>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -12975,8 +12835,8 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>190</x>
-                 <y>30</y>
+                 <x>20</x>
+                 <y>70</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -12999,8 +12859,8 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>400</x>
-                 <y>30</y>
+                 <x>20</x>
+                 <y>90</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -13020,8 +12880,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder1_1">
                <property name="geometry">
                 <rect>
-                 <x>490</x>
-                 <y>50</y>
+                 <x>240</x>
+                 <y>90</y>
                  <width>51</width>
                  <height>16</height>
                 </rect>
@@ -13040,8 +12900,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder1_2">
                <property name="geometry">
                 <rect>
-                 <x>490</x>
-                 <y>70</y>
+                 <x>450</x>
+                 <y>90</y>
                  <width>51</width>
                  <height>16</height>
                 </rect>
@@ -13060,7 +12920,7 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder1_3">
                <property name="geometry">
                 <rect>
-                 <x>490</x>
+                 <x>660</x>
                  <y>90</y>
                  <width>51</width>
                  <height>16</height>
@@ -13080,8 +12940,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder2_1">
                <property name="geometry">
                 <rect>
-                 <x>650</x>
-                 <y>50</y>
+                 <x>240</x>
+                 <y>110</y>
                  <width>51</width>
                  <height>16</height>
                 </rect>
@@ -13100,8 +12960,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder2_3">
                <property name="geometry">
                 <rect>
-                 <x>650</x>
-                 <y>90</y>
+                 <x>660</x>
+                 <y>110</y>
                  <width>51</width>
                  <height>16</height>
                 </rect>
@@ -13120,8 +12980,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSortOrder2_2">
                <property name="geometry">
                 <rect>
-                 <x>650</x>
-                 <y>70</y>
+                 <x>450</x>
+                 <y>110</y>
                  <width>51</width>
                  <height>16</height>
                 </rect>
@@ -13143,8 +13003,8 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>560</x>
-                 <y>30</y>
+                 <x>20</x>
+                 <y>110</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -13164,9 +13024,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort1_2">
                <property name="geometry">
                 <rect>
-                 <x>400</x>
-                 <y>70</y>
-                 <width>91</width>
+                 <x>300</x>
+                 <y>90</y>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13234,9 +13094,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort1_3">
                <property name="geometry">
                 <rect>
-                 <x>400</x>
+                 <x>510</x>
                  <y>90</y>
-                 <width>91</width>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13304,9 +13164,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort2_1">
                <property name="geometry">
                 <rect>
-                 <x>560</x>
-                 <y>50</y>
-                 <width>91</width>
+                 <x>90</x>
+                 <y>110</y>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13379,9 +13239,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort2_2">
                <property name="geometry">
                 <rect>
-                 <x>560</x>
-                 <y>70</y>
-                 <width>91</width>
+                 <x>300</x>
+                 <y>110</y>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13454,9 +13314,9 @@ Best timesX : only best times will have an order</string>
               <widget class="QComboBox" name="comboExportSort2_3">
                <property name="geometry">
                 <rect>
-                 <x>560</x>
-                 <y>90</y>
-                 <width>91</width>
+                 <x>510</x>
+                 <y>110</y>
+                 <width>130</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13532,9 +13392,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>100</x>
+                 <x>90</x>
                  <y>50</y>
-                 <width>71</width>
+                 <width>200</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -13551,30 +13411,24 @@ Best timesX : only best times will have an order</string>
                  <string>categories</string>
                 </property>
                </item>
-              </widget>
-              <widget class="QComboBox" name="comboExportType_2">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>70</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
                <item>
                 <property name="text">
-                 <string>total</string>
+                 <string>groups</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>categories</string>
+                 <string>total + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>groups + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>total + groups + categories</string>
                 </property>
                </item>
               </widget>
@@ -13584,8 +13438,8 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>100</x>
-                 <y>30</y>
+                 <x>20</x>
+                 <y>46</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -13602,41 +13456,15 @@ Best timesX : only best times will have an order</string>
                 <string>Type</string>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboExportType_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>90</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>categories</string>
-                </property>
-               </item>
-              </widget>
               <widget class="QCheckBox" name="checkExportOnerow_1">
                <property name="enabled">
                 <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>58</x>
-                 <y>50</y>
-                 <width>16</width>
+                 <x>170</x>
+                 <y>130</y>
+                 <width>25</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -13645,6 +13473,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -13659,8 +13493,8 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>30</y>
+                 <x>20</x>
+                 <y>130</y>
                  <width>61</width>
                  <height>20</height>
                 </rect>
@@ -13719,9 +13553,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>58</x>
-                 <y>70</y>
-                 <width>16</width>
+                 <x>380</x>
+                 <y>130</y>
+                 <width>25</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -13730,6 +13564,12 @@ Best timesX : only best times will have an order</string>
                  <width>0</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
                </property>
                <property name="text">
                 <string/>
@@ -13744,9 +13584,9 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>58</x>
-                 <y>90</y>
-                 <width>16</width>
+                 <x>590</x>
+                 <y>130</y>
+                 <width>25</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -13756,11 +13596,260 @@ Best timesX : only best times will have an order</string>
                  <height>0</height>
                 </size>
                </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
                <property name="checked">
                 <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="comboExportType_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>300</x>
+                 <y>50</y>
+                 <width>200</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>groups</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>total + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>groups + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>total + groups + categories</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboExportType_3">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>510</x>
+                 <y>50</y>
+                 <width>200</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>groups</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>total + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>groups + categories</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>total + groups + categories</string>
+                </property>
+               </item>
+              </widget>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>725</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>CSS files for WWW export</string>
+              </property>
+              <widget class="QLabel" name="label_314">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>70</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E3</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_213">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>50</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E2</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_313">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>30</y>
+                 <width>21</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>E1</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss1">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>30</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>50</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportCss3">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>70</y>
+                 <width>561</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss1">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>30</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss2">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>50</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushExportLoadCss3">
+               <property name="geometry">
+                <rect>
+                 <x>600</x>
+                 <y>70</y>
+                 <width>30</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>..</string>
                </property>
               </widget>
              </widget>
@@ -29220,14 +29309,12 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboExportSort2_1</tabstop>
   <tabstop>comboExportSortOrder2_1</tabstop>
   <tabstop>TimesFilterStarts</tabstop>
-  <tabstop>comboExportType_2</tabstop>
   <tabstop>TimesFilterFinishes</tabstop>
   <tabstop>comboExportFilter_2</tabstop>
   <tabstop>comboExportSort1_2</tabstop>
   <tabstop>comboExportSortOrder1_2</tabstop>
   <tabstop>comboExportSort2_2</tabstop>
   <tabstop>comboExportSortOrder2_2</tabstop>
-  <tabstop>comboExportType_3</tabstop>
   <tabstop>comboExportFilter_3</tabstop>
   <tabstop>comboExportSort1_3</tabstop>
   <tabstop>comboExportSortOrder1_3</tabstop>
@@ -29297,7 +29384,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboOrderColumn_3_1</tabstop>
   <tabstop>comboOrderRow_2</tabstop>
   <tabstop>comboOrderRow_3</tabstop>
-  <tabstop>radioExportLapsPoints_3</tabstop>
   <tabstop>lineCells</tabstop>
   <tabstop>lineBattery</tabstop>
   <tabstop>lineHwVersion</tabstop>
@@ -29524,7 +29610,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkCommLogCyclic</tabstop>
   <tabstop>pushCommClearLog</tabstop>
   <tabstop>webViewApp</tabstop>
-  <tabstop>radioExportLapsLaptimes</tabstop>
   <tabstop>pushExportHtmEnable_3</tabstop>
   <tabstop>pushExportHtmEnable_1</tabstop>
   <tabstop>scrollArea</tabstop>
@@ -29542,7 +29627,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkExportMinuteTimeformat_1</tabstop>
   <tabstop>checkExportMinuteTimeformat_2</tabstop>
   <tabstop>checkExportMinuteTimeformat_3</tabstop>
-  <tabstop>radioExportLapsTimes</tabstop>
   <tabstop>comboOrderOrder_1_2</tabstop>
   <tabstop>lineAInfoTimeRule_1</tabstop>
   <tabstop>lineAInfoTimeFilter_1</tabstop>
@@ -29585,9 +29669,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkAInfoLap_2</tabstop>
   <tabstop>checkAInfoTime_3</tabstop>
   <tabstop>checkAInfoLap_3</tabstop>
-  <tabstop>spinGrouplapsBy_2</tabstop>
-  <tabstop>radioExportLapsPoints_1</tabstop>
-  <tabstop>radioExportLapsPoints_2</tabstop>
   <tabstop>checkAInfoOrder_1</tabstop>
   <tabstop>checkAInfoOrder_2</tabstop>
   <tabstop>checkAInfoOrder_3</tabstop>
