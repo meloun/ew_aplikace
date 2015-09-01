@@ -364,14 +364,20 @@ class DfTableTimes(DfTable):
     '''
     def ConvertToInt(self, df):  
         df["nr"]  = df["nr"].astype(float)
+        
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             if "lap"+str(i+1) in df:
                 df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
             if "order"+str(i+1) in df:
                 df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
+                
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             if "points"+str(i+1) in df:
-                df["points"+str(i+1)]  = df["points"+str(i+1)].astype(float)                
+                df["points"+str(i+1)]  = df["points"+str(i+1)].astype(float)
+                
+                #aux_df["points21"] = aux_df["points21"].astype(float)
+                #aux_df["points22"] = aux_df["points22"].astype(float)
+                #aux_df["points23"] = aux_df["points23"].astype(float)                
         return df
     
     '''
@@ -379,23 +385,26 @@ class DfTableTimes(DfTable):
     def ToLapsExport(self, df):        
                 
         
-        # http://stackoverflow.com/questions/32051676/how-to-transpose-dataframe/32052086
-        print "#0", df
+        # http://stackoverflow.com/questions/32051676/how-to-transpose-dataframe/32052086        
         df['colnum'] = df.groupby('nr').cumcount()+1
         
-        columns_to_transpose = ["nr", "colnum"] + [s for s in df.columns if "time" in s]
+        columns_to_transpose =  [s for s in df.columns if "time" in s] + [s for s in df.columns if "points" in s]        
                 
-        aux_df = df[columns_to_transpose]
+        aux_df = df[columns_to_transpose + ["nr", "colnum"]]
         aux_df = aux_df.pivot(index='nr', columns='colnum')
         aux_df.columns = ['{}{}'.format(col, num) for col,num in aux_df.columns]
         aux_df = aux_df.reset_index()
         
         cols_to_use = df.columns.difference(aux_df.columns)
         cols_to_use = list(cols_to_use) + ["nr"]  
-        print "#1", aux_df
+        
         df = pd.merge(aux_df, df[cols_to_use].drop_duplicates(subset = "nr", take_last = True), on="nr", how = "left")
-        print "#2", df
-                
+        
+        for c in [s for s in df.columns if "points" in s]:
+            if c in df:
+                df[c] = df[c].astype(float)
+                        
+                         
         return df
                                        
     '''
@@ -495,7 +504,7 @@ class DfTableTimes(DfTable):
                 aux_df = self.ToLapsExport(aux_df)
             
 #             print "PRED",i, aux_df.head(2), aux_df.dtypes
-#             self.ConvertToInt(aux_df)
+#            self.ConvertToInt(aux_df)
 #             print "PO",i, aux_df.head(2), aux_df.dtypes                                    
 #             aux_df["nr"] = aux_df["nr"].map('{:,g}'.format)                        
 #             print "PO2", aux_df.head(2), aux_df.dtypes
@@ -564,16 +573,26 @@ class DfTableTimes(DfTable):
             #df = mgr.GetDfs()["table"]
                         
             #filter to checked columns
-            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()
+            
+            #add onerow-columns to filtered columns            
             if(filtersort["onerow"] != 0):
                 for x in range(0, NUMBER_OF.THREECOLUMNS):
                     timeX = "time"+str(x+1) 
                     if timeX in columns:
                         for y in range(0,50):
-                            timeXY = "time1"+str(y+1)
+                            timeXY = timeX+str(y+1)
                             if timeXY in df.columns:                                            
                                 columns.insert(columns.index(timeX), timeXY)
                         columns.remove(timeX)            
+                for x in range(0, NUMBER_OF.POINTSCOLUMNS):
+                    pointsX = "points"+str(x+1)                                        
+                    if pointsX in columns:                        
+                        for y in range(0,50):
+                            pointsXY = pointsX+str(y+1)
+                            if pointsXY in df.columns:                                            
+                                columns.insert(columns.index(pointsX), pointsXY)
+                        columns.remove(pointsX)            
             
 #             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
 #                 if "time1" in df:
@@ -740,17 +759,21 @@ class DfTableTimes(DfTable):
                            
             #convert header EN => CZ
             tocz_dict = dstore.GetItem("export", ["names"])                                                 
-            aux_df = aux_df.rename(columns = tocz_dict)      
-            aux_df.columns = aux_df.columns.str.replace("time1", tocz_dict["time1"])                                                        
-            aux_df.columns = aux_df.columns.str.replace("time2", tocz_dict["time2"])                                                        
-            aux_df.columns = aux_df.columns.str.replace("time3", tocz_dict["time3"])                                                        
-            #aux_df = aux_df.rename(columns ={'o1': dstore.GetItem("export",['optionname', 1]), 'o2': dstore.GetItem("export", ['optionname', 2]), 'o3': dstore.GetItem("export", ['optionname', 3]), 'o4': dstore.GetItem("export", ['optionname', 4])})                           
+            aux_df = aux_df.rename(columns = tocz_dict)     
+            
+            #onerow columns to CZ                                        
+            for x in range(0, NUMBER_OF.THREECOLUMNS):
+                timeX = "time"+str(x+1) 
+                aux_df.columns = aux_df.columns.str.replace(timeX, tocz_dict[timeX])          
+            for x in range(0, NUMBER_OF.POINTSCOLUMNS):
+                pointsX = "points"+str(x+1)                                        
+                aux_df.columns = aux_df.columns.str.replace(pointsX, tocz_dict[pointsX])                                                        
             
             
             #export times (with collumn's names)            
             try:              
                 pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
-                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g")                
+                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g", decimal = ',')                
             except IOError:
                 uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
                            
