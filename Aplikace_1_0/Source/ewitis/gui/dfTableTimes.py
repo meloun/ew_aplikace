@@ -41,6 +41,8 @@ CONF_TABLE_TIMES = [
         {'name': 'lap2',     'length':0,   'default': True,   "editable": False },
         {'name': 'time3',    'length':0,   'default': True,   "editable": False },
         {'name': 'lap3',     'length':0,   'default': True,   "editable": False },
+        {'name': 'time4',    'length':0,   'default': True,   "editable": False },
+        {'name': 'lap4',     'length':0,   'default': True,   "editable": False },
         {'name': 'name',     'length':0,   'default': True,   "editable": False },
         {'name': 'category', 'length':0,   'default': True,   "editable": False },
         {'name': 'order1',   'length':0,   'default': True,   "editable": False },
@@ -103,8 +105,7 @@ class DfModelTimes(DataframeTableModel):
         
                                                             
     def GetDataframe(self):
-        df = mgr.GetDfs()["table"]
-        #print df.head(2)
+        df = mgr.GetDfs()["table"]        
                 
         if eventCalcReady.is_set() == False:
             #print self.changed_rows            
@@ -172,9 +173,10 @@ class DfModelTimes(DataframeTableModel):
         eventCalcNow.set()
             
     def ClearCalculated(self, tabRow):        
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             tabRow["time"+str(i+1)] = None
             tabRow["lap"+str(i+1)] = None
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             tabRow["order"+str(i+1)] = None
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             tabRow["points"+str(i+1)] = None
@@ -231,7 +233,7 @@ class DfModelTimes(DataframeTableModel):
     def ResetCalculatedValues(self, timeid):
         query = \
                 " UPDATE times" +\
-                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
         res = db.query(query) 
         db.commit()                                                              
@@ -240,7 +242,7 @@ class DfModelTimes(DataframeTableModel):
     def ResetNrOfLaps(self):
         query = \
                 " UPDATE times" +\
-                    " SET lap1 = Null, lap2 = Null, lap3 = Null"                                                    
+                    " SET lap1 = Null, lap2 = Null, lap3 = Null, lap4 = Null"                                                    
         res = db.query(query)                        
         db.commit()        
         return res
@@ -272,7 +274,7 @@ Table
 '''        
 class DfTableTimes(DfTable):
     
-    (eCSV_EXPORT, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,3)
+    (eCSV_EXPORT, eCSV_EXPORT_DNF, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
     
     def  __init__(self):        
         DfTable.__init__(self, "Times")        
@@ -286,6 +288,7 @@ class DfTableTimes(DfTable):
         self.gui['aWwwExportDirect'] = Ui().aWwwExportDirect
         self.gui['aWwwExportLogo'] = Ui().aWwwExportLogo
         self.gui['aExportResults'] = Ui().aExportResults
+        self.gui['aExportResultsDNF'] = Ui().aExportResultsDNF
         self.gui['aExportAllTimes'] = Ui().aExportAllTimes 
         self.gui['aExportLaptimes'] = Ui().aExportLaptimes 
         self.gui['times_db_export'] = Ui().TimesDbExport 
@@ -328,6 +331,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
         QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))                                                    
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
+        QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT_DNF))
          
     
     def sRecalculate(self, run_id):
@@ -336,7 +340,7 @@ class DfTableTimes(DfTable):
         print "A: Times: Recalculating.. run id:", run_id
         query = \
                 " UPDATE times" +\
-                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null,  time4 = Null, lap4 = Null" +\
                     " WHERE (times.run_id = \""+str(run_id)+"\")"
                         
         res = db.query(query)
@@ -365,9 +369,11 @@ class DfTableTimes(DfTable):
     def ConvertToInt(self, df):  
         df["nr"]  = df["nr"].astype(float)
         
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             if "lap"+str(i+1) in df:
                 df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
+                
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             if "order"+str(i+1) in df:
                 df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
                 
@@ -412,7 +418,7 @@ class DfTableTimes(DfTable):
      - prepare DFs for export (according to filter, sort, etc.)
      - call ExportToCsvFiles with these 3 DFs
     '''  
-    def sExportDirect(self, export_type = eCSV_EXPORT):
+    def sExportDirect(self, export_type = eCSV_EXPORT):        
         
         #take last calculated data
         self.Update()
@@ -422,8 +428,8 @@ class DfTableTimes(DfTable):
                 
         #merge table users and times
         cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
-        cols_to_use = list(cols_to_use) + ["nr"]
-        ut_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "inner", on="nr")
+        cols_to_use = list(cols_to_use) + ["nr"]        
+        ut_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "left", on="nr")        
         
         #format a convert na string (kvůli 3.0 => 3)
         for i in range(0, NUMBER_OF.THREECOLUMNS):
@@ -510,11 +516,30 @@ class DfTableTimes(DfTable):
 #             print "PO2", aux_df.head(2), aux_df.dtypes
                                             
             
+            #add DNF users
+            if export_type == self.eCSV_EXPORT_DNF:
+                            
+                df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(aux_df["nr"])].copy()    
+                        
+                # add "DNF" to timeX (and also timeraw)
+                for c in [s for s in aux_df.columns if "time" in s]:
+                    df_dnf_users[c] = "DNF"
+                    
+                # order = lastorder + 1 (for all DNF users same order)
+                for c in [s for s in aux_df.columns if "order" in s]:
+                    try:
+                        last_order = aux_df.iloc[-1][c]  
+                        df_dnf_users[c] = int(last_order) + 1
+                    except (ValueError, IndexError):
+                        pass                                 
+                aux_df = aux_df.append(df_dnf_users)          
+            
+            
             self.exportDf[i] = aux_df #[columns]
         
         #export complete/ category and group results from export DFs        
         exported = {}
-        if export_type == self.eCSV_EXPORT:
+        if (export_type == self.eCSV_EXPORT) or (export_type == self.eCSV_EXPORT_DNF):
             exported = self.ExportToCsvFiles()            
         elif export_type == self.eHTM_EXPORT:
             exported = self.ExportToHtmFiles(export_type)
@@ -529,8 +554,7 @@ class DfTableTimes(DfTable):
         for key in sorted(exported.keys()):
             exported_string += key + " : " + str(exported[key])+" times\n"
                
-        if export_type == self.eHTM_EXPORT or export_type == self.eHTM_EXPORT_LOGO: 
-            title_msg = "Table '"+self.name + "' HTM Export"            
+        if export_type == self.eHTM_EXPORT or export_type == self.eHTM_EXPORT_LOGO:                        
             uiAccesories.showMessage("WWW Export", time.strftime("%H:%M:%S", time.localtime())+" :: exported "+exported_string, MSGTYPE.statusbar)
         else:
             uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
@@ -577,7 +601,7 @@ class DfTableTimes(DfTable):
             
             #add onerow-columns to filtered columns            
             if(filtersort["onerow"] != 0):
-                for x in range(0, NUMBER_OF.THREECOLUMNS):
+                for x in range(0, NUMBER_OF.TIMESCOLUMNS):
                     timeX = "time"+str(x+1) 
                     if timeX in columns:
                         for y in range(0,50):
@@ -762,7 +786,7 @@ class DfTableTimes(DfTable):
             aux_df = aux_df.rename(columns = tocz_dict)     
             
             #onerow columns to CZ                                        
-            for x in range(0, NUMBER_OF.THREECOLUMNS):
+            for x in range(0, NUMBER_OF.TIMESCOLUMNS):
                 timeX = "time"+str(x+1) 
                 aux_df.columns = aux_df.columns.str.replace(timeX, tocz_dict[timeX])          
             for x in range(0, NUMBER_OF.POINTSCOLUMNS):

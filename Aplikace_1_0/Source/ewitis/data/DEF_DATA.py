@@ -57,6 +57,7 @@ class NUMBER_OF:
     EXPORTS = 3
     
     POINTSCOLUMNS = 5
+    TIMESCOLUMNS = 4
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
     
@@ -141,11 +142,11 @@ DEF_DATA = {
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell=2|3|250",
                                                                             "minute_timeformat" : CheckboxValue.unchecked,
-                                                                         }] * NUMBER_OF.THREECOLUMNS,                                                                                                                 
+                                                                         }] * NUMBER_OF.TIMESCOLUMNS,                                                                                                                 
                                                         "lap"           : [{
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "filter"            : "",           
-                                                                         }] * NUMBER_OF.THREECOLUMNS,                                    
+                                                                         }] * NUMBER_OF.TIMESCOLUMNS,                                    
                                                         "order"         : [
                                                                            {
                                                                             "checked"            : CheckboxValue.checked,
@@ -177,10 +178,10 @@ DEF_DATA = {
                                                                     "name":8, "category":9, "year":10, "club":11, "sex":12,
                                                                     "o1":13,"o2":14,"o3":15, "o4":16, 
                                                                     "gap":17, 
-                                                                    "time1":18,"lap1":19,"time2":20,"lap2":21,"time3":22,"lap3":23,
-                                                                    "points1":24,"points2":25,"points3":26,"points4":27,"points5":28,
-                                                                    "un1":29,"un2":30,"un3":31,
-                                                                    "us1":31,"status":32
+                                                                    "time1":18,"lap1":19,"time2":20,"lap2":21,"time3":22,"lap3":23, "time4":24,"lap4":25,
+                                                                    "points1":26,"points2":27,"points3":28,"points4":29,"points5":30,
+                                                                    "un1":31,"un2":32,"un3":33,
+                                                                    "us1":34,"status":35
                                                                    }] * NUMBER_OF.EXPORTS,
                                                         "names":  {                                                
                                                                 "order1"            : u"Pořadí",
@@ -206,6 +207,8 @@ DEF_DATA = {
                                                                 "lap2"              : u"Kolo",
                                                                 "time3"             : u"Čas",                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap3"              : u"Kolo",                                                                                                                                  
+                                                                "time4"             : u"Čas",                                                                                                                                                                                                                                                                                                                                                                          
+                                                                "lap4"              : u"Kolo",                                                                                                                                  
                                                                 "points1"           : u"Body",
                                                                 "points2"           : u"Body", 
                                                                 "points3"           : u"Body",
@@ -215,19 +218,7 @@ DEF_DATA = {
                                                                 "un2"               : u"Un 2", 
                                                                 "un3"               : u"Un 3",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "us1"               : u"Us 1",                                                                                                                                                                                                                                                                                                                                                                         
-                                                                "status"            : u"Status",
-                                                                
-                                                                
-                                                                "time11"            : u"Čas1",
-                                                                "time12"            : u"Čas2",
-                                                                "time13"            : u"Čas3",
-                                                                "time14"            : u"Čas4",
-                                                                "time15"            : u"Čas5",
-                                                                "time16"            : u"Čas6",
-                                                                "time17"            : u"Čas7",
-                                                                "time18"            : u"Čas8",
-                                                                "time19"            : u"Čas9"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                "status"            : u"Status"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                                                 },
                                                         "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
                                                         "enabled_htm":  [False]* NUMBER_OF.EXPORTS,                                                        
@@ -255,6 +246,8 @@ DEF_DATA = {
                                                                 "lap2"              : CheckboxValue.unchecked, 
                                                                 "time3"             : CheckboxValue.checked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap3"              : CheckboxValue.unchecked,                                                         
+                                                                "time4"             : CheckboxValue.checked,                                                                                                                                                                                                                                                                                                                                                                          
+                                                                "lap4"              : CheckboxValue.unchecked,                                                         
                                                                 "points1"           : CheckboxValue.unchecked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "points2"           : CheckboxValue.unchecked,
                                                                 "points3"           : CheckboxValue.unchecked,
@@ -350,7 +343,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.14f_test1"},                                                                                                                    
+                                                        "app": "v3.14g"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

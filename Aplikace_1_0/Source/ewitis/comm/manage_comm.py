@@ -26,6 +26,8 @@ from ewitis.data.dstore import dstore
 from ewitis.data.DEF_ENUM_STRINGS import * 
 from threading import Thread
 
+from ewitis.gui.multiprocessingManager import eventCalcNow
+
 
 #prozatimni "define"
 OPTIKA_V2 = True
@@ -236,7 +238,8 @@ class ManageComm(Thread):
             """ STORE NEW TIME TO THE DATABASE """
             if(aux_time['error'] == 0):                 
                 self.AddTimeToDb(aux_time)                                                                                                                           
-                self.index_times += 1 # done, take next                                                                             
+                self.index_times += 1 # done, take next 
+                eventCalcNow.set()                                                                            
             else:
                 pass # no new time                  
         

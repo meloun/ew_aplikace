@@ -160,15 +160,16 @@ class TabRaceSettings():
     def Init(self):
         
         self.pointgroups = [None] * NUMBER_OF.POINTSCOLUMNS
-        self.timesgroups = [None] * NUMBER_OF.THREECOLUMNS
+        self.timesgroups = [None] * NUMBER_OF.TIMESCOLUMNS
+        self.lapgroups = [None] * NUMBER_OF.TIMESCOLUMNS
         self.ordergroups = [None] * NUMBER_OF.THREECOLUMNS
-        self.lapgroups = [None] * NUMBER_OF.THREECOLUMNS
         self.un = [None] * NUMBER_OF.THREECOLUMNS
         self.us = [None] * 1
         
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.timesgroups[i] = TimesGroup(i+1)
             self.lapgroups[i] = FilterGroup(i+1, "Lap") 
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.ordergroups[i] =  OrderGroup(i+1)
             self.un[i] = getattr(Ui(), "checkAInfoUserNumber_" + str(i+1))
         self.us[0] = getattr(Ui(), "checkAInfoUserString_" + str(1))
@@ -203,10 +204,11 @@ class TabRaceSettings():
         
         #ADDTITIONAL INFO                                                                              
         QtCore.QObject.connect(self.status, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["status", "checked"], state, self.Update))
-        for i in range(0, NUMBER_OF.THREECOLUMNS):                                                                     
-            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))            
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):                                                                     
             self.timesgroups[i].CreateSlots()                  
             self.lapgroups[i].CreateSlots()
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                                                                     
+            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))            
             self.ordergroups[i].CreateSlots()                              
         i=0
         QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["us", index, "checked"], state, self.Update))
@@ -383,10 +385,11 @@ class TabRaceSettings():
         uiAccesories.UpdateText(Ui().lineFinishTime, dstore.GetItem("evaluation", ["finishtime", "time"]))
         
         #aditional info
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.timesgroups[i].Update()
             self.lapgroups[i].Update()          
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
             self.ordergroups[i].Update()
         i=0
         self.us[i].setChecked(dstore.GetItem("additional_info", ['us', i, "checked"]))                                                                                                                                      

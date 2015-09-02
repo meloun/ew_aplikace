@@ -79,8 +79,8 @@ class ManageCalcProcess():
             #delay            
             ztime = time.clock()
             
-            self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
-            self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
+            self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
+            self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
             self.orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]                                            
                                 
             """ update DFs """
@@ -145,16 +145,16 @@ class ManageCalcProcess():
             else:                              
                 columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]   
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
-                self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None]
+                self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "time4", "lap1", "lap2", "lap3", "lap4"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None, None]
                 #print self.joinedDf                                
                 #self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN user id: "+self.joinedDf[pd.isnull(self.joinedDf.nr)]["user_id"].astype(str), "not def", 1, None, None, None, None, None, None]
-                self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN user", "not def", 1, None, None, None, None, None, None]
+                self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "time4", "lap1", "lap2", "lap3", "lap4"]] = [0, "UNKNOWN user", "not def", 1, None, None, None, None, None, None, None, None]
                 
                 #print self.joinedDf
                 #umele pretypovani na long, defaultne float a 7.00
                 self.joinedDf["nr"] = self.joinedDf["nr"].astype(long)
-                             
-                dfs["table"] = self.joinedDf[columns].copy()
+                                             
+                dfs["table"] = self.joinedDf[columns].copy()                
                 
             
             if(complete_calc_flag):
@@ -172,7 +172,7 @@ class ManageCalcProcess():
                 print "MAX CALC-TIME:", self.maxcalctime
                                                      
             sys.stdout.flush()              
-            eventCalcNow.wait(2)            
+            eventCalcNow.wait(2)                        
             eventCalcNow.clear()             
             
     def LastCalcTime(self):
@@ -249,7 +249,7 @@ class ManageCalcProcess():
         additional_info = self.dstore.Get("additional_info")        
         
         '''TIME 1-3'''
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             
             #TIME 1-3
             if additional_info['time'][i]:                
@@ -267,7 +267,7 @@ class ManageCalcProcess():
     def GetTimesDfs(self):
         
                      
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             
             timeX = "time"+str(i+1)                
                          
@@ -293,7 +293,7 @@ class ManageCalcProcess():
     """ update LAP df """
     def GetLapsDfs(self):
                              
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
                                     
             timeX = "time"+str(i+1)                
             lapX = "lap"+str(i+1)
@@ -399,7 +399,7 @@ class ManageCalcProcess():
         ret_ko_times = []                
                                        
         self.commit_flag = False
-        for i in range(0, NUMBER_OF.THREECOLUMNS):                                               
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):                                               
             timesDfs[i].apply(lambda row: self.CalcAndUpdateTime(row, i), axis = 1)                                                                       
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         if self.commit_flag:                          
@@ -418,7 +418,7 @@ class ManageCalcProcess():
         ret_ko_times = []        
                         
         self.commit_flag = False
-        for i in range(0, NUMBER_OF.THREECOLUMNS):                        
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):                        
             self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
                                                                                                     
         if self.commit_flag:
@@ -549,7 +549,7 @@ class ManageCalcProcess():
             # Filter #3: only times from the same user            
             aux_df = aux_df[aux_df['user_id'] == dbTime['user_id']]
         
-            lap = len(aux_df)
+            lap = len(aux_df[aux_df[timeX].notnull()])
                         
             if (lap != None):
                 lap = lap + 1                
@@ -781,7 +781,7 @@ class ManageCalcProcess():
 
         # prevI-timeX
         for prev_i in range(1, 4):
-            for i in range(1, NUMBER_OF.THREECOLUMNS + 1):                   
+            for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
                 previoustimeX = "prev"+str(prev_i)+"-time" + str(i)
                 if previoustimeX in rule:                    
                     try:  

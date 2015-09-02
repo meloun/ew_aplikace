@@ -37,7 +37,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-16</y>
+         <y>0</y>
          <width>1322</width>
          <height>772</height>
         </rect>
@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>8</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -2902,7 +2902,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -2936,7 +2936,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>320</y>
+                 <y>360</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -2952,7 +2952,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>370</y>
+                 <y>410</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -2968,7 +2968,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>420</y>
+                 <y>460</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -3098,7 +3098,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -3114,7 +3114,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -3241,7 +3241,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>420</y>
+                 <y>460</y>
                  <width>61</width>
                  <height>21</height>
                 </rect>
@@ -3268,7 +3268,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>370</y>
+                 <y>410</y>
                  <width>61</width>
                  <height>21</height>
                 </rect>
@@ -3295,7 +3295,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>340</y>
+                 <y>380</y>
                  <width>531</width>
                  <height>21</height>
                 </rect>
@@ -3331,7 +3331,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>420</y>
+                 <y>460</y>
                  <width>71</width>
                  <height>21</height>
                 </rect>
@@ -3358,7 +3358,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>370</y>
+                 <y>410</y>
                  <width>71</width>
                  <height>21</height>
                 </rect>
@@ -3385,7 +3385,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>320</y>
+                 <y>360</y>
                  <width>71</width>
                  <height>21</height>
                 </rect>
@@ -3412,7 +3412,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>440</y>
+                 <y>480</y>
                  <width>531</width>
                  <height>21</height>
                 </rect>
@@ -3448,7 +3448,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>320</y>
+                 <y>360</y>
                  <width>61</width>
                  <height>21</height>
                 </rect>
@@ -3475,7 +3475,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>390</y>
+                 <y>430</y>
                  <width>531</width>
                  <height>21</height>
                 </rect>
@@ -3511,7 +3511,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>300</y>
+                 <y>340</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -3535,7 +3535,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>300</y>
+                 <y>340</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -3715,7 +3715,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>350</x>
-                 <y>320</y>
+                 <y>360</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -3736,7 +3736,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>300</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -3839,7 +3839,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>370</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -3862,7 +3862,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>430</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -3970,7 +3970,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>500</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -3993,7 +3993,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>300</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -4096,7 +4096,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>430</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -4204,7 +4204,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>370</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4227,7 +4227,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>500</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4250,7 +4250,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>300</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -4353,7 +4353,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>430</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>71</width>
                  <height>20</height>
                 </rect>
@@ -4461,7 +4461,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>370</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4484,7 +4484,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>500</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4510,7 +4510,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>230</y>
+                 <y>270</y>
                  <width>91</width>
                  <height>20</height>
                 </rect>
@@ -4546,7 +4546,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>250</y>
+                 <y>290</y>
                  <width>91</width>
                  <height>20</height>
                 </rect>
@@ -4582,7 +4582,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>270</y>
+                 <y>310</y>
                  <width>91</width>
                  <height>20</height>
                 </rect>
@@ -4618,7 +4618,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>300</x>
-                 <y>210</y>
+                 <y>250</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4642,7 +4642,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>200</x>
-                 <y>210</y>
+                 <y>250</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4670,7 +4670,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>430</x>
-                 <y>210</y>
+                 <y>250</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4691,7 +4691,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>570</y>
+                 <y>610</y>
                  <width>131</width>
                  <height>17</height>
                 </rect>
@@ -4706,7 +4706,7 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkAInfoUserNumber_3">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
+                 <x>290</x>
                  <y>610</y>
                  <width>131</width>
                  <height>17</height>
@@ -4722,8 +4722,8 @@ Best timesX : only best times will have an order</string>
               <widget class="QCheckBox" name="checkAInfoUserNumber_2">
                <property name="geometry">
                 <rect>
-                 <x>20</x>
-                 <y>590</y>
+                 <x>150</x>
+                 <y>610</y>
                  <width>131</width>
                  <height>17</height>
                 </rect>
@@ -4739,7 +4739,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>630</y>
+                 <y>640</y>
                  <width>131</width>
                  <height>17</height>
                 </rect>
@@ -4920,7 +4920,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>210</y>
+                 <y>250</y>
                  <width>51</width>
                  <height>20</height>
                 </rect>
@@ -4941,82 +4941,6 @@ Best timesX : only best times will have an order</string>
                </property>
               </widget>
               <widget class="QComboBox" name="comboOrderType_1">
-               <property name="geometry">
-                <rect>
-                 <x>110</x>
-                 <y>230</y>
-                 <width>81</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="toolTip">
-                <string>Race: order for last times, Slalom: order for best times</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Category</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboOrderType_2">
-               <property name="geometry">
-                <rect>
-                 <x>110</x>
-                 <y>250</y>
-                 <width>81</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="toolTip">
-                <string>Race: order for last times, Slalom: order for best times</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Total</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Category</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Group#3</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="comboOrderType_3">
                <property name="geometry">
                 <rect>
                  <x>110</x>
@@ -5054,11 +4978,87 @@ Best timesX : only best times will have an order</string>
                 </property>
                </item>
               </widget>
+              <widget class="QComboBox" name="comboOrderType_2">
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>290</y>
+                 <width>81</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="toolTip">
+                <string>Race: order for last times, Slalom: order for best times</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Category</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#3</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="comboOrderType_3">
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>310</y>
+                 <width>81</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="toolTip">
+                <string>Race: order for last times, Slalom: order for best times</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Total</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Category</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Group#3</string>
+                </property>
+               </item>
+              </widget>
               <widget class="QCheckBox" name="checkAInfoPoints_4">
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>470</y>
+                 <y>510</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -5077,7 +5077,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>470</y>
+                 <y>510</y>
                  <width>71</width>
                  <height>21</height>
                 </rect>
@@ -5104,7 +5104,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>490</y>
+                 <y>530</y>
                  <width>531</width>
                  <height>21</height>
                 </rect>
@@ -5140,7 +5140,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>470</y>
+                 <y>510</y>
                  <width>61</width>
                  <height>21</height>
                 </rect>
@@ -5183,7 +5183,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>520</y>
+                 <y>560</y>
                  <width>101</width>
                  <height>17</height>
                 </rect>
@@ -5202,7 +5202,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>190</x>
-                 <y>520</y>
+                 <y>560</y>
                  <width>61</width>
                  <height>21</height>
                 </rect>
@@ -5229,7 +5229,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>540</y>
+                 <y>580</y>
                  <width>531</width>
                  <height>21</height>
                 </rect>
@@ -5265,7 +5265,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>520</y>
+                 <y>560</y>
                  <width>71</width>
                  <height>21</height>
                 </rect>
@@ -5358,6 +5358,174 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineAInfoLapFilter_4">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>330</x>
+                 <y>220</y>
+                 <width>191</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportMinuteTimeformat_4">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>530</x>
+                 <y>202</y>
+                 <width>21</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineAInfoTimeFilter_4">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>330</x>
+                 <y>200</y>
+                 <width>191</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>cell = 250;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAInfoTime_4">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>200</y>
+                 <width>71</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Time #4</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAInfoLap_4">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>220</y>
+                 <width>71</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Lap   #4</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineAInfoTimeRule_4">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>200</y>
+                 <width>211</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>time - celltime2</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
                </property>
               </widget>
              </widget>
@@ -5489,7 +5657,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>36</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -5533,7 +5701,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>11</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>25</width>
                  <height>16</height>
                 </rect>
@@ -5698,7 +5866,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>56</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -5751,7 +5919,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -5880,7 +6048,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>36</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -5924,7 +6092,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>56</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -5985,7 +6153,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>11</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>25</width>
                  <height>16</height>
                 </rect>
@@ -6016,7 +6184,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>56</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -6091,7 +6259,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -6167,7 +6335,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -6409,7 +6577,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>36</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -6437,7 +6605,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>11</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>25</width>
                  <height>16</height>
                 </rect>
@@ -8033,7 +8201,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8066,7 +8234,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8132,7 +8300,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8449,7 +8617,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8471,7 +8639,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8493,7 +8661,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8526,7 +8694,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8548,7 +8716,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -8564,7 +8732,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8597,7 +8765,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8619,7 +8787,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8641,7 +8809,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -8662,7 +8830,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8698,7 +8866,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8723,7 +8891,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8748,7 +8916,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8770,7 +8938,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8792,7 +8960,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -8810,7 +8978,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8835,7 +9003,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8857,7 +9025,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -8878,7 +9046,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8900,7 +9068,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -8936,7 +9104,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>60</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8961,7 +9129,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>40</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -8983,7 +9151,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>16</width>
                  <height>17</height>
                 </rect>
@@ -9005,7 +9173,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9038,7 +9206,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -9051,7 +9219,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>11</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>25</width>
                  <height>16</height>
                 </rect>
@@ -9079,7 +9247,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9115,7 +9283,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>56</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -9143,7 +9311,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -9162,7 +9330,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>36</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -9190,7 +9358,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>310</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>111</width>
                  <height>16</height>
                 </rect>
@@ -9226,7 +9394,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>56</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -9254,7 +9422,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>11</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>25</width>
                  <height>16</height>
                 </rect>
@@ -9282,7 +9450,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>80</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>85</width>
                  <height>16</height>
                 </rect>
@@ -9298,7 +9466,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>36</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>20</width>
                  <height>16</height>
                 </rect>
@@ -9849,7 +10017,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9873,7 +10041,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9897,7 +10065,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9918,7 +10086,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9939,7 +10107,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9960,7 +10128,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -9984,7 +10152,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10008,7 +10176,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10029,7 +10197,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10050,7 +10218,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10098,7 +10266,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10140,7 +10308,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10233,7 +10401,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10254,7 +10422,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10278,7 +10446,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10341,7 +10509,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10572,7 +10740,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10635,7 +10803,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10659,7 +10827,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10704,7 +10872,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>210</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10797,7 +10965,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>620</y>
+                 <y>655</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10839,7 +11007,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>550</y>
+                 <y>585</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10860,7 +11028,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>535</y>
+                 <y>570</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10884,7 +11052,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>505</y>
+                 <y>540</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10929,7 +11097,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>490</y>
+                 <y>525</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10950,7 +11118,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>575</y>
+                 <y>610</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -10974,7 +11142,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>520</y>
+                 <y>555</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11205,7 +11373,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>605</y>
+                 <y>640</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11229,7 +11397,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>645</y>
+                 <y>680</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11403,7 +11571,7 @@ Best timesX : only best times will have an order</string>
                <property name="geometry">
                 <rect>
                  <x>250</x>
-                 <y>590</y>
+                 <y>625</y>
                  <width>41</width>
                  <height>16</height>
                 </rect>
@@ -11979,6 +12147,392 @@ Best timesX : only best times will have an order</string>
                </property>
                <property name="value">
                 <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportLap_4_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>495</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameTime4">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>480</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap4_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>495</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportTime_4_2">
+               <property name="geometry">
+                <rect>
+                 <x>36</x>
+                 <y>480</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportLap_4_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>495</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap4_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>495</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortLap4_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>495</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime4_2">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>480</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportLap_4_2">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>495</y>
+                 <width>16</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_324">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>480</y>
+                 <width>85</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Time #4</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineExportNameLap4">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>495</y>
+                 <width>111</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="text">
+                <string>- - -</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime4_1">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>480</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportTime_4_1">
+               <property name="geometry">
+                <rect>
+                 <x>11</x>
+                 <y>480</y>
+                 <width>25</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkExportTime_4_3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>56</x>
+                 <y>480</y>
+                 <width>20</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#CCCCFF;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinExportSortTime4_3">
+               <property name="geometry">
+                <rect>
+                 <x>250</x>
+                 <y>480</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>7</pointsize>
+                </font>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_325">
+               <property name="geometry">
+                <rect>
+                 <x>80</x>
+                 <y>495</y>
+                 <width>85</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background:#FFF8DC;</string>
+               </property>
+               <property name="text">
+                <string>Lap #4</string>
                </property>
               </widget>
              </widget>
@@ -28405,6 +28959,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="aExportAllTimes"/>
     <addaction name="aExportResults"/>
     <addaction name="aWwwExportDirect"/>
+    <addaction name="aExportResultsDNF"/>
     <addaction name="aWwwExportLogo"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -29282,6 +29837,17 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Alt+F12</string>
+   </property>
+  </action>
+  <action name="aExportResultsDNF">
+   <property name="text">
+    <string>Export Results with DNF</string>
+   </property>
+   <property name="toolTip">
+    <string>Export Results with DNF</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F11</string>
    </property>
   </action>
  </widget>

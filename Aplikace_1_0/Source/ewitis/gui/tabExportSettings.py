@@ -118,17 +118,19 @@ class ExportGroup():
         self.enable_htm = getattr(ui, "pushExportHtmEnable_" + str(index+1))
         
         #three columns groups
-        self.time = [None] * NUMBER_OF.THREECOLUMNS
-        self.lap = [None] * NUMBER_OF.THREECOLUMNS        
+        self.time = [None] * NUMBER_OF.TIMESCOLUMNS
+        self.lap = [None] * NUMBER_OF.TIMESCOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
         self.ordercat = [None] * NUMBER_OF.THREECOLUMNS        
         self.points = [None] * NUMBER_OF.POINTSCOLUMNS  
         self.un = [None] * NUMBER_OF.THREECOLUMNS  
         self.us = [None] * 1
               
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.time[i] = getattr(ui, "checkExportTime_"+str(i+1)+"_" + str(index+1)) 
             self.lap[i] = getattr(ui, "checkExportLap_"+str(i+1)+"_" + str(index+1))
+            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.order[i] = getattr(ui, "checkExportOrder_"+str(i+1)+"_" + str(index+1))
             self.ordercat[i] = getattr(ui, "checkExportOrderCat_"+str(i+1)+"_" + str(index+1))
             self.points[i] = getattr(ui, "checkExportPoints_"+str(i+1)+"_" + str(index+1))
@@ -158,17 +160,19 @@ class ExportGroup():
         
         
         #collumns sorting
-        self.s_time = [None] * NUMBER_OF.THREECOLUMNS
-        self.s_lap = [None] * NUMBER_OF.THREECOLUMNS        
+        self.s_time = [None] * NUMBER_OF.TIMESCOLUMNS
+        self.s_lap = [None] * NUMBER_OF.TIMESCOLUMNS        
         self.s_order = [None] * NUMBER_OF.THREECOLUMNS        
         self.s_ordercat = [None] * NUMBER_OF.THREECOLUMNS        
         self.s_points = [None] * NUMBER_OF.POINTSCOLUMNS  
         self.s_un = [None] * NUMBER_OF.THREECOLUMNS  
         self.s_us = [None] * 1
               
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.s_time[i] = getattr(ui, "spinExportSortTime"+str(i+1)+"_" + str(index+1)) 
             self.s_lap[i] = getattr(ui, "spinExportSortLap"+str(i+1)+"_" + str(index+1))
+            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.s_order[i] = getattr(ui, "spinExportSortOrder"+str(i+1)+"_" + str(index+1))
             self.s_ordercat[i] = getattr(ui, "spinExportSortOrderCat"+str(i+1)+"_" + str(index+1))
             self.s_points[i] = getattr(ui, "spinExportSortPoints"+str(i+1)+"_" + str(index+1))
@@ -211,9 +215,10 @@ class ExportGroup():
         """columns enable checkboxes """
         
         #three columns groups
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "time"+str(idx+1)], state)) 
             QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["checked", self.index, "lap"+str(idx+1)], state))                                            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "order"+str(idx+1)], state))
             QtCore.QObject.connect(self.ordercat[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["checked", self.index, "ordercat"+str(idx+1)], state))
             QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["checked", self.index, "un"+str(idx+1)], state))
@@ -243,9 +248,10 @@ class ExportGroup():
         """columns sorting """
         
         #three columns groups
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             QtCore.QObject.connect(self.s_time[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "time"+str(idx+1)], state)) 
             QtCore.QObject.connect(self.s_lap[i], QtCore.SIGNAL("valueChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["sorted", self.index, "lap"+str(idx+1)], state))                                            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             QtCore.QObject.connect(self.s_order[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "order"+str(idx+1)], state))
             QtCore.QObject.connect(self.s_ordercat[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export", ["sorted", self.index, "ordercat"+str(idx+1)], state))
             QtCore.QObject.connect(self.s_un[i], QtCore.SIGNAL("valueChanged(int)"), lambda state,  idx = i: dstore.SetItem("export", ["sorted", self.index, "un"+str(idx+1)], state))
@@ -274,9 +280,11 @@ class ExportGroup():
 
     def setEnabled(self, enabled):        
         
-        for i in range(0, NUMBER_OF.THREECOLUMNS):                
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.time[i].setEnabled(enabled)         
             self.lap[i].setEnabled(enabled)          
+                            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):                
             self.order[i].setEnabled(enabled)            
             self.ordercat[i].setEnabled(enabled)            
             self.un[i].setEnabled(enabled)            
@@ -299,9 +307,10 @@ class ExportGroup():
         checked_info = self.GetCheckedInfo()        
         
         #print checked_info
-        for i in range(0, NUMBER_OF.THREECOLUMNS):              
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):              
             self.s_time[i].setEnabled(enabled  and  bool(checked_info["time"+str(i+1)]))         
             self.s_lap[i].setEnabled(enabled   and  bool(checked_info["lap"+str(i+1)]))          
+        for i in range(0, NUMBER_OF.THREECOLUMNS):              
             self.s_order[i].setEnabled(enabled and  bool(checked_info["order"+str(i+1)]))            
             self.s_ordercat[i].setEnabled(enabled and  bool(checked_info["ordercat"+str(i+1)]))            
             self.s_un[i].setEnabled(enabled and bool(checked_info["un"+str(i+1)]))            
@@ -369,7 +378,7 @@ class ExportGroup():
         #enabled in additional info        
         if(self.IsEnabled()):
             ai = dstore.Get("additional_info")
-            for i in range(0, NUMBER_OF.THREECOLUMNS):                
+            for i in range(0, NUMBER_OF.TIMESCOLUMNS):                
                 if(ai["time"][i]["checked"] == 0):
                     dstore.SetItem("export", ["checked", self.index, "time"+str(i+1)], 0)
                     self.time[i].setEnabled(False)                
@@ -378,6 +387,7 @@ class ExportGroup():
                     self.lap[i].setEnabled(False)
                     self.s_lap[i].setEnabled(False)
                     dstore.SetItem("export", ["checked", self.index, "lap"+str(i+1)], 0)                       
+            for i in range(0, NUMBER_OF.THREECOLUMNS):                
                 if(ai["order"][i]["checked"] == 0):
                     dstore.SetItem("export", ["checked", self.index, "order"+str(i+1)], 0)                              
                     self.order[i].setEnabled(False)                          
@@ -482,17 +492,19 @@ class NamesGroup():
         ui = Ui()
         
         #three columns groups
-        self.time = [None] * NUMBER_OF.THREECOLUMNS
-        self.lap = [None] * NUMBER_OF.THREECOLUMNS        
+        self.time = [None] * NUMBER_OF.TIMESCOLUMNS
+        self.lap = [None] * NUMBER_OF.TIMESCOLUMNS        
         self.order = [None] * NUMBER_OF.THREECOLUMNS        
         self.ordercat = [None] * NUMBER_OF.THREECOLUMNS        
         self.points = [None] * NUMBER_OF.POINTSCOLUMNS  
         self.un = [None] * NUMBER_OF.THREECOLUMNS  
         self.us = [None] * 1  
               
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.time[i] = getattr(ui, "lineExportNameTime"+str(i+1)) 
             self.lap[i] = getattr(ui, "lineExportNameLap"+str(i+1))
+            
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.order[i] = getattr(ui, "lineExportNameOrder"+str(i+1))
             self.ordercat[i] = getattr(ui, "lineExportNameOrderCat"+str(i+1))
             self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
@@ -523,11 +535,12 @@ class NamesGroup():
     def CreateSlots(self):
         
         #three columns groups
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
+            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "time"+str(idx+1)],  utils.toUnicode(name))) 
+            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "lap"+str(idx+1)],  utils.toUnicode(name)))                                            
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "order"+str(idx+1)],  utils.toUnicode(name)))
             QtCore.QObject.connect(self.ordercat[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "ordercat"+str(idx+1)],  utils.toUnicode(name)))
-            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "time"+str(idx+1)],  utils.toUnicode(name))) 
-            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "lap"+str(idx+1)],  utils.toUnicode(name)))                                            
             QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "un"+str(idx+1)],  utils.toUnicode(name)))
         i=0                                            
         QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "us"+str(idx+1)],  utils.toUnicode(name)))                                            
@@ -552,11 +565,12 @@ class NamesGroup():
         
         self.enable.setChecked(enabled)
         
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):                
+            self.time[i].setEnabled(enabled)         
+            self.lap[i].setEnabled(enabled)          
         for i in range(0, NUMBER_OF.THREECOLUMNS):                
             self.order[i].setEnabled(enabled)            
             self.ordercat[i].setEnabled(enabled)            
-            self.time[i].setEnabled(enabled)         
-            self.lap[i].setEnabled(enabled)          
             self.un[i].setEnabled(enabled)          
         self.us[0].setEnabled(enabled)          
         self.nr.setEnabled(enabled)        
@@ -582,11 +596,12 @@ class NamesGroup():
         
         #three columns groups               
         #print export_info
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
+            uiAccesories.UpdateText(self.time[i], info["time"+str(i+1)])
+            uiAccesories.UpdateText(self.lap[i], info["lap"+str(i+1)])
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             uiAccesories.UpdateText(self.order[i], info["order"+str(i+1)])
             uiAccesories.UpdateText(self.ordercat[i], info["ordercat"+str(i+1)])
-            uiAccesories.UpdateText(self.time[i], info["time"+str(i+1)])
-            uiAccesories.UpdateText(self.lap[i], info["lap"+str(i+1)])
             uiAccesories.UpdateText(self.un[i], info["un"+str(i+1)])
         i=0
         uiAccesories.UpdateText(self.un[i], info["un"+str(i+1)])
