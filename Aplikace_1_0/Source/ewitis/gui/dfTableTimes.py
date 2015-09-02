@@ -107,8 +107,7 @@ class DfModelTimes(DataframeTableModel):
     def GetDataframe(self):
         df = mgr.GetDfs()["table"]        
                 
-        if eventCalcReady.is_set() == False:
-            #print self.changed_rows            
+        if eventCalcReady.is_set() == False:        
             for index, row in self.changed_rows.iterrows():
                 if index in df.index:
                     df.loc[index] = row             
@@ -119,18 +118,20 @@ class DfModelTimes(DataframeTableModel):
     
        
     def setDataFromDict(self, mydict):
-        print "setDataFromDict()", mydict, self.name        
-
+        print "setDataFromDict()", mydict, self.name
                         
         dfChange = pd.DataFrame([mydict])
-        dfChange.set_index(dfChange.id, inplace=True)        
+        dfChange.set_index(dfChange.id, inplace=True)                   
                 
-        dfChangeRow = self.df.loc[dfChange.id]                        
+        dfChangeRow = self.df.loc[dfChange.id]                             
+        old_user = tableUsers.model.getUserParNr(int(dfChangeRow['nr']))        
         dfChangeRow.update(dfChange)
         
+        
         #category changed
+        
         if "nr" in mydict:            
-                                                            
+                                                                        
             user_id = self.checkChangedNumber(dfChangeRow.iloc[0])                                                                                            
             if user_id == None: #dialog inside checkChangedNumber()
                 return
@@ -156,20 +157,44 @@ class DfModelTimes(DataframeTableModel):
             del mydict["timeraw"]            
             
 
+        elif "un1" in mydict:
+            pass 
+        elif "un2" in mydict:
+            pass 
+        elif "un3" in mydict:
+            pass 
+        elif "us1" in mydict:
+            pass 
         else:
             uiAccesories.showMessage(self.name+" Update error", "Unexpecting change!")
             return                                                                                          
                                     
         # add changed row to "changed_rows"
         # keep as dataframe otherwise float issues for "nr" and "cell"
-        cleared = self.ClearCalculated(dfChangeRow)                                                                
+        cleared = self.ClearCalculated(dfChangeRow.iloc[0].copy())                                                                                
         self.changed_rows = self.changed_rows.append(cleared)
+        try:
+            self.changed_rows["nr"] = int(self.changed_rows["nr"])                           
+            self.changed_rows["cell"] = int(self.changed_rows["cell"])                           
+        except:
+            pass        
         eventCalcReady.clear() #s                                 
                                                                                             
         #update db from mydict            
         db.update_from_dict(self.name, mydict)
-        self.ResetCalculatedValues(mydict["id"])        
-        self.ResetNrOfLaps()  
+        
+        if mydict and ("user_id" in mydict):
+            #print "mazu vsechny1", mydict["user_id"]
+            self.ResetCalculatedValuesForUser(mydict["user_id"])
+        elif mydict and ("id" in mydict):
+            #print "mazu neco", mydict["id"]
+            self.ResetCalculatedValues(mydict["id"])
+        
+        if old_user and ("id" in old_user):
+            #print "mazu vsechny2", old_user["id"]
+            self.ResetCalculatedValuesForUser(old_user["id"])
+                
+        #self.ResetNrOfLaps()  
         eventCalcNow.set()
             
     def ClearCalculated(self, tabRow):        
@@ -183,7 +208,8 @@ class DfModelTimes(DataframeTableModel):
         tabRow["status"] = "wait"
             
         #precalculate name and category
-        user = tableUsers.model.getUserParNr(tabRow["nr"])
+        user = tableUsers.model.getUserParNr(tabRow["nr"])        
+        
         if user:
             if(user['name']):
                 tabRow['name'] = user['name'].upper()
@@ -235,6 +261,15 @@ class DfModelTimes(DataframeTableModel):
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
                     " WHERE (times.id = \""+str(timeid)+"\")"                                
+        res = db.query(query) 
+        db.commit()                                                              
+        return res
+    
+    def ResetCalculatedValuesForUser(self, user_id):
+        query = \
+                " UPDATE times" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
+                    " WHERE (times.run_id = \""+str(dstore.Get("current_run"))+"\") AND (times.user_id = \""+str(user_id)+"\")"                                
         res = db.query(query) 
         db.commit()                                                              
         return res
@@ -366,16 +401,18 @@ class DfTableTimes(DfTable):
     - to_csv() čísla exportuje jako float ve formátu 2.00
     - přetypuju je na float a formátem %g nastavím že nuly se přidávají jen když je třeba
     '''
-    def ConvertToInt(self, df):  
-        df["nr"]  = df["nr"].astype(float)
-        
-        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
-            if "lap"+str(i+1) in df:
-                df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
-                
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            if "order"+str(i+1) in df:
-                df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
+    def ConvertToInt(self, df):
+          
+        df["nr"]  = df["nr"].astype(int)
+
+#         
+#         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
+#             if "lap"+str(i+1) in df:
+#                 df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
+#                 
+#         for i in range(0, NUMBER_OF.THREECOLUMNS):
+#             if "order"+str(i+1) in df:
+#                 df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
                 
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             if "points"+str(i+1) in df:
@@ -510,7 +547,7 @@ class DfTableTimes(DfTable):
                 aux_df = self.ToLapsExport(aux_df)
             
 #             print "PRED",i, aux_df.head(2), aux_df.dtypes
-#            self.ConvertToInt(aux_df)
+            self.ConvertToInt(aux_df)
 #             print "PO",i, aux_df.head(2), aux_df.dtypes                                    
 #             aux_df["nr"] = aux_df["nr"].map('{:,g}'.format)                        
 #             print "PO2", aux_df.head(2), aux_df.dtypes
@@ -891,7 +928,7 @@ class DfTableTimes(DfTable):
         return ret
     
     #edit back
-    def Edit(self, myindex):
+    def Edit(self, myindex):        
         myindex = self.proxy_model.mapFromSource(myindex)                
         if myindex.row() > 0:             
             myindex = self.proxy_model.index(myindex.row()-1, myindex.column())

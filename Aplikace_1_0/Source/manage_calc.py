@@ -716,6 +716,34 @@ class ManageCalcProcess():
             except TimesUtils.TimeFormat_Error:            
                 return None                                    
             rule = aux_split[0] + str(ruletime) + aux_split[2] #glue expression again
+            
+        if(len(aux_split) == 5): # 5 parts => ruletime exist, on 2.position and 4.position                
+            try:
+                ruletime1 = TimesUtils.TimesUtils.timestring2time(aux_split[1], including_days = False) #timestring=>time        
+                ruletime2 = TimesUtils.TimesUtils.timestring2time(aux_split[3], including_days = False) #timestring=>time                        
+            except TimesUtils.TimeFormat_Error:            
+                return None                                    
+            rule = aux_split[0] + str(ruletime1) + aux_split[2] + str(ruletime2) + aux_split[4]
+            
+        if(len(aux_split) == 7): # 5 parts                
+            try:
+                ruletime1 = TimesUtils.TimesUtils.timestring2time(aux_split[1], including_days = False) #timestring=>time        
+                ruletime2 = TimesUtils.TimesUtils.timestring2time(aux_split[3], including_days = False) #timestring=>time                        
+                ruletime3 = TimesUtils.TimesUtils.timestring2time(aux_split[5], including_days = False) #timestring=>time                        
+            except TimesUtils.TimeFormat_Error:            
+                return None                                    
+            rule = aux_split[0] + str(ruletime1) + aux_split[2] + str(ruletime2) + aux_split[4] + str(ruletime3) + aux_split[6]
+    
+        
+        if(len(aux_split) == 9): # 9 parts                
+            try:
+                ruletime1 = TimesUtils.TimesUtils.timestring2time(aux_split[1], including_days = False) #timestring=>time        
+                ruletime2 = TimesUtils.TimesUtils.timestring2time(aux_split[3], including_days = False) #timestring=>time                        
+                ruletime3 = TimesUtils.TimesUtils.timestring2time(aux_split[5], including_days = False) #timestring=>time                        
+                ruletime4 = TimesUtils.TimesUtils.timestring2time(aux_split[7], including_days = False) #timestring=>time                        
+            except TimesUtils.TimeFormat_Error:
+                return None                                    
+            rule = aux_split[0] + str(ruletime1) + aux_split[2] + str(ruletime2) + aux_split[4] + str(ruletime3) + aux_split[6] + str(ruletime4) + aux_split[8]
     
         
         expression_string = rule
@@ -818,6 +846,7 @@ class ManageCalcProcess():
         expression_string = expression_string.replace("time1", str(joinTime['time1']))       
         expression_string = expression_string.replace("time2", str(joinTime['time2']))       
         expression_string = expression_string.replace("time3", str(joinTime['time3']))
+        expression_string = expression_string.replace("time4", str(joinTime['time4']))
                
         # TIME
         expression_string = expression_string.replace("time", str(joinTime['time_raw']))

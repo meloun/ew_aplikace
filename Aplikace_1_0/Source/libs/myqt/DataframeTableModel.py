@@ -117,8 +117,8 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
             
             if self.data(index) == value:                
                 return False #no change
-            
-            id = self.data(self.index(index.row(), 0))
+                        
+            id = int(self.data(self.index(index.row(), 0)))
             header = self.headerData(index.column(), QtCore.Qt.Horizontal)
             
             value_int = value.toInt()
@@ -147,22 +147,13 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         if (role == QtCore.Qt.DisplayRole) or (role == QtCore.Qt.EditRole):
             i = index.row()
             j = index.column()
-            item = self.df.iget_value(i, j)
-            
+            item = self.df.iget_value(i, j)            
             
             if pd.notnull(item):            
                 if isinstance( item, numpy.int64 ):                                                        
                     item = int(item)                
                 if isinstance( item, numpy.float64 ):                
-                    item = float(item)
-                    
-                #if isinstance( item, float ) and j=1:                
-                #    item = int(item)
-                    
-            #else:
-            #    print "data", type(item), item                             
-            #return QtCore.QVariant((self.datatable.iget_value(i, j)))
-            #return '{0}'.format(self.datatable.iget_value(i, j))           
+                    item = float(item)                             
             return item
         else:            
             return QtCore.QVariant()
