@@ -13117,6 +13117,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>last times with time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>last times with time1 or time2</string>
                 </property>
                </item>
@@ -13133,6 +13138,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time4</string>
                 </property>
                </item>
                <item>
@@ -13193,6 +13203,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>last times with time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>last times with time1 or time2</string>
                 </property>
                </item>
@@ -13209,6 +13224,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time4</string>
                 </property>
                </item>
                <item>
@@ -13269,6 +13289,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>last times with time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>last times with time1 or time2</string>
                 </property>
                </item>
@@ -13285,6 +13310,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>all times with time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>all times with time4</string>
                 </property>
                </item>
                <item>
@@ -13350,6 +13380,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time4</string>
                 </property>
                </item>
                <item>
@@ -13616,6 +13651,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>points1</string>
                 </property>
                </item>
@@ -13682,6 +13722,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time4</string>
                 </property>
                </item>
                <item>
@@ -13761,6 +13806,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>points1</string>
                 </property>
                </item>
@@ -13836,6 +13886,11 @@ Best timesX : only best times will have an order</string>
                </item>
                <item>
                 <property name="text">
+                 <string>time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>points1</string>
                 </property>
                </item>
@@ -13907,6 +13962,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>time4</string>
                 </property>
                </item>
                <item>

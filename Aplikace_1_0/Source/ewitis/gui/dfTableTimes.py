@@ -406,9 +406,9 @@ class DfTableTimes(DfTable):
         df["nr"]  = df["nr"].astype(int)
 
 #         
-#         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
-#             if "lap"+str(i+1) in df:
-#                 df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float)
+        for i in range(0, NUMBER_OF.TIMESCOLUMNS):
+            if "lap"+str(i+1) in df:
+                df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float).map('{:,g}'.format)
 #                 
 #         for i in range(0, NUMBER_OF.THREECOLUMNS):
 #             if "order"+str(i+1) in df:

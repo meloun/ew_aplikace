@@ -5,18 +5,18 @@
             "value": [
                 {
                     "racename": "%race%",
-                    "categoryname": "RT2 - %category%",
-                    "description": "ÚAMK (197m / 24s, 330m / 44s)"
+                    "categoryname": "RT13 - %category%",
+                    "description": "Dětský domov a základní škola Horní Planá (70m / 8s, 143m / 16s, 248m / 25s, 289m / 34s)"
                 },
                 {
                     "racename": "%race%",
-                    "categoryname": "ST1 - %category%",
-                    "description": "ÚAMK (90m/12s)"
+                    "categoryname": "%category%",
+                    "description": "a"
                 },
                 {
                     "racename": "%race%",
-                    "categoryname": "ST2 - %category%",
-                    "description": "ÚAMK (90m/12s)"
+                    "categoryname": "%category%",
+                    "description": "a"
                 }
             ]
         },
@@ -59,16 +59,16 @@
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "categories"
+                    "type": "total"
                 },
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time2",
+                    "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "order2",
+                    "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "categories"
+                    "type": "total"
                 }
             ]
         },
@@ -88,12 +88,12 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/v3_14h/conf/ST01_ST02_export.json",
+                "profile": "C:/_SBC_DOC/v01/RT13.json",
                 "remote": 0,
                 "race_name": "South Bohemia Classic 2015",
                 "rfid": 0,
                 "tag_filter": 0,
-                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">RT2, ST1, ST2 - ÚAMK</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start RT2 a ST1</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Cíl ST1</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Cíl1 RT2</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start ST2</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Cíl ST2 a RT2</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">RT2 Start - cíl1 - cíl2</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">197m/24s, 330m/44s</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">ST1 a ST2</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start - cíl</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">90m / 12s</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">config pro export jen ST02 a ST03</span></p></body></html>"
+                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">RT13 - Dětský domov a základní škola Horní Planá</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start - Cíl1 - Cíl2 - Cíl3 - Cíl4</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">70m/8s, 143m/16s, 248m/25s, 289m/34s</span></p></body></html>"
             }
         },
         "permanent": true,
@@ -105,19 +105,56 @@
                 "enabled_htm": [
                     false,
                     false,
-                    false
+                    true
                 ],
                 "sorted": [
                     {
                         "sex": 12,
-                        "year": 10,
+                        "year": 14,
                         "category": 9,
                         "un1": 27,
                         "un2": 32,
                         "un3": 33,
                         "time4": 23,
                         "points1": 26,
-                        "points2": 28,
+                        "points2": 27,
+                        "points3": 28,
+                        "points4": 29,
+                        "points5": 30,
+                        "time2": 20,
+                        "time3": 22,
+                        "time1": 18,
+                        "nr": 4,
+                        "o4": 16,
+                        "o3": 9,
+                        "o2": 13,
+                        "o1": 15,
+                        "status": 35,
+                        "club": 11,
+                        "gap": 17,
+                        "order2": 2,
+                        "order3": 3,
+                        "order1": 1,
+                        "ordercat1": 5,
+                        "name": 8,
+                        "ordercat3": 7,
+                        "ordercat2": 6,
+                        "lap1": 19,
+                        "lap3": 23,
+                        "lap2": 21,
+                        "lap4": 25,
+                        "us1": 34
+                    },
+                    {
+                        "sex": 12,
+                        "year": 10,
+                        "category": 9,
+                        "un1": 31,
+                        "un2": 32,
+                        "un3": 33,
+                        "time4": 24,
+                        "points1": 26,
+                        "points2": 27,
                         "points3": 28,
                         "points4": 29,
                         "points5": 30,
@@ -150,11 +187,11 @@
                         "year": 10,
                         "category": 9,
                         "un1": 31,
-                        "un2": 27,
+                        "un2": 32,
                         "un3": 33,
                         "time4": 24,
                         "points1": 26,
-                        "points2": 28,
+                        "points2": 27,
                         "points3": 28,
                         "points4": 29,
                         "points5": 30,
@@ -163,44 +200,7 @@
                         "time1": 18,
                         "nr": 4,
                         "o4": 16,
-                        "o3": 9,
-                        "o2": 14,
-                        "o1": 13,
-                        "status": 35,
-                        "club": 11,
-                        "gap": 17,
-                        "order2": 2,
-                        "order3": 3,
-                        "order1": 1,
-                        "ordercat1": 5,
-                        "name": 8,
-                        "ordercat3": 7,
-                        "ordercat2": 6,
-                        "lap1": 19,
-                        "lap3": 23,
-                        "lap2": 21,
-                        "lap4": 25,
-                        "us1": 34
-                    },
-                    {
-                        "sex": 12,
-                        "year": 10,
-                        "category": 9,
-                        "un1": 31,
-                        "un2": 32,
-                        "un3": 27,
-                        "time4": 22,
-                        "points1": 26,
-                        "points2": 27,
-                        "points3": 26,
-                        "points4": 29,
-                        "points5": 30,
-                        "time2": 20,
-                        "time3": 22,
-                        "time1": 18,
-                        "nr": 4,
-                        "o4": 16,
-                        "o3": 9,
+                        "o3": 15,
                         "o2": 14,
                         "o1": 13,
                         "status": 35,
@@ -225,55 +225,18 @@
                         "sex": 0,
                         "year": 2,
                         "category": 0,
-                        "un1": 0,
-                        "un2": 2,
+                        "un1": 2,
+                        "un2": 0,
                         "un3": 0,
-                        "time4": 0,
+                        "time4": 2,
                         "points1": 2,
-                        "points2": 2,
-                        "points3": 0,
-                        "points4": 0,
-                        "points5": 0,
-                        "time2": 0,
-                        "time3": 2,
-                        "time1": 0,
-                        "nr": 2,
-                        "o4": 0,
-                        "o3": 2,
-                        "o2": 2,
-                        "o1": 2,
-                        "status": 0,
-                        "club": 0,
-                        "gap": 0,
-                        "order2": 0,
-                        "order3": 0,
-                        "order1": 2,
-                        "ordercat1": 0,
-                        "name": 2,
-                        "ordercat3": 0,
-                        "ordercat2": 0,
-                        "lap1": 0,
-                        "lap3": 0,
-                        "lap2": 0,
-                        "lap4": 0,
-                        "us1": 0
-                    },
-                    {
-                        "sex": 0,
-                        "year": 2,
-                        "category": 0,
-                        "un1": 0,
-                        "un2": 2,
-                        "un3": 0,
-                        "time4": 0,
-                        "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
-                        "points5": 0,
-                        "time2": 0,
-                        "time3": 0,
-                        "time1": 0,
+                        "points5": 2,
+                        "time2": 2,
+                        "time3": 2,
+                        "time1": 2,
                         "nr": 2,
                         "o4": 0,
                         "o3": 2,
@@ -297,11 +260,11 @@
                     },
                     {
                         "sex": 0,
-                        "year": 2,
-                        "category": 0,
+                        "year": 0,
+                        "category": 2,
                         "un1": 0,
                         "un2": 0,
-                        "un3": 2,
+                        "un3": 0,
                         "time4": 0,
                         "points1": 0,
                         "points2": 0,
@@ -310,23 +273,60 @@
                         "points5": 0,
                         "time2": 0,
                         "time3": 0,
-                        "time1": 0,
+                        "time1": 2,
                         "nr": 2,
                         "o4": 0,
-                        "o3": 2,
-                        "o2": 2,
-                        "o1": 2,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
                         "status": 0,
-                        "club": 0,
+                        "club": 2,
                         "gap": 0,
-                        "order2": 2,
+                        "order2": 0,
                         "order3": 0,
-                        "order1": 0,
+                        "order1": 2,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
                         "ordercat2": 0,
                         "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    },
+                    {
+                        "sex": 0,
+                        "year": 0,
+                        "category": 2,
+                        "un1": 0,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "time1": 2,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
+                        "status": 0,
+                        "club": 2,
+                        "gap": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 2,
+                        "ordercat1": 0,
+                        "name": 2,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 2,
                         "lap3": 0,
                         "lap2": 0,
                         "lap4": 0,
@@ -338,17 +338,17 @@
                     "year": "RV",
                     "category": "Kategorie",
                     "un1": "Penalizace",
-                    "un2": "Penalizace",
-                    "un3": "Penalizace",
-                    "time4": "Čas",
+                    "un2": "Un 2",
+                    "un3": "Un 3",
+                    "time4": "Čas4",
                     "points1": "Body",
-                    "points2": "Body celkem",
+                    "points2": "c",
                     "points3": "Body",
-                    "points4": "Body celkem",
+                    "points4": "Penalizace",
                     "points5": "Body celkem",
-                    "time2": "Čas",
-                    "time3": "Čas",
-                    "time1": "Čas",
+                    "time2": "Čas2",
+                    "time3": "Čas3",
+                    "time1": "Čas1",
                     "nr": "Číslo",
                     "o4": "Option 4",
                     "o3": "Tr.",
@@ -371,9 +371,9 @@
                     "us1": "Us 1"
                 },
                 "enabled_csv": [
-                    false,
                     true,
-                    true
+                    false,
+                    false
                 ]
             }
         },
@@ -760,7 +760,7 @@
         "GET_SET": {
             "value": {
                 "status": {
-                    "checked": 2
+                    "checked": 0
                 },
                 "us": [
                     {
@@ -772,10 +772,10 @@
                         "checked": 2
                     },
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "time": [
@@ -783,35 +783,35 @@
                         "filter": "cell=250",
                         "minute_timeformat": 2,
                         "checked": 2,
-                        "rule": "time - starttime"
-                    },
-                    {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "checked": 0,
-                        "rule": "time - celltime4"
-                    },
-                    {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "checked": 0,
                         "rule": "celltime2 - celltime1"
                     },
                     {
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "checked": 0,
-                        "rule": "time - celltime4"
+                        "checked": 2,
+                        "rule": "celltime3 - celltime1"
+                    },
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 2,
+                        "rule": "celltime4 - celltime1"
+                    },
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 2,
+                        "rule": "time - celltime1"
                     }
                 ],
                 "lap": [
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "filter": "",
@@ -829,24 +829,24 @@
                         "order2": "Asc",
                         "type": "Category",
                         "column2": "Year",
-                        "column1": "Points2",
-                        "row": "Last times"
-                    },
-                    {
-                        "checked": 2,
-                        "order1": "Asc",
-                        "order2": "Asc",
-                        "type": "Category",
-                        "column2": "Year",
-                        "column1": "Points4",
+                        "column1": "Points5",
                         "row": "Last times"
                     },
                     {
                         "checked": 0,
                         "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Category",
-                        "column2": "Year",
+                        "type": "Total",
+                        "column2": " - - -",
+                        "column1": "Time1",
+                        "row": "Last times"
+                    },
+                    {
+                        "checked": 0,
+                        "order1": "Asc",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "column2": " - - -",
                         "column1": "Time1",
                         "row": "Best times1"
                     }
@@ -854,33 +854,33 @@
                 "points": [
                     {
                         "minimum": 0,
+                        "checked": 2,
+                        "maximum": 500,
+                        "rule": "abs(time1 - %00:00:08,00%) + abs(time2 - %00:00:16,00%) + abs(time3 - %00:00:25,00%) + abs(time4 - %00:00:34,00%)"
+                    },
+                    {
+                        "minimum": 0,
                         "checked": 0,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:00:12,00%)"
+                        "rule": ""
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "maximum": 500,
+                        "rule": ""
                     },
                     {
                         "minimum": 0,
                         "checked": 0,
                         "maximum": 99999,
-                        "rule": "points1 + un2"
+                        "rule": ""
                     },
                     {
                         "minimum": 0,
-                        "checked": 0,
-                        "maximum": 500,
-                        "rule": "abs(time2 - %00:00:12,00%)"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
+                        "checked": 2,
                         "maximum": 9999,
-                        "rule": "points3 + un3"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 9999,
-                        "rule": "points3 + un2"
+                        "rule": "points1 + un1"
                     }
                 ]
             }

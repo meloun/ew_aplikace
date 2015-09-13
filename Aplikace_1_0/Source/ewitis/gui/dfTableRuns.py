@@ -112,8 +112,8 @@ class DfTableRuns(DfTable):
             
     # DELETE BUTTON          
     def sDeleteAll(self):
-        DfTable.sDeleteAll(self)
-        tableTimes.deleteAll() 
+        if DfTable.sDeleteAll(self) == True:
+            tableTimes.deleteAll() 
         
                                        
     

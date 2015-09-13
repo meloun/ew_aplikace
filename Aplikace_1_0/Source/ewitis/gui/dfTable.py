@@ -434,7 +434,9 @@ class DfTable():
         
         #confirm dialog and delete
         if (uiAccesories.showMessage(title, "Are you sure you want to delete table '"+self.name+"' ?", msgtype = MSGTYPE.warning_dialog)):
-            self.deleteAll()                                                                      
+            self.deleteAll()  
+            return True
+        return False                                                                    
                                                              
             
             
