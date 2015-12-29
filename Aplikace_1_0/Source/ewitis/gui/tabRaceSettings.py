@@ -41,7 +41,25 @@ class TimesGroup(FilterGroup):
         uiAccesories.UpdateText(self.rule, info["rule"])        
         self.minute_timeformat.setCheckState(info["minute_timeformat"]) 
         FilterGroup.Update(self)
-        
+
+class LapGroup(FilterGroup):    
+    def __init__(self,  nr):                
+        self.fromlaststart = getattr(Ui(), "checkAI_FromLastStart_Lap_" + str(nr)) 
+        FilterGroup.__init__(self, nr, "Lap")
+
+    def CreateSlots(self):        
+        QtCore.QObject.connect(self.fromlaststart, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["lap", self.nr-1, "fromlaststart"], state, self.Update))            
+        FilterGroup.CreateSlots(self)                                                                                    
+     
+    def setEnabled(self, enabled):                
+        self.fromlaststart.setEnabled(enabled)
+        FilterGroup.setEnabled(self, enabled)
+    
+    def Update(self):        
+        # set values from datastore              
+        info = self.GetInfo()                
+        self.fromlaststart.setCheckState(info["fromlaststart"]) 
+        FilterGroup.Update(self)        
                   
                 
 class PointGroup():    
@@ -168,7 +186,8 @@ class TabRaceSettings():
         
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             self.timesgroups[i] = TimesGroup(i+1)
-            self.lapgroups[i] = FilterGroup(i+1, "Lap") 
+            #self.lapgroups[i] = FilterGroup(i+1, "Lap") 
+            self.lapgroups[i] = LapGroup(i+1)
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.ordergroups[i] =  OrderGroup(i+1)
             self.un[i] = getattr(Ui(), "checkAInfoUserNumber_" + str(i+1))

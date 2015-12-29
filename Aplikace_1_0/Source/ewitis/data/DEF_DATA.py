@@ -145,7 +145,9 @@ DEF_DATA = {
                                                                          }] * NUMBER_OF.TIMESCOLUMNS,                                                                                                                 
                                                         "lap"           : [{
                                                                             "checked"           : CheckboxValue.checked,
-                                                                            "filter"            : "",           
+                                                                            "filter"            : "",
+                                                                            "fromlaststart"     : CheckboxValue.unchecked,
+                                                                                       
                                                                          }] * NUMBER_OF.TIMESCOLUMNS,                                    
                                                         "order"         : [
                                                                            {
@@ -343,7 +345,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.14h fixed4"},                                                                                                                    
+                                                        "app": "v3.15a"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

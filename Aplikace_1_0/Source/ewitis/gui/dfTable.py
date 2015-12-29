@@ -283,7 +283,10 @@ class DfTable():
         self.Update()                    
         #dstore.Set("user_actions", True)  
         
-    # REMOVE ROW               
+    # REMOVE ROW
+    def sDeletePreCallback(self, id):
+        return True
+                       
     def sDelete(self, label=""):                
         
         #title
@@ -292,7 +295,7 @@ class DfTable():
         #get selected id
         try:                     
             rows = self.gui['view'].selectionModel().selectedRows()                        
-            id = self.proxy_model.data(rows[0]).toString()
+            id = self.proxy_model.data(rows[0]).toInt()[0]
         except:
             uiAccesories.showMessage(title, "Nelze smazat")
             return
@@ -300,9 +303,12 @@ class DfTable():
         #confirm dialog and delete
         if (label != ""):
             label="\n\n("+label+")"        
-        if (uiAccesories.showMessage(title, "Are you sure you want to delete 1 record from table '"+self.name+"' ? \n (id="+str(id)+")"+label, MSGTYPE.warning_dialog)):                        
-            self.delete(id)
-            uiAccesories.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)                                                                                            
+        if (uiAccesories.showMessage(title, "Are you sure you want to delete 1 record from table '"+self.name+"' ? \n (id="+str(id)+")"+label, MSGTYPE.warning_dialog)):
+            if(self.sDeletePreCallback(id)):                        
+                self.delete(id)
+                uiAccesories.showMessage(title, "succesfully (id="+str(id)+")", MSGTYPE.statusbar)
+            else:
+                uiAccesories.showMessage(title, "Nelze smazat")                                                                                            
                             
                             
                             

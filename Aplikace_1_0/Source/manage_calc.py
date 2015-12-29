@@ -540,11 +540,13 @@ class ManageCalcProcess():
             # Filter #1: only better times                                                         
             aux_df = self.joinedDf[self.joinedDf["time_raw"] < dbTime["time_raw"]]  #aux_df = aux_df[aux_df[timeX] < dbTime[timeX]]                        
             
-            # Filter #2: only after starttime            
-            starttime = self.GetStarttime(dbTime, aux_df)                
-            if(starttime == None):
-                return None                                    
-            aux_df = aux_df[aux_df["time_raw"] > starttime["time_raw"]]
+            # Filter #2: only after starttime
+            fromlaststart = self.dstore.GetItem("additional_info", ["lap", index, "fromlaststart"])
+            if(fromlaststart):            
+                starttime = self.GetStarttime(dbTime, aux_df)                
+                if(starttime == None):
+                    return None                                    
+                aux_df = aux_df[aux_df["time_raw"] > starttime["time_raw"]]
                                             
             # Filter #3: only times from the same user            
             aux_df = aux_df[aux_df['user_id'] == dbTime['user_id']]

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1342</width>
+    <width>1361</width>
     <height>1012</height>
    </rect>
   </property>
@@ -38,8 +38,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1322</width>
-         <height>772</height>
+         <width>1337</width>
+         <height>777</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_14">
@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -705,12 +705,12 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>50</width>
+                <width>60</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximum">
-               <number>999</number>
+               <number>99999</number>
               </property>
              </widget>
             </item>
@@ -3761,6 +3761,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </item>
                <item>
                 <property name="text">
+                 <string>Time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>Lap1</string>
                 </property>
                </item>
@@ -3892,6 +3897,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </item>
                <item>
                 <property name="text">
+                 <string>Time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>Lap1</string>
                 </property>
                </item>
@@ -4018,6 +4028,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </item>
                <item>
                 <property name="text">
+                 <string>Time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>Lap1</string>
                 </property>
                </item>
@@ -4122,6 +4137,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>Time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Time4</string>
                 </property>
                </item>
                <item>
@@ -4275,6 +4295,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </item>
                <item>
                 <property name="text">
+                 <string>Time4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>Lap1</string>
                 </property>
                </item>
@@ -4290,27 +4315,27 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </item>
                <item>
                 <property name="text">
-                 <string>Point1</string>
+                 <string>Points1</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Point2</string>
+                 <string>Points2</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Point3</string>
+                 <string>Points3</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Point4</string>
+                 <string>Points4</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Point5</string>
+                 <string>Points5</string>
                 </property>
                </item>
                <item>
@@ -4379,6 +4404,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>Time3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Time4</string>
                 </property>
                </item>
                <item>
@@ -4538,6 +4568,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Best times3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Best times4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderRow_2">
                <property name="enabled">
@@ -4574,6 +4609,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                  <string>Best times3</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>Best times4</string>
+                </property>
+               </item>
               </widget>
               <widget class="QComboBox" name="comboOrderRow_3">
                <property name="enabled">
@@ -4608,6 +4648,11 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <item>
                 <property name="text">
                  <string>Best times3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Best times4</string>
                 </property>
                </item>
               </widget>
@@ -5290,7 +5335,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>530</x>
                  <y>82</y>
-                 <width>21</width>
+                 <width>19</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -5306,7 +5351,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>530</x>
                  <y>122</y>
-                 <width>21</width>
+                 <width>19</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -5325,7 +5370,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>530</x>
                  <y>162</y>
-                 <width>21</width>
+                 <width>19</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -5342,19 +5387,19 @@ Best timesX : only best times will have an order</string>
               <widget class="QLabel" name="label_58">
                <property name="geometry">
                 <rect>
-                 <x>530</x>
+                 <x>520</x>
                  <y>40</y>
-                 <width>51</width>
+                 <width>41</width>
                  <height>41</height>
                 </rect>
                </property>
                <property name="font">
                 <font>
-                 <pointsize>7</pointsize>
+                 <pointsize>6</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string>Minutes Time format</string>
+                <string>Minutes format</string>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -5404,7 +5449,7 @@ Best timesX : only best times will have an order</string>
                 <rect>
                  <x>530</x>
                  <y>202</y>
-                 <width>21</width>
+                 <width>19</width>
                  <height>17</height>
                 </rect>
                </property>
@@ -5525,6 +5570,91 @@ Best timesX : only best times will have an order</string>
                 <set>Qt::AlignCenter</set>
                </property>
                <property name="readOnly">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_192">
+               <property name="geometry">
+                <rect>
+                 <x>560</x>
+                 <y>40</y>
+                 <width>41</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>6</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>From last starttime</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_1">
+               <property name="geometry">
+                <rect>
+                 <x>570</x>
+                 <y>100</y>
+                 <width>19</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_2">
+               <property name="geometry">
+                <rect>
+                 <x>570</x>
+                 <y>140</y>
+                 <width>19</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_3">
+               <property name="geometry">
+                <rect>
+                 <x>570</x>
+                 <y>180</y>
+                 <width>19</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+              <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_4">
+               <property name="geometry">
+                <rect>
+                 <x>570</x>
+                 <y>220</y>
+                 <width>19</width>
+                 <height>17</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
                 <bool>false</bool>
                </property>
               </widget>
@@ -28989,7 +29119,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1342</width>
+     <width>1361</width>
      <height>26</height>
     </rect>
    </property>
@@ -30238,8 +30368,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>webViewApp</tabstop>
   <tabstop>pushExportHtmEnable_3</tabstop>
   <tabstop>pushExportHtmEnable_1</tabstop>
-  <tabstop>scrollArea</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>pushLoadProfile</tabstop>
   <tabstop>RaceInfoImport</tabstop>
   <tabstop>pushSaveProfile</tabstop>

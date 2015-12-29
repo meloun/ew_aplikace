@@ -120,19 +120,21 @@ class DfModelTimes(DataframeTableModel):
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name
                         
+        #dict => df
         dfChange = pd.DataFrame([mydict])
         dfChange.set_index(dfChange.id, inplace=True)                   
-                
-        dfChangeRow = self.df.loc[dfChange.id]                             
-        old_user = tableUsers.model.getUserParNr(int(dfChangeRow['nr']))        
-        dfChangeRow.update(dfChange)
+                       
+        dfChangedRow = self.df.loc[dfChange.id]  #take row before change (from global df)                                            
+        old_user = tableUsers.model.getUserParNr(int(dfChangedRow['nr'])) #take user before change
+               
+        #update row before change with change                 
+        dfChangedRow.update(dfChange)        
         
         
-        #category changed
-        
+        #category changed        
         if "nr" in mydict:            
                                                                         
-            user_id = self.checkChangedNumber(dfChangeRow.iloc[0])                                                                                            
+            user_id = self.checkChangedNumber(dfChangedRow.iloc[0])                                                                                            
             if user_id == None: #dialog inside checkChangedNumber()
                 return
             
@@ -171,7 +173,7 @@ class DfModelTimes(DataframeTableModel):
                                     
         # add changed row to "changed_rows"
         # keep as dataframe otherwise float issues for "nr" and "cell"
-        cleared = self.ClearCalculated(dfChangeRow.iloc[0].copy())                                                                                
+        cleared = self.ClearCalculated(dfChangedRow.iloc[0].copy())                                                                                
         self.changed_rows = self.changed_rows.append(cleared)
         try:
             self.changed_rows["nr"] = int(self.changed_rows["nr"])                           
@@ -183,15 +185,18 @@ class DfModelTimes(DataframeTableModel):
         #update db from mydict            
         db.update_from_dict(self.name, mydict)
         
+        #user changed => reset all times for new user
         if mydict and ("user_id" in mydict):
             #print "mazu vsechny1", mydict["user_id"]
-            self.ResetCalculatedValuesForUser(mydict["user_id"])
+            self.ResetCalculatedValuesForUser(mydict["user_id"])        
+
+        #reset 1 time
         elif mydict and ("id" in mydict):
             #print "mazu neco", mydict["id"]
             self.ResetCalculatedValues(mydict["id"])
         
         if old_user and ("id" in old_user):
-            #print "mazu vsechny2", old_user["id"]
+            print "mazu vsechny2", old_user["id"]
             self.ResetCalculatedValuesForUser(old_user["id"])
                 
         #self.ResetNrOfLaps()  
@@ -337,7 +342,16 @@ class DfTableTimes(DfTable):
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         
     def Init(self):
-        DfTable.Init(self)        
+        DfTable.Init(self) 
+        
+    def sDeletePreCallback(self, id):        
+                       
+        dfRow = self.model.df.loc[id] #take row (from global df)                                                            
+        user = tableUsers.model.getUserParNr(int(dfRow['nr'])) #take user        
+        
+        #reset values for all times of this user
+        self.model.ResetCalculatedValuesForUser(user["id"])
+        return True               
         
     def createSlots(self):
         

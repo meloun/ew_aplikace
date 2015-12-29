@@ -5,18 +5,18 @@
             "value": [
                 {
                     "racename": "%race%",
-                    "categoryname": "RT13 - %category%",
-                    "description": "Dětský domov a základní škola Horní Planá (70m / 8s, 143m / 16s, 248m / 25s, 289m / 34s)"
+                    "categoryname": "%category%",
+                    "description": "%description%"
                 },
                 {
                     "racename": "%race%",
                     "categoryname": "%category%",
-                    "description": "a"
+                    "description": "%description%"
                 },
                 {
                     "racename": "%race%",
                     "categoryname": "%category%",
-                    "description": "a"
+                    "description": "%description%"
                 }
             ]
         },
@@ -50,7 +50,7 @@
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "categories"
+                    "type": "total"
                 },
                 {
                     "sortorder2": "asc",
@@ -88,12 +88,12 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/_SBC_DOC/v01/RT13.json",
+                "profile": "- - -",
                 "remote": 0,
-                "race_name": "South Bohemia Classic 2015",
+                "race_name": "Formula Student 2013",
                 "rfid": 0,
                 "tag_filter": 0,
-                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">RT13 - Dětský domov a základní škola Horní Planá</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Start - Cíl1 - Cíl2 - Cíl3 - Cíl4</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">70m/8s, 143m/16s, 248m/25s, 289m/34s</span></p></body></html>"
+                "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"
             }
         },
         "permanent": true,
@@ -105,17 +105,17 @@
                 "enabled_htm": [
                     false,
                     false,
-                    true
+                    false
                 ],
                 "sorted": [
                     {
                         "sex": 12,
-                        "year": 14,
+                        "year": 10,
                         "category": 9,
-                        "un1": 27,
+                        "un1": 31,
                         "un2": 32,
                         "un3": 33,
-                        "time4": 23,
+                        "time4": 24,
                         "points1": 26,
                         "points2": 27,
                         "points3": 28,
@@ -126,9 +126,9 @@
                         "time1": 18,
                         "nr": 4,
                         "o4": 16,
-                        "o3": 9,
-                        "o2": 13,
-                        "o1": 15,
+                        "o3": 15,
+                        "o2": 14,
+                        "o1": 13,
                         "status": 35,
                         "club": 11,
                         "gap": 17,
@@ -223,30 +223,30 @@
                 "checked": [
                     {
                         "sex": 0,
-                        "year": 2,
-                        "category": 0,
-                        "un1": 2,
+                        "year": 0,
+                        "category": 2,
+                        "un1": 0,
                         "un2": 0,
                         "un3": 0,
                         "time4": 2,
-                        "points1": 2,
+                        "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
-                        "points5": 2,
+                        "points5": 0,
                         "time2": 2,
                         "time3": 2,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
-                        "o3": 2,
-                        "o2": 2,
-                        "o1": 2,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
                         "status": 0,
-                        "club": 0,
+                        "club": 2,
                         "gap": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "ordercat1": 0,
                         "name": 2,
@@ -265,14 +265,14 @@
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
-                        "time4": 0,
+                        "time4": 2,
                         "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
@@ -282,8 +282,8 @@
                         "status": 0,
                         "club": 2,
                         "gap": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "ordercat1": 0,
                         "name": 2,
@@ -302,14 +302,14 @@
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
-                        "time4": 0,
+                        "time4": 2,
                         "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
@@ -319,14 +319,14 @@
                         "status": 0,
                         "club": 2,
                         "gap": 0,
-                        "order2": 0,
-                        "order3": 0,
+                        "order2": 2,
+                        "order3": 2,
                         "order1": 2,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
                         "ordercat2": 0,
-                        "lap1": 2,
+                        "lap1": 0,
                         "lap3": 0,
                         "lap2": 0,
                         "lap4": 0,
@@ -335,25 +335,25 @@
                 ],
                 "names": {
                     "sex": "Pohlaví",
-                    "year": "RV",
+                    "year": "Rok",
                     "category": "Kategorie",
-                    "un1": "Penalizace",
+                    "un1": "Un 1",
                     "un2": "Un 2",
                     "un3": "Un 3",
-                    "time4": "Čas4",
+                    "time4": "Čas",
                     "points1": "Body",
-                    "points2": "c",
+                    "points2": "Body",
                     "points3": "Body",
-                    "points4": "Penalizace",
-                    "points5": "Body celkem",
-                    "time2": "Čas2",
-                    "time3": "Čas3",
-                    "time1": "Čas1",
+                    "points4": "Body",
+                    "points5": "Body",
+                    "time2": "Čas",
+                    "time3": "Čas",
+                    "time1": "Čas",
                     "nr": "Číslo",
                     "o4": "Option 4",
-                    "o3": "Tr.",
-                    "o2": "Automobil",
-                    "o1": "Nár.",
+                    "o3": "Option 3",
+                    "o2": "Option 2",
+                    "o1": "Option 1",
                     "status": "Status",
                     "club": "Klub",
                     "gap": "Ztráta",
@@ -372,8 +372,8 @@
                 },
                 "enabled_csv": [
                     true,
-                    false,
-                    false
+                    true,
+                    true
                 ]
             }
         },
@@ -382,11 +382,10 @@
     },
     "cells_info": {
         "SET": {
-            "changed": [
-                1
-            ],
+            "changed": false,
             "value": [
                 {
+                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -395,6 +394,7 @@
                     "address": 1
                 },
                 {
+                    "fu4": 0,
                     "task": 0,
                     "fu2": 0,
                     "fu3": 0,
@@ -518,199 +518,199 @@
             "refresh_countdown": 1,
             "value": [
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 2,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 6,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 7,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 8,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 9,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 10,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 11,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 12,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 13,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": null,
-                    "synchronized": null,
-                    "battery": null,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
                     "diagnostic_long_ok": 0,
                     "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": null,
+                    "ir_signal": false,
                     "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 14,
-                    "active": null,
+                    "active": false,
                     "diagnostic_short_ko": 0
                 }
             ]
@@ -735,12 +735,12 @@
             "refresh_countdown": 1,
             "value": {
                 "logic_mode": null,
-                "filter_maxlapnumber": null,
-                "filter_minlaptime": null,
+                "filter_maxlapnumber": 0,
+                "name_id": 1,
                 "measurement_state": 0,
-                "name_id": 4,
-                "filter_tagtime": null,
-                "tags_reading_enable": null
+                "filter_minlaptime": 0,
+                "filter_tagtime": 0,
+                "tags_reading_enable": 1
             }
         }
     },
@@ -772,115 +772,119 @@
                         "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     }
                 ],
                 "time": [
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
+                        "filter": "cell=2|3|4|250",
+                        "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "celltime2 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
+                        "filter": "cell=2|3|4|250",
+                        "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "celltime3 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
+                        "filter": "cell=2|3|4|250",
+                        "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "celltime4 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
+                        "filter": "cell=2|3|4|250",
+                        "minute_timeformat": 0,
                         "checked": 2,
-                        "rule": "time - celltime1"
+                        "rule": "time - starttime"
                     }
                 ],
                 "lap": [
                     {
                         "filter": "",
+                        "fromlaststart": 0,
                         "checked": 2
                     },
                     {
                         "filter": "",
+                        "fromlaststart": 0,
                         "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "fromlaststart": 0,
+                        "checked": 2
                     },
                     {
                         "filter": "",
-                        "checked": 0
+                        "fromlaststart": 2,
+                        "checked": 2
                     }
                 ],
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
-                        "order2": "Asc",
-                        "type": "Category",
-                        "column2": "Year",
-                        "column1": "Points5",
-                        "row": "Last times"
-                    },
-                    {
-                        "checked": 0,
-                        "order1": "Asc",
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "column2": " - - -"
                     },
                     {
-                        "checked": 0,
-                        "order1": "Asc",
+                        "checked": 2,
+                        "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
-                        "column2": " - - -",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "row": "Best times1"
+                        "column2": " - - -"
+                    },
+                    {
+                        "checked": 2,
+                        "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
+                        "column1": "Time1",
+                        "column2": " - - -"
                     }
                 ],
                 "points": [
                     {
                         "minimum": 0,
                         "checked": 2,
-                        "maximum": 500,
-                        "rule": "abs(time1 - %00:00:08,00%) + abs(time2 - %00:00:16,00%) + abs(time3 - %00:00:25,00%) + abs(time4 - %00:00:34,00%)"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 500,
-                        "rule": ""
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 500,
-                        "rule": ""
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 99999,
-                        "rule": ""
+                        "maximum": 9999,
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 2,
                         "maximum": 9999,
-                        "rule": "points1 + un1"
+                        "rule": "abs(time1 - %00:01:30,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 2,
+                        "maximum": 9999,
+                        "rule": "abs(time1 - %00:01:30,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 2,
+                        "maximum": 9999,
+                        "rule": "abs(time1 - %00:01:30,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 2,
+                        "maximum": 9999,
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     }
                 ]
             }
