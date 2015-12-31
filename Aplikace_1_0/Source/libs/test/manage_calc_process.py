@@ -325,15 +325,14 @@ class ManageCalcProcess():
             aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) & (self.joinedDf['user_id']!=0)]
                 
             #FILTER only one time from each user, LAST or BEST                            
-            if group['row'] == u'Best times1':
-                #print u'Best times1'                 
+            if group['row'] == u'Best times1':                      
                 aux_df = aux_df.sort("time1", ascending = False )
-            elif group['row'] == u'Best times2':
-                #print u'Best times2'                 
+            elif group['row'] == u'Best times2':                      
                 aux_df = aux_df.sort("time2", ascending = False ) 
-            elif group['row'] == u'Best times3':
-                #print u'Best times3'                 
-                aux_df = aux_df.sort("time3", ascending = False )    
+            elif group['row'] == u'Best times3':                      
+                aux_df = aux_df.sort("time3", ascending = False )
+            elif group['row'] == u'Best times4':                        
+                aux_df = aux_df.sort("time4", ascending = False )     
             elif group['row'] == u'Last times':
                 #print u'Last times'                 
                 aux_df = aux_df.sort("time_raw")

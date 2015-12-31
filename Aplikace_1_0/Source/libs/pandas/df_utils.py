@@ -2,6 +2,7 @@
 Created on 29.05.2015
 @author: z002ys1y
 '''
+import pandas as pd
 
 def Filter(df, filter):
     '''
@@ -34,6 +35,42 @@ def Filter(df, filter):
                 print "error: race settings: filter", k, v, filter
                 continue
     return df
+
+
+"""
+Filter dataframe
+- filter out all rows with empty columns
+"""
+def FilterEmptyColumns(df, columns):
+         
+    columns = [x for x in columns if x in df.columns]       
+    
+    if(len(columns) == 1):                
+        df =  df[df[columns[0]] != ""]
+        df =  df[df[columns[0]].notnull()]
+        
+    elif(len(keys) == 2):
+        df =  df[(df[columns[0]] != "") | (df[columns[1]] != "")]
+        df =  df[(df[columns[0]] != None) | (df[columns[1]] != None)]
+        
+    return df
+
+"""
+ExportToCsvFile
+- export dataframe to csv file
+"""
+def ExportToCsvFile(filename, df, firstline = '', secondline = ['','']):
+    length = len(df.columns)
+    
+    if(length != 0):                    
+        firstline =  [firstline,] + (length-1) * ['']
+        secondline = [secondline[0],]+ ((length-2) * ['',]) + [secondline[1],]            
+                            
+        #write to file                      
+        pd.DataFrame([firstline, secondline]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
+        df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g", decimal = ',')                
+    
+    
     
 '''
  

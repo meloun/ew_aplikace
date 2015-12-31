@@ -13,6 +13,7 @@ from libs.utils.ListOfDicts import ListOfDicts
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import ewitis.gui.TimesUtils as TimesUtils
+import libs.pandas.df_utils as df_utils
 
 from ewitis.data.DEF_DATA import *
 from ewitis.gui.dfTableUsers import tableUsers
@@ -350,7 +351,8 @@ class DfTableTimes(DfTable):
         user = tableUsers.model.getUserParNr(int(dfRow['nr'])) #take user        
         
         #reset values for all times of this user
-        self.model.ResetCalculatedValuesForUser(user["id"])
+        if user != None:
+            self.model.ResetCalculatedValuesForUser(user["id"])
         return True               
         
     def createSlots(self):
@@ -417,17 +419,29 @@ class DfTableTimes(DfTable):
     '''
     def ConvertToInt(self, df):
           
+        #nr
         df["nr"]  = df["nr"].astype(int)
+        
+        #format a convert na string (kvůli 3.0 => 3)
+        for i in range(0, NUMBER_OF.THREECOLUMNS):
+            orderX = "order"+str(i+1)
+            #try:
+            if orderX in df:
+                df[orderX] = df[orderX].astype(float).map('{:,g}'.format)            
+            #except:
+            #    print "W: not succesfully converted: ", orderX
 
-#         
+        #lapX         
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
-            if "lap"+str(i+1) in df:
-                df["lap"+str(i+1)]  = df["lap"+str(i+1)].astype(float).map('{:,g}'.format)
+            lapX = "lap"+str(i+1)
+            if lapX in df:
+                df[lapX]  = df[lapX].astype(float).map('{:,g}'.format)
 #                 
 #         for i in range(0, NUMBER_OF.THREECOLUMNS):
 #             if "order"+str(i+1) in df:
 #                 df["order"+str(i+1)]  = df["order"+str(i+1)].astype(float)
                 
+        #pointsX
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
             if "points"+str(i+1) in df:
                 df["points"+str(i+1)]  = df["points"+str(i+1)].astype(float)
@@ -459,134 +473,90 @@ class DfTableTimes(DfTable):
         
         for c in [s for s in df.columns if "points" in s]:
             if c in df:
-                df[c] = df[c].astype(float)
-                        
-                         
+                df[c] = df[c].astype(float)                                                
         return df
                                        
     '''
-     F11 - konečné výsledky, 1 čas na řádek
+     F11, F12 - konečné výsledky
      - prepare DFs for export (according to filter, sort, etc.)
-     - call ExportToCsvFiles with these 3 DFs
+     - call ExportToXXXFiles with these 3 DFs
     '''  
-    def sExportDirect(self, export_type = eCSV_EXPORT):        
+    def sExportDirect(self, export_type = eCSV_EXPORT):             
         
         #take last calculated data
         self.Update()
         
         # 3DFs for 3 exports
         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
-                
-        #merge table users and times
-        cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
-        cols_to_use = list(cols_to_use) + ["nr"]        
-        ut_df2 = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "left", on="nr")        
         
-        #format a convert na string (kvůli 3.0 => 3)
-        for i in range(0, NUMBER_OF.THREECOLUMNS):
-            orderX = "order"+str(i+1)
-            try:            
-                ut_df2[orderX] = ut_df2[orderX].astype(float).map('{:,g}'.format)            
-            except:
-                print "W: not succesfully converted: ", orderX  
-        
-        #update export df
-        for i in range(0, NUMBER_OF.EXPORTS):
-                          
-            aux_df = ut_df2.copy()
-            
-            if (tabExportSettings.IsEnabled(i) == False):
-                continue            
-            
-            #get export group            
-            checked_info = dstore.GetItem('export', ["checked", i])
-            
-            #get export filtersort
-            filtersort = dstore.GetItem('export_filtersort', [i])
-                                      
-            filter = filtersort['filter']
-            sort1 = filtersort['sort1'].lower()  
-            sort2 = filtersort['sort2'].lower()
-            sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
-            sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
-            
-            #filter 
-            filter_split_keys = filter.split(" ")
-            filter_keys = []
-            for key in filter_split_keys:
-                if(key in aux_df.columns):
-                    filter_keys.append(key)
-                
-        
-            if(len(filter_keys) == 1):                
-                aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
-                aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
-                
-            elif(len(filter_keys) == 2):
-                aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
-                aux_df =  aux_df[(aux_df[filter_keys[0]] != None) | (aux_df[filter_keys[1]] != None)]
-            
-            #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
-            
-                        
-            #last time from each user?                    
-            aux_df = aux_df.sort("timeraw")                        
-            if("last" in filter):                                                                
-                aux_df = aux_df.groupby("nr", as_index = False).last()
-                
-            #beautify
-            aux_df = aux_df.where(pd.notnull(aux_df), None)
-            aux_df.set_index('id',  drop=False, inplace = True)
-            
-            #sort again
-            if(sort2 in aux_df.columns):
-                aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
-            else:
-                aux_df = aux_df.sort(sort1, ascending = sortorder1)
-                        
-            
-            for oc in range(0, NUMBER_OF.EXPORTS):
-                ordercatX = 'ordercat'+str(oc+1)
-                orderX = 'order'+str(oc+1)                
-                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category
-               
-            
-            
-            #filter to checked columns
-            #columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
-            #aux_df = aux_df[columns]
-            
-            if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):
-                print "ToLapsExport", i, dstore.GetItem('export_filtersort', [i, "onerow"])   
-                aux_df = self.ToLapsExport(aux_df)
-            
-#             print "PRED",i, aux_df.head(2), aux_df.dtypes
-            self.ConvertToInt(aux_df)
-#             print "PO",i, aux_df.head(2), aux_df.dtypes                                    
-#             aux_df["nr"] = aux_df["nr"].map('{:,g}'.format)                        
-#             print "PO2", aux_df.head(2), aux_df.dtypes
-                                            
-            
-            #add DNF users
-            if export_type == self.eCSV_EXPORT_DNF:
-                            
-                df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(aux_df["nr"])].copy()    
-                        
-                # add "DNF" to timeX (and also timeraw)
-                for c in [s for s in aux_df.columns if "time" in s]:
-                    df_dnf_users[c] = "DNF"
+        if len(self.model.df) != 0:
                     
-                # order = lastorder + 1 (for all DNF users same order)
-                for c in [s for s in aux_df.columns if "order" in s]:
-                    try:
-                        last_order = aux_df.iloc[-1][c]  
-                        df_dnf_users[c] = int(last_order) + 1
-                    except (ValueError, IndexError):
-                        pass                                 
-                aux_df = aux_df.append(df_dnf_users)          
+            #merge table users and times
+            cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
+            cols_to_use = list(cols_to_use) + ["nr"]        
+            ut_df = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "left", on="nr")            
             
-            
-            self.exportDf[i] = aux_df #[columns]
+            #update export df
+            for i in range(0, NUMBER_OF.EXPORTS):
+                              
+                aux_df = ut_df.copy()
+                
+                if (tabExportSettings.IsEnabled(i) == False):
+                    continue
+                
+                #get export filtersort
+                filtersort = dstore.GetItem('export_filtersort', [i])
+                                          
+                filter = filtersort['filter']
+                sort1 = filtersort['sort1'].lower()  
+                sort2 = filtersort['sort2'].lower()
+                sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
+                sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
+                
+                #filter                 
+                aux_df = df_utils.FilterEmptyColumns(aux_df, filter.split(" "))
+                                
+                #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]                
+                            
+                #last time from each user?                    
+                aux_df = aux_df.sort("timeraw")                        
+                if("last" in filter):                                                                
+                    aux_df = aux_df.groupby("nr", as_index = False).last()
+                    
+                #beautify
+                aux_df = aux_df.where(pd.notnull(aux_df), None)
+                aux_df.set_index('id',  drop=False, inplace = True)
+                
+                #sort again
+                if(sort2 in aux_df.columns):
+                    aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
+                else:
+                    aux_df = aux_df.sort(sort1, ascending = sortorder1)
+                            
+                #add "order in category" -> "3./Kategorie XY"
+                for oc in range(0, NUMBER_OF.EXPORTS):
+                    ordercatX = 'ordercat'+str(oc+1)
+                    orderX = 'order'+str(oc+1)                
+                    aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                                   
+                
+                #filter to checked columns
+                #columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+                #aux_df = aux_df[columns]
+                
+                #lapsexport
+                if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):
+                    #print "ToLapsExport", i, dstore.GetItem('export_filtersort', [i, "onerow"])   
+                    aux_df = self.ToLapsExport(aux_df)
+                
+                #print "PRED",i, aux_df.head(2), aux_df.dtypes
+                self.ConvertToInt(aux_df)
+                #print "PO",i, aux_df.head(2), aux_df.dtypes                                                
+                
+                #add missing users with DNF status
+                if export_type == self.eCSV_EXPORT_DNF:
+                    aux_df = self.AddMissingUsers(aux_df)
+                
+                self.exportDf[i] = aux_df #[columns]
         
         #export complete/ category and group results from export DFs        
         exported = {}
@@ -611,8 +581,29 @@ class DfTableTimes(DfTable):
             uiAccesories.showMessage(self.name+" Exported", exported_string, MSGTYPE.info)
         
         return #self.joinedDf             
+    
+    """
+    Add users to dataframe
+    """
+    def AddMissingUsers(self, tDf):        
         
-        
+        #get missing users
+        df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(tDf["nr"])].copy()    
+                            
+        # add "DNF" to timeX (and also timeraw)
+        for c in [s for s in tDf.columns if "time" in s]:
+            df_dnf_users[c] = "DNF"
+            
+        # order = lastorder + 1 (for all DNF users same order)
+        for c in [s for s in tDf.columns if "order" in s]:
+            try:
+                last_order = tDf.iloc[-1][c]  
+                df_dnf_users[c] = int(last_order) + 1
+            except (ValueError, IndexError):
+                pass                                 
+        tDf = tDf.append(df_dnf_users)
+        return tDf      
+
     '''
     ExportToCsvFiles
     - from prepared DFs export complete, category and group export    
@@ -624,18 +615,13 @@ class DfTableTimes(DfTable):
         #if ret == False: #cancel button
         #    return         
         
-        #get filename  
+        #return info
+        exported = {}
+        
+        #get dirname
         racename = dstore.GetItem("racesettings-app", ['race_name'])      
         dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
-        try:
-            os.makedirs(dirname)
-        except OSError:
-            dirname = "export/"
-                                         
-        if(dirname == ""):
-            return        
-                            
-        exported = {}
+        os.makedirs(dirname)                                                                                       
                 
         for i in range(0, NUMBER_OF.EXPORTS): 
             
@@ -643,66 +629,30 @@ class DfTableTimes(DfTable):
                 continue
             
             #get df
-            df =  self.exportDf[i]
+            df =  self.exportDf[i]                        
             filtersort = dstore.GetItem('export_filtersort', [i])
-            #df = mgr.GetDfs()["table"]
-                        
-            #filter to checked columns
-            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()
             
-            #add onerow-columns to filtered columns            
-            if(filtersort["onerow"] != 0):
-                for x in range(0, NUMBER_OF.TIMESCOLUMNS):
-                    timeX = "time"+str(x+1) 
-                    if timeX in columns:
-                        for y in range(0,50):
-                            timeXY = timeX+str(y+1)
-                            if timeXY in df.columns:                                            
-                                columns.insert(columns.index(timeX), timeXY)
-                        columns.remove(timeX)            
-                for x in range(0, NUMBER_OF.POINTSCOLUMNS):
-                    pointsX = "points"+str(x+1)                                        
-                    if pointsX in columns:                        
-                        for y in range(0,50):
-                            pointsXY = pointsX+str(y+1)
-                            if pointsXY in df.columns:                                            
-                                columns.insert(columns.index(pointsX), pointsXY)
-                        columns.remove(pointsX)            
-            
-#             if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
-#                 if "time1" in df:
-#                     if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
-#                         df.time1[df.time1>"30:00,00"] = "DNF"
-#                     else:
-#                         df.time1[df.time1>"00:30:00,00"] = "DNF" 
-#                             
-#                 if "time2" in df:
-#                     if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
-#                         df.time2[df.time2>"30:00,00"] = "DNF"
-#                     else:
-#                         df.time2[df.time2>"00:30:00,00"] = "DNF" 
-#                             
-#                 if "time3" in df:
-#                     if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
-#                         df.time3[df.time3>"30:00,00"] = "DNF"
-#                     else:
-#                         df.time3[df.time3>"00:30:00,00"] = "DNF"             
-        
             #get racename
             header = dstore.GetItem("export_header", [i])             
-            racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))            
+            racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))              
                         
-            #complete export
+            #filter to checked columns            
+            columns = self.GetExportCollumns(df, i)                                    
+            
+            #workarround
+            #replace time with DNF for long times
+            #df = self.DNF_workarround(df)          
+                        
+            #total export
             if "total" in filtersort["type"]:
                 print i, "TOTAL"
                 if(len(df) != 0):
-                    filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
-                    self.ExportToCsvFile(dirname+filename+".csv", racename, df[columns])            
+                    filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                     
+                    self.ExportToCsvFile(dirname+filename+".csv", self.Columns2Cz(df[columns]), racename)                                
                     exported[filename] = len(df) 
-            
-            
+                        
             #category export    
-            if "categories" in filtersort["type"]:
+            elif "categories" in filtersort["type"]:
                 print i, "CATEGORIES"            
                 c_df = self.exportDf[i]           
                 c_df = c_df.set_index("category", drop = False)
@@ -712,18 +662,18 @@ class DfTableTimes(DfTable):
                         category = tableCategories.model.getCategoryParName(c_name)
                         category = category.to_dict()
                          
-                        #add prefix and suffix for category name and desription
-                        c_name =  header["categoryname"].replace("%category%", c_name)
-                        category["name"] = c_name                                        
-                        category["description"]  =  header["description"].replace("%description%", category["description"])
+                        #get secondline (!!c_name used also for filename!!)
+                        c_name = header["categoryname"].replace("%category%", c_name)
+                        secondline = [c_name, header["description"].replace("%description%", category["description"])]
                         
-                        filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)  
-                   
-                        self.ExportToCsvFile(dirname+filename+".csv", racename, c_df[columns], category = category)
+                        #write to file
+                        filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)
+                        self.ExportToCsvFile(dirname+filename+".csv",  self.Columns2Cz(c_df[columns]), racename, secondline)                                                                                                                                                
+                        
                         exported[filename] = len(c_df) 
                      
             #group export 
-            if "groups" in filtersort["type"]: 
+            elif "groups" in filtersort["type"]: 
                 print i, "GROUPS"          
                 g_df = self.exportDf[i]
                 for x in range(1,11):                
@@ -733,27 +683,75 @@ class DfTableTimes(DfTable):
                     aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
                     if(aux_df.empty == False):                                 
                         group = tableCGroups.model.getCGrouptParLabel(g_label)
-                        filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                                
-                        self.ExportToCsvFile(dirname+filename+".csv", racename, aux_df[columns], group = group.to_dict())                                       
-                        exported[filename] = len(aux_df)
-                    
-
-                         
+                        filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                        
+                        self.ExportToCsvFile(dirname+filename+".csv", self.Columns2Cz(aux_df[columns]), racename, [group["name"], group["description"]])                                       
+                        exported[filename] = len(aux_df)                                        
         return exported
+    
+    def GetExportCollumns(self, df, i):
+        
+        
+        #filter to checked columns
+        columns = tabExportSettings.exportgroups[i].GetCheckedColumns()
+                     
+        #export filter-sort settings
+        filtersort = dstore.GetItem('export_filtersort', [i])
+        
+        #add onerow-columns to filtered columns            
+        if(filtersort["onerow"] != 0):
+            for x in range(0, NUMBER_OF.TIMESCOLUMNS):
+                timeX = "time"+str(x+1) 
+                if timeX in columns:
+                    for y in range(0,50):
+                        timeXY = timeX+str(y+1)
+                        if timeXY in df.columns:                            
+                            columns.insert(columns.index(timeX), timeXY)
+                    columns.remove(timeX)            
+            for x in range(0, NUMBER_OF.POINTSCOLUMNS):
+                pointsX = "points"+str(x+1)                                        
+                if pointsX in columns:                        
+                    for y in range(0,50):
+                        pointsXY = pointsX+str(y+1)
+                        if pointsXY in df.columns:                           
+                            columns.insert(columns.index(pointsX), pointsXY)
+                    columns.remove(pointsX)
+        return columns 
+    
+    def DNF_workarround(self, df):
+        if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
+            if "time1" in df:
+                if(dstore.GetItem("additional_info", ["time", 0, "minute_timeformat"])):
+                    df.time1[df.time1>"30:00,00"] = "DNF"
+                else:
+                    df.time1[df.time1>"00:30:00,00"] = "DNF" 
+                         
+            if "time2" in df:
+                if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
+                    df.time2[df.time2>"30:00,00"] = "DNF"
+                else:
+                    df.time2[df.time2>"00:30:00,00"] = "DNF" 
+                         
+            if "time3" in df:
+                if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):
+                    df.time3[df.time3>"30:00,00"] = "DNF"
+                else:
+                    df.time3[df.time3>"00:30:00,00"] = "DNF" 
+        return df 
     
     def ExportToHtmFiles(self, type):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
         #    return         
-                        
+
+        #return info
+        exported = {}
+                                
         #get filename, gui dialog  
         racename = dstore.GetItem("racesettings-app", ['race_name'])      
         dirname = utils.get_filename("export/www/")
-                                         
-        if(dirname == ""):
-            return        
+                                               
                             
-        exported = {}
+
                 
         for i in range(0, NUMBER_OF.EXPORTS): 
             
@@ -766,7 +764,8 @@ class DfTableTimes(DfTable):
             df = pd.DataFrame()
             if(type == self.eHTM_EXPORT):            
                 df =  self.exportDf[i]
-                df = df[columns]
+                if(len(df) != 0):
+                    df = df[columns]
                 css_filename = dstore.GetItem("export_www", [i, "css_filename"])
                 title = dstore.GetItem("racesettings-app", ['race_name']) 
             elif(type == self.eHTM_EXPORT_LOGO):
@@ -777,10 +776,10 @@ class DfTableTimes(DfTable):
                 uiAccesories.showMessage("Export warning", "This export is not defined!", MSGTYPE.warning)
                 return
             #complete export            
-            if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
-                filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
-                self.ExportToHtmFile(filename, df, css_filename, title)            
-                exported["total"] = len(df)
+            #if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
+            filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
+            self.ExportToHtmFile(filename, df, css_filename, title)            
+            exported["total"] = len(df)
              
         return exported 
     
@@ -801,58 +800,32 @@ class DfTableTimes(DfTable):
             uiAccesories.showMessage(title_msg, "NOT succesfully \n\nCannot write into the file ("+filename+")")
                
 
-    
-    '''
-    ExportToCsvFile
-    - create 1 file
-    
-    - 1.row: racename
-    - 2.row: category/group info
-    - next df rows
-    
-    - automatically convert column names to CZ    
-    '''    
-    def ExportToCsvFile(self, filename, racename, df, category = None, group = None):
 
-        '''get the keys and strings'''
-                      
-        if category != None:                                 
-            header_strings = ["Kategorie: " + category['name'], category['description']] #second line, first and last item              
-        elif group != None:            
-            header_strings = ["Skupina: " + group['name'], group['description']] #second line, first and last item
-        else:            
-            header_strings = ["", ""] #second line, first and last item                     
+
+    """
+    ExportToCsvFile
+    - export dataframe to csv file
+    """
+    def ExportToCsvFile(self, filename, df, firstline = '', secondline = ['','']):                                                  
+        try:
+            df_utils.ExportToCsvFile(filename, df, firstline = '', secondline = ['',''])                                      
+        except IOError:
+            uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+            
+    def Columns2Cz(self, df):
+        #convert header EN => CZ
+        tocz_dict = dstore.GetItem("export", ["names"])                                                 
+        df = df.rename(columns = tocz_dict)     
         
-        
-        '''add & convert header, write to csv file'''        
-        aux_df = df
-        if len(aux_df != 0):  
-            #export header
-            header_length = len(aux_df.columns)
-            header_racename = [racename,] + (header_length-1) * ['']
-            header_param = [header_strings[0],]+ ((header_length-2) * ['',]) + [header_strings[1],]
-                           
-            #convert header EN => CZ
-            tocz_dict = dstore.GetItem("export", ["names"])                                                 
-            aux_df = aux_df.rename(columns = tocz_dict)     
-            
-            #onerow columns to CZ                                        
-            for x in range(0, NUMBER_OF.TIMESCOLUMNS):
-                timeX = "time"+str(x+1) 
-                aux_df.columns = aux_df.columns.str.replace(timeX, tocz_dict[timeX])          
-            for x in range(0, NUMBER_OF.POINTSCOLUMNS):
-                pointsX = "points"+str(x+1)                                        
-                aux_df.columns = aux_df.columns.str.replace(pointsX, tocz_dict[pointsX])                                                        
-            
-            
-            #export times (with collumn's names)            
-            try:              
-                pd.DataFrame([header_racename, header_param]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
-                aux_df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g", decimal = ',')                
-            except IOError:
-                uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
-                           
-        return aux_df                           
+        #onerow columns to CZ                                        
+        for x in range(0, NUMBER_OF.TIMESCOLUMNS):
+            timeX = "time"+str(x+1) 
+            df.columns = df.columns.str.replace(timeX, tocz_dict[timeX])          
+        for x in range(0, NUMBER_OF.POINTSCOLUMNS):
+            pointsX = "points"+str(x+1)                                        
+            df.columns = df.columns.str.replace(pointsX, tocz_dict[pointsX])  
+        return df
+                       
 
         
         

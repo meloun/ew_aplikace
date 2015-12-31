@@ -337,17 +337,15 @@ class ManageCalcProcess():
             aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) & (self.joinedDf['user_id']!=0)]
                 
             #FILTER only one time from each user, LAST or BEST                            
-            if group['row'] == u'Best times1':
-                #print u'Best times1'                 
+            if group['row'] == u'Best times1':                      
                 aux_df = aux_df.sort("time1", ascending = False )
-            elif group['row'] == u'Best times2':
-                #print u'Best times2'                 
+            elif group['row'] == u'Best times2':                      
                 aux_df = aux_df.sort("time2", ascending = False ) 
-            elif group['row'] == u'Best times3':
-                #print u'Best times3'                 
-                aux_df = aux_df.sort("time3", ascending = False )    
-            elif group['row'] == u'Last times':
-                #print u'Last times'                 
+            elif group['row'] == u'Best times3':                      
+                aux_df = aux_df.sort("time3", ascending = False )   
+            elif group['row'] == u'Best times4':                           
+                aux_df = aux_df.sort("time4", ascending = False )   
+            elif group['row'] == u'Last times':                                 
                 aux_df = aux_df.sort("time_raw")
             else:
                 print "ERROR: no row specified!!!", group        
@@ -874,95 +872,95 @@ class ManageCalcProcess():
     
     
     
-    def UpdateExportDf(self, tabDf, db):
-        """
-        update dataframes for export
-        
-        0: take tabbDf as basis (because of time-format 00:00:01:16)
-           join dbDf and extend of userDf         
-        1: Filter: Last times: take last time from each user
-                   Best timesX: take best timeX from each user
-        2: Sort: basic or nested sorting
-        3: Selection: take only column you need
-        
-        return: filtred, sorted and selected dataframe for total export
-                (for category export has to be filtred) 
-        """
-                 
-        columns =  self.joinedDf.columns - tabDf.columns  
-        joinedTabDf = tabDf.join(self.joinedDf[columns])                           
-         
-        #replace nan with None
-        self.joinedTabDf = joinedTabDf.where(pd.notnull(joinedTabDf), None)        
-        
-        #update export df
-        self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
-        for i in range(0, NUMBER_OF.EXPORTS):
-                          
-            if (tabExportSettings.IsEnabled(i) == False):
-                continue            
-            
-            #get export group            
-            checked_info = self.dstore.GetItem('export', ["checked", i])
-            
-            #get export group
-            filtersort = self.dstore.GetItem('export_filtersort', [i])
-                                      
-            #print group
-            filter = filtersort['filter']
-            sort1 = filtersort['sort1'].lower()  
-            sort2 = filtersort['sort2'].lower()
-            sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
-            sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
-            
-            aux_df = self.joinedTabDf
-            #filter 
-            filter_split_keys = filter.split(" ")
-            filter_keys = []
-            for key in filter_split_keys:
-                if(key in aux_df.columns):
-                    filter_keys.append(key)
-                
-            #print filter_keys, len(filter_keys)
-            
-            if(len(filter_keys) == 1):
-                #print "====", filter_keys
-                aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
-                aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
-                #print aux_df[filter_keys[0]]
-                
-            elif(len(filter_keys) == 2):
-                aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
-                aux_df =  aux_df[(aux_df[filter_keys[0]] != None) | (aux_df[filter_keys[1]] != None)]
-            
-            #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
-            #last time from each user                    
-            aux_df = aux_df.sort("time_raw")                        
-            if("last" in filter):                                                                
-                aux_df = aux_df.groupby("user_id", as_index = False).last()
-            aux_df = aux_df.where(pd.notnull(aux_df), None)                        
-            aux_df.set_index('id',  drop=False, inplace = True)
-            
-            #sort again
-            if(sort2 in aux_df.columns):
-                #print "nested sorting", sort1, sort2, sortorder1, sortorder2
-                #print aux_df
-                aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
-            else:
-                #print "basic sorting"
-                aux_df = aux_df.sort(sort1, ascending = sortorder1)
-                        
-            #filter to checked columns
-            columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
-            
-            for oc in range(0, NUMBER_OF.EXPORTS):
-                ordercatX = 'ordercat'+str(oc+1)
-                orderX = 'order'+str(oc+1)                
-                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
-                                                           
-            self.exportDf[i] = aux_df[columns]                            
-                           
-        return self.joinedDf             
+#     def UpdateExportDf(self, tabDf, db):
+#         """
+#         update dataframes for export
+#         
+#         0: take tabbDf as basis (because of time-format 00:00:01:16)
+#            join dbDf and extend of userDf         
+#         1: Filter: Last times: take last time from each user
+#                    Best timesX: take best timeX from each user
+#         2: Sort: basic or nested sorting
+#         3: Selection: take only column you need
+#         
+#         return: filtred, sorted and selected dataframe for total export
+#                 (for category export has to be filtred) 
+#         """
+#                  
+#         columns =  self.joinedDf.columns - tabDf.columns  
+#         joinedTabDf = tabDf.join(self.joinedDf[columns])                           
+#          
+#         #replace nan with None
+#         self.joinedTabDf = joinedTabDf.where(pd.notnull(joinedTabDf), None)        
+#         
+#         #update export df
+#         self.exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
+#         for i in range(0, NUMBER_OF.EXPORTS):
+#                           
+#             if (tabExportSettings.IsEnabled(i) == False):
+#                 continue            
+#             
+#             #get export group            
+#             checked_info = self.dstore.GetItem('export', ["checked", i])
+#             
+#             #get export group
+#             filtersort = self.dstore.GetItem('export_filtersort', [i])
+#                                       
+#             #print group
+#             filter = filtersort['filter']
+#             sort1 = filtersort['sort1'].lower()  
+#             sort2 = filtersort['sort2'].lower()
+#             sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
+#             sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
+#             
+#             aux_df = self.joinedTabDf
+#             #filter 
+#             filter_split_keys = filter.split(" ")
+#             filter_keys = []
+#             for key in filter_split_keys:
+#                 if(key in aux_df.columns):
+#                     filter_keys.append(key)
+#                 
+#             #print filter_keys, len(filter_keys)
+#             
+#             if(len(filter_keys) == 1):
+#                 #print "====", filter_keys
+#                 aux_df =  aux_df[aux_df[filter_keys[0]] != ""]
+#                 aux_df =  aux_df[aux_df[filter_keys[0]].notnull()]
+#                 #print aux_df[filter_keys[0]]
+#                 
+#             elif(len(filter_keys) == 2):
+#                 aux_df =  aux_df[(aux_df[filter_keys[0]] != "") | (aux_df[filter_keys[1]] != "")]
+#                 aux_df =  aux_df[(aux_df[filter_keys[0]] != None) | (aux_df[filter_keys[1]] != None)]
+#             
+#             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]
+#             #last time from each user                    
+#             aux_df = aux_df.sort("time_raw")                        
+#             if("last" in filter):                                                                
+#                 aux_df = aux_df.groupby("user_id", as_index = False).last()
+#             aux_df = aux_df.where(pd.notnull(aux_df), None)                        
+#             aux_df.set_index('id',  drop=False, inplace = True)
+#             
+#             #sort again
+#             if(sort2 in aux_df.columns):
+#                 #print "nested sorting", sort1, sort2, sortorder1, sortorder2
+#                 #print aux_df
+#                 aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
+#             else:
+#                 #print "basic sorting"
+#                 aux_df = aux_df.sort(sort1, ascending = sortorder1)
+#                         
+#             #filter to checked columns
+#             columns = tabExportSettings.exportgroups[i].GetCheckedColumns()            
+#             
+#             for oc in range(0, NUMBER_OF.EXPORTS):
+#                 ordercatX = 'ordercat'+str(oc+1)
+#                 orderX = 'order'+str(oc+1)                
+#                 aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                        
+#                                                            
+#             self.exportDf[i] = aux_df[columns]                            
+#                            
+#         return self.joinedDf             
     
 
 manage_calc = ManageCalcProcess()
