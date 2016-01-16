@@ -59,12 +59,12 @@ def FilterEmptyColumns(df, columns):
 ExportToCsvFile
 - export dataframe to csv file
 """
-def ExportToCsvFile(filename, df, firstline = '', secondline = ['','']):
+def WriteToCsvFile(filename, df, firstline = ['',''], secondline = ['','']):
     length = len(df.columns)
     
     if(length != 0):                    
-        firstline =  [firstline,] + (length-1) * ['']
-        secondline = [secondline[0],]+ ((length-2) * ['',]) + [secondline[1],]            
+        firstline =  [firstline[0],] + ((length-2) * ['',]) + [firstline[1],]
+        secondline = [secondline[0],]+ ((length-2) * ['',]) + [secondline[1],]                    
                             
         #write to file                      
         pd.DataFrame([firstline, secondline]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")

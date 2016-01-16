@@ -32,6 +32,7 @@ encoding//ewitis/gui/dfTableRaceInfo.py=utf-8
 encoding//ewitis/gui/dfTableRuns.py=utf-8
 encoding//ewitis/gui/dfTableTags.py=utf-8
 encoding//ewitis/gui/dfTableTimes.py=utf-8
+encoding//ewitis/gui/dfTableTimesExport.py=utf-8
 encoding//ewitis/gui/dfTableUsers.py=utf-8
 encoding//ewitis/gui/tabAbout.py=utf-8
 encoding//ewitis/gui/tabCells.py=utf-8

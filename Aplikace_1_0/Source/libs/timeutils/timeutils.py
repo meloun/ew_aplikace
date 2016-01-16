@@ -8,6 +8,15 @@ Created on 01.06.2011
 import datetime
 import time
 
+def getCurrentTime():
+    mytime = time.strftime("%H:%M:%S", time.localtime())    
+    return mytime
+
+def getCurrentDateTime():
+    mytime = time.strftime("%H:%M:%S %d.%m.%Y", time.localtime())    
+    return mytime
+
+
 def getUnderlinedDatetime():
     datetime = time.strftime("%Y_%m_%d__%H_%M_%S", time.localtime())    
     return datetime

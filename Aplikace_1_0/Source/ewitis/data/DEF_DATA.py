@@ -101,7 +101,8 @@ DEF_DATA = {
         #tab TIMES
         "times"                : {"GET_SET"  : {"value": {
                                                           "auto_number": 0,
-                                                          "auto_refresh": 0
+                                                          "auto_refresh": 0,
+                                                          "auto_www_refresh": 0
                                                          }
                                                 }
                                   },        

@@ -293,7 +293,7 @@ class Datastore():
         '''
         Vrací data
         '''
-        print name, self.data                
+        #print name, self.data                
         if(name in self.data):                               
             return self.data[name]["name"]
         return None
