@@ -12371,6 +12371,8 @@ class Ui_MainWindow(object):
         self.aExportResultsDNF.setText(_translate("MainWindow", "Export Results with DNF", None))
         self.aExportResultsDNF.setToolTip(_translate("MainWindow", "Export Results with DNF", None))
         self.aExportResultsDNF.setShortcut(_translate("MainWindow", "Alt+F11", None))
+        
+
 
 from PyQt4 import QtWebKit
 

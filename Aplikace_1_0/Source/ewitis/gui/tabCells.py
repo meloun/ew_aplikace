@@ -295,6 +295,24 @@ class CellGroup ():
             color = COLORS.GetColor(key, enabled)
 
         return color
+    
+    def GetStatusColor(self):
+        color = COLORS.red
+        
+        get_info = self.GetInfo()
+        
+        
+        if get_info["task"] == None:            
+            color = COLORS.none
+        else:
+            if get_info["battery"] >= 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
+                color = COLORS.green
+            elif get_info["battery"] < 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
+                color = COLORS.orange
+            else:
+                color = COLORS.red                                            
+                                            
+        return color
         
             
 

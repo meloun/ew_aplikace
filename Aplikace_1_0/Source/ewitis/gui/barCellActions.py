@@ -25,18 +25,24 @@ class BarCellActions():
         ui = Ui()
         self.nr = 6 #dstore.Get("nr_cells")
         
+        #toolbar because of css color-settings
+        self.cell_toolbar = getattr(ui, "toolBar_3")
+        
         # list of dict
         # in each dict all gui item
         self.cells_actions = [dict() for _ in range(self.nr)]
+        
         
         #                       
         for i, cell_actions in enumerate(self.cells_actions):                                                                                 
             
             #take care about finish time
-            i = self.Collumn2TaskNr(i)            
+            i = self.Collumn2TaskNr(i)
+            
                              
-            # define gui items 
+            # define gui items             
             cell_actions['ping_cell'] = getattr(ui, "aPingCell_"+str(i))
+            self.cell_toolbar.widgetForAction(cell_actions['ping_cell'] ).setObjectName("w_"+'ping_cell'+str(i))            
             cell_actions['enable_cell'] = getattr(ui, "aEnableCell_"+str(i))
             cell_actions['generate_celltime'] = getattr(ui, "aGenerateCelltime_"+str(i))
             cell_actions['disable_cell'] = getattr(ui, "aDisableCell_"+str(i))
@@ -113,7 +119,9 @@ class BarCellActions():
 
         
     def Update(self):  
-        #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)      
+        #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
+        
+        css_string = ""      
         
         #enable/disable items in cell toolbar 
         if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
@@ -126,13 +134,17 @@ class BarCellActions():
                         action.setEnabled(True)
                     else:
                         action.setEnabled(False)                    
-        else:                        
+        else:
+            '''IR'''                        
             for i, cell_actions in enumerate(self.cells_actions):
                                             
-                cell = tabCells.GetCellParTask(self.Collumn2TaskNr(i))            
+                #convert index to task nr
+                i = self.Collumn2TaskNr(i)
+                
+                cell = tabCells.GetCellParTask(i)            
                 if cell != None and dstore.Get("port")["opened"]:
                                         
-                    # PING, set bold if cell activ
+                    # PING, set bold if cell active
                     if cell.GetInfo()['active'] and dstore.Get("port")["opened"]:
                         font = cell_actions['ping_cell'].font()
                         font.setBold(True)
@@ -143,6 +155,10 @@ class BarCellActions():
                         font.setBold(False)
                         font.setUnderline(False)
                         cell_actions['ping_cell'].setFont(font)
+                    
+                    #status color                                        
+                    css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+cell.GetStatusColor()+"; }"                    
+                    
                         
                     # ENABLE all actions
                     for key, action in cell_actions.items():                                                                
@@ -152,6 +168,9 @@ class BarCellActions():
                     #DISABLE all actions, cell not configured or no connection with device
                     for key, action in cell_actions.items(): 
                         action.setEnabled(False)
+                        
+            #set color to ping button (quality check)
+            self.cell_toolbar.setStyleSheet(css_string)
             
         #enabled only when blackbox is connected
         if dstore.Get("port")["opened"]:            

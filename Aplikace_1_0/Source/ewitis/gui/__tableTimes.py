@@ -531,6 +531,7 @@ class Times(myTable):
          
                 
         self.auto_refresh_cnt = 0
+        self.auto_www_refresh_cnt = 0
         
         #special slots
         #self.slots = Slots.TimesSlots(self)                                       
