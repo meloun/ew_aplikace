@@ -11,12 +11,12 @@ from ewitis.gui.aTab import MyTab, UPDATE_MODE
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
-from ewitis.data.DEF_ENUM_STRINGS import COLORS
+from ewitis.data.DEF_ENUM_STRINGS import COLORS, STATUS
 from ewitis.data.DEF_DATA import *
 
 
 
-class CellGroup ():
+class CellGroup ():     
 
     def __init__(self,  nr):
         '''
@@ -296,27 +296,27 @@ class CellGroup ():
 
         return color
     
-    def GetStatusColor(self):
-        color = COLORS.red
+    def GetStatus(self):
+        status = STATUS.error
         
-        get_info = self.GetInfo()
+        get_info = self.GetInfo()               
         
-        
-        if get_info["task"] == None:            
-            color = COLORS.none
+        if get_info["task"] == None or get_info["task"] == 0:            
+            status =  STATUS.none
         else:
             if get_info["battery"] >= 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
-                color = COLORS.green
+                status =  STATUS.ok
             elif get_info["battery"] < 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
-                color = COLORS.orange
+                status =  STATUS.warning
             else:
-                color = COLORS.red                                            
-                                            
-        return color
+                status =  STATUS.error
+                
+        return status                                            
+                                                    
         
             
 
-class TabCells(MyTab):
+class TabCells(MyTab):   
     
     def __init__(self):
         '''
@@ -345,6 +345,15 @@ class TabCells(MyTab):
         return None                                                                           
     
         
+    def GetStatus(self):
+        status = STATUS.ok
+        
+        for i in range(0, NUMBER_OF.CELLS):
+            cell_status = self.cellgroups[i].GetStatus()
+            if status < cell_status:                
+                status = cell_status
+        return status
+    
     def Update(self, mode = UPDATE_MODE.all):
         for i in range(0, NUMBER_OF.CELLS):
             self.cellgroups[i].Update()

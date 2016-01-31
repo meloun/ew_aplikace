@@ -9,9 +9,10 @@ from ewitis.gui.Ui import appWindow, Ui
 from ewitis.data.dstore import dstore 
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import * 
-from ewitis.gui.tabCells import tabCells
+from ewitis.gui.tabCells import tabCells, TabCells
 
 class BarCellActions():
+    STATUS_COLOR = [COLORS.none, COLORS.green, COLORS.orange, COLORS.red]
     
     
     
@@ -26,7 +27,12 @@ class BarCellActions():
         self.nr = 6 #dstore.Get("nr_cells")
         
         #toolbar because of css color-settings
-        self.cell_toolbar = getattr(ui, "toolBar_3")
+        self.toolbar_ping = getattr(ui, "toolBarCellPing")
+        self.toolbar_enable = getattr(ui, "toolBarCellEnable")
+        self.toolbar_generate = getattr(ui, "toolBarCellGenerate")
+        
+        self.check_hw =  getattr(ui, "aHwCheck")
+        self.check_app = getattr(ui, "aAppCheck")
         
         # list of dict
         # in each dict all gui item
@@ -42,10 +48,13 @@ class BarCellActions():
                              
             # define gui items             
             cell_actions['ping_cell'] = getattr(ui, "aPingCell_"+str(i))
-            self.cell_toolbar.widgetForAction(cell_actions['ping_cell'] ).setObjectName("w_"+'ping_cell'+str(i))            
             cell_actions['enable_cell'] = getattr(ui, "aEnableCell_"+str(i))
             cell_actions['generate_celltime'] = getattr(ui, "aGenerateCelltime_"+str(i))
             cell_actions['disable_cell'] = getattr(ui, "aDisableCell_"+str(i))
+            self.toolbar_ping.widgetForAction(cell_actions['ping_cell'] ).setObjectName("w_ping_cell"+str(i))
+            
+        self.toolbar_enable.widgetForAction(self.check_hw).setObjectName("w_check_hw")            
+        self.toolbar_generate.widgetForAction(self.check_app).setObjectName("w_check_app")
             
             
             
@@ -117,7 +126,18 @@ class BarCellActions():
         dstore.Set("clear_database", 0x00, "SET")
         self.clear_database_changed = True
 
+    def GetHwStatus(self):
+        status = STATUS.none
+        if dstore.Get("port")["opened"]:
+            status = tabCells.GetStatus()
         
+        return status
+    
+    def GetAppStatus(self):
+        status = STATUS.ok
+        
+        return status
+              
     def Update(self):  
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
         
@@ -135,7 +155,7 @@ class BarCellActions():
                     else:
                         action.setEnabled(False)                    
         else:
-            '''IR'''                        
+            '''IR'''                                     
             for i, cell_actions in enumerate(self.cells_actions):
                                             
                 #convert index to task nr
@@ -145,20 +165,19 @@ class BarCellActions():
                 if cell != None and dstore.Get("port")["opened"]:
                                         
                     # PING, set bold if cell active
-                    if cell.GetInfo()['active'] and dstore.Get("port")["opened"]:
+                    if cell.GetInfo()['active']:                    
                         font = cell_actions['ping_cell'].font()
                         font.setBold(True)
                         font.setUnderline(True)
-                        cell_actions['ping_cell'].setFont(font)
+                        cell_actions['ping_cell'].setFont(font)                        
+                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.green+"; }"
+                                            
                     else:
                         font = cell_actions['ping_cell'].font()
                         font.setBold(False)
                         font.setUnderline(False)
-                        cell_actions['ping_cell'].setFont(font)
-                    
-                    #status color                                        
-                    css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+cell.GetStatusColor()+"; }"                    
-                    
+                        cell_actions['ping_cell'].setFont(font)                        
+                                                                                                
                         
                     # ENABLE all actions
                     for key, action in cell_actions.items():                                                                
@@ -168,9 +187,14 @@ class BarCellActions():
                     #DISABLE all actions, cell not configured or no connection with device
                     for key, action in cell_actions.items(): 
                         action.setEnabled(False)
-                        
-            #set color to ping button (quality check)
-            self.cell_toolbar.setStyleSheet(css_string)
+                                    
+                         
+            #background to the toolbars
+            hw_status = self.GetHwStatus()   
+            app_status = self.GetAppStatus()                      
+            self.toolbar_ping.setStyleSheet(css_string) #cell enabled => green, bold
+            self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+            self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")            
             
         #enabled only when blackbox is connected
         if dstore.Get("port")["opened"]:            

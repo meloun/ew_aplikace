@@ -383,18 +383,20 @@
     "cells_info": {
         "permanent": true,
         "SET": {
-            "changed": false,
+            "changed": [
+                9
+            ],
             "value": [
                 {
-                    "task": 1,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 1
                 },
                 {
-                    "task": 250,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -402,7 +404,7 @@
                     "address": 2
                 },
                 {
-                    "task": 2,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -464,8 +466,7 @@
                     "address": 9
                 },
                 {
-                    "fu4": 0,
-                    "task": 0,
+                    "task": 1,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -515,21 +516,21 @@
             "refresh_countdown": 0,
             "value": [
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
-                    "battery": 0,
+                    "ir_signal": true,
+                    "battery": 100,
+                    "trigger": 3,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "trigger": 0,
-                    "diagnostic_long_ko": 10,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": true,
+                    "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "task": 250,
+                    "task": 0,
                     "synchronized": false,
                     "ir_signal": false,
                     "battery": 0,
@@ -538,12 +539,12 @@
                     "diagnostic_short_ok": 0,
                     "diagnostic_short_ko": 0,
                     "synchronized_once": false,
-                    "diagnostic_long_ko": 30,
+                    "diagnostic_long_ko": 260,
                     "address": 2,
                     "active": false
                 },
                 {
-                    "task": 2,
+                    "task": 0,
                     "synchronized": false,
                     "ir_signal": false,
                     "battery": 0,
@@ -552,7 +553,7 @@
                     "diagnostic_short_ok": 0,
                     "diagnostic_short_ko": 0,
                     "synchronized_once": false,
-                    "diagnostic_long_ko": 20,
+                    "diagnostic_long_ko": 190,
                     "address": 3,
                     "active": false
                 },
@@ -650,7 +651,7 @@
                     "diagnostic_short_ok": 0,
                     "diagnostic_short_ko": 0,
                     "synchronized_once": false,
-                    "diagnostic_long_ko": 0,
+                    "diagnostic_long_ko": 10,
                     "address": 10,
                     "active": false
                 },
@@ -734,7 +735,7 @@
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
                 "filter_minlaptime": 0,
-                "measurement_state": 0,
+                "measurement_state": 2,
                 "name_id": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
@@ -826,30 +827,30 @@
                 "order": [
                     {
                         "checked": 2,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "Total",
-                        "row": "Last times",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Last times"
                     },
                     {
                         "checked": 0,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "Total",
-                        "row": "Last times",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Last times"
                     },
                     {
                         "checked": 0,
+                        "order1": "Asc",
                         "order2": "Asc",
-                        "column2": " - - -",
                         "type": "Total",
-                        "row": "Last times",
+                        "column2": " - - -",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "row": "Last times"
                     }
                 ],
                 "points": [

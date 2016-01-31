@@ -13,6 +13,9 @@ from ewitis.data.DEF_DATA import *
 #    run_times, users, categories, cgroups, tags, alltags, points, race_info, race_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
 
     
+class STATUS:
+    none, ok, warning, error = range(0,4)
+       
 class UPDATE_MODE:
     all, tables, gui = range(0,3)
  

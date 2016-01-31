@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>10</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -16113,6 +16113,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_256">
                <property name="geometry">
@@ -16841,6 +16846,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -17630,6 +17640,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_268">
                <property name="geometry">
@@ -18386,6 +18401,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_228">
                <property name="geometry">
@@ -19129,6 +19149,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -19918,6 +19943,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_244">
                <property name="geometry">
@@ -20674,6 +20704,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_230">
                <property name="geometry">
@@ -21417,6 +21452,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -22206,6 +22246,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
              </widget>
             </item>
@@ -22940,6 +22985,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -23685,6 +23735,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -24446,6 +24501,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -25215,6 +25275,11 @@ Best timesX : only best times will have an order</string>
                  <string>SEMAPHORE</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_292">
                <property name="geometry">
@@ -25969,6 +26034,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -26730,6 +26800,11 @@ Best timesX : only best times will have an order</string>
                <item>
                 <property name="text">
                  <string>SEMAPHORE</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MANUAL</string>
                 </property>
                </item>
               </widget>
@@ -29268,9 +29343,20 @@ p, li { white-space: pre-wrap; }
    <addaction name="aEnableTagsReading"/>
    <addaction name="separator"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_3">
+  <widget class="QToolBar" name="toolBarCellPing">
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>toolBar_5</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -29322,9 +29408,15 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="toolBar_5">
+  <widget class="QToolBar" name="toolBarCellEnable">
    <property name="windowTitle">
     <string>toolBar_5</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>31</width>
+     <height>30</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -29345,6 +29437,8 @@ p, li { white-space: pre-wrap; }
    <addaction name="separator"/>
    <addaction name="aEnableCell_250"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="aHwCheck"/>
   </widget>
   <widget class="QToolBar" name="toolBar_6">
    <property name="minimumSize">
@@ -29363,9 +29457,15 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="toolBar_7">
+  <widget class="QToolBar" name="toolBarCellGenerate">
    <property name="windowTitle">
     <string>toolBar_7</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>31</width>
+     <height>30</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -29386,6 +29486,8 @@ p, li { white-space: pre-wrap; }
    <addaction name="separator"/>
    <addaction name="aGenerateCelltime_250"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="aAppCheck"/>
   </widget>
   <widget class="QToolBar" name="toolBar_8">
    <property name="minimumSize">
@@ -29408,6 +29510,12 @@ p, li { white-space: pre-wrap; }
    <property name="windowTitle">
     <string>toolBar_9</string>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>31</width>
+     <height>30</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -29426,6 +29534,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="aDisableCell_5"/>
    <addaction name="separator"/>
    <addaction name="aDisableCell_250"/>
+   <addaction name="separator"/>
    <addaction name="separator"/>
   </widget>
   <action name="actionLoad">
@@ -29692,7 +29801,7 @@ p, li { white-space: pre-wrap; }
    <property name="font">
     <font>
      <family>MS Shell Dlg 2</family>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -29719,7 +29828,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -29738,7 +29847,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
      <italic>false</italic>
      <underline>false</underline>
      <stylestrategy>PreferDefault</stylestrategy>
@@ -29757,7 +29866,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -29776,7 +29885,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -29792,7 +29901,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="shortcut">
@@ -30097,6 +30206,26 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Alt+F11</string>
+   </property>
+  </action>
+  <action name="aHwCheck">
+   <property name="text">
+    <string>HW check</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="aAppCheck">
+   <property name="text">
+    <string>APP check</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
  </widget>
