@@ -216,8 +216,10 @@ class BarCellActions():
                                                                                                 
                         
                     
-                    # ENABLE all actions
+                    # enable/disable all actions
                     if(info['trigger'] == 3): #MANUAL
+                        for key, action in cell_actions.items():                                                                
+                            action.setEnabled(False)
                         cell_actions['generate_celltime'].setEnabled(True)
                     else:
                         for key, action in cell_actions.items():                                                                
@@ -238,13 +240,15 @@ class BarCellActions():
             
            
             self.toggle_status = self.toggle_status + 1                            
-            if self.toggle_status == 5:
-                self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background: "+BarCellActions.STATUS_COLOR[STATUS.none]+"}")  
-                self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[STATUS.none]+"; }")
-                self.toggle_status = 0               
-            else:
-                self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
-                self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+            if self.toggle_status == 2:
+                if app_status != STATUS.ok:
+                    app_status = STATUS.none
+                if hw_status != STATUS.ok:
+                    hw_status = STATUS.none                
+                self.toggle_status = 0            
+                
+            self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
+            self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
 
             
 #             font = self.check_app.font()
