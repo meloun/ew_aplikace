@@ -88,6 +88,11 @@ DEF_DATA = {
                                                         }
                                               }
                                },
+        "systemcheck"        : {"GET_SET"  : {"value": {
+                                                        "wdg_comm": 0
+                                                        }
+                                              }
+                                },
         "gui"                : {"GET_SET"  : {"value": {
                                                         "active_tab": 0,
                                                         "active_row": 0,

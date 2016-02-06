@@ -211,8 +211,7 @@ class ManageComm(Thread):
              - store new time to the databasae
              - store new run to the databasae
             """          
-              
-                        
+                                                
             """ GET NEW TIME """                                                                  
             aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times, diagnostic = diagnostic)                                                
             
@@ -453,7 +452,10 @@ class ManageComm(Thread):
             """
             """
             if dstore.Get("com_init") != 0:
-                dstore.Set("com_init", dstore.Get("com_init") - 1) 
+                dstore.Set("com_init", dstore.Get("com_init") - 1)
+            
+            
+            dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1) 
             
             
     def AddTimeToDb(self, time):                       

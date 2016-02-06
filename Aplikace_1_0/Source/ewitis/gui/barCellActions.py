@@ -10,15 +10,18 @@ from ewitis.data.dstore import dstore
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import * 
 from ewitis.gui.tabCells import tabCells, TabCells
+from ewitis.gui.multiprocessingManager import mgr
 
 class BarCellActions():
-    STATUS_COLOR = [COLORS.none, COLORS.green, COLORS.orange, COLORS.red]
+    STATUS_COLOR = ["#d7d6d5", COLORS.green, COLORS.orange, COLORS.red]
     
     
     
     def __init__(self):
         self.clear_database_changed = False        
-    
+        self.lastcheck = {"wdg_calc":0, "wdg_comm":0}
+        self.lastcheckKO = {"wdg_calc":0, "wdg_comm":0}
+        self.toggle_status = True
     def Init(self):
         self.InitGui()        
     
@@ -134,8 +137,38 @@ class BarCellActions():
         return status
     
     def GetAppStatus(self):
-        status = STATUS.ok
         
+        status = STATUS.ok        
+        
+        #get wdg counters
+        wdg_calc = mgr.GetInfo()["wdg_calc"]        
+        wdg_comm = dstore.Get("systemcheck")["wdg_comm"]        
+        
+        if(dstore.Get("port")["opened"] and (self.clear_database_changed == False) and self.lastcheck["wdg_comm"] == wdg_comm):        
+            if self.lastcheckKO["wdg_comm"] < WDG.comm:
+                self.lastcheckKO["wdg_comm"] = self.lastcheckKO["wdg_comm"] + 1
+        else:
+            self.lastcheckKO["wdg_comm"] = 0
+                        
+                
+        if (self.lastcheck["wdg_calc"] == wdg_calc):
+            if self.lastcheckKO["wdg_calc"] < WDG.calc:
+                self.lastcheckKO["wdg_calc"] = self.lastcheckKO["wdg_calc"] + 1
+        else:                    
+            self.lastcheckKO["wdg_calc"] = 0
+
+                
+                
+        if self.lastcheckKO["wdg_comm"] != WDG.comm and self.lastcheckKO["wdg_calc"] != WDG.calc:                    
+            status = STATUS.ok #evrything fine
+        else:            
+            status = STATUS.error #something is wrong
+            print "Error: wdg: ", self.lastcheckKO
+                    
+        #copy        
+        self.lastcheck["wdg_calc"] = wdg_calc
+        self.lastcheck["wdg_comm"] = wdg_comm
+        #print self.lastcheckKO,  self.lastcheck                        
         return status
               
     def Update(self):  
@@ -163,9 +196,12 @@ class BarCellActions():
                 
                 cell = tabCells.GetCellParTask(i)            
                 if cell != None and dstore.Get("port")["opened"]:
-                                        
+                   
+                    #get info
+                    info = cell.GetInfo()
+                                         
                     # PING, set bold if cell active
-                    if cell.GetInfo()['active']:                    
+                    if info['active']:                    
                         font = cell_actions['ping_cell'].font()
                         font.setBold(True)
                         font.setUnderline(True)
@@ -179,9 +215,13 @@ class BarCellActions():
                         cell_actions['ping_cell'].setFont(font)                        
                                                                                                 
                         
+                    
                     # ENABLE all actions
-                    for key, action in cell_actions.items():                                                                
-                        action.setEnabled(True)
+                    if(info['trigger'] == 3): #MANUAL
+                        cell_actions['generate_celltime'].setEnabled(True)
+                    else:
+                        for key, action in cell_actions.items():                                                                
+                            action.setEnabled(True)
                         
                 else:
                     #DISABLE all actions, cell not configured or no connection with device
@@ -193,8 +233,23 @@ class BarCellActions():
             hw_status = self.GetHwStatus()   
             app_status = self.GetAppStatus()                      
             self.toolbar_ping.setStyleSheet(css_string) #cell enabled => green, bold
-            self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
-            self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")            
+            #self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+            #self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
+            
+           
+            self.toggle_status = self.toggle_status + 1                            
+            if self.toggle_status == 5:
+                self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background: "+BarCellActions.STATUS_COLOR[STATUS.none]+"}")  
+                self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[STATUS.none]+"; }")
+                self.toggle_status = 0               
+            else:
+                self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
+                self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+
+            
+#             font = self.check_app.font()
+#             font.setItalic(not font.italic())
+#             self.check_app.setFont(font)               
             
         #enabled only when blackbox is connected
         if dstore.Get("port")["opened"]:            

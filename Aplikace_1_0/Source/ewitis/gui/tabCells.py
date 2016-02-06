@@ -16,7 +16,10 @@ from ewitis.data.DEF_DATA import *
 
 
 
-class CellGroup ():     
+class CellGroup ():
+    
+    TIMER_NOCHANGE = 3  
+    TIMER_NODIALOG_INIT = 6   
 
     def __init__(self,  nr):
         '''
@@ -46,9 +49,14 @@ class CellGroup ():
         self.pushCellClearCounters = getattr(ui, "pushCellClearCounters_"+str(nr))
         self.pushCellRunDiagnostic = getattr(ui, "pushCellRunDiagnostic_"+str(nr))
         self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
+        
+        self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
+        self.timer_nochange =  0
+        
     
     def Init(self):        
         self.createSlots()
+        
         
     def CreateSlots(self):                        
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
@@ -79,15 +87,16 @@ class CellGroup ():
         
         if task != 0:
             for info in cells_info:
-                if info['task'] == task:                    
+                if info['task'] == task:         
+                    self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(get_cell_info["task"]))                                                                                                            
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
                     return        
                                
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", [self.nr-1, 'task'])                                                                
-        self.Update()
+        dstore.ResetValue("cells_info", [self.nr-1, 'task'])
+        self.timer_nochange = CellGroup.TIMER_NOCHANGE        
         
     def sComboCellTrigger(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
@@ -104,11 +113,12 @@ class CellGroup ():
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", [self.nr-1, 'task'])                                                                
-        self.Update()
+        dstore.ResetValue("cells_info", [self.nr-1, 'trigger'])
+        self.timer_nochange = CellGroup.TIMER_NOCHANGE
         
         
-    def SetEnabled(self, state):
+        
+    def SetEnabled(self, state, state2):
         
         #enable/disable all widgets            
         self.lineCellTask.setEnabled(state)        
@@ -127,6 +137,13 @@ class CellGroup ():
         self.pushCellClearCounters.setEnabled(state)
         self.pushCellRunDiagnostic.setEnabled(state)
         self.pushCellPing.setEnabled(state)
+        
+        if state2:        
+            self.comboCellTask.setEnabled(True)
+        else:
+            self.comboCellTask.setEnabled(state)
+            
+        self.comboCellTrigger.setEnabled(state)
     
     def GetInfo(self):
         return dstore.Get("cells_info", "GET")[self.nr-1]
@@ -134,7 +151,6 @@ class CellGroup ():
         return dstore.Get("cells_info", "SET")[self.nr-1]
     
     def GetTask(self):        
-        #print "d1",self.__dict__
         return dstore.Get("cells_info", "GET")[self.nr-1]['task']
     
     def TaskNr2Idx(self, task):
@@ -154,16 +170,23 @@ class CellGroup ():
         #get cell info from datastore                                      
         get_info = self.GetInfo()
         set_info = self.SetInfo()
+        port_open = dstore.Get("port")["opened"]
+        
+        #wait for establish new values after connect
+        if port_open:
+            if self.timer_nodialog != 0:
+                self.timer_nodialog = self.timer_nodialog -1                
+        else:
+            self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
 
         #set enabled
         if(get_info['task'] == None) or (get_info['task'] == 0):
-            self.SetEnabled(False)
+            self.SetEnabled(False, port_open)
         else: 
-            self.SetEnabled(True)                    
+            self.SetEnabled(True, port_open)                    
         
-        #index
-        index = self.TaskNr2Idx(get_info["task"])                
-        
+        #task
+        index = self.TaskNr2Idx(get_info["task"])        
         if(get_info['task'] != None):
             self.lineCellTask.setText(self.comboCellTask.itemText(index))
         else:
@@ -171,19 +194,35 @@ class CellGroup ():
         colors_enabled =  get_info['task']
         self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), get_info['task']))
                     
-        #na začátku, zpětná vazba
-        #if(index != None):            
-        self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(set_info["task"]))
             
-                                    
+        #trigger                            
         if(get_info['trigger'] != None):
             self.lineCellTrigger.setText(self.comboCellTrigger.itemText(get_info['trigger']))
         else:
             self.lineCellTrigger.setText(" - - - ")        
-                    
-        #na začátku, zpětná vazba
-        #if(get_info['trigger'] != None):            
-        self.comboCellTrigger.setCurrentIndex(set_info["trigger"])                        
+                               
+        #synchronize comboboxes with GET value (after timeout)
+        if self.timer_nochange == 0:                 
+            
+            task_index = self.TaskNr2Idx(get_info["task"])
+            if task_index:
+                if(task_index != self.comboCellTask.currentIndex()) and port_open and (self.timer_nodialog==0):
+                    uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
+                self.comboCellTask.setCurrentIndex(task_index)
+            else:
+                self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
+            
+            if get_info["trigger"] != None:
+                if(get_info["trigger"] != self.comboCellTrigger.currentIndex()) and port_open and (self.timer_nodialog==0):                 
+                    uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
+                self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
+            else:                
+                self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
+        else:
+            self.timer_nochange = self.timer_nochange - 1            
+        
+        
+                                    
         
         #battery
         if(get_info['battery'] != None):
@@ -304,13 +343,13 @@ class CellGroup ():
         if get_info["task"] == None or get_info["task"] == 0:            
             status =  STATUS.none
         else:
-            if get_info["battery"] >= 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
+            if get_info["battery"] >= 25 and get_info["ir_signal"]==True and get_info["synchronized_once"]==True and get_info["synchronized"]==True:
                 status =  STATUS.ok
-            elif get_info["battery"] < 25 and get_info["ir_signal"]==True and get_info["synchronized"]==True:
+            elif get_info["battery"] < 25 and get_info["ir_signal"]==True and get_info["synchronized_once"]==True and get_info["synchronized"]==True:
                 status =  STATUS.warning
-            else:
+            else:                
                 status =  STATUS.error
-                
+                                
         return status                                            
                                                     
         
@@ -351,7 +390,7 @@ class TabCells(MyTab):
         for i in range(0, NUMBER_OF.CELLS):
             cell_status = self.cellgroups[i].GetStatus()
             if status < cell_status:                
-                status = cell_status
+                status = cell_status                
         return status
     
     def Update(self, mode = UPDATE_MODE.all):

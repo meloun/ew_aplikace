@@ -15,6 +15,11 @@ from ewitis.data.DEF_DATA import *
     
 class STATUS:
     none, ok, warning, error = range(0,4)
+
+class WDG:
+    comm = 5
+    calc = 10
+    
        
 class UPDATE_MODE:
     all, tables, gui = range(0,3)
@@ -31,6 +36,7 @@ class COLORS:
     green = "#90EE90"
     red = "#ff7f50" 
     orange = "#ffa500"
+    light_green = "#bcf5bc"
     none = ""
     
     @staticmethod

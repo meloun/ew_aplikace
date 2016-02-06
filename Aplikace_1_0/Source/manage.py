@@ -146,7 +146,7 @@ if __name__ == "__main__":
     print "I: Init multiprocessing manager"
     mgr.Init( {"current_run":None, "racesettings-app":None, "additional_info": None, "evaluation": None},  #shared-dstore
               {"table"  :  pd.DataFrame(), "export" :  pd.DataFrame()},                #shared-dfs
-              {"lastcalctime"  :  " - - - "}                                           #shared-info
+              {"wdg_calc":0, "lastcalctime"  :  " - - - "}                                           #shared-info
             )    
     dstore.SetSharedData(mgr.GetDstore())
     dstore.UpdateSharedData("current_run")  

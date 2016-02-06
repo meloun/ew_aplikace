@@ -166,6 +166,7 @@ class ManageCalcProcess():
             #print 'process id:', os.getpid()                                                                    
             sys.stdout.write('.')
             
+            info["wdg_calc"] = info["wdg_calc"] + 1
             info["lastcalctime"] = time.clock() - ztime
             if info["lastcalctime"] > self.maxcalctime:
                 self.maxcalctime = info["lastcalctime"]
