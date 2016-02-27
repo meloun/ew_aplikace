@@ -179,8 +179,8 @@ class CellGroup ():
         else:
             self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
 
-        #set enabled
-        if(get_info['task'] == None) or (get_info['task'] == 0):
+        #set enabled        
+        if(port_open ==False) or (get_info['task'] == None) or (get_info['task'] == 0):
             self.SetEnabled(False, port_open)
         else: 
             self.SetEnabled(True, port_open)                    

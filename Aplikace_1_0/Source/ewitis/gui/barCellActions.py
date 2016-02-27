@@ -9,7 +9,8 @@ from ewitis.gui.Ui import appWindow, Ui
 from ewitis.data.dstore import dstore 
 from ewitis.gui.UiAccesories import MSGTYPE, uiAccesories
 from ewitis.data.DEF_ENUM_STRINGS import * 
-from ewitis.gui.tabCells import tabCells, TabCells
+from ewitis.gui.tabCells import tabCells
+from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.multiprocessingManager import mgr
 
 class BarCellActions():
@@ -133,12 +134,15 @@ class BarCellActions():
         status = STATUS.none
         if dstore.Get("port")["opened"]:
             status = tabCells.GetStatus()
+            device_status = tabDevice.GetStatus()
+            if status < device_status:                
+                status = device_status  
         
         return status
     
     def GetAppStatus(self):
         
-        status = STATUS.ok        
+        status = STATUS.ok             
         
         #get wdg counters
         wdg_calc = mgr.GetInfo()["wdg_calc"]        
@@ -160,7 +164,7 @@ class BarCellActions():
                 
                 
         if self.lastcheckKO["wdg_comm"] != WDG.comm and self.lastcheckKO["wdg_calc"] != WDG.calc:                    
-            status = STATUS.ok #evrything fine
+            status = STATUS.ok #everything fine
         else:            
             status = STATUS.error #something is wrong
             print "Error: wdg: ", self.lastcheckKO
@@ -245,8 +249,8 @@ class BarCellActions():
                     app_status = STATUS.none
                 if hw_status != STATUS.ok:
                     hw_status = STATUS.none                
-                self.toggle_status = 0            
-                
+                self.toggle_status = 0
+                            
             self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
             self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
 

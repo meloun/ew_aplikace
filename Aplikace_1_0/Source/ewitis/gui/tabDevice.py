@@ -40,7 +40,15 @@ class TabDevice():
         '''reset GET hodnoty'''                
         dstore.ResetValue("terminal_info", ['speaker', key])                                                          
         self.Update()
-                                     
+        
+    def GetStatus(self):
+        status = STATUS.ok        
+        aux_terminal_info = dstore.Get("terminal_info", "GET")
+                
+        if(aux_terminal_info['battery'] < 25):            
+            status =  STATUS.warning
+            
+        return status                                 
 
     def Update(self, mode = UPDATE_MODE.all):
         """ HW & FW VERSION """

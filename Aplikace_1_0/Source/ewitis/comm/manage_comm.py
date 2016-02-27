@@ -145,17 +145,14 @@ class ManageComm(Thread):
                 
                 #wait              
                 time.sleep(0.01)
-                
-                #wait longer(for terminal - no info yet)                    
-                #time.sleep(0.01)
-                
-                #terminate thread?                                 
-                #if(dstore.Get("port_enable", "GET_SET") == False):
+                               
+                #terminate thread?                                                 
                 if dstore.Get("port")["opened"] == False:
                     self.stop()                                       
                     return
                 
-            #print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
+            print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
+            print "I: Comm: waiting:",time.clock()
                                          
             #communication enabled?
             if(dstore.Get("port")["enabled"] == False):                
