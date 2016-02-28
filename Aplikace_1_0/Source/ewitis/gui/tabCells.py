@@ -164,7 +164,7 @@ class CellGroup ():
         if idx == 6:
             idx = 250
         return idx  
-
+    
     def Update(self):
         
         #get cell info from datastore                                      
@@ -375,8 +375,19 @@ class TabCells(MyTab):
     def CreateSlots(self):
         pass
     
-
+    @staticmethod
+    def GetActive(from_nr = 0):                    
+        ret = None
+        
+        for i in range(0, NUMBER_OF.CELLS):            
+            #get cell info from datastore                                      
+            get_info = dstore.Get("cells_info", "GET")[(i+from_nr) % NUMBER_OF.CELLS]
             
+            if get_info["task"]: #not None, not 0                
+                ret = get_info
+                break
+        return ret
+         
     def GetCellParTask(self, task):        
         for cellgroup in self.cellgroups:            
             if cellgroup.GetTask() == task:                

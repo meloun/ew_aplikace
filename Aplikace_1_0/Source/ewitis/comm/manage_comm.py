@@ -19,6 +19,7 @@ import libs.utils.utils as utils
 import ewitis.comm.callback as callback
 import ewitis.comm.DEF_COMMANDS as DEF_COMMANDS
 from ewitis.data.DEF_DATA import TAB
+from ewitis.gui.tabCells import TabCells
 
 #from ewitis.data.db import db
 from ewitis.data.dstore import dstore
@@ -28,9 +29,6 @@ from threading import Thread
 
 from ewitis.gui.multiprocessingManager import eventCalcNow
 
-
-#prozatimni "define"
-OPTIKA_V2 = True
 
 class ManageComm(Thread):            
     def __init__(self, dstore):
@@ -82,31 +80,31 @@ class ManageComm(Thread):
             '''pack data to the string'''
             data = callback.pack_data(command_key, data)                        
             '''request diagnostic'''            
-            if diagnostic == True:                
+            if diagnostic:                
                 dstore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''            
             receivedata = self.protokol.send_receive_frame(command, data)                                                
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
             '''response diagnostic'''            
-            if diagnostic == True:                                    
+            if diagnostic:                                    
                 dstore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             data = {"error":0xFF}
             #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
-            if diagnostic == True:
+            if diagnostic:
                 dstore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")             
         except (serial.SerialException) as (strerror):            
             print "E:SendReceiveError - {0}()".format(strerror)
             data = {"error":0xFF}
             #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
-            if diagnostic == True:
+            if diagnostic:
                 dstore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
 
  
         return data
-                                                            
+    
     def run(self):       
         print "COMM: zakladam vlakno.."
         dstore.Set("com_init", 2)       
@@ -137,31 +135,29 @@ class ManageComm(Thread):
         dstore.SetItem("port", ["opened"], True)
             
                                                                                     
+        cycle_cnt = 0
+        cell_nr = 0
+        active_cell = dstore.Get("cells_info", "GET")[0]
         while(1):
-                                  
+                                              
             #wait X millisecond, test if thread should be terminated
-            ztime = time.clock()
-            for i in range(10): 
+            ztime_first = time.clock()
+            #for i in range(10): 
                 
-                #wait              
-                time.sleep(0.01)
+            #wait              
+            time.sleep(0.01)
                                
-                #terminate thread?                                                 
-                if dstore.Get("port")["opened"] == False:
-                    self.stop()                                       
-                    return
+            #terminate thread?                                                 
+            if dstore.Get("port")["opened"] == False:
+                self.stop()                                       
+                return
                 
-            print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
-            print "I: Comm: waiting:",time.clock()
+            #print "I: Comm: waiting:",time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            ztime = time.clock()                            
                                          
             #communication enabled?
             if(dstore.Get("port")["enabled"] == False):                
                 continue
-            
-            #add diagnostic? 
-            diagnostic = False
-            if(dstore.Get("diagnostic")["log_cyclic"] == 2):                
-                diagnostic = True  
                 
             """ 
             GET HW-SW-VERSION 
@@ -179,272 +175,80 @@ class ManageComm(Thread):
                 dstore.SetItem("versions", ["hw"], aux_version["hw"])
                 dstore.SetItem("versions", ["fw"], aux_version["fw"])
                 dstore.SetItem("versions", ["device"], aux_version["device"])
+                
+                #print "I: Comm: versions:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                #ztime = time.clock()  
             """ end of hw-sw-version """
-            
-            """ 
-            SEND COMMAND 
-                diagnostic purpose
-            """ 
-            if(dstore.Get("diagnostic")["sendcommandkey"] != None):
-                                
-                #send command                
-                aux_response = self.send_receive_frame(dstore.Get("diagnostic")["sendcommandkey"], (dstore.Get("diagnostic")["senddata"]).decode('hex'))                                
-                                
-                if ('error' in aux_response): 
-                    print "COMM: sendcommand response: ERROR"                                     
-                
-                #smazat request
-                dstore.SetItem("diagnostic", ["sendcommandkey"], None)
-                                
-                #set response (text to label)                
-                dstore.SetItem("diagnostic", ["sendresponse"], json.dumps(aux_response, indent = 4))
-                                
-            
-            
-            """
-            RUNS & TIMES & DATABASE PART
-             - get new time
-             - get new run
-             - store new time to the databasae
-             - store new run to the databasae
-            """          
-                                                
-            """ GET NEW TIME """                                                                  
-            aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times, diagnostic = diagnostic)                                                
-            
-            """ GET NEW RUN """                                                                                   
-            aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = diagnostic)                      
-            
                         
-            if(aux_time['error'] == 0 or aux_run['error'] == 0):
-                print"================="
+            
+            """each cycle"""            
+            self.runCellActions()
+            self.runActions()            
+            self.runDiagnosticSendCommand()
+            self.runDeviceActions()
+            #print "I: Comm: each cycle: Actions: ",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            #ztime = time.clock()
+            
+            self.runGetTime()
+            
+            #get cell info (only active cells out of cell's tab)
+            if(dstore.GetItem("gui", ["active_tab"]) != TAB.cells):                            
+                aux_active_cell = TabCells.GetActive(active_cell["address"])
+                if(aux_active_cell):
+                    cell_nr = aux_active_cell["address"]-1                    
+                                      
 
-            """ GET NEW RUN """           
-            aux_diagnostic = dstore.Get("diagnostic")                
-            if(aux_time['error'] != 0):
-                dstore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)
-                
-            if(aux_run['error'] != 0):
-                dstore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)                        
+            #print "cell:", cell_nr, "updated"
+            #print "I: Comm: each cycle: Get",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            #ztime = time.clock()                      
+
             
-            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='red'>no new times (100)</font><br>")
-            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='green'>no new times (100)</font><br>")
-            #dstore.SetItem("diagnostic", ["communication"], aux_diagnostic["communication"]+"<font color='blue'>no new times (100)</font><br>")                                                                                                                                                                    
-                    
-            """ STORE NEW TIME TO THE DATABASE """
-            if(aux_time['error'] == 0):                 
-                self.AddTimeToDb(aux_time)                                                                                                                           
-                self.index_times += 1 # done, take next 
-                eventCalcNow.set()                                                                            
-            else:
-                pass # no new time                  
-        
-            """ STORE NEW RUN TO THE DATABASE """
-            if(aux_run['error'] == 0):                       
-                self.AddRunToDb(aux_run)                                                                              
-                self.index_runs += 1 # done, take next                                                                                                                            
-            else:
-                pass # no new run
-            
-            """ end of Run & Times & Database """
-            
-            """ GET RACE TIME """                                                                                   
-            aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = diagnostic)
-            dstore.Set("race_time", aux_racetime['time'])              
-                            
+            """modulo 2"""
+            if(cycle_cnt % 2) == 0:
+                """2nd cycle"""
                 
-            """
-            barCellActions            
-             - enable/disable startcell
-             - enable/disable finishcell
-             - generate starttime
-             - generate finishtime
-             - quit timing                        
-             - clear database                        
-             - enable/disable tags reading
-            """
-            
-            '''CELL ADDRESS ACTIONS, toolbar'''
-            
-            """ set cell diag info""" 
-            set_cell_diagnostic = dstore.Get("set_cell_diag_info", "SET")                           
-            if(set_cell_diagnostic['address'] != 0):                                
-                ret = self.send_receive_frame("SET_CELL_DIAG_INFO", set_cell_diagnostic) 
-                dstore.SetItem("set_cell_diag_info", ['address'],0, "SET")
-                
-            """ ping cell """ 
-            address = dstore.Get("ping_cell", "SET")                           
-            if(address != 0):                                
-                ret = self.send_receive_frame("PING_CELL", address) 
-                dstore.Set("ping_cell", 0, "SET")
-                
-            """ run cell diagnostic""" 
-            address = dstore.Get("run_cell_diagnostic", "SET")                           
-            if(address != 0):                                
-                ret = self.send_receive_frame("RUN_CELL_DIAGNOSTIC", address) 
-                dstore.Set("run_cell_diagnostic", 0, "SET")
-                
-            '''CELL TASK ACTIONS, tab cells'''
-                
-            """ get cell last times """ 
-            task = dstore.Get("get_cell_last_times", "SET")                           
-            if(task != 0):                                
-                ret = self.send_receive_frame("GET_CELL_LAST_TIME", task) 
-                dstore.Set("get_cell_last_times", 0, "SET")
-                
-            """ enable cell """ 
-            task = dstore.Get("enable_cell", "SET")                           
-            if(task != 0):                                
-                ret = self.send_receive_frame("ENABLE_CELL", task) 
-                dstore.Set("enable_cell", 0, "SET")
-                                 
-            """ disable cell """ 
-            task = dstore.Get("disable_cell", "SET")                           
-            if(task != 0):                                
-                ret = self.send_receive_frame("DISABLE_CELL", task) 
-                dstore.Set("disable_cell", 0, "SET")
-                                 
-            """ generate celltime """ 
-            generate_celltime = dstore.Get("generate_celltime", "SET")                           
-            if(generate_celltime['task'] != 0):                                
-                ret = self.send_receive_frame("GENERATE_CELLTIME", generate_celltime) 
-                dstore.Set("generate_celltime", {'task':0, 'user_id':0}, "SET")                 
-                                                                    
-                    
-            """ quit timing """
-            if(dstore.IsChanged("quit_timing")):                                                                                     
-                ret = self.send_receive_frame("QUIT_TIMING")
-                dstore.ResetChangedFlag("quit_timing")
-                
-            """ clear database """
-            if(dstore.IsChanged("clear_database")):                                                                                     
-                ret = self.send_receive_frame("CLEAR_DATABASE")
-                print "I: Comm: clearing database, please wait.. "
-                time.sleep(21)
-                dstore.ResetChangedFlag("clear_database")
-                print "I: Comm: database should be empty now"
-                
-            """ enable/disable tags reading """
-            if(dstore.IsChanged("tags_reading")):         
-                on_off = dstore.Get("tags_reading", "SET")                                                                                               
-                ret = self.send_receive_frame("SET_TAGS_READING", on_off)
-                dstore.ResetChangedFlag("tags_reading")
-                if(on_off):
-                    print "I: Comm: Enable tags reading"
-                else:
-                    print "I: Comm: Disable tags reading"
-            
-            """ end of ACTIONS """
-            
-            """
-            tab RACE SETTINGS & tab DEVICE            
-             - set speaker             
-             - get terminal info
-             - set timing settings                                                                          
-            """                                                                   
-            if(dstore.GetItem("gui", ["active_tab"]) == TAB.race_settings)\
-                or (dstore.GetItem("gui", ["active_tab"]) == TAB.device):                                
-                                                                  
-                """ synchronize system """
-                if(dstore.IsChanged("synchronize_system")):                                                                                     
-                    ret = self.send_receive_frame("SYNCHRONIZE_SYSTEM")
-                    print "I: Comm: synchronize system.. "
-                    dstore.ResetChangedFlag("synchronize_system")                    
-                
-                
-                """ set speaker """
-                if(dstore.IsChanged("speaker")):                                                                                                
-                    aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
-                    ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
-                    dstore.ResetChangedFlag("speaker")                                                                                            
+                cell_nr = self.runGetCellInfo(cell_nr)
                                 
-                                                                                    
-                """ get terminal-info """                     
-                aux_terminal_info = self.send_receive_frame("GET_TERMINAL_INFO")                         
-                """ store terminal-info to the datastore """
-                if not('error' in aux_terminal_info): 
-                    if(dstore.IsReadyForRefresh("terminal_info")):           
-                        dstore.Set("terminal_info", aux_terminal_info, "GET")
-                    else:
-                        print "I: COMM: terminal info: not ready for refresh", aux_terminal_info               
+            elif ((cycle_cnt+1) % 2) == 0:
                 
-                """ set timing settings """                
-                if(dstore.IsChanged("timing_settings")):                    
-                    aux_timing_settings = dstore.Get("timing_settings", "SET")
-                    #print  "TS", aux_timing_settings                                                                                                         
-                    ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
-                    dstore.ResetChangedFlag("timing_settings")  
-        
-            """
-            tab CELLs
-            - clear diag, run diag, buttons ping,                                                                        
-            """ 
-            if(dstore.GetItem("gui", ["active_tab"]) == TAB.cells):
-                pass
-            
-            """
-            tab DIAGNOSTIC                        
-             - get diagnostic                                    
-            """
-            if(dstore.GetItem("gui", ["active_tab"]) == TAB.diagnostic):                    
-                """ get diagnostic """
-                #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
-                cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-                aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group)
-                                
-                #print "aux_diagnostic", aux_diagnostic
-                            
-                """ store terminal-states to the datastore """ 
-                #if(dstore.IsReadyForRefresh("timing_settings")):           
-                #    dstore.Set("timing_settings", aux_timing_setting, "GET")
-                #else:
-                #    print "not ready for refresh", aux_timing_setting     
-            
-            """
-            ALL TABs            
-             - get timing settings                                    
-            """
+                """2nd cycle """
+                aux_cycle_cnt = cycle_cnt / 2
                                     
-            """ get timing-settings """            
-            aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = diagnostic)            
-            #aux_timing_setting["name_id"] = 4
-                                    
-            """ store terminal-states to the datastore """ 
-            if not('error' in aux_timing_setting):
-                if(dstore.IsReadyForRefresh("timing_settings")):            
-                    dstore.Set("timing_settings", aux_timing_setting, "GET")
-                #else:
-                #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
+                if(aux_cycle_cnt % 4) == 0:                    
+                    self.runGetTime()                                
+                elif ((aux_cycle_cnt+1) % 4) == 0:                    
+                    self.runGetRun()                                            
+                elif ((aux_cycle_cnt+2) % 4) == 0:
+                    self.runGetRaceInfo()                
+                elif ((aux_cycle_cnt+3) % 4) == 0:
+                                        
+                    """4nd cycle"""
+                    aux_cycle_cnt = aux_cycle_cnt / 2
                     
-            """ get cell info """
-            if OPTIKA_V2:
-                #SET CELL INFO
-                nr_changed_cells = dstore.IsChanged("cells_info")
-                if(nr_changed_cells):
-                    print nr_changed_cells
-                    for nr_changed_cell in nr_changed_cells:                                          
-                        aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
-                        #print "COMM: set cell info", nr_changed_cell, aux_cell_info
-                        ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
-                    dstore.ResetChangedFlag("cells_info")
-                
-                #GET CELL INFO                                
-                aux_cells_info = [None] * NUMBER_OF.CELLS                
-                for i in range(0,  NUMBER_OF.CELLS):                                       
-                    aux_cells_info[i] = self.send_receive_frame("GET_CELL_INFO", i+1, diagnostic = diagnostic)                                                 
-                
-                    """ store terminal-states to the datastore """ 
-                    if not('error' in aux_cells_info[i]):                    
-                        if(dstore.IsReadyForRefresh("cells_info")):             
-                            dstore.SetItem("cells_info", [i], aux_cells_info[i], "GET", permanent = False)
-                            if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
-                                #print "nastavuju", aux_cells_info[i]["task"]
-                                dstore.SetItem("cells_info", [i, "task"], aux_cells_info[i]["task"], "SET", permanent = False, changed = False)                                                              
+                    if(aux_cycle_cnt % 2) == 0:                        
+                        self.runGetDeviceInfo()            
+                    elif ((aux_cycle_cnt+1) % 4) == 0:                        
+                        self.runGetRaceTime()
+                    elif ((aux_cycle_cnt+2) % 4) == 0:
+                    elif ((aux_cycle_cnt+3) % 4) == 0:
+                        if(dstore.GetItem("gui", ["active_tab"]) == TAB.diagnostic):
+                            self.runGetDiagnostic()
+                    
+                    
+
+                #print "I: Comm: group 4A:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            #ztime = time.clock() 
+                #print "I: Comm: group 4B:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+                #ztime = time.clock() 
+           
+            #print "I: Comm: CYCLE:",time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            #print "=================", cycle_cnt
             
-            """
-            ALL SETs            
-             - potom bude parametr refreh v datastore zbytecny                                    
-            """            
+            #cycle counter
+            cycle_cnt = cycle_cnt +1
+            if cycle_cnt == 4:
+                cycle_cnt = 0 
+                                                                                      
             
             """
             """
@@ -452,8 +256,284 @@ class ManageComm(Thread):
                 dstore.Set("com_init", dstore.Get("com_init") - 1)
             
             
-            dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1) 
+            dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1)    
+    
+    """
+    runGetRaceInfo()
+     - get timing-settings
+     - get cell info  
+    """
+    def runGetRaceInfo(self):
+        
+        aux_diagnostic = dstore.Get("diagnostic") 
+                    
+        """ get timing-settings """            
+        aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = aux_diagnostic["log_cyclic"])            
+        #aux_timing_setting["name_id"] = 4
+                                
+        #store to the datastore 
+        if not('error' in aux_timing_setting):
+            if(dstore.IsReadyForRefresh("timing_settings")):            
+                dstore.Set("timing_settings", aux_timing_setting, "GET")                
+            #else:
+            #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
             
+    def runGetCellInfo(self, nr):
+        
+        aux_diagnostic = dstore.Get("diagnostic") 
+         
+        """get cell info"""                                
+        aux_cells_info = [None] #* NUMBER_OF.CELLS                
+        #for i in range(0,  NUMBER_OF.CELLS):                                       
+        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", nr+1, diagnostic = aux_diagnostic["log_cyclic"])                                                 
+    
+        """ store terminal-states to the datastore """ 
+        if not('error' in aux_cells_info):                    
+            if(dstore.IsReadyForRefresh("cells_info")):             
+                dstore.SetItem("cells_info", [nr], aux_cells_info, "GET", permanent = False)
+                if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
+                    #print "nastavuju", aux_cells_info[i]["task"]
+                    dstore.SetItem("cells_info", [nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
+                    
+        #return nr of next cell
+        nr = nr +1 
+        if nr == NUMBER_OF.CELLS:
+            nr = 0
+        return nr
+    """
+    runActions()
+     - quit timing
+     - clear database            
+     - enable/disable tags reading
+     - set cells info
+    """
+    def runActions(self):
+        """ quit timing """
+        if(dstore.IsChanged("quit_timing")):                                                                                     
+            ret = self.send_receive_frame("QUIT_TIMING")
+            dstore.ResetChangedFlag("quit_timing")
+            
+        """ clear database """
+        if(dstore.IsChanged("clear_database")):                                                                                     
+            ret = self.send_receive_frame("CLEAR_DATABASE")
+            print "I: Comm: clearing database, please wait.. "
+            time.sleep(21)
+            dstore.ResetChangedFlag("clear_database")
+            print "I: Comm: database should be empty now"
+            
+        """ enable/disable tags reading """
+        if(dstore.IsChanged("tags_reading")):         
+            on_off = dstore.Get("tags_reading", "SET")                                                                                               
+            ret = self.send_receive_frame("SET_TAGS_READING", on_off)
+            dstore.ResetChangedFlag("tags_reading")
+            if(on_off):
+                print "I: Comm: Enable tags reading"
+            else:
+                print "I: Comm: Disable tags reading"                
+                
+        """set cells info"""
+        nr_changed_cells = dstore.IsChanged("cells_info")
+        if(nr_changed_cells):
+            print nr_changed_cells
+            for nr_changed_cell in nr_changed_cells:                                          
+                aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
+                #print "COMM: set cell info", nr_changed_cell, aux_cell_info
+                ret = self.send_receive_frame("SET_CELL_INFO", aux_cell_info)
+            dstore.ResetChangedFlag("cells_info")
+                    
+    """
+    runCellActions()
+     - set cell diagnostic 
+     - run cell diagnostic            
+     - ping cell
+     - get cell lasttimes
+     - enable cekk
+     - disable cell
+     - generate time
+    """
+    def runCellActions(self):            
+            
+        """ set cell diag info""" 
+        set_cell_diagnostic = dstore.Get("set_cell_diag_info", "SET")                           
+        if(set_cell_diagnostic['address'] != 0):                                
+            ret = self.send_receive_frame("SET_CELL_DIAG_INFO", set_cell_diagnostic) 
+            dstore.SetItem("set_cell_diag_info", ['address'],0, "SET")
+            
+        """ run cell diagnostic""" 
+        address = dstore.Get("run_cell_diagnostic", "SET")                           
+        if(address != 0):                                
+            ret = self.send_receive_frame("RUN_CELL_DIAGNOSTIC", address) 
+            dstore.Set("run_cell_diagnostic", 0, "SET")
+            
+        """ ping cell """ 
+        address = dstore.Get("ping_cell", "SET")                           
+        if(address != 0):                                
+            ret = self.send_receive_frame("PING_CELL", address) 
+            dstore.Set("ping_cell", 0, "SET")                                
+            
+        """ get cell last times """ 
+        task = dstore.Get("get_cell_last_times", "SET")                           
+        if(task != 0):                                
+            ret = self.send_receive_frame("GET_CELL_LAST_TIME", task) 
+            dstore.Set("get_cell_last_times", 0, "SET")
+            
+        """ enable cell """ 
+        task = dstore.Get("enable_cell", "SET")                           
+        if(task != 0):                                
+            ret = self.send_receive_frame("ENABLE_CELL", task) 
+            dstore.Set("enable_cell", 0, "SET")
+                             
+        """ disable cell """ 
+        task = dstore.Get("disable_cell", "SET")                           
+        if(task != 0):                                
+            ret = self.send_receive_frame("DISABLE_CELL", task) 
+            dstore.Set("disable_cell", 0, "SET")
+                             
+        """ generate celltime """ 
+        generate_celltime = dstore.Get("generate_celltime", "SET")                           
+        if(generate_celltime['task'] != 0):                                
+            ret = self.send_receive_frame("GENERATE_CELLTIME", generate_celltime) 
+            dstore.Set("generate_celltime", {'task':0, 'user_id':0}, "SET")
+    
+    """
+    runDeviceGetInfo()
+     - get terminal-info 
+     - get race time
+    """  
+    def runGetDeviceInfo(self):
+        
+        aux_diagnostic = dstore.Get("diagnostic") 
+        
+        """ get terminal-info """                     
+        aux_terminal_info = self.send_receive_frame("GET_TERMINAL_INFO", diagnostic = aux_diagnostic["log_cyclic"])                         
+        #store terminal-info to the datastore """
+        if not('error' in aux_terminal_info): 
+            if(dstore.IsReadyForRefresh("terminal_info")):           
+                dstore.Set("terminal_info", aux_terminal_info, "GET")
+            else:
+                print "I: COMM: terminal info: not ready for refresh", aux_terminal_info
+                
+    def runGetRaceTime(self):
+        aux_diagnostic = dstore.Get("diagnostic")            
+        """get race time"""   
+        aux_diagnostic = dstore.Get("diagnostic")                                                                                
+        aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = aux_diagnostic["log_cyclic"])
+        dstore.Set("race_time", aux_racetime['time'])                          
+        
+    """
+    runDeviceActions()    
+     - synchronize system            
+     - set speaker
+     - set timing settings
+    """        
+    def runDeviceActions(self):
+        """ synchronize system """
+        if(dstore.IsChanged("synchronize_system")):                                                                                     
+            ret = self.send_receive_frame("SYNCHRONIZE_SYSTEM")
+            print "I: Comm: synchronize system.. "
+            dstore.ResetChangedFlag("synchronize_system")        
+        
+        """ set speaker """
+        if(dstore.IsChanged("speaker")):                                                                                                
+            aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
+            ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
+            dstore.ResetChangedFlag("speaker")                                                                                                                                                                                                
+
+        """ set timing settings """                
+        if(dstore.IsChanged("timing_settings")):                    
+            aux_timing_settings = dstore.Get("timing_settings", "SET")
+            #print  "TS", aux_timing_settings                                                                                                         
+            ret = self.send_receive_frame("SET_TIMING_SETTINGS", aux_timing_settings)                
+            dstore.ResetChangedFlag("timing_settings")
+             
+    def runDiagnosticSendCommand(self):
+        """ 
+        SEND COMMAND 
+            diagnostic purpose
+        """ 
+        if(dstore.Get("diagnostic")["sendcommandkey"] != None):
+                            
+            #send command                
+            aux_response = self.send_receive_frame(dstore.Get("diagnostic")["sendcommandkey"], (dstore.Get("diagnostic")["senddata"]).decode('hex'))                                
+                            
+            if ('error' in aux_response): 
+                print "COMM: sendcommand response: ERROR"                                     
+            
+            #smazat request
+            dstore.SetItem("diagnostic", ["sendcommandkey"], None)
+                            
+            #set response (text to label)                
+            dstore.SetItem("diagnostic", ["sendresponse"], json.dumps(aux_response, indent = 4)) 
+    """
+    runGetTime()
+     - get new time
+     - store new time to the database
+    """
+    def runGetTime(self):     
+        
+        aux_diagnostic = dstore.Get("diagnostic")    
+                                            
+        """ GET NEW TIME """                                                                  
+        aux_time = self.send_receive_frame("GET_TIME_PAR_INDEX", self.index_times, diagnostic = aux_diagnostic["log_cyclic"])                                                                                    
+                    
+        if(aux_time['error'] == 0):
+            print"================="
+                                               
+        if(aux_time['error'] != 0):
+            dstore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)            
+                                                                                                                                                                                
+                
+        """ STORE NEW TIME TO THE DATABASE """
+        if(aux_time['error'] == 0):                 
+            self.AddTimeToDb(aux_time)                                                                                                                           
+            self.index_times += 1 # done, take next 
+            eventCalcNow.set()                                                                            
+        else:
+            pass # no new time                  
+    
+
+    """
+    runGetRun()
+     - get new run
+     - store new run to the databasae 
+    """
+    def runGetRun(self):
+        
+        aux_diagnostic = dstore.Get("diagnostic")
+        
+        """ GET NEW RUN """                                                                                   
+        aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = aux_diagnostic["log_cyclic"])
+        if(aux_run['error'] == 0):
+            print"================="
+            
+                    
+        if(aux_run['error'] != 0):
+            dstore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)
+        
+        """ STORE NEW RUN TO THE DATABASE """
+        if(aux_run['error'] == 0):                       
+            self.AddRunToDb(aux_run)                                                                              
+            self.index_runs += 1 # done, take next                                                                                                                            
+        else:
+            pass # no new run                        
+    
+    """
+    runGetDiagnostic()
+     - get diagnostic    
+    """
+    def runGetDiagnostic(self):
+        """ get diagnostic """
+        #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
+        cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
+        aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group)
+                        
+        #print "aux_diagnostic", aux_diagnostic
+                    
+        """ store terminal-states to the datastore """ 
+        #if(dstore.IsReadyForRefresh("timing_settings")):           
+        #    dstore.Set("timing_settings", aux_timing_setting, "GET")
+        #else:
+        #    print "not ready for refresh", aux_timing_setting                                                                             
             
     def AddTimeToDb(self, time):                       
                                     

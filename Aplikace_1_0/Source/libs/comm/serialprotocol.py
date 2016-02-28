@@ -130,58 +130,7 @@ class SerialProtocol():
                                
         self.ser.write(aux_string)        
         #return self.seq_id
-        
-    def receive_frame_old(self):
-        """
-        přijme jeden frame,
-        
-        *return:*
-          poskládaný frame
-          
-        *todo:*
-          !!netestuje se xor!!
-          nedostatek dat, chyba xor, etc. -> vyhodit vyjímku
-        
-        """
-                        
-        frame = {}
-        state = eWAIT_FOR_STARTBIT
-        
-        #print "buffer:", self.ser.inWaiting(),
-        
-        #wait for the start bit
-        if state == eWAIT_FOR_STARTBIT:
-            znak = self.ser.read()            
-            while (znak != START_BYTE):
-                znak = self.ser.read()
-            state = eWAIT_FOR_SEQ
-            
-        if state == eWAIT_FOR_SEQ:
-            znak = self.ser.read()
-            frame['seq_id'] = ord(znak)
-            state = eWAIT_FOR_COMMAND            
-            
-        if state == eWAIT_FOR_COMMAND:
-            znak = self.ser.read()
-            frame['cmd'] = ord(znak)
-            state = eWAIT_FOR_DATALENGTH            
-            
-        if state == eWAIT_FOR_DATALENGTH:
-            znak = self.ser.read()
-            frame['datalength'] = ord(znak)
-            state = eWAIT_FOR_DATA            
-            
-        if state == eWAIT_FOR_DATA:            
-            if(self.ser.inWaiting() < frame['datalength']):
-                print"E: NEDOSTATEK DAT! (cekam..)"            
-            frame['data'] = self.ser.read(frame['datalength'])
-            state = eWAIT_FOR_XOR            
-            
-        if state == eWAIT_FOR_XOR:            
-            znak = self.ser.read()            
-            state = eWAIT_FOR_STARTBIT            
-            return frame
-        raise Receive_Error()
+
 
     def receive_frame (self):
         """
@@ -274,8 +223,8 @@ class SerialProtocol():
             self.send_frame(cmd, data)                      
             
             '''wait for enough data'''            
-            for attempt_2 in range(5): 
-                time.sleep(0.03)               
+            for attempt_2 in range(10): 
+                time.sleep(0.01)               
                 if(self.ser.inWaiting() >=  FRAMELENGTH_NO_DATA):
                     break                                          
             else:

@@ -83,7 +83,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "opened": False,
                                                         "enabled": True,
-                                                        "name": "COM8",
+                                                        "name": "COM7",
                                                         "baudrate": 38400
                                                         }
                                               }
@@ -375,7 +375,7 @@ DEF_DATA = {
                                                            "synchronized_once": None,
                                                            "synchronized": None,
                                                            "address": index+1,
-                                                           "task": 0,
+                                                           "task": None,
                                                            "trigger": 0,
                                                            "diagnostic_long_ok":  0,
                                                            "diagnostic_long_ko":  0,
