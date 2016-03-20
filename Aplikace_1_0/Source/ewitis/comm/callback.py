@@ -100,7 +100,20 @@ def unpack_data(command, data, senddata):
         aux_terminal_info['speaker']['timing'] = bool(aux_speaker & 0x04)                        
                                 
         return aux_terminal_info
-    
+            
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TERMINAL_OVERVIEW"]["cmd"] | 0x80)):
+        ''' GET_TERMINAL_OVERVIEW RESPONSE
+            | actual race time (4B) | measurement state (1B)| tag reading (1B) | reseved (10B)
+        ''' 
+        aux_terminal_overview = {}  
+        r = ""      
+                      
+        aux_terminal_overview['race_time'], aux_terminal_overview['measurement_state'], aux_terminal_overview['tags_reading_enable'],\
+        r, r, r, r, r, r, r, r, r, r \
+        = struct.unpack("<IBBBBBBBBBBBB", data)
+
+        return aux_terminal_overview
+
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIMING_SETTINGS"]["cmd"] | 0x80)):
         ''' GET_TIMING_SETTINGS RESPONSE
             | timing_logic_mode (1B) | measurement_state (1B)| name_id (1B) | basic_tag_timefilter (1B) |
@@ -144,6 +157,32 @@ def unpack_data(command, data, senddata):
                              
                                                         
         return aux_cell_info
+
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_OVERVIEW"]["cmd"] | 0x80)):
+        ''' GET_CELL_OVERVIEW
+            | cell1 (1B) | cell2 (1B)| .. | cell14 (1B) |            
+            byte - | ir(1b) | synced once (1b) | synced (1b) | not used (4b) | active (1b)            
+        ''' 
+
+        #        
+        aux_cell_flags = [None,]*len(data)  
+                          
+        aux_cell_flags[0], aux_cell_flags[1], aux_cell_flags[2], aux_cell_flags[3],\
+        aux_cell_flags[4], aux_cell_flags[5], aux_cell_flags[6], aux_cell_flags[7],\
+        aux_cell_flags[8], aux_cell_flags[9], aux_cell_flags[10], aux_cell_flags[11],\
+        aux_cell_flags[12], aux_cell_flags[13]\
+        = struct.unpack("<BBBBBBBBBBBBBB", data)
+        
+        #
+        aux_cell_overview = [{}]*len(data) 
+        for i,cell_flags in enumerate(aux_cell_flags):            
+            aux_cell_overview[i]['ir_signal'] = bool(cell_flags & 0x01)
+            aux_cell_overview[i]['synchronized_once'] = bool(cell_flags & 0x02)
+            aux_cell_overview[i]['synchronized'] = bool(cell_flags & 0x04)            
+            aux_cell_overview[i]['active'] = bool(cell_flags & 0x80)            
+                             
+                                                        
+        return aux_cell_overview
     
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]["cmd"] | 0x80)):
         ''' GET_DIAGNOSTIC RESPONSE
@@ -199,11 +238,11 @@ def unpack_data(command, data, senddata):
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_LAST_TIME"]["cmd"] | 0x80)):        
         return data    
     else:
+        print "E: callback:",
         for cmd_string, cmd_nr in DEF_COMMANDS.DEF_ERRORS.items():
             if(command == cmd_nr):
-                print "E: callback: cmd:", cmd_nr, cmd_string
-
-    print "E: callback: cmd: " + str(command) +","+ data
+                print "cmd:", cmd_nr, cmd_string, ","+ data
+    
     return {'error':command} 
 
 def pack_data(command_key, data):

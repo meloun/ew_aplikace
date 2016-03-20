@@ -18,7 +18,7 @@ from ewitis.data.DEF_DATA import *
 
 class CellGroup ():
     
-    TIMER_NOCHANGE = 3  
+    TIMER_NOCHANGE = 10  
     TIMER_NODIALOG_INIT = 6   
 
     def __init__(self,  nr):

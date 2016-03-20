@@ -74,7 +74,7 @@ class ManageComm(Thread):
                 #print "E: command not defined for this device", command_key                                
                 return {"error":0xFF}
             
-        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                             
+        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                                      
                       
         try:
             '''pack data to the string'''
@@ -133,17 +133,21 @@ class ManageComm(Thread):
         """communication established"""
         #dstore.Set("port_enable", True)
         dstore.SetItem("port", ["opened"], True)
+                                                                                                        
+        self.cell_nr = 0
             
-                                                                                    
-        cycle_cnt = 0
-        cell_nr = 0
-        active_cell = dstore.Get("cells_info", "GET")[0]
+        """slot tasking"""
+        idx = idx_a = idx_b = idx_c = 0
+        SLOT_A = [self.runGetCellOverview, self.runGetDeviceOverview, self.runGetTime, self.runGetTabSpecific, None]
+        SLOT_B = [self.runGetRun, self.runGetCellInfo, None]
+        SLOT_C = [self.runGetDeviceInfo, self.runGetRaceInfo, self.runGetDiagnostic]        
+        LeastCommonMultiple = len(SLOT_A) * len(SLOT_B) * len(SLOT_C) 
+        print "LCM:", LeastCommonMultiple
+        
         while(1):
                                               
             #wait X millisecond, test if thread should be terminated
-            ztime_first = time.clock()
-            #for i in range(10): 
-                
+            ztime_first = time.clock()                
             #wait              
             time.sleep(0.01)
                                
@@ -153,7 +157,7 @@ class ManageComm(Thread):
                 return
                 
             #print "I: Comm: waiting:",time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            ztime = time.clock()                            
+            #ztime = time.clock()                            
                                          
             #communication enabled?
             if(dstore.Get("port")["enabled"] == False):                
@@ -180,74 +184,46 @@ class ManageComm(Thread):
                 #ztime = time.clock()  
             """ end of hw-sw-version """
                         
-            
-            """each cycle"""            
-            self.runCellActions()
-            self.runActions()            
-            self.runDiagnosticSendCommand()
-            self.runDeviceActions()
             #print "I: Comm: each cycle: Actions: ",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
             #ztime = time.clock()
+                        
             
-            self.runGetTime()
+            """calling run functions"""
             
-            #get cell info (only active cells out of cell's tab)
-            if(dstore.GetItem("gui", ["active_tab"]) != TAB.cells):                            
-                aux_active_cell = TabCells.GetActive(active_cell["address"])
-                if(aux_active_cell):
-                    cell_nr = aux_active_cell["address"]-1                    
-                                      
-
-            #print "cell:", cell_nr, "updated"
-            #print "I: Comm: each cycle: Get",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            #ztime = time.clock()                      
-
-            
-            """modulo 2"""
-            if(cycle_cnt % 2) == 0:
-                """2nd cycle"""
-                
-                cell_nr = self.runGetCellInfo(cell_nr)
-                                
-            elif ((cycle_cnt+1) % 2) == 0:
-                
-                """2nd cycle """
-                aux_cycle_cnt = cycle_cnt / 2
-                                    
-                if(aux_cycle_cnt % 4) == 0:                    
-                    self.runGetTime()                                
-                elif ((aux_cycle_cnt+1) % 4) == 0:                    
-                    self.runGetRun()                                            
-                elif ((aux_cycle_cnt+2) % 4) == 0:
-                    self.runGetRaceInfo()                
-                elif ((aux_cycle_cnt+3) % 4) == 0:
+            '''each cycle'''
+            self.runDeviceActions()
+            self.runCellActions()
+            self.runActions()
+            self.runDiagnosticSendCommand()
+                    
+            '''slot A'''
+            #print "-",idx,"-"
+            idx_a = idx % len(SLOT_A)                                                
+            if idx_a != len(SLOT_A)-1:                        
+                SLOT_A[idx_a]()            
+            else:
+                '''slot B''' 
+                idx_b = (idx / len(SLOT_A)) % len(SLOT_B) 
+                if idx_b != len(SLOT_B)-1:                                                          
+                    SLOT_B[idx_b]()
+                else:
+                    '''slot C'''
+                    idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)                                                   
+                    SLOT_C[idx_c]()
+    
+            idx = idx + 1   
+            if(idx == LeastCommonMultiple):
+                idx = 0                                                            
                                         
-                    """4nd cycle"""
-                    aux_cycle_cnt = aux_cycle_cnt / 2
-                    
-                    if(aux_cycle_cnt % 2) == 0:                        
-                        self.runGetDeviceInfo()            
-                    elif ((aux_cycle_cnt+1) % 4) == 0:                        
-                        self.runGetRaceTime()
-                    elif ((aux_cycle_cnt+2) % 4) == 0:
-                    elif ((aux_cycle_cnt+3) % 4) == 0:
-                        if(dstore.GetItem("gui", ["active_tab"]) == TAB.diagnostic):
-                            self.runGetDiagnostic()
-                    
-                    
-
-                #print "I: Comm: group 4A:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            #ztime = time.clock() 
-                #print "I: Comm: group 4B:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-                #ztime = time.clock() 
-           
-            #print "I: Comm: CYCLE:",time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            #print "=================", cycle_cnt
-            
-            #cycle counter
-            cycle_cnt = cycle_cnt +1
-            if cycle_cnt == 4:
-                cycle_cnt = 0 
+            print "I: Comm:",
+            if idx_a != len(SLOT_A)-1:
+                print "slot A", idx_a,
+            elif idx_b != len(SLOT_B)-1:
+                print "slot B", idx_b,
+            else:
+                print "slot C", idx_c,
+            print "-", idx, time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            #ztime = time.clock()
                                                                                       
             
             """
@@ -258,18 +234,77 @@ class ManageComm(Thread):
             
             dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1)    
     
+        
+    """
+    runGetCellOverview()
+     -   
+    """
+    def runGetTabSpecific(self):
+        
+        aux_tab = dstore.GetItem("gui", ["active_tab"])
+        if(aux_tab == TAB.race_settings):
+            self.runGetRaceInfo()
+        elif(aux_tab == TAB.device):
+            self.runGetDeviceInfo()
+        elif(aux_tab == TAB.cells):
+            self.runGetCellInfo()
+        elif(aux_tab == TAB.diagnostic):
+            self.runGetDiagnostic()
+        else:
+            pass        
+            
+        
+                    
+    """
+    runGetCellOverview()
+     -   
+    """
+    def runGetCellOverview(self):
+        
+        """get cell overview """                  
+        aux_cell_overview = self.send_receive_frame("GET_CELL_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
+        #print "runGetCellOverview:", aux_cell_overview
+                
+        """ store data to the datastore """ 
+        if not('error' in aux_cell_overview):                    
+            if(dstore.IsReadyForRefresh("cells_info")):             
+                for nr, co in enumerate(aux_cell_overview):                                                            
+                    dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
+                    dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
+                    dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
+                    dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
+                    
+    
+    """
+    runGetDeviceOverview()
+     -   
+    """
+    def runGetDeviceOverview(self):
+        
+        """get device overview """            
+        aux_device_overview = self.send_receive_frame("GET_TERMINAL_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
+        #print "runGetDeviceOverview:", aux_device_overview
+                
+        """ store data to the datastore """         
+        if not('error' in aux_device_overview): 
+            if(dstore.IsReadyForRefresh("terminal_info")):
+                dstore.SetItem("timing_settings", ["measurement_state"], aux_device_overview["measurement_state"], "GET", permanent = False)                
+                dstore.SetItem("timing_settings", ["tags_reading_enable"], aux_device_overview["tags_reading_enable"], "GET", permanent = False)
+                dstore.Set("race_time", aux_device_overview['race_time']) 
+            else:
+                print "I: COMM: terminal info: not ready for refresh", aux_terminal_info  
+        
+                            
+         
     """
     runGetRaceInfo()
      - get timing-settings
      - get cell info  
     """
-    def runGetRaceInfo(self):
-        
-        aux_diagnostic = dstore.Get("diagnostic") 
+    def runGetRaceInfo(self):                
                     
         """ get timing-settings """            
-        aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = aux_diagnostic["log_cyclic"])            
-        #aux_timing_setting["name_id"] = 4
+        aux_timing_setting = self.send_receive_frame("GET_TIMING_SETTINGS", diagnostic = dstore.Get("diagnostic")["log_cyclic"])                    
                                 
         #store to the datastore 
         if not('error' in aux_timing_setting):
@@ -278,28 +313,27 @@ class ManageComm(Thread):
             #else:
             #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
             
-    def runGetCellInfo(self, nr):
+    def runGetCellInfo(self):
         
         aux_diagnostic = dstore.Get("diagnostic") 
          
         """get cell info"""                                
         aux_cells_info = [None] #* NUMBER_OF.CELLS                
         #for i in range(0,  NUMBER_OF.CELLS):                                       
-        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", nr+1, diagnostic = aux_diagnostic["log_cyclic"])                                                 
+        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr +1, diagnostic = aux_diagnostic["log_cyclic"])                                                 
     
         """ store terminal-states to the datastore """ 
         if not('error' in aux_cells_info):                    
             if(dstore.IsReadyForRefresh("cells_info")):             
-                dstore.SetItem("cells_info", [nr], aux_cells_info, "GET", permanent = False)
+                dstore.SetItem("cells_info", [self.cell_nr], aux_cells_info, "GET", permanent = False)
                 if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
                     #print "nastavuju", aux_cells_info[i]["task"]
-                    dstore.SetItem("cells_info", [nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
+                    dstore.SetItem("cells_info", [self.cell_nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
                     
         #return nr of next cell
-        nr = nr +1 
-        if nr == NUMBER_OF.CELLS:
-            nr = 0
-        return nr
+        self.cell_nr = self.cell_nr  +1 
+        if self.cell_nr  == NUMBER_OF.CELLS:
+            self.cell_nr  = 0        
     """
     runActions()
      - quit timing
@@ -413,8 +447,7 @@ class ManageComm(Thread):
             else:
                 print "I: COMM: terminal info: not ready for refresh", aux_terminal_info
                 
-    def runGetRaceTime(self):
-        aux_diagnostic = dstore.Get("diagnostic")            
+    def runGetRaceTime(self):            
         """get race time"""   
         aux_diagnostic = dstore.Get("diagnostic")                                                                                
         aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = aux_diagnostic["log_cyclic"])
@@ -497,18 +530,16 @@ class ManageComm(Thread):
      - get new run
      - store new run to the databasae 
     """
-    def runGetRun(self):
-        
-        aux_diagnostic = dstore.Get("diagnostic")
+    def runGetRun(self):        
         
         """ GET NEW RUN """                                                                                   
-        aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = aux_diagnostic["log_cyclic"])
+        aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
         if(aux_run['error'] == 0):
             print"================="
             
                     
         if(aux_run['error'] != 0):
-            dstore.SetItem("diagnostic", ["no_new_run_cnt"], aux_diagnostic["no_new_run_cnt"]+1)
+            dstore.SetItem("diagnostic", ["no_new_run_cnt"], dstore.Get("diagnostic")["no_new_run_cnt"]+1)
         
         """ STORE NEW RUN TO THE DATABASE """
         if(aux_run['error'] == 0):                       
@@ -525,7 +556,7 @@ class ManageComm(Thread):
         """ get diagnostic """
         #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
         cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-        aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group)
+        aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
                         
         #print "aux_diagnostic", aux_diagnostic
                     

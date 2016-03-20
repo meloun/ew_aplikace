@@ -20,11 +20,15 @@ DEF_COMMANDS = {
     "GET_HW_SW_VERSION"         : {'cmd':0x04,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                      
     "GET_DIAGNOSTIC"            : {'cmd':0x08,  'length':2,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                      
     "GET_CALIBRATION_DATA"      : {'cmd':0x0F,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                      
-    "GET_TERMINAL_INFO"         : {'cmd':0x20,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                      
+    "GET_TERMINAL_INFO"         : {'cmd':0x20,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                        
     "GET_CELL_INFO"             : {'cmd':0x21,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': False    },                                      
-    "GET_TIMING_SETTINGS"       : {'cmd':0x22,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                      
+    "GET_TIMING_SETTINGS"       : {'cmd':0x22,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },
+    "GET_CELL_OVERVIEW"         : {'cmd':0x29,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': False    },
+    "GET_TERMINAL_OVERVIEW"     : {'cmd':0x2A,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True     },                                              
     "GET_RUN_PAR_INDEX"         : {'cmd':0x30,  'length':2,     'Blackbox-IR': True,  'Blackbox-RFID': True,    'cyclic': False},                                      
     "GET_TIME_PAR_INDEX"        : {'cmd':0x32,  'length':2,     'Blackbox-IR': True,  'Blackbox-RFID': True,    'cyclic': False},
+    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                                                                                               
+    "GET_CELL_LAST_TIME"        : {'cmd':0x47,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                                                                                   
                               
     #aplikace => terminal : "actions"                                                  
     "COMM_SYNCHRONIZATION"      : {'cmd':0x01,  'length':0,     'Blackbox-IR': True,  'Blackbox-RFID': True    },
@@ -50,8 +54,6 @@ DEF_COMMANDS = {
     "GENERATE_STARTTIME"        : {'cmd':0x43,  'length':4,     'Blackbox-IR': True,  'Blackbox-RFID': True    },
     "GENERATE_FINISHTIME"       : {'cmd':0x44,  'length':4,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                                                                                    
     "SET_TAGS_READING"          : {'cmd':0x45,  'length':1,     'Blackbox-IR': False, 'Blackbox-RFID': True    },                                                                                                    
-    "GET_ACTUAL_RACE_TIME"      : {'cmd':0x46,  'length':4,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                                                                                               
-    "GET_CELL_LAST_TIME"        : {'cmd':0x47,  'length':1,     'Blackbox-IR': True,  'Blackbox-RFID': True    },                                                                                                   
     "GENERATE_CELLTIME"         : {'cmd':0x48,  'length':5,     'Blackbox-IR': True,  'Blackbox-RFID': True    },
     "DIAGNOSTIC_COMMAND"        : {'cmd':0xFF,  'length':5,     'Blackbox-IR': True,  'Blackbox-RFID': True    }
                                                                                                        

@@ -381,24 +381,23 @@
         "name": "export"
     },
     "cells_info": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
                 {
-                    "task": 1,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 1
                 },
                 {
-                    "task": 250,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 2
                 },
                 {
@@ -502,232 +501,233 @@
                 }
             ]
         },
+        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 0,
             "value": [
                 {
-                    "synchronized_once": true,
-                    "synchronized": false,
-                    "battery": 100,
-                    "diagnostic_long_ok": 0,
-                    "task": 1,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": true,
-                    "trigger": 3,
-                    "diagnostic_long_ko": 0,
-                    "address": 1,
-                    "active": false,
-                    "diagnostic_short_ko": 0
-                },
-                {
-                    "synchronized_once": true,
-                    "synchronized": false,
-                    "battery": 100,
-                    "diagnostic_long_ok": 0,
-                    "task": 250,
-                    "diagnostic_short_ok": 0,
-                    "ir_signal": true,
-                    "trigger": 3,
-                    "diagnostic_long_ko": 0,
-                    "address": 2,
-                    "active": false,
-                    "diagnostic_short_ko": 0
-                },
-                {
-                    "synchronized_once": true,
-                    "synchronized": false,
-                    "battery": 100,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
+                    "synchronized": false,
+                    "ir_signal": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": true,
-                    "trigger": 3,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
+                    "diagnostic_long_ko": 80,
+                    "address": 1,
+                    "active": false
+                },
+                {
+                    "task": 0,
+                    "synchronized": false,
+                    "ir_signal": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
+                    "diagnostic_long_ko": 70,
+                    "address": 2,
+                    "active": false
+                },
+                {
+                    "task": 0,
+                    "synchronized": false,
+                    "ir_signal": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": true,
-                    "synchronized": false,
-                    "battery": 100,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
+                    "synchronized": false,
+                    "ir_signal": false,
+                    "battery": 0,
+                    "trigger": 0,
+                    "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": true,
-                    "trigger": 3,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
-                    "diagnostic_long_ko": 10,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
+                    "diagnostic_long_ko": 0,
                     "address": 6,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 7,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 8,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 9,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 10,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 11,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 12,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 13,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "diagnostic_long_ok": 0,
                     "task": 0,
-                    "diagnostic_short_ok": 0,
+                    "synchronized": false,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 14,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 }
             ]
         }
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 4,
-                "measurement_state": 0,
                 "filter_minlaptime": 60,
+                "measurement_state": 0,
+                "name_id": 4,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
+        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 0,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 1,
-                "measurement_state": 2,
                 "filter_minlaptime": 0,
+                "measurement_state": 0,
+                "name_id": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -770,26 +770,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
