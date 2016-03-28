@@ -173,15 +173,18 @@ def unpack_data(command, data, senddata):
         aux_cell_flags[12], aux_cell_flags[13]\
         = struct.unpack("<BBBBBBBBBBBBBB", data)
         
+        
         #
         aux_cell_overview = [{}]*len(data) 
-        for i,cell_flags in enumerate(aux_cell_flags):            
-            aux_cell_overview[i]['ir_signal'] = bool(cell_flags & 0x01)
-            aux_cell_overview[i]['synchronized_once'] = bool(cell_flags & 0x02)
-            aux_cell_overview[i]['synchronized'] = bool(cell_flags & 0x04)            
-            aux_cell_overview[i]['active'] = bool(cell_flags & 0x80)            
-                             
-                                                        
+        for i, cell_flags in enumerate(aux_cell_flags):   
+            
+            aux_cell = {}                   
+            aux_cell['ir_signal'] = bool(cell_flags & 0x01)
+            aux_cell['synchronized_once'] = bool(cell_flags & 0x02)
+            aux_cell['synchronized'] = bool(cell_flags & 0x04)            
+            aux_cell['active'] = bool(cell_flags & 0x80)
+                  
+            aux_cell_overview[i] = aux_cell                                                                         
         return aux_cell_overview
     
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_DIAGNOSTIC"]["cmd"] | 0x80)):

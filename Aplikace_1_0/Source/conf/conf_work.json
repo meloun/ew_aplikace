@@ -103,7 +103,7 @@
         "GET_SET": {
             "value": {
                 "enabled_htm": [
-                    false,
+                    true,
                     false,
                     false
                 ],
@@ -371,7 +371,7 @@
                     "us1": "Us 1"
                 },
                 "enabled_csv": [
-                    true,
+                    false,
                     true,
                     true
                 ]
@@ -385,11 +385,11 @@
             "changed": false,
             "value": [
                 {
-                    "task": 0,
+                    "task": 1,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 1
                 },
                 {
@@ -397,7 +397,7 @@
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 2
                 },
                 {
@@ -433,7 +433,7 @@
                     "address": 6
                 },
                 {
-                    "task": 1,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -441,7 +441,7 @@
                     "address": 7
                 },
                 {
-                    "task": 2,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -507,18 +507,18 @@
             "refresh_countdown": 0,
             "value": [
                 {
-                    "task": 0,
-                    "synchronized": false,
-                    "ir_signal": false,
-                    "battery": 0,
-                    "trigger": 0,
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "trigger": 3,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": false,
-                    "diagnostic_long_ko": 80,
+                    "ir_signal": true,
+                    "task": null,
+                    "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "task": 0,
@@ -530,7 +530,7 @@
                     "diagnostic_short_ok": 0,
                     "diagnostic_short_ko": 0,
                     "synchronized_once": false,
-                    "diagnostic_long_ko": 70,
+                    "diagnostic_long_ko": 0,
                     "address": 2,
                     "active": false
                 },
@@ -709,13 +709,13 @@
         "SET": {
             "changed": false,
             "value": {
-                "logic_mode": 1,
+                "logic_mode": 2,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 60,
-                "measurement_state": 0,
-                "name_id": 4,
-                "filter_tagtime": 5,
-                "tags_reading_enable": null
+                "name_id": 1,
+                "measurement_state": 2,
+                "filter_minlaptime": 1,
+                "filter_tagtime": 0,
+                "tags_reading_enable": 1
             }
         },
         "permanent": true,
@@ -726,7 +726,7 @@
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
                 "filter_minlaptime": 0,
-                "measurement_state": 0,
+                "measurement_state": 2,
                 "name_id": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
@@ -818,30 +818,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last times",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last times",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "row": "Last times",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [
