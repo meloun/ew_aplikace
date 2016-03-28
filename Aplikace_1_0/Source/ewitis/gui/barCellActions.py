@@ -23,6 +23,7 @@ class BarCellActions():
         self.lastcheck = {"wdg_calc":0, "wdg_comm":0}
         self.lastcheckKO = {"wdg_calc":0, "wdg_comm":0}
         self.toggle_status = True
+        self.test_cnt = 0
     def Init(self):
         self.InitGui()        
     
@@ -92,8 +93,8 @@ class BarCellActions():
             QtCore.QObject.connect(cell_actions['ping_cell'], QtCore.SIGNAL("triggered()"), lambda task=i : dstore.Set("get_cell_last_times", task, "SET"))
             QtCore.QObject.connect(cell_actions['enable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("enable_cell", task, "SET"))        
             
-            QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("generate_celltime", {'task':task, 'user_id':0}, "SET"))        
-            #QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), self.sGenerateCelltime)
+            #QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("generate_celltime", {'task':task, 'user_id':0}, "SET"))        
+            QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), self.sGenerateCelltime)
             QtCore.QObject.connect(cell_actions['disable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("disable_cell", task, "SET"))
         
 
@@ -114,7 +115,8 @@ class BarCellActions():
 #        dstore.Set("disable_cell", {'task':task}, "SET")
 #                                                                                                                                                                                                                                 
     def sGenerateCelltime(self):
-        print "sGenerateCelltime"
+        print "sGenerateCelltime", self.test_cnt
+        self.test_cnt = self.test_cnt + 1 
         #dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                               
                 
                    
@@ -225,8 +227,9 @@ class BarCellActions():
                     
                     # enable/disable all actions
                     if(info['trigger'] == 3): #MANUAL
-                        for key, action in cell_actions.items():                                                                
-                            action.setEnabled(False)
+                        cell_actions['ping_cell'].setEnabled(False)
+                        cell_actions['enable_cell'].setEnabled(False)
+                        cell_actions['disable_cell'].setEnabled(False)
                         cell_actions['generate_celltime'].setEnabled(True)
                     else:
                         for key, action in cell_actions.items():                                                                

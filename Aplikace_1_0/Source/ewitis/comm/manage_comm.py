@@ -152,7 +152,7 @@ class ManageComm(Thread):
             #wait              
             for i in range(10):                
                 #wait              
-                time.sleep(0.01)
+                time.sleep(0.03)
                                
             #terminate thread?                                                 
             if dstore.Get("port")["opened"] == False:
@@ -182,7 +182,7 @@ class ManageComm(Thread):
                 dstore.SetItem("versions", ["hw"], aux_version["hw"])
                 dstore.SetItem("versions", ["fw"], aux_version["fw"])
                 dstore.SetItem("versions", ["device"], aux_version["device"])
-                
+                                
                 #print "I: Comm: versions:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
                 #ztime = time.clock()  
             """ end of hw-sw-version """
@@ -194,10 +194,10 @@ class ManageComm(Thread):
             """calling run functions"""
             
             '''each cycle'''
-            self.runDeviceActions()
-            self.runCellActions()
-            self.runActions()
-            self.runDiagnosticSendCommand()
+#             self.runDeviceActions()
+#             self.runCellActions()
+#             self.runActions()
+#             self.runDiagnosticSendCommand()
                     
             '''slot A'''
             #print "-",idx,"-"
@@ -213,7 +213,7 @@ class ManageComm(Thread):
                     '''slot C'''
                     idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)                                                   
                     SLOT_C[idx_c]()
-    
+     
             idx = idx + 1   
             if(idx == LeastCommonMultiple):
                 idx = 0                                                            
