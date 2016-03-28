@@ -223,8 +223,8 @@ class SerialProtocol():
             self.send_frame(cmd, data)                      
             
             '''wait for enough data'''            
-            for attempt_2 in range(10): 
-                time.sleep(0.01)               
+            for attempt_2 in range(5): 
+                time.sleep(0.03)               
                 if(self.ser.inWaiting() >=  FRAMELENGTH_NO_DATA):
                     break                                          
             else:

@@ -90,8 +90,12 @@ def sTimer():
         dstore.SetItem("gui", ["update_requests", "tableUsers"], False) 
     if(requests["tableTimes"]):
         tableTimes.Update()
-        dstore.SetItem("gui", ["update_requests", "tableTimes"], False) 
-    
+        dstore.SetItem("gui", ["update_requests", "tableTimes"], False)
+         
+    #shift auto numbers
+    if(requests["shift_auto_numbers"]):
+        tableTimes.ShiftAutoNumbers()
+        dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], False)
     
     #toolbars, statusbars
     bars.Update()
@@ -103,6 +107,9 @@ def sTimer():
         #timer auto-updates
         tabRunsTimes.tables[1].AutoUpdate() #table times
         timer1_1s_cnt = 0
+        
+
+    
     return
     
 
