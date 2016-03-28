@@ -30,13 +30,46 @@ class AppWindow(QtGui.QMainWindow):
         #insert my own design
         self.setupUi()      
         
-    def setupUi(self):        
+    def setupUi(self): 
+        self.ui.TimesAutoNumber1.installEventFilter(self)
+        self.ui.TimesAutoNumber2.installEventFilter(self)
+        self.ui.TimesAutoNumber3.installEventFilter(self)
+        self.ui.TimesAutoNumber4.installEventFilter(self)
+        self.installEventFilter(self)
+               
         self.ui.statusbar_msg = QtGui.QLabel("configuring..")        
         self.ui.statusbar_time = QtGui.QLabel("00:00:00,00")        
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_time)    
         self.ui.statusbar.addPermanentWidget(self.ui.statusbar_msg)    
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                                    
         self.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+dstore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
+        
+    def eventFilter(self, source, event):
+        if (event.type() == QtCore.QEvent.KeyPress):
+            if source is self.ui.TimesAutoNumber1:
+                print "1: ",
+            elif source is self.ui.TimesAutoNumber2:
+                print "2: ",
+            elif source is self.ui.TimesAutoNumber3:
+                print "3: ",
+            elif source is self.ui.TimesAutoNumber4:
+                print "4: ",
+            else:
+                print "x: ", source
+                
+            print('key pressed: %s' % event.text())
+            if (event.key() == QtCore.Qt.Key_Return) or (event.key() == QtCore.Qt.Key_Enter): 
+                print 'Enter pressed', source
+            elif(event.key() == QtCore.Qt.Key_Insert):
+                print 'Insert pressed', source
+            
+
+                
+            return True        
+        return QtGui.QMainWindow.eventFilter(self, source, event)
+    
+    #def keyPressEvent(self, qKeyEvent):
+    #    print "keyPressEvent"
                          
     def Ui(self):        
         return self.ui

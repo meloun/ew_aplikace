@@ -372,6 +372,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['filter_finishes'], QtCore.SIGNAL("clicked()"), self.sFilterFinishes)
         
         #automatic number and refresh
+        #QtCore.QObject.connect(self.gui['auto_number1'].lineEdit(),  QtCore.SIGNAL("returnPressed()"),  lambda x=1: self.EditingFinished(x))
         QtCore.QObject.connect(self.gui['auto_number1'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 0], state, self.UpdateGui))     
         QtCore.QObject.connect(self.gui['auto_number2'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 1], state, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_number3'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 2], state, self.UpdateGui))
@@ -397,6 +398,8 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT_DNF))
          
     
+    def EditingFinished(self, x):
+        print "self.EditingFinished", x
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
