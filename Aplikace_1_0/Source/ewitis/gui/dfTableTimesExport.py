@@ -27,7 +27,7 @@ import ewitis.exports.ewitis_html as ew_html
 '''  
 def Export(utDf, export_type = eCSV_EXPORT):             
     
-   
+       
     # 3DFs for 3 exports
     exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
     
@@ -94,10 +94,8 @@ def Export(utDf, export_type = eCSV_EXPORT):
     exported = {}
     if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNF):
         exported = ExportToCsvFiles(exportDf)            
-    elif export_type == eHTM_EXPORT:
-        exported = ExportToHtmFiles(exportDf, export_type)
-    elif export_type == eHTM_EXPORT_LOGO:
-        exported = ExportToHtmFiles(exportDf)
+    elif (export_type == eHTM_EXPORT) or (export_type == eHTM_EXPORT_LOGO):
+        exported = ExportToHtmFiles(exportDf, export_type)    
     else:
         print  "Error: This export is not defined!"
         
@@ -201,6 +199,7 @@ def ExportToCsvFile(filename, df, firstline = ['',''], secondline = ['','']):
         
 def ExportToHtmFiles(dfs, type):       
 
+    print "ExportToHtmFiles"
     #return info
     exported = {}
                             

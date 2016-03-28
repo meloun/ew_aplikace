@@ -151,8 +151,8 @@ class ManageComm(Thread):
                     self.stop()                                       
                     return
                 
-            print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
-            print "I: Comm: waiting:",time.clock()
+            #print "I: Comm: waiting:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]                            
+            #print "I: Comm: waiting:",time.clock()
                                          
             #communication enabled?
             if(dstore.Get("port")["enabled"] == False):                

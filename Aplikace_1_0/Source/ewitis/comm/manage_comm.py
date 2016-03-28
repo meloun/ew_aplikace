@@ -147,9 +147,12 @@ class ManageComm(Thread):
         while(1):
                                               
             #wait X millisecond, test if thread should be terminated
-            ztime_first = time.clock()                
+            ztime_first = time.clock()
+                            
             #wait              
-            time.sleep(0.01)
+            for i in range(10):                
+                #wait              
+                time.sleep(0.01)
                                
             #terminate thread?                                                 
             if dstore.Get("port")["opened"] == False:
@@ -215,14 +218,14 @@ class ManageComm(Thread):
             if(idx == LeastCommonMultiple):
                 idx = 0                                                            
                                         
-            print "I: Comm:",
-            if idx_a != len(SLOT_A)-1:
-                print "slot A", idx_a,
-            elif idx_b != len(SLOT_B)-1:
-                print "slot B", idx_b,
-            else:
-                print "slot C", idx_c,
-            print "-", idx, time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+#             print "I: Comm:",
+#             if idx_a != len(SLOT_A)-1:
+#                 print "slot A", idx_a,
+#             elif idx_b != len(SLOT_B)-1:
+#                 print "slot B", idx_b,
+#             else:
+#                 print "slot C", idx_c,
+#             print "-", idx, time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
             #ztime = time.clock()
                                                                                       
             
@@ -265,10 +268,10 @@ class ManageComm(Thread):
         aux_cell_overview = self.send_receive_frame("GET_CELL_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
         #print "runGetCellOverview:", aux_cell_overview
                 
-        """ store data to the datastore """ 
-        if not('error' in aux_cell_overview):                    
+        """ store data to the datastore """                        
+        if not('error' in aux_cell_overview):
             if(dstore.IsReadyForRefresh("cells_info")):             
-                for nr, co in enumerate(aux_cell_overview):                                                            
+                for nr, co in enumerate(aux_cell_overview):                                                                  
                     dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
                     dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
                     dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
@@ -391,7 +394,7 @@ class ManageComm(Thread):
         set_cell_diagnostic = dstore.Get("set_cell_diag_info", "SET")                           
         if(set_cell_diagnostic['address'] != 0):                                
             ret = self.send_receive_frame("SET_CELL_DIAG_INFO", set_cell_diagnostic) 
-            dstore.SetItem("set_cell_diag_info", ['address'],0, "SET")
+            dstore.SetItem("set_cell_diag_info", ['address'], 0, "SET")
             
         """ run cell diagnostic""" 
         address = dstore.Get("run_cell_diagnostic", "SET")                           
@@ -424,8 +427,9 @@ class ManageComm(Thread):
             dstore.Set("disable_cell", 0, "SET")
                              
         """ generate celltime """ 
-        generate_celltime = dstore.Get("generate_celltime", "SET")                           
-        if(generate_celltime['task'] != 0):                                
+        #print "gc", time.clock()     
+        generate_celltime = dstore.Get("generate_celltime", "SET")                                   
+        if(generate_celltime['task'] != 0):                                             
             ret = self.send_receive_frame("GENERATE_CELLTIME", generate_celltime) 
             dstore.Set("generate_celltime", {'task':0, 'user_id':0}, "SET")
     
@@ -576,7 +580,7 @@ class ManageComm(Thread):
         #print struct.pack('<I', time['user_id']).encode('hex')
 
         '''auto number'''
-        auto_number = dstore.GetItem("times", ["auto_number"])
+        auto_number = dstore.GetItem("times", ["auto_number", 0])
         if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
             dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
             if dbUser != None:
@@ -597,6 +601,9 @@ class ManageComm(Thread):
         keys = ["state", "id", "run_id", "user_id", "cell", "time_raw"]#, "time"]
         values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
         ret = self.db.insert_from_lists("times", keys, values)
+        
+        #shift auto numbers
+        dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], True)        
         
         '''return'''
         if ret == False:            

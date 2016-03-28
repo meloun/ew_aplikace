@@ -338,7 +338,10 @@ class DfTableTimes(DfTable):
         self.gui['filter_column'] = Ui().TimesFilterColumn
         self.gui['filter_starts'] = Ui().TimesFilterStarts
         self.gui['filter_finishes'] = Ui().TimesFilterFinishes        
-        self.gui['auto_number'] = Ui().TimesAutoNumber
+        self.gui['auto_number1'] = Ui().TimesAutoNumber1
+        self.gui['auto_number2'] = Ui().TimesAutoNumber2
+        self.gui['auto_number3'] = Ui().TimesAutoNumber3
+        self.gui['auto_number4'] = Ui().TimesAutoNumber4
         self.gui['auto_refresh'] = Ui().TimesAutoRefresh
         self.gui['auto_number_clear'] = Ui().TimesAutoNumberClear
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
@@ -347,6 +350,7 @@ class DfTableTimes(DfTable):
         
     def Init(self):
         DfTable.Init(self) 
+        self.UpdateGui()
         
     def sDeletePreCallback(self, id):        
                        
@@ -367,11 +371,14 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['filter_starts'], QtCore.SIGNAL("clicked()"), self.sFilterStarts) 
         QtCore.QObject.connect(self.gui['filter_finishes'], QtCore.SIGNAL("clicked()"), self.sFilterFinishes)
         
-        #automativally number and refresh
-        QtCore.QObject.connect(self.gui['auto_number'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number"], state, self.UpdateGui))     
+        #automatic number and refresh
+        QtCore.QObject.connect(self.gui['auto_number1'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 0], state, self.UpdateGui))     
+        QtCore.QObject.connect(self.gui['auto_number2'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 1], state, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['auto_number3'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 2], state, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['auto_number4'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 3], state, self.UpdateGui))        
+        QtCore.QObject.connect(self.gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], [0]*NUMBER_OF.AUTO_NUMBER, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_refresh"], state, self.UpdateGui), setattr(self, "auto_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_www_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], state, self.UpdateGui), setattr(self, "auto_www_refresh_cnt", state)))
-        QtCore.QObject.connect(self.gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_www_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], 0, self.UpdateGui))
         
@@ -435,15 +442,17 @@ class DfTableTimes(DfTable):
         exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
         
         exported = {}
-        if len(self.model.df) != 0:
-                    
+        
+        utDf = pd.DataFrame()
+        if len(self.model.df) != 0:                       
             #merge table users and times
             cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
             cols_to_use = list(cols_to_use) + ["nr"]        
             utDf = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "left", on="nr")            
-            
+        
+        if (len(self.model.df) != 0) or (export_type == ttExport.eHTM_EXPORT_LOGO):   
             #call export function
-            try:
+            try:            
                 exported = ttExport.Export(utDf, export_type)
             except IOError:
                 title_msg = "Table Times HTM Export"            
@@ -465,10 +474,11 @@ class DfTableTimes(DfTable):
     ''' 
      end of SLOTS
     '''
+    def ShiftAutoNumbers(self): 
+        print "ShiftAutoNumbers", time.clock()      
         
         
-        
-    def AutoUpdate(self):
+    def AutoUpdate(self):           
         
         ztime = time.clock()                   
         autorefresh = dstore.GetItem("times", ["auto_refresh"])
@@ -504,16 +514,21 @@ class DfTableTimes(DfTable):
                 
                 
     def UpdateGui(self): 
-        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
-            dstore.SetItem("times",['auto_number'], 0)
-            self.gui['auto_number'].setEnabled(False)
-        else:
-            self.gui['auto_number'].setEnabled(True)                               
-
-              
+        
         times = dstore.Get("times")
-            
-        self.gui['auto_number'].setValue(times["auto_number"]) 
+        #auto number
+        for i in range(0, NUMBER_OF.AUTO_NUMBER):
+            #enable
+            if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
+                dstore.SetItem("times",['auto_number', i], 0)
+                self.gui['auto_number'+str(i+1)].setEnabled(False)
+            else:
+                print "enabled", i
+                self.gui['auto_number'+str(i+1)].setEnabled(True)
+                
+            #set value                                                                                  
+            self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
+             
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
         self.gui['auto_www_refresh'].setValue(times["auto_www_refresh"])
         

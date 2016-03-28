@@ -91,7 +91,9 @@ class BarCellActions():
             # add slots                    
             QtCore.QObject.connect(cell_actions['ping_cell'], QtCore.SIGNAL("triggered()"), lambda task=i : dstore.Set("get_cell_last_times", task, "SET"))
             QtCore.QObject.connect(cell_actions['enable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("enable_cell", task, "SET"))        
+            
             QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("generate_celltime", {'task':task, 'user_id':0}, "SET"))        
+            #QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), self.sGenerateCelltime)
             QtCore.QObject.connect(cell_actions['disable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("disable_cell", task, "SET"))
         
 
@@ -111,9 +113,9 @@ class BarCellActions():
 #        print "sDisable", task
 #        dstore.Set("disable_cell", {'task':task}, "SET")
 #                                                                                                                                                                                                                                 
-#    def sGenerateCelltime(self, task, nr = 0):
-#        print "sGenerateCelltime", task, nr
-#        dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                               
+    def sGenerateCelltime(self):
+        print "sGenerateCelltime"
+        #dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                               
                 
                    
         
@@ -134,8 +136,8 @@ class BarCellActions():
         status = STATUS.none
         if dstore.Get("port")["opened"]:
             status = tabCells.GetStatus()
-            device_status = tabDevice.GetStatus()
-            if status < device_status:                
+            device_status = tabDevice.GetStatus()            
+            if device_status > status:                
                 status = device_status  
         
         return status
@@ -216,7 +218,8 @@ class BarCellActions():
                         font = cell_actions['ping_cell'].font()
                         font.setBold(False)
                         font.setUnderline(False)
-                        cell_actions['ping_cell'].setFont(font)                        
+                        cell_actions['ping_cell'].setFont(font)
+                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; }"                        
                                                                                                 
                         
                     

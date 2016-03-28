@@ -61,6 +61,8 @@ class NUMBER_OF:
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
     
+    AUTO_NUMBER = 4
+    
 def Assigments2Dict(assigment):                                            
         if assigment == "":            
             return None
@@ -98,14 +100,15 @@ DEF_DATA = {
                                                         "active_row": 0,
                                                         "update_requests":{
                                                                          "tableUsers":False,
-                                                                         "tableTimes":False 
+                                                                         "tableTimes":False,
+                                                                         "shift_auto_numbers": True
                                                                         }
                                                         }
                                               }
                                },
         #tab TIMES
         "times"                : {"GET_SET"  : {"value": {
-                                                          "auto_number": 0,
+                                                          "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0
                                                          }

@@ -192,14 +192,15 @@ class CellGroup ():
         else:
             self.lineCellTask.setText(" - - - ")                                    
         colors_enabled =  get_info['task']
-        self.lineCellTask.setStyleSheet("background:"+self.GetColor(self.lineCellTask.text(), get_info['task']))
+        self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTask.text(), get_info['task']))        
                     
             
         #trigger                            
         if(get_info['trigger'] != None):
             self.lineCellTrigger.setText(self.comboCellTrigger.itemText(get_info['trigger']))
         else:
-            self.lineCellTrigger.setText(" - - - ")        
+            self.lineCellTrigger.setText(" - - - ")
+        self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTrigger.text(), get_info['task']))                    
                                
         #synchronize comboboxes with GET value (after timeout)
         if self.timer_nochange == 0:                 
@@ -228,7 +229,9 @@ class CellGroup ():
         if(get_info['battery'] != None):
             self.lineCellBattery.setText(str(get_info['battery']))                        
         else:
-            self.lineCellBattery.setText(" - - %")                                                                                  
+            self.lineCellBattery.setText("0")
+        self.lineCellBattery.setStyleSheet("background:"+self.GetColorParBattery(get_info["battery"], colors_enabled))
+                                                                                          
         
         #ir signal                
         if get_info["ir_signal"] == True:
@@ -237,7 +240,7 @@ class CellGroup ():
             self.lineCellIrSinal.setText("NO IR SIGNAL")
         else:
             self.lineCellIrSinal.setText(" - - ")        
-        self.lineCellIrSinal.setStyleSheet("background:"+self.GetColor(get_info["ir_signal"], colors_enabled))
+        self.lineCellIrSinal.setStyleSheet("background:"+COLORS.GetColor(get_info["ir_signal"], colors_enabled))
 
         #active/blocked            
         if get_info["active"] == True:
@@ -246,7 +249,7 @@ class CellGroup ():
             self.lineCellActive.setText("BLOCKED")
         else:
             self.lineCellActive.setText(" - - ")
-        self.lineCellActive.setStyleSheet("background:"+self.GetColor(get_info["active"], colors_enabled))
+        self.lineCellActive.setStyleSheet("background:"+COLORS.GetColor(get_info["active"], colors_enabled))
             
         #synchronized once
         if get_info["synchronized_once"] == True:
@@ -258,7 +261,7 @@ class CellGroup ():
         else:
             self.lineCellSynchronizedOnce.setText(" - - ")
             self.lineCellSynchronizedOnce.setStyleSheet("")
-        self.lineCellSynchronizedOnce.setStyleSheet("background:"+self.GetColor(get_info["synchronized_once"], colors_enabled))
+        self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.GetColor(get_info["synchronized_once"], colors_enabled))
         
         #synchronized 10min
         if get_info["synchronized"] == True:
@@ -267,7 +270,7 @@ class CellGroup ():
             self.lineCellSynchronized.setText("10MIN")            
         else:
             self.lineCellSynchronized.setText(" - - ")                    
-        self.lineCellSynchronized.setStyleSheet("background:"+self.GetColor(get_info["synchronized"], colors_enabled))                       
+        self.lineCellSynchronized.setStyleSheet("background:"+COLORS.GetColor(get_info["synchronized"], colors_enabled))                       
         
         #diagnostic shork ok
         if(get_info['diagnostic_short_ok'] != None):                                    
@@ -306,33 +309,14 @@ class CellGroup ():
             self.lineCellDiagLongRatio.setText("- -")
             
             
-    def GetColor(self, key, enabled = True):
-        color = None        
-                
-        #task
-        if bool(enabled):                        
-            if type(key)==str or type(key)==QtCore.QString:
-                if("NONE" in key) or ("- -" in key):               
-                    color = ""
-                elif key=="START":   
-                    color = COLORS.green
-                elif key=="FINISH":            
-                    color = COLORS.red
-                elif "SPLIT" in key:
-                    color = COLORS.orange
-                    
-            #battery
-            if type(key) == int:            
-                if key > 60:
-                    color = COLORS.green
-                elif key > 30:
-                    color = COLORS.orange
-                else:                
-                    color = COLORS.red                
-        
-        if color == None:
-            color = COLORS.GetColor(key, enabled)
-
+    def GetColorParBattery(self, battery, enabled):    
+        if enabled:                                 
+            if battery > 25:
+                color = COLORS.green
+            elif battery < 25:
+                color = COLORS.orange
+        else:
+            color = COLORS.none
         return color
     
     def GetStatus(self):

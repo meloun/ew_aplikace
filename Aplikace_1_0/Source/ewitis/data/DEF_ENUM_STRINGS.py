@@ -46,13 +46,10 @@ class COLORS:
             return COLORS.none
         
         if key == None:
-            return COLORS.none
-
-        #boolean
-        if isinstance(key, bool):
-            if key == True:
-                return COLORS.green
-            else:
-                return COLORS.red
+            return COLORS.none                
+        elif key:
+            return COLORS.green
+        else:
+            return COLORS.red
         
         return COLORS.none      
