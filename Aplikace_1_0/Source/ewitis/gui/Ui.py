@@ -56,15 +56,15 @@ class AppWindow(QtGui.QMainWindow):
                 print "4: ",
             else:
                 print "x: ", source
-                
+                 
             print('key pressed: %s' % event.text())
             if (event.key() == QtCore.Qt.Key_Return) or (event.key() == QtCore.Qt.Key_Enter): 
                 print 'Enter pressed', source
             elif(event.key() == QtCore.Qt.Key_Insert):
                 print 'Insert pressed', source
-            
-
-                
+             
+ 
+                 
             return True        
         return QtGui.QMainWindow.eventFilter(self, source, event)
     

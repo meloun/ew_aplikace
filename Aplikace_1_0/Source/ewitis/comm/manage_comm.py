@@ -150,9 +150,10 @@ class ManageComm(Thread):
             ztime_first = time.clock()
                             
             #wait              
-            for i in range(10):                
+            #for i in range(10):                
+            for i in range(2):
                 #wait              
-                time.sleep(0.03)
+                time.sleep(0.01)
                                
             #terminate thread?                                                 
             if dstore.Get("port")["opened"] == False:
@@ -194,10 +195,10 @@ class ManageComm(Thread):
             """calling run functions"""
             
             '''each cycle'''
-#             self.runDeviceActions()
-#             self.runCellActions()
-#             self.runActions()
-#             self.runDiagnosticSendCommand()
+            self.runDeviceActions()
+            self.runCellActions()
+            self.runActions()
+            self.runDiagnosticSendCommand()
                     
             '''slot A'''
             #print "-",idx,"-"
@@ -226,7 +227,7 @@ class ManageComm(Thread):
 #             else:
 #                 print "slot C", idx_c,
 #             print "-", idx, time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            #ztime = time.clock()
+#             #ztime = time.clock()
                                                                                       
             
             """
@@ -293,7 +294,7 @@ class ManageComm(Thread):
             if(dstore.IsReadyForRefresh("terminal_info")):
                 dstore.SetItem("timing_settings", ["measurement_state"], aux_device_overview["measurement_state"], "GET", permanent = False)                
                 dstore.SetItem("timing_settings", ["tags_reading_enable"], aux_device_overview["tags_reading_enable"], "GET", permanent = False)
-                dstore.Set("race_time", aux_device_overview['race_time']) 
+                dstore.Set("race_time", aux_device_overview['race_time'])                
             else:
                 print "I: COMM: terminal info: not ready for refresh", aux_terminal_info  
         
@@ -587,7 +588,7 @@ class ManageComm(Thread):
                 time['user_id'] = dbUser['id']
             
                                 
-        '''alltag filter - activ only when rfid race and tag filter checked'''
+        '''alltag filter - active only when rfid race and tag filter checked'''
         racesettings_app = dstore.Get("racesettings-app")
         if(racesettings_app["rfid"] == 2) and (racesettings_app["tag_filter"] == 2):                
             ''' check tag id from table alltags'''
@@ -602,12 +603,14 @@ class ManageComm(Thread):
         values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
         ret = self.db.insert_from_lists("times", keys, values)
         
-        #shift auto numbers
-        dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], True)        
+      
         
         '''return'''
         if ret == False:            
-            print "I: DB: time already exists"                                                                            
+            print "I: DB: time already exists"
+        else:
+            #shift auto numbers
+            dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], time['id'])                                                                              
         return ret                         
 
     def AddRunToDb(self, run):                

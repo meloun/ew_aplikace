@@ -478,7 +478,9 @@ class DfTableTimes(DfTable):
      end of SLOTS
     '''
     def ShiftAutoNumbers(self): 
-        print "ShiftAutoNumbers", time.clock()      
+        print "ShiftAutoNumbers",  dstore.GetItem("gui", ["update_requests", "shift_auto_numbers"]),  time.clock()
+        print self.model.df[self.model.df["nr"]==4].tail(3)
+              
         
         
     def AutoUpdate(self):           

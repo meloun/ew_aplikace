@@ -70,7 +70,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -2577,7 +2577,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>460</y>
+                 <y>330</y>
                  <width>111</width>
                  <height>17</height>
                 </rect>
@@ -2593,7 +2593,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>400</y>
+                 <y>270</y>
                  <width>400</width>
                  <height>32</height>
                 </rect>
@@ -2626,7 +2626,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>480</y>
+                 <y>350</y>
                  <width>111</width>
                  <height>17</height>
                 </rect>
@@ -2645,7 +2645,7 @@
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>510</y>
+                 <y>380</y>
                  <width>141</width>
                  <height>31</height>
                 </rect>
@@ -2679,7 +2679,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>510</y>
+                 <y>380</y>
                  <width>91</width>
                  <height>31</height>
                 </rect>
@@ -2697,7 +2697,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>440</y>
+                 <y>310</y>
                  <width>231</width>
                  <height>17</height>
                 </rect>
@@ -2793,7 +2793,7 @@
                  <x>10</x>
                  <y>90</y>
                  <width>400</width>
-                 <height>281</height>
+                 <height>141</height>
                 </rect>
                </property>
                <property name="autoFormatting">
@@ -2822,7 +2822,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>380</y>
+                 <y>250</y>
                  <width>281</width>
                  <height>16</height>
                 </rect>
@@ -2840,7 +2840,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>560</y>
+                 <y>430</y>
                  <width>91</width>
                  <height>31</height>
                 </rect>
@@ -2858,7 +2858,7 @@
                <property name="geometry">
                 <rect>
                  <x>30</x>
-                 <y>590</y>
+                 <y>460</y>
                  <width>20</width>
                  <height>20</height>
                 </rect>
@@ -2878,7 +2878,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>563</y>
+                 <y>433</y>
                  <width>71</width>
                  <height>22</height>
                 </rect>
@@ -2891,7 +2891,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>170</x>
-                 <y>610</y>
+                 <y>480</y>
                  <width>111</width>
                  <height>21</height>
                 </rect>
@@ -2927,7 +2927,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>564</y>
+                 <y>434</y>
                  <width>61</width>
                  <height>20</height>
                 </rect>
@@ -2951,7 +2951,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>610</y>
+                 <y>480</y>
                  <width>61</width>
                  <height>20</height>
                 </rect>
@@ -2975,7 +2975,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                <property name="geometry">
                 <rect>
                  <x>110</x>
-                 <y>588</y>
+                 <y>458</y>
                  <width>31</width>
                  <height>20</height>
                 </rect>
@@ -2990,6 +2990,259 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
                </property>
                <property name="text">
                 <string>AND</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_327">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>510</y>
+                 <width>141</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Autofill Numbers</string>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersNrOfUsers">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>550</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_328">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>580</y>
+                 <width>61</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Nr of cells</string>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersNrOfCells">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>580</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell1">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell2">
+               <property name="geometry">
+                <rect>
+                 <x>110</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell3">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell4">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell5">
+               <property name="geometry">
+                <rect>
+                 <x>260</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_329">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>610</y>
+                 <width>31</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Cells</string>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="AutonumbersCell6">
+               <property name="geometry">
+                <rect>
+                 <x>310</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_330">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>550</y>
+                 <width>131</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>Max. users in the race</string>
+               </property>
+              </widget>
+              <widget class="QSpinBox" name="spinBox">
+               <property name="geometry">
+                <rect>
+                 <x>360</x>
+                 <y>610</y>
+                 <width>46</width>
+                 <height>22</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_331">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>520</y>
+                 <width>20</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap>gui/icons/tooltip-qm.png</pixmap>
                </property>
               </widget>
              </widget>

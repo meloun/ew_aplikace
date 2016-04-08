@@ -80,8 +80,7 @@ class CellGroup ():
         set_cell_info["address"] = self.nr                               
         set_cell_info["fu1"] = 0x00                               
         set_cell_info["fu2"] = 0x00                               
-        set_cell_info["fu3"] = 0x00                               
-
+        set_cell_info["fu3"] = 0x00
         
         cells_info = dstore.Get("cells_info", "GET")
         

@@ -381,7 +381,6 @@
         "name": "export"
     },
     "cells_info": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
@@ -402,7 +401,7 @@
                     "address": 2
                 },
                 {
-                    "task": 0,
+                    "task": 250,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
@@ -414,7 +413,7 @@
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 4
                 },
                 {
@@ -502,6 +501,7 @@
                 }
             ]
         },
+        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 0,
@@ -521,13 +521,13 @@
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "trigger": 0,
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "trigger": 3,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
+                    "ir_signal": true,
                     "task": 0,
                     "diagnostic_long_ko": 0,
                     "address": 2,
@@ -535,14 +535,14 @@
                     "diagnostic_short_ko": 0
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": 0,
-                    "trigger": 0,
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "trigger": 3,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "task": 0,
+                    "ir_signal": true,
+                    "task": 250,
                     "diagnostic_long_ko": 0,
                     "address": 3,
                     "active": false,
@@ -557,7 +557,7 @@
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
                     "task": 0,
-                    "diagnostic_long_ko": 0,
+                    "diagnostic_long_ko": 10,
                     "address": 4,
                     "active": false,
                     "diagnostic_short_ko": 0
@@ -706,19 +706,19 @@
         }
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 2,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 1,
-                "measurement_state": 2,
                 "name_id": 1,
+                "measurement_state": 2,
+                "filter_minlaptime": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
         },
+        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 0,
@@ -770,26 +770,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
@@ -818,30 +818,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [
