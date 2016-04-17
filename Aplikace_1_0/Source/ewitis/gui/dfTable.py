@@ -460,14 +460,15 @@ class DfTable():
         #self.setColumnWidth()                   
         
         self.HideColumns()    
-               
-        #update counters
-        self.updateTabCounter()
-        self.updateDbCounter()     
-                   
+                                  
         #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"        
         return True 
-                          
+    
+    def UpdateGui(self):
+        #update counters
+        self.updateTabCounter()
+        self.updateDbCounter()  
+        return True
     #need to be override
     def CollumnsToHide(self):
         return []    

@@ -653,10 +653,10 @@ class ManageCalcProcess():
     def GetStarttime(self, time, df = None):        
         starttime = None                
         
-        if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+        if(self.dstore.GetItem("racesettings-app", ["evaluation", "starttime"]) == StarttimeEvaluation.VIA_CATEGORY):
             #VIA CATEGORY => Xth starttime                                                                                                                            
             starttime = df_utils.Get(df, time["start_nr"] , filter = {'cell':1})                                                                                                            
-        elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+        elif(self.dstore.GetItem("racesettings-app", ["evaluation", "starttime"])  == StarttimeEvaluation.VIA_USER):
             #VIA USER => previous startime from the same user                                                
             starttime = self.GetPrevious(time, filter = {'cell':1}, df = df)        
         return starttime 
@@ -666,14 +666,14 @@ class ManageCalcProcess():
         starttime = None
                 
         
-        if(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+        if(self.dstore.GetItem("racesettings-app", ["evaluation", "starttime"])  == StarttimeEvaluation.VIA_CATEGORY):
             #VIA CATEGORY => Xth starttime    
             dbUser =   self.tableUsers.getDbUserParIdOrTagId(dbTime["user_id"], self.db)          
             if(dbUser == None):
                 return None                                                                                                             
             start_nr = self.tableCategories.getTabRow(dbUser['category_id'], self.db)['start_nr'] #get category starttime                
             starttime = df_utils.Get(df, start_nr, filter = {'cell':1})                                                                                                            
-        elif(self.dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+        elif(self.dstore.GetItem("racesettings-app", ["evaluation", "starttime"])  == StarttimeEvaluation.VIA_USER):
             #VIA USER => previous startime from the same user                                                
             starttime = self.GetPrevious(dbTime, filter = {'cell':1}, df = df)
 

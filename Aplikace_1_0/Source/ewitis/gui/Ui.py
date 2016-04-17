@@ -44,7 +44,7 @@ class AppWindow(QtGui.QMainWindow):
         self.ui.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("doc\Návod\Aplikace Návod.html")))                                    
         self.setWindowTitle(QtGui.QApplication.translate("MainWindow", u"Časomíra Ewitis, Aplikace "+dstore.Get("versions")["app"], None, QtGui.QApplication.UnicodeUTF8))
         
-    def eventFilter(self, source, event):
+    def eventFilter____1(self, source, event):
         if (event.type() == QtCore.QEvent.KeyPress):
             if source is self.ui.TimesAutoNumber1:
                 print "1: ",

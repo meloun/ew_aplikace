@@ -133,7 +133,8 @@ def ExportToCsvFiles(dfs):
         #get firstline (racename, time)
         header = dstore.GetItem("export_header", [i])             
         racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))
-        firstline = [racename, timeutils.getCurrentDateTime()]            
+        headertext = header["headertext"].replace("%time%", timeutils.getCurrentDateTime())
+        firstline = [racename, headertext]            
                     
         #filter to checked columns            
         columns = GetExportCollumns(df, i)                                    
@@ -211,7 +212,7 @@ def ExportToHtmFiles(dfs, type):
     for i in range(0, NUMBER_OF.EXPORTS): 
         
         if (tabExportSettings.IsEnabled(i, "htm") == False):
-            continue
+            continue        
         
         #filter to checked columns
         columns = tabExportSettings.exportgroups[i].GetCheckedColumns() 
@@ -222,10 +223,12 @@ def ExportToHtmFiles(dfs, type):
             if(len(df) != 0):
                 df = df[columns]
             css_filename = dstore.GetItem("export_www", [i, "css_filename"])
+            js_filename = dstore.GetItem("export_www", [i, "js_filename"])
             title = dstore.GetItem("racesettings-app", ['race_name']) 
         elif(type == eHTM_EXPORT_LOGO):
             df =  pd.DataFrame()                      
             css_filename = u"css/logo.css"
+            js_filename = u""
             title = "Časomíra Ewitis - <i>Vy závodíte, my měříme..</i>"
         else:
             print  "Error: This export is not defined!", type 
@@ -233,7 +236,27 @@ def ExportToHtmFiles(dfs, type):
         #complete export            
         #if(len(df) != 0) or (type == self.eHTM_EXPORT_LOGO):
         filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
-        ExportToHtmFile(filename, df, css_filename, title)            
+        
+        #convert header EN => CZ            
+        tocz_dict = dstore.GetItem("export", ["names"])                                               
+        df = df.rename(columns = tocz_dict)
+
+        #firsttimes
+        nr = dstore.GetItem("export_www", [i, "firsttimes"])
+        if nr != 0:
+            df = df.head(nr)    
+        #lasttimes
+        nr = dstore.GetItem("export_www", [i, "lasttimes"])
+        if nr != 0:
+            df = df.tail(nr)
+            
+        #transpose
+        if dstore.GetItem("export_www", [i, "transpose"]):    
+            aux_columns = df.columns
+            df = df.T
+            df.insert(0,"", aux_columns)
+        
+        ExportToHtmFile(filename, df, css_filename, js_filename, title)            
         exported["total"] = len(df)
          
     return exported 
@@ -241,13 +264,9 @@ def ExportToHtmFiles(dfs, type):
 '''
 export jednoho souboru s výsledky
 '''    
-def ExportToHtmFile(filename, df, css_filename = "css/results.css", title = ""):
-
-    #convert header EN => CZ            
-    tocz_dict = dstore.GetItem("export", ["names"])                                               
-    df = df.rename(columns = tocz_dict)
+def ExportToHtmFile(filename, df, css_filename = "", js_filename = "", title = ""):    
                                                                                            
-    html_page = ew_html.Page_table(filename, title, styles= [css_filename,], lists = df.values, keys = df.columns)                                                                            
+    html_page = ew_html.Page_table(filename, title, styles= [css_filename,], scripts=[js_filename],lists = df.values, keys = df.columns)                                                                            
     html_page.save()                                                                                                         
                     
 

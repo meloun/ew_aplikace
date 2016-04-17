@@ -113,7 +113,8 @@ class DfTableRuns(DfTable):
     # DELETE BUTTON          
     def sDeleteAll(self):
         if DfTable.sDeleteAll(self) == True:
-            tableTimes.deleteAll() 
+            tableTimes.deleteAll()
+            dstore.Set("current_run", 0)     
         
                                        
     

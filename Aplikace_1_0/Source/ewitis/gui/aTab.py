@@ -27,9 +27,11 @@ class MyTab():
         ret2 = True        
         
         #update tables
-        if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
-            for table in self.tables:
-                ret1 = table.Update()                
+        for table in self.tables:
+            ret1 = table.UpdateGui()
+            if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
+                ret1 = table.Update()            
+                            
                                                 
 
         #update gui                

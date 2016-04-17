@@ -549,7 +549,9 @@ class ManageComm(Thread):
         """ STORE NEW RUN TO THE DATABASE """
         if(aux_run['error'] == 0):                       
             self.AddRunToDb(aux_run)                                                                              
-            self.index_runs += 1 # done, take next                                                                                                                            
+            self.index_runs += 1 # done, take next
+            if dstore.Get("current_run") == 0:
+                dstore.Set("current_run", aux_run["id"])                                                                                                        
         else:
             pass # no new run                        
     
@@ -581,11 +583,11 @@ class ManageComm(Thread):
         #print struct.pack('<I', time['user_id']).encode('hex')
 
         '''auto number'''
-        auto_number = dstore.GetItem("times", ["auto_number", 0])
-        if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
-            dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
-            if dbUser != None:
-                time['user_id'] = dbUser['id']
+        #auto_number = dstore.GetItem("times", ["auto_number", 0])
+        #if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
+        #    dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
+        #    if dbUser != None:
+        #        time['user_id'] = dbUser['id']
             
                                 
         '''alltag filter - active only when rfid race and tag filter checked'''
@@ -610,7 +612,9 @@ class ManageComm(Thread):
             print "I: DB: time already exists"
         else:
             #shift auto numbers
-            dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], time['id'])                                                                              
+            aux_new_times = dstore.GetItem("gui", ["update_requests", "new_times"])
+            aux_new_times.append(time)  
+            dstore.SetItem("gui", ["update_requests", "new_times"], aux_new_times)                                                                              
         return ret                         
 
     def AddRunToDb(self, run):                

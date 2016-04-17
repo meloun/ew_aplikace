@@ -78,7 +78,7 @@ def CreateSlots():
     
 def sTimer():  
     
-    global timer1_1s_cnt    
+    global timer1_1s_cnt          
                  
     #update current tab           
     tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)     
@@ -93,9 +93,9 @@ def sTimer():
         dstore.SetItem("gui", ["update_requests", "tableTimes"], False)
          
     #shift auto numbers
-    if(requests["shift_auto_numbers"]):
-        tableTimes.ShiftAutoNumbers()
-        dstore.SetItem("gui", ["update_requests", "shift_auto_numbers"], False)
+    if(requests["new_times"] != []):
+        tableTimes.Update_AutoNumbers()
+        requests["new_times"] = []        
     
     #toolbars, statusbars
     bars.Update()
@@ -107,8 +107,6 @@ def sTimer():
         #timer auto-updates
         tabRunsTimes.tables[1].AutoUpdate() #table times
         timer1_1s_cnt = 0
-        
-
     
     return
     
@@ -151,7 +149,7 @@ if __name__ == "__main__":
         
     #init shared-data (and sync with dstore)
     print "I: Init multiprocessing manager"
-    mgr.Init( {"current_run":None, "racesettings-app":None, "additional_info": None, "evaluation": None},  #shared-dstore
+    mgr.Init( {"current_run":None, "racesettings-app":None, "additional_info": None},  #shared-dstore
               {"table"  :  pd.DataFrame(), "export" :  pd.DataFrame()},                #shared-dfs
               {"wdg_calc":0, "lastcalctime"  :  " - - - "}                                           #shared-info
             )    

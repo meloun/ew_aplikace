@@ -66,7 +66,7 @@ class TimesStore():
         if self.IsTimeToCalc(dbTime) == False:
             return False       
         
-        eval_finish = dstore.GetItem("evaluation", ['finishtime'])
+        eval_finish = dstore.GetItem("racesettings-app", ["evaluation","finishtime"])
         
         if(dbTime['time1'] < TimesUtils.TimesUtils.timestring2time(eval_finish["time"], including_days = False)):
             return False
@@ -87,11 +87,11 @@ def GetStarttime(db, user_id):
     if(tabUser['nr'] == 0):
         return None        
 
-    if(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_CATEGORY):
+    if(dstore.GetItem("racesettings-app", ["evaluation","starttime"]) == StarttimeEvaluation.VIA_CATEGORY):
         #VIA CATEGORY => Xth starttime                                                                                                                
         start_nr = tableCategories.getTabRow(tabUser['category_id'])['start_nr'] #get category starttime                
         starttime = timesstore.Get(df, start_nr, filter = {'cell':1})                                                                                        
-    elif(dstore.Get('evaluation')['starttime'] == StarttimeEvaluation.VIA_USER):
+    elif(dstore.GetItem("racesettings-app", ["evaluation","starttime"]) == StarttimeEvaluation.VIA_USER):
         #VIA USER => previous startime from the same user                                                
         starttime = timesstore.GetPrevious(joinTime, filter = {'cell':1}, df = df)
     else:

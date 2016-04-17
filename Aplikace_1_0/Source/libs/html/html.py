@@ -28,8 +28,9 @@ class html(object):
                 aux_head <= htmltags.LINK(rel="Stylesheet",href=style)
                 
         if(self.head['scripts']):
+            aux_head <= htmltags.SCRIPT(src="js/jquery.min.js")
             for script in self.head['scripts']:
-                aux_head <= htmltags.LINK(rel="Stylesheet",href=script)
+                aux_head <= htmltags.SCRIPT(src=script)
         return aux_head
     
     #basic function, OVERRIDE

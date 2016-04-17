@@ -61,7 +61,7 @@ class NUMBER_OF:
     THREECOLUMNS = 3
     OPTIONCOLUMNS = 4
     
-    AUTO_NUMBER = 4
+    AUTO_NUMBER = 4    
     
 def Assigments2Dict(assigment):                                            
         if assigment == "":            
@@ -85,7 +85,7 @@ DEF_DATA = {
                                 "GET_SET"  : {"value": {
                                                         "opened": False,
                                                         "enabled": True,
-                                                        "name": "COM7",
+                                                        "name": "COM4",
                                                         "baudrate": 38400
                                                         }
                                               }
@@ -101,11 +101,11 @@ DEF_DATA = {
                                                         "update_requests":{
                                                                          "tableUsers":False,
                                                                          "tableTimes":False,
-                                                                         "shift_auto_numbers": True
+                                                                         "new_times": []
                                                                         }
                                                         }
                                               }
-                               },
+                               },        
         #tab TIMES
         "times"                : {"GET_SET"  : {"value": {
                                                           "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
@@ -119,25 +119,26 @@ DEF_DATA = {
         "current_run"        : {"GET_SET"  : { "value"   : 0},},
                 
         #group timing setting: below
-                                    
-        #group timing setting: below
-        "evaluation"         : {"permanent": True,
-                                "GET_SET"  : {"value": {                                                         
-                                                        "starttime": StarttimeEvaluation.VIA_USER, 
-                                                        "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
-                                                        }
-                                              }
-                                },
-            
+        
+        #group racesettings-app
         "racesettings-app"   : {"permanent": True,
                                 "name": "race settings",
                                 "GET_SET"  : {"value": {
                                                         "race_name"    :      u"Formula Student 2013",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
-                                                        "remote"       :       CheckboxValue.unchecked,
-                                                        "rfid"         :       CheckboxValue.unchecked,
+                                                        "remote"       :      CheckboxValue.unchecked,
+                                                        "rfid"         :      CheckboxValue.unchecked,
                                                         "tag_filter"   :      CheckboxValue.unchecked,
+                                                        "evaluation"   :      {                                                         
+                                                                                "starttime": StarttimeEvaluation.VIA_USER, 
+                                                                                "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
+                                                                              },
+                                                        "autonumbers"  :      {
+                                                                                 "nr_users": 0,
+                                                                                 "nr_cells": 0,
+                                                                                 "cells": [0,0,0,0,0,0,0],
+                                                                               }
                                                         },                                              
                                               "changed": True
                                       }
@@ -284,6 +285,7 @@ DEF_DATA = {
         "export_header"      : {"permanent": True,
                                 "GET_SET"  : {"value": [{
                                                 "racename"               : u"%race%",
+                                                "headertext"             : u"čas exportu: %time%",
                                                 "categoryname"           : u"%category%",                                                                                                                                                                                                                                                                                                                           
                                                 "description"            : u"%description%"                                                                                                                                                                                                                                                                                                                           
                                                 }] * NUMBER_OF.EXPORTS,                                              
@@ -305,7 +307,11 @@ DEF_DATA = {
                                },
         "export_www"         : {"permanent": True,
                                 "GET_SET"  : {"value": [{
-                                                "css_filename"           : u"css/results.css",                                                                                                                                                                                                                                                                                                                       
+                                                "transpose"             : CheckboxValue.unchecked,
+                                                "firsttimes"            : 0,
+                                                "lasttimes"             : 0,
+                                                "css_filename"          : u"css/results.css",
+                                                "js_filename"           : u"",                                                                                                                                                                                                                                                                                                                       
                                                 }] * NUMBER_OF.EXPORTS,                                              
                                               "changed": True
                                               }  
@@ -354,7 +360,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.15b"},                                                                                                                    
+                                                        "app": "v3.15c"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

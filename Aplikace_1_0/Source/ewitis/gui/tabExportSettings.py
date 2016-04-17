@@ -23,11 +23,13 @@ class HeaderGroup():
         self.index = index
                                 
         self.racename = getattr(ui, "lineExportHeaderRace"+str(index+1))  
+        self.headertext = getattr(ui, "lineExportHeaderText"+str(index+1))
         self.categoryname = getattr(ui, "lineExportHeaderCategory"+str(index+1))                                            
         self.description = getattr(ui, "lineExportHeaderDescription"+str(index+1))
 
     def CreateSlots(self):                
         QtCore.QObject.connect(self.racename, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export_header", [self.index, "racename"],  utils.toUnicode(name)))                 
+        QtCore.QObject.connect(self.headertext, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export_header", [self.index, "headertext"],  utils.toUnicode(name)))
         QtCore.QObject.connect(self.categoryname, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export_header", [self.index, "categoryname"],  utils.toUnicode(name)))        
         QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export_header", [self.index, "description"],  utils.toUnicode(name)))        
             
@@ -38,6 +40,7 @@ class HeaderGroup():
         # set values from datastore              
         info = self.GetInfo() 
         uiAccesories.UpdateText(self.racename, info["racename"])  
+        uiAccesories.UpdateText(self.headertext, info["headertext"])
         uiAccesories.UpdateText(self.categoryname, info["categoryname"])                                            
         uiAccesories.UpdateText(self.description, info["description"])                                            
 
@@ -631,12 +634,13 @@ class WWWExportGroup():
         self.index = index
         
         #three columns groups
-        self.css_filename = [None]
-        self.load_css_filename = [None]
-               
-        
-        self.filename = getattr(ui, "lineExportCss"+str(index+1)) 
-        self.load_filename = getattr(ui, "pushExportLoadCss"+str(index+1)) 
+        self.transpose = getattr(ui, "checkExportTranspose"+str(index+1))
+        self.firsttimes = getattr(ui, "spinExportFirsttimes"+str(index+1)) 
+        self.lasttimes = getattr(ui, "spinExportLasttimes"+str(index+1))                      
+        self.css_filename = getattr(ui, "lineExportCss"+str(index+1)) 
+        self.css_load_filename = getattr(ui, "pushExportLoadCss"+str(index+1))
+        self.js_filename = getattr(ui, "lineExportJs"+str(index+1)) 
+        self.js_load_filename = getattr(ui, "pushExportLoadJs"+str(index+1))  
         
     def Init(self):        
         self.Update()
@@ -644,25 +648,39 @@ class WWWExportGroup():
 
     def CreateSlots(self):
                         
-        QtCore.QObject.connect(self.load_filename,  QtCore.SIGNAL('clicked()'), self.sLoadCssFilename)
-        QtCore.QObject.connect(self.filename, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: dstore.SetItem("export_www", [self.index, "css_filename"], utils.toUnicode(name)))
+        QtCore.QObject.connect(self.transpose, QtCore.SIGNAL("stateChanged(int)"), lambda x: dstore.SetItem("export_www", [self.index, "transpose"], x))
+        QtCore.QObject.connect(self.firsttimes, QtCore.SIGNAL("valueChanged(int)"), lambda state: dstore.SetItem("export_www", [self.index, "firsttimes"], state))
+        QtCore.QObject.connect(self.lasttimes, QtCore.SIGNAL("valueChanged(int)"), lambda state: dstore.SetItem("export_www", [self.index, "lasttimes"], state))
+        QtCore.QObject.connect(self.css_load_filename,  QtCore.SIGNAL('clicked()'), self.sLoadCssFilename)
+        QtCore.QObject.connect(self.css_filename, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: dstore.SetItem("export_www", [self.index, "css_filename"], utils.toUnicode(name)))
+        QtCore.QObject.connect(self.js_load_filename,  QtCore.SIGNAL('clicked()'), self.sLoadJsFilename)
+        QtCore.QObject.connect(self.js_filename, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: dstore.SetItem("export_www", [self.index, "js_filename"], utils.toUnicode(name)))
             
     def sLoadCssFilename(self):
-        print "sLoadCssFilename"                            
+        print "sLoadCssFilename"
+    def sLoadJsFilename(self):
+        print "sLoadJsFilename"                                
 
+    """
     def setEnabled(self, enabled):        
                                
-        self.load_filename.setEnabled(enabled)            
-        self.filename.setEnabled(enabled)
-        
+        self.css_load_filename.setEnabled(enabled)            
+        self.css_filename.setEnabled(enabled)
+        self.js_load_filename.setEnabled(enabled)            
+        self.js_filename.setEnabled(enabled)
+     """   
     
     def GetInfo(self):                
         return dstore.GetItem("export_www", [self.index])    
 
     
     def Update(self):
-        info = self.GetInfo()                                            
-        uiAccesories.UpdateText(self.filename, info["css_filename"])
+        info = self.GetInfo()        
+        self.transpose.setCheckState(info["transpose"])
+        self.firsttimes.setValue(info["firsttimes"])         
+        self.lasttimes.setValue(info["lasttimes"])                                                
+        uiAccesories.UpdateText(self.css_filename, info["css_filename"])
+        uiAccesories.UpdateText(self.js_filename, info["js_filename"])
         
         
 

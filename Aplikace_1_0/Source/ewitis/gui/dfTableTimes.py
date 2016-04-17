@@ -20,6 +20,7 @@ from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.dfTableCGroups import tableCGroups
 import ewitis.gui.dfTableTimesExport as ttExport
+import ewitis.gui.dfTableTimesAutonumbers as ttAutonumbers
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
@@ -126,7 +127,7 @@ class DfModelTimes(DataframeTableModel):
         dfChange = pd.DataFrame([mydict])
         dfChange.set_index(dfChange.id, inplace=True)                   
                        
-        dfChangedRow = self.df.loc[dfChange.id]  #take row before change (from global df)                                            
+        dfChangedRow = self.df.loc[dfChange.id]  #take row before change (from global df)                                                 
         old_user = tableUsers.model.getUserParNr(int(dfChangedRow['nr'])) #take user before change
                
         #update row before change with change                 
@@ -237,7 +238,7 @@ class DfModelTimes(DataframeTableModel):
         else:
                         
             #rigthts to change start cell?
-            if(tabRow['cell'] == 1) and (dstore.Get("evaluation")['starttime'] == StarttimeEvaluation.VIA_CATEGORY):                                                              
+            if(tabRow['cell'] == 1) and (dstore.GetItem("racesettings-app" ,["evaluation", "starttime"]) == StarttimeEvaluation.VIA_CATEGORY):                                                              
                 uiAccesories.showMessage(self.name+" Update error", "Cannot assign user to start time!")
                 return None
                                         
@@ -439,21 +440,20 @@ class DfTableTimes(DfTable):
         #    return 
     
         #take last calculated data
-        self.Update()
+        #self.Update()
         
         # 3DFs for 3 exports
-        exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
-        
+        exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         exported = {}
-        
+        ttDf = self.model.GetDataframe() #self.model.df      
         utDf = pd.DataFrame()
-        if len(self.model.df) != 0:                       
+        if len(ttDf) != 0:                       
             #merge table users and times
             cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
             cols_to_use = list(cols_to_use) + ["nr"]        
-            utDf = pd.merge(self.model.df, tableUsers.model.df[cols_to_use], how = "left", on="nr")            
+            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")            
         
-        if (len(self.model.df) != 0) or (export_type == ttExport.eHTM_EXPORT_LOGO):   
+        if (len(ttDf) != 0) or (export_type == ttExport.eHTM_EXPORT_LOGO):   
             #call export function
             try:            
                 exported = ttExport.Export(utDf, export_type)
@@ -476,11 +476,7 @@ class DfTableTimes(DfTable):
         
     ''' 
      end of SLOTS
-    '''
-    def ShiftAutoNumbers(self): 
-        print "ShiftAutoNumbers",  dstore.GetItem("gui", ["update_requests", "shift_auto_numbers"]),  time.clock()
-        print self.model.df[self.model.df["nr"]==4].tail(3)
-              
+    '''            
         
         
     def AutoUpdate(self):           
@@ -517,19 +513,36 @@ class DfTableTimes(DfTable):
             ret = self.sExportDirect(self.eHTM_EXPORT)
 
                 
-                
+    def Update_AutoNumbers(self): 
+        #print "Update_AutoNumbers",  dstore.GetItem("gui", ["update_requests", "new_times"]),  time.clock()
+        updates = ttAutonumbers.Update(self.model.GetDataframe())                
+        #self.model.Update()
+        for update in updates:
+            #self.model.setDataFromDict(update)
+            user = tableUsers.model.getUserParNr(int(update['nr']))                                                                                   
+            if user != None:
+                db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
+                print "I: auto number: update:", update['nr'], "id:", update["id"]
+                eventCalcNow.set()
+        #time.sleep(0.05)
+        #self.model.Update()
+        
+                     
     def UpdateGui(self): 
         
+        DfTable.UpdateGui(self)
+        
         times = dstore.Get("times")
+        
         #auto number
         for i in range(0, NUMBER_OF.AUTO_NUMBER):
             #enable
-            if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
-                dstore.SetItem("times",['auto_number', i], 0)
-                self.gui['auto_number'+str(i+1)].setEnabled(False)
-            else:
-                print "enabled", i
+            if(dstore.GetItem("racesettings-app", ['rfid']) == 2):                
+                self.gui['auto_number'+str(i+1)].setEnabled(False)            
+            elif(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"])):
                 self.gui['auto_number'+str(i+1)].setEnabled(True)
+            else:
+                self.gui['auto_number'+str(i+1)].setEnabled(False)
                 
             #set value                                                                                  
             self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
@@ -556,8 +569,9 @@ class DfTableTimes(DfTable):
         return 
        
     def Update(self):                                                           
-                                        
+                                                                                        
         ret = DfTable.Update(self)
+        self.UpdateGui()
                 
 #         # po F5 edituje číslo u prvniho radku
 #         myindex = self.proxy_model.index(0,1)
