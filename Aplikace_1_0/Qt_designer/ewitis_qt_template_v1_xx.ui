@@ -92,7 +92,7 @@
             <property name="horizontalSpacing">
              <number>0</number>
             </property>
-            <item row="0" column="24">
+            <item row="0" column="26">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -414,7 +414,23 @@
               </layout>
              </widget>
             </item>
-            <item row="0" column="20">
+            <item row="0" column="11">
+             <widget class="QCheckBox" name="TimesAutoNumberEnable">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QCheckBox::indicator { width:26px; height: 26px; }</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="22">
              <widget class="QLabel" name="label_326">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -432,7 +448,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="19">
+            <item row="0" column="21">
              <spacer name="horizontalSpacer_11">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -448,7 +464,7 @@
               </property>
              </spacer>
             </item>
-            <item row="0" column="21">
+            <item row="0" column="23">
              <widget class="QSpinBox" name="TimesAutoWWWRefresh">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -474,7 +490,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="24">
+            <item row="2" column="26">
              <widget class="QLabel" name="TimesCounter">
               <property name="text">
                <string>0/0</string>
@@ -626,7 +642,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="17">
+            <item row="0" column="19">
              <widget class="QSpinBox" name="TimesAutoRefresh">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -658,7 +674,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="16">
+            <item row="0" column="18">
              <widget class="QLabel" name="label_62">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -682,7 +698,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="11">
+            <item row="0" column="13">
              <widget class="QSpinBox" name="TimesAutoNumber1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -717,7 +733,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>20</width>
+                <width>25</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -728,11 +744,11 @@
                </font>
               </property>
               <property name="text">
-               <string>Nr:</string>
+               <string>Nr:  </string>
               </property>
              </widget>
             </item>
-            <item row="0" column="18">
+            <item row="0" column="20">
              <widget class="QPushButton" name="TimesAutoRefreshClear">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -758,7 +774,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="22">
+            <item row="0" column="24">
              <widget class="QPushButton" name="TimesAutoWWWRefreshClear">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -784,7 +800,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="23">
+            <item row="0" column="25">
              <spacer name="horizontalSpacer_8">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -800,7 +816,7 @@
               </property>
              </spacer>
             </item>
-            <item row="0" column="13">
+            <item row="0" column="15">
              <widget class="QSpinBox" name="TimesAutoNumber3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -819,7 +835,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="12">
+            <item row="0" column="14">
              <widget class="QSpinBox" name="TimesAutoNumber2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -838,7 +854,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="14">
+            <item row="0" column="16">
              <widget class="QSpinBox" name="TimesAutoNumber4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -857,7 +873,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="15">
+            <item row="0" column="17">
              <widget class="QPushButton" name="TimesAutoNumberClear">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -883,13 +899,45 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="4" colspan="21">
+            <item row="1" column="4" colspan="23">
              <widget class="QTreeView" name="TimesProxyView">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>4</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="12">
+             <widget class="QPushButton" name="TimesAutoNumberLogic">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>gui/icons/math32.png</normaloff>gui/icons/math32.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>26</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="default">
+               <bool>false</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </item>

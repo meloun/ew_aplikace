@@ -108,6 +108,8 @@ DEF_DATA = {
                                },        
         #tab TIMES
         "times"                : {"GET_SET"  : {"value": {
+                                                          "auto_number_enable": CheckboxValue.checked,
+                                                          "auto_number_logic": True,                                                          
                                                           "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0
@@ -135,9 +137,9 @@ DEF_DATA = {
                                                                                 "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
                                                                               },
                                                         "autonumbers"  :      {
-                                                                                 "nr_users": 0,
-                                                                                 "nr_cells": 0,
-                                                                                 "cells": [0,0,0,0,0,0,0],
+                                                                                 "nr_users": 4,
+                                                                                 "nr_cells": 2,
+                                                                                 "cells": [1,250,0,0,0,0,0],
                                                                                }
                                                         },                                              
                                               "changed": True
@@ -360,7 +362,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.15c"},                                                                                                                    
+                                                        "app": "v3.15d"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

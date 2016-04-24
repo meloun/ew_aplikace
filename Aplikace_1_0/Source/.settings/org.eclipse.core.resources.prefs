@@ -1,9 +1,9 @@
 eclipse.preferences.version=1
 encoding//Aplikace_1_0/manage_gui.py=utf-8
 encoding//ewitis/comm/DEF_COMMANDS.py=utf-8
+encoding//ewitis/comm/_manage_comm_OLD.py=utf-8
 encoding//ewitis/comm/callback.py=utf-8
 encoding//ewitis/comm/manage_comm.py=utf-8
-encoding//ewitis/comm/manage_comm_OLD.py=utf-8
 encoding//ewitis/data/DEF_DATA.py=utf-8
 encoding//ewitis/data/DEF_ENUM_STRINGS.py=utf-8
 encoding//ewitis/data/dstore.py=utf-8

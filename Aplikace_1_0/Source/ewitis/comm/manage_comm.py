@@ -583,11 +583,13 @@ class ManageComm(Thread):
         #print struct.pack('<I', time['user_id']).encode('hex')
 
         '''auto number'''
-        #auto_number = dstore.GetItem("times", ["auto_number", 0])
-        #if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
-        #    dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
-        #    if dbUser != None:
-        #        time['user_id'] = dbUser['id']
+        ds_times = dstore.Get("times")
+        if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
+            auto_number = ds_times["auto_number"][0]
+            if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
+                dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
+                if dbUser != None:
+                    time['user_id'] = dbUser['id']
             
                                 
         '''alltag filter - active only when rfid race and tag filter checked'''
