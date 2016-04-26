@@ -30,24 +30,24 @@
             "changed": true,
             "value": [
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -111,14 +111,14 @@
                     "nr_users": 4,
                     "cells": [
                         1,
+                        2,
                         250,
-                        0,
                         0,
                         0,
                         0,
                         0
                     ],
-                    "nr_cells": 2
+                    "nr_cells": 3
                 },
                 "tag_filter": 0,
                 "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
@@ -416,34 +416,32 @@
         "name": "export"
     },
     "cells_info": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
                 {
-                    "fu4": 0,
-                    "task": 0,
+                    "task": 1,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 1
                 },
                 {
-                    "fu4": 0,
-                    "task": 0,
+                    "task": 2,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 2
                 },
                 {
-                    "fu4": 0,
-                    "task": 0,
+                    "task": 250,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 0,
+                    "trigger": 3,
                     "address": 3
                 },
                 {
@@ -547,90 +545,89 @@
                 }
             ]
         },
-        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 0,
             "value": [
                 {
-                    "synchronized_once": true,
+                    "task": 1,
                     "synchronized": true,
-                    "battery": null,
-                    "diagnostic_long_ok": 0,
-                    "task": null,
-                    "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "trigger": 0,
+                    "battery": 100,
+                    "trigger": 3,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": true,
                     "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": true,
+                    "task": 2,
                     "synchronized": true,
-                    "battery": null,
-                    "diagnostic_long_ok": 0,
-                    "task": null,
-                    "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "trigger": 0,
+                    "battery": 100,
+                    "trigger": 3,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": true,
                     "diagnostic_long_ko": 0,
                     "address": 2,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
-                    "synchronized": false,
-                    "battery": null,
+                    "task": 250,
+                    "synchronized": true,
+                    "ir_signal": true,
+                    "battery": 100,
+                    "trigger": 3,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
-                    "ir_signal": false,
-                    "trigger": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": true,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
-                    "battery": null,
-                    "diagnostic_long_ok": 0,
-                    "task": null,
-                    "diagnostic_short_ok": 0,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
-                    "synchronized_once": false,
+                    "task": 0,
                     "synchronized": false,
-                    "battery": null,
-                    "diagnostic_long_ok": 0,
-                    "task": null,
-                    "diagnostic_short_ok": 0,
                     "ir_signal": false,
+                    "battery": 0,
                     "trigger": 0,
+                    "diagnostic_long_ok": 0,
+                    "diagnostic_short_ok": 0,
+                    "diagnostic_short_ko": 0,
+                    "synchronized_once": false,
                     "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": false,
-                    "diagnostic_short_ko": 0
+                    "active": false
                 },
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 6,
                     "active": false,
@@ -639,12 +636,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": false,
@@ -653,12 +650,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": false,
@@ -667,12 +664,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": false,
@@ -681,12 +678,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": false,
@@ -695,12 +692,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": false,
@@ -709,12 +706,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": false,
@@ -723,12 +720,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 13,
                     "active": false,
@@ -737,12 +734,12 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": null,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": false,
@@ -752,28 +749,28 @@
         }
     },
     "timing_settings": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 60,
-                "measurement_state": 0,
                 "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": 60,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
-        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 0,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 1,
-                "measurement_state": 0,
                 "filter_minlaptime": 0,
+                "measurement_state": 2,
+                "name_id": 1,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -804,26 +801,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     }
                 ],
@@ -852,30 +849,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [

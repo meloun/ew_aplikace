@@ -52,6 +52,7 @@ from ewitis.gui.Ui import Ui
     
 timer1 = QtCore.QTimer();
 timer1_1s_cnt = 0
+timer_autonumbers = 0
        
 def InitGui():                            
     
@@ -78,7 +79,8 @@ def CreateSlots():
     
 def sTimer():  
     
-    global timer1_1s_cnt          
+    global timer1_1s_cnt    
+    global timer_autonumbers      
                  
     #update current tab           
     tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)     
@@ -92,17 +94,26 @@ def sTimer():
         tableTimes.Update()
         dstore.SetItem("gui", ["update_requests", "tableTimes"], False)
          
-    #shift auto numbers
-    if(requests["new_times"] != []):
-        tableTimes.Update_AutoNumbers()
-        requests["new_times"] = []        
+   
     
     #toolbars, statusbars
     bars.Update()
     
+    #shift auto numbers
+    if timer_autonumbers == 0:
+        if(requests["new_times"] != []):
+            ret = tableTimes.Update_AutoNumbers(requests["new_times"].pop(0))
+            if ret:
+                timer_autonumbers = 3
+    else:
+        timer_autonumbers = timer_autonumbers -1        
+        
     
     if(timer1_1s_cnt == 0):
         timer1_1s_cnt = 1
+        
+
+        #ŕrequests["new_times"] = []     
     else:
         #timer auto-updates
         tabRunsTimes.tables[1].AutoUpdate() #table times

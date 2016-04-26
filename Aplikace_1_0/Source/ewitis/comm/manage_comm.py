@@ -296,7 +296,7 @@ class ManageComm(Thread):
                 dstore.SetItem("timing_settings", ["tags_reading_enable"], aux_device_overview["tags_reading_enable"], "GET", permanent = False)
                 dstore.Set("race_time", aux_device_overview['race_time'])                
             else:
-                print "I: COMM: terminal info: not ready for refresh", aux_terminal_info  
+                print "I: COMM: terminal info: not ready for refresh", aux_device_overview  
         
                             
          

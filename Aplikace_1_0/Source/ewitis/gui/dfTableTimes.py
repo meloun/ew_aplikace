@@ -522,18 +522,19 @@ class DfTableTimes(DfTable):
             ret = self.sExportDirect(self.eHTM_EXPORT)
 
                 
-    def Update_AutoNumbers(self):
+    def Update_AutoNumbers(self, new_time):
         ds_times = dstore.Get("times")
         if(ds_times["auto_number_enable"] and ds_times["auto_number_logic"]):
-            updates = ttAutonumbers.Update(self.model.GetDataframe())                
+            updates = ttAutonumbers.Update(self.model.GetDataframe(), new_time)                
             #self.model.Update()
             for update in updates:
-                #self.model.setDataFromDict(update)
                 user = tableUsers.model.getUserParNr(int(update['nr']))                                                                                   
                 if user != None:
                     db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
                     print "I: auto number: update:", update['nr'], "id:", update["id"]
                     eventCalcNow.set()
+                    return True #only one number at once
+        return False
             #time.sleep(0.05)
             #self.model.Update()
         
