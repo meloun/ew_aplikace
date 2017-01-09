@@ -590,7 +590,13 @@ class ManageComm(Thread):
                 dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
                 if dbUser != None:
                     time['user_id'] = dbUser['id']
-            
+        
+        '''hack for car sprint'''
+#         time['un1'] = time['cell']                    
+#         if (time['cell'] == 2) or (time['cell']== 3):
+#             time['cell'] = 1
+#         elif (time['cell'] == 4) or (time['cell'] == 5):
+#             time['cell'] = 250       
                                 
         '''alltag filter - active only when rfid race and tag filter checked'''
         racesettings_app = dstore.Get("racesettings-app")
@@ -605,6 +611,10 @@ class ManageComm(Thread):
         '''save to database'''        
         keys = ["state", "id", "run_id", "user_id", "cell", "time_raw"]#, "time"]
         values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
+        
+        '''hack for car sprint'''
+        keys.append("un1")
+        values.append(time["un1"])
         ret = self.db.insert_from_lists("times", keys, values)
         
       

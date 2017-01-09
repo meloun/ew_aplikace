@@ -56,6 +56,7 @@ from ewitis.gui.tabRunsTimes import tabRunsTimes
 from ewitis.gui.tabCells import tabCells 
 from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.tabExportSettings import tabExportSettings
+from ewitis.gui.tabExportColumns import tabExportColumns
 from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabDiagnostic import tabDiagnostic
@@ -124,6 +125,7 @@ class TabManager():
         tabRaceInfo.Init()
         tabRaceSettings.Init()
         tabExportSettings.Init()
+        tabExportColumns.Init()
         tabCategories.Init()
         tabUsers.Init()
         tabRunsTimes.Init()  
@@ -148,6 +150,7 @@ class TabManager():
         tabRaceInfo.Update()
         tabRaceSettings.Update()
         tabExportSettings.Update()
+        tabExportColumns.Update()
         tabCategories.Update()
         tabUsers.Update()
         tabRunsTimes.Update()  

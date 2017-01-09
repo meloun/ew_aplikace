@@ -114,6 +114,9 @@ class TimesUtils():
         '''
         "00:01:03,15", "00:01:02,11" => "00:00:01,04"
         '''
+        print "timestring1",timestring1
+        print "timestring2",timestring2
+
         t1 = TimesUtils.timestring2time(timestring1, False)
         t2 = TimesUtils.timestring2time(timestring2, False)        
         timestring = TimesUtils.time2timestring(t1 - t2)
@@ -384,20 +387,7 @@ class TimesOrder():
 
         return res_order
     
-    def GetGap(self, lap, time, winner_lap, winner_time):
-        gap = None
-        if(winner_lap != None and winner_time != None and time!=0 and time!=None):
-            if winner_lap == lap:                
-                gap = TimesUtils.times_difference(time, winner_time)
-            elif (lap != "") and ('lap' !=None):
-                gap = int(winner_lap) - int(lap)                     
-                if gap == 1:
-                    gap = str(gap) + " kolo"
-                elif gap < 5:
-                    gap = str(gap) + " kola"
-                else:
-                    gap = str(gap) + " kol"     
-        return gap 
+
     
        
     

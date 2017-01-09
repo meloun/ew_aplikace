@@ -6,10 +6,12 @@ Created on 16. 1. 2016
 '''
 import time, os
 import libs.pandas.df_utils as df_utils
+import ewitis.gui.TimesUtils as TimesUtils
 from ewitis.data.dstore import dstore
 import pandas as pd
 from ewitis.data.DEF_DATA import *
 from ewitis.gui.tabExportSettings import tabExportSettings
+from ewitis.gui.tabExportColumns import tabExportColumns
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.dfTableCGroups import tableCGroups
@@ -38,7 +40,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
                           
             aux_df = utDf.copy()
             
-            if (tabExportSettings.IsEnabled(i) == False):
+            if (tabExportColumns.IsEnabled(i) == False):
                 continue
             
             #get export filtersort
@@ -73,9 +75,22 @@ def Export(utDf, export_type = eCSV_EXPORT):
             #add "order in category" -> "3./Kategorie XY"
             for oc in range(0, NUMBER_OF.EXPORTS):
                 ordercatX = 'ordercat'+str(oc+1)
-                orderX = 'order'+str(oc+1)                
-                aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                                
-            
+                orderX = 'order'+str(oc+1)
+                                
+                #aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category
+                                       
+                aux_df[ordercatX] = aux_df[orderX].astype(float).map('{:,g}'.format)+"./"+aux_df.category
+                                                
+#             #get winner and compute GAPs                       
+#             for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+#                 gapX = 'gap'+str(nr+1)
+#                 lapX = 'lap'+str(nr+1)
+#                 timeX = 'time'+str(nr+1)
+#                 winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+#                 if (lapX in winnerX) and (timeX in winnerX):                    
+#                     aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+#                 else:
+#                     aux_df[gapX] = None
             #lapsexport
             if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):                       
                 aux_df = ToLapsExport(aux_df)
@@ -123,7 +138,7 @@ def ExportToCsvFiles(dfs):
             
     for i in range(0, NUMBER_OF.EXPORTS): 
         
-        if (tabExportSettings.IsEnabled(i, "csv") == False):
+        if (tabExportColumns.IsEnabled(i, "csv") == False):
             continue
         
         #get df
@@ -147,6 +162,12 @@ def ExportToCsvFiles(dfs):
         if "total" in filtersort["type"]:
             #print i, "TOTAL"
             if(len(df) != 0):
+                
+                #get winner and compute GAPs                       
+                for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+                    AddGap(c_df, nr)
+                    
+                #
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                                         
                 ExportToCsvFile(dirname+filename+".csv", Columns2Cz(df[columns]), firstline)                                
                 exported[filename] = len(df) 
@@ -159,6 +180,12 @@ def ExportToCsvFiles(dfs):
             category_groupby = c_df.groupby(c_df.index)
             for c_name, c_df in category_groupby:                
                 if(len(c_df) != 0):
+                    
+                    #get winner and compute GAPs                       
+                    for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+                        AddGap(c_df, nr)
+
+
                     category = tableCategories.model.getCategoryParName(c_name)
                     category = category.to_dict()
                      
@@ -181,12 +208,27 @@ def ExportToCsvFiles(dfs):
                 categories = tableCategories.model.getCategoriesParGroupLabel(g_label)
                                                                  
                 aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
-                if(aux_df.empty == False):                                 
+                if(aux_df.empty == False):
+                    
+                    #get winner and compute GAPs                       
+                    for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+                        AddGap(aux_df, nr)
+                                                         
                     group = tableCGroups.model.getCGrouptParLabel(g_label)
                     filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                        
                     ExportToCsvFile(dirname+filename+".csv", Columns2Cz(aux_df[columns]), firstline, [group["name"], group["description"]])                                       
                     exported[filename] = len(aux_df)                                        
     return exported
+
+def AddGap(df, nr):
+    gapX = 'gap'+str(nr+1)
+    lapX = 'lap'+str(nr+1)
+    timeX = 'time'+str(nr+1)
+    winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+    if (lapX in winnerX) and (timeX in winnerX):                    
+        df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+    else:
+        df[gapX] = None 
 
 """
 ExportToCsvFile
@@ -196,7 +238,7 @@ def ExportToCsvFile(filename, df, firstline = ['',''], secondline = ['','']):
     try:
         df_utils.WriteToCsvFile(filename, df, firstline, secondline)                                      
     except IOError:
-        uiAccesories.showMessage(self.name+" Export warning", "File "+filename+"\nPermission denied!")
+        uiAccesories.showMessage(filename+" Export warning", "File "+filename+"\nPermission denied!")
         
 def ExportToHtmFiles(dfs, type):       
 
@@ -211,16 +253,20 @@ def ExportToHtmFiles(dfs, type):
                 
     for i in range(0, NUMBER_OF.EXPORTS): 
         
-        if (tabExportSettings.IsEnabled(i, "htm") == False):
+        if (tabExportColumns.IsEnabled(i, "htm") == False):
             continue        
         
         #filter to checked columns
-        columns = tabExportSettings.exportgroups[i].GetCheckedColumns() 
+        columns = tabExportColumns.exportgroups[i].GetCheckedColumns() 
         
         df = pd.DataFrame()
         if(type == eHTM_EXPORT):            
             df =  dfs[i]
+
             if(len(df) != 0):
+                #get winner and compute GAPs                       
+                for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+                    AddGap(df, nr)
                 df = df[columns]
             css_filename = dstore.GetItem("export_www", [i, "css_filename"])
             js_filename = dstore.GetItem("export_www", [i, "js_filename"])
@@ -269,10 +315,26 @@ def ExportToHtmFile(filename, df, css_filename = "", js_filename = "", title = "
     html_page = ew_html.Page_table(filename, title, styles= [css_filename,], scripts=[js_filename],lists = df.values, keys = df.columns)                                                                            
     html_page.save()                                                                                                         
                     
-
+def GetGap(time, lap, winner_time, winner_lap):
+    
+    print time, lap,winner_time,winner_lap
+    gap = None
+    if(winner_lap != None and winner_time != None and time!=0 and time!=None):
+        if winner_lap == lap:                
+            gap = TimesUtils.TimesUtils.times_difference(time, winner_time)
+        elif (lap != "") and ('lap' !=None):
+            gap = int(winner_lap) - int(lap)                     
+            if gap == 1:
+                gap = str(gap) + " kolo"
+            elif gap < 5:
+                gap = str(gap) + " kola"
+            else:
+                gap = str(gap) + " kol"     
+    return gap 
+    
 '''
 '''
-def ToLapsExport(self, df):        
+def ToLapsExport(df):        
                     
     # http://stackoverflow.com/questions/32051676/how-to-transpose-dataframe/32052086        
     df['colnum'] = df.groupby('nr').cumcount()+1
@@ -297,7 +359,7 @@ def GetExportCollumns(df, i):
     
     
     #filter to checked columns
-    columns = tabExportSettings.exportgroups[i].GetCheckedColumns()
+    columns = tabExportColumns.exportgroups[i].GetCheckedColumns()
                  
     #export filter-sort settings
     filtersort = dstore.GetItem('export_filtersort', [i])
@@ -324,7 +386,7 @@ def GetExportCollumns(df, i):
 """
 Add users to dataframe
 """
-def AddMissingUsers(self, tDf):        
+def AddMissingUsers(tDf):        
     
     #get missing users
     df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(tDf["nr"])].copy()    

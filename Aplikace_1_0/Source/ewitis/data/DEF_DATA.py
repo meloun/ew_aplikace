@@ -23,12 +23,12 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 15
+    nr_tabs = 16
     runs_times, users, categories, cgroups, tags, alltags, race_info, race_settings,\
-    export_settings, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+    export_settings, export_columns, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", race_info:"RaceInfo", \
-              race_settings:"RaceSettings",  export_settings:"ExportSettings", device:"Device", cells: "Cells",\
+              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", cells: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
             }
@@ -108,8 +108,8 @@ DEF_DATA = {
                                },        
         #tab TIMES
         "times"                : {"GET_SET"  : {"value": {
-                                                          "auto_number_enable": CheckboxValue.checked,
-                                                          "auto_number_logic": True,                                                          
+                                                          "auto_number_enable": CheckboxValue.unchecked,
+                                                          "auto_number_logic": False,                                                          
                                                           "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0
@@ -191,11 +191,11 @@ DEF_DATA = {
                                                                     "ordercat1":5, "ordercat2":6, "ordercat3":7, 
                                                                     "name":8, "category":9, "year":10, "club":11, "sex":12,
                                                                     "o1":13,"o2":14,"o3":15, "o4":16, 
-                                                                    "gap":17, 
-                                                                    "time1":18,"lap1":19,"time2":20,"lap2":21,"time3":22,"lap3":23, "time4":24,"lap4":25,
-                                                                    "points1":26,"points2":27,"points3":28,"points4":29,"points5":30,
-                                                                    "un1":31,"un2":32,"un3":33,
-                                                                    "us1":34,"status":35
+                                                                    "gap1":17, "gap2":18,"gap3":19,"gap4":20,
+                                                                    "time1":21,"lap1":22,"time2":23,"lap2":24,"time3":25,"lap3":26, "time4":27,"lap4":28,
+                                                                    "points1":29,"points2":30,"points3":31,"points4":32,"points5":33,
+                                                                    "un1":34,"un2":35,"un3":36,
+                                                                    "us1":37,"status":38
                                                                    }] * NUMBER_OF.EXPORTS,
                                                         "names":  {                                                
                                                                 "order1"            : u"Pořadí",
@@ -214,7 +214,10 @@ DEF_DATA = {
                                                                 "o2"                : u"Option 2",
                                                                 "o3"                : u"Option 3",
                                                                 "o4"                : u"Option 4",
-                                                                "gap"               : u"Ztráta",                                                                                                 
+                                                                "gap1"              : u"Ztráta",                                                                                                 
+                                                                "gap2"              : u"Ztráta",
+                                                                "gap3"              : u"Ztráta",
+                                                                "gap4"              : u"Ztráta",
                                                                 "time1"             : u"Čas",                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap1"              : u"Kolo",
                                                                 "time2"             : u"Čas",                                                                                                                                                                                                                                                                                                                                                                          
@@ -253,7 +256,10 @@ DEF_DATA = {
                                                                 "o2"                : CheckboxValue.unchecked,
                                                                 "o3"                : CheckboxValue.unchecked,
                                                                 "o4"                : CheckboxValue.unchecked,
-                                                                "gap"               : CheckboxValue.unchecked,                                                                                                      
+                                                                "gap1"              : CheckboxValue.unchecked,                                                                                                      
+                                                                "gap2"              : CheckboxValue.unchecked,
+                                                                "gap3"              : CheckboxValue.unchecked,
+                                                                "gap4"              : CheckboxValue.unchecked,
                                                                 "time1"             : CheckboxValue.checked,                                                                                                                                                                                                                                                                                                                                                                          
                                                                 "lap1"              : CheckboxValue.unchecked, 
                                                                 "time2"             : CheckboxValue.checked,                                                                                                                                                                                                                                                                                                                                                                          
@@ -362,7 +368,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.15e"},                                                                                                                    
+                                                        "app": "v3.16b - IR"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

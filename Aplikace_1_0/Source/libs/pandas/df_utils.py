@@ -49,7 +49,7 @@ def FilterEmptyColumns(df, columns):
         df =  df[df[columns[0]] != ""]
         df =  df[df[columns[0]].notnull()]
         
-    elif(len(keys) == 2):
+    elif(len(columns) == 2):
         df =  df[(df[columns[0]] != "") | (df[columns[1]] != "")]
         df =  df[(df[columns[0]] != None) | (df[columns[1]] != None)]
         
@@ -77,7 +77,7 @@ def WriteToCsvFile(filename, df, firstline = ['',''], secondline = ['','']):
 '''
 def Get(df, nr, filter = None):
     row = {}
-    
+
     if nr == None:
         return None
     

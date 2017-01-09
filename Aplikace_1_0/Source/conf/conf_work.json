@@ -61,27 +61,27 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "all times with order1",
                     "onerow": 0,
-                    "sort1": "order1",
+                    "sort1": "order2",
                     "sort2": "- - -",
-                    "type": "total"
+                    "type": "categories"
                 },
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "filter": "all times with order2",
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "total"
+                    "type": "groups"
                 },
                 {
                     "sortorder2": "asc",
-                    "sortorder1": "asc",
-                    "filter": "last times with time1",
+                    "sortorder1": "desc",
+                    "filter": "all times with order2",
                     "onerow": 0,
-                    "sort1": "order1",
+                    "sort1": "time1",
                     "sort2": "- - -",
                     "type": "total"
                 }
@@ -105,20 +105,20 @@
             "value": {
                 "profile": "- - -",
                 "remote": 0,
-                "race_name": "Formula Student 2013",
-                "rfid": 0,
+                "race_name": "Sázavský Blizák 2016",
+                "rfid": 2,
                 "autonumbers": {
-                    "nr_users": 4,
+                    "nr_users": 0,
                     "cells": [
                         1,
-                        2,
                         250,
+                        0,
                         0,
                         0,
                         0,
                         0
                     ],
-                    "nr_cells": 3
+                    "nr_cells": 0
                 },
                 "tag_filter": 0,
                 "profile_desc": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
@@ -127,7 +127,7 @@
                         "laps": 0,
                         "time": "00:00:00,00"
                     },
-                    "starttime": 1
+                    "starttime": 0
                 }
             }
         },
@@ -140,33 +140,36 @@
                 "enabled_htm": [
                     false,
                     false,
-                    false
+                    true
                 ],
                 "sorted": [
                     {
                         "sex": 12,
                         "year": 10,
                         "category": 9,
-                        "un1": 31,
-                        "un2": 32,
-                        "un3": 33,
-                        "time4": 24,
-                        "points1": 26,
-                        "points2": 27,
-                        "points3": 28,
-                        "points4": 29,
-                        "points5": 30,
-                        "time2": 20,
-                        "time3": 22,
-                        "time1": 18,
+                        "un1": 34,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 33,
+                        "time2": 23,
+                        "time3": 25,
+                        "time1": 21,
                         "nr": 4,
                         "o4": 16,
                         "o3": 15,
                         "o2": 14,
                         "o1": 13,
-                        "status": 35,
+                        "status": 38,
                         "club": 11,
-                        "gap": 17,
+                        "gap1": 21,
+                        "gap2": 16,
+                        "gap3": 17,
+                        "gap4": 18,
                         "order2": 2,
                         "order3": 3,
                         "order1": 1,
@@ -174,36 +177,39 @@
                         "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 19,
-                        "lap3": 23,
-                        "lap2": 21,
-                        "lap4": 25,
-                        "us1": 34
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
                     },
                     {
                         "sex": 12,
                         "year": 10,
                         "category": 9,
-                        "un1": 31,
-                        "un2": 32,
-                        "un3": 33,
-                        "time4": 24,
-                        "points1": 26,
-                        "points2": 27,
-                        "points3": 28,
-                        "points4": 29,
-                        "points5": 30,
-                        "time2": 20,
-                        "time3": 22,
-                        "time1": 18,
+                        "un1": 34,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 33,
+                        "time2": 23,
+                        "time3": 25,
+                        "time1": 21,
                         "nr": 4,
                         "o4": 16,
                         "o3": 15,
                         "o2": 14,
                         "o1": 13,
-                        "status": 35,
+                        "status": 38,
                         "club": 11,
-                        "gap": 17,
+                        "gap1": 17,
+                        "gap2": 18,
+                        "gap3": 19,
+                        "gap4": 20,
                         "order2": 2,
                         "order3": 3,
                         "order1": 1,
@@ -211,66 +217,69 @@
                         "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 19,
-                        "lap3": 23,
-                        "lap2": 21,
-                        "lap4": 25,
-                        "us1": 34
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
                     },
                     {
                         "sex": 12,
                         "year": 10,
                         "category": 9,
-                        "un1": 31,
-                        "un2": 32,
-                        "un3": 33,
-                        "time4": 24,
-                        "points1": 26,
-                        "points2": 27,
-                        "points3": 28,
-                        "points4": 29,
-                        "points5": 30,
-                        "time2": 20,
-                        "time3": 22,
-                        "time1": 18,
-                        "nr": 4,
+                        "un1": 34,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 33,
+                        "time2": 23,
+                        "time3": 25,
+                        "time1": 21,
+                        "nr": 2,
                         "o4": 16,
                         "o3": 15,
                         "o2": 14,
                         "o1": 13,
-                        "status": 35,
+                        "status": 38,
                         "club": 11,
-                        "gap": 17,
+                        "gap1": 17,
+                        "gap2": 18,
+                        "gap3": 19,
+                        "gap4": 20,
                         "order2": 2,
-                        "order3": 3,
-                        "order1": 1,
+                        "order3": 7,
+                        "order1": 7,
                         "ordercat1": 5,
                         "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 19,
-                        "lap3": 23,
-                        "lap2": 21,
-                        "lap4": 25,
-                        "us1": 34
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
                     }
                 ],
                 "checked": [
                     {
                         "sex": 0,
-                        "year": 0,
-                        "category": 2,
+                        "year": 2,
+                        "category": 0,
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
-                        "time4": 2,
+                        "time4": 0,
                         "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 2,
-                        "time3": 2,
+                        "time2": 0,
+                        "time3": 0,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
@@ -279,10 +288,13 @@
                         "o1": 0,
                         "status": 0,
                         "club": 2,
-                        "gap": 0,
+                        "gap1": 2,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
                         "order2": 2,
-                        "order3": 2,
-                        "order1": 2,
+                        "order3": 0,
+                        "order1": 0,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
@@ -295,19 +307,19 @@
                     },
                     {
                         "sex": 0,
-                        "year": 0,
-                        "category": 2,
+                        "year": 2,
+                        "category": 0,
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
-                        "time4": 2,
+                        "time4": 0,
                         "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 2,
-                        "time3": 2,
+                        "time2": 0,
+                        "time3": 0,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
@@ -316,11 +328,14 @@
                         "o1": 0,
                         "status": 0,
                         "club": 2,
-                        "gap": 0,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
                         "order2": 2,
-                        "order3": 2,
-                        "order1": 2,
-                        "ordercat1": 0,
+                        "order3": 0,
+                        "order1": 0,
+                        "ordercat1": 2,
                         "name": 2,
                         "ordercat3": 0,
                         "ordercat2": 0,
@@ -332,19 +347,19 @@
                     },
                     {
                         "sex": 0,
-                        "year": 0,
+                        "year": 2,
                         "category": 2,
                         "un1": 0,
                         "un2": 0,
                         "un3": 0,
-                        "time4": 2,
+                        "time4": 0,
                         "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
-                        "time2": 2,
-                        "time3": 2,
+                        "time2": 0,
+                        "time3": 0,
                         "time1": 2,
                         "nr": 2,
                         "o4": 0,
@@ -353,14 +368,17 @@
                         "o1": 0,
                         "status": 0,
                         "club": 2,
-                        "gap": 0,
-                        "order2": 2,
-                        "order3": 2,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
                         "order1": 2,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
-                        "ordercat2": 0,
+                        "ordercat2": 2,
                         "lap1": 0,
                         "lap3": 0,
                         "lap2": 0,
@@ -391,10 +409,13 @@
                     "o1": "Option 1",
                     "status": "Status",
                     "club": "Klub",
-                    "gap": "Ztráta",
+                    "gap1": "Ztráta",
+                    "gap2": "Z2",
+                    "gap3": "Z3",
+                    "gap4": "Z4",
                     "order2": "Pořadí",
-                    "order3": "Pořadí",
-                    "order1": "Pořadí",
+                    "order3": "V cíli",
+                    "order1": "V cíli",
                     "ordercat1": "Pořadí/Kategorie",
                     "name": "Jméno",
                     "ordercat3": "Pořadí/Kategorie",
@@ -408,7 +429,7 @@
                 "enabled_csv": [
                     true,
                     true,
-                    true
+                    false
                 ]
             }
         },
@@ -421,27 +442,30 @@
             "changed": false,
             "value": [
                 {
-                    "task": 1,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 1
                 },
                 {
-                    "task": 2,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 2
                 },
                 {
-                    "task": 250,
+                    "fu4": 0,
+                    "task": 0,
                     "fu2": 0,
                     "fu3": 0,
                     "fu1": 0,
-                    "trigger": 3,
+                    "trigger": 0,
                     "address": 3
                 },
                 {
@@ -547,82 +571,82 @@
         },
         "name": "cells info",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": [
                 {
-                    "task": 1,
-                    "synchronized": true,
-                    "ir_signal": true,
-                    "battery": 100,
-                    "trigger": 3,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": true,
+                    "ir_signal": false,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 1,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 2,
-                    "synchronized": true,
-                    "ir_signal": true,
-                    "battery": 100,
-                    "trigger": 3,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": true,
+                    "ir_signal": false,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 2,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 250,
-                    "synchronized": true,
-                    "ir_signal": true,
-                    "battery": 100,
-                    "trigger": 3,
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": true,
+                    "ir_signal": false,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 3,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
-                    "ir_signal": false,
                     "battery": 0,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": false,
+                    "ir_signal": false,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 4,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
-                    "task": 0,
+                    "synchronized_once": false,
                     "synchronized": false,
-                    "ir_signal": false,
                     "battery": 0,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
-                    "diagnostic_short_ko": 0,
-                    "synchronized_once": false,
+                    "ir_signal": false,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 5,
-                    "active": false
+                    "active": false,
+                    "diagnostic_short_ko": 0
                 },
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -636,7 +660,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -650,7 +674,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -664,7 +688,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -678,7 +702,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -692,7 +716,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -706,7 +730,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -720,7 +744,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -734,7 +758,7 @@
                 {
                     "synchronized_once": false,
                     "synchronized": false,
-                    "battery": 0,
+                    "battery": null,
                     "trigger": 0,
                     "diagnostic_long_ok": 0,
                     "diagnostic_short_ok": 0,
@@ -764,14 +788,14 @@
         },
         "name": "timing_settings",
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": {
-                "logic_mode": 1,
+                "logic_mode": null,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 0,
-                "measurement_state": 2,
                 "name_id": 1,
-                "filter_tagtime": 0,
+                "measurement_state": 0,
+                "filter_minlaptime": 60,
+                "filter_tagtime": 5,
                 "tags_reading_enable": 1
             }
         }
@@ -784,18 +808,18 @@
                 },
                 "us": [
                     {
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "un": [
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "time": [
@@ -807,19 +831,19 @@
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
+                        "checked": 0,
                         "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
+                        "checked": 0,
                         "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
+                        "checked": 0,
                         "minute_timeformat": 0,
                         "rule": "time - starttime"
                     }
@@ -833,23 +857,23 @@
                     {
                         "filter": "",
                         "fromlaststart": 0,
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "filter": "",
                         "fromlaststart": 0,
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "filter": "",
                         "fromlaststart": 0,
-                        "checked": 2
+                        "checked": 0
                     }
                 ],
                 "order": [
                     {
                         "checked": 2,
-                        "row": "Last times",
+                        "row": "Best times1",
                         "order2": "Asc",
                         "type": "Total",
                         "order1": "Asc",
@@ -858,15 +882,15 @@
                     },
                     {
                         "checked": 2,
-                        "row": "Last times",
+                        "row": "Best times1",
                         "order2": "Asc",
-                        "type": "Total",
+                        "type": "Category",
                         "order1": "Asc",
                         "column1": "Time1",
                         "column2": " - - -"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "row": "Last times",
                         "order2": "Asc",
                         "type": "Total",
@@ -878,31 +902,31 @@
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
                         "rule": "abs(time1 - %00:01:30,00%)"
                     }
