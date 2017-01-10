@@ -197,7 +197,7 @@ DEF_DATA = {
                                                                     "un1":34,"un2":35,"un3":36,
                                                                     "us1":37,"status":38
                                                                    }] * NUMBER_OF.EXPORTS,
-                                                        "names":  {                                                
+                                                        "names":  [{                                                
                                                                 "order1"            : u"Pořadí",
                                                                 "order2"            : u"Pořadí",
                                                                 "order3"            : u"Pořadí",
@@ -236,8 +236,7 @@ DEF_DATA = {
                                                                 "un3"               : u"Un 3",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "us1"               : u"Us 1",                                                                                                                                                                                                                                                                                                                                                                         
                                                                 "status"            : u"Status"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                },
-                                                        "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
+                                                                }] * NUMBER_OF.EXPORTS,                                                        "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
                                                         "enabled_htm":  [False]* NUMBER_OF.EXPORTS,                                                        
                                                         "checked": [{                                                                
                                                                 "order1"            : CheckboxValue.checked,

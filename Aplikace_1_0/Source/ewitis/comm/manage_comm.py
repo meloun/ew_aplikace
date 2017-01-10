@@ -613,8 +613,8 @@ class ManageComm(Thread):
         values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
         
         '''hack for car sprint'''
-        keys.append("un1")
-        values.append(time["un1"])
+        #keys.append("un1")
+        #values.append(time["un1"])
         ret = self.db.insert_from_lists("times", keys, values)
         
       

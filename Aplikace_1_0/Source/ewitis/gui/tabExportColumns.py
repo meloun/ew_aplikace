@@ -405,12 +405,13 @@ class ExportGroup():
             
 class NamesGroup():
     
-    def __init__(self):
+    def __init__(self, index):
         '''
         Constructor
         group items as class members
         format groupCell_1, checkCell_1.. groupCell_2, checkCell_2 
         '''
+        self.index = index
         ui = Ui()
         
         #three columns groups
@@ -424,31 +425,31 @@ class NamesGroup():
         self.us = [None] * 1  
               
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
-            self.time[i] = getattr(ui, "lineExportNameTime"+str(i+1)) 
-            self.lap[i] = getattr(ui, "lineExportNameLap"+str(i+1))
-            self.gap[i] = getattr(ui, "lineExportNameGap"+str(i+1))
+            self.time[i] = getattr(ui, "lineExportNameTime"+str(i+1)+"_"+str(self.index+1)) 
+            self.lap[i] = getattr(ui, "lineExportNameLap"+str(i+1)+"_"+str(self.index+1))
+            self.gap[i] = getattr(ui, "lineExportNameGap"+str(i+1)+"_"+str(self.index+1))
             
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            self.order[i] = getattr(ui, "lineExportNameOrder"+str(i+1))
-            self.ordercat[i] = getattr(ui, "lineExportNameOrderCat"+str(i+1))
-            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
-            self.un[i] = getattr(ui, "lineExportNameUn"+str(i+1))
+            self.order[i] = getattr(ui, "lineExportNameOrder"+str(i+1)+"_"+str(self.index+1))
+            self.ordercat[i] = getattr(ui, "lineExportNameOrderCat"+str(i+1)+"_"+str(self.index+1))
+            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1)+"_"+str(self.index+1))
+            self.un[i] = getattr(ui, "lineExportNameUn"+str(i+1)+"_"+str(self.index+1))
         i=0
-        self.us[i] = getattr(ui, "lineExportNameUs"+str(i+1))
+        self.us[i] = getattr(ui, "lineExportNameUs"+str(i+1)+"_"+str(self.index+1))
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1))
+            self.points[i] = getattr(ui, "lineExportNamePoints"+str(i+1)+"_"+str(self.index+1))
          
-        self.nr = getattr(ui, "lineExportNameNr")
-        self.name = getattr(ui, "lineExportNameName")
-        self.category = getattr(ui, "lineExportNameCategory")
-        self.year = getattr(ui, "lineExportNameYear")        
-        self.sex = getattr(ui, "lineExportNameSex")        
-        self.club = getattr(ui, "lineExportNameClub")        
+        self.nr = getattr(ui, "lineExportNameNr"+"_"+str(self.index+1))
+        self.name = getattr(ui, "lineExportNameName"+"_"+str(self.index+1))
+        self.category = getattr(ui, "lineExportNameCategory"+"_"+str(self.index+1))
+        self.year = getattr(ui, "lineExportNameYear"+"_"+str(self.index+1))        
+        self.sex = getattr(ui, "lineExportNameSex"+"_"+str(self.index+1))        
+        self.club = getattr(ui, "lineExportNameClub"+"_"+str(self.index+1))        
 
                 
         self.option = [None] * NUMBER_OF.OPTIONCOLUMNS                
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):
-            self.option[i] = getattr(ui, "lineExportNameOption"+str(i+1))        
+            self.option[i] = getattr(ui, "lineExportNameOption"+str(i+1)+"_"+str(self.index+1))       
                                 
         
     def Init(self):        
@@ -459,29 +460,29 @@ class NamesGroup():
         
         #three columns groups
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
-            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "time"+str(idx+1)],  utils.toUnicode(name))) 
-            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "lap"+str(idx+1)],  utils.toUnicode(name)))                                            
-            QtCore.QObject.connect(self.gap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "gap"+str(idx+1)],  utils.toUnicode(name)))
+            QtCore.QObject.connect(self.time[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index,  "time"+str(idx+1)],  utils.toUnicode(name))) 
+            QtCore.QObject.connect(self.lap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "lap"+str(idx+1)],  utils.toUnicode(name)))                                            
+            QtCore.QObject.connect(self.gap[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "gap"+str(idx+1)],  utils.toUnicode(name)))
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "order"+str(idx+1)],  utils.toUnicode(name)))
-            QtCore.QObject.connect(self.ordercat[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "ordercat"+str(idx+1)],  utils.toUnicode(name)))
-            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "un"+str(idx+1)],  utils.toUnicode(name)))
+            QtCore.QObject.connect(self.order[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "order"+str(idx+1)],  utils.toUnicode(name)))
+            QtCore.QObject.connect(self.ordercat[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "ordercat"+str(idx+1)],  utils.toUnicode(name)))
+            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "un"+str(idx+1)],  utils.toUnicode(name)))
         i=0                                            
-        QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", "us"+str(idx+1)],  utils.toUnicode(name)))                                            
+        QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "us"+str(idx+1)],  utils.toUnicode(name)))                                            
                
-        QtCore.QObject.connect(self.nr, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "nr"],  utils.toUnicode(name)))                                
-        QtCore.QObject.connect(self.name, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "name"],  utils.toUnicode(name)))                                
-        QtCore.QObject.connect(self.category, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "category"],  utils.toUnicode(name)))                                
-        QtCore.QObject.connect(self.year, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "year"],  utils.toUnicode(name)))                                
-        QtCore.QObject.connect(self.sex, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "sex"],  utils.toUnicode(name)))                                
-        QtCore.QObject.connect(self.club, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", "club"],  utils.toUnicode(name)))
+        QtCore.QObject.connect(self.nr, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "nr"],  utils.toUnicode(name)))                                
+        QtCore.QObject.connect(self.name, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "name"],  utils.toUnicode(name)))                                
+        QtCore.QObject.connect(self.category, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "category"],  utils.toUnicode(name)))                                
+        QtCore.QObject.connect(self.year, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "year"],  utils.toUnicode(name)))                                
+        QtCore.QObject.connect(self.sex, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "sex"],  utils.toUnicode(name)))                                
+        QtCore.QObject.connect(self.club, QtCore.SIGNAL("textEdited(const QString&)"),  lambda name: dstore.SetItem("export", ["names", self.index, "club"],  utils.toUnicode(name)))
                                 
         for i in range(0, NUMBER_OF.OPTIONCOLUMNS):  
-            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", "o"+str(idx+1)],  utils.toUnicode(name)))            
+            QtCore.QObject.connect(self.option[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "o"+str(idx+1)],  utils.toUnicode(name)))            
             
         
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", "points"+str(idx+1)],  utils.toUnicode(name))) 
+            QtCore.QObject.connect(self.points[i], QtCore.SIGNAL("textEdited(const QString&)"),  lambda name, idx = i: dstore.SetItem("export", ["names", self.index, "points"+str(idx+1)],  utils.toUnicode(name))) 
                 
 
     def setEnabled(self, enabled):
@@ -511,7 +512,7 @@ class NamesGroup():
         
     
     def GetInfo(self):        
-        return dstore.GetItem("export", ["names"])    
+        return dstore.GetItem("export", ["names", self.index])    
 
     
     def Update(self):
@@ -569,8 +570,8 @@ class TabExportColumns():
         for i in range(0, NUMBER_OF.EXPORTS):
             self.exportgroups[i] = ExportGroup(i)
             self.exportgroups[i].CreateSlots()
-        self.namesgroup = NamesGroup()
-        self.namesgroup.CreateSlots()
+            self.namesgroup[i] = NamesGroup(i)
+            self.namesgroup[i].CreateSlots()
         
             
         
@@ -587,10 +588,10 @@ class TabExportColumns():
     def Update(self, mode = UPDATE_MODE.all):                                                  
         #export        
         #exportgroups                
-        changed = False        
-        self.namesgroup.Update()             
-        for i in range(0, NUMBER_OF.EXPORTS):                                    
-            a = self.exportgroups[i].Update()            
+        changed = False                             
+        for i in range(0, NUMBER_OF.EXPORTS):
+            self.namesgroup[i].Update()                                    
+            a = self.exportgroups[i].Update()                        
             changed = changed or a            
             
 #             column = dstore.GetItem("export_laps", ["column"])

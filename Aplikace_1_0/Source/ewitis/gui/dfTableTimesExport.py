@@ -195,7 +195,7 @@ def ExportToCsvFiles(dfs):
                     
                     #write to file
                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)
-                    ExportToCsvFile(dirname+filename+".csv",  Columns2Cz(c_df[columns]), firstline, secondline)                                                                                                                                                
+                    ExportToCsvFile(dirname+filename+".csv",  Columns2Cz(c_df[columns], i), firstline, secondline)                                                                                                                                                
                     
                     exported[filename] = len(c_df) 
                  
@@ -466,9 +466,9 @@ def ConvertToInt(df):
             #aux_df["points23"] = aux_df["points23"].astype(float)                
     return df
 
-def Columns2Cz(df):
+def Columns2Cz(df, idx):
     #convert header EN => CZ
-    tocz_dict = dstore.GetItem("export", ["names"])                                                 
+    tocz_dict = dstore.GetItem("export", ["names", idx])                                                 
     df = df.rename(columns = tocz_dict)     
     
     #onerow columns to CZ                                        
