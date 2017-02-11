@@ -53,16 +53,20 @@ class UiAccesories(UiaDialogs):
         
     def UpdateText(self, object, text):
         try:
-            gui_text = object.text()
+            gui_text = object.text() 
         except AttributeError:
-            gui_text = object.toHtml()
+            gui_text = object.toPlainText()                         
+        except AttributeError:
+            gui_text = object.toHtml()            
              
         if(gui_text != text):
             #cursor_position = object.cursorPosition()
+            #cursor_position = object.textCursor()
             #print "nastaveno", gui_text
             #print "nastavuju", text
             object.setText(text)
             #object.setCursorPosition(cursor_position)  
+            #object.setTextCursor(cursor_position)
         
     def SetCurrentIndex(self, object, text):
         index = object.findText(text, QtCore.Qt.MatchFixedString)

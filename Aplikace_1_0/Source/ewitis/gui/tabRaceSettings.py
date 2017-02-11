@@ -250,8 +250,8 @@ class TabRaceSettings():
     """                 """
     """ EXPLICIT SLOTS  """
     """                 """
-    def sTextChanged(self):        
-        uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode( Ui().textProfileDesc.toHtml()), self.Update)
+    def sTextChanged(self):                
+        uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode( Ui().textProfileDesc.toPlainText()), self.Update)
         
     def sLoadProfile(self):
         

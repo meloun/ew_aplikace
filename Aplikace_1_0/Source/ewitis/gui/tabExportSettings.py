@@ -169,7 +169,38 @@ class WWWExportGroup():
         uiAccesories.UpdateText(self.css_filename, info["css_filename"])
         uiAccesories.UpdateText(self.js_filename, info["js_filename"])
         
+class SmsExportGroup():
+    
+    def __init__(self, index):
+        ''' Constructor '''
+        ui = Ui()        
+        self.index = index
         
+        #three columns groups
+        self.text = getattr(ui, "textExportSms"+str(index+1))  
+        
+    def Init(self):        
+        self.Update()
+        self.createSlots()            
+
+    def CreateSlots(self):  
+        QtCore.QObject.connect(self.text, QtCore.SIGNAL("textChanged()"), self.sTextChanged)                                
+
+            
+    """                 """
+    """ EXPLICIT SLOTS  """
+    """                 """
+    def sTextChanged(self):                    
+        uiAccesories.sGuiSetItem("export_sms", [self.index, "text"], utils.toUnicode( self.text.toPlainText()), self.Update)                                
+    
+    def GetInfo(self):                
+        return dstore.GetItem("export_sms", [self.index])    
+    
+    def Update(self):
+        info = self.GetInfo()   
+        #print info
+        uiAccesories.UpdateText(self.text, info["text"])                                                                              
+                
 
 class TabExportSettings():    
       
@@ -190,12 +221,15 @@ class TabExportSettings():
 
         self.headergroups = [None] * NUMBER_OF.EXPORTS 
         self.wwwgroups = [None] * NUMBER_OF.EXPORTS 
+        self.smsgroups = [None] * NUMBER_OF.EXPORTS
         self.filtersortgroups = [None] * NUMBER_OF.EXPORTS        
         for i in range(0, NUMBER_OF.EXPORTS):            
             self.headergroups[i] = HeaderGroup(i)
             self.headergroups[i].CreateSlots()
             self.wwwgroups[i] = WWWExportGroup(i)
             self.wwwgroups[i].CreateSlots()
+            self.smsgroups[i] = SmsExportGroup(i)
+            self.smsgroups[i].CreateSlots()
             self.filtersortgroups[i] = FilterSortGroup(i)
             self.filtersortgroups[i].CreateSlots()
 
@@ -220,6 +254,7 @@ class TabExportSettings():
         for i in range(0, NUMBER_OF.EXPORTS):
             self.headergroups[i].Update()
             self.wwwgroups[i].Update()
+            self.smsgroups[i].Update()
             self.filtersortgroups[i].Update()                        
           
             

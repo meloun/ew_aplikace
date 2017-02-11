@@ -238,6 +238,7 @@ DEF_DATA = {
                                                                 "status"            : u"Status"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                                                 }] * NUMBER_OF.EXPORTS,                                                        "enabled_csv":  [True]* NUMBER_OF.EXPORTS,                                                        
                                                         "enabled_htm":  [False]* NUMBER_OF.EXPORTS,                                                        
+                                                        "enabled_sms":  [False]* NUMBER_OF.EXPORTS,
                                                         "checked": [{                                                                
                                                                 "order1"            : CheckboxValue.checked,
                                                                 "order2"            : CheckboxValue.checked,
@@ -323,6 +324,13 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                         },
+        "export_sms"         : {"permanent": True,
+                                "GET_SET"  : {"value": [{
+                                                        "text"    : "text sms zprávy"                                                                                                                                                                                                                                                                                                                     
+                                                        }] * NUMBER_OF.EXPORTS,                                              
+                                              "changed": True
+                                              }  
+                        },                        
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "sendcommandkey": None,
                                                         "senddata": 0,
