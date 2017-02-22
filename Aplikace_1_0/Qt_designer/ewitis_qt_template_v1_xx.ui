@@ -8410,9 +8410,9 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>50</y>
-               <width>441</width>
-               <height>140</height>
+               <y>110</y>
+               <width>440</width>
+               <height>120</height>
               </rect>
              </property>
              <property name="html">
@@ -8431,9 +8431,9 @@ p, li { white-space: pre-wrap; }
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>230</y>
-               <width>441</width>
-               <height>140</height>
+               <y>270</y>
+               <width>440</width>
+               <height>120</height>
               </rect>
              </property>
             </widget>
@@ -8441,9 +8441,9 @@ p, li { white-space: pre-wrap; }
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>410</y>
-               <width>441</width>
-               <height>140</height>
+               <y>440</y>
+               <width>440</width>
+               <height>120</height>
               </rect>
              </property>
             </widget>
@@ -8451,7 +8451,7 @@ p, li { white-space: pre-wrap; }
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>30</y>
+               <y>90</y>
                <width>46</width>
                <height>13</height>
               </rect>
@@ -8471,7 +8471,7 @@ p, li { white-space: pre-wrap; }
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>210</y>
+               <y>250</y>
                <width>46</width>
                <height>13</height>
               </rect>
@@ -8491,7 +8491,7 @@ p, li { white-space: pre-wrap; }
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>390</y>
+               <y>420</y>
                <width>46</width>
                <height>13</height>
               </rect>
@@ -8505,6 +8505,60 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="text">
               <string>E3</string>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="comboExportSort1_4">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>30</y>
+               <width>130</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>o1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>o2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>o3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>o4</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QLabel" name="label_345">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>200</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="text">
+              <string>Column with phone numbers</string>
              </property>
             </widget>
            </widget>

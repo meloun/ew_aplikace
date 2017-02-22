@@ -27,6 +27,7 @@ class ExportGroup():
         self.index = index
         self.enable_csv = getattr(ui, "pushExportCsvEnable_" + str(index+1))
         self.enable_htm = getattr(ui, "pushExportHtmEnable_" + str(index+1))
+        self.enable_sms = getattr(ui, "pushExportSmsEnable_" + str(index+1))
         
         #three columns groups
         self.time = [None] * NUMBER_OF.TIMESCOLUMNS
@@ -123,6 +124,7 @@ class ExportGroup():
         #export        
         QtCore.QObject.connect(self.enable_csv, QtCore.SIGNAL('toggled(bool)'), lambda state: dstore.SetItem("export", ["enabled_csv", self.index], state))
         QtCore.QObject.connect(self.enable_htm, QtCore.SIGNAL('toggled(bool)'), lambda state: dstore.SetItem("export", ["enabled_htm", self.index], state))
+        QtCore.QObject.connect(self.enable_sms, QtCore.SIGNAL('toggled(bool)'), lambda state: dstore.SetItem("export", ["enabled_sms", self.index], state))
         
         """columns enable checkboxes """
         
@@ -253,6 +255,8 @@ class ExportGroup():
             return bool(dstore.GetItem("export", ["enabled_csv", self.index]))
         elif key == "htm":
             return bool(dstore.GetItem("export", ["enabled_htm", self.index]))
+        elif key == "sms":
+            return bool(dstore.GetItem("export", ["enabled_sms", self.index]))
         else:                  
             return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index])) 
               
@@ -346,6 +350,12 @@ class ExportGroup():
         font = self.enable_htm.font()
         font.setBold(enabled_htm_state)
         self.enable_htm.setFont(font)
+        
+        enabled_sms_state = dstore.GetItem("export", ["enabled_sms", self.index])
+        self.enable_sms.setChecked(enabled_sms_state)
+        font = self.enable_sms.font()
+        font.setBold(enabled_sms_state)
+        self.enable_sms.setFont(font)
         
         """enabled checkboxes"""
                                        

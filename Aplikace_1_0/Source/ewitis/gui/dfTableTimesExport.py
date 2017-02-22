@@ -108,14 +108,61 @@ def Export(utDf, export_type = eCSV_EXPORT):
     #export complete/ category and group results from export DFs        
     exported = {}
     if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNF):
-        exported = ExportToCsvFiles(exportDf)            
+        exported = ExportToCsvFiles(exportDf)
+        exported.update(ExportToSmsFiles(exportDf))           
     elif (export_type == eHTM_EXPORT) or (export_type == eHTM_EXPORT_LOGO):
         exported = ExportToHtmFiles(exportDf, export_type)    
     else:
         print  "Error: This export is not defined!"
         
     return exported                                  
-      
+
+'''
+ExportToSmsFiles
+- prepare text and call ExportToCsvFile()
+'''
+def ExportToSmsFiles(dfs):
+   
+    print "ExportToSmsFiles"
+    #return info
+    exported = {}
+   
+    #get dirname
+    racename = dstore.GetItem("racesettings-app", ['race_name'])     
+    dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+    try:
+        os.makedirs(dirname)
+    except WindowsError:
+        pass                                                                                      
+            
+    for i in range(0, NUMBER_OF.EXPORTS):
+        
+        if (tabExportColumns.IsEnabled(i, "sms") == False):
+            continue
+       
+        #get df
+        df =  dfs[i]                
+                                               
+        if(len(df) != 0):
+          
+          #add sms text as additional column
+          df["sms_text"] = dstore.GetItem("export_sms", [i, 'text'])
+          mystr = dstore.GetItem("export_sms", [i, 'text'])
+          
+          #for column in columns:
+          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
+                          
+          #
+          filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
+          ExportToCsvFile(dirname+filename+".csv", df[["o1", "sms_text"]], firstline = None, secondline = None)                               
+          exported[filename] = len(df)
+                                                                          
+    return exported
+
+def replaceSmsTags(text, row):
+    for c,r in row.iteritems():
+        text = text.replace("%"+c+"%", str(row[c]))
+    return text      
 '''
 ExportToCsvFiles
 - from prepared DFs export complete, category and group export    
@@ -165,11 +212,11 @@ def ExportToCsvFiles(dfs):
                 
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                    AddGap(c_df, nr)
+                    AddGap(df, nr)
                     
                 #
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                                         
-                ExportToCsvFile(dirname+filename+".csv", Columns2Cz(df[columns]), firstline)                                
+                ExportToCsvFile(dirname+filename+".csv", Columns2Cz(df[columns], i), firstline)                                
                 exported[filename] = len(df) 
                     
         #category export    
