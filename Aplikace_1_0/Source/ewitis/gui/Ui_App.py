@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sat Feb 11 12:54:26 2017
+# Created: Thu Feb 23 22:40:54 2017
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -3075,16 +3075,16 @@ class Ui_MainWindow(object):
         self.groupBox_15.setSizePolicy(sizePolicy)
         self.groupBox_15.setObjectName(_fromUtf8("groupBox_15"))
         self.textExportSms1 = QtGui.QTextEdit(self.groupBox_15)
-        self.textExportSms1.setGeometry(QtCore.QRect(10, 50, 441, 140))
+        self.textExportSms1.setGeometry(QtCore.QRect(10, 110, 440, 120))
         self.textExportSms1.setObjectName(_fromUtf8("textExportSms1"))
         self.textExportSms2 = QtGui.QTextEdit(self.groupBox_15)
-        self.textExportSms2.setGeometry(QtCore.QRect(10, 230, 441, 140))
+        self.textExportSms2.setGeometry(QtCore.QRect(10, 270, 440, 120))
         self.textExportSms2.setObjectName(_fromUtf8("textExportSms2"))
         self.textExportSms3 = QtGui.QTextEdit(self.groupBox_15)
-        self.textExportSms3.setGeometry(QtCore.QRect(10, 410, 441, 140))
+        self.textExportSms3.setGeometry(QtCore.QRect(10, 440, 440, 120))
         self.textExportSms3.setObjectName(_fromUtf8("textExportSms3"))
         self.label_341 = QtGui.QLabel(self.groupBox_15)
-        self.label_341.setGeometry(QtCore.QRect(10, 30, 46, 13))
+        self.label_341.setGeometry(QtCore.QRect(10, 90, 46, 13))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -3092,7 +3092,7 @@ class Ui_MainWindow(object):
         self.label_341.setFont(font)
         self.label_341.setObjectName(_fromUtf8("label_341"))
         self.label_342 = QtGui.QLabel(self.groupBox_15)
-        self.label_342.setGeometry(QtCore.QRect(10, 210, 46, 13))
+        self.label_342.setGeometry(QtCore.QRect(10, 250, 46, 13))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -3100,13 +3100,64 @@ class Ui_MainWindow(object):
         self.label_342.setFont(font)
         self.label_342.setObjectName(_fromUtf8("label_342"))
         self.label_343 = QtGui.QLabel(self.groupBox_15)
-        self.label_343.setGeometry(QtCore.QRect(10, 390, 46, 13))
+        self.label_343.setGeometry(QtCore.QRect(10, 420, 46, 13))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
         self.label_343.setFont(font)
         self.label_343.setObjectName(_fromUtf8("label_343"))
+        self.comboExportPhoneColumn = QtGui.QComboBox(self.groupBox_15)
+        self.comboExportPhoneColumn.setGeometry(QtCore.QRect(230, 30, 130, 20))
+        self.comboExportPhoneColumn.setObjectName(_fromUtf8("comboExportPhoneColumn"))
+        self.comboExportPhoneColumn.addItem(_fromUtf8(""))
+        self.comboExportPhoneColumn.addItem(_fromUtf8(""))
+        self.comboExportPhoneColumn.addItem(_fromUtf8(""))
+        self.comboExportPhoneColumn.addItem(_fromUtf8(""))
+        self.label_345 = QtGui.QLabel(self.groupBox_15)
+        self.label_345.setEnabled(True)
+        self.label_345.setGeometry(QtCore.QRect(10, 30, 200, 20))
+        font = QtGui.QFont()
+        font.setPointSize(7)
+        self.label_345.setFont(font)
+        self.label_345.setFrameShape(QtGui.QFrame.NoFrame)
+        self.label_345.setObjectName(_fromUtf8("label_345"))
+        self.label_346 = QtGui.QLabel(self.groupBox_15)
+        self.label_346.setGeometry(QtCore.QRect(420, 90, 20, 16))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_346.sizePolicy().hasHeightForWidth())
+        self.label_346.setSizePolicy(sizePolicy)
+        self.label_346.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.label_346.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.label_346.setText(_fromUtf8(""))
+        self.label_346.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
+        self.label_346.setObjectName(_fromUtf8("label_346"))
+        self.label_347 = QtGui.QLabel(self.groupBox_15)
+        self.label_347.setGeometry(QtCore.QRect(430, 250, 20, 16))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_347.sizePolicy().hasHeightForWidth())
+        self.label_347.setSizePolicy(sizePolicy)
+        self.label_347.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.label_347.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.label_347.setText(_fromUtf8(""))
+        self.label_347.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
+        self.label_347.setObjectName(_fromUtf8("label_347"))
+        self.label_348 = QtGui.QLabel(self.groupBox_15)
+        self.label_348.setGeometry(QtCore.QRect(430, 420, 20, 16))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_348.sizePolicy().hasHeightForWidth())
+        self.label_348.setSizePolicy(sizePolicy)
+        self.label_348.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.label_348.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.label_348.setText(_fromUtf8(""))
+        self.label_348.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
+        self.label_348.setObjectName(_fromUtf8("label_348"))
         self.tabWidget.addTab(self.tabExportSettings, _fromUtf8(""))
         self.tabExportColumns = QtGui.QWidget()
         self.tabExportColumns.setObjectName(_fromUtf8("tabExportColumns"))
@@ -11710,7 +11761,7 @@ class Ui_MainWindow(object):
         self.toolBar_9.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(8)
+        self.tabWidget.setCurrentIndex(0)
         self.comboExportFilter_1.setCurrentIndex(0)
         self.comboExportFilter_2.setCurrentIndex(0)
         self.comboExportFilter_3.setCurrentIndex(0)
@@ -12677,6 +12728,29 @@ class Ui_MainWindow(object):
         self.label_341.setText(_translate("MainWindow", "E1", None))
         self.label_342.setText(_translate("MainWindow", "E2", None))
         self.label_343.setText(_translate("MainWindow", "E3", None))
+        self.comboExportPhoneColumn.setItemText(0, _translate("MainWindow", "o1", None))
+        self.comboExportPhoneColumn.setItemText(1, _translate("MainWindow", "o2", None))
+        self.comboExportPhoneColumn.setItemText(2, _translate("MainWindow", "o3", None))
+        self.comboExportPhoneColumn.setItemText(3, _translate("MainWindow", "o4", None))
+        self.label_345.setText(_translate("MainWindow", "Column with phone numbers", None))
+        self.label_346.setToolTip(_translate("MainWindow", "supported keywords :\n"
+"  %name%\n"
+"  %racename%\n"
+" %orderX% \n"
+"  %timeX%\n"
+"  %oX%", None))
+        self.label_347.setToolTip(_translate("MainWindow", "supported keywords :\n"
+"  %name%\n"
+"  %racename%\n"
+" %orderX% \n"
+"  %timeX%\n"
+"  %oX%", None))
+        self.label_348.setToolTip(_translate("MainWindow", "supported keywords :\n"
+"  %name%\n"
+"  %racename%\n"
+" %orderX% \n"
+"  %timeX%\n"
+"  %oX%", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabExportSettings), _translate("MainWindow", "Export Settings", None))
         self.groupBox_18.setTitle(_translate("MainWindow", "Export Columns", None))
         self.pushExportHtmEnable_3.setText(_translate("MainWindow", "E3", None))

@@ -274,7 +274,8 @@ class Datastore():
     def GetItem(self, name, keys, section = "GET_SET"):
         '''
         Vrací data
-        '''        
+        '''
+        #print name, keys, section        
         item = self.data[name][section]["value"]        
     
         for key in keys:                      

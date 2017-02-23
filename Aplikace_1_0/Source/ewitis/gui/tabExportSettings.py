@@ -175,7 +175,10 @@ class SmsExportGroup():
         ''' Constructor '''
         ui = Ui()        
         self.index = index
-        
+                
+        #one column
+        if(self.index == 0):
+            self.phone_column = getattr(ui,    "comboExportPhoneColumn")
         #three columns groups
         self.text = getattr(ui, "textExportSms"+str(index+1))  
         
@@ -184,6 +187,8 @@ class SmsExportGroup():
         self.createSlots()            
 
     def CreateSlots(self):  
+        if(self.index == 0):
+            QtCore.QObject.connect(self.phone_column, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_sms", ["phone_column"], utils.toUnicode(x)))
         QtCore.QObject.connect(self.text, QtCore.SIGNAL("textChanged()"), self.sTextChanged)                                
 
             
@@ -191,15 +196,17 @@ class SmsExportGroup():
     """ EXPLICIT SLOTS  """
     """                 """
     def sTextChanged(self):                    
-        uiAccesories.sGuiSetItem("export_sms", [self.index, "text"], utils.toUnicode( self.text.toPlainText()), self.Update)                                
+        uiAccesories.sGuiSetItem("export_sms", ["text", self.index], utils.toUnicode( self.text.toPlainText()), self.Update)                                
     
     def GetInfo(self):                
-        return dstore.GetItem("export_sms", [self.index])    
+        return dstore.Get("export_sms")    
     
     def Update(self):
         info = self.GetInfo()   
-        #print info
-        uiAccesories.UpdateText(self.text, info["text"])                                                                              
+        
+        if(self.index == 0):
+            uiAccesories.SetCurrentIndex(self.phone_column, info["phone_column"])
+        uiAccesories.UpdateText(self.text, info["text"][self.index])                                                                              
                 
 
 class TabExportSettings():    

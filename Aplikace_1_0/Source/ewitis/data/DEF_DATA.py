@@ -325,12 +325,13 @@ DEF_DATA = {
                                               }  
                         },
         "export_sms"         : {"permanent": True,
-                                "GET_SET"  : {"value": [{
-                                                        "text"    : "text sms zprávy"                                                                                                                                                                                                                                                                                                                     
-                                                        }] * NUMBER_OF.EXPORTS,                                              
+                                "GET_SET"  : {"value": {
+                                                        "phone_column"      : "o1",                                                                                                               
+                                                        "text"              : ["text sms zprávy"] * NUMBER_OF.EXPORTS
+                                                        },                                              
                                               "changed": True
                                               }  
-                        },                        
+                                },                        
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "sendcommandkey": None,
                                                         "senddata": 0,

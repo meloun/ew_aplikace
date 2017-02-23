@@ -82,7 +82,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -8507,7 +8507,7 @@ p, li { white-space: pre-wrap; }
               <string>E3</string>
              </property>
             </widget>
-            <widget class="QComboBox" name="comboExportSort1_4">
+            <widget class="QComboBox" name="comboExportPhoneColumn">
              <property name="geometry">
               <rect>
                <x>230</x>
@@ -8559,6 +8559,123 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="text">
               <string>Column with phone numbers</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_346">
+             <property name="geometry">
+              <rect>
+               <x>420</x>
+               <y>90</y>
+               <width>20</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>supported keywords :
+  %name%
+  %racename%
+ %orderX% 
+  %timeX%
+  %oX%</string>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_347">
+             <property name="geometry">
+              <rect>
+               <x>430</x>
+               <y>250</y>
+               <width>20</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>supported keywords :
+  %name%
+  %racename%
+ %orderX% 
+  %timeX%
+  %oX%</string>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_348">
+             <property name="geometry">
+              <rect>
+               <x>430</x>
+               <y>420</y>
+               <width>20</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>supported keywords :
+  %name%
+  %racename%
+ %orderX% 
+  %timeX%
+  %oX%</string>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
            </widget>

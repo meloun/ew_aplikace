@@ -114,8 +114,8 @@ class TimesUtils():
         '''
         "00:01:03,15", "00:01:02,11" => "00:00:01,04"
         '''
-        print "timestring1",timestring1
-        print "timestring2",timestring2
+        #print "timestring1",timestring1
+        #print "timestring2",timestring2
 
         t1 = TimesUtils.timestring2time(timestring1, False)
         t2 = TimesUtils.timestring2time(timestring2, False)        

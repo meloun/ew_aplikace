@@ -123,8 +123,6 @@ ExportToSmsFiles
 '''
 def ExportToSmsFiles(dfs):
    
-    print "ExportToSmsFiles"
-    #return info
     exported = {}
    
     #get dirname
@@ -146,22 +144,21 @@ def ExportToSmsFiles(dfs):
         if(len(df) != 0):
           
           #add sms text as additional column
-          df["sms_text"] = dstore.GetItem("export_sms", [i, 'text'])
-          mystr = dstore.GetItem("export_sms", [i, 'text'])
-          
-          #for column in columns:
-          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
+          mystr = dstore.GetItem("export_sms", ['text',i])
+          mystr =  mystr.replace("%racename%", dstore.GetItem("racesettings-app", ['race_name']))
+          phonecol = dstore.GetItem("export_sms", ['phone_column'])
+          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)          
                           
           #
           filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
-          ExportToCsvFile(dirname+filename+".csv", df[["o1", "sms_text"]], firstline = None, secondline = None)                               
+          ExportToCsvFile(dirname+filename+".csv", df[[phonecol, "sms_text"]], firstline = None, secondline = None)                               
           exported[filename] = len(df)
                                                                           
     return exported
 
 def replaceSmsTags(text, row):
     for c,r in row.iteritems():
-        text = text.replace("%"+c+"%", str(row[c]))
+        text = text.replace("%"+c+"%", utils.toUnicode(row[c]))
     return text      
 '''
 ExportToCsvFiles
@@ -364,7 +361,7 @@ def ExportToHtmFile(filename, df, css_filename = "", js_filename = "", title = "
                     
 def GetGap(time, lap, winner_time, winner_lap):
     
-    print time, lap,winner_time,winner_lap
+    #print time, lap,winner_time,winner_lap
     gap = None
     if(winner_lap != None and winner_time != None and time!=0 and time!=None):
         if winner_lap == lap:                
