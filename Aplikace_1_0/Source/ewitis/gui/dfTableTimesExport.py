@@ -364,7 +364,7 @@ def GetGap(time, lap, winner_time, winner_lap):
     #print time, lap,winner_time,winner_lap
     gap = None
     if(winner_lap != None and winner_time != None and time!=0 and time!=None):
-        if winner_lap == lap:                
+        if winner_lap == lap:                                       
             gap = TimesUtils.TimesUtils.times_difference(time, winner_time)
         elif (lap != "") and ('lap' !=None):
             gap = int(winner_lap) - int(lap)                     

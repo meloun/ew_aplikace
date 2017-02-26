@@ -2446,7 +2446,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../../../../_sources/3_15/Qt_designer/gui/icons/save_icon_24.png</normaloff>../../../../_sources/3_15/Qt_designer/gui/icons/save_icon_24.png</iconset>
+               <normaloff>gui/icons/save_icon_24.png</normaloff>gui/icons/save_icon_24.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2548,7 +2548,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png</pixmap>
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
             <widget class="QSpinBox" name="spinFinishLaps">
@@ -2922,7 +2922,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png</pixmap>
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
            </widget>
@@ -5259,7 +5259,7 @@ Best timesX : only best times will have an order</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png</pixmap>
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
             <widget class="QLabel" name="label_19">
@@ -5281,7 +5281,7 @@ Best timesX : only best times will have an order</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png</pixmap>
+              <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineAInfoLapFilter_1">

@@ -258,7 +258,7 @@ class ExportGroup():
         elif key == "sms":
             return bool(dstore.GetItem("export", ["enabled_sms", self.index]))
         else:                  
-            return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index])) 
+            return bool(dstore.GetItem("export", ["enabled_csv", self.index]) or dstore.GetItem("export", ["enabled_htm", self.index]) or dstore.GetItem("export", ["enabled_sms", self.index])) 
               
     def GetCheckedColumns(self, only_checked = True):
         """

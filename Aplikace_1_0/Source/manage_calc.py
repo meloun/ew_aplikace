@@ -245,7 +245,7 @@ class ManageCalcProcess():
         #tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
                                                                                     
         '''TIMERAW'''
-        df['timeraw'] = df['time_raw'].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, True))                                                                                                                                        
+        df['timeraw'] = df['time_raw'].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_days = True))                                                                                                                                        
         
         additional_info = self.dstore.Get("additional_info")        
         

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Thu Feb 23 22:40:54 2017
+# Created: Sun Feb 26 13:40:54 2017
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -1227,7 +1227,7 @@ class Ui_MainWindow(object):
         self.pushSaveProfile.setGeometry(QtCore.QRect(380, 18, 32, 32))
         self.pushSaveProfile.setText(_fromUtf8(""))
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../_sources/3_15/Qt_designer/gui/icons/save_icon_24.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon14.addPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/save_icon_24.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushSaveProfile.setIcon(icon14)
         self.pushSaveProfile.setIconSize(QtCore.QSize(24, 24))
         self.pushSaveProfile.setCheckable(False)
@@ -1259,7 +1259,7 @@ class Ui_MainWindow(object):
         self.label_212 = QtGui.QLabel(self.groupTerminal_5)
         self.label_212.setGeometry(QtCore.QRect(30, 460, 20, 20))
         self.label_212.setText(_fromUtf8(""))
-        self.label_212.setPixmap(QtGui.QPixmap(_fromUtf8("../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png")))
+        self.label_212.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
         self.label_212.setObjectName(_fromUtf8("label_212"))
         self.spinFinishLaps = QtGui.QSpinBox(self.groupTerminal_5)
         self.spinFinishLaps.setGeometry(QtCore.QRect(170, 433, 71, 22))
@@ -1380,7 +1380,7 @@ class Ui_MainWindow(object):
         self.label_331.setGeometry(QtCore.QRect(160, 520, 20, 20))
         self.label_331.setToolTip(_fromUtf8(""))
         self.label_331.setText(_fromUtf8(""))
-        self.label_331.setPixmap(QtGui.QPixmap(_fromUtf8("../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png")))
+        self.label_331.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
         self.label_331.setObjectName(_fromUtf8("label_331"))
         self.groupTerminal_2 = QtGui.QGroupBox(self.tabTimingSettings)
         self.groupTerminal_2.setGeometry(QtCore.QRect(0, 10, 250, 689))
@@ -2016,12 +2016,12 @@ class Ui_MainWindow(object):
         self.label_18 = QtGui.QLabel(self.groupTerminal_6)
         self.label_18.setGeometry(QtCore.QRect(301, 60, 20, 20))
         self.label_18.setText(_fromUtf8(""))
-        self.label_18.setPixmap(QtGui.QPixmap(_fromUtf8("../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png")))
+        self.label_18.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
         self.label_18.setObjectName(_fromUtf8("label_18"))
         self.label_19 = QtGui.QLabel(self.groupTerminal_6)
         self.label_19.setGeometry(QtCore.QRect(500, 60, 20, 20))
         self.label_19.setText(_fromUtf8(""))
-        self.label_19.setPixmap(QtGui.QPixmap(_fromUtf8("../../../../_sources/3_15/Qt_designer/gui/icons/tooltip-qm.png")))
+        self.label_19.setPixmap(QtGui.QPixmap(_fromUtf8("gui/icons/tooltip-qm.png")))
         self.label_19.setObjectName(_fromUtf8("label_19"))
         self.lineAInfoLapFilter_1 = QtGui.QLineEdit(self.groupTerminal_6)
         self.lineAInfoLapFilter_1.setEnabled(False)

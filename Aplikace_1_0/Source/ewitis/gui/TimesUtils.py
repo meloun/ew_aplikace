@@ -88,8 +88,13 @@ class TimesUtils():
             timestring = timestring.split(":")                                         
         except AttributeError:
             raise TimeFormat_Error
-        if (len(timestring)) != 3 : #check: 3x colon?
-            raise TimeFormat_Error
+        
+        if (len(timestring)) == 2 : #check: 2x splits?                
+            timestring.insert(0, "00")
+        elif (len(timestring)) != 3 : #check: 3x splits?
+            raise TimeFormat_Error        
+
+            
         
         #get seconds
         time_seconds = timestring[2].split(",")
@@ -117,8 +122,8 @@ class TimesUtils():
         #print "timestring1",timestring1
         #print "timestring2",timestring2
 
-        t1 = TimesUtils.timestring2time(timestring1, False)
-        t2 = TimesUtils.timestring2time(timestring2, False)        
+        t1 = TimesUtils.timestring2time(timestring1, including_days = False)
+        t2 = TimesUtils.timestring2time(timestring2, including_days = False)        
         timestring = TimesUtils.time2timestring(t1 - t2)
         #if(t1<t2)
         #    time_string = "-"+time_string
