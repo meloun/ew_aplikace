@@ -30,24 +30,24 @@
             "changed": true,
             "value": [
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -59,8 +59,8 @@
             "changed": true,
             "value": {
                 "text": [
-                    "Ahoj testere (%name%). Byl jsi vybrán na otestování naší nové funkce SMS. V závodě %racename% jsi skončil na %order1%.místě s časem %time1% v kategorii %category%. Odepiš mi PLS kolik jsi dostal SMS a jestli byly OK (hacky, carky). Dík Bába",
-                    "Ahoj závodníku (%name%), v závodě %racename% jsi skončil na %order2%.místě s časem %time2%.",
+                    "Ahoj testere (%name%). Byl jsi vybrán na otestování naší nové funkce SMS. V závodě %racename% jsi skončil na %order1%.místě s časem %time1% v kategorii %category%. Odepiš mi PLS kolik jsi dostal SMS a jestli byly OK (hacky, carky).",
+                    "Ahoj závodníku (%name%), v závodě %racename% jsi skončil na %order2%.místě s časem %time2%.jak se",
                     "Ahoj závodníku (%name%), v závodě %racename% jsi skončil na %order3%.místě s časem %time3%."
                 ],
                 "phone_column": "o1"
@@ -538,7 +538,6 @@
         "name": "export"
     },
     "cells_info": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
@@ -668,6 +667,7 @@
                 }
             ]
         },
+        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 1,
@@ -676,11 +676,11 @@
                     "synchronized_once": true,
                     "synchronized": true,
                     "battery": 100,
-                    "trigger": 3,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "task": null,
+                    "trigger": 3,
                     "diagnostic_long_ko": 0,
                     "address": 1,
                     "active": false,
@@ -690,11 +690,11 @@
                     "synchronized_once": true,
                     "synchronized": true,
                     "battery": 100,
-                    "trigger": 3,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": true,
-                    "task": null,
+                    "trigger": 3,
                     "diagnostic_long_ko": 0,
                     "address": 2,
                     "active": false,
@@ -704,11 +704,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 3,
                     "active": false,
@@ -718,11 +718,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 4,
                     "active": false,
@@ -732,11 +732,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 5,
                     "active": false,
@@ -746,11 +746,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 6,
                     "active": false,
@@ -760,11 +760,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": false,
@@ -774,11 +774,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": false,
@@ -788,11 +788,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": false,
@@ -802,11 +802,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": false,
@@ -816,11 +816,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": false,
@@ -830,11 +830,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": false,
@@ -844,11 +844,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 13,
                     "active": false,
@@ -858,11 +858,11 @@
                     "synchronized_once": false,
                     "synchronized": false,
                     "battery": 0,
-                    "trigger": 0,
                     "diagnostic_long_ok": 0,
+                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": false,
-                    "task": null,
+                    "trigger": 0,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": false,
@@ -872,28 +872,28 @@
         }
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 4,
-                "measurement_state": 0,
                 "filter_minlaptime": 60,
+                "measurement_state": 0,
+                "name_id": 4,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
+        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 1,
             "value": {
                 "logic_mode": null,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 0,
-                "measurement_state": 0,
                 "name_id": 1,
+                "measurement_state": 0,
+                "filter_minlaptime": 0,
                 "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
@@ -924,26 +924,26 @@
                 "time": [
                     {
                         "filter": "cell=250",
-                        "checked": 2,
                         "minute_timeformat": 2,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 0,
                         "minute_timeformat": 0,
+                        "checked": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 0,
                         "minute_timeformat": 0,
+                        "checked": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 0,
                         "minute_timeformat": 0,
+                        "checked": 0,
                         "rule": "time - starttime"
                     }
                 ],
@@ -972,30 +972,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 0,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [

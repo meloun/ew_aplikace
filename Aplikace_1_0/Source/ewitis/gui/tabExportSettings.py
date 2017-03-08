@@ -181,6 +181,7 @@ class SmsExportGroup():
             self.phone_column = getattr(ui,    "comboExportPhoneColumn")
         #three columns groups
         self.text = getattr(ui, "textExportSms"+str(index+1))  
+        self.lcd = getattr(ui, "lcdExportSms"+str(index+1))
         
     def Init(self):        
         self.Update()
@@ -196,7 +197,9 @@ class SmsExportGroup():
     """ EXPLICIT SLOTS  """
     """                 """
     def sTextChanged(self):                    
-        uiAccesories.sGuiSetItem("export_sms", ["text", self.index], utils.toUnicode( self.text.toPlainText()), self.Update)                                
+        uiAccesories.sGuiSetItem("export_sms", ["text", self.index], utils.toUnicode( self.text.toPlainText()), self.Update)
+        self.lcd.display(self.text.toPlainText().length())
+                                        
     
     def GetInfo(self):                
         return dstore.Get("export_sms")    
