@@ -121,10 +121,12 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
             id = int(self.data(self.index(index.row(), 0)))
             header = self.headerData(index.column(), QtCore.Qt.Horizontal)
             
+            
             value_int = value.toInt()
-            if(value_int[1] == True):
-                ret_value = value_int[0]
-            else:
+            if(value_int[1] == True):                
+                #ret_value = value_int[0]
+                ret_value = int((value.toString())) #bug in qt: http://pyqt.sourceforge.net/Docs/PyQt4/qvariant.html#toInt
+            else:                
                 ret_value = value.toString()
                 
             self.setDataFromDict({'id':id, header: ret_value})

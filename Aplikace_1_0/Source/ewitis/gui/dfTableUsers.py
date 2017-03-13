@@ -54,6 +54,7 @@ class DfModelUsers(DataframeTableModel):
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name
         
+        
         #category changed
         if "category" in mydict:                         
             category = tableCategories.model.getCategoryParName(unicode(mydict["category"]))

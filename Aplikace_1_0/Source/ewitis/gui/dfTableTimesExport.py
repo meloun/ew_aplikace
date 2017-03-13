@@ -147,7 +147,8 @@ def ExportToSmsFiles(dfs):
           mystr = dstore.GetItem("export_sms", ['text',i])
           mystr =  mystr.replace("%racename%", dstore.GetItem("racesettings-app", ['race_name']))
           phonecol = dstore.GetItem("export_sms", ['phone_column'])
-          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)          
+          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
+          df[phonecol] = df[phonecol].str.replace("#","")
                           
           #
           filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
@@ -269,6 +270,7 @@ def AddGap(df, nr):
     lapX = 'lap'+str(nr+1)
     timeX = 'time'+str(nr+1)
     winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+    df = df.copy()  #SettingWithCopyWarning
     if (lapX in winnerX) and (timeX in winnerX):                    
         df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
     else:
