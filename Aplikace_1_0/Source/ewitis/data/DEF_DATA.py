@@ -326,7 +326,8 @@ DEF_DATA = {
                         },
         "export_sms"         : {"permanent": True,
                                 "GET_SET"  : {"value": {
-                                                        "phone_column"      : "o1",                                                                                                               
+                                                        "phone_column"      : ["o1", "o2"],
+                                                        "forward"           : [{"user_nr":0, "phone_nr":"702421142"}, {"user_nr":0, "phone_nr":"702421142"}],                                                                                                               
                                                         "text"              : ["text sms zprávy"] * NUMBER_OF.EXPORTS
                                                         },                                              
                                               "changed": True

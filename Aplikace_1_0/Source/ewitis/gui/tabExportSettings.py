@@ -170,15 +170,28 @@ class WWWExportGroup():
         uiAccesories.UpdateText(self.js_filename, info["js_filename"])
         
 class SmsExportGroup():
+    NR_FORWARD = 2
+    NR_COLLUMNS = 2
     
     def __init__(self, index):
         ''' Constructor '''
         ui = Ui()        
         self.index = index
+        
+        
                 
         #one column
         if(self.index == 0):
-            self.phone_column = getattr(ui,    "comboExportPhoneColumn")
+            self.phone_column = [None] * self.NR_COLLUMNS
+            self.forward_usernr = [None] * self.NR_FORWARD
+            self.forward_phonenr = [None] * self.NR_FORWARD
+            
+            for i in range(0, self.NR_COLLUMNS): 
+                self.phone_column[i] = getattr(ui,    "comboExportPhoneColumn" + str(i+1))
+            for i in range(0, self.NR_FORWARD):
+                self.forward_usernr[i] = getattr(ui,  "spinExportForwardUsernr" + str(i+1))
+                self.forward_phonenr[i] = getattr(ui, "lineExportForwardPhonenr" + str(i+1))
+            
         #three columns groups
         self.text = getattr(ui, "textExportSms"+str(index+1))  
         self.lcd = getattr(ui, "lcdExportSms"+str(index+1))
@@ -189,7 +202,12 @@ class SmsExportGroup():
 
     def CreateSlots(self):  
         if(self.index == 0):
-            QtCore.QObject.connect(self.phone_column, QtCore.SIGNAL("activated(const QString&)"), lambda x: dstore.SetItem("export_sms", ["phone_column"], utils.toUnicode(x)))
+            for i in range(0, self.NR_COLLUMNS):
+                QtCore.QObject.connect(self.phone_column[i], QtCore.SIGNAL("activated(const QString&)"), lambda x, idx = i: dstore.SetItem("export_sms", ["phone_column", idx], utils.toUnicode(x)))
+            for i in range(0, self.NR_FORWARD):
+                QtCore.QObject.connect(self.forward_usernr[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, idx = i: dstore.SetItem("export_sms", ["forward", idx, "user_nr"], state))
+                QtCore.QObject.connect(self.forward_phonenr[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda name, idx = i: dstore.SetItem("export_sms", ["forward", idx, "phone_nr"], utils.toUnicode(name)))
+    
         QtCore.QObject.connect(self.text, QtCore.SIGNAL("textChanged()"), self.sTextChanged)                                
 
             
@@ -205,10 +223,15 @@ class SmsExportGroup():
         return dstore.Get("export_sms")    
     
     def Update(self):
-        info = self.GetInfo()   
+        info = self.GetInfo() 
         
         if(self.index == 0):
-            uiAccesories.SetCurrentIndex(self.phone_column, info["phone_column"])
+            for i in range(0, self.NR_COLLUMNS):
+                uiAccesories.SetCurrentIndex(self.phone_column[i], info["phone_column"][i])
+            for i in range(0, self.NR_FORWARD):
+                self.forward_usernr[i].setValue(info["forward"][i]["user_nr"])
+                uiAccesories.UpdateText(self.forward_phonenr[i], info["forward"][i]["phone_nr"])
+                  
         uiAccesories.UpdateText(self.text, info["text"][self.index])                                                                              
                 
 

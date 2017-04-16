@@ -141,19 +141,46 @@ def ExportToSmsFiles(dfs):
         #get df
         df =  dfs[i]                
                                                
-        if(len(df) != 0):
-          
-          #add sms text as additional column
-          mystr = dstore.GetItem("export_sms", ['text',i])
-          mystr =  mystr.replace("%racename%", dstore.GetItem("racesettings-app", ['race_name']))
-          phonecol = dstore.GetItem("export_sms", ['phone_column'])
-          df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
-          df[phonecol] = df[phonecol].str.replace("#","")
-                          
-          #
-          filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
-          ExportToCsvFile(dirname+filename+".csv", df[[phonecol, "sms_text"]], firstline = None, secondline = None)                               
-          exported[filename] = len(df)
+        if(len(df) != 0):          
+            #add sms-text as additional column
+            mystr = dstore.GetItem("export_sms", ['text',i])
+            mystr =  mystr.replace("%racename%", dstore.GetItem("racesettings-app", ['race_name']))
+            df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
+            
+            #create empty frame
+            df_sms = pd.DataFrame(columns=["phone_nr", "sms_text"])
+            
+            #phone numbers are in phonecol (o1/o2/o3/o4) 
+            for phonecol in dstore.GetItem("export_sms", ['phone_column']):
+                
+                if phonecol in df:
+                    
+                    #drop empty rows
+                    df_temp = df[df[phonecol] != u""]
+                    
+                    #replace # => '              
+                    df_temp[phonecol] = df_temp[phonecol].str.replace("#","'")
+                                        
+                    #add forward sms
+                    for forward in dstore.GetItem("export_sms", ['forward']):
+                        if (forward["phone_nr"] != 0): 
+                            df_forward = df_temp[df_temp.nr == forward["user_nr"]].copy()
+                            df_forward[phonecol] = forward["phone_nr"]
+                            df_temp = df_temp.append(df_forward, ignore_index=True)
+                    
+                    #reduce to 2 columns and rename phonecol (o1/o2/o3/o4 -> phone_nr)
+                    df_temp = df_temp[[phonecol, "sms_text"]]
+                    df_temp.columns =  ["phone_nr", "sms_text"]
+                    
+                                           
+                    #append numbers from this collumn            
+                    df_sms = df_sms.append(df_temp, ignore_index=True)
+            
+            
+            #
+            filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
+            ExportToCsvFile(dirname+filename+".csv", df_sms, firstline = None, secondline = None)                               
+            exported[filename] = len(df_sms)
                                                                           
     return exported
 
