@@ -357,7 +357,7 @@ def ExportToHtmFiles(dfs, type):
         filename =  utils.get_filename(dirname+"e"+str(i+1)+"_"+racename+".htm")
         
         #convert header EN => CZ            
-        tocz_dict = dstore.GetItem("export", ["names"])                                               
+        tocz_dict = dstore.GetItem("export", ["names", i])                                                     
         df = df.rename(columns = tocz_dict)
 
         #firsttimes

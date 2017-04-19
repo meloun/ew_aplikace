@@ -126,7 +126,7 @@ DEF_DATA = {
         "racesettings-app"   : {"permanent": True,
                                 "name": "race settings",
                                 "GET_SET"  : {"value": {
-                                                        "race_name"    :      u"Formula Student 2013",
+                                                        "race_name"    :      u"Test Race",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
                                                         "remote"       :      CheckboxValue.unchecked,
@@ -377,7 +377,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.16e - IR"},                                                                                                                    
+                                                        "app": "v3.16f - IR"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
