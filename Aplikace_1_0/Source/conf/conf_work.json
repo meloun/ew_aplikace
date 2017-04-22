@@ -30,24 +30,24 @@
             "changed": true,
             "value": [
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -60,22 +60,34 @@
             "value": {
                 "forward": [
                     {
-                        "user_nr": 7,
-                        "phone_nr": "111111"
+                        "user_nr": 1,
+                        "phone_nr": "702421142a",
+                        "desc": "a"
                     },
                     {
-                        "user_nr": 6,
-                        "phone_nr": "222222"
+                        "user_nr": 1,
+                        "phone_nr": "702421142b",
+                        "desc": "b"
+                    },
+                    {
+                        "user_nr": 1,
+                        "phone_nr": "702421142c",
+                        "desc": "c"
+                    },
+                    {
+                        "user_nr": 0,
+                        "phone_nr": "702421142d",
+                        "desc": "d"
                     }
                 ],
                 "text": [
-                    "text sms zprávy %nr% %time1%",
                     "text sms zprávy %nr%",
-                    "text sms zprávy %nr%"
+                    "text sms zprávy",
+                    "text sms zprávy"
                 ],
                 "phone_column": [
                     "o1",
-                    "o3"
+                    "- - -"
                 ]
             }
         },
@@ -88,7 +100,7 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "all times with time1",
+                    "filter": "last times with time1",
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
@@ -101,7 +113,7 @@
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "categories"
+                    "type": "total"
                 },
                 {
                     "sortorder2": "asc",
@@ -132,7 +144,7 @@
             "value": {
                 "profile": "- - -",
                 "remote": 0,
-                "race_name": "Formula Student 2013",
+                "race_name": "Test Race",
                 "rfid": 0,
                 "autonumbers": {
                     "nr_users": 4,
@@ -165,7 +177,7 @@
         "GET_SET": {
             "value": {
                 "enabled_htm": [
-                    true,
+                    false,
                     false,
                     false
                 ],
@@ -537,8 +549,8 @@
                 ],
                 "enabled_sms": [
                     true,
-                    true,
-                    true
+                    false,
+                    false
                 ],
                 "enabled_csv": [
                     true,
@@ -551,6 +563,7 @@
         "name": "export"
     },
     "cells_info": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": [
@@ -682,7 +695,6 @@
                 }
             ]
         },
-        "permanent": true,
         "name": "cells info",
         "GET": {
             "refresh_countdown": 1,
@@ -691,11 +703,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 1,
                     "active": null,
@@ -705,11 +717,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 2,
                     "active": null,
@@ -719,11 +731,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 3,
                     "active": null,
@@ -733,11 +745,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 4,
                     "active": null,
@@ -747,11 +759,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 5,
                     "active": null,
@@ -761,11 +773,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 6,
                     "active": null,
@@ -775,11 +787,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 7,
                     "active": null,
@@ -789,11 +801,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 8,
                     "active": null,
@@ -803,11 +815,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 9,
                     "active": null,
@@ -817,11 +829,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 10,
                     "active": null,
@@ -831,11 +843,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 11,
                     "active": null,
@@ -845,11 +857,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 12,
                     "active": null,
@@ -859,11 +871,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 13,
                     "active": null,
@@ -873,11 +885,11 @@
                     "synchronized_once": null,
                     "synchronized": null,
                     "battery": null,
+                    "trigger": 0,
                     "diagnostic_long_ok": 0,
-                    "task": null,
                     "diagnostic_short_ok": 0,
                     "ir_signal": null,
-                    "trigger": 0,
+                    "task": null,
                     "diagnostic_long_ko": 0,
                     "address": 14,
                     "active": null,
@@ -887,28 +899,28 @@
         }
     },
     "timing_settings": {
+        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "filter_minlaptime": 60,
-                "measurement_state": 0,
                 "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": 60,
                 "filter_tagtime": 5,
                 "tags_reading_enable": null
             }
         },
-        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 1,
             "value": {
                 "logic_mode": null,
                 "filter_maxlapnumber": null,
-                "filter_minlaptime": null,
-                "measurement_state": 0,
                 "name_id": 4,
+                "measurement_state": 0,
+                "filter_minlaptime": null,
                 "filter_tagtime": null,
                 "tags_reading_enable": null
             }
@@ -939,26 +951,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     }
                 ],
@@ -998,7 +1010,7 @@
                         "checked": 2,
                         "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Category",
+                        "type": "Total",
                         "column2": " - - -",
                         "column1": "Time1",
                         "row": "Last times"

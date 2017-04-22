@@ -162,21 +162,21 @@ def ExportToSmsFiles(dfs):
                     df_temp[phonecol] = df_temp[phonecol].str.replace("#","'")
                                         
                     #add forward sms
+                    df_forwards = pd.DataFrame()
                     for forward in dstore.GetItem("export_sms", ['forward']):
-                        if (forward["phone_nr"] != 0): 
+                        if (forward["phone_nr"] != 0):
                             df_forward = df_temp[df_temp.nr == forward["user_nr"]].copy()
                             df_forward[phonecol] = forward["phone_nr"]
-                            df_temp = df_temp.append(df_forward, ignore_index=True)
+                            df_forwards = df_forwards.append(df_forward, ignore_index=True)                   
+                    #df_forwards["sms_text"] = "Fwd:" + df_forwards["sms_text"] 
+                    df_temp = df_temp.append(df_forwards, ignore_index=True)
                     
                     #reduce to 2 columns and rename phonecol (o1/o2/o3/o4 -> phone_nr)
                     df_temp = df_temp[[phonecol, "sms_text"]]
-                    df_temp.columns =  ["phone_nr", "sms_text"]
-                    
+                    df_temp.columns =  ["phone_nr", "sms_text"]                    
                                            
                     #append numbers from this collumn            
-                    df_sms = df_sms.append(df_temp, ignore_index=True)
-            
-            
+                    df_sms = df_sms.append(df_temp, ignore_index=True)            
             #
             filename = utils.get_filename("e"+str(i+1)+"_sms_"+racename)                                                        
             ExportToCsvFile(dirname+filename+".csv", df_sms, firstline = None, secondline = None)                               
