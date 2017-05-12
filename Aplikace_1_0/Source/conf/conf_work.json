@@ -104,7 +104,7 @@
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
-                    "type": "total"
+                    "type": "total + groups + categories"
                 },
                 {
                     "sortorder2": "asc",
@@ -548,14 +548,14 @@
                     }
                 ],
                 "enabled_sms": [
-                    true,
+                    false,
                     false,
                     false
                 ],
                 "enabled_csv": [
                     true,
-                    true,
-                    true
+                    false,
+                    false
                 ]
             }
         },
@@ -999,30 +999,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [

@@ -245,7 +245,7 @@ def ExportToCsvFiles(dfs):
                 exported[filename] = len(df) 
                     
         #category export    
-        elif "categories" in filtersort["type"]:
+        if "categories" in filtersort["type"]:
             #print i, "CATEGORIES"            
             c_df = dfs[i]           
             c_df = c_df.set_index("category", drop = False)
@@ -272,7 +272,7 @@ def ExportToCsvFiles(dfs):
                     exported[filename] = len(c_df) 
                  
         #group export 
-        elif "groups" in filtersort["type"]: 
+        if "groups" in filtersort["type"]: 
             #print i, "GROUPS"          
             g_df = dfs[i]
             for x in range(1,11):                
@@ -288,7 +288,7 @@ def ExportToCsvFiles(dfs):
                                                          
                     group = tableCGroups.model.getCGrouptParLabel(g_label)
                     filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                        
-                    ExportToCsvFile(dirname+filename+".csv", Columns2Cz(aux_df[columns]), firstline, [group["name"], group["description"]])                                       
+                    ExportToCsvFile(dirname+filename+".csv", Columns2Cz(aux_df[columns], i), firstline, [group["name"], group["description"]])                                       
                     exported[filename] = len(aux_df)                                        
     return exported
 
