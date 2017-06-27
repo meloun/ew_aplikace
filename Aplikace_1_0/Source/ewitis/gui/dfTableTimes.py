@@ -459,8 +459,10 @@ class DfTableTimes(DfTable):
         if len(ttDf) != 0:                       
             #merge table users and times
             cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
-            cols_to_use = list(cols_to_use) + ["nr"]        
-            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")            
+            cols_to_use = list(cols_to_use) + ["nr"]
+            #print "cols_to_use",cols_to_use       
+            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")
+            #print "cols_to_use",utDf.columns            
         
         if (len(ttDf) != 0) or (export_type == ttExport.eHTM_EXPORT_LOGO):   
             #call export function

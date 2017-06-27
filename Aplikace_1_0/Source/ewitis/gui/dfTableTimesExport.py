@@ -33,6 +33,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
     # 3DFs for 3 exports
     exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
     
+    
     if len(utDf) != 0:                      
         
         #update export df
@@ -97,12 +98,16 @@ def Export(utDf, export_type = eCSV_EXPORT):
             
             #print "PRED",i, aux_df.head(2), aux_df.dtypes
             ConvertToInt(aux_df)
-            #print "PO",i, aux_df.head(2), aux_df.dtypes                                                
+            #print "PO",i, aux_df.head(2), aux_df.dtypes
             
             #add missing users with DNF status
             if export_type == eCSV_EXPORT_DNF:
-                aux_df = AddMissingUsers(aux_df)
+                aux_df = AddMissingUsers(aux_df)                                        
+                #beautify once again
+                aux_df = aux_df.where(pd.notnull(aux_df), None)
+                aux_df.set_index('id',  drop=False, inplace = True)
             
+                                                            
             exportDf[i] = aux_df
     
     #export complete/ category and group results from export DFs        
@@ -237,7 +242,10 @@ def ExportToCsvFiles(dfs):
                 
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                    AddGap(df, nr)
+                    print df.columns
+                    df = AddGap(df, nr)
+                    print df[["nr","gap1"]]
+                    print "================"
                     
                 #
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                                         
@@ -255,7 +263,7 @@ def ExportToCsvFiles(dfs):
                     
                     #get winner and compute GAPs                       
                     for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                        AddGap(c_df, nr)
+                        c_df = AddGap(c_df, nr)
 
 
                     category = tableCategories.model.getCategoryParName(c_name)
@@ -284,7 +292,7 @@ def ExportToCsvFiles(dfs):
                     
                     #get winner and compute GAPs                       
                     for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                        AddGap(aux_df, nr)
+                        aux_df = AddGap(aux_df, nr)
                                                          
                     group = tableCGroups.model.getCGrouptParLabel(g_label)
                     filename = utils.get_filename("e"+str(i+1)+"_"+g_label+"__"+group["name"])                        
@@ -298,10 +306,11 @@ def AddGap(df, nr):
     timeX = 'time'+str(nr+1)
     winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
     df = df.copy()  #SettingWithCopyWarning
-    if (lapX in winnerX) and (timeX in winnerX):                    
-        df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+    if (lapX in winnerX) and (timeX in winnerX):                   
+        df[gapX] =  df.apply(lambda row: GetGap(row, row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
     else:
-        df[gapX] = None 
+        df[gapX] = None
+    return df 
 
 """
 ExportToCsvFile
@@ -330,7 +339,7 @@ def ExportToHtmFiles(dfs, type):
             continue        
         
         #filter to checked columns
-        columns = tabExportColumns.exportgroups[i].GetCheckedColumns() 
+        columns = tabExportColumns.exportgroups[i].GetCheckedColumns()         
         
         df = pd.DataFrame()
         if(type == eHTM_EXPORT):            
@@ -339,8 +348,10 @@ def ExportToHtmFiles(dfs, type):
             if(len(df) != 0):
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                    AddGap(df, nr)
+                    df = AddGap(df, nr)
                 df = df[columns]
+            else:
+                df = pd.DataFrame(columns=columns)
             css_filename = dstore.GetItem("export_www", [i, "css_filename"])
             js_filename = dstore.GetItem("export_www", [i, "js_filename"])
             title = dstore.GetItem("racesettings-app", ['race_name']) 
@@ -388,14 +399,14 @@ def ExportToHtmFile(filename, df, css_filename = "", js_filename = "", title = "
     html_page = ew_html.Page_table(filename, title, styles= [css_filename,], scripts=[js_filename],lists = df.values, keys = df.columns)                                                                            
     html_page.save()                                                                                                         
                     
-def GetGap(time, lap, winner_time, winner_lap):
+def GetGap(row, time, lap, winner_time, winner_lap):
     
     #print time, lap,winner_time,winner_lap
     gap = None
     if(winner_lap != None and winner_time != None and time!=0 and time!=None):
         if winner_lap == lap:                                       
             gap = TimesUtils.TimesUtils.times_difference(time, winner_time)
-        elif (lap != "") and ('lap' !=None):
+        elif (lap != "") and (lap !=None):            
             gap = int(winner_lap) - int(lap)                     
             if gap == 1:
                 gap = str(gap) + " kolo"

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sat Apr 22 19:23:39 2017
+# Created: Tue Jun 27 21:32:08 2017
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -46,7 +46,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1316, 762))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -111, 1316, 762))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_14 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_14.setObjectName(_fromUtf8("gridLayout_14"))
@@ -1364,6 +1364,7 @@ class Ui_MainWindow(object):
         self.label_329.setObjectName(_fromUtf8("label_329"))
         self.spinAutonumbersCell6 = QtGui.QSpinBox(self.groupTerminal_5)
         self.spinAutonumbersCell6.setGeometry(QtCore.QRect(310, 610, 46, 22))
+        self.spinAutonumbersCell6.setMaximum(250)
         self.spinAutonumbersCell6.setObjectName(_fromUtf8("spinAutonumbersCell6"))
         self.label_330 = QtGui.QLabel(self.groupTerminal_5)
         self.label_330.setEnabled(True)
@@ -1375,6 +1376,7 @@ class Ui_MainWindow(object):
         self.label_330.setObjectName(_fromUtf8("label_330"))
         self.spinAutonumbersCell7 = QtGui.QSpinBox(self.groupTerminal_5)
         self.spinAutonumbersCell7.setGeometry(QtCore.QRect(360, 610, 46, 22))
+        self.spinAutonumbersCell7.setMaximum(250)
         self.spinAutonumbersCell7.setObjectName(_fromUtf8("spinAutonumbersCell7"))
         self.label_331 = QtGui.QLabel(self.groupTerminal_5)
         self.label_331.setGeometry(QtCore.QRect(160, 520, 20, 20))
@@ -12041,7 +12043,7 @@ class Ui_MainWindow(object):
         self.toolBar_9.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(8)
+        self.tabWidget.setCurrentIndex(7)
         self.comboExportFilter_1.setCurrentIndex(0)
         self.comboExportFilter_2.setCurrentIndex(0)
         self.comboExportFilter_3.setCurrentIndex(0)

@@ -63,6 +63,7 @@ def remove_accents(input_str):
 def get_filename(input_str):
     filename = remove_accents(input_str)    
     filename = filename.replace(' ', '_')        
+    filename = filename.replace(':', '_')
     return filename
 if __name__ == "__main__":
     import struct
