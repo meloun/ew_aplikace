@@ -468,9 +468,9 @@ class DfTableTimes(DfTable):
             #call export function
             try:            
                 exported = ttExport.Export(utDf, export_type)
-            except IOError:
-                title_msg = "Table Times HTM Export"            
-                uiAccesories.showMessage(title_msg, "NOT succesfully \n\nCannot write into the file.")
+            except IOError:                            
+                uiAccesories.showMessage("Export", time.strftime("%H:%M:%S", time.localtime())+" :: NOT succesfully, cannot write into the file.", MSGTYPE.statusbar)
+                return
         
         exported_string = ""        
         for key in sorted(exported.keys()):

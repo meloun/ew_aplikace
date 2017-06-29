@@ -250,7 +250,7 @@ class ManageComm(Thread):
             self.runGetRaceInfo()
         elif(aux_tab == TAB.device):
             self.runGetDeviceInfo()
-        elif(aux_tab == TAB.cells):
+        elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2):            
             self.runGetCellInfo()
         elif(aux_tab == TAB.diagnostic):
             self.runGetDiagnostic()
@@ -324,14 +324,13 @@ class ManageComm(Thread):
         """get cell info"""                                
         aux_cells_info = [None] #* NUMBER_OF.CELLS                
         #for i in range(0,  NUMBER_OF.CELLS):                                       
-        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr +1, diagnostic = aux_diagnostic["log_cyclic"])                                                 
+        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr +1, diagnostic = aux_diagnostic["log_cyclic"])                                                    
     
         """ store terminal-states to the datastore """ 
         if not('error' in aux_cells_info):                    
-            if(dstore.IsReadyForRefresh("cells_info")):             
+            if(dstore.IsReadyForRefresh("cells_info")):            
                 dstore.SetItem("cells_info", [self.cell_nr], aux_cells_info, "GET", permanent = False)
                 if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
-                    #print "nastavuju", aux_cells_info[i]["task"]
                     dstore.SetItem("cells_info", [self.cell_nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
                     
         #return nr of next cell

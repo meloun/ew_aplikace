@@ -23,12 +23,12 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 16
+    nr_tabs = 17
     runs_times, users, categories, cgroups, tags, alltags, race_info, race_settings,\
-    export_settings, export_columns, device, cells, diagnostic, communication, manual, about = range(0, nr_tabs)
+    export_settings, export_columns, device, cells1,cells2, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", race_info:"RaceInfo", \
-              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", cells: "Cells",\
+              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", cells1: "Cells", cells2: "Cells", \
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
             }
@@ -408,6 +408,7 @@ DEF_DATA = {
                                                            "address": index+1,
                                                            "task": None,
                                                            "trigger": 0,
+                                                           "auto_enable": 0,
                                                            "diagnostic_long_ok":  0,
                                                            "diagnostic_long_ko":  0,
                                                            "diagnostic_short_ok": 0,
@@ -421,10 +422,9 @@ DEF_DATA = {
                                                             "address": index+1,
                                                             "task": 0,
                                                             "trigger": 0,
+                                                            "auto_enable": 0,
                                                             "fu1": 0,
-                                                            "fu2": 0,
-                                                            "fu3": 0,
-                                                            "fu4": 0
+                                                            "fu2": 0                                                           
                                                        }for index in range(NUMBER_OF.CELLS)  ],
                                              "changed": False
                                              },

@@ -18,8 +18,8 @@ from ewitis.data.DEF_DATA import *
 
 class CellGroup ():
     
-    TIMER_NOCHANGE = 10  
-    TIMER_NODIALOG_INIT = 6   
+    TIMER_NOCHANGE = 20  
+    TIMER_NODIALOG_INIT = 25   
 
     def __init__(self,  nr):
         '''
@@ -35,6 +35,8 @@ class CellGroup ():
         self.comboCellTask = getattr(ui, "comboCellTask_"+str(nr))
         self.lineCellTrigger = getattr(ui, "lineCellTrigger_"+str(nr))
         self.comboCellTrigger = getattr(ui, "comboCellTrigger_"+str(nr))
+        self.lineCellAutoEnable = getattr(ui, "lineCellAutoEnable_"+str(nr))
+        self.comboCellAutoEnable = getattr(ui, "comboCellAutoEnable_"+str(nr))
         self.lineCellBattery = getattr(ui, "lineCellBattery_"+str(nr))
         self.lineCellIrSinal = getattr(ui, "lineCellIrSinal_"+str(nr))
         self.lineCellActive = getattr(ui, "lineCellActive_"+str(nr))
@@ -61,6 +63,7 @@ class CellGroup ():
     def CreateSlots(self):                        
         QtCore.QObject.connect(self.comboCellTask, QtCore.SIGNAL("activated(int)"), self.sComboCellTask)
         QtCore.QObject.connect(self.comboCellTrigger, QtCore.SIGNAL("activated(int)"), self.sComboCellTrigger)
+        QtCore.QObject.connect(self.comboCellAutoEnable, QtCore.SIGNAL("activated(int)"), self.sComboCellAutoEnable)
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), lambda: dstore.SetItem("set_cell_diag_info", ["address"], self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellRunDiagnostic, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("run_cell_diagnostic", self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("ping_cell", self.nr, "SET"))
@@ -76,11 +79,11 @@ class CellGroup ():
         set_cell_info = {}
         task = self.Idx2TaskNr(index)
         set_cell_info["task"] = task
-        set_cell_info["trigger"] = get_cell_info["trigger"]                               
+        set_cell_info["trigger"] = get_cell_info["trigger"]
+        set_cell_info["auto_enable"] = get_cell_info["auto_enable"]                               
         set_cell_info["address"] = self.nr                               
         set_cell_info["fu1"] = 0x00                               
-        set_cell_info["fu2"] = 0x00                               
-        set_cell_info["fu3"] = 0x00
+        set_cell_info["fu2"] = 0x00        
         
         cells_info = dstore.Get("cells_info", "GET")
         
@@ -95,19 +98,20 @@ class CellGroup ():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", [self.nr-1, 'task'])
-        self.timer_nochange = CellGroup.TIMER_NOCHANGE        
+        self.timer_nochange = CellGroup.TIMER_NOCHANGE
+      
         
     def sComboCellTrigger(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
         cells_info = dstore.Get("cells_info", "GET")
         get_cell_info = cells_info[self.nr-1]
         set_cell_info = {}
+        set_cell_info["address"] = self.nr
         set_cell_info["task"] = get_cell_info["task"]                                                                      
         set_cell_info["trigger"] = index
-        set_cell_info["address"] = self.nr                               
+        set_cell_info["auto_enable"] = get_cell_info["auto_enable"]                               
         set_cell_info["fu1"] = 0x00                               
-        set_cell_info["fu2"] = 0x00                               
-        set_cell_info["fu3"] = 0x00       
+        set_cell_info["fu2"] = 0x00                                      
                                
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
@@ -115,6 +119,23 @@ class CellGroup ():
         dstore.ResetValue("cells_info", [self.nr-1, 'trigger'])
         self.timer_nochange = CellGroup.TIMER_NOCHANGE
         
+    def sComboCellAutoEnable(self, index):                        
+        '''získání a nastavení nové SET hodnoty'''
+        cells_info = dstore.Get("cells_info", "GET")
+        get_cell_info = cells_info[self.nr-1]
+        set_cell_info = {}
+        set_cell_info["address"] = self.nr                               
+        set_cell_info["task"] = get_cell_info["task"]                                                                      
+        set_cell_info["trigger"] = get_cell_info["trigger"]
+        set_cell_info["auto_enable"] = index
+        set_cell_info["fu1"] = 0x00                               
+        set_cell_info["fu2"] = 0x00            
+                               
+        dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("cells_info", [self.nr-1, 'auto_enable'])
+        self.timer_nochange = CellGroup.TIMER_NOCHANGE       
         
         
     def SetEnabled(self, state, state2):
@@ -122,6 +143,7 @@ class CellGroup ():
         #enable/disable all widgets            
         self.lineCellTask.setEnabled(state)        
         self.lineCellTrigger.setEnabled(state)        
+        self.lineCellAutoEnable.setEnabled(state)
         self.lineCellBattery.setEnabled(state)
         self.lineCellIrSinal.setEnabled(state)
         self.lineCellActive.setEnabled(state)
@@ -143,6 +165,7 @@ class CellGroup ():
             self.comboCellTask.setEnabled(state)
             
         self.comboCellTrigger.setEnabled(state)
+        self.comboCellAutoEnable.setEnabled(state)
     
     def GetInfo(self):
         return dstore.Get("cells_info", "GET")[self.nr-1]
@@ -199,14 +222,21 @@ class CellGroup ():
             self.lineCellTrigger.setText(self.comboCellTrigger.itemText(get_info['trigger']))
         else:
             self.lineCellTrigger.setText(" - - - ")
-        self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTrigger.text(), get_info['task']))                    
+        self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTrigger.text(), get_info['task']))
+        
+        #auto enable        
+        if(get_info['auto_enable'] != None):
+            self.lineCellAutoEnable.setText(self.comboCellAutoEnable.itemText(get_info['auto_enable']))
+        else:
+            self.lineCellAutoEnable.setText(" - - - ")
+        self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))                     
                                
         #synchronize comboboxes with GET value (after timeout)
         if self.timer_nochange == 0:                 
             
             task_index = self.TaskNr2Idx(get_info["task"])
             if task_index:
-                if(task_index != self.comboCellTask.currentIndex()) and port_open and (self.timer_nodialog==0):
+                if(task_index != self.comboCellTask.currentIndex()) and port_open and (self.timer_nodialog==0):                    
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
                 self.comboCellTask.setCurrentIndex(task_index)
             else:
@@ -218,6 +248,13 @@ class CellGroup ():
                 self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
             else:                
                 self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
+            
+            if get_info["auto_enable"] != None:
+                if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()) and port_open and (self.timer_nodialog==0):                 
+                    uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
+                self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
+            else:                
+                self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"
         else:
             self.timer_nochange = self.timer_nochange - 1            
         
