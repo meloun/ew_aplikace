@@ -20607,7 +20607,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_91">
@@ -21463,7 +21463,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_123">
@@ -22319,7 +22319,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_107">
@@ -23170,7 +23170,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_99">
@@ -24032,7 +24032,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_81">
@@ -24910,7 +24910,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_153">
@@ -25761,7 +25761,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_133">
@@ -26612,7 +26612,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_143">
@@ -27498,7 +27498,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_382">
@@ -28349,7 +28349,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_358">
@@ -29200,7 +29200,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_418">
@@ -30051,7 +30051,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_430">
@@ -30902,7 +30902,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_394">
@@ -31779,7 +31779,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_406">
@@ -32630,7 +32630,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_370">
@@ -33481,7 +33481,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>Task :</string>
+                <string>Task </string>
                </property>
               </widget>
               <widget class="QLabel" name="label_469">

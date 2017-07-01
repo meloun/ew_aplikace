@@ -382,7 +382,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.16g - IR"},                                                                                                                    
+                                                        "app": "v3.17a - IR"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

@@ -370,8 +370,7 @@ class ManageComm(Thread):
                 
         """set cells info"""
         nr_changed_cells = dstore.IsChanged("cells_info")
-        if(nr_changed_cells):
-            print nr_changed_cells
+        if(nr_changed_cells):            
             for nr_changed_cell in nr_changed_cells:                                          
                 aux_cell_info = dstore.GetItem("cells_info", [nr_changed_cell], "SET")                                                                                                                                                                                                                                                   
                 #print "COMM: set cell info", nr_changed_cell, aux_cell_info
