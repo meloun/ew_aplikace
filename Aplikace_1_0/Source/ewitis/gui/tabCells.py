@@ -236,23 +236,26 @@ class CellGroup ():
             
             task_index = self.TaskNr2Idx(get_info["task"])
             if task_index:
-                if(task_index != self.comboCellTask.currentIndex()) and port_open and (self.timer_nodialog==0):                    
-                    uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
-                self.comboCellTask.setCurrentIndex(task_index)
+                if(task_index != self.comboCellTask.currentIndex()):
+                    self.comboCellTask.setCurrentIndex(task_index)
+                    if port_open and (self.timer_nodialog==0):                    
+                        uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
             else:
                 self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
             
             if get_info["trigger"] != None:
-                if(get_info["trigger"] != self.comboCellTrigger.currentIndex()) and port_open and (self.timer_nodialog==0):                 
-                    uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
-                self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
+                if(get_info["trigger"] != self.comboCellTrigger.currentIndex()):
+                    self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
+                    if port_open and (self.timer_nodialog==0):                 
+                        uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
             else:                
                 self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
             
             if get_info["auto_enable"] != None:
-                if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()) and port_open and (self.timer_nodialog==0):                 
-                    uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
-                self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
+                if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()):
+                    self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
+                    if port_open and (self.timer_nodialog==0):                 
+                        uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
             else:                
                 self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"
         else:

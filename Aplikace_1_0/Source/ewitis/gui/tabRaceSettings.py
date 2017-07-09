@@ -262,12 +262,6 @@ class TabRaceSettings():
         profile = json.load(codecs.open(filename, 'r', 'utf-8'))
         
         #reset some values
-        #get cell task None         
-        for idx in range(0, len(profile["cells_info"]['GET']['value'])):
-            profile["cells_info"]['GET']['value'][idx]["task"] = 0
-            profile["cells_info"]['SET']['value'][idx]["task"] = 0
-            profile["cells_info"]['GET']['value'][idx]["trigger"] = 0
-            profile["cells_info"]['SET']['value'][idx]["trigger"] = 0
         profile["timing_settings"]['GET']['value']["logic_mode"] = 1
         profile["timing_settings"]['SET']['value']["logic_mode"] = 1
         dstore.Set("com_init", 2) 
