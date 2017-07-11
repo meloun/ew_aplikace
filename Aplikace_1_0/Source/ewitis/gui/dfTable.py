@@ -397,7 +397,9 @@ class DfTable():
         if (mode == self.eTABLE):                
             format = "Csv"            
         elif mode == self.eWWW:
-            format = "Htm"            
+            format = "Htm"  
+        elif mode == self.eDB:
+            format = "Db"          
         else:
             print "sExport: ERROR"
             

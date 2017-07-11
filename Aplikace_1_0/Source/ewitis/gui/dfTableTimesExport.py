@@ -101,13 +101,13 @@ def Export(utDf, export_type = eCSV_EXPORT):
             #print "PO",i, aux_df.head(2), aux_df.dtypes
             
             #add missing users with DNF status
-            if export_type == eCSV_EXPORT_DNF:
+            if export_type == eCSV_EXPORT_DNF:                
                 aux_df = AddMissingUsers(aux_df)                                        
                 #beautify once again
                 aux_df = aux_df.where(pd.notnull(aux_df), None)
                 aux_df.set_index('id',  drop=False, inplace = True)
-            
-                                                            
+                ConvertToInt(aux_df)                            
+                                                                        
             exportDf[i] = aux_df
     
     #export complete/ category and group results from export DFs        
@@ -163,7 +163,8 @@ def ExportToSmsFiles(dfs):
                     #drop empty rows
                     df_temp = df[df[phonecol] != u""]
                     
-                    #replace # => '              
+                    #replace # => '
+                    df_temp = df_temp.copy() #SettingWithCopyWarning:               
                     df_temp[phonecol] = df_temp[phonecol].str.replace("#","'")
                                         
                     #add forward sms
@@ -242,10 +243,10 @@ def ExportToCsvFiles(dfs):
                 
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                    print df.columns
+                    #print df.columns
                     df = AddGap(df, nr)
-                    print df[["nr","gap1"]]
-                    print "================"
+                    #print df[["nr","gap1"]]
+                    #print "================"
                     
                 #
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                                         
@@ -304,7 +305,7 @@ def AddGap(df, nr):
     gapX = 'gap'+str(nr+1)
     lapX = 'lap'+str(nr+1)
     timeX = 'time'+str(nr+1)
-    winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+    winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0]     
     df = df.copy()  #SettingWithCopyWarning
     if (lapX in winnerX) and (timeX in winnerX):                   
         df[gapX] =  df.apply(lambda row: GetGap(row, row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
@@ -404,9 +405,11 @@ def GetGap(row, time, lap, winner_time, winner_lap):
     #print time, lap,winner_time,winner_lap
     gap = None
     if(winner_lap != None and winner_time != None and time!=0 and time!=None):
-        if winner_lap == lap:                                       
+        if time=="DNF":
+            gap = "DNF"
+        elif winner_lap == lap:                                       
             gap = TimesUtils.TimesUtils.times_difference(time, winner_time)
-        elif (lap != "") and (lap !=None):            
+        elif (lap != "") and (lap !=None):                                    
             gap = int(winner_lap) - int(lap)                     
             if gap == 1:
                 gap = str(gap) + " kolo"
@@ -478,6 +481,18 @@ def AddMissingUsers(tDf):
     # add "DNF" to timeX (and also timeraw)
     for c in [s for s in tDf.columns if "time" in s]:
         df_dnf_users[c] = "DNF"
+    
+    # add 0 to pointX
+    for c in [s for s in tDf.columns if "point" in s]:
+        df_dnf_users[c] = 0
+         
+    # add 0 to lapX
+    for c in [s for s in tDf.columns if "lap" in s]:
+        df_dnf_users[c] = 0
+    
+    # add 0 to unX
+    for c in [s for s in tDf.columns if "un" in s]:
+        df_dnf_users[c] = 0          
         
     # order = lastorder + 1 (for all DNF users same order)
     for c in [s for s in tDf.columns if "order" in s]:
