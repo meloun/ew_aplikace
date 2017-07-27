@@ -339,12 +339,12 @@ def ExportToHtmFiles(dfs, type):
         if (tabExportColumns.IsEnabled(i, "htm") == False):
             continue        
         
-        #filter to checked columns
-        columns = tabExportColumns.exportgroups[i].GetCheckedColumns()         
-        
         df = pd.DataFrame()
         if(type == eHTM_EXPORT):            
             df =  dfs[i]
+            
+            #filter to checked columns
+            columns = GetExportCollumns(df, i)
 
             if(len(df) != 0):
                 #get winner and compute GAPs                       
