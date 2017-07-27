@@ -27,7 +27,7 @@ class html(object):
             for style in self.head['styles']:
                 aux_head <= htmltags.LINK(rel="Stylesheet",href=style)
                 
-        if(self.head['scripts']):
+        if(self.head['scripts'] and self.head['scripts'] != [""]):            
             aux_head <= htmltags.SCRIPT(src="js/jquery.min.js")
             for script in self.head['scripts']:
                 aux_head <= htmltags.SCRIPT(src=script)
@@ -77,16 +77,14 @@ class html(object):
     
     # keys  => one row, <TH> 
     # lists =>   N row, <TD>
-    def lists_to_table(self, lists, keys = None, css_class = ""):
+    def lists_to_table(self, lists, keys = None, css_class = "", id = ""):
         
-        tabulka = htmltags.TABLE(cellpadding="6", cellspacing="0",Class=css_class)
+        tabulka = htmltags.TABLE(cellpadding="6", cellspacing="0", Class=css_class, id=id)
                         
         
         #ZAHLAVI, klice - nadpisy sloupcu      
-        zahlavi = htmltags.TR()  # inicializace proměnné
-
-        
-        
+        zahlavi = htmltags.THEAD()  # inicializace proměnné
+        zahlavi <= htmltags.TR()        
         for key in keys:        
             zahlavi <= htmltags.TH(key)
             
@@ -97,7 +95,15 @@ class html(object):
             radekTabulky = htmltags.TR()  # inicializace proměnné  
             for item in list:
                 radekTabulky <= htmltags.TD(item)                          
-            tabulka <= radekTabulky                    
+            tabulka <= radekTabulky
+            
+        #ZAPATI, klice - nadpisy sloupcu      
+        zahlavi = htmltags.TFOOT()  # inicializace proměnné
+        zahlavi <= htmltags.TR()            
+        for key in keys:        
+            zahlavi <= htmltags.TH(key)            
+        tabulka <= zahlavi    
+                            
                           
         return tabulka
     
