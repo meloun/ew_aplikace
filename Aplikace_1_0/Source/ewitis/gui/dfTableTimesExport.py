@@ -387,7 +387,7 @@ def ExportToHtmFiles(dfs, type):
             df = df.T
             df.insert(0,"", aux_columns)
         
-        ExportToHtmFile(filename, df, css_filename, js_filename, title)            
+        ExportToHtmFile(filename, Columns2Cz(df, i), css_filename, js_filename, title)            
         exported["total"] = len(df)
          
     return exported 

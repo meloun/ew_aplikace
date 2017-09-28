@@ -6,8 +6,8 @@
                 {
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%",
-                    "categoryname": "TP1",
-                    "description": "Thermal (40m/10,5s)"
+                    "categoryname": "",
+                    "description": ""
                 },
                 {
                     "headertext": "čas exportu: %time%",
@@ -81,7 +81,7 @@
                     }
                 ],
                 "text": [
-                    "CARLSBAD CLASSIC INFO POSÁDCE VOZU Č. %nr%: TEST PŘESNOSTI TP1 – %time1%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!",
+                    "",
                     "text sms zprávy",
                     "text sms zprávy"
                 ],
@@ -142,7 +142,7 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/__CBC/Importy/profily/TP01.json",
+                "profile": "C:/_meloun/Dropbox/casomira/Zavody/2017_07_14_CBC/Importy/profily/TP12_TT2_mereni.json",
                 "remote": 0,
                 "race_name": "Carlsbad Classic 2017",
                 "rfid": 0,
@@ -151,16 +151,16 @@
                     "cells": [
                         1,
                         2,
-                        0,
-                        0,
+                        3,
+                        250,
                         0,
                         0,
                         0
                     ],
-                    "nr_cells": 2
+                    "nr_cells": 4
                 },
                 "tag_filter": 0,
-                "profile_desc": "TP1 - KV Thermal\nS (1) - C (2)\nThermal (40m/10,5s)\nHadice cíl",
+                "profile_desc": "PROFIL NA MĚŘENÍ\nTP12, TT2 - Kyselka\nS1 (1) - S2 tajná (2) - C2 tajná (3) - C1 (250)\nInvestor Prague Show 260m/39s)\nHadice Cíl 2 tajná",
                 "evaluation": {
                     "finishtime": {
                         "laps": 0,
@@ -186,7 +186,7 @@
                         "sex": 0,
                         "year": 2,
                         "category": 0,
-                        "un1": 2,
+                        "un1": 0,
                         "un2": 0,
                         "un3": 0,
                         "time4": 0,
@@ -194,8 +194,8 @@
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
-                        "points5": 2,
-                        "time2": 0,
+                        "points5": 0,
+                        "time2": 2,
                         "time3": 0,
                         "time1": 2,
                         "nr": 2,
@@ -211,7 +211,7 @@
                         "gap4": 0,
                         "order2": 0,
                         "order3": 0,
-                        "order1": 2,
+                        "order1": 0,
                         "ordercat1": 0,
                         "name": 2,
                         "ordercat3": 0,
@@ -266,11 +266,11 @@
                         "sex": 0,
                         "year": 0,
                         "category": 0,
-                        "un1": 2,
+                        "un1": 0,
                         "un2": 0,
                         "un3": 0,
                         "time4": 0,
-                        "points1": 2,
+                        "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
@@ -317,9 +317,9 @@
                         "points3": "Body",
                         "points4": "Body",
                         "points5": "Body celkem",
-                        "time2": "Čas",
+                        "time2": "Čas 2",
                         "time3": "Čas",
-                        "time1": "Čas",
+                        "time1": "Čas 1",
                         "nr": "Číslo",
                         "o4": "Option 4",
                         "o3": "Option 3",
@@ -548,19 +548,351 @@
                     }
                 ],
                 "enabled_sms": [
-                    true,
+                    false,
                     false,
                     false
                 ],
                 "enabled_csv": [
-                    true,
                     false,
-                    true
+                    false,
+                    false
                 ]
             }
         },
         "permanent": true,
         "name": "export"
+    },
+    "cells_info": {
+        "SET": {
+            "changed": false,
+            "value": [
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 1
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 2
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 3
+                },
+                {
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 4
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 5
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 6
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 7
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 8
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 9
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 10
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 11
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 12
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 13
+                },
+                {
+                    "fu4": 0,
+                    "task": 0,
+                    "fu2": 0,
+                    "fu3": 0,
+                    "fu1": 0,
+                    "trigger": 0,
+                    "address": 14
+                }
+            ]
+        },
+        "permanent": true,
+        "name": "cells info",
+        "GET": {
+            "refresh_countdown": 0,
+            "value": [
+                {
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": true,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 1,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": true,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 2,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": true,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 3,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": true,
+                    "synchronized": true,
+                    "battery": 100,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": true,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 4,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 5,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 6,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 7,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 8,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 9,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 10,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 11,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 12,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 13,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                },
+                {
+                    "synchronized_once": false,
+                    "synchronized": false,
+                    "battery": 0,
+                    "diagnostic_long_ok": 0,
+                    "task": 0,
+                    "diagnostic_short_ok": 0,
+                    "ir_signal": false,
+                    "trigger": 0,
+                    "diagnostic_long_ko": 0,
+                    "address": 14,
+                    "active": false,
+                    "diagnostic_short_ko": 0
+                }
+            ]
+        }
     },
     "timing_settings": {
         "permanent": true,
@@ -603,7 +935,7 @@
                 ],
                 "un": [
                     {
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "checked": 0
@@ -614,16 +946,16 @@
                 ],
                 "time": [
                     {
-                        "filter": "cell=2",
+                        "filter": "cell=250",
                         "checked": 2,
                         "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "time - celltime1"
                     },
                     {
-                        "filter": "cell=250",
-                        "checked": 0,
+                        "filter": "cell=3",
+                        "checked": 2,
                         "minute_timeformat": 2,
-                        "rule": "time - celltime5"
+                        "rule": "time - celltime2"
                     },
                     {
                         "filter": "cell=250",
@@ -662,45 +994,45 @@
                 ],
                 "order": [
                     {
-                        "checked": 2,
-                        "row": "Last times",
+                        "checked": 0,
                         "order2": "Asc",
+                        "column2": "Year",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Points5",
-                        "column2": "Year"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last times",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "row": "Last times",
                         "order2": "Asc",
+                        "column2": " - - -",
                         "type": "Total",
-                        "order1": "Asc",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "column2": " - - -"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
-                        "rule": "abs(time1 - %00:00:10,50%)"
+                        "rule": "abs(time1 - %00:00:39,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 0,
                         "maximum": 500,
-                        "rule": "abs(time2 - %00:00:05,00%)"
+                        "rule": "abs(time2 - %00:00:20,00%)"
                     },
                     {
                         "minimum": 0,
@@ -716,9 +1048,9 @@
                     },
                     {
                         "minimum": 0,
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 9999,
-                        "rule": "points1 + un1"
+                        "rule": "points1 + points2 + un1"
                     }
                 ]
             }

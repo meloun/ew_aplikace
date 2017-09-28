@@ -15,9 +15,11 @@ TITLE = "Kralovický MTB maraton 2011"
 class Page_table(html.html):
     
     def __init__(self, filename, title=TITLE, styles=None, scripts=None, lists=None, keys = None):
-        html.html.__init__(self, filename, title, styles, scripts)        
+        #html.html.__init__(self, filename, title, styles, scripts)        
+        html.html.__init__(self, filename, title, styles, scripts = [""])
         self.lists = lists
-        self.keys = keys                     
+        self.keys = keys
+        self.table_id = scripts[0]                     
     
     #basic function, OVERRIDE
     def get_body(self):
@@ -25,8 +27,9 @@ class Page_table(html.html):
         #<H1> title                
         title = htmltags.H1(self.head["title"])                
 
-        #<table> from gui table                               
-        table = self.lists_to_table(self.lists, self.keys, id="times_acc")        
+        #<table> from gui table          
+        #print "scripts", self.head[""]                     
+        table = self.lists_to_table(self.lists, self.keys, id=self.table_id)        
         
         #<table> into <div>
         div = htmltags.DIV(table, id="table_container")
