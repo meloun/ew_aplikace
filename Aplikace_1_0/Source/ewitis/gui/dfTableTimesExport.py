@@ -476,7 +476,8 @@ Add users to dataframe
 def AddMissingUsers(tDf):        
     
     #get missing users
-    df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(tDf["nr"])].copy()    
+    df_dnf_users =  tableUsers.model.df[~tableUsers.model.df["nr"].isin(tDf["nr"])].copy()
+    df_dnf_users['name'] = df_dnf_users['name'].str.upper() + ' ' + df_dnf_users['first_name']    
                         
     # add "DNF" to timeX (and also timeraw)
     for c in [s for s in tDf.columns if "time" in s]:

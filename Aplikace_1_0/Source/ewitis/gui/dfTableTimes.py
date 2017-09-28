@@ -142,7 +142,7 @@ class DfModelTimes(DataframeTableModel):
                                                                         
             user_id = self.checkChangedNumber(dfChangedRow.iloc[0])                                                                                            
             if user_id == None: #dialog inside checkChangedNumber()
-                return
+                return False
             
             #adjust dict for writing to db
             mydict["user_id"] = user_id
@@ -158,7 +158,7 @@ class DfModelTimes(DataframeTableModel):
                 dbTimeraw = TimesUtils.TimesUtils.timestring2time(mydict['timeraw'])
             except TimesUtils.TimeFormat_Error:
                 uiAccesories.showMessage(self.name+" Update error", "Wrong Time format!")
-                return
+                return False
             
             #adjust dict for writing to db
             mydict["time_raw"] = dbTimeraw
@@ -175,7 +175,7 @@ class DfModelTimes(DataframeTableModel):
             pass 
         else:
             uiAccesories.showMessage(self.name+" Update error", "Unexpecting change!")
-            return                                                                                          
+            return False                                                                                         
                                     
         # add changed row to "changed_rows"
         # keep as dataframe otherwise float issues for "nr" and "cell"
@@ -207,6 +207,7 @@ class DfModelTimes(DataframeTableModel):
                 
         #self.ResetNrOfLaps()  
         eventCalcNow.set()
+        return True
             
     def ClearCalculated(self, tabRow):        
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
@@ -249,13 +250,14 @@ class DfModelTimes(DataframeTableModel):
             user = tableUsers.model.getUserParNr(int(tabRow['nr']))            
             #user_id = tableUsers.model.getIdOrTagIdParNr(tabRow['nr'])                                                           
             if user == None:
-                uiAccesories.showMessage(self.name+" Update error", "Cant find user with nr. "+ str(tabRow['nr']))
+                uiAccesories.showMessage(self.name+" Update error", "User nr. "+ str(tabRow['nr'])+" not found !")                
+                QtCore.QTimer.singleShot(100, lambda: self.table.Edit())
                 return None
             
             #category exist?                                                                                              
             category = tableCategories.model.getCategoryParName(user['category'])                        
             if category.empty:
-                uiAccesories.showMessage(self.name+" Update error", "Cant find category for this user: " + user['category'])
+                uiAccesories.showMessage(self.name+" Update error", "Category not found " + user['category'])
                 return None 
             
             #user id exist?                                        
@@ -299,7 +301,8 @@ class DfModelTimes(DataframeTableModel):
 Proxy Model
 '''    
 class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
-    def __init__(self, parent = None):        
+    def __init__(self, parent = None):
+                
         QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         self.myclass = None 
@@ -572,8 +575,8 @@ class DfTableTimes(DfTable):
                         self.gui['auto_number'+str(i+1)].setEnabled(False)
                     
         #set autonumbers value  
-        for i in range(0, NUMBER_OF.AUTO_NUMBER):                                                                                 
-            self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
+#         for i in range(0, NUMBER_OF.AUTO_NUMBER):                                                                                 
+#                 self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
         self.gui['auto_www_refresh'].setValue(times["auto_www_refresh"])
@@ -610,15 +613,11 @@ class DfTableTimes(DfTable):
                  
    
         #self.UpdateGui()
-               
-      
-        
-
-#                                      
+                                              
         return ret
-    
-    #edit back
-    def Edit(self, myindex):        
+                  
+    #edit previous cell
+    def AutoEdit_MOVEDTO_dfTABLE(self, myindex):              
         myindex = self.proxy_model.mapFromSource(myindex)                
         if myindex.row() > 0:             
             myindex = self.proxy_model.index(myindex.row()-1, myindex.column())

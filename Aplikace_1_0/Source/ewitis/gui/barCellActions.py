@@ -101,18 +101,11 @@ class BarCellActions():
         QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
              
-#    def sPing(self, task):
-#        print "sPing", task
-#        
-#                
-#    def sEnable(self, task):
-#        print "sEnable", task
-#        dstore.Set("enable_cell", {'task':task}, "SET")                    
-#                
-#    def sDisable(self, task):
-#        print "sDisable", task
-#        dstore.Set("disable_cell", {'task':task}, "SET")
-#                                                                                                                                                                                                                                 
+    def sShortcutTest(self):
+        print "pressed!"
+        
+
+                                                                                                                                                                                                                                 
     def sGenerateCelltime(self):
         print "sGenerateCelltime", self.test_cnt
         self.test_cnt = self.test_cnt + 1 

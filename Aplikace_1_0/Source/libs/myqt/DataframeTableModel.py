@@ -85,14 +85,14 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         return row
     
     def sModelChanged(self, index1, index2):
-        print "MODEL CHANGED"        
+        print "MODEL CHANGED", index1.column()        
         self.Update()
         
         #edit back
         # without timer edit: editing failed
         # http://stackoverflow.com/questions/20267176/qtableviewedit-const-qmodelindex-index-failed
         if(self.IsColumnAutoEditable(index1.column())):
-            QtCore.QTimer.singleShot(100, lambda: self.table.Edit(index1))
+            QtCore.QTimer.singleShot(100, lambda: self.table.AutoEdit(index1))
         
         
     def Update(self):   
@@ -129,9 +129,10 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
             else:                
                 ret_value = value.toString()
                 
-            self.setDataFromDict({'id':id, header: ret_value})
-                  
-            self.dataChanged.emit(index, index)
+            ret =  self.setDataFromDict({'id':id, header: ret_value})
+
+            if ret == True:                                                          
+                self.dataChanged.emit(index, index)
             return True
         return True
     

@@ -471,6 +471,44 @@ class DfTable():
         self.updateTabCounter()
         self.updateDbCounter()  
         return True
+    
+    #close editor
+    #https://riverbankcomputing.com/pipermail/pyqt/2010-October/028154.html
+    def CloseEditor(self, row=None, column=None):        
+        #get index
+        if row == None:
+            index = self.gui['view'].currentIndex()
+        else:
+            index = self.proxy_model.index(row, column)
+        #close editor
+        editor = self.gui['view'].indexWidget(index)
+        if editor:            
+            self.gui['view'].closeEditor(editor,  QtGui.QAbstractItemDelegate.NoHint)            
+    
+    #
+    def Edit(self, row=None, column=None):                
+        #get index   
+        print "Edit S"             
+        if row == None:
+            myindex = self.gui['view'].currentIndex()
+        else:
+            myindex = self.proxy_model.index(row, column)
+        #edit        
+        if(myindex.isValid() == True):            
+            self.gui['view'].setCurrentIndex(myindex)
+            self.gui['view'].edit(myindex)
+            print "Edit F"
+            
+    #need to be override
+    def AutoEdit(self, myindex):
+        print "AutEdit S"
+        myindex = self.proxy_model.mapFromSource(myindex)                
+        if myindex.row() > 0:             
+            myindex = self.proxy_model.index(myindex.row()-1, myindex.column())
+            if(myindex.isValid() == True):            
+                self.gui['view'].edit(myindex)
+                print "AutEdit F"
+     
     #need to be override
     def CollumnsToHide(self):
         return []    

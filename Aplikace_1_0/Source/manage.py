@@ -53,6 +53,7 @@ from ewitis.gui.Ui import Ui
 timer1 = QtCore.QTimer();
 timer1_1s_cnt = 0
 timer_autonumbers = 0
+focus_state = 0
        
 def InitGui():                            
     
@@ -75,8 +76,38 @@ def CreateSlots():
     
     #refresh
     QtCore.QObject.connect(Ui().aRefresh, QtCore.SIGNAL("triggered()"), sRefresh)
+    
+    #focus
+    QtCore.QObject.connect(Ui().aFocusTable, QtCore.SIGNAL("triggered()"), sFocusTable)
+    QtCore.QObject.connect(Ui().aFocusTable2, QtCore.SIGNAL("triggered()"), sFocusTable2)    
+    QtCore.QObject.connect(Ui().aFocusNumber, QtCore.SIGNAL("triggered()"), sFocusNumber)
      
     
+def sFocusHandler(old, new):
+    global focus_state
+    print "new", new, type(new)
+    if new != QtGui.QSpinBox:
+        focus_state = 0
+    #if old == tableTimes.gui['auto_number1']:
+    #    focus_state = 0
+    
+#shortcut home -> focus to first auto number    
+def sFocusNumber():
+    #print "sFocusNumber"                         
+    tableTimes.CloseEditor()
+    tableTimes.gui['auto_number1'].selectAll()
+    tableTimes.gui['auto_number1'].setFocus()           
+        
+def sFocusTable():    
+    #print "sFocusTable"
+    tableTimes.CloseEditor()
+    tableTimes.Edit(0,1)        
+        
+def sFocusTable2():
+    #print "sFocusTable2"                         
+    tableTimes.CloseEditor(0,1)
+    tableTimes.Edit(0,26)        
+        
 def sTimer():  
     
     global timer1_1s_cnt    
@@ -154,6 +185,8 @@ if __name__ == "__main__":
     #print "multiprocessing: ", multiprocessing.__version__
     
     app = QtGui.QApplication(sys.argv)
+    
+    #app.focusChanged.connect(sFocusHandler) 
        
     #gui
     InitGui()
@@ -184,6 +217,7 @@ if __name__ == "__main__":
             
     #show app        
     #appWindow.show()
+    app.installEventFilter(appWindow)
     appWindow.showMaximized()
     app.exec_()
     
