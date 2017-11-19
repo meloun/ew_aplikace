@@ -583,9 +583,9 @@
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
                 "filter_minlaptime": 0,
-                "measurement_state": 2,
+                "measurement_state": 0,
                 "name_id": 1,
-                "filter_tagtime": 1,
+                "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
         }
@@ -663,30 +663,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": "Year",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Points5",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [

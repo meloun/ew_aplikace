@@ -355,6 +355,8 @@ class ManageComm(Thread):
             ret = self.send_receive_frame("CLEAR_DATABASE")
             print "I: Comm: clearing database, please wait.. "
             time.sleep(21)
+            self.index_times = 0
+            self.index_run = 0
             dstore.ResetChangedFlag("clear_database")
             print "I: Comm: database should be empty now"
             

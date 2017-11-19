@@ -82,7 +82,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>12</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -27563,7 +27563,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_12">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_12">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -27847,7 +27847,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_12">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_12">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -28414,7 +28414,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_13">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_13">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -28698,7 +28698,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_13">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_13">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -29265,7 +29265,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_14">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_14">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -29549,7 +29549,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_14">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_14">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -30116,7 +30116,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_15">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_15">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -30400,7 +30400,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_15">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_15">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -30967,7 +30967,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_11">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_11">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -31251,7 +31251,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_11">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_11">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -31844,7 +31844,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_10">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_10">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -32128,7 +32128,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_10">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_10">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -32695,7 +32695,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_9">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_9">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -32979,7 +32979,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_9">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_9">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33372,7 +33372,7 @@ p, li { white-space: pre-wrap; }
                 <string>Battery:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellBattery_24">
+              <widget class="QLineEdit" name="lineCellBattery_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33397,7 +33397,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboCellTask_24">
+              <widget class="QComboBox" name="comboCellTask_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33451,7 +33451,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                </item>
               </widget>
-              <widget class="QLineEdit" name="lineCellTask_24">
+              <widget class="QLineEdit" name="lineCellTask_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33515,7 +33515,7 @@ p, li { white-space: pre-wrap; }
                 <string>Long:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongOk_24">
+              <widget class="QLineEdit" name="lineCellDiagLongOk_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33546,7 +33546,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongKo_24">
+              <widget class="QLineEdit" name="lineCellDiagShortKo_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33577,7 +33577,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellPing_24">
+              <widget class="QPushButton" name="pushCellPing_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33602,7 +33602,7 @@ p, li { white-space: pre-wrap; }
                 <string>Ping</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagLongRatio_24">
+              <widget class="QLineEdit" name="lineCellDiagLongRatio_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33633,7 +33633,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellClearCounters_24">
+              <widget class="QPushButton" name="pushCellClearCounters_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33676,7 +33676,7 @@ p, li { white-space: pre-wrap; }
                 <string>Sync:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellSynchronizedOnce_24">
+              <widget class="QLineEdit" name="lineCellSynchronizedOnce_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33707,7 +33707,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellSynchronized_24">
+              <widget class="QLineEdit" name="lineCellSynchronized_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33751,7 +33751,7 @@ p, li { white-space: pre-wrap; }
                 <string>State:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellIrSinal_24">
+              <widget class="QLineEdit" name="lineCellIrSinal_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33776,7 +33776,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellActive_24">
+              <widget class="QLineEdit" name="lineCellActive_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33830,7 +33830,7 @@ p, li { white-space: pre-wrap; }
                 <string>Short:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortKo_24">
+              <widget class="QLineEdit" name="lineCellDiagLongKo_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33861,7 +33861,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortOk_24">
+              <widget class="QLineEdit" name="lineCellDiagShortOk_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33892,7 +33892,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineCellDiagShortRatio_24">
+              <widget class="QLineEdit" name="lineCellDiagShortRatio_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33978,7 +33978,7 @@ p, li { white-space: pre-wrap; }
                 <set>Qt::AlignCenter</set>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellRunDiagnostic_24">
+              <widget class="QPushButton" name="pushCellRunDiagnostic_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -34028,7 +34028,7 @@ p, li { white-space: pre-wrap; }
                 <string>Trigger</string>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboCellTrigger_23">
+              <widget class="QComboBox" name="comboCellTrigger_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -34067,7 +34067,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                </item>
               </widget>
-              <widget class="QLineEdit" name="lineCellTrigger_23">
+              <widget class="QLineEdit" name="lineCellTrigger_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -36745,6 +36745,9 @@ p, li { white-space: pre-wrap; }
    <addaction name="aQuitTiming"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
+   <addaction name="aBackupDatabase"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="aClearDatabase"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
@@ -37687,6 +37690,21 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+Right</string>
+   </property>
+  </action>
+  <action name="aBackupDatabase">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>gui/icons/icons8-data-backup-26.png</normaloff>gui/icons/icons8-data-backup-26.png</iconset>
+   </property>
+   <property name="text">
+    <string>Backup Database</string>
+   </property>
+   <property name="toolTip">
+    <string>Backup Database</string>
    </property>
   </action>
  </widget>

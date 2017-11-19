@@ -12,6 +12,11 @@ from ewitis.data.DEF_ENUM_STRINGS import *
 from ewitis.gui.tabCells import tabCells
 from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.multiprocessingManager import mgr
+from shutil import copyfile
+import libs.utils.utils as utils
+import libs.timeutils.timeutils as timeutils
+import os
+import zipfile
 
 class BarCellActions():
     STATUS_COLOR = ["#d7d6d5", COLORS.green, COLORS.orange, COLORS.red]
@@ -99,6 +104,7 @@ class BarCellActions():
 
             
         QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
+        QtCore.QObject.connect(Ui().aBackupDatabase, QtCore.SIGNAL("triggered()"), self.sBackupDatabase)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
              
     def sShortcutTest(self):
@@ -109,19 +115,49 @@ class BarCellActions():
     def sGenerateCelltime(self):
         print "sGenerateCelltime", self.test_cnt
         self.test_cnt = self.test_cnt + 1 
-        #dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                               
+        #dstore.Set("generate_celltime", {'task':task, 'user_id':nr}, "SET")                                                                                                  
+
+
+    def zipdir(self, path, ziph):
+        # ziph is zipfile handle
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                ziph.write(os.path.join(root, file), os.path.join(os.path.basename(root), file))
+
+
+   
+    def sBackupDatabase(self, suffix = "_Backup"):
+      
+        racename = dstore.GetItem("racesettings-app", ['race_name']) 
+        dirname = utils.get_filename("backup/"+timeutils.getUnderlinedDatetime()+"_"+racename+suffix+"/")        
+        os.makedirs(dirname+"/db")
+        os.makedirs(dirname+"/conf") 
+        copyfile("db/test_db.sqlite",dirname+"/db/test_db.sqlite")
+        copyfile("conf/conf_work.json",dirname+"/conf/conf_work.json")
+        
+        zipf = zipfile.ZipFile(dirname+timeutils.getUnderlinedDatetime()+"_"+racename+".zip", 'w', zipfile.ZIP_DEFLATED)        
+        self.zipdir(dirname+"/db", zipf)
+        self.zipdir(dirname+"/conf", zipf)
+        zipf.close() 
                 
-                   
+        uiAccesories.showMessage("Backup database", "Database is stored now", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
+        
         
     def sQuitTiming(self):
         if (uiAccesories.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
+        
+        self.sBackupDatabase("_QuitTiming")
+        
         print "A: Generate quit time"                                                                                                                                                                                            
         dstore.Set("quit_timing", 0x00, "SET")
          
     def sClearDatabase(self):
         if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database?\n It will take 20 seconds.\n ", msgtype = MSGTYPE.warning_dialog) != True):            
-            return        
+            return
+        
+        self.sBackupDatabase("_ClearDb")
+                
         uiAccesories.showMessage("Clear Database", "clearing database, please wait.. it will take 20 seconds.", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
         dstore.Set("clear_database", 0x00, "SET")
         self.clear_database_changed = True

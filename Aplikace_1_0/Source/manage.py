@@ -176,7 +176,15 @@ if __name__ == "__main__":
     from PyQt4 import QtGui
     from manage_calc import manage_calc    
     import multiprocessing  
-    import pandas as pd     
+    import pandas as pd
+    from shutil import copyfile
+    import libs.utils.utils as utils
+    import libs.timeutils.timeutils as timeutils
+    import os
+    racename = "xxx"
+    #dirname = utils.get_filename("backup/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+    #os.makedirs(dirname) 
+    #copyfile("db/test_db.sqlite",dirname+"test_db.sqlite")         
     
     multiprocessing.freeze_support()
 
