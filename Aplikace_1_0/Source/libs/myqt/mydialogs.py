@@ -44,7 +44,7 @@ class MyDialogs():
             MsgBox = QtGui.QMessageBox.warning if (msgtype == MSGTYPE.warning_dialog) else QtGui.QMessageBox.question            
             
             if not params:                
-                ret = MsgBox(self.parent, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Yes)                                
+                ret = MsgBox(self.parent, title, message, QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel, QtGui.QMessageBox.Cancel)                                
             elif len(params) == 1:                
                 ret = MsgBox(self.parent, title, message, params[0], "Cancel", escapeButtonNumber=1)
             elif len(params) == 2:                
