@@ -17,6 +17,7 @@ import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import os
 import zipfile
+from ewitis.gui.tabRaceSettings import tabRaceSettings
 
 class BarCellActions():
     STATUS_COLOR = ["#d7d6d5", COLORS.green, COLORS.orange, COLORS.red]
@@ -101,8 +102,9 @@ class BarCellActions():
             #QtCore.QObject.connect(cell_actions['generate_celltime'], QtCore.SIGNAL("triggered()"), self.sGenerateCelltime)
             QtCore.QObject.connect(cell_actions['disable_cell'], QtCore.SIGNAL("triggered()"), lambda task=i: dstore.Set("disable_cell", task, "SET"))
         
-
-            
+        
+        QtCore.QObject.connect(Ui().aAutoEnableCells_ON, QtCore.SIGNAL("triggered()"), lambda : self.sAutoEnableCells(1))            
+        QtCore.QObject.connect(Ui().aAutoEnableCells_OFF, QtCore.SIGNAL("triggered()"), lambda : self.sAutoEnableCells(0))
         QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
         QtCore.QObject.connect(Ui().aBackupDatabase, QtCore.SIGNAL("triggered()"), self.sBackupDatabase)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
@@ -125,9 +127,13 @@ class BarCellActions():
                 ziph.write(os.path.join(root, file), os.path.join(os.path.basename(root), file))
 
 
-   
+    def sAutoEnableCells(self, value):
+        Ui().spinTagtime.setValue(value)
+        #tabRaceSettings.sFilterTagtime(value)
+
+           
     def sBackupDatabase(self, suffix = "_Backup"):
-      
+        print "AAAA"
         racename = dstore.GetItem("racesettings-app", ['race_name']) 
         dirname = utils.get_filename("backup/"+timeutils.getUnderlinedDatetime()+"_"+racename+suffix+"/")        
         os.makedirs(dirname+"/db")
@@ -140,7 +146,7 @@ class BarCellActions():
         self.zipdir(dirname+"/conf", zipf)
         zipf.close() 
                 
-        uiAccesories.showMessage("Backup database", "Database is stored now", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
+        uiAccesories.showMessage("Backup database", "DB stored", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
         
         
     def sQuitTiming(self):
@@ -267,8 +273,15 @@ class BarCellActions():
                     #DISABLE all actions, cell not configured or no connection with device
                     for key, action in cell_actions.items(): 
                         action.setEnabled(False)
+                 
                                     
-                         
+            #auto enable cells
+            timing_settings = dstore.Get("timing_settings", "GET")
+            #print "TRE",timing_settings
+            if(timing_settings["filter_tagtime"] != None):
+                Ui().aAutoEnableCells_ON.setEnabled(not timing_settings["filter_tagtime"])
+                Ui().aAutoEnableCells_OFF.setEnabled(timing_settings["filter_tagtime"])
+            
             #background to the toolbars
             hw_status = self.GetHwStatus()   
             app_status = self.GetAppStatus()                      

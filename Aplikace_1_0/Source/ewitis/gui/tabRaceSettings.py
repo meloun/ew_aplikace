@@ -312,7 +312,11 @@ class TabRaceSettings():
         '''získání a nastavení nové SET hodnoty'''
         timing_settings = dstore.Get("timing_settings", "GET").copy()
         timing_settings["filter_tagtime"]  = value                                      
-        dstore.Set("timing_settings", timing_settings, "SET")            
+        dstore.Set("timing_settings", timing_settings, "SET") 
+        
+        '''update gui'''
+        #Ui().spinTagtime.setValue(value)
+                   
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", ['filter_tagtime'])                                                                

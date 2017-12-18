@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ewitis_qt_template_v1_xx.ui'
 #
-# Created: Sun Nov 19 15:51:33 2017
+# Created: Mon Dec 18 19:17:42 2017
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12716,7 +12716,7 @@ class Ui_MainWindow(object):
         self.aAutoEnableCells_ON.setObjectName(_fromUtf8("aAutoEnableCells_ON"))
         self.aAutoEnableCells_OFF = QtGui.QAction(MainWindow)
         self.aAutoEnableCells_OFF.setEnabled(True)
-        self.aAutoEnableCells_OFF.setIcon(icon18)
+        self.aAutoEnableCells_OFF.setIcon(icon25)
         self.aAutoEnableCells_OFF.setObjectName(_fromUtf8("aAutoEnableCells_OFF"))
         self.aAuto = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
@@ -12852,7 +12852,7 @@ class Ui_MainWindow(object):
         self.toolBar_9.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(12)
+        self.tabWidget.setCurrentIndex(7)
         self.comboExportFilter_1.setCurrentIndex(0)
         self.comboExportFilter_2.setCurrentIndex(0)
         self.comboExportFilter_3.setCurrentIndex(0)

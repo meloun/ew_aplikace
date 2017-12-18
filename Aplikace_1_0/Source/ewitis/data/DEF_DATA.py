@@ -99,9 +99,10 @@ DEF_DATA = {
                                                         "active_tab": 0,
                                                         "active_row": 0,
                                                         "update_requests":{
-                                                                         "tableUsers":False,
-                                                                         "tableTimes":False,
-                                                                         "new_times": []
+                                                                         "tableUsers":False, #table users update
+                                                                         "tableTimes":False, #table times update
+                                                                         "new_times": [],    #new times for autonumbers
+                                                                         "comm":      []     #not implemented - request for communication
                                                                         }
                                                         }
                                               }

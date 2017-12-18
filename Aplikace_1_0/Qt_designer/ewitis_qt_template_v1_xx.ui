@@ -82,7 +82,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>12</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -3031,7 +3031,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>180</x>
-               <y>210</y>
+               <y>170</y>
                <width>61</width>
                <height>22</height>
               </rect>
@@ -3043,8 +3043,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLineEdit" name="lineFilterTagtime">
              <property name="geometry">
               <rect>
-               <x>120</x>
-               <y>210</y>
+               <x>130</x>
+               <y>170</y>
                <width>41</width>
                <height>20</height>
               </rect>
@@ -3072,28 +3072,28 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>208</y>
-               <width>101</width>
+               <y>168</y>
+               <width>111</width>
                <height>20</height>
               </rect>
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="text">
-              <string>Basic Tagtime :</string>
+              <string>Specific [ON/OFF]</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineFilterMinlaptime">
              <property name="geometry">
               <rect>
-               <x>120</x>
-               <y>240</y>
+               <x>130</x>
+               <y>200</y>
                <width>41</width>
                <height>20</height>
               </rect>
@@ -3121,7 +3121,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>180</x>
-               <y>240</y>
+               <y>200</y>
                <width>61</width>
                <height>22</height>
               </rect>
@@ -3134,26 +3134,26 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>238</y>
-               <width>91</width>
+               <y>198</y>
+               <width>101</width>
                <height>20</height>
               </rect>
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Min. Laptime :</string>
+              <string>Common [s]</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_15">
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>268</y>
-               <width>111</width>
+               <x>10</x>
+               <y>278</y>
+               <width>101</width>
                <height>20</height>
               </rect>
              </property>
@@ -3170,7 +3170,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>120</x>
-               <y>270</y>
+               <y>280</y>
                <width>41</width>
                <height>20</height>
               </rect>
@@ -3197,8 +3197,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinMaxlapnumber">
              <property name="geometry">
               <rect>
-               <x>180</x>
-               <y>270</y>
+               <x>170</x>
+               <y>280</y>
                <width>61</width>
                <height>22</height>
               </rect>
@@ -3211,8 +3211,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>190</y>
-               <width>91</width>
+               <y>140</y>
+               <width>141</width>
                <height>16</height>
               </rect>
              </property>
@@ -3222,14 +3222,14 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </font>
              </property>
              <property name="text">
-              <string>Filters :</string>
+              <string>Cell Auto Enable:</string>
              </property>
             </widget>
             <widget class="QLabel" name="labelMeasurementState">
              <property name="geometry">
               <rect>
                <x>50</x>
-               <y>330</y>
+               <y>350</y>
                <width>191</width>
                <height>21</height>
               </rect>
@@ -3250,7 +3250,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>158</y>
+               <y>308</y>
                <width>121</width>
                <height>20</height>
               </rect>
@@ -3268,7 +3268,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>120</x>
-               <y>160</y>
+               <y>310</y>
                <width>41</width>
                <height>20</height>
               </rect>
@@ -37625,7 +37625,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>gui/icons/actions_generate_finishtime.png</normaloff>gui/icons/actions_generate_finishtime.png</iconset>
+     <normaloff>gui/icons/actions_enable_finish.png</normaloff>gui/icons/actions_enable_finish.png</iconset>
    </property>
    <property name="text">
     <string>Auto Enable Cells OFF</string>
