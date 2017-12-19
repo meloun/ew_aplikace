@@ -307,16 +307,11 @@ class TabRaceSettings():
         self.Update(UPDATE_MODE.gui)
     
     
-    def sFilterTagtime(self, value):
-        print "sFilterTagTime", value
+    def sFilterTagtime(self, value):        
         '''získání a nastavení nové SET hodnoty'''
         timing_settings = dstore.Get("timing_settings", "GET").copy()
         timing_settings["filter_tagtime"]  = value                                      
-        dstore.Set("timing_settings", timing_settings, "SET") 
-        
-        '''update gui'''
-        #Ui().spinTagtime.setValue(value)
-                   
+        dstore.Set("timing_settings", timing_settings, "SET")                   
         
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", ['filter_tagtime'])                                                                

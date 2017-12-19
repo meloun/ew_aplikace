@@ -36739,7 +36739,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="aPingCell_250"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
-   <addaction name="aAuto"/>
+   <addaction name="aAutoEnable"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="aQuitTiming"/>
@@ -37634,7 +37634,7 @@ p, li { white-space: pre-wrap; }
     <string>Auto Enable Cells OFF</string>
    </property>
   </action>
-  <action name="aAuto">
+  <action name="aAutoEnable">
    <property name="text">
     <string>AE</string>
    </property>

@@ -64,7 +64,10 @@ class BarCellActions():
             cell_actions['disable_cell'] = getattr(ui, "aDisableCell_"+str(i))
             self.toolbar_ping.widgetForAction(cell_actions['ping_cell'] ).setObjectName("w_ping_cell"+str(i))
             
-        self.toolbar_enable.widgetForAction(self.check_hw).setObjectName("w_check_hw")            
+        self.auto_enable = Ui().aAutoEnable
+        
+        self.toolbar_ping.widgetForAction(self.auto_enable).setObjectName("w_auto_enable")
+        self.toolbar_enable.widgetForAction(self.check_hw).setObjectName("w_check_hw")                
         self.toolbar_generate.widgetForAction(self.check_app).setObjectName("w_check_app")
             
             
@@ -132,8 +135,7 @@ class BarCellActions():
         #tabRaceSettings.sFilterTagtime(value)
 
            
-    def sBackupDatabase(self, suffix = "_Backup"):
-        print "AAAA"
+    def sBackupDatabase(self, suffix = "_Backup"):        
         racename = dstore.GetItem("racesettings-app", ['race_name']) 
         dirname = utils.get_filename("backup/"+timeutils.getUnderlinedDatetime()+"_"+racename+suffix+"/")        
         os.makedirs(dirname+"/db")
@@ -248,16 +250,14 @@ class BarCellActions():
                         font.setBold(True)
                         font.setUnderline(True)
                         cell_actions['ping_cell'].setFont(font)                        
-                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.green+"; }"
+                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.green+";width: 28px;}"
                                             
                     else:
                         font = cell_actions['ping_cell'].font()
                         font.setBold(False)
                         font.setUnderline(False)
                         cell_actions['ping_cell'].setFont(font)
-                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; }"                        
-                                                                                                
-                        
+                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"                                                                                                                                                
                     
                     # enable/disable all actions
                     if(info['trigger'] == 3): #MANUAL
@@ -271,16 +271,42 @@ class BarCellActions():
                         
                 else:
                     #DISABLE all actions, cell not configured or no connection with device
+                    font = cell_actions['ping_cell'].font()
+                    font.setBold(False)
+                    font.setUnderline(False)
+                    cell_actions['ping_cell'].setFont(font)
                     for key, action in cell_actions.items(): 
                         action.setEnabled(False)
                  
                                     
             #auto enable cells
+            self.auto_enable.setEnabled(dstore.Get("port")["opened"])
+            Ui().aAutoEnableCells_ON.setEnabled(dstore.Get("port")["opened"])
+            Ui().aAutoEnableCells_OFF.setEnabled(dstore.Get("port")["opened"])
             timing_settings = dstore.Get("timing_settings", "GET")
-            #print "TRE",timing_settings
-            if(timing_settings["filter_tagtime"] != None):
-                Ui().aAutoEnableCells_ON.setEnabled(not timing_settings["filter_tagtime"])
-                Ui().aAutoEnableCells_OFF.setEnabled(timing_settings["filter_tagtime"])
+            
+            if dstore.Get("port")["opened"]:
+                if timing_settings["filter_tagtime"]:                    
+                    font = self.auto_enable.font()
+                    font.setBold(True)
+                    font.setUnderline(True)
+                    self.auto_enable.setFont(font)                        
+                    css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.green+";width: 28px;}"
+                                        
+                else:
+                    font = self.auto_enable.font()
+                    font.setBold(False)
+                    font.setUnderline(False)
+                    self.auto_enable.setFont(font)
+                    css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.red+";width: 28px;}"
+            else:
+                font = self.auto_enable.font()
+                font.setBold(False)
+                font.setUnderline(False)
+                self.auto_enable.setFont(font)
+                
+
+                   
             
             #background to the toolbars
             hw_status = self.GetHwStatus()   
