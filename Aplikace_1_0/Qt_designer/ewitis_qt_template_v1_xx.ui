@@ -82,7 +82,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>14</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -3030,7 +3030,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinTagtime">
              <property name="geometry">
               <rect>
-               <x>180</x>
+               <x>170</x>
                <y>170</y>
                <width>61</width>
                <height>22</height>
@@ -3043,7 +3043,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLineEdit" name="lineFilterTagtime">
              <property name="geometry">
               <rect>
-               <x>130</x>
+               <x>120</x>
                <y>170</y>
                <width>41</width>
                <height>20</height>
@@ -3072,7 +3072,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>168</y>
+               <y>170</y>
                <width>111</width>
                <height>20</height>
               </rect>
@@ -3086,13 +3086,13 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="text">
-              <string>Specific [ON/OFF]</string>
+              <string>Specific [0/1]</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineFilterMinlaptime">
              <property name="geometry">
               <rect>
-               <x>130</x>
+               <x>120</x>
                <y>200</y>
                <width>41</width>
                <height>20</height>
@@ -3120,7 +3120,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinMinlaptime">
              <property name="geometry">
               <rect>
-               <x>180</x>
+               <x>170</x>
                <y>200</y>
                <width>61</width>
                <height>22</height>
@@ -3146,24 +3146,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="text">
               <string>Common [s]</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_15">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>278</y>
-               <width>101</width>
-               <height>20</height>
-              </rect>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Max laps:</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineMaxlapnumber">
@@ -3228,8 +3210,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLabel" name="labelMeasurementState">
              <property name="geometry">
               <rect>
-               <x>50</x>
-               <y>350</y>
+               <x>30</x>
+               <y>390</y>
                <width>191</width>
                <height>21</height>
               </rect>
@@ -3250,8 +3232,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>308</y>
-               <width>121</width>
+               <y>330</y>
+               <width>171</width>
                <height>20</height>
               </rect>
              </property>
@@ -3261,14 +3243,14 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </font>
              </property>
              <property name="text">
-              <string>Reading Tags :</string>
+              <string>Reserved (Reading Tags)</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="lineTagsReadingEn">
              <property name="geometry">
               <rect>
-               <x>120</x>
-               <y>310</y>
+               <x>190</x>
+               <y>330</y>
                <width>41</width>
                <height>20</height>
               </rect>
@@ -3308,6 +3290,42 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="text">
               <string>Logic mode :</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_171">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>250</y>
+               <width>221</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Missing times request:</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_15">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>280</y>
+               <width>101</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Perios [s]</string>
              </property>
             </widget>
            </widget>
@@ -36164,294 +36182,13 @@ p, li { white-space: pre-wrap; }
             <string>Communication</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_4">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Send Telegramm</string>
-              </property>
-              <widget class="QComboBox" name="comboCommCommand">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>42</y>
-                 <width>251</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineCommData">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>150</y>
-                 <width>161</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="inputMask">
-                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_66">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>131</y>
-                 <width>30</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Data :</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_65">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>23</y>
-                 <width>121</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Predefined Command :</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushCommSend">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>190</y>
-                 <width>150</width>
-                 <height>24</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Send</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_67">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>260</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>0</red>
-                     <green>0</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>0</red>
-                     <green>0</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>120</red>
-                     <green>120</green>
-                     <blue>120</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="text">
-                <string>Last response:</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="labelCommResponse">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>280</y>
-                 <width>291</width>
-                 <height>401</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>100</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>0</red>
-                     <green>85</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>0</red>
-                     <green>85</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>120</red>
-                     <green>120</green>
-                     <blue>120</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>8</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string> --  --  --  --  --</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-               </property>
-              </widget>
-              <widget class="QSpinBox" name="spinCommDatalength">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>100</y>
-                 <width>51</width>
-                 <height>22</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_21">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>80</y>
-                 <width>46</width>
-                 <height>13</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Command</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_22">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>80</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Datalegth</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineCommCommand">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>100</y>
-                 <width>51</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="inputMask">
-                <string>HH;0</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </widget>
-            </item>
             <item row="0" column="1">
              <spacer name="horizontalSpacer_5">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
+               <enum>QSizePolicy::Expanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -36551,11 +36288,997 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>300</width>
+                <width>200</width>
                 <height>20</height>
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>410</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>Send Telegramm</string>
+              </property>
+              <widget class="QComboBox" name="comboCommCommand">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>42</y>
+                 <width>311</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maxVisibleItems">
+                <number>40</number>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>91</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_66">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>72</y>
+                 <width>31</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Data</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_65">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>23</y>
+                 <width>131</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Predefined Command</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushCommSend">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>80</y>
+                 <width>50</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Send</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_67">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>380</y>
+                 <width>81</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>0</red>
+                     <green>0</green>
+                     <blue>0</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>0</red>
+                     <green>0</green>
+                     <blue>0</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>120</red>
+                     <green>120</green>
+                     <blue>120</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="text">
+                <string>Last response:</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="labelCommResponse">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>390</y>
+                 <width>371</width>
+                 <height>401</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>100</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>0</red>
+                     <green>85</green>
+                     <blue>0</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>0</red>
+                     <green>85</green>
+                     <blue>0</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="Text">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>120</red>
+                     <green>120</green>
+                     <blue>120</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string> --  --  --  --  --</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_21">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>71</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Cmd</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_22">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>71</y>
+                 <width>41</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Length</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>91</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData_template_1">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>150</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushSaveTemplate_1">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>130</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;-</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushLoadTemplate_1">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>150</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineTemplate_1">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>130</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Command nr.1</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData_template_2">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>200</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushLoadTemplate_2">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>200</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushSaveTemplate_2">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>180</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;-</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineTemplate_2">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>180</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Command nr.2</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData_template_3">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>250</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushSaveTemplate_3">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>230</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;-</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineTemplate_3">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>230</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Command nr.3</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushLoadTemplate_3">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>250</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData_template_4">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>300</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushSaveTemplate_4">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>280</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;-</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineTemplate_4">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>280</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Command nr.4</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushLoadTemplate_4">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>300</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommData_template_5">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>350</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="inputMask">
+                <string>HH HH HH HH HH HH HH HH HH HH;0</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushSaveTemplate_5">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>330</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>&lt;-</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineTemplate_5">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>330</y>
+                 <width>230</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Command nr.5</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushLoadTemplate_5">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>350</y>
+                 <width>50</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>-&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>91</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength_template_1">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>150</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand_template_1">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>150</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand_template_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>200</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength_template_2">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>200</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand_template_3">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>250</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength_template_3">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>250</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand_template_4">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>300</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength_template_4">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>300</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommCommand_template_5">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>350</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineCommDatalength_template_5">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>350</y>
+                 <width>40</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="inputMask">
+                <string>HH; </string>
+               </property>
+               <property name="text">
+                <string>00</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -37924,11 +38647,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineBacklight_56</tabstop>
   <tabstop>lineBacklight_135</tabstop>
   <tabstop>lineBacklight_89</tabstop>
-  <tabstop>comboCommCommand</tabstop>
-  <tabstop>lineCommData</tabstop>
-  <tabstop>pushCommSend</tabstop>
-  <tabstop>spinCommDatalength</tabstop>
-  <tabstop>lineCommCommand</tabstop>
   <tabstop>textCommLog</tabstop>
   <tabstop>checkCommLogCyclic</tabstop>
   <tabstop>pushCommClearLog</tabstop>
@@ -38024,6 +38742,723 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkExportOnerow_3</tabstop>
   <tabstop>comboExportType_2</tabstop>
   <tabstop>comboExportType_3</tabstop>
+  <tabstop>TimesAutoNumberEnable</tabstop>
+  <tabstop>TimesAutoNumberLogic</tabstop>
+  <tabstop>checkRfidRace</tabstop>
+  <tabstop>lineRaceName</tabstop>
+  <tabstop>checkTagFilter</tabstop>
+  <tabstop>comboStarttimeEvaluation</tabstop>
+  <tabstop>checkRemoteRace</tabstop>
+  <tabstop>pushLoadProfile</tabstop>
+  <tabstop>lineProfileName</tabstop>
+  <tabstop>pushSaveProfile</tabstop>
+  <tabstop>textProfileDesc</tabstop>
+  <tabstop>spinFinishLaps</tabstop>
+  <tabstop>lineFinishTime</tabstop>
+  <tabstop>spinAutonumbersNrOfUsers</tabstop>
+  <tabstop>spinAutonumbersNrOfCells</tabstop>
+  <tabstop>spinAutonumbersCell1</tabstop>
+  <tabstop>spinAutonumbersCell2</tabstop>
+  <tabstop>spinAutonumbersCell3</tabstop>
+  <tabstop>spinAutonumbersCell4</tabstop>
+  <tabstop>spinAutonumbersCell5</tabstop>
+  <tabstop>spinAutonumbersCell6</tabstop>
+  <tabstop>spinAutonumbersCell7</tabstop>
+  <tabstop>comboTimingMode</tabstop>
+  <tabstop>lineTimingMode</tabstop>
+  <tabstop>spinTagtime</tabstop>
+  <tabstop>lineFilterTagtime</tabstop>
+  <tabstop>lineFilterMinlaptime</tabstop>
+  <tabstop>spinMinlaptime</tabstop>
+  <tabstop>lineMaxlapnumber</tabstop>
+  <tabstop>spinMaxlapnumber</tabstop>
+  <tabstop>lineTagsReadingEn</tabstop>
+  <tabstop>checkAInfoOrder_1</tabstop>
+  <tabstop>checkAInfoPoints_1</tabstop>
+  <tabstop>checkAInfoPoints_2</tabstop>
+  <tabstop>checkAInfoPoints_3</tabstop>
+  <tabstop>checkAInfoLap_1</tabstop>
+  <tabstop>checkAInfoLap_3</tabstop>
+  <tabstop>checkAInfoLap_2</tabstop>
+  <tabstop>checkAInfoTime_3</tabstop>
+  <tabstop>checkAInfoTime_1</tabstop>
+  <tabstop>checkAInfoTime_2</tabstop>
+  <tabstop>checkAInfoOrder_2</tabstop>
+  <tabstop>checkAInfoOrder_3</tabstop>
+  <tabstop>lineAInfoTimeRule_1</tabstop>
+  <tabstop>lineAInfoTimeRule_2</tabstop>
+  <tabstop>lineAInfoTimeRule_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_2</tabstop>
+  <tabstop>lineAInfoPointRule_1</tabstop>
+  <tabstop>spinAInfoPointMinimum_3</tabstop>
+  <tabstop>spinAInfoPointMinimum_2</tabstop>
+  <tabstop>spinAInfoPointMinimum_1</tabstop>
+  <tabstop>lineAInfoPointRule_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_1</tabstop>
+  <tabstop>lineAInfoPointRule_2</tabstop>
+  <tabstop>lineAInfoTimeFilter_1</tabstop>
+  <tabstop>lineAInfoTimeFilter_2</tabstop>
+  <tabstop>lineAInfoTimeFilter_3</tabstop>
+  <tabstop>comboOrderColumn_1_1</tabstop>
+  <tabstop>comboOrderOrder_1_1</tabstop>
+  <tabstop>comboOrderColumn_1_2</tabstop>
+  <tabstop>comboOrderOrder_1_2</tabstop>
+  <tabstop>comboOrderColumn_2_1</tabstop>
+  <tabstop>comboOrderColumn_2_2</tabstop>
+  <tabstop>comboOrderOrder_2_1</tabstop>
+  <tabstop>comboOrderOrder_2_2</tabstop>
+  <tabstop>comboOrderColumn_3_1</tabstop>
+  <tabstop>comboOrderColumn_3_2</tabstop>
+  <tabstop>comboOrderOrder_3_1</tabstop>
+  <tabstop>comboOrderOrder_3_2</tabstop>
+  <tabstop>comboOrderRow_1</tabstop>
+  <tabstop>comboOrderRow_2</tabstop>
+  <tabstop>comboOrderRow_3</tabstop>
+  <tabstop>checkAInfoUserNumber_1</tabstop>
+  <tabstop>checkAInfoUserNumber_3</tabstop>
+  <tabstop>checkAInfoUserNumber_2</tabstop>
+  <tabstop>checkAInfoUserString_1</tabstop>
+  <tabstop>lineAInfoLapFilter_1</tabstop>
+  <tabstop>lineAInfoLapFilter_2</tabstop>
+  <tabstop>lineAInfoLapFilter_3</tabstop>
+  <tabstop>comboOrderType_1</tabstop>
+  <tabstop>comboOrderType_2</tabstop>
+  <tabstop>comboOrderType_3</tabstop>
+  <tabstop>checkAInfoPoints_4</tabstop>
+  <tabstop>spinAInfoPointMinimum_4</tabstop>
+  <tabstop>lineAInfoPointRule_4</tabstop>
+  <tabstop>spinAInfoPointMaximum_4</tabstop>
+  <tabstop>checkAInfoStatus</tabstop>
+  <tabstop>checkAInfoPoints_5</tabstop>
+  <tabstop>spinAInfoPointMaximum_5</tabstop>
+  <tabstop>lineAInfoPointRule_5</tabstop>
+  <tabstop>spinAInfoPointMinimum_5</tabstop>
+  <tabstop>checkExportMinuteTimeformat_1</tabstop>
+  <tabstop>checkExportMinuteTimeformat_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_3</tabstop>
+  <tabstop>lineAInfoLapFilter_4</tabstop>
+  <tabstop>checkExportMinuteTimeformat_4</tabstop>
+  <tabstop>lineAInfoTimeFilter_4</tabstop>
+  <tabstop>checkAInfoTime_4</tabstop>
+  <tabstop>checkAInfoLap_4</tabstop>
+  <tabstop>lineAInfoTimeRule_4</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_1</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_2</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_3</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_4</tabstop>
+  <tabstop>lineExportHeaderDescription3</tabstop>
+  <tabstop>lineExportHeaderCategory3</tabstop>
+  <tabstop>lineExportHeaderDescription2</tabstop>
+  <tabstop>lineExportHeaderText2</tabstop>
+  <tabstop>lineExportHeaderText3</tabstop>
+  <tabstop>lineExportHeaderRace2</tabstop>
+  <tabstop>lineExportHeaderRace3</tabstop>
+  <tabstop>lineExportHeaderCategory2</tabstop>
+  <tabstop>lineExportHeaderRace1</tabstop>
+  <tabstop>lineExportHeaderText1</tabstop>
+  <tabstop>lineExportHeaderCategory1</tabstop>
+  <tabstop>lineExportHeaderDescription1</tabstop>
+  <tabstop>spinExportLasttimes1</tabstop>
+  <tabstop>pushExportLoadCss3</tabstop>
+  <tabstop>lineExportCss2</tabstop>
+  <tabstop>lineExportCss3</tabstop>
+  <tabstop>lineExportCss1</tabstop>
+  <tabstop>pushExportLoadCss1</tabstop>
+  <tabstop>pushExportLoadCss2</tabstop>
+  <tabstop>lineExportJs3</tabstop>
+  <tabstop>lineExportJs2</tabstop>
+  <tabstop>pushExportLoadJs2</tabstop>
+  <tabstop>pushExportLoadJs3</tabstop>
+  <tabstop>pushExportLoadJs1</tabstop>
+  <tabstop>lineExportJs1</tabstop>
+  <tabstop>spinExportLasttimes2</tabstop>
+  <tabstop>spinExportLasttimes3</tabstop>
+  <tabstop>spinExportFirsttimes1</tabstop>
+  <tabstop>spinExportFirsttimes2</tabstop>
+  <tabstop>spinExportFirsttimes3</tabstop>
+  <tabstop>checkExportTranspose2</tabstop>
+  <tabstop>checkExportTranspose3</tabstop>
+  <tabstop>checkExportTranspose1</tabstop>
+  <tabstop>textExportSms1</tabstop>
+  <tabstop>textExportSms2</tabstop>
+  <tabstop>textExportSms3</tabstop>
+  <tabstop>comboExportPhoneColumn1</tabstop>
+  <tabstop>comboExportPhoneColumn2</tabstop>
+  <tabstop>spinExportForwardUsernr1</tabstop>
+  <tabstop>lineExportForwardPhonenr1</tabstop>
+  <tabstop>lineExportForwardPhonenr2</tabstop>
+  <tabstop>spinExportForwardUsernr2</tabstop>
+  <tabstop>spinExportForwardUsernr3</tabstop>
+  <tabstop>lineExportForwardPhonenr3</tabstop>
+  <tabstop>lineExportForwardPhonenr4</tabstop>
+  <tabstop>spinExportForwardUsernr4</tabstop>
+  <tabstop>lineExportForwardDesc2</tabstop>
+  <tabstop>lineExportForwardDesc1</tabstop>
+  <tabstop>lineExportForwardDesc3</tabstop>
+  <tabstop>lineExportForwardDesc4</tabstop>
+  <tabstop>pushExportHtmEnable_3</tabstop>
+  <tabstop>pushExportHtmEnable_1</tabstop>
+  <tabstop>checkExportPoints_2_2</tabstop>
+  <tabstop>checkExportPoints_2_1</tabstop>
+  <tabstop>checkExportLap_1_2</tabstop>
+  <tabstop>checkExportOption_3_2</tabstop>
+  <tabstop>checkExportOption_4_1</tabstop>
+  <tabstop>lineExportNameOption1_1</tabstop>
+  <tabstop>checkExportSex_2</tabstop>
+  <tabstop>checkExportPoints_1_3</tabstop>
+  <tabstop>checkExportGap_1_1</tabstop>
+  <tabstop>checkExportClub_1</tabstop>
+  <tabstop>checkExportYear_1</tabstop>
+  <tabstop>checkExportSex_1</tabstop>
+  <tabstop>checkExportOption_2_3</tabstop>
+  <tabstop>checkExportPoints_3_2</tabstop>
+  <tabstop>checkExportPoints_2_3</tabstop>
+  <tabstop>lineExportNameOption3_1</tabstop>
+  <tabstop>checkExportPoints_3_1</tabstop>
+  <tabstop>checkExportPoints_3_3</tabstop>
+  <tabstop>checkExportOption_2_2</tabstop>
+  <tabstop>checkExportOption_1_3</tabstop>
+  <tabstop>checkExportOption_3_1</tabstop>
+  <tabstop>checkExportOption_4_3</tabstop>
+  <tabstop>checkExportYear_2</tabstop>
+  <tabstop>checkExportGap_1_3</tabstop>
+  <tabstop>lineExportNameOption2_1</tabstop>
+  <tabstop>checkExportYear_3</tabstop>
+  <tabstop>lineExportNameOption4_1</tabstop>
+  <tabstop>checkExportLap_1_1</tabstop>
+  <tabstop>checkExportLap_1_3</tabstop>
+  <tabstop>checkExportOption_3_3</tabstop>
+  <tabstop>checkExportGap_1_2</tabstop>
+  <tabstop>checkExportPoints_1_2</tabstop>
+  <tabstop>checkExportPoints_1_1</tabstop>
+  <tabstop>checkExportSex_3</tabstop>
+  <tabstop>checkExportOption_4_2</tabstop>
+  <tabstop>checkExportOption_1_2</tabstop>
+  <tabstop>checkExportOption_1_1</tabstop>
+  <tabstop>checkExportOption_2_1</tabstop>
+  <tabstop>checkExportClub_2</tabstop>
+  <tabstop>checkExportClub_3</tabstop>
+  <tabstop>pushExportHtmEnable_2</tabstop>
+  <tabstop>checkExportTime_1_1</tabstop>
+  <tabstop>checkExportTime_1_3</tabstop>
+  <tabstop>checkExportTime_1_2</tabstop>
+  <tabstop>checkExportTime_2_2</tabstop>
+  <tabstop>checkExportTime_2_1</tabstop>
+  <tabstop>checkExportTime_2_3</tabstop>
+  <tabstop>checkExportTime_3_2</tabstop>
+  <tabstop>checkExportTime_3_3</tabstop>
+  <tabstop>checkExportTime_3_1</tabstop>
+  <tabstop>checkExportOrder_1_2</tabstop>
+  <tabstop>checkExportOrder_2_2</tabstop>
+  <tabstop>checkExportOrder_2_3</tabstop>
+  <tabstop>checkExportOrder_2_1</tabstop>
+  <tabstop>checkExportOrder_1_1</tabstop>
+  <tabstop>checkExportOrder_3_1</tabstop>
+  <tabstop>checkExportOrder_3_2</tabstop>
+  <tabstop>checkExportOrder_3_3</tabstop>
+  <tabstop>checkExportOrder_1_3</tabstop>
+  <tabstop>checkExportLap_2_3</tabstop>
+  <tabstop>checkExportLap_2_2</tabstop>
+  <tabstop>checkExportLap_2_1</tabstop>
+  <tabstop>checkExportLap_3_1</tabstop>
+  <tabstop>checkExportLap_3_3</tabstop>
+  <tabstop>checkExportLap_3_2</tabstop>
+  <tabstop>checkExportName_3</tabstop>
+  <tabstop>checkExportName_2</tabstop>
+  <tabstop>checkExportName_1</tabstop>
+  <tabstop>checkExportCategory_1</tabstop>
+  <tabstop>checkExportCategory_2</tabstop>
+  <tabstop>checkExportCategory_3</tabstop>
+  <tabstop>checkExportNumber_1</tabstop>
+  <tabstop>checkExportNumber_2</tabstop>
+  <tabstop>checkExportNumber_3</tabstop>
+  <tabstop>lineExportNameOrder2_1</tabstop>
+  <tabstop>lineExportNameOrder1_1</tabstop>
+  <tabstop>lineExportNameOrder3_1</tabstop>
+  <tabstop>lineExportNameNr_1</tabstop>
+  <tabstop>lineExportNameCategory_1</tabstop>
+  <tabstop>lineExportNameName_1</tabstop>
+  <tabstop>lineExportNameYear_1</tabstop>
+  <tabstop>lineExportNameClub_1</tabstop>
+  <tabstop>lineExportNameSex_1</tabstop>
+  <tabstop>lineExportNameGap1_1</tabstop>
+  <tabstop>lineExportNamePoints2_1</tabstop>
+  <tabstop>lineExportNamePoints1_1</tabstop>
+  <tabstop>lineExportNameLap1_1</tabstop>
+  <tabstop>lineExportNamePoints3_1</tabstop>
+  <tabstop>lineExportNameTime1_1</tabstop>
+  <tabstop>lineExportNameLap2_1</tabstop>
+  <tabstop>lineExportNameTime2_1</tabstop>
+  <tabstop>lineExportNameLap3_1</tabstop>
+  <tabstop>lineExportNameTime3_1</tabstop>
+  <tabstop>pushExportCsvEnable_3</tabstop>
+  <tabstop>pushExportCsvEnable_2</tabstop>
+  <tabstop>pushExportCsvEnable_1</tabstop>
+  <tabstop>checkExportStatus_3</tabstop>
+  <tabstop>checkExportStatus_2</tabstop>
+  <tabstop>lineExportNameStatus_1</tabstop>
+  <tabstop>checkExportStatus_1</tabstop>
+  <tabstop>lineExportNameUn1_1</tabstop>
+  <tabstop>checkExportUn_3_1</tabstop>
+  <tabstop>checkExportUn_2_2</tabstop>
+  <tabstop>lineExportNameUn2_1</tabstop>
+  <tabstop>checkExportUn_3_2</tabstop>
+  <tabstop>checkExportUn_1_3</tabstop>
+  <tabstop>checkExportUn_2_3</tabstop>
+  <tabstop>checkExportUn_1_1</tabstop>
+  <tabstop>checkExportUn_2_1</tabstop>
+  <tabstop>checkExportUn_3_3</tabstop>
+  <tabstop>checkExportUn_1_2</tabstop>
+  <tabstop>lineExportNameUn3_1</tabstop>
+  <tabstop>checkExportUs_1_3</tabstop>
+  <tabstop>checkExportUs_1_2</tabstop>
+  <tabstop>checkExportUs_1_1</tabstop>
+  <tabstop>lineExportNameUs1_1</tabstop>
+  <tabstop>checkExportPoints_4_1</tabstop>
+  <tabstop>lineExportNamePoints4_1</tabstop>
+  <tabstop>checkExportPoints_4_3</tabstop>
+  <tabstop>checkExportPoints_4_2</tabstop>
+  <tabstop>lineExportNamePoints5_1</tabstop>
+  <tabstop>checkExportPoints_5_3</tabstop>
+  <tabstop>checkExportPoints_5_1</tabstop>
+  <tabstop>checkExportPoints_5_2</tabstop>
+  <tabstop>spinExportSortOrder1_1</tabstop>
+  <tabstop>spinExportSortOrder2_1</tabstop>
+  <tabstop>spinExportSortOrder3_1</tabstop>
+  <tabstop>spinExportSortNumber_1</tabstop>
+  <tabstop>spinExportSortName_1</tabstop>
+  <tabstop>spinExportSortCategory_1</tabstop>
+  <tabstop>spinExportSortYear_1</tabstop>
+  <tabstop>spinExportSortClub_1</tabstop>
+  <tabstop>spinExportSortSex_1</tabstop>
+  <tabstop>spinExportSortOption3_1</tabstop>
+  <tabstop>spinExportSortOption2_1</tabstop>
+  <tabstop>spinExportSortOption1_1</tabstop>
+  <tabstop>spinExportSortOption4_1</tabstop>
+  <tabstop>spinExportSortGap1_1</tabstop>
+  <tabstop>spinExportSortTime1_1</tabstop>
+  <tabstop>spinExportSortLap1_1</tabstop>
+  <tabstop>spinExportSortLap2_1</tabstop>
+  <tabstop>spinExportSortTime2_1</tabstop>
+  <tabstop>spinExportSortTime3_1</tabstop>
+  <tabstop>spinExportSortLap3_1</tabstop>
+  <tabstop>spinExportSortPoints2_1</tabstop>
+  <tabstop>spinExportSortPoints4_1</tabstop>
+  <tabstop>spinExportSortPoints3_1</tabstop>
+  <tabstop>spinExportSortPoints1_1</tabstop>
+  <tabstop>spinExportSortPoints5_1</tabstop>
+  <tabstop>spinExportSortUn3_1</tabstop>
+  <tabstop>spinExportSortUn1_1</tabstop>
+  <tabstop>spinExportSortUn2_1</tabstop>
+  <tabstop>spinExportSortUs1_1</tabstop>
+  <tabstop>spinExportSortStatus_1</tabstop>
+  <tabstop>spinExportSortNumber_2</tabstop>
+  <tabstop>spinExportSortUs1_2</tabstop>
+  <tabstop>spinExportSortName_2</tabstop>
+  <tabstop>spinExportSortStatus_2</tabstop>
+  <tabstop>spinExportSortTime2_2</tabstop>
+  <tabstop>spinExportSortClub_2</tabstop>
+  <tabstop>spinExportSortLap1_2</tabstop>
+  <tabstop>spinExportSortPoints1_2</tabstop>
+  <tabstop>spinExportSortUn3_2</tabstop>
+  <tabstop>spinExportSortPoints3_2</tabstop>
+  <tabstop>spinExportSortTime1_2</tabstop>
+  <tabstop>spinExportSortSex_2</tabstop>
+  <tabstop>spinExportSortPoints4_2</tabstop>
+  <tabstop>spinExportSortOption3_2</tabstop>
+  <tabstop>spinExportSortOrder2_2</tabstop>
+  <tabstop>spinExportSortOption1_2</tabstop>
+  <tabstop>spinExportSortOption2_2</tabstop>
+  <tabstop>spinExportSortCategory_2</tabstop>
+  <tabstop>spinExportSortLap2_2</tabstop>
+  <tabstop>spinExportSortGap1_2</tabstop>
+  <tabstop>spinExportSortTime3_2</tabstop>
+  <tabstop>spinExportSortOrder1_2</tabstop>
+  <tabstop>spinExportSortUn2_2</tabstop>
+  <tabstop>spinExportSortOption4_2</tabstop>
+  <tabstop>spinExportSortOrder3_2</tabstop>
+  <tabstop>spinExportSortUn1_2</tabstop>
+  <tabstop>spinExportSortPoints5_2</tabstop>
+  <tabstop>spinExportSortLap3_2</tabstop>
+  <tabstop>spinExportSortPoints2_2</tabstop>
+  <tabstop>spinExportSortYear_2</tabstop>
+  <tabstop>spinExportSortOption3_3</tabstop>
+  <tabstop>spinExportSortLap2_3</tabstop>
+  <tabstop>spinExportSortUs1_3</tabstop>
+  <tabstop>spinExportSortTime1_3</tabstop>
+  <tabstop>spinExportSortPoints5_3</tabstop>
+  <tabstop>spinExportSortPoints4_3</tabstop>
+  <tabstop>spinExportSortPoints2_3</tabstop>
+  <tabstop>spinExportSortSex_3</tabstop>
+  <tabstop>spinExportSortPoints1_3</tabstop>
+  <tabstop>spinExportSortUn1_3</tabstop>
+  <tabstop>spinExportSortPoints3_3</tabstop>
+  <tabstop>spinExportSortCategory_3</tabstop>
+  <tabstop>spinExportSortLap1_3</tabstop>
+  <tabstop>spinExportSortLap3_3</tabstop>
+  <tabstop>spinExportSortOrder3_3</tabstop>
+  <tabstop>spinExportSortNumber_3</tabstop>
+  <tabstop>spinExportSortClub_3</tabstop>
+  <tabstop>spinExportSortGap1_3</tabstop>
+  <tabstop>spinExportSortOption1_3</tabstop>
+  <tabstop>spinExportSortOrder1_3</tabstop>
+  <tabstop>spinExportSortUn3_3</tabstop>
+  <tabstop>spinExportSortStatus_3</tabstop>
+  <tabstop>spinExportSortOrder2_3</tabstop>
+  <tabstop>spinExportSortOption4_3</tabstop>
+  <tabstop>spinExportSortOption2_3</tabstop>
+  <tabstop>spinExportSortTime3_3</tabstop>
+  <tabstop>spinExportSortName_3</tabstop>
+  <tabstop>spinExportSortTime2_3</tabstop>
+  <tabstop>spinExportSortYear_3</tabstop>
+  <tabstop>spinExportSortUn2_3</tabstop>
+  <tabstop>spinExportSortOrderCat2_2</tabstop>
+  <tabstop>spinExportSortOrderCat1_3</tabstop>
+  <tabstop>spinExportSortOrderCat3_3</tabstop>
+  <tabstop>spinExportSortOrderCat1_1</tabstop>
+  <tabstop>spinExportSortOrderCat2_3</tabstop>
+  <tabstop>checkExportOrderCat_2_3</tabstop>
+  <tabstop>lineExportNameOrderCat3_1</tabstop>
+  <tabstop>checkExportOrderCat_2_2</tabstop>
+  <tabstop>checkExportOrderCat_1_2</tabstop>
+  <tabstop>lineExportNameOrderCat2_1</tabstop>
+  <tabstop>spinExportSortOrderCat1_2</tabstop>
+  <tabstop>checkExportOrderCat_1_3</tabstop>
+  <tabstop>checkExportOrderCat_3_3</tabstop>
+  <tabstop>checkExportOrderCat_3_2</tabstop>
+  <tabstop>checkExportOrderCat_3_1</tabstop>
+  <tabstop>checkExportOrderCat_1_1</tabstop>
+  <tabstop>spinExportSortOrderCat3_1</tabstop>
+  <tabstop>checkExportOrderCat_2_1</tabstop>
+  <tabstop>spinExportSortOrderCat3_2</tabstop>
+  <tabstop>lineExportNameOrderCat1_1</tabstop>
+  <tabstop>spinExportSortOrderCat2_1</tabstop>
+  <tabstop>checkExportLap_4_1</tabstop>
+  <tabstop>lineExportNameTime4_1</tabstop>
+  <tabstop>spinExportSortLap4_3</tabstop>
+  <tabstop>checkExportTime_4_2</tabstop>
+  <tabstop>checkExportLap_4_3</tabstop>
+  <tabstop>spinExportSortLap4_2</tabstop>
+  <tabstop>spinExportSortLap4_1</tabstop>
+  <tabstop>spinExportSortTime4_2</tabstop>
+  <tabstop>checkExportLap_4_2</tabstop>
+  <tabstop>lineExportNameLap4_1</tabstop>
+  <tabstop>spinExportSortTime4_1</tabstop>
+  <tabstop>checkExportTime_4_1</tabstop>
+  <tabstop>checkExportTime_4_3</tabstop>
+  <tabstop>spinExportSortTime4_3</tabstop>
+  <tabstop>lineExportNameOrder1_2</tabstop>
+  <tabstop>lineExportNameOrder1_3</tabstop>
+  <tabstop>lineExportNameTime1_2</tabstop>
+  <tabstop>lineExportNameOrder2_2</tabstop>
+  <tabstop>lineExportNameOrder2_3</tabstop>
+  <tabstop>lineExportNameOrder3_2</tabstop>
+  <tabstop>lineExportNameOrder3_3</tabstop>
+  <tabstop>lineExportNameNr_2</tabstop>
+  <tabstop>lineExportNameNr_3</tabstop>
+  <tabstop>lineExportNameOrderCat1_2</tabstop>
+  <tabstop>lineExportNameOrderCat1_3</tabstop>
+  <tabstop>lineExportNameTime1_3</tabstop>
+  <tabstop>checkExportGap_2_3</tabstop>
+  <tabstop>checkExportGap_2_1</tabstop>
+  <tabstop>lineExportNameGap2_1</tabstop>
+  <tabstop>spinExportSortGap2_3</tabstop>
+  <tabstop>spinExportSortGap2_2</tabstop>
+  <tabstop>checkExportGap_2_2</tabstop>
+  <tabstop>spinExportSortGap2_1</tabstop>
+  <tabstop>checkExportGap_3_2</tabstop>
+  <tabstop>checkExportGap_3_3</tabstop>
+  <tabstop>spinExportSortGap3_3</tabstop>
+  <tabstop>checkExportGap_3_1</tabstop>
+  <tabstop>lineExportNameGap3_1</tabstop>
+  <tabstop>spinExportSortGap3_2</tabstop>
+  <tabstop>spinExportSortGap3_1</tabstop>
+  <tabstop>spinExportSortGap4_3</tabstop>
+  <tabstop>checkExportGap_4_1</tabstop>
+  <tabstop>checkExportGap_4_3</tabstop>
+  <tabstop>spinExportSortGap4_2</tabstop>
+  <tabstop>spinExportSortGap4_1</tabstop>
+  <tabstop>checkExportGap_4_2</tabstop>
+  <tabstop>lineExportNameGap4_1</tabstop>
+  <tabstop>lineExportNameOrderCat2_3</tabstop>
+  <tabstop>lineExportNameOrderCat2_2</tabstop>
+  <tabstop>lineExportNameOrderCat3_2</tabstop>
+  <tabstop>lineExportNameOrderCat3_3</tabstop>
+  <tabstop>lineExportNameName_2</tabstop>
+  <tabstop>lineExportNameCategory_3</tabstop>
+  <tabstop>lineExportNameName_3</tabstop>
+  <tabstop>lineExportNameYear_2</tabstop>
+  <tabstop>lineExportNameYear_3</tabstop>
+  <tabstop>lineExportNameCategory_2</tabstop>
+  <tabstop>lineExportNameClub_2</tabstop>
+  <tabstop>lineExportNameClub_3</tabstop>
+  <tabstop>lineExportNameSex_2</tabstop>
+  <tabstop>lineExportNameSex_3</tabstop>
+  <tabstop>lineExportNameOption4_3</tabstop>
+  <tabstop>lineExportNameOption1_2</tabstop>
+  <tabstop>lineExportNameOption1_3</tabstop>
+  <tabstop>lineExportNameOption2_2</tabstop>
+  <tabstop>lineExportNameOption2_3</tabstop>
+  <tabstop>lineExportNameOption3_2</tabstop>
+  <tabstop>lineExportNameOption3_3</tabstop>
+  <tabstop>lineExportNameOption4_2</tabstop>
+  <tabstop>lineExportNameGap2_2</tabstop>
+  <tabstop>lineExportNameGap2_3</tabstop>
+  <tabstop>lineExportNameGap4_3</tabstop>
+  <tabstop>lineExportNameGap3_2</tabstop>
+  <tabstop>lineExportNameGap1_2</tabstop>
+  <tabstop>lineExportNameGap3_3</tabstop>
+  <tabstop>lineExportNameGap4_2</tabstop>
+  <tabstop>lineExportNameGap1_3</tabstop>
+  <tabstop>lineExportNameTime2_2</tabstop>
+  <tabstop>lineExportNameTime2_3</tabstop>
+  <tabstop>lineExportNameTime3_3</tabstop>
+  <tabstop>lineExportNameLap2_2</tabstop>
+  <tabstop>lineExportNameLap1_2</tabstop>
+  <tabstop>lineExportNameLap2_3</tabstop>
+  <tabstop>lineExportNameTime3_2</tabstop>
+  <tabstop>lineExportNameLap1_3</tabstop>
+  <tabstop>lineExportNameLap3_3</tabstop>
+  <tabstop>lineExportNameTime4_2</tabstop>
+  <tabstop>lineExportNameTime4_3</tabstop>
+  <tabstop>lineExportNameLap4_2</tabstop>
+  <tabstop>lineExportNameLap3_2</tabstop>
+  <tabstop>lineExportNameLap4_3</tabstop>
+  <tabstop>lineExportNamePoints1_2</tabstop>
+  <tabstop>lineExportNamePoints3_2</tabstop>
+  <tabstop>lineExportNamePoints4_2</tabstop>
+  <tabstop>lineExportNamePoints5_2</tabstop>
+  <tabstop>lineExportNamePoints1_3</tabstop>
+  <tabstop>lineExportNamePoints2_2</tabstop>
+  <tabstop>lineExportNamePoints3_3</tabstop>
+  <tabstop>lineExportNamePoints4_3</tabstop>
+  <tabstop>lineExportNamePoints2_3</tabstop>
+  <tabstop>lineExportNamePoints5_3</tabstop>
+  <tabstop>lineExportNameUn1_3</tabstop>
+  <tabstop>lineExportNameUs1_2</tabstop>
+  <tabstop>lineExportNameUn3_3</tabstop>
+  <tabstop>lineExportNameUn1_2</tabstop>
+  <tabstop>lineExportNameUn2_3</tabstop>
+  <tabstop>lineExportNameUn2_2</tabstop>
+  <tabstop>lineExportNameUn3_2</tabstop>
+  <tabstop>lineExportNameUs1_3</tabstop>
+  <tabstop>lineExportNameStatus_3</tabstop>
+  <tabstop>lineExportNameStatus_2</tabstop>
+  <tabstop>pushExportSmsEnable_2</tabstop>
+  <tabstop>pushExportSmsEnable_1</tabstop>
+  <tabstop>pushExportSmsEnable_3</tabstop>
+  <tabstop>lineCellAutoEnable_2</tabstop>
+  <tabstop>comboCellAutoEnable_2</tabstop>
+  <tabstop>comboCellAutoEnable_5</tabstop>
+  <tabstop>lineCellAutoEnable_5</tabstop>
+  <tabstop>comboCellAutoEnable_4</tabstop>
+  <tabstop>lineCellAutoEnable_4</tabstop>
+  <tabstop>comboCellAutoEnable_3</tabstop>
+  <tabstop>lineCellAutoEnable_3</tabstop>
+  <tabstop>lineCellAutoEnable_1</tabstop>
+  <tabstop>comboCellAutoEnable_1</tabstop>
+  <tabstop>comboCellAutoEnable_8</tabstop>
+  <tabstop>lineCellAutoEnable_8</tabstop>
+  <tabstop>comboCellAutoEnable_6</tabstop>
+  <tabstop>lineCellAutoEnable_6</tabstop>
+  <tabstop>comboCellAutoEnable_7</tabstop>
+  <tabstop>lineCellAutoEnable_7</tabstop>
+  <tabstop>lineCellBattery_12</tabstop>
+  <tabstop>comboCellTask_12</tabstop>
+  <tabstop>lineCellTask_12</tabstop>
+  <tabstop>lineCellDiagLongOk_12</tabstop>
+  <tabstop>lineCellDiagShortKo_12</tabstop>
+  <tabstop>pushCellPing_12</tabstop>
+  <tabstop>lineCellDiagLongRatio_12</tabstop>
+  <tabstop>pushCellClearCounters_12</tabstop>
+  <tabstop>lineCellSynchronizedOnce_12</tabstop>
+  <tabstop>lineCellSynchronized_12</tabstop>
+  <tabstop>lineCellIrSinal_12</tabstop>
+  <tabstop>lineCellActive_12</tabstop>
+  <tabstop>lineCellDiagLongKo_12</tabstop>
+  <tabstop>lineCellDiagShortOk_12</tabstop>
+  <tabstop>lineCellDiagShortRatio_12</tabstop>
+  <tabstop>pushCellRunDiagnostic_12</tabstop>
+  <tabstop>lineCellTrigger_12</tabstop>
+  <tabstop>comboCellTrigger_12</tabstop>
+  <tabstop>comboCellAutoEnable_12</tabstop>
+  <tabstop>lineCellAutoEnable_12</tabstop>
+  <tabstop>lineCellBattery_13</tabstop>
+  <tabstop>comboCellTask_13</tabstop>
+  <tabstop>lineCellTask_13</tabstop>
+  <tabstop>lineCellDiagLongOk_13</tabstop>
+  <tabstop>lineCellDiagShortKo_13</tabstop>
+  <tabstop>pushCellPing_13</tabstop>
+  <tabstop>lineCellDiagLongRatio_13</tabstop>
+  <tabstop>pushCellClearCounters_13</tabstop>
+  <tabstop>lineCellSynchronizedOnce_13</tabstop>
+  <tabstop>lineCellSynchronized_13</tabstop>
+  <tabstop>lineCellIrSinal_13</tabstop>
+  <tabstop>lineCellActive_13</tabstop>
+  <tabstop>lineCellDiagLongKo_13</tabstop>
+  <tabstop>lineCellDiagShortOk_13</tabstop>
+  <tabstop>lineCellDiagShortRatio_13</tabstop>
+  <tabstop>pushCellRunDiagnostic_13</tabstop>
+  <tabstop>lineCellTrigger_13</tabstop>
+  <tabstop>comboCellTrigger_13</tabstop>
+  <tabstop>comboCellAutoEnable_13</tabstop>
+  <tabstop>lineCellAutoEnable_13</tabstop>
+  <tabstop>lineCellBattery_14</tabstop>
+  <tabstop>comboCellTask_14</tabstop>
+  <tabstop>lineCellTask_14</tabstop>
+  <tabstop>lineCellDiagLongOk_14</tabstop>
+  <tabstop>lineCellDiagShortKo_14</tabstop>
+  <tabstop>pushCellPing_14</tabstop>
+  <tabstop>lineCellDiagLongRatio_14</tabstop>
+  <tabstop>pushCellClearCounters_14</tabstop>
+  <tabstop>lineCellSynchronizedOnce_14</tabstop>
+  <tabstop>lineCellSynchronized_14</tabstop>
+  <tabstop>lineCellIrSinal_14</tabstop>
+  <tabstop>lineCellActive_14</tabstop>
+  <tabstop>lineCellDiagLongKo_14</tabstop>
+  <tabstop>lineCellDiagShortOk_14</tabstop>
+  <tabstop>lineCellDiagShortRatio_14</tabstop>
+  <tabstop>pushCellRunDiagnostic_14</tabstop>
+  <tabstop>lineCellTrigger_14</tabstop>
+  <tabstop>comboCellTrigger_14</tabstop>
+  <tabstop>comboCellAutoEnable_14</tabstop>
+  <tabstop>lineCellAutoEnable_14</tabstop>
+  <tabstop>lineCellBattery_15</tabstop>
+  <tabstop>comboCellTask_15</tabstop>
+  <tabstop>lineCellTask_15</tabstop>
+  <tabstop>lineCellDiagLongOk_15</tabstop>
+  <tabstop>lineCellDiagShortKo_15</tabstop>
+  <tabstop>pushCellPing_15</tabstop>
+  <tabstop>lineCellDiagLongRatio_15</tabstop>
+  <tabstop>pushCellClearCounters_15</tabstop>
+  <tabstop>lineCellSynchronizedOnce_15</tabstop>
+  <tabstop>lineCellSynchronized_15</tabstop>
+  <tabstop>lineCellIrSinal_15</tabstop>
+  <tabstop>lineCellActive_15</tabstop>
+  <tabstop>lineCellDiagLongKo_15</tabstop>
+  <tabstop>lineCellDiagShortOk_15</tabstop>
+  <tabstop>lineCellDiagShortRatio_15</tabstop>
+  <tabstop>pushCellRunDiagnostic_15</tabstop>
+  <tabstop>comboCellTrigger_15</tabstop>
+  <tabstop>lineCellTrigger_15</tabstop>
+  <tabstop>comboCellAutoEnable_15</tabstop>
+  <tabstop>lineCellAutoEnable_15</tabstop>
+  <tabstop>lineCellBattery_11</tabstop>
+  <tabstop>comboCellTask_11</tabstop>
+  <tabstop>lineCellTask_11</tabstop>
+  <tabstop>lineCellDiagLongOk_11</tabstop>
+  <tabstop>lineCellDiagShortKo_11</tabstop>
+  <tabstop>pushCellPing_11</tabstop>
+  <tabstop>lineCellDiagLongRatio_11</tabstop>
+  <tabstop>pushCellClearCounters_11</tabstop>
+  <tabstop>lineCellSynchronizedOnce_11</tabstop>
+  <tabstop>lineCellSynchronized_11</tabstop>
+  <tabstop>lineCellIrSinal_11</tabstop>
+  <tabstop>lineCellActive_11</tabstop>
+  <tabstop>lineCellDiagLongKo_11</tabstop>
+  <tabstop>lineCellDiagShortOk_11</tabstop>
+  <tabstop>lineCellDiagShortRatio_11</tabstop>
+  <tabstop>pushCellRunDiagnostic_11</tabstop>
+  <tabstop>lineCellTrigger_11</tabstop>
+  <tabstop>comboCellTrigger_11</tabstop>
+  <tabstop>comboCellAutoEnable_11</tabstop>
+  <tabstop>lineCellAutoEnable_11</tabstop>
+  <tabstop>lineCellBattery_10</tabstop>
+  <tabstop>comboCellTask_10</tabstop>
+  <tabstop>lineCellTask_10</tabstop>
+  <tabstop>lineCellDiagLongOk_10</tabstop>
+  <tabstop>lineCellDiagShortKo_10</tabstop>
+  <tabstop>pushCellPing_10</tabstop>
+  <tabstop>lineCellDiagLongRatio_10</tabstop>
+  <tabstop>pushCellClearCounters_10</tabstop>
+  <tabstop>lineCellSynchronizedOnce_10</tabstop>
+  <tabstop>lineCellSynchronized_10</tabstop>
+  <tabstop>lineCellIrSinal_10</tabstop>
+  <tabstop>lineCellActive_10</tabstop>
+  <tabstop>lineCellDiagLongKo_10</tabstop>
+  <tabstop>lineCellDiagShortOk_10</tabstop>
+  <tabstop>lineCellDiagShortRatio_10</tabstop>
+  <tabstop>pushCellRunDiagnostic_10</tabstop>
+  <tabstop>lineCellTrigger_10</tabstop>
+  <tabstop>comboCellTrigger_10</tabstop>
+  <tabstop>comboCellAutoEnable_10</tabstop>
+  <tabstop>lineCellAutoEnable_10</tabstop>
+  <tabstop>lineCellBattery_9</tabstop>
+  <tabstop>comboCellTask_9</tabstop>
+  <tabstop>lineCellTask_9</tabstop>
+  <tabstop>lineCellDiagLongOk_9</tabstop>
+  <tabstop>lineCellDiagShortKo_9</tabstop>
+  <tabstop>pushCellPing_9</tabstop>
+  <tabstop>lineCellDiagLongRatio_9</tabstop>
+  <tabstop>pushCellClearCounters_9</tabstop>
+  <tabstop>lineCellSynchronizedOnce_9</tabstop>
+  <tabstop>lineCellSynchronized_9</tabstop>
+  <tabstop>lineCellIrSinal_9</tabstop>
+  <tabstop>lineCellActive_9</tabstop>
+  <tabstop>lineCellDiagLongKo_9</tabstop>
+  <tabstop>lineCellDiagShortOk_9</tabstop>
+  <tabstop>lineCellDiagShortRatio_9</tabstop>
+  <tabstop>pushCellRunDiagnostic_9</tabstop>
+  <tabstop>comboCellTrigger_9</tabstop>
+  <tabstop>lineCellTrigger_9</tabstop>
+  <tabstop>comboCellAutoEnable_9</tabstop>
+  <tabstop>lineCellAutoEnable_9</tabstop>
+  <tabstop>lineCellBattery_16</tabstop>
+  <tabstop>comboCellTask_16</tabstop>
+  <tabstop>lineCellTask_16</tabstop>
+  <tabstop>lineCellDiagLongOk_16</tabstop>
+  <tabstop>lineCellDiagShortKo_16</tabstop>
+  <tabstop>pushCellPing_16</tabstop>
+  <tabstop>lineCellDiagLongRatio_16</tabstop>
+  <tabstop>pushCellClearCounters_16</tabstop>
+  <tabstop>lineCellSynchronizedOnce_16</tabstop>
+  <tabstop>lineCellSynchronized_16</tabstop>
+  <tabstop>lineCellIrSinal_16</tabstop>
+  <tabstop>lineCellActive_16</tabstop>
+  <tabstop>lineCellDiagLongKo_16</tabstop>
+  <tabstop>lineCellDiagShortOk_16</tabstop>
+  <tabstop>lineCellDiagShortRatio_16</tabstop>
+  <tabstop>pushCellRunDiagnostic_16</tabstop>
+  <tabstop>comboCellTrigger_16</tabstop>
+  <tabstop>lineCellTrigger_16</tabstop>
+  <tabstop>comboCellAutoEnable_16</tabstop>
+  <tabstop>lineCellAutoEnable_16</tabstop>
+  <tabstop>comboCommCommand</tabstop>
+  <tabstop>lineCommCommand</tabstop>
+  <tabstop>lineCommDatalength</tabstop>
+  <tabstop>lineCommData</tabstop>
+  <tabstop>pushCommSend</tabstop>
+  <tabstop>lineTemplate_1</tabstop>
+  <tabstop>lineCommCommand_template_1</tabstop>
+  <tabstop>lineCommDatalength_template_1</tabstop>
+  <tabstop>lineCommData_template_1</tabstop>
+  <tabstop>pushSaveTemplate_1</tabstop>
+  <tabstop>pushLoadTemplate_1</tabstop>
+  <tabstop>lineTemplate_2</tabstop>
+  <tabstop>lineCommCommand_template_2</tabstop>
+  <tabstop>lineCommDatalength_template_2</tabstop>
+  <tabstop>lineCommData_template_2</tabstop>
+  <tabstop>pushSaveTemplate_2</tabstop>
+  <tabstop>pushLoadTemplate_2</tabstop>
+  <tabstop>lineTemplate_3</tabstop>
+  <tabstop>lineCommCommand_template_3</tabstop>
+  <tabstop>lineCommDatalength_template_3</tabstop>
+  <tabstop>lineCommData_template_3</tabstop>
+  <tabstop>pushSaveTemplate_3</tabstop>
+  <tabstop>pushLoadTemplate_3</tabstop>
+  <tabstop>lineTemplate_4</tabstop>
+  <tabstop>lineCommCommand_template_4</tabstop>
+  <tabstop>lineCommDatalength_template_4</tabstop>
+  <tabstop>lineCommData_template_4</tabstop>
+  <tabstop>pushSaveTemplate_4</tabstop>
+  <tabstop>pushLoadTemplate_4</tabstop>
+  <tabstop>lineTemplate_5</tabstop>
+  <tabstop>lineCommCommand_template_5</tabstop>
+  <tabstop>lineCommDatalength_template_5</tabstop>
+  <tabstop>lineCommData_template_5</tabstop>
+  <tabstop>pushSaveTemplate_5</tabstop>
+  <tabstop>pushLoadTemplate_5</tabstop>
  </tabstops>
  <resources/>
  <connections/>
