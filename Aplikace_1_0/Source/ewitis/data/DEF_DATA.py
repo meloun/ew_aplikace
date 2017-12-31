@@ -80,6 +80,13 @@ DEF_DATA = {
                
         
         # LOKÁLNÍ DATA (neposílájí se do terminálu)
+        "development"        : {
+                                "permanent": True,
+                                "GET_SET"  : { "value"   : {
+                                                            "disabled_cyclic_commands": False
+                                                            }
+                                              },
+                                },
         "com_init"           : {"GET_SET"  : { "value"   : False},},                       
         "port"               : {"name"     : "port",
                                 "GET_SET"  : {"value": {
@@ -383,7 +390,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.18a - IR"},                                                                                                                    
+                                                        "app": "v3.18b - Test"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

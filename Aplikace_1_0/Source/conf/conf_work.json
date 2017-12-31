@@ -1,4 +1,12 @@
 {
+    "development": {
+        "GET_SET": {
+            "value": {
+                "disabled_cyclic_commands": false
+            }
+        },
+        "permanent": true
+    },
     "export_header": {
         "GET_SET": {
             "changed": true,
@@ -30,24 +38,24 @@
             "changed": true,
             "value": [
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -60,24 +68,24 @@
             "value": {
                 "forward": [
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     }
                 ],
                 "text": [
@@ -563,19 +571,19 @@
         "name": "export"
     },
     "timing_settings": {
-        "permanent": true,
         "SET": {
             "changed": false,
             "value": {
                 "logic_mode": 1,
                 "filter_maxlapnumber": 0,
-                "name_id": 1,
+                "filter_minlaptime": 60,
                 "measurement_state": 0,
-                "filter_minlaptime": 0,
-                "filter_tagtime": 1,
-                "tags_reading_enable": 1
+                "name_id": 4,
+                "filter_tagtime": 5,
+                "tags_reading_enable": null
             }
         },
+        "permanent": true,
         "name": "timing_settings",
         "GET": {
             "refresh_countdown": 0,
@@ -585,7 +593,7 @@
                 "filter_minlaptime": 0,
                 "measurement_state": 0,
                 "name_id": 1,
-                "filter_tagtime": 1,
+                "filter_tagtime": 0,
                 "tags_reading_enable": 1
             }
         }
@@ -615,26 +623,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "checked": 2,
                         "minute_timeformat": 0,
+                        "checked": 2,
                         "rule": "time - starttime"
                     }
                 ],
@@ -663,30 +671,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 2,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [

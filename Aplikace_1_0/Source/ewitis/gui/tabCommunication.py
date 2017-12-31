@@ -119,8 +119,8 @@ class TabCommunication(MyTab):
         
         #prepare command anda datalength, if diagnostic
         if cmd_key == "DIAGNOSTIC_COMMAND":
-            print int(str((Ui().lineCommCommand.text)), 16)
-            DEF_COMMANDS.SetDiagnosticCommand(cmd = int(str((Ui().lineCommCommand.text)), 16))
+            #print int(str((Ui().lineCommCommand.text)), 16)            
+            DEF_COMMANDS.SetDiagnosticCommand(cmd = int(str(Ui().lineCommCommand.text()), 16))
             DEF_COMMANDS.SetDiagnosticCommand(length = int(Ui().lineCommDatalength.text()))
             
         #prepare data data

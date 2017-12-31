@@ -200,24 +200,25 @@ class ManageComm(Thread):
             self.runActions()
             self.runDiagnosticSendCommand()
                     
-            '''slot A'''
-            #print "-",idx,"-"
-            idx_a = idx % len(SLOT_A)                                                
-            if idx_a != len(SLOT_A)-1:                        
-                SLOT_A[idx_a]()            
-            else:
-                '''slot B''' 
-                idx_b = (idx / len(SLOT_A)) % len(SLOT_B) 
-                if idx_b != len(SLOT_B)-1:                                                          
-                    SLOT_B[idx_b]()
+            '''slot A'''            
+            if dstore.Get("development")["disabled_cyclic_commands"] == False:                                
+                #print "-",idx,"-"
+                idx_a = idx % len(SLOT_A)                                                
+                if idx_a != len(SLOT_A)-1:                        
+                    SLOT_A[idx_a]()            
                 else:
-                    '''slot C'''
-                    idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)                                                   
-                    SLOT_C[idx_c]()
-     
-            idx = idx + 1   
-            if(idx == LeastCommonMultiple):
-                idx = 0                                                            
+                    '''slot B''' 
+                    idx_b = (idx / len(SLOT_A)) % len(SLOT_B) 
+                    if idx_b != len(SLOT_B)-1:                                                          
+                        SLOT_B[idx_b]()
+                    else:
+                        '''slot C'''
+                        idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)                                                   
+                        SLOT_C[idx_c]()
+         
+                idx = idx + 1   
+                if(idx == LeastCommonMultiple):
+                    idx = 0                                                            
                                         
 #             print "I: Comm:",
 #             if idx_a != len(SLOT_A)-1:
