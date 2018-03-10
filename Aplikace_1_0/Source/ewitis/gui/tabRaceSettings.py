@@ -210,9 +210,9 @@ class TabRaceSettings():
               
         #left group
         QtCore.QObject.connect(Ui().comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode) 
-        QtCore.QObject.connect(Ui().spinTagtime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterTagtime)
-        QtCore.QObject.connect(Ui().spinMinlaptime, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMinlaptime)
-        QtCore.QObject.connect(Ui().spinMaxlapnumber, QtCore.SIGNAL("valueChanged(int)"), self.sFilterMaxlapnumber)
+        QtCore.QObject.connect(Ui().spinAutoenableCell, QtCore.SIGNAL("valueChanged(int)"), self.sAutoenableCell)
+        QtCore.QObject.connect(Ui().spinAutoenableBB, QtCore.SIGNAL("valueChanged(int)"), self.sAutoenableBB)
+        QtCore.QObject.connect(Ui().spinAutorequestMissingtimes, QtCore.SIGNAL("valueChanged(int)"), self.sAutorequestMissingtimes)
                 
         #middle group 
         QtCore.QObject.connect(Ui().pushLoadProfile, QtCore.SIGNAL('clicked()'), self.sLoadProfile)
@@ -307,36 +307,36 @@ class TabRaceSettings():
         self.Update(UPDATE_MODE.gui)
     
     
-    def sFilterTagtime(self, value):        
+    def sAutoenableCell(self, value):        
         '''získání a nastavení nové SET hodnoty'''
         timing_settings = dstore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_tagtime"]  = value                                      
+        timing_settings["autoenable_cell"]  = value                                      
         dstore.Set("timing_settings", timing_settings, "SET")                   
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", ['filter_tagtime'])                                                                
+        dstore.ResetValue("timing_settings", ['autoenable_cell'])                                                                
         self.Update(UPDATE_MODE.gui)
     
-    def sFilterMinlaptime(self, value):
-        print "sFilterMinlaptime", value
+    def sAutoenableBB(self, value):
+        print "sAutoenableBb", value
         '''získání a nastavení nové SET hodnoty'''
         timing_settings = dstore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_minlaptime"]  = value                                      
+        timing_settings["autoenable_bb"]  = value                                      
         dstore.Set("timing_settings", timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", ['filter_minlaptime'])                                                                
+        dstore.ResetValue("timing_settings", ['autoenable_bb'])                                                                
         self.Update(UPDATE_MODE.gui)
         
-    def sFilterMaxlapnumber(self, value):
-        print "sFilterMaxlapnumber", value
+    def sAutorequestMissingtimes(self, value):
+        print "sAutorequestMissingtimes", value
         '''získání a nastavení nové SET hodnoty'''
         timing_settings = dstore.Get("timing_settings", "GET").copy()
-        timing_settings["filter_maxlapnumber"]  = value                                      
+        timing_settings["autorequest_missingtimes"]  = value                                      
         dstore.Set("timing_settings", timing_settings, "SET")            
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("timing_settings", ['filter_maxlapnumber'])                                                                
+        dstore.ResetValue("timing_settings", ['autorequest_missingtimes'])                                                                
         self.Update(UPDATE_MODE.gui)
        
         
@@ -357,22 +357,23 @@ class TabRaceSettings():
             Ui().lineTimingMode.setText("- - -")
             
                         
-        """ Filter Tagtime """
-        if(timing_settings_get['filter_tagtime'] != None):                                    
-            Ui().lineFilterTagtime.setText(str(timing_settings_get['filter_tagtime']))                 
+        """ AutoEnable by cell """
+        if(timing_settings_get['autoenable_cell'] != None):                                    
+            Ui().lineAutoenableCell.setText(str(timing_settings_get['autoenable_cell']))                 
         else:            
-            Ui().lineFilterTagtime.setText("- -")
-        """ Filter Minlaptime """                
-        if(timing_settings_get['filter_minlaptime'] != None):                                    
-            Ui().lineFilterMinlaptime.setText(str(timing_settings_get['filter_minlaptime']))                    
+            Ui().lineAutoenableCell.setText("- -")
+            
+        """ AutoEnable by BB """                
+        if(timing_settings_get['autoenable_bb'] != None):                                    
+            Ui().lineAutoenableBB.setText(str(timing_settings_get['autoenable_bb']))                    
         else:            
-            Ui().lineFilterMinlaptime.setText("- -")
+            Ui().lineAutoenableBB.setText("- -")
         
-        """ Filter Maxlapnumber """                
-        if(timing_settings_get['filter_maxlapnumber'] != None):                                    
-            Ui().lineMaxlapnumber.setText(str(timing_settings_get['filter_maxlapnumber']))                    
+        """ Auto request for missing times """                
+        if(timing_settings_get['autorequest_missingtimes'] != None):                                    
+            Ui().lineAutorequestMissingtimes.setText(str(timing_settings_get['autorequest_missingtimes']))                    
         else:            
-            Ui().lineMaxlapnumber.setText("- -")
+            Ui().lineAutorequestMissingtimes.setText("- -")
                              
         """ Tags Readidg Enable """
         if(timing_settings_get['tags_reading_enable'] == True):

@@ -131,8 +131,7 @@ class BarCellActions():
 
 
     def sAutoEnableCells(self, value):
-        Ui().spinTagtime.setValue(value)
-        #tabRaceSettings.sFilterTagtime(value)
+        Ui().spinAutoenableCell.setValue(value)
 
            
     def sBackupDatabase(self, suffix = "_Backup"):        
@@ -286,7 +285,7 @@ class BarCellActions():
             timing_settings = dstore.Get("timing_settings", "GET")
             
             if dstore.Get("port")["opened"]:
-                if timing_settings["filter_tagtime"]:                    
+                if timing_settings["autoenable_cell"]:                    
                     font = self.auto_enable.font()
                     font.setBold(True)
                     font.setUnderline(True)

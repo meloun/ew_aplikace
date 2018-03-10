@@ -23,12 +23,13 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 17
+    nr_tabs = 18
     runs_times, users, categories, cgroups, tags, alltags, race_info, race_settings,\
-    export_settings, export_columns, device, cells1,cells2, diagnostic, communication, manual, about = range(0, nr_tabs)
+    export_settings, export_columns, device, cells1, cells2, cells3, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               tags:"Tags", alltags:"Alltags", race_info:"RaceInfo", \
-              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", cells1: "Cells", cells2: "Cells", \
+              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", \
+              cells1: "Cells", cells2: "Cells", cells3: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
             }
@@ -53,7 +54,7 @@ class CheckboxValue:
     
 
 class NUMBER_OF:
-    CELLS = 14
+    CELLS = 24
     EXPORTS = 3
     
     POINTSCOLUMNS = 5
@@ -390,7 +391,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.18b - Test"},                                                                                                                    
+                                                        "app": "v3.18d - Test"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",
@@ -442,9 +443,9 @@ DEF_DATA = {
                                 "SET"      : {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
                                                        "name_id": 4,
-                                                       "filter_tagtime": 5,
-                                                       "filter_minlaptime": 60,
-                                                       "filter_maxlapnumber": 0, 
+                                                       "autoenable_cell": 1,
+                                                       "autoenable_bb": 60,
+                                                       "autorequest_missingtimes": 0, 
                                                        "tags_reading_enable": None
                                                        },
                                               "changed": False
@@ -452,9 +453,9 @@ DEF_DATA = {
                                 "GET"      :  {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
                                                        "name_id": 04,
-                                                       "filter_tagtime": None,
-                                                       "filter_minlaptime": None,
-                                                       "filter_maxlapnumber": None,
+                                                       "autoenable_cell": None,
+                                                       "autoenable_bb": None,
+                                                       "autorequest_missingtimes": None,
                                                        "tags_reading_enable": None
                                                        },
                                              "refresh_countdown": 0 

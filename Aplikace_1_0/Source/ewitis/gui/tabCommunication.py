@@ -28,7 +28,7 @@ class TabCommunication(MyTab):
         for key, value in DEF_COMMANDS.GetSorted():
             #prepare item name
             aux_cmd_key = "%02X" % value['cmd']            
-            aux_cmd = "x"+aux_cmd_key+" "+key.lower() + " " + str(value['length'])+"b"            
+            aux_cmd = "x"+aux_cmd_key+" "+key.lower() + " " + str(value['length-tx'])+"b"            
             if(value['Blackbox-RFID']):
                 aux_cmd += " RFID"              
             elif(value['Blackbox-IR']):
@@ -87,7 +87,7 @@ class TabCommunication(MyTab):
         DEF_COMMANDS.SetDiagnosticCommand(cmd = 0xFF) #because of sorting        
         cmd = DEF_COMMANDS.GetSorted()[index]
         cmd_cmd = cmd[1]['cmd']
-        cmd_datalength = cmd[1]['length']
+        cmd_datalength = cmd[1]['length-tx']
         
         #copy cmd and length to 2 spinboxes
         cmd_cmd = "%02X" % cmd_cmd # number to 'AA'

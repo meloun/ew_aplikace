@@ -65,36 +65,36 @@ class ManageComm(Thread):
         print "COMM: koncim vlakno.."
         
     def send_receive_frame(self, command_key, data="", length = None, diagnostic = True):
-        """ ošetřená vysílací, přijímací metoda """                
+        """ ošetřená vysílací, přijímací metoda """
         if command_key != "GET_HW_SW_VERSION":
             device = dstore.Get("versions")["device"]
             if(DEF_COMMANDS.DEF_COMMANDS[command_key][device] == False):
             
                 #this command is not defined for this device
-                #print "E: command not defined for this device", command_key                                
+                #print "E: command not defined for this device", command_key
                 return {"error":0xFF}
             
-        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']                                                      
-                      
+        command = DEF_COMMANDS.DEF_COMMANDS[command_key]['cmd']
+
         try:
             '''pack data to the string'''
-            data = callback.pack_data(command_key, data)                        
-            '''request diagnostic'''            
-            if diagnostic:                
+            data = callback.pack_data(command_key, data)
+            '''request diagnostic'''
+            if diagnostic:
                 dstore.AddDiagnostic(command, data, 'green', command_key)
-            '''send and receive data'''            
-            receivedata = self.protokol.send_receive_frame(command, data)                                                
+            '''send and receive data'''
+            receivedata = self.protokol.send_receive_frame(command, data)
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
-            '''response diagnostic'''            
-            if diagnostic:                                    
-                dstore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')                                                                              
+            '''response diagnostic'''
+            if diagnostic:
+                dstore.AddDiagnostic(receivedata['cmd'], receivedata['data'], 'blue')
         except (serialprotocol.SendReceiveError) as (errno, strerror):
             print "E:SendReceiveError - {1}({0})".format(errno, strerror)
             data = {"error":0xFF}
             #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
             if diagnostic:
-                dstore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")             
+                dstore.AddDiagnostic(command, "", 'red', command_key+": SendReceiveError")
         except (serial.SerialException) as (strerror):            
             print "E:SendReceiveError - {0}()".format(strerror)
             data = {"error":0xFF}
@@ -102,27 +102,27 @@ class ManageComm(Thread):
             if diagnostic:
                 dstore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
 
- 
+
         return data
     
     def run(self):       
         print "COMM: zakladam vlakno.."
-        dstore.Set("com_init", 2)       
+        dstore.Set("com_init", 2)
         
-        ''' CONNECT TO EWITIS '''        
+        ''' CONNECT TO EWITIS '''
         try:
             self.protokol.open_port()
         except serial.SerialException:
-            print "E: Cant open port"                                    
-            dstore.SetItem("port", ["opened"], False)                        
-            return            
+            print "E: Cant open port"
+            dstore.SetItem("port", ["opened"], False)
+            return
         
         
-        """ DATABASE """        
-        try:           
+        """ DATABASE """
+        try:
             self.db = sqlite.sqlite_db("db/test_db.sqlite")
         
-            '''connect to db'''  
+            '''connect to db'''
             self.db.connect()
         except:
             #dstore.Set("port_enable", False)
@@ -133,40 +133,40 @@ class ManageComm(Thread):
         """communication established"""
         #dstore.Set("port_enable", True)
         dstore.SetItem("port", ["opened"], True)
-                                                                                                        
+
         self.cell_nr = 0
-            
+
         """slot tasking"""
         idx = idx_a = idx_b = idx_c = 0
         SLOT_A = [self.runGetCellOverview, self.runGetDeviceOverview, self.runGetTime, self.runGetTabSpecific, None]
         SLOT_B = [self.runGetRun, self.runGetCellInfo, None]
-        SLOT_C = [self.runGetDeviceInfo, self.runGetRaceInfo, self.runGetDiagnostic]        
+        SLOT_C = [self.runGetDeviceInfo, self.runGetRaceInfo, self.runGetDiagnostic]
         LeastCommonMultiple = len(SLOT_A) * len(SLOT_B) * len(SLOT_C) 
         print "LCM:", LeastCommonMultiple
-        
+
         while(1):
-                                              
+
             #wait X millisecond, test if thread should be terminated
             ztime_first = time.clock()
-                            
+
             #wait              
             #for i in range(10):                
             for i in range(2):
                 #wait              
                 time.sleep(0.01)
-                               
+
             #terminate thread?                                                 
             if dstore.Get("port")["opened"] == False:
-                self.stop()                                       
+                self.stop()
                 return
                 
             #print "I: Comm: waiting:",time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
             #ztime = time.clock()                            
-                                         
+
             #communication enabled?
-            if(dstore.Get("port")["enabled"] == False):                
+            if(dstore.Get("port")["enabled"] == False):
                 continue
-                
+
             """ 
             GET HW-SW-VERSION 
                 only once (after start sw,hw = none)
@@ -177,49 +177,49 @@ class ManageComm(Thread):
                 print "version:", aux_version
                                 
                 if ('error' in aux_version): 
-                    print "E: Comm: no Hw and Fw versions on device"                
+                    print "E: Comm: no Hw and Fw versions on device" 
                     continue #no other commands as long as no version
-                
+
                 dstore.SetItem("versions", ["hw"], aux_version["hw"])
                 dstore.SetItem("versions", ["fw"], aux_version["fw"])
                 dstore.SetItem("versions", ["device"], aux_version["device"])
-                                
+
                 #print "I: Comm: versions:",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
                 #ztime = time.clock()  
             """ end of hw-sw-version """
-                        
+
             #print "I: Comm: each cycle: Actions: ",time.clock() - ztime,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
             #ztime = time.clock()
-                        
-            
+
+
             """calling run functions"""
-            
+
             '''each cycle'''
             self.runDeviceActions()
             self.runCellActions()
             self.runActions()
             self.runDiagnosticSendCommand()
-                    
-            '''slot A'''            
-            if dstore.Get("development")["disabled_cyclic_commands"] == False:                                
+
+            '''slot A'''
+            if dstore.Get("development")["disabled_cyclic_commands"] == False:
                 #print "-",idx,"-"
-                idx_a = idx % len(SLOT_A)                                                
-                if idx_a != len(SLOT_A)-1:                        
-                    SLOT_A[idx_a]()            
+                idx_a = idx % len(SLOT_A)
+                if idx_a != len(SLOT_A)-1:
+                    SLOT_A[idx_a]()
                 else:
                     '''slot B''' 
                     idx_b = (idx / len(SLOT_A)) % len(SLOT_B) 
-                    if idx_b != len(SLOT_B)-1:                                                          
+                    if idx_b != len(SLOT_B)-1:
                         SLOT_B[idx_b]()
                     else:
                         '''slot C'''
-                        idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)                                                   
+                        idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)
                         SLOT_C[idx_c]()
          
                 idx = idx + 1   
                 if(idx == LeastCommonMultiple):
-                    idx = 0                                                            
-                                        
+                    idx = 0
+
 #             print "I: Comm:",
 #             if idx_a != len(SLOT_A)-1:
 #                 print "slot A", idx_a,
@@ -229,17 +229,16 @@ class ManageComm(Thread):
 #                 print "slot C", idx_c,
 #             print "-", idx, time.clock() - ztime_first,"s", datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
 #             #ztime = time.clock()
-                                                                                      
-            
+
+
             """
             """
             if dstore.Get("com_init") != 0:
                 dstore.Set("com_init", dstore.Get("com_init") - 1)
             
             
-            dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1)    
-    
-        
+            dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1)
+
     """
     runGetCellOverview()
      -   
@@ -251,34 +250,34 @@ class ManageComm(Thread):
             self.runGetRaceInfo()
         elif(aux_tab == TAB.device):
             self.runGetDeviceInfo()
-        elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2):            
+        elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2):
             self.runGetCellInfo()
         elif(aux_tab == TAB.diagnostic):
             self.runGetDiagnostic()
         else:
-            pass        
+            pass
             
-        
-                    
+
+
     """
     runGetCellOverview()
      -   
     """
     def runGetCellOverview(self):
         
-        """get cell overview """                  
+        """get cell overview """
         aux_cell_overview = self.send_receive_frame("GET_CELL_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
         #print "runGetCellOverview:", aux_cell_overview
                 
-        """ store data to the datastore """                        
+        """ store data to the datastore """
         if not('error' in aux_cell_overview):
-            if(dstore.IsReadyForRefresh("cells_info")):             
-                for nr, co in enumerate(aux_cell_overview):                                                                  
+            if(dstore.IsReadyForRefresh("cells_info")):
+                for nr, co in enumerate(aux_cell_overview):
                     dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
                     dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
                     dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
                     dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
-                    
+
     
     """
     runGetDeviceOverview()
@@ -287,14 +286,14 @@ class ManageComm(Thread):
     def runGetDeviceOverview(self):
         
         """get device overview """            
-        aux_device_overview = self.send_receive_frame("GET_TERMINAL_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
+        aux_device_overview = self.send_receive_frame("GET_DEVICE_OVERVIEW", diagnostic = dstore.Get("diagnostic")["log_cyclic"])
         #print "runGetDeviceOverview:", aux_device_overview
                 
         """ store data to the datastore """         
         if not('error' in aux_device_overview): 
             if(dstore.IsReadyForRefresh("terminal_info")):
                 dstore.SetItem("timing_settings", ["measurement_state"], aux_device_overview["measurement_state"], "GET", permanent = False)                
-                dstore.SetItem("timing_settings", ["tags_reading_enable"], aux_device_overview["tags_reading_enable"], "GET", permanent = False)
+                dstore.SetItem("timing_settings", ["autoenable_cell"], aux_device_overview["autoenable_cell"], "GET", permanent = False)
                 dstore.Set("race_time", aux_device_overview['race_time'])                
             else:
                 print "I: COMM: terminal info: not ready for refresh", aux_device_overview  
@@ -562,10 +561,10 @@ class ManageComm(Thread):
     """
     def runGetDiagnostic(self):
         """ get diagnostic """
-        #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:                                          
+        #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:
         cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
         aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
-                        
+
         #print "aux_diagnostic", aux_diagnostic
                     
         """ store terminal-states to the datastore """ 
