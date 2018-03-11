@@ -43,6 +43,7 @@ from ewitis.gui.dfTableUsers import tableUsers
 
 from ewitis.gui.MenusBars import bars
 from ewitis.gui.tabManager import tabManager
+from ewitis.gui.tabCells import tabCells
 from ewitis.gui.multiprocessingManager import mgr, eventCalcNow, eventCalcReady
 
 from ewitis.data.DEF_DATA import TAB
@@ -114,7 +115,7 @@ def sTimer():
     global timer_autonumbers      
                  
     #update current tab           
-    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)     
+    tabManager.GetCurrentTab().Update(UPDATE_MODE.gui)    
     
     #update requests
     requests = dstore.GetItem("gui", ["update_requests"])    
@@ -125,8 +126,6 @@ def sTimer():
         tableTimes.Update()
         dstore.SetItem("gui", ["update_requests", "tableTimes"], False)
          
-   
-    
     #toolbars, statusbars
     bars.Update()
     
@@ -204,7 +203,6 @@ if __name__ == "__main__":
     #tabs
     tabManager.Init()
     tabManager.Update()
-    
 
     #start calc-process (wit access to shared data)
     p = multiprocessing.Process(target=manage_calc.run, args=(mgr.GetDstore(), mgr.GetDfs(), mgr.GetInfo(), eventCalcNow, eventCalcReady))    
@@ -212,8 +210,7 @@ if __name__ == "__main__":
     p.start()
        
     time.sleep(1.0)
-    tabRunsTimes.Update() 
-    
+    tabRunsTimes.Update()  
             
     #show app        
     #appWindow.show()

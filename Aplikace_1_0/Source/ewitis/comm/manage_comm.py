@@ -106,7 +106,7 @@ class ManageComm(Thread):
         return data
     
     def run(self):       
-        print "COMM: zakladam vlakno.."
+        print "COMM: zakladam vlakno..", time.clock()
         dstore.Set("com_init", 2)
         
         ''' CONNECT TO EWITIS '''
@@ -135,6 +135,7 @@ class ManageComm(Thread):
         dstore.SetItem("port", ["opened"], True)
 
         self.cell_nr = 0
+        dstore.Set("cells_initiated", False)        
 
         """slot tasking"""
         idx = idx_a = idx_b = idx_c = 0
@@ -250,12 +251,12 @@ class ManageComm(Thread):
             self.runGetRaceInfo()
         elif(aux_tab == TAB.device):
             self.runGetDeviceInfo()
-        elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2):
+        elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2) or (aux_tab == TAB.cells3):
             self.runGetCellInfo()
         elif(aux_tab == TAB.diagnostic):
             self.runGetDiagnostic()
         else:
-            pass
+            self.runGetCellInfo()
             
 
 
@@ -273,10 +274,11 @@ class ManageComm(Thread):
         if not('error' in aux_cell_overview):
             if(dstore.IsReadyForRefresh("cells_info")):
                 for nr, co in enumerate(aux_cell_overview):
-                    dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
-                    dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
-                    dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
-                    dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
+                    if nr < NUMBER_OF.CELLS:
+                        dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
+                        dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
+                        dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
+                        dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
 
     
     """
@@ -317,7 +319,7 @@ class ManageComm(Thread):
             #else:
             #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
             
-    def runGetCellInfo(self):
+    def runGetCellInfo(self):        
         
         aux_diagnostic = dstore.Get("diagnostic") 
          
@@ -335,8 +337,12 @@ class ManageComm(Thread):
                     
         #return nr of next cell
         self.cell_nr = self.cell_nr  +1 
-        if self.cell_nr  == NUMBER_OF.CELLS:
-            self.cell_nr  = 0        
+        
+        if (self.cell_nr  == NUMBER_OF.CELLS):
+            self.cell_nr  = 0
+            if (dstore.Get("cells_initiated") == False):
+                dstore.Set("cells_initiated", True)  
+                print "I: comm: cells initiated", time.clock()              
     """
     runActions()
      - quit timing

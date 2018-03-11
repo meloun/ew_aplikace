@@ -18,7 +18,7 @@ from ewitis.data.DEF_DATA import *
 
 class CellGroup ():
     
-    TIMER_NOCHANGE = 20  
+    TIMER_NOCHANGE = 25  
     TIMER_NODIALOG_INIT = 25   
 
     def __init__(self,  nr):
@@ -53,7 +53,8 @@ class CellGroup ():
         self.pushCellPing = getattr(ui, "pushCellPing_"+str(nr))
         
         self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
-        self.timer_nochange =  0
+        self.timer_nochange = CellGroup.TIMER_NOCHANGE
+        self.initialized = False
         
     
     def Init(self):        
@@ -98,7 +99,7 @@ class CellGroup ():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", [self.nr-1, 'task'])
-        self.timer_nochange = CellGroup.TIMER_NOCHANGE
+        #self.timer_nochange = CellGroup.TIMER_NOCHANGE
       
         
     def sComboCellTrigger(self, index):                        
@@ -117,7 +118,7 @@ class CellGroup ():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", [self.nr-1, 'trigger'])
-        self.timer_nochange = CellGroup.TIMER_NOCHANGE
+        #self.timer_nochange = CellGroup.TIMER_NOCHANGE
         
     def sComboCellAutoEnable(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
@@ -135,11 +136,10 @@ class CellGroup ():
         
         '''reset GET hodnoty'''
         dstore.ResetValue("cells_info", [self.nr-1, 'auto_enable'])
-        self.timer_nochange = CellGroup.TIMER_NOCHANGE       
+        #self.timer_nochange = CellGroup.TIMER_NOCHANGE       
         
         
-    def SetEnabled(self, state, state2):
-        
+    def SetEnabled(self, state, state2):        
         #enable/disable all widgets            
         self.lineCellTask.setEnabled(state)        
         self.lineCellTrigger.setEnabled(state)        
@@ -194,14 +194,7 @@ class CellGroup ():
         set_info = self.SetInfo()
         port_open = dstore.Get("port")["opened"]
         
-        #wait for establish new values after connect
-        if port_open:
-            if self.timer_nodialog != 0:
-                self.timer_nodialog = self.timer_nodialog -1                
-        else:
-            self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
-
-        #set enabled        
+        #set enabled               
         if(port_open ==False) or (get_info['task'] == None) or (get_info['task'] == 0):
             self.SetEnabled(False, port_open)
         else: 
@@ -214,54 +207,65 @@ class CellGroup ():
         else:
             self.lineCellTask.setText(" - - - ")                                    
         colors_enabled =  get_info['task']
-        self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTask.text(), get_info['task']))        
-                    
+        #self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTask.text(), get_info['task']))                    
             
         #trigger                            
         if(get_info['trigger'] != None):
             self.lineCellTrigger.setText(self.comboCellTrigger.itemText(get_info['trigger']))
         else:
-            self.lineCellTrigger.setText(" - - - ")
-        self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(self.lineCellTrigger.text(), get_info['task']))
+            self.lineCellTrigger.setText(" - - - ")                                                    
         
         #auto enable        
         if(get_info['auto_enable'] != None):
             self.lineCellAutoEnable.setText(self.comboCellAutoEnable.itemText(get_info['auto_enable']))
         else:
             self.lineCellAutoEnable.setText(" - - - ")
-        self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))                     
+        #self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))
+                 
                                
         #synchronize comboboxes with GET value (after timeout)
-        if self.timer_nochange == 0:                 
-            
-            task_index = self.TaskNr2Idx(get_info["task"])
-            if task_index:
-                if(task_index != self.comboCellTask.currentIndex()):
-                    self.comboCellTask.setCurrentIndex(task_index)
-                    if port_open and (self.timer_nodialog==0):                    
-                        uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
-            else:
-                self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
-            
-            if get_info["trigger"] != None:
-                if(get_info["trigger"] != self.comboCellTrigger.currentIndex()):
-                    self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
-                    if port_open and (self.timer_nodialog==0):                 
-                        uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
-            else:                
-                self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
-            
-            if get_info["auto_enable"] != None:
-                if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()):
-                    self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
-                    if port_open and (self.timer_nodialog==0):                 
-                        uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
-            else:                
-                self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"
-        else:
-            self.timer_nochange = self.timer_nochange - 1            
+        if port_open:            
+            if dstore.Get("cells_initiated") == True:
+                if(self.initialized == False):                    
+                    self.initialized = True
+                    
+                    task_index = self.TaskNr2Idx(get_info["task"])
+                    if task_index:
+                        if(task_index != self.comboCellTask.currentIndex()):
+                            self.comboCellTask.setCurrentIndex(task_index)
+                            dstore.SetItem("cells_info", [self.nr-1, "task"], get_info["task"], "SET", changed = False)
+                            #if port_open and (self.timer_nodialog==0):                    
+                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
+                    else:
+                        self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
+                    
+                    if get_info["trigger"] != None:
+                        if(get_info["trigger"] != self.comboCellTrigger.currentIndex()):
+                            self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
+                            dstore.SetItem("cells_info", [self.nr-1, "trigger"], get_info["trigger"], "SET", changed = False)
+                            #if port_open and (self.timer_nodialog==0):                 
+                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
+                    else:                
+                        self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
+                    
+                    if get_info["auto_enable"] != None:
+                        if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()):
+                            self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
+                            dstore.SetItem("cells_info", [self.nr-1, "auto_enable"], get_info["auto_enable"], "SET", changed = False)
+                            #if port_open and (self.timer_nodialog==0):                 
+                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
+                    else:                
+                        self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"         
         
-        
+        #set match color        
+        match = (get_info['task'] == set_info['task'])
+        #print "TZZ", self.nr, get_info['task'], set_info['task'] 
+        self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
+        #print get_info['task'], set_info['task']
+        match = (get_info['auto_enable'] == set_info['auto_enable'])
+        self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
+        match = (get_info['trigger'] == set_info['trigger'])
+        self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))    
                                     
         
         #battery

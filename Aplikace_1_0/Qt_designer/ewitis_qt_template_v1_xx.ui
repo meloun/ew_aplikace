@@ -51,12 +51,15 @@
          <x>0</x>
          <y>0</y>
          <width>1316</width>
-         <height>742</height>
+         <height>752</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_14">
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>1</horstretch>
@@ -66,7 +69,7 @@
           <property name="minimumSize">
            <size>
             <width>1290</width>
-            <height>720</height>
+            <height>730</height>
            </size>
           </property>
           <property name="font">
@@ -82,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -2251,6 +2254,9 @@
              <string>R A C E  S E T T I N G S - A P P</string>
             </property>
             <widget class="QCheckBox" name="checkRfidRace">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -2300,6 +2306,9 @@
              </property>
             </widget>
             <widget class="QCheckBox" name="checkTagFilter">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -31569,7 +31578,7 @@ p, li { white-space: pre-wrap; }
             <item row="1" column="2">
              <widget class="QGroupBox" name="groupCell_15">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -31626,7 +31635,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTask_15">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -32267,7 +32276,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTrigger_15">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -35595,7 +35604,7 @@ p, li { white-space: pre-wrap; }
             <item row="1" column="3">
              <widget class="QGroupBox" name="groupCell_16">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -35652,7 +35661,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTask_16">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -36293,7 +36302,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTrigger_16">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -36363,7 +36372,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellAutoEnable_16">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -39700,7 +39709,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTask_20">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -40341,7 +40350,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellTrigger_20">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -40411,7 +40420,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellAutoEnable_20">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>

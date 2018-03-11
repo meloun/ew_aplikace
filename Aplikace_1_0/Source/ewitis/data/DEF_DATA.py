@@ -54,7 +54,7 @@ class CheckboxValue:
     
 
 class NUMBER_OF:
-    CELLS = 24
+    CELLS = 20
     EXPORTS = 3
     
     POINTSCOLUMNS = 5
@@ -124,7 +124,7 @@ DEF_DATA = {
                                                           "auto_www_refresh": 0
                                                          }
                                                 }
-                                  },        
+                                  },                
         #tab RACE SETTINGS
         "race_time"          : {"GET_SET"  : { "value"   : 0},},        
         "current_run"        : {"GET_SET"  : { "value"   : 0},},
@@ -346,7 +346,11 @@ DEF_DATA = {
                                                         },                                              
                                               "changed": True
                                               }  
-                                },                        
+                                }, 
+        #tab cells
+        "cells_initiated"    : {"GET_SET"  : { "value"   : False},},
+        
+         #tab DIAGNOSTIC                      
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "sendcommandkey": None,
                                                         "senddata": 0,
@@ -439,7 +443,7 @@ DEF_DATA = {
                                              },
                                },
         "timing_settings"    : {"name"     : "timing_settings", 
-                                "permanent": True,                                
+                                "permanent": False,                                
                                 "SET"      : {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
                                                        "name_id": 4,

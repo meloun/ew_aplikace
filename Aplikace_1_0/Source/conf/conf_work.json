@@ -38,24 +38,24 @@
             "changed": true,
             "value": [
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
+                    "transpose": 0,
+                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
-                    "lasttimes": 0,
-                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -68,24 +68,24 @@
             "value": {
                 "forward": [
                     {
-                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142"
+                        "phone_nr": "702421142",
+                        "desc": ""
                     },
                     {
-                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142"
+                        "phone_nr": "702421142",
+                        "desc": ""
                     },
                     {
-                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142"
+                        "phone_nr": "702421142",
+                        "desc": ""
                     },
                     {
-                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142"
+                        "phone_nr": "702421142",
+                        "desc": ""
                     }
                 ],
                 "text": [
@@ -570,34 +570,6 @@
         "permanent": true,
         "name": "export"
     },
-    "timing_settings": {
-        "SET": {
-            "changed": true,
-            "value": {
-                "autoenable_cell": 0,
-                "autoenable_bb": 0,
-                "name_id": 1,
-                "logic_mode": 2,
-                "measurement_state": 2,
-                "autorequest_missingtimes": 0,
-                "tags_reading_enable": 1
-            }
-        },
-        "permanent": true,
-        "name": "timing_settings",
-        "GET": {
-            "refresh_countdown": 0,
-            "value": {
-                "logic_mode": 2,
-                "autorequest_missingtimes": 0,
-                "autoenable_cell": 1,
-                "autoenable_bb": 0,
-                "name_id": 1,
-                "measurement_state": 2,
-                "tags_reading_enable": 1
-            }
-        }
-    },
     "additional_info": {
         "GET_SET": {
             "value": {
@@ -623,26 +595,26 @@
                 "time": [
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     },
                     {
                         "filter": "cell=2|3|250",
-                        "minute_timeformat": 0,
                         "checked": 2,
+                        "minute_timeformat": 0,
                         "rule": "time - starttime"
                     }
                 ],
