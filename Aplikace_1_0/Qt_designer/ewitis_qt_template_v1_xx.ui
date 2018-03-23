@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>10</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -1561,416 +1561,6 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tabTags">
-           <attribute name="title">
-            <string>Tags</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <property name="horizontalSpacing">
-             <number>0</number>
-            </property>
-            <item row="3" column="0" colspan="4">
-             <widget class="QTreeView" name="TagsProxyView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>3</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLineEdit" name="TagsFilterLineEdit">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QGroupBox" name="groupBox_7">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="title">
-               <string/>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_11">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QPushButton" name="TagsAdd">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/list-add.png</normaloff>gui/icons/list-add.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="TagsRemove">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/list-remove.png</normaloff>gui/icons/list-remove.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="TagsImport">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/import.png</normaloff>gui/icons/import.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="TagsExport">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/export.png</normaloff>gui/icons/export.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="TagsDelete">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/emptytrash.png</normaloff>gui/icons/emptytrash.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QLabel" name="TagsCounter">
-              <property name="text">
-               <string>0/0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="TagsFilterClear">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-              </property>
-              <property name="autoRepeat">
-               <bool>false</bool>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tabAlltags">
-           <attribute name="title">
-            <string>All Tags</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <property name="horizontalSpacing">
-             <number>0</number>
-            </property>
-            <item row="3" column="0" colspan="4">
-             <widget class="QTreeView" name="AlltagsProxyView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>3</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLineEdit" name="AlltagsFilterLineEdit">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QGroupBox" name="groupBox_7">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="title">
-               <string/>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_11">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QPushButton" name="AlltagsAdd">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/list-add.png</normaloff>gui/icons/list-add.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                 <property name="default">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="AlltagsRemove">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/list-remove.png</normaloff>gui/icons/list-remove.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="AlltagsImport">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/import.png</normaloff>gui/icons/import.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="AlltagsExport">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/export.png</normaloff>gui/icons/export.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="AlltagsDelete">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>gui/icons/emptytrash.png</normaloff>gui/icons/emptytrash.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QLabel" name="AlltagsCounter">
-              <property name="text">
-               <string>0/0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="AlltagsFilterClear">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-              </property>
-              <property name="autoRepeat">
-               <bool>false</bool>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
           <widget class="QWidget" name="tabRaceInfo">
            <attribute name="title">
             <string>Race Info</string>
@@ -2226,10 +1816,10 @@
             </property>
             <property name="geometry">
              <rect>
-              <x>257</x>
+              <x>400</x>
               <y>10</y>
-              <width>420</width>
-              <height>689</height>
+              <width>531</width>
+              <height>630</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -2240,7 +1830,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>420</width>
+              <width>400</width>
               <height>0</height>
              </size>
             </property>
@@ -2277,7 +1867,7 @@
               <rect>
                <x>10</x>
                <y>270</y>
-               <width>400</width>
+               <width>491</width>
                <height>32</height>
               </rect>
              </property>
@@ -2311,8 +1901,8 @@
              </property>
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>350</y>
+               <x>100</x>
+               <y>330</y>
                <width>111</width>
                <height>17</height>
               </rect>
@@ -2331,14 +1921,14 @@
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>380</y>
+               <y>360</y>
                <width>141</width>
-               <height>31</height>
+               <height>25</height>
               </rect>
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2365,7 +1955,7 @@
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>380</y>
+               <y>360</y>
                <width>91</width>
                <height>31</height>
               </rect>
@@ -2398,7 +1988,7 @@
             <widget class="QPushButton" name="pushLoadProfile">
              <property name="geometry">
               <rect>
-               <x>350</x>
+               <x>450</x>
                <y>20</y>
                <width>28</width>
                <height>28</height>
@@ -2413,7 +2003,7 @@
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>400</width>
+               <width>501</width>
                <height>32</height>
               </rect>
              </property>
@@ -2444,7 +2034,7 @@
             <widget class="QPushButton" name="pushSaveProfile">
              <property name="geometry">
               <rect>
-               <x>380</x>
+               <x>480</x>
                <y>18</y>
                <width>32</width>
                <height>32</height>
@@ -2478,7 +2068,7 @@
               <rect>
                <x>10</x>
                <y>90</y>
-               <width>400</width>
+               <width>501</width>
                <height>141</height>
               </rect>
              </property>
@@ -2526,7 +2116,7 @@
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>430</y>
+               <y>400</y>
                <width>91</width>
                <height>31</height>
               </rect>
@@ -2543,8 +2133,8 @@
             <widget class="QLabel" name="label_212">
              <property name="geometry">
               <rect>
-               <x>30</x>
-               <y>460</y>
+               <x>470</x>
+               <y>400</y>
                <width>20</width>
                <height>20</height>
               </rect>
@@ -2564,7 +2154,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>170</x>
-               <y>433</y>
+               <y>403</y>
                <width>71</width>
                <height>22</height>
               </rect>
@@ -2576,8 +2166,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>170</x>
-               <y>480</y>
+               <x>350</x>
+               <y>400</y>
                <width>111</width>
                <height>21</height>
               </rect>
@@ -2613,7 +2203,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>434</y>
+               <y>404</y>
                <width>61</width>
                <height>20</height>
               </rect>
@@ -2636,8 +2226,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>110</x>
-               <y>480</y>
+               <x>290</x>
+               <y>400</y>
                <width>61</width>
                <height>20</height>
               </rect>
@@ -2660,8 +2250,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>110</x>
-               <y>458</y>
+               <x>250</x>
+               <y>400</y>
                <width>31</width>
                <height>20</height>
               </rect>
@@ -2682,7 +2272,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>510</y>
+               <y>440</y>
                <width>141</width>
                <height>31</height>
               </rect>
@@ -2700,7 +2290,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>210</x>
-               <y>550</y>
+               <y>480</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2716,7 +2306,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>580</y>
+               <y>500</y>
                <width>101</width>
                <height>20</height>
               </rect>
@@ -2737,7 +2327,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>210</x>
-               <y>580</y>
+               <y>500</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2755,8 +2345,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell1">
              <property name="geometry">
               <rect>
-               <x>60</x>
-               <y>610</y>
+               <x>160</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2774,8 +2364,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell2">
              <property name="geometry">
               <rect>
-               <x>110</x>
-               <y>610</y>
+               <x>210</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2793,8 +2383,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell3">
              <property name="geometry">
               <rect>
-               <x>160</x>
-               <y>610</y>
+               <x>260</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2812,8 +2402,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell4">
              <property name="geometry">
               <rect>
-               <x>210</x>
-               <y>610</y>
+               <x>310</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2831,8 +2421,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell5">
              <property name="geometry">
               <rect>
-               <x>260</x>
-               <y>610</y>
+               <x>360</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2854,7 +2444,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>610</y>
+               <y>520</y>
                <width>31</width>
                <height>20</height>
               </rect>
@@ -2874,8 +2464,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell6">
              <property name="geometry">
               <rect>
-               <x>310</x>
-               <y>610</y>
+               <x>410</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2891,7 +2481,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>550</y>
+               <y>480</y>
                <width>131</width>
                <height>20</height>
               </rect>
@@ -2911,8 +2501,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutonumbersCell7">
              <property name="geometry">
               <rect>
-               <x>360</x>
-               <y>610</y>
+               <x>460</x>
+               <y>520</y>
                <width>46</width>
                <height>22</height>
               </rect>
@@ -2925,7 +2515,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>160</x>
-               <y>520</y>
+               <y>450</y>
                <width>20</width>
                <height>20</height>
               </rect>
@@ -2944,10 +2534,10 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
            <widget class="QGroupBox" name="groupTerminal_2">
             <property name="geometry">
              <rect>
-              <x>0</x>
+              <x>10</x>
               <y>10</y>
-              <width>250</width>
-              <height>689</height>
+              <width>381</width>
+              <height>630</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -2972,10 +2562,13 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>100</y>
-               <width>101</width>
-               <height>20</height>
+               <y>60</y>
+               <width>131</width>
+               <height>22</height>
               </rect>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
              </property>
              <item>
               <property name="text">
@@ -2994,27 +2587,27 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </item>
              <item>
               <property name="text">
-               <string>multiple start 6B</string>
+               <string>multiplestart6B</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>multiple start 6C</string>
+               <string>multiplestart6C</string>
               </property>
              </item>
             </widget>
             <widget class="QLineEdit" name="lineTimingMode">
              <property name="geometry">
               <rect>
-               <x>10</x>
+               <x>160</x>
                <y>60</y>
-               <width>221</width>
-               <height>31</height>
+               <width>141</width>
+               <height>25</height>
               </rect>
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="layoutDirection">
@@ -3039,8 +2632,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutoenableCell">
              <property name="geometry">
               <rect>
-               <x>170</x>
-               <y>170</y>
+               <x>240</x>
+               <y>180</y>
                <width>61</width>
                <height>22</height>
               </rect>
@@ -3052,9 +2645,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLineEdit" name="lineAutoenableCell">
              <property name="geometry">
               <rect>
-               <x>120</x>
-               <y>170</y>
-               <width>41</width>
+               <x>160</x>
+               <y>180</y>
+               <width>61</width>
                <height>20</height>
               </rect>
              </property>
@@ -3081,7 +2674,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>170</y>
+               <y>180</y>
                <width>111</width>
                <height>20</height>
               </rect>
@@ -3101,9 +2694,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLineEdit" name="lineAutoenableBB">
              <property name="geometry">
               <rect>
-               <x>120</x>
+               <x>160</x>
                <y>200</y>
-               <width>41</width>
+               <width>61</width>
                <height>20</height>
               </rect>
              </property>
@@ -3129,7 +2722,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutoenableBB">
              <property name="geometry">
               <rect>
-               <x>170</x>
+               <x>240</x>
                <y>200</y>
                <width>61</width>
                <height>22</height>
@@ -3160,9 +2753,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QLineEdit" name="lineAutorequestMissingtimes">
              <property name="geometry">
               <rect>
-               <x>120</x>
-               <y>280</y>
-               <width>41</width>
+               <x>160</x>
+               <y>250</y>
+               <width>61</width>
                <height>20</height>
               </rect>
              </property>
@@ -3188,8 +2781,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
             <widget class="QSpinBox" name="spinAutorequestMissingtimes">
              <property name="geometry">
               <rect>
-               <x>170</x>
-               <y>280</y>
+               <x>240</x>
+               <y>250</y>
                <width>61</width>
                <height>22</height>
               </rect>
@@ -3202,7 +2795,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>140</y>
+               <y>160</y>
                <width>141</width>
                <height>16</height>
               </rect>
@@ -3213,7 +2806,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </font>
              </property>
              <property name="text">
-              <string>Cell Auto Enable:</string>
+              <string>Cell Auto Enable</string>
              </property>
             </widget>
             <widget class="QLabel" name="labelMeasurementState">
@@ -3298,14 +2891,14 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </font>
              </property>
              <property name="text">
-              <string>Logic mode :</string>
+              <string>Logic mode</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_171">
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>250</y>
+               <y>230</y>
                <width>221</width>
                <height>16</height>
               </rect>
@@ -3323,7 +2916,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>280</y>
+               <y>250</y>
                <width>101</width>
                <height>20</height>
               </rect>
@@ -3337,14 +2930,93 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string>Perios [s]</string>
              </property>
             </widget>
+            <widget class="QComboBox" name="comboTimesDownloadMode">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>120</y>
+               <width>131</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+             </property>
+             <item>
+              <property name="text">
+               <string>only unconfirmed</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>all times</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QLabel" name="label_295">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>99</y>
+               <width>171</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Times Download mode</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineTimesDownloadMode">
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>120</y>
+               <width>141</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>- - - -</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </widget>
-           <widget class="QGroupBox" name="groupTerminal_6">
+          </widget>
+          <widget class="QWidget" name="tabColumnssettings">
+           <attribute name="title">
+            <string>Columns Settings</string>
+           </attribute>
+           <widget class="QGroupBox" name="groupTerminal_7">
             <property name="geometry">
              <rect>
-              <x>684</x>
+              <x>20</x>
               <y>10</y>
-              <width>601</width>
-              <height>689</height>
+              <width>1051</width>
+              <height>550</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -3381,24 +3053,6 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_20">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>20</y>
-               <width>91</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Additional Info</string>
-             </property>
-            </widget>
             <widget class="QCheckBox" name="checkAInfoPoints_1">
              <property name="geometry">
               <rect>
@@ -3419,7 +3073,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>410</y>
+               <y>380</y>
                <width>101</width>
                <height>17</height>
               </rect>
@@ -3435,7 +3089,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>460</y>
+               <y>400</y>
                <width>101</width>
                <height>17</height>
               </rect>
@@ -3601,7 +3255,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <rect>
                <x>110</x>
                <y>80</y>
-               <width>211</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -3637,7 +3291,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <rect>
                <x>110</x>
                <y>120</y>
-               <width>211</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -3673,7 +3327,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <rect>
                <x>110</x>
                <y>160</y>
-               <width>211</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -3708,7 +3362,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>190</x>
-               <y>460</y>
+               <y>400</y>
                <width>61</width>
                <height>21</height>
               </rect>
@@ -3735,7 +3389,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>190</x>
-               <y>410</y>
+               <y>380</y>
                <width>61</width>
                <height>21</height>
               </rect>
@@ -3761,8 +3415,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>380</y>
+               <x>260</x>
+               <y>360</y>
                <width>531</width>
                <height>21</height>
               </rect>
@@ -3798,7 +3452,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>460</y>
+               <y>400</y>
                <width>71</width>
                <height>21</height>
               </rect>
@@ -3825,7 +3479,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>410</y>
+               <y>380</y>
                <width>71</width>
                <height>21</height>
               </rect>
@@ -3878,8 +3532,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>480</y>
+               <x>260</x>
+               <y>400</y>
                <width>531</width>
                <height>21</height>
               </rect>
@@ -3941,8 +3595,8 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>430</y>
+               <x>260</x>
+               <y>380</y>
                <width>531</width>
                <height>21</height>
               </rect>
@@ -3971,7 +3625,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_64">
+            <widget class="QLabel" name="label_1104">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -3995,7 +3649,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string>Min</string>
              </property>
             </widget>
-            <widget class="QLabel" name="label_84">
+            <widget class="QLabel" name="label_1105">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -4025,9 +3679,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>80</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -4061,9 +3715,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>120</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -4097,9 +3751,9 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>160</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -4127,13 +3781,13 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_231">
+            <widget class="QLabel" name="label_1106">
              <property name="enabled">
               <bool>false</bool>
              </property>
              <property name="geometry">
               <rect>
-               <x>390</x>
+               <x>470</x>
                <y>60</y>
                <width>51</width>
                <height>20</height>
@@ -4151,7 +3805,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string>Filter</string>
              </property>
             </widget>
-            <widget class="QLabel" name="label_232">
+            <widget class="QLabel" name="label_1107">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -4175,14 +3829,14 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string>Rule</string>
              </property>
             </widget>
-            <widget class="QLabel" name="label_233">
+            <widget class="QLabel" name="label_1108">
              <property name="enabled">
               <bool>false</bool>
              </property>
              <property name="geometry">
               <rect>
-               <x>350</x>
-               <y>360</y>
+               <x>590</x>
+               <y>340</y>
                <width>51</width>
                <height>20</height>
               </rect>
@@ -5123,7 +4777,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               </property>
              </item>
             </widget>
-            <widget class="QLabel" name="label_235">
+            <widget class="QLabel" name="label_1109">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -5147,7 +4801,7 @@ the status will be automatically switched from &quot;race&quot; =&gt; &quot;fini
               <string>Sort1</string>
              </property>
             </widget>
-            <widget class="QLabel" name="label_236">
+            <widget class="QLabel" name="label_1110">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -5175,7 +4829,7 @@ Best timesX : only best times will have an order</string>
               <string>Filter</string>
              </property>
             </widget>
-            <widget class="QLabel" name="label_240">
+            <widget class="QLabel" name="label_1111">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -5203,7 +4857,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>610</y>
+               <y>470</y>
                <width>131</width>
                <height>17</height>
               </rect>
@@ -5219,7 +4873,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>290</x>
-               <y>610</y>
+               <y>470</y>
                <width>131</width>
                <height>17</height>
               </rect>
@@ -5235,7 +4889,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>150</x>
-               <y>610</y>
+               <y>470</y>
                <width>131</width>
                <height>17</height>
               </rect>
@@ -5251,7 +4905,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>640</y>
+               <y>500</y>
                <width>131</width>
                <height>17</height>
               </rect>
@@ -5263,7 +4917,7 @@ Best timesX : only best times will have an order</string>
               <bool>true</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_18">
+            <widget class="QLabel" name="label_1112">
              <property name="geometry">
               <rect>
                <x>301</x>
@@ -5295,10 +4949,10 @@ Best timesX : only best times will have an order</string>
               <pixmap>gui/icons/tooltip-qm.png</pixmap>
              </property>
             </widget>
-            <widget class="QLabel" name="label_19">
+            <widget class="QLabel" name="label_1113">
              <property name="geometry">
               <rect>
-               <x>500</x>
+               <x>580</x>
                <y>60</y>
                <width>20</width>
                <height>20</height>
@@ -5323,9 +4977,9 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>100</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -5359,9 +5013,9 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>140</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -5395,9 +5049,9 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>180</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -5425,7 +5079,7 @@ Best timesX : only best times will have an order</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_243">
+            <widget class="QLabel" name="label_1114">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -5570,7 +5224,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>510</y>
+               <y>420</y>
                <width>101</width>
                <height>17</height>
               </rect>
@@ -5589,7 +5243,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>510</y>
+               <y>420</y>
                <width>71</width>
                <height>21</height>
               </rect>
@@ -5615,8 +5269,8 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>530</y>
+               <x>260</x>
+               <y>420</y>
                <width>531</width>
                <height>21</height>
               </rect>
@@ -5652,7 +5306,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>190</x>
-               <y>510</y>
+               <y>420</y>
                <width>61</width>
                <height>21</height>
               </rect>
@@ -5695,7 +5349,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>20</x>
-               <y>560</y>
+               <y>440</y>
                <width>101</width>
                <height>17</height>
               </rect>
@@ -5714,7 +5368,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>190</x>
-               <y>560</y>
+               <y>440</y>
                <width>61</width>
                <height>21</height>
               </rect>
@@ -5740,8 +5394,8 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>20</x>
-               <y>580</y>
+               <x>260</x>
+               <y>440</y>
                <width>531</width>
                <height>21</height>
               </rect>
@@ -5777,7 +5431,7 @@ Best timesX : only best times will have an order</string>
              <property name="geometry">
               <rect>
                <x>110</x>
-               <y>560</y>
+               <y>440</y>
                <width>71</width>
                <height>21</height>
               </rect>
@@ -5800,7 +5454,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkExportMinuteTimeformat_1">
              <property name="geometry">
               <rect>
-               <x>530</x>
+               <x>730</x>
                <y>82</y>
                <width>19</width>
                <height>17</height>
@@ -5816,7 +5470,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkExportMinuteTimeformat_2">
              <property name="geometry">
               <rect>
-               <x>530</x>
+               <x>730</x>
                <y>122</y>
                <width>19</width>
                <height>17</height>
@@ -5835,7 +5489,7 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>530</x>
+               <x>730</x>
                <y>162</y>
                <width>19</width>
                <height>17</height>
@@ -5851,10 +5505,10 @@ Best timesX : only best times will have an order</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_58">
+            <widget class="QLabel" name="label_1115">
              <property name="geometry">
               <rect>
-               <x>520</x>
+               <x>720</x>
                <y>40</y>
                <width>41</width>
                <height>41</height>
@@ -5878,9 +5532,9 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>220</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -5914,7 +5568,7 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>530</x>
+               <x>730</x>
                <y>202</y>
                <width>19</width>
                <height>17</height>
@@ -5936,9 +5590,9 @@ Best timesX : only best times will have an order</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>330</x>
+               <x>410</x>
                <y>200</y>
-               <width>191</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -6012,7 +5666,7 @@ Best timesX : only best times will have an order</string>
               <rect>
                <x>110</x>
                <y>200</y>
-               <width>211</width>
+               <width>290</width>
                <height>21</height>
               </rect>
              </property>
@@ -6040,10 +5694,10 @@ Best timesX : only best times will have an order</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLabel" name="label_192">
+            <widget class="QLabel" name="label_1116">
              <property name="geometry">
               <rect>
-               <x>560</x>
+               <x>760</x>
                <y>40</y>
                <width>41</width>
                <height>41</height>
@@ -6064,7 +5718,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_1">
              <property name="geometry">
               <rect>
-               <x>570</x>
+               <x>770</x>
                <y>100</y>
                <width>19</width>
                <height>17</height>
@@ -6080,7 +5734,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_2">
              <property name="geometry">
               <rect>
-               <x>570</x>
+               <x>770</x>
                <y>140</y>
                <width>19</width>
                <height>17</height>
@@ -6096,7 +5750,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_3">
              <property name="geometry">
               <rect>
-               <x>570</x>
+               <x>770</x>
                <y>180</y>
                <width>19</width>
                <height>17</height>
@@ -6112,7 +5766,7 @@ Best timesX : only best times will have an order</string>
             <widget class="QCheckBox" name="checkAI_FromLastStart_Lap_4">
              <property name="geometry">
               <rect>
-               <x>570</x>
+               <x>770</x>
                <y>220</y>
                <width>19</width>
                <height>17</height>
@@ -21356,7 +21010,7 @@ p, li { white-space: pre-wrap; }
                 <string>AutoEnable</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_2">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_2">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -22467,7 +22121,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_5">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_5">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -23467,7 +23121,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_4">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_4">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -24472,7 +24126,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_3">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_3">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -25466,7 +25120,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_1">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_1">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -26505,7 +26159,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_8">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_8">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -27505,7 +27159,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_6">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_6">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -28505,7 +28159,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_7">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_7">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -29540,7 +29194,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_12">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_12">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -30496,7 +30150,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_13">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_13">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -31496,7 +31150,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_14">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_14">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -32496,7 +32150,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_15">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_15">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -33540,7 +33194,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_11">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_11">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -34566,7 +34220,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_10">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_10">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -35566,7 +35220,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_9">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_9">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -36522,7 +36176,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_16">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_16">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -37588,7 +37242,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_17">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_17">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -38544,7 +38198,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_21">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_21">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -39614,7 +39268,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_19">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_19">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -40570,7 +40224,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_20">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_20">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -41570,7 +41224,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_22">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_22">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -42614,7 +42268,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_18">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_18">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -43570,7 +43224,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_24">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_24">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -44614,7 +44268,7 @@ p, li { white-space: pre-wrap; }
                 <string>in BB</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushCellResetCelltimes_23">
+              <widget class="QPushButton" name="pushCellClearMissingTimes_23">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -49247,7 +48901,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>CGroupsDelete</tabstop>
   <tabstop>CGroupsFilterClear</tabstop>
   <tabstop>CGroupsProxyView</tabstop>
-  <tabstop>TagsProxyView</tabstop>
   <tabstop>CategoriesExport</tabstop>
   <tabstop>RunsProxyView</tabstop>
   <tabstop>CategoriesDelete</tabstop>
@@ -49257,21 +48910,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>CGroupsRemove</tabstop>
   <tabstop>CGroupsImport</tabstop>
   <tabstop>CGroupsExport</tabstop>
-  <tabstop>TagsFilterLineEdit</tabstop>
-  <tabstop>AlltagsFilterLineEdit</tabstop>
-  <tabstop>AlltagsProxyView</tabstop>
-  <tabstop>TagsRemove</tabstop>
-  <tabstop>AlltagsAdd</tabstop>
-  <tabstop>TagsAdd</tabstop>
-  <tabstop>TagsExport</tabstop>
-  <tabstop>TagsImport</tabstop>
-  <tabstop>TagsFilterClear</tabstop>
-  <tabstop>TagsDelete</tabstop>
-  <tabstop>AlltagsExport</tabstop>
-  <tabstop>AlltagsDelete</tabstop>
-  <tabstop>AlltagsFilterClear</tabstop>
-  <tabstop>AlltagsRemove</tabstop>
-  <tabstop>AlltagsImport</tabstop>
   <tabstop>CategoriesImport</tabstop>
   <tabstop>TimesRemove</tabstop>
   <tabstop>TimesDbImport</tabstop>
@@ -49363,80 +49001,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineAutorequestMissingtimes</tabstop>
   <tabstop>spinAutorequestMissingtimes</tabstop>
   <tabstop>lineTagsReadingEn</tabstop>
-  <tabstop>checkAInfoOrder_1</tabstop>
-  <tabstop>checkAInfoPoints_1</tabstop>
-  <tabstop>checkAInfoPoints_2</tabstop>
-  <tabstop>checkAInfoPoints_3</tabstop>
-  <tabstop>checkAInfoLap_1</tabstop>
-  <tabstop>checkAInfoLap_3</tabstop>
-  <tabstop>checkAInfoLap_2</tabstop>
-  <tabstop>checkAInfoTime_3</tabstop>
-  <tabstop>checkAInfoTime_1</tabstop>
-  <tabstop>checkAInfoTime_2</tabstop>
-  <tabstop>checkAInfoOrder_2</tabstop>
-  <tabstop>checkAInfoOrder_3</tabstop>
-  <tabstop>lineAInfoTimeRule_1</tabstop>
-  <tabstop>lineAInfoTimeRule_2</tabstop>
-  <tabstop>lineAInfoTimeRule_3</tabstop>
-  <tabstop>spinAInfoPointMaximum_3</tabstop>
-  <tabstop>spinAInfoPointMaximum_2</tabstop>
-  <tabstop>lineAInfoPointRule_1</tabstop>
-  <tabstop>spinAInfoPointMinimum_3</tabstop>
-  <tabstop>spinAInfoPointMinimum_2</tabstop>
-  <tabstop>spinAInfoPointMinimum_1</tabstop>
-  <tabstop>lineAInfoPointRule_3</tabstop>
-  <tabstop>spinAInfoPointMaximum_1</tabstop>
-  <tabstop>lineAInfoPointRule_2</tabstop>
-  <tabstop>lineAInfoTimeFilter_1</tabstop>
-  <tabstop>lineAInfoTimeFilter_2</tabstop>
-  <tabstop>lineAInfoTimeFilter_3</tabstop>
-  <tabstop>comboOrderColumn_1_1</tabstop>
-  <tabstop>comboOrderOrder_1_1</tabstop>
-  <tabstop>comboOrderColumn_1_2</tabstop>
-  <tabstop>comboOrderOrder_1_2</tabstop>
-  <tabstop>comboOrderColumn_2_1</tabstop>
-  <tabstop>comboOrderColumn_2_2</tabstop>
-  <tabstop>comboOrderOrder_2_1</tabstop>
-  <tabstop>comboOrderOrder_2_2</tabstop>
-  <tabstop>comboOrderColumn_3_1</tabstop>
-  <tabstop>comboOrderColumn_3_2</tabstop>
-  <tabstop>comboOrderOrder_3_1</tabstop>
-  <tabstop>comboOrderOrder_3_2</tabstop>
-  <tabstop>comboOrderRow_1</tabstop>
-  <tabstop>comboOrderRow_2</tabstop>
-  <tabstop>comboOrderRow_3</tabstop>
-  <tabstop>checkAInfoUserNumber_1</tabstop>
-  <tabstop>checkAInfoUserNumber_3</tabstop>
-  <tabstop>checkAInfoUserNumber_2</tabstop>
-  <tabstop>checkAInfoUserString_1</tabstop>
-  <tabstop>lineAInfoLapFilter_1</tabstop>
-  <tabstop>lineAInfoLapFilter_2</tabstop>
-  <tabstop>lineAInfoLapFilter_3</tabstop>
-  <tabstop>comboOrderType_1</tabstop>
-  <tabstop>comboOrderType_2</tabstop>
-  <tabstop>comboOrderType_3</tabstop>
-  <tabstop>checkAInfoPoints_4</tabstop>
-  <tabstop>spinAInfoPointMinimum_4</tabstop>
-  <tabstop>lineAInfoPointRule_4</tabstop>
-  <tabstop>spinAInfoPointMaximum_4</tabstop>
-  <tabstop>checkAInfoStatus</tabstop>
-  <tabstop>checkAInfoPoints_5</tabstop>
-  <tabstop>spinAInfoPointMaximum_5</tabstop>
-  <tabstop>lineAInfoPointRule_5</tabstop>
-  <tabstop>spinAInfoPointMinimum_5</tabstop>
-  <tabstop>checkExportMinuteTimeformat_1</tabstop>
-  <tabstop>checkExportMinuteTimeformat_2</tabstop>
-  <tabstop>checkExportMinuteTimeformat_3</tabstop>
-  <tabstop>lineAInfoLapFilter_4</tabstop>
-  <tabstop>checkExportMinuteTimeformat_4</tabstop>
-  <tabstop>lineAInfoTimeFilter_4</tabstop>
-  <tabstop>checkAInfoTime_4</tabstop>
-  <tabstop>checkAInfoLap_4</tabstop>
-  <tabstop>lineAInfoTimeRule_4</tabstop>
-  <tabstop>checkAI_FromLastStart_Lap_1</tabstop>
-  <tabstop>checkAI_FromLastStart_Lap_2</tabstop>
-  <tabstop>checkAI_FromLastStart_Lap_3</tabstop>
-  <tabstop>checkAI_FromLastStart_Lap_4</tabstop>
   <tabstop>lineExportHeaderDescription3</tabstop>
   <tabstop>lineExportHeaderCategory3</tabstop>
   <tabstop>lineExportHeaderDescription2</tabstop>

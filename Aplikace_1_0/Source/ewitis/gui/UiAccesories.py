@@ -17,11 +17,11 @@ class UiaDialogs(MyDialogs):
     def __init__(self):
         MyDialogs.__init__(self)                   
     def showMessage(self, title, message, msgtype = MSGTYPE.warning, *params):
-        print "showMessage", title, utils.remove_accents(message)        
+        print "I: ", title, utils.remove_accents(message)        
         #right statusbar
         if(msgtype == MSGTYPE.right_statusbar):            
             #all time update
-            print "right status bar"
+            #print "right status bar"
             self.update_right_statusbar(title, message)                 
             timing_settings_get = dstore.Get("timing_settings", "GET")
 #            Ui().statusbar_msg.setText(STRINGS.MEASUREMENT_STATE[timing_settings_get['measurement_state']])

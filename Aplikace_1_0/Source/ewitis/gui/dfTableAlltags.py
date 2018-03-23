@@ -10,6 +10,7 @@ import pandas as pd
 import pandas.io.sql as psql 
 from PyQt4 import QtCore, QtGui
 from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils
+from ewitis.data.DEF_ENUM_STRINGS import *
 
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
@@ -81,8 +82,9 @@ class DfTableAlltags(DfTable):
         
 
 
-tableAlltags = DfTableAlltags()
-tabAlltags = MyTab(tables = [tableAlltags,])          
+#tableAlltags = DfTableAlltags()
+#tabAlltags = MyTab(tables = [tableAlltags,])
+     
                 
         
  

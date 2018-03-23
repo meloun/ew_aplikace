@@ -23,12 +23,12 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 18
-    runs_times, users, categories, cgroups, tags, alltags, race_info, race_settings,\
+    nr_tabs = 17
+    runs_times, users, categories, cgroups, race_info, race_settings, columns_settings, \
     export_settings, export_columns, device, cells1, cells2, cells3, diagnostic, communication, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
-              tags:"Tags", alltags:"Alltags", race_info:"RaceInfo", \
-              race_settings:"RaceSettings",  export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", \
+              race_info:"RaceInfo", race_settings:"RaceSettings", columns_settings:"ColumnsSettings",\
+              export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", \
               cells1: "Cells", cells2: "Cells", cells3: "Cells",\
               diagnostic: "Diagnostic", communication: "Communication",  \
               manual: "Manual", about: "About",    \
@@ -418,6 +418,8 @@ DEF_DATA = {
                                                            "active": None,
                                                            "synchronized_once": None,
                                                            "synchronized": None,
+                                                           "times_bb": None,
+                                                           "times_cell": None,                                                           
                                                            "address": index+1,
                                                            "task": None,
                                                            "trigger": 0,
@@ -446,7 +448,7 @@ DEF_DATA = {
                                 "permanent": False,                                
                                 "SET"      : {"value": {"logic_mode": 1,
                                                        "measurement_state": MeasurementState.not_active,
-                                                       "name_id": 4,
+                                                       "times_download_mode": 1,
                                                        "autoenable_cell": 1,
                                                        "autoenable_bb": 60,
                                                        "autorequest_missingtimes": 0, 
@@ -454,9 +456,9 @@ DEF_DATA = {
                                                        },
                                               "changed": False
                                             },
-                                "GET"      :  {"value": {"logic_mode": 1,
+                                "GET"      :  {"value": {"logic_mode": None,
                                                        "measurement_state": MeasurementState.not_active,
-                                                       "name_id": 04,
+                                                       "times_download_mode": None,                                                       
                                                        "autoenable_cell": None,
                                                        "autoenable_bb": None,
                                                        "autorequest_missingtimes": None,
@@ -478,6 +480,7 @@ DEF_DATA = {
                                              "changed": False}
                                  },
         "ping_cell"           : { "SET"  : { "value": 0, "changed": False}},
+        "clear_missing_times" : { "SET"  : { "value": 0, "changed": False}},
         "run_cell_diagnostic" : { "SET"  : { "value": 0, "changed": False}},
                                          
         #task actions

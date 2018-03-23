@@ -28,8 +28,8 @@ from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCGroups import tableCGroups
-from ewitis.gui.dfTableTags import tableTags
-from ewitis.gui.dfTableAlltags import tableAlltags
+#from ewitis.gui.dfTableTags import tableTags
+#from ewitis.gui.dfTableAlltags import tableAlltags
 from ewitis.gui.dfTableRaceInfo import tableRaceInfo
 
 from ewitis.gui.MenusBars import Bars
@@ -46,8 +46,8 @@ from ewitis.gui.MenusBars import Bars
 
 from ewitis.gui.aTab import MyTab, UPDATE_MODE
 from ewitis.gui.tabRunsTimes import actionToolbar
-from ewitis.gui.dfTableAlltags import tabAlltags 
-from ewitis.gui.dfTableTags import tabTags
+#from ewitis.gui.dfTableAlltags import tabAlltags 
+#from ewitis.gui.dfTableTags import tabTags
 from ewitis.gui.dfTableCGroups import tabCGroups
 from ewitis.gui.dfTableCategories import tabCategories
 from ewitis.gui.dfTableUsers import tabUsers
@@ -59,6 +59,7 @@ from ewitis.gui.tabExportSettings import tabExportSettings
 from ewitis.gui.tabExportColumns import tabExportColumns
 from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabRaceSettings import tabRaceSettings
+from ewitis.gui.tabColumnsSettings import tabColumnsSettings
 from ewitis.gui.tabDiagnostic import tabDiagnostic
 from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout
@@ -119,11 +120,10 @@ class TabManager():
 
     
     def Init(self):
-        tabAlltags.Init()
-        tabTags.Init()
         tabCGroups.Init()
         tabRaceInfo.Init()
         tabRaceSettings.Init()
+        tabColumnsSettings.Init()
         tabExportSettings.Init()
         tabExportColumns.Init()
         tabCategories.Init()
@@ -144,11 +144,10 @@ class TabManager():
     def Update(self, ):
         
         #update all tabs
-        tabAlltags.Update()
-        tabTags.Update()
         tabCGroups.Update()
         tabRaceInfo.Update()
         tabRaceSettings.Update()
+        tabColumnsSettings.Update()        
         tabExportSettings.Update()
         tabExportColumns.Update()
         tabCategories.Update()

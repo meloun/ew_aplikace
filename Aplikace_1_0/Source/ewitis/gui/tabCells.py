@@ -42,6 +42,9 @@ class CellGroup ():
         self.lineCellActive = getattr(ui, "lineCellActive_"+str(nr))
         self.lineCellSynchronizedOnce = getattr(ui, "lineCellSynchronizedOnce_"+str(nr))
         self.lineCellSynchronized = getattr(ui, "lineCellSynchronized_"+str(nr))
+        self.lineCellTimesBB = getattr(ui, "lineCellTimesBB_"+str(nr))
+        self.lineCellTimesCell = getattr(ui, "lineCellTimesCell_"+str(nr))
+        self.pushCellClearMissingTimes = getattr(ui, "pushCellClearMissingTimes_"+str(nr))        
         self.lineCellDiagLongOk = getattr(ui, "lineCellDiagLongOk_"+str(nr))
         self.lineCellDiagLongKo = getattr(ui, "lineCellDiagLongKo_"+str(nr))
         self.lineCellDiagLongRatio = getattr(ui, "lineCellDiagLongRatio_"+str(nr))
@@ -68,6 +71,7 @@ class CellGroup ():
         QtCore.QObject.connect(self.pushCellClearCounters, QtCore.SIGNAL("clicked()"), lambda: dstore.SetItem("set_cell_diag_info", ["address"], self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellRunDiagnostic, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("run_cell_diagnostic", self.nr, "SET"))
         QtCore.QObject.connect(self.pushCellPing, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("ping_cell", self.nr, "SET"))
+        QtCore.QObject.connect(self.pushCellClearMissingTimes, QtCore.SIGNAL("clicked()"), lambda: dstore.Set("clear_missing_times", self.nr, "SET"))
 
     '''Slots'''        
     def sSlot(self, state=None):
@@ -149,6 +153,9 @@ class CellGroup ():
         self.lineCellActive.setEnabled(state)
         self.lineCellSynchronizedOnce.setEnabled(state)
         self.lineCellSynchronized.setEnabled(state)
+        self.lineCellTimesBB.setEnabled(state)
+        self.lineCellTimesCell.setEnabled(state)
+        self.pushCellClearMissingTimes.setEnabled(state)        
         self.lineCellDiagShortOk.setEnabled(state)
         self.lineCellDiagShortKo.setEnabled(state)
         self.lineCellDiagShortRatio.setEnabled(state)
@@ -313,7 +320,21 @@ class CellGroup ():
             self.lineCellSynchronized.setText("10MIN")            
         else:
             self.lineCellSynchronized.setText(" - - ")                    
-        self.lineCellSynchronized.setStyleSheet("background:"+COLORS.GetColor(get_info["synchronized"], colors_enabled))                       
+        self.lineCellSynchronized.setStyleSheet("background:"+COLORS.GetColor(get_info["synchronized"], colors_enabled))
+                               
+        #times BB
+        if get_info["times_bb"] != None:                                
+            self.lineCellTimesBB.setText(str(get_info["times_bb"]))            
+        else:
+            self.lineCellTimesBB.setText(" - - ")                    
+        self.lineCellTimesBB.setStyleSheet("background:"+COLORS.GetColor(get_info["times_bb"], colors_enabled))
+                               
+        #times cell
+        if get_info["times_cell"] != None:                                
+            self.lineCellTimesCell.setText(str(get_info["times_cell"]))            
+        else:
+            self.lineCellTimesCell.setText(" - - ")                    
+        self.lineCellTimesCell.setStyleSheet("background:"+COLORS.GetColor(get_info["times_cell"], colors_enabled))                       
         
         #diagnostic shork ok
         if(get_info['diagnostic_short_ok'] != None):                                    

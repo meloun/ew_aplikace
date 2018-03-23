@@ -210,6 +210,7 @@ class TabRaceSettings():
               
         #left group
         QtCore.QObject.connect(Ui().comboTimingMode, QtCore.SIGNAL("activated(int)"), self.sComboTimingMode) 
+        QtCore.QObject.connect(Ui().comboTimesDownloadMode, QtCore.SIGNAL("activated(int)"), self.sComboTimesDownloadMode)
         QtCore.QObject.connect(Ui().spinAutoenableCell, QtCore.SIGNAL("valueChanged(int)"), self.sAutoenableCell)
         QtCore.QObject.connect(Ui().spinAutoenableBB, QtCore.SIGNAL("valueChanged(int)"), self.sAutoenableBB)
         QtCore.QObject.connect(Ui().spinAutorequestMissingtimes, QtCore.SIGNAL("valueChanged(int)"), self.sAutorequestMissingtimes)
@@ -305,6 +306,17 @@ class TabRaceSettings():
         '''reset GET hodnoty'''
         dstore.ResetValue("timing_settings", ["logic_mode"])                                                                
         self.Update(UPDATE_MODE.gui)
+          
+    def sComboTimesDownloadMode(self, index):
+        #print "sComboTimesDownloadMode", index                
+        '''získání a nastavení nové SET hodnoty'''
+        aux_timing_settings = dstore.Get("timing_settings", "GET").copy()
+        aux_timing_settings["times_download_mode"] = index + 1                               
+        dstore.Set("timing_settings", aux_timing_settings, "SET")            
+        
+        '''reset GET hodnoty'''
+        dstore.ResetValue("timing_settings", ["times_download_mode"])                                                                
+        self.Update(UPDATE_MODE.gui)
     
     
     def sAutoenableCell(self, value):        
@@ -349,12 +361,22 @@ class TabRaceSettings():
         timing_settings_set = dstore.Get("timing_settings", "SET")
         
         """ logic mode """  
+        print "lm", timing_settings_get['logic_mode']
         if(timing_settings_get['logic_mode'] != None):
             Ui().comboTimingMode.setCurrentIndex(timing_settings_get['logic_mode']-1)            
-            Ui().lineTimingMode.setText(str(Ui().comboTimingMode.currentText()+" mode").upper())                    
+            Ui().lineTimingMode.setText(str(Ui().comboTimingMode.currentText()).upper())                    
         else:
             Ui().comboTimingMode.setCurrentIndex(0)
             Ui().lineTimingMode.setText("- - -")
+            
+        """ times download mode """ 
+        print "tdm",timing_settings_get['times_download_mode']
+        if(timing_settings_get['times_download_mode'] != None):
+            Ui().comboTimesDownloadMode.setCurrentIndex(timing_settings_get['times_download_mode'])            
+            Ui().lineTimesDownloadMode.setText(str(Ui().comboTimesDownloadMode.currentText()).upper())                    
+        else:
+            Ui().comboTimesDownloadMode.setCurrentIndex(0)
+            Ui().lineTimesDownloadMode.setText("- - -")
             
                         
         """ AutoEnable by cell """

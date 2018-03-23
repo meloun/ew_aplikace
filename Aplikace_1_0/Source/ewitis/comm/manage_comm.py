@@ -413,7 +413,13 @@ class ManageComm(Thread):
         address = dstore.Get("ping_cell", "SET")                           
         if(address != 0):                                
             ret = self.send_receive_frame("PING_CELL", address) 
-            dstore.Set("ping_cell", 0, "SET")                                
+            dstore.Set("ping_cell", 0, "SET")
+                                            
+        """ clear missing times """ 
+        address = dstore.Get("clear_missing_times", "SET")                           
+        if(address != 0):                                
+            ret = self.send_receive_frame("CLEAR_MISSING_TIMES", address) 
+            dstore.Set("clear_missing_times", 0, "SET")                                
             
         """ get cell last times """ 
         task = dstore.Get("get_cell_last_times", "SET")                           

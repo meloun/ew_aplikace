@@ -133,7 +133,7 @@ def unpack_data(command, data, senddata):
         '''
         aux_timing_settings = {}
              
-        aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['name_id'],\
+        aux_timing_settings['logic_mode'], aux_timing_settings['measurement_state'], aux_timing_settings['times_download_mode'],\
         aux_timing_settings['autoenable_cell'], aux_timing_settings['autoenable_bb'],\
         aux_timing_settings['autorequest_missingtimes'], aux_timing_settings['tags_reading_enable'],\
         = struct.unpack("<BBBBhBB", data)
@@ -150,7 +150,7 @@ def unpack_data(command, data, senddata):
         aux_cell_info['battery'], aux_flags, aux_cell_info['address'],\
         aux_cell_info['task'], aux_cell_info['diagnostic_long_ok'], aux_cell_info['diagnostic_long_ko'],\
         aux_cell_info['diagnostic_short_ok'], aux_cell_info['diagnostic_short_ko'],\
-        aux_flags2, aux_cell_info['nr_times'], aux_cell_info['fu1'], aux_cell_info['fu2']\
+        aux_flags2, aux_cell_info['times_bb'], aux_cell_info['times_cell'], aux_cell_info['fu2']\
         = struct.unpack("<BBBBhhBBBhhh", data)
 
         #flags
@@ -272,7 +272,7 @@ def pack_data(command_key, data):
 
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]['cmd']):
         # SET TIMING SETTINGS
-        aux_data = struct.pack('<BBBhB', data['logic_mode'], data['name_id'], data['autoenable_cell'],\
+        aux_data = struct.pack('<BBBhB', data['logic_mode'], data['times_download_mode'], data['autoenable_cell'],\
                                data['autoenable_bb'], data['autorequest_missingtimes'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]['cmd']):
         # SET CELL INFO        

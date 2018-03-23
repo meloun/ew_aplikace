@@ -44,6 +44,7 @@ DEF_COMMANDS = {
     "SET_CELL_DIAG_INFO"        : {'cmd':0x26,  'length-tx':7,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': False  },                                      
     "PING_CELL"                 : {'cmd':0x27,  'length-tx':1,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': False  },                                      
     "RUN_CELL_DIAGNOSTIC"       : {'cmd':0x28,  'length-tx':1,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': False  },                                      
+    "CLEAR_MISSING_TIMES"       : {'cmd':0x2C,  'length-tx':1,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': False  },
     "CLEAR_DATABASE"            : {'cmd':0x34,  'length-tx':0,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': True   },            
     "QUIT_TIMING"               : {'cmd':0x40,  'length-tx':0,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': True   },
     "ENABLE_START_CELL"         : {'cmd':0x41,  'length-tx':0,  'length-rx':0,  'Blackbox-IR': True,  'Blackbox-RFID': False  },
