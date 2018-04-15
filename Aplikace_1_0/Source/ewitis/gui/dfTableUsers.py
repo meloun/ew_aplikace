@@ -16,7 +16,7 @@ import libs.pandas.df_utils as df_utils
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.gui.aTab import MyTab
-from ewitis.gui.dfTableTags import tableTags
+#from ewitis.gui.dfTableTags import tableTags
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui

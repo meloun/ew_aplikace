@@ -358,7 +358,8 @@ class DfTableTimes(DfTable):
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
         
     def Init(self):
-        DfTable.Init(self) 
+        DfTable.Init(self)
+        self.gui['view'].sortByColumn(27, QtCore.Qt.DescendingOrder) 
         self.UpdateGui()
         
     def sDeletePreCallback(self, id):        

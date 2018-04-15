@@ -19424,701 +19424,564 @@ p, li { white-space: pre-wrap; }
            <attribute name="title">
             <string>Device</string>
            </attribute>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupTerminal">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>300</width>
-                <height>400</height>
-               </size>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="title">
-               <string>D E V I C E   S E T T I N G S  &amp;&amp;  I N F O</string>
-              </property>
-              <widget class="QLabel" name="label">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>100</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Nr. of cells</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>130</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Battery</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineCells">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>100</y>
-                 <width>31</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="text">
-                <string>-</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineBattery">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>130</y>
-                 <width>41</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="text">
-                <string>- - </string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_32">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>30</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Hw Version</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineHwVersion">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>30</y>
-                 <width>121</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="text">
-                <string>- - </string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineFwVersion">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>60</y>
-                 <width>121</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="text">
-                <string>- - </string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_33">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>60</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Fw Version</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSynchronizeSystem">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>200</y>
-                 <width>161</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>SYNCHRONIZE SYSTEM</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QGroupBox" name="groupBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>350</width>
-                <height>400</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>T E R M I N A L   S E T T I N G S  &amp;&amp;  I N F O</string>
-              </property>
-              <widget class="QPushButton" name="pushSpeakerKeys_5">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>240</y>
-                 <width>211</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>FILL CURRENT DATETIME</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineSpeakerKeys">
-               <property name="geometry">
-                <rect>
-                 <x>110</x>
-                 <y>50</y>
-                 <width>41</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>- -</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSpeakerSystem">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>80</y>
-                 <width>41</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>OFF</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_12">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>210</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Date</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSpeakerKeys_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>181</y>
-                 <width>51</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>SET</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineDate">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>210</y>
-                 <width>61</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>- - -</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineSpeakerSystem">
-               <property name="geometry">
-                <rect>
-                 <x>110</x>
-                 <y>80</y>
-                 <width>41</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>- -</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineSpeakerTiming">
-               <property name="geometry">
-                <rect>
-                 <x>110</x>
-                 <y>110</y>
-                 <width>41</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>- -</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_4">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>30</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Speaker</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_6">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>180</y>
-                 <width>51</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Time</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_7">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>50</y>
-                 <width>61</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Keys</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSpeakerKeys_4">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>210</y>
-                 <width>51</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>SET</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_8">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>80</y>
-                 <width>61</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>System</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_9">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>110</y>
-                 <width>61</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Timing</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="lineTime">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>180</y>
-                 <width>61</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string>- - -</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-              <widget class="QDateEdit" name="dateDate">
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>210</y>
-                 <width>71</width>
-                 <height>22</height>
-                </rect>
-               </property>
-               <property name="date">
-                <date>
-                 <year>1900</year>
-                 <month>1</month>
-                 <day>1</day>
-                </date>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSpeakerKeys">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>50</y>
-                 <width>41</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>OFF</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushSpeakerTiming">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>110</y>
-                 <width>41</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>OFF</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-              <widget class="QTimeEdit" name="timeTime">
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>180</y>
-                 <width>71</width>
-                 <height>22</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_170">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>160</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Datetime</string>
-               </property>
-              </widget>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QGroupBox" name="groupTerminal">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>11</y>
+              <width>300</width>
+              <height>400</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>400</height>
+             </size>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="title">
+             <string>D E V I C E   S E T T I N G S  &amp;&amp;  I N F O</string>
+            </property>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>100</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nr. of cells</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_2">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>130</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Battery</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineCells">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>100</x>
+               <y>100</y>
+               <width>31</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineBattery">
+             <property name="geometry">
+              <rect>
+               <x>100</x>
+               <y>130</y>
+               <width>41</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>- - </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_32">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>30</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Hw Version</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineHwVersion">
+             <property name="geometry">
+              <rect>
+               <x>100</x>
+               <y>30</y>
+               <width>121</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>- - </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineFwVersion">
+             <property name="geometry">
+              <rect>
+               <x>100</x>
+               <y>60</y>
+               <width>121</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>- - </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_33">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>60</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Fw Version</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushSynchronizeSystem">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>210</y>
+               <width>200</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>SYNCHRONIZE SYSTEM</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="geometry">
+             <rect>
+              <x>318</x>
+              <y>11</y>
+              <width>300</width>
+              <height>400</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>400</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>T E R M I N A L   S E T T I N G S  &amp;&amp;  I N F O</string>
+            </property>
+            <widget class="QPushButton" name="pushCurrentDatetime">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>210</y>
+               <width>200</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>SET CURRENT DATETIME</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineSpeakerKeys">
+             <property name="geometry">
+              <rect>
+               <x>110</x>
+               <y>50</y>
+               <width>41</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>- -</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushSpeakerSystem">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>80</y>
+               <width>41</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>OFF</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineSpeakerSystem">
+             <property name="geometry">
+              <rect>
+               <x>110</x>
+               <y>80</y>
+               <width>41</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>- -</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineSpeakerTiming">
+             <property name="geometry">
+              <rect>
+               <x>110</x>
+               <y>110</y>
+               <width>41</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>- -</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_4">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>30</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Speaker</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_7">
+             <property name="geometry">
+              <rect>
+               <x>40</x>
+               <y>50</y>
+               <width>61</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Keys</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_8">
+             <property name="geometry">
+              <rect>
+               <x>40</x>
+               <y>80</y>
+               <width>61</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>System</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_9">
+             <property name="geometry">
+              <rect>
+               <x>40</x>
+               <y>110</y>
+               <width>61</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Timing</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineDatetime">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>180</y>
+               <width>200</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>- - -</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushSpeakerKeys">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>50</y>
+               <width>41</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>OFF</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushSpeakerTiming">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>110</y>
+               <width>41</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>OFF</string>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_170">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>160</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Datetime</string>
+             </property>
+            </widget>
+           </widget>
           </widget>
           <widget class="QWidget" name="tabCells">
            <property name="minimumSize">
@@ -20987,6 +20850,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -21961,6 +21844,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -22961,6 +22864,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -23966,6 +23889,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -25019,6 +24962,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_440">
                <property name="geometry">
@@ -25999,6 +25962,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -27001,6 +26984,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_457">
                <property name="geometry">
@@ -27999,6 +28002,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -29036,6 +29059,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_12">
                <property name="enabled">
@@ -30034,6 +30077,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -31036,6 +31099,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_14">
                <property name="enabled">
@@ -32000,7 +32083,7 @@ p, li { white-space: pre-wrap; }
               </widget>
               <widget class="QComboBox" name="comboCellAutoEnable_15">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="geometry">
                 <rect>
@@ -32034,6 +32117,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -33034,6 +33137,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -34062,6 +34185,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_10">
                <property name="enabled">
@@ -35062,6 +35205,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_9">
                <property name="enabled">
@@ -36060,6 +36223,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -37084,6 +37267,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_17">
                <property name="enabled">
@@ -38082,6 +38285,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -39110,6 +39333,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_19">
                <property name="enabled">
@@ -40108,6 +40351,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -41110,6 +41373,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_22">
                <property name="enabled">
@@ -42108,6 +42391,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -43110,6 +43413,26 @@ p, li { white-space: pre-wrap; }
                  <string>5s</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLineEdit" name="lineCellAutoEnable_24">
                <property name="enabled">
@@ -44108,6 +44431,26 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>5s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>15s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>30s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>60s</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>120s</string>
                 </property>
                </item>
               </widget>
@@ -47531,6 +47874,9 @@ p, li { white-space: pre-wrap; }
    <property name="windowTitle">
     <string>toolBar_5</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="iconSize">
     <size>
      <width>30</width>
@@ -47587,7 +47933,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="toolBarCellTimingRequest">
+  <widget class="QToolBar" name="toolBarCellMissingTimeFlag">
    <property name="font">
     <font>
      <pointsize>8</pointsize>
@@ -47597,7 +47943,7 @@ p, li { white-space: pre-wrap; }
     <string>toolBar_3</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QToolButton {width:31px; height:5px}</string>
+    <string notr="true">QToolButton {width:31px; height:5px;}; </string>
    </property>
    <property name="iconSize">
     <size>
@@ -47612,17 +47958,17 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </attribute>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_1"/>
+   <addaction name="aMissingTimeFlag_1"/>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_2"/>
+   <addaction name="aMissingTimeFlag_2"/>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_3"/>
+   <addaction name="aMissingTimeFlag_3"/>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_4"/>
+   <addaction name="aMissingTimeFlag_4"/>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_5"/>
+   <addaction name="aMissingTimeFlag_5"/>
    <addaction name="separator"/>
-   <addaction name="aTimeRequest_F"/>
+   <addaction name="aMissingTimeFlag_250"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
   </widget>
@@ -48581,7 +48927,7 @@ p, li { white-space: pre-wrap; }
     <string>Backup Database</string>
    </property>
   </action>
-  <action name="aTimeRequest_1">
+  <action name="aMissingTimeFlag_1">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -48594,23 +48940,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="aTimeRequest_2">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="toolTip">
-    <string/>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>3</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="aTimeRequest_3">
+  <action name="aMissingTimeFlag_2">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -48626,7 +48956,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="aTimeRequest_4">
+  <action name="aMissingTimeFlag_3">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -48642,7 +48972,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="aTimeRequest_5">
+  <action name="aMissingTimeFlag_4">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -48658,7 +48988,23 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="aTimeRequest_F">
+  <action name="aMissingTimeFlag_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>3</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="aMissingTimeFlag_250">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -48711,19 +49057,14 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineHwVersion</tabstop>
   <tabstop>lineFwVersion</tabstop>
   <tabstop>pushSynchronizeSystem</tabstop>
-  <tabstop>pushSpeakerKeys_5</tabstop>
+  <tabstop>pushCurrentDatetime</tabstop>
   <tabstop>lineSpeakerKeys</tabstop>
   <tabstop>pushSpeakerSystem</tabstop>
-  <tabstop>pushSpeakerKeys_3</tabstop>
-  <tabstop>lineDate</tabstop>
   <tabstop>lineSpeakerSystem</tabstop>
   <tabstop>lineSpeakerTiming</tabstop>
-  <tabstop>pushSpeakerKeys_4</tabstop>
-  <tabstop>lineTime</tabstop>
-  <tabstop>dateDate</tabstop>
+  <tabstop>lineDatetime</tabstop>
   <tabstop>pushSpeakerKeys</tabstop>
   <tabstop>pushSpeakerTiming</tabstop>
-  <tabstop>timeTime</tabstop>
   <tabstop>lineCellBattery_1</tabstop>
   <tabstop>comboCellTask_1</tabstop>
   <tabstop>lineCellTask_1</tabstop>

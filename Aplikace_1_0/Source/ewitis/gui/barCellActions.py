@@ -39,6 +39,7 @@ class BarCellActions():
         
         #toolbar because of css color-settings
         self.toolbar_ping = getattr(ui, "toolBarCellPing")
+        self.toolbar_missing_time_flag = getattr(ui, "toolBarCellMissingTimeFlag")
         self.toolbar_enable = getattr(ui, "toolBarCellEnable")
         self.toolbar_generate = getattr(ui, "toolBarCellGenerate")
         
@@ -63,6 +64,8 @@ class BarCellActions():
             cell_actions['generate_celltime'] = getattr(ui, "aGenerateCelltime_"+str(i))
             cell_actions['disable_cell'] = getattr(ui, "aDisableCell_"+str(i))
             self.toolbar_ping.widgetForAction(cell_actions['ping_cell'] ).setObjectName("w_ping_cell"+str(i))
+            cell_actions['missing_time_flag'] = getattr(ui, "aMissingTimeFlag_"+str(i))
+            self.toolbar_missing_time_flag.widgetForAction(cell_actions['missing_time_flag'] ).setObjectName("w_missing_time_flag"+str(i))
             
         self.auto_enable = Ui().aAutoEnable
         
@@ -217,7 +220,22 @@ class BarCellActions():
     def Update(self):  
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
         
+        cell = tabCells.GetCellParTask(1)
+        cell_actions = self.cells_actions[0]
+#         if cell != None and dstore.Get("port")["opened"]:
+#             css_string = "" 
+#             info = cell.GetInfo()
+#             print "I: ", info
+#         font = cell_actions['missing_time_flag'].font()        
+#         font.setBold(True)
+#         font.setUnderline(True)
+#         cell_actions['missing_time_flag'].setFont(font)                        
+#         css_string = "QToolButton {width:31px; height:5px;} QToolButton#w_missing_time_flag250{ background:"+COLORS.green+";width: 28px;}"
+#         self.toolbar_missing_time_flag.setStyleSheet(css_string) 
+            
+        
         css_string = ""      
+        css_string2 = "QToolButton {height:1px;}"      
         
         #enable/disable items in cell toolbar 
         if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
@@ -241,7 +259,7 @@ class BarCellActions():
                 if cell != None and dstore.Get("port")["opened"]:
                    
                     #get info
-                    info = cell.GetInfo()
+                    info = cell.GetInfo()                                    
                                          
                     # PING, set bold if cell active
                     if info['active']:                    
@@ -256,7 +274,13 @@ class BarCellActions():
                         font.setBold(False)
                         font.setUnderline(False)
                         cell_actions['ping_cell'].setFont(font)
-                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"                                                                                                                                                
+                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"
+                                                                                                                                                                        
+                    # MISSING TIME FLAG, set bold if cell active
+                    if info['missing_time_flag']:                        
+                        css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"                                                                      
+                    else:
+                        css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"
                     
                     # enable/disable all actions
                     if(info['trigger'] == 3): #MANUAL
@@ -274,6 +298,7 @@ class BarCellActions():
                     font.setBold(False)
                     font.setUnderline(False)
                     cell_actions['ping_cell'].setFont(font)
+                    css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ width: 31px;}"                    
                     for key, action in cell_actions.items(): 
                         action.setEnabled(False)
                  
@@ -303,14 +328,12 @@ class BarCellActions():
                 font.setBold(False)
                 font.setUnderline(False)
                 self.auto_enable.setFont(font)
-                
-
-                   
-            
+                                               
             #background to the toolbars
             hw_status = self.GetHwStatus()   
             app_status = self.GetAppStatus()                      
-            self.toolbar_ping.setStyleSheet(css_string) #cell enabled => green, bold
+            self.toolbar_ping.setStyleSheet(css_string)  #cell enabled => green, bold            
+            self.toolbar_missing_time_flag.setStyleSheet(css_string2) #cell missing time flag => green, bold
             #self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
             #self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
             

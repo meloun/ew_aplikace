@@ -10,6 +10,8 @@ from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.gui.Ui import Ui
 from ewitis.data.dstore import dstore
 from ewitis.data.DEF_ENUM_STRINGS import *
+import datetime
+import ewitis.gui.TimesUtils as TimesUtils
 
 
 class TabDevice():
@@ -28,6 +30,7 @@ class TabDevice():
         QtCore.QObject.connect(Ui().pushSpeakerSystem, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("system"))
         QtCore.QObject.connect(Ui().pushSpeakerTiming, QtCore.SIGNAL("clicked()"), lambda: self.sTerminalSpeaker("timing"))                 
         QtCore.QObject.connect(Ui().pushSynchronizeSystem, QtCore.SIGNAL("clicked()"),lambda: dstore.Set("synchronize_system", 0, "SET"))                                   
+        QtCore.QObject.connect(Ui().pushCurrentDatetime, QtCore.SIGNAL("clicked()"), self.sCurrentDatetime)        
                                                  
     def sTerminalSpeaker(self, key):
         
@@ -39,6 +42,28 @@ class TabDevice():
 
         '''reset GET hodnoty'''                
         dstore.ResetValue("terminal_info", ['speaker', key])                                                          
+        self.Update()
+        
+    def sCurrentDatetime(self):
+        #print "sCurrentDatetime"
+        
+        '''získání a nastavení nové SET hodnoty'''
+        aux_dt = datetime.datetime.now()
+
+        aux_datetime = {}                   
+        aux_datetime["second"] = aux_dt.second  
+        aux_datetime["minute"] = aux_dt.minute
+        aux_datetime["hour"] = aux_dt.hour  
+        aux_datetime["day"] = aux_dt.day
+        aux_datetime["month"] = aux_dt.month
+        aux_datetime["year"] = aux_dt.year - 2000
+        aux_datetime["dayweek"] = aux_dt.weekday() + 1
+        
+        #print aux_datetime                 
+        dstore.Set("datetime", aux_datetime, "SET")
+
+        '''reset GET hodnoty'''                
+        #dstore.ResetValue("datetime")                                                          
         self.Update()
         
     def GetStatus(self):
@@ -63,6 +88,10 @@ class TabDevice():
             Ui().lineFwVersion.setText(str(aux_versions['fw']))  
         else:
             Ui().lineFwVersion.setText("- -") 
+          
+        aux_datetime = dstore.Get("race_time")  
+        Ui().lineDatetime.setText(TimesUtils.TimesUtils.time2timestring(aux_datetime, including_days = True))
+        
         
         
         

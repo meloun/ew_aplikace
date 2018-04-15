@@ -327,14 +327,14 @@ class CellGroup ():
             self.lineCellTimesBB.setText(str(get_info["times_bb"]))            
         else:
             self.lineCellTimesBB.setText(" - - ")                    
-        self.lineCellTimesBB.setStyleSheet("background:"+COLORS.GetColor(get_info["times_bb"], colors_enabled))
+        self.lineCellTimesBB.setStyleSheet("background:"+COLORS.GetColor(get_info["times_cell"] == get_info["times_bb"], colors_enabled))
                                
         #times cell
         if get_info["times_cell"] != None:                                
             self.lineCellTimesCell.setText(str(get_info["times_cell"]))            
         else:
-            self.lineCellTimesCell.setText(" - - ")                    
-        self.lineCellTimesCell.setStyleSheet("background:"+COLORS.GetColor(get_info["times_cell"], colors_enabled))                       
+            self.lineCellTimesCell.setText(" - - ")                                
+        self.lineCellTimesCell.setStyleSheet("background:"+COLORS.GetColor(get_info["times_cell"] == get_info["times_bb"], colors_enabled))                       
         
         #diagnostic shork ok
         if(get_info['diagnostic_short_ok'] != None):                                    

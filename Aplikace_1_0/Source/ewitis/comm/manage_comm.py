@@ -39,8 +39,8 @@ class ManageComm(Thread):
         #set start download indexes
         self.index_runs = 0
         self.index_times = 0
-        self.no_new_times = 0
-        self.no_new_runs = 0
+        #self.no_new_times = 0
+        #self.no_new_runs = 0
 #         if(dstore.Get("download_from_last") == 2):      
 #             if(dstore.Get("count")['Runs'] - 1) > 0:          
 #                 self.index_runs = dstore.Get("count")['Runs'] - 1
@@ -101,7 +101,8 @@ class ManageComm(Thread):
             #if(dstore.Get("diagnostic")["log_cyclic"] == 2) or (DEF_COMMANDS.IsCyclic(command_key)== False):
             if diagnostic:
                 dstore.AddDiagnostic(command, "", 'red', command_key+": SerialException")
-
+        #except:
+        #    print "E:SendReceiveError - probably other command requested"
 
         return data
     
@@ -278,6 +279,7 @@ class ManageComm(Thread):
                         dstore.SetItem("cells_info", [nr, "ir_signal"], co["ir_signal"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
+                        dstore.SetItem("cells_info", [nr, "missing_time_flag"], co["missing_time_flag"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
 
     
@@ -362,7 +364,7 @@ class ManageComm(Thread):
             print "I: Comm: clearing database, please wait.. "
             time.sleep(21)
             self.index_times = 0
-            self.index_run = 0
+            self.index_runs = 0
             dstore.ResetChangedFlag("clear_database")
             print "I: Comm: database should be empty now"
             
@@ -487,7 +489,13 @@ class ManageComm(Thread):
         if(dstore.IsChanged("speaker")):                                                                                                
             aux_speaker = dstore.Get("speaker", "SET")                                                                                                                              
             ret = self.send_receive_frame("SET_SPEAKER", aux_speaker)
-            dstore.ResetChangedFlag("speaker")                                                                                                                                                                                                
+            dstore.ResetChangedFlag("speaker")
+                                                                                                                                                                                                            
+        """ set datetime """
+        if(dstore.IsChanged("datetime")):                                                                                                
+            aux_datetime = dstore.Get("datetime", "SET")                                                                                                                              
+            ret = self.send_receive_frame("SET_DATETIME", aux_datetime)
+            dstore.ResetChangedFlag("datetime")                                                                                                                                                                                                
 
         """ set timing settings """                
         if(dstore.IsChanged("timing_settings")):                    
@@ -564,7 +572,7 @@ class ManageComm(Thread):
             self.index_runs += 1 # done, take next
             if dstore.Get("current_run") == 0:
                 dstore.Set("current_run", aux_run["id"])                                                                                                        
-        else:
+        else:            
             pass # no new run                        
     
     """

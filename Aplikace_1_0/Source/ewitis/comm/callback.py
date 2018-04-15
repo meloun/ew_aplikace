@@ -191,6 +191,7 @@ def unpack_data(command, data, senddata):
             aux_cell['ir_signal'] = bool(cell_flags & 0x01)
             aux_cell['synchronized_once'] = bool(cell_flags & 0x02)
             aux_cell['synchronized'] = bool(cell_flags & 0x04)
+            aux_cell['missing_time_flag'] = (cell_flags >> 3) & 0x03
             aux_cell['active'] = bool(cell_flags & 0x80)
 
             aux_cell_overview[i] = aux_cell
@@ -214,6 +215,8 @@ def unpack_data(command, data, senddata):
         
         
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]["cmd"] | 0x80)):
+        return data
+    elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_DATETIME"]["cmd"] | 0x80)):
         return data
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]["cmd"] | 0x80)):
         return data
@@ -269,9 +272,14 @@ def pack_data(command_key, data):
     if(command == DEF_COMMANDS.DEF_COMMANDS["SET_SPEAKER"]['cmd']):
         # SET SPEAKER
         aux_data = struct.pack('BBB',int(data["keys"]), int(data["timing"]), int(data["system"]))
+        
+    elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_DATETIME"]['cmd']):
+        # SET DATETIME        
+        aux_data = struct.pack('BBBBBBB', data["second"], data["minute"], data["hour"], data["dayweek"], data["day"], data["month"], data["year"])
 
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_TIMING_SETTINGS"]['cmd']):
         # SET TIMING SETTINGS
+        print "TS:", data
         aux_data = struct.pack('<BBBhB', data['logic_mode'], data['times_download_mode'], data['autoenable_cell'],\
                                data['autoenable_bb'], data['autorequest_missingtimes'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["SET_CELL_INFO"]['cmd']):

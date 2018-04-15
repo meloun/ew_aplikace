@@ -235,8 +235,7 @@ class SerialProtocol():
             
             '''receive answer'''
             try:                                 
-                aux_frame = self.receive_frame()
-                #aux_frame = self.receive_frame_old()
+                aux_frame = self.receive_frame()                
                 if(aux_frame['seq_id'] != self.seq_id):                                        
                     raise SendReceiveError(1, "no match sequence ids")
                 
