@@ -66,6 +66,7 @@ class DfModelUsers(DataframeTableModel):
         
         #update db from mydict
         db.update_from_dict(self.name, mydict)
+        return True
         
     def getDefaultRow(self):
         """

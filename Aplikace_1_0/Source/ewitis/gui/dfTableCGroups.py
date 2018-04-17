@@ -36,6 +36,7 @@ class DfModelCGroups(DataframeTableModel):
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name
         db.update_from_dict(self.name, mydict)
+        return True
         
     def getDefaultRow(self):
         """
