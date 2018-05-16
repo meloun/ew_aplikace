@@ -43,7 +43,7 @@ Filter dataframe
 """
 def FilterEmptyColumns(df, columns):
          
-    columns = [x for x in columns if x in df.columns]       
+    columns = [x for x in columns if x in df.columns]  
     
     if(len(columns) == 1):                
         df =  df[df[columns[0]] != ""]
@@ -51,7 +51,11 @@ def FilterEmptyColumns(df, columns):
         
     elif(len(columns) == 2):
         df =  df[(df[columns[0]] != "") | (df[columns[1]] != "")]
-        df =  df[(df[columns[0]] != None) | (df[columns[1]] != None)]
+        print "---------------1-------------"
+        print df.head()
+        df =  df[(df[columns[0]].notnull()) | (df[columns[1]].notnull())]
+        print "---------------2-------------"
+        print df.head()
         
     return df
 

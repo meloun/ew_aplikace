@@ -647,6 +647,27 @@ class ManageCalcProcess():
                                    
         return time
     
+    def GetNext(self, dbTime, filter = None, df = None, nr = -1):        
+        
+        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):                                    
+            return None
+        
+        # user and previoustime filter                
+        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw > dbTime['time_raw'])]                     
+        
+        #filter        
+        df =  df_utils.Filter(df, filter)                                       
+        
+        #group                
+        try:            
+            #time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
+            time = df.iloc[nr]
+            time = dict(time)                        
+        except:                                    
+            time = None                    
+                                   
+        return time
+    
     
     
     
@@ -808,10 +829,10 @@ class ManageCalcProcess():
                         print "type error celltime: ", rule, "time id:", joinTime["id"]         
                         return None
 
-        # prevI-timeX
+        # prevYtimeX
         for prev_i in range(1, 4):
             for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
-                previoustimeX = "prev"+str(prev_i)+"-time" + str(i)
+                previoustimeX = "prev"+str(prev_i)+"time" + str(i)
                 if previoustimeX in rule:                    
                     try:  
                         time = self.GetPrevious(joinTime, {}, df, prev_i * -1)                        
@@ -823,14 +844,60 @@ class ManageCalcProcess():
                         return None                    
     
         # previoustime                
-        if ("previoustime" in rule) or ("prev-time" in rule):                              
+        if ("previoustime" in rule) or ("prevtime" in rule):                              
             try:  
                 time = self.GetPrevious(joinTime, {}, df)
                 if(time == None):
                     return None                
                 expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
+                expression_string = expression_string.replace("prevtime", str(time['time_raw']))
             except TypeError:       
                 print "type error previoustime"         
+                return None
+                # prevI-timeX
+                
+        # previous2time                        
+        if ("previous2time" in rule) or ("prev2time" in rule):                              
+            try:  
+                time = self.GetPrevious(joinTime, {}, df, -2)
+                if(time == None):
+                    return None                
+                expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
+            except TypeError:       
+                print "type error previoustime"         
+                return None                
+        # nextYtimeX        
+        for next_i in range(1, 4):
+            for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
+                nexttimeX = "next"+str(prev_i)+"time" + str(i)
+                if nexttimeX in rule:                                        
+                    try:  
+                        time = self.Next(joinTime, {}, df, next_i * -1)                        
+                        if(time == None):
+                            return None                     
+                        expression_string = expression_string.replace(nexttimeX, str(time['time'+str(i)]))                           
+                    except TypeError:       
+                        print "type error", nexttimeX         
+                        return None 
+        # nexttime                
+        if ("nexttime" in rule):                              
+            try:                
+                time = self.GetNext(joinTime, {}, df, 0)                
+                if(time == None):                                                                            
+                    return None                                    
+                expression_string = expression_string.replace("nexttime", str(time['time_raw']))                                       
+            except TypeError:       
+                print "type error nexttime"         
+                return None
+        # next2time                
+        if ("next2time" in rule):                              
+            try:                  
+                time = self.GetNext(joinTime, {}, df, 1)                
+                if(time == None):                                                                            
+                    return None                                    
+                expression_string = expression_string.replace("next2time", str(time['time_raw']))                                       
+            except TypeError:       
+                print "type error nexttime"         
                 return None
                 
         # STARTTIME    
@@ -841,7 +908,7 @@ class ManageCalcProcess():
             if starttime == None:
                 return None
                         
-            expression_string = rule.replace("starttime", str(starttime['time_raw']))                                                   
+            expression_string = expression_string.replace("starttime", str(starttime['time_raw']))                                                   
                
         # TIME1-TIME3                                                        
         expression_string = expression_string.replace("time1", str(joinTime['time1']))       

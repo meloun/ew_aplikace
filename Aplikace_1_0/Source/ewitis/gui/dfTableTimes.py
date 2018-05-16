@@ -574,10 +574,11 @@ class DfTableTimes(DfTable):
                         self.gui['auto_number'+str(i+1)].setEnabled(True)
                     else:
                         self.gui['auto_number'+str(i+1)].setEnabled(False)
-                    
+
         #set autonumbers value  
         for i in range(0, NUMBER_OF.AUTO_NUMBER):  
-            if self.gui['auto_number'+str(i+1)].hasFocus() == False:                                                                               
+            #if self.gui['auto_number'+str(i+1)].hasFocus() == False:                                                                               
+            if self.gui['auto_number'+str(i+1)].text() != '':                                                                               
                 self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])

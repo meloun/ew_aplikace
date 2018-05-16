@@ -640,6 +640,27 @@ class ManageCalcProcess():
                                    
         return time
     
+    def GetNext(self, dbTime, filter = None, df = None, nr = -1):        
+        
+        if(dbTime['user_id'] == 0) or (dbTime['user_id'] == None):                                    
+            return None
+        
+        # user and previoustime filter                
+        df = df[(df.user_id==dbTime['user_id'])  & (df.time_raw >= dbTime['time_raw'])]                     
+        
+        #filter        
+        df =  df_utils.Filter(df, filter)                                       
+        
+        #group        
+        try:            
+            #time = df[df.time_raw < dbTime['time_raw']].iloc[nr]                
+            time = df.iloc[nr]
+            time = dict(time)                        
+        except:                                    
+            time = None                    
+                                   
+        return time
+    
     
     
     
@@ -786,6 +807,19 @@ class ManageCalcProcess():
             except TypeError:       
                 print "type error previoustime"         
                 return None
+        # nexttime                
+        if ("nextcas" in rule) or ("next-time" in rule):                              
+            try:  
+                print "nextcas"
+                time = self.GetNext(joinTime, {}, df)
+                if(time == None):
+                    return None
+                print "nahrazuji"                
+                expression_string = expression_string.replace("nextcas", str(time['time_raw']))
+                print "nahrazeno", expression_string                           
+            except TypeError:       
+                print "type error nexttime"         
+                return None
                 
         # STARTTIME    
         #user without number => no time
@@ -813,7 +847,7 @@ class ManageCalcProcess():
         try:            
             points = eval(expression_string)        
         except (SyntaxError, TypeError, NameError):
-            print "I: invalid string for evaluation", expression_string, rule            
+            #print "I: invalid string for evaluation", expression_string, rule            
             return None        
         
         #restrict final value               

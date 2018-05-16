@@ -74,6 +74,8 @@ class DfModelUsers(DataframeTableModel):
         """ 
         row = DataframeTableModel.getDefaultRow(self)
         row["category_id"] = 1        
+        row["name"] = ""
+        row["first_name"] = ""
         return row
     
     def getUserParNr(self, nr):        
