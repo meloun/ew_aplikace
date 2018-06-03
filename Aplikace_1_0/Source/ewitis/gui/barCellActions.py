@@ -163,12 +163,12 @@ class BarCellActions():
         dstore.Set("quit_timing", 0x00, "SET")
          
     def sClearDatabase(self):
-        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database?\n It will take 20 seconds.\n ", msgtype = MSGTYPE.warning_dialog) != True):            
+        if (uiAccesories.showMessage("Clear Database", "Are you sure you want to clear all database?\n It will take 30 seconds.\n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return
         
         self.sBackupDatabase("_ClearDb")
                 
-        uiAccesories.showMessage("Clear Database", "clearing database, please wait.. it will take 20 seconds.", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
+        uiAccesories.showMessage("Clear Database", "clearing database, please wait.. it will take 30 seconds.", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
         dstore.Set("clear_database", 0x00, "SET")
         self.clear_database_changed = True
 

@@ -358,8 +358,16 @@ class DfTableTimes(DfTable):
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
         
     def Init(self):
+        
         DfTable.Init(self)
+        
+        #set sort rules
         self.gui['view'].sortByColumn(27, QtCore.Qt.DescendingOrder) 
+        
+        # stop dynamic filtering (after setting sort rules)
+        # because of filter issue and "has stopped working" error        
+        self.proxy_model.setDynamicSortFilter(False)
+        
         self.UpdateGui()
         
     def sDeletePreCallback(self, id):        

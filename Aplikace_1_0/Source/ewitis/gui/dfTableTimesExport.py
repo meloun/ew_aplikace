@@ -20,7 +20,7 @@ import libs.timeutils.timeutils as timeutils
 import ewitis.exports.ewitis_html as ew_html
 
 
-(eCSV_EXPORT, eCSV_EXPORT_DNF, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
+(eCSV_EXPORT, eCSV_EXPORT_DNS, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
     
 '''
  F11, F12 - final results
@@ -100,8 +100,8 @@ def Export(utDf, export_type = eCSV_EXPORT):
             ConvertToInt(aux_df)
             #print "PO",i, aux_df.head(2), aux_df.dtypes
             
-            #add missing users with DNF status
-            if export_type == eCSV_EXPORT_DNF:                
+            #add missing users with DNS status
+            if export_type == eCSV_EXPORT_DNS:                
                 aux_df = AddMissingUsers(aux_df)                                        
                 #beautify once again
                 aux_df = aux_df.where(pd.notnull(aux_df), None)
@@ -112,7 +112,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
     
     #export complete/ category and group results from export DFs        
     exported = {}
-    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNF):
+    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
         exported = ExportToCsvFiles(exportDf)
         exported.update(ExportToSmsFiles(exportDf))           
     elif (export_type == eHTM_EXPORT) or (export_type == eHTM_EXPORT_LOGO):
@@ -481,7 +481,7 @@ def AddMissingUsers(tDf):
                         
     # add "DNF" to timeX (and also timeraw)
     for c in [s for s in tDf.columns if "time" in s]:
-        df_dnf_users[c] = "DNF"
+        df_dnf_users[c] = "DNS"
     
     # add 0 to pointX
     for c in [s for s in tDf.columns if "point" in s]:

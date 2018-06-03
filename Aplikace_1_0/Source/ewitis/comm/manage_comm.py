@@ -362,7 +362,7 @@ class ManageComm(Thread):
         if(dstore.IsChanged("clear_database")):                                                                                     
             ret = self.send_receive_frame("CLEAR_DATABASE")
             print "I: Comm: clearing database, please wait.. "
-            time.sleep(21)
+            time.sleep(30)
             self.index_times = 0
             self.index_runs = 0
             dstore.ResetChangedFlag("clear_database")
