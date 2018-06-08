@@ -83,15 +83,15 @@ def Export(utDf, export_type = eCSV_EXPORT):
                 aux_df[ordercatX] = aux_df[orderX].astype(float).map('{:,g}'.format)+"./"+aux_df.category
                                                 
 #             #get winner and compute GAPs                       
-#             for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-#                 gapX = 'gap'+str(nr+1)
-#                 lapX = 'lap'+str(nr+1)
-#                 timeX = 'time'+str(nr+1)
-#                 winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
-#                 if (lapX in winnerX) and (timeX in winnerX):                    
-#                     aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
-#                 else:
-#                     aux_df[gapX] = None
+            for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
+                gapX = 'gap'+str(nr+1)
+                lapX = 'lap'+str(nr+1)
+                timeX = 'time'+str(nr+1)
+                winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+                if (lapX in winnerX) and (timeX in winnerX):                    
+                    aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+                else:
+                    aux_df[gapX] = None
             #lapsexport
             if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):                       
                 aux_df = ToLapsExport(aux_df)
@@ -101,7 +101,8 @@ def Export(utDf, export_type = eCSV_EXPORT):
             #print "PO",i, aux_df.head(2), aux_df.dtypes
             
             #add missing users with DNS status
-            if export_type == eCSV_EXPORT_DNS:                
+            if export_type == eCSV_EXPORT_DNS:
+                #print "==========================AddMissingUsers", i                
                 aux_df = AddMissingUsers(aux_df)                                        
                 #beautify once again
                 aux_df = aux_df.where(pd.notnull(aux_df), None)
@@ -113,8 +114,15 @@ def Export(utDf, export_type = eCSV_EXPORT):
     #export complete/ category and group results from export DFs        
     exported = {}
     if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
-        exported = ExportToCsvFiles(exportDf)
-        exported.update(ExportToSmsFiles(exportDf))           
+        #get dirname
+        racename = dstore.GetItem("racesettings-app", ['race_name'])     
+        dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")        
+        try:
+            os.makedirs(dirname)
+        except WindowsError:
+            pass                                                                                      
+        exported = ExportToCsvFiles(exportDf, dirname)
+        exported.update(ExportToSmsFiles(exportDf, dirname))           
     elif (export_type == eHTM_EXPORT) or (export_type == eHTM_EXPORT_LOGO):
         exported = ExportToHtmFiles(exportDf, export_type)    
     else:
@@ -126,17 +134,17 @@ def Export(utDf, export_type = eCSV_EXPORT):
 ExportToSmsFiles
 - prepare text and call ExportToCsvFile()
 '''
-def ExportToSmsFiles(dfs):
+def ExportToSmsFiles(dfs, dirname):
    
     exported = {}
    
-    #get dirname
+#     #get dirname
     racename = dstore.GetItem("racesettings-app", ['race_name'])     
-    dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
-    try:
-        os.makedirs(dirname)
-    except WindowsError:
-        pass                                                                                      
+#     dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+#     try:
+#         os.makedirs(dirname)
+#     except WindowsError:
+#         pass                                                                                      
             
     for i in range(0, NUMBER_OF.EXPORTS):
         
@@ -200,7 +208,7 @@ ExportToCsvFiles
 - prepare header and df and call ExportToCsvFile()
 '''
 # def ExportToCsvFiles(self, df, i):
-def ExportToCsvFiles(dfs):               
+def ExportToCsvFiles(dfs, dirname):               
     
     #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
     #if ret == False: #cancel button
@@ -211,8 +219,9 @@ def ExportToCsvFiles(dfs):
     
     #get dirname
     racename = dstore.GetItem("racesettings-app", ['race_name'])      
-    dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
-    os.makedirs(dirname)                                                                                       
+    #dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
+    #print "DN", dirname
+    #os.makedirs(dirname)                                                                                       
             
     for i in range(0, NUMBER_OF.EXPORTS): 
         
@@ -240,11 +249,12 @@ def ExportToCsvFiles(dfs):
         if "total" in filtersort["type"]:
             #print i, "TOTAL"
             if(len(df) != 0):
-                
+                #df = AddOrderToMissingUsers(df)                 
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
                     #print df.columns
-                    df = AddGap(df, nr)
+                    #df = AddGap(df, nr)
+                    pass
                     #print df[["nr","gap1"]]
                     #print "================"
                     
@@ -259,7 +269,8 @@ def ExportToCsvFiles(dfs):
             c_df = dfs[i]           
             c_df = c_df.set_index("category", drop = False)
             category_groupby = c_df.groupby(c_df.index)
-            for c_name, c_df in category_groupby:                
+            for c_name, c_df in category_groupby:
+                c_df = AddOrderToMissingUsers(c_df)                
                 if(len(c_df) != 0):
                     
                     #get winner and compute GAPs                       
@@ -308,7 +319,7 @@ def AddGap(df, nr):
     winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0]     
     df = df.copy()  #SettingWithCopyWarning
     if (lapX in winnerX) and (timeX in winnerX):                   
-        df[gapX] =  df.apply(lambda row: GetGap(row, row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+        df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
     else:
         df[gapX] = None
     return df 
@@ -400,13 +411,15 @@ def ExportToHtmFile(filename, df, css_filename = "", js_filename = "", title = "
     html_page = ew_html.Page_table(filename, title, styles= [css_filename,], scripts=[js_filename],lists = df.values, keys = df.columns)                                                                            
     html_page.save()                                                                                                         
                     
-def GetGap(row, time, lap, winner_time, winner_lap):
+def GetGap(time, lap, winner_time, winner_lap):
     
     #print time, lap,winner_time,winner_lap
     gap = None
     if(winner_lap != None and winner_time != None and time!=0 and time!=None):
         if time=="DNF":
             gap = "DNF"
+        elif time=="DNS":
+            gap = "DNS"
         elif winner_lap == lap:                                       
             gap = TimesUtils.TimesUtils.times_difference(time, winner_time)
         elif (lap != "") and (lap !=None):                                    
@@ -497,13 +510,46 @@ def AddMissingUsers(tDf):
         
     # order = lastorder + 1 (for all DNF users same order)
     for c in [s for s in tDf.columns if "order" in s]:
-        try:
-            last_order = tDf.iloc[-1][c]  
-            df_dnf_users[c] = int(last_order) + 1
-        except (ValueError, IndexError):
-            pass                                 
+        #print  "A======", df_dnf_users.iloc[0]
+        df_dnf_users[c] = int(0)
+        #print  "B======", df_dnf_users.iloc[0]
+#         try:
+#             last_order = tDf.iloc[-1][c]  
+#             df_dnf_users[c] = int(last_order) + 1
+#         except (ValueError, IndexError):
+#             pass 
+    #print "=================", df_dnf_users                                    
     tDf = tDf.append(df_dnf_users)
-    return tDf      
+    return tDf 
+
+"""
+Add users to dataframe
+"""
+def AddOrderToMissingUsers(tDf):
+    # order = lastorder + 1 (for all DNF users same order)
+    retDf = tDf.copy()
+    #print  "JEDNA============="
+    #print retDf["order1"]
+    #print  "DVA============="
+    #print  retDf.iloc[-1].order1, type(retDf.iloc[-1].order1)
+    #print  retDf.iloc[-4].order1, type(retDf.iloc[-4].order1)
+    #[retDf.order1 == 0]
+    for c in [s for s in retDf.columns if "order" in s]:        
+        try:
+            #print "1===============================", c            
+            #print "vsechny",  len (retDf.index)
+            #print "nenulove", len (retDf[retDf[c] != 0])
+            #print "nulove", len(retDf[retDf[c].str.match("0")])
+            #print retDf[retDf[c] !="0"]
+            last_order = retDf[retDf[c] != "0"].iloc[-1][c]
+            #print "LOR",c, retDf[retDf[c] != "0"].iloc[-1]
+            #print "LO", last_order            
+            retDf.loc[retDf[c] == "0",c] = int(last_order) + 1
+            #print "ONE DF", retDf[c]
+        except (ValueError, IndexError):
+            pass                                          
+    return retDf 
+         
 def DNF_workarround(df):
     if(dstore.GetItem("racesettings-app", ['rfid']) == 0):
         if "time1" in df:
@@ -516,7 +562,7 @@ def DNF_workarround(df):
             if(dstore.GetItem("additional_info", ["time", 1, "minute_timeformat"])):
                 df.time2[df.time2>"30:00,00"] = "DNF"
             else:
-                df.time2[df.time2>"00:30:00,00"] = "DNF" 
+                df.time2[df.time2>"00:30:00,00"] = "DNF"
                      
         if "time3" in df:
             if(dstore.GetItem("additional_info", ["time", 2, "minute_timeformat"])):

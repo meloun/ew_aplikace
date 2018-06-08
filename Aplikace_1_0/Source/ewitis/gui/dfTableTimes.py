@@ -308,7 +308,7 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
         self.myclass = None 
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
-        self.setDynamicSortFilter(True)
+        self.setDynamicSortFilter(True)                
 
         #This property holds the column where the key used to filter the contents of the source model is read from.
         #The default value is 0. If the value is -1, the keys will be read from all columns.                
@@ -326,8 +326,7 @@ class DfTableTimes(DfTable):
     (eCSV_EXPORT, eCSV_EXPORT_DNF, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
     
     def  __init__(self):        
-        DfTable.__init__(self, "Times")        
-        self.i = 1  
+        DfTable.__init__(self, "Times")                
         
     def InitGui(self):
         DfTable.InitGui(self)          
@@ -363,11 +362,7 @@ class DfTableTimes(DfTable):
         
         #set sort rules
         self.gui['view'].sortByColumn(27, QtCore.Qt.DescendingOrder) 
-        
-        # stop dynamic filtering (after setting sort rules)
-        # because of filter issue and "has stopped working" error        
-        self.proxy_model.setDynamicSortFilter(False)
-        
+
         self.UpdateGui()
         
     def sDeletePreCallback(self, id):        
@@ -613,17 +608,19 @@ class DfTableTimes(DfTable):
        
     def Update(self):                                                           
                                                                                         
-        ret = DfTable.Update(self)
+        # stop dynamic filtering if no children
+        # because of filter issue and "has stopped working" error            
+        self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())                    
+        ret = DfTable.Update(self)      
+                
+        #update gui            
         self.UpdateGui()
                 
 #         # po F5 edituje číslo u prvniho radku
 #         myindex = self.proxy_model.index(0,1)
 #         print myindex, type(myindex), myindex.column(), myindex.row()
 #         if(myindex.isValid() == True):            
-#             self.gui['view'].edit(myindex)
-                 
-   
-        #self.UpdateGui()
+#             self.gui['view'].edit(myindex)                 
                                               
         return ret
                   

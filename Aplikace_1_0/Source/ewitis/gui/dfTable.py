@@ -452,8 +452,10 @@ class DfTable():
                         
         #ztime = time.clock()                                            
         
+        #self.proxy_model.setDynamicSortFilter(False)
         #update model
         self.model.Update()
+        #self.proxy_model.setDynamicSortFilter(True)
         
         
         #resize collumns to contents        

@@ -98,9 +98,9 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
     def Update(self):   
         
         
-        ztime = time.clock()    
+        ztime = time.clock()                               
         self.layoutAboutToBeChanged.emit()        
-        self.df = self.GetDataframe()                              
+        self.df = self.GetDataframe()                                      
         self.layoutChanged.emit()
         #@print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
      

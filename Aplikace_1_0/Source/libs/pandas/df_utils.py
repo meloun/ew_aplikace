@@ -51,11 +51,11 @@ def FilterEmptyColumns(df, columns):
         
     elif(len(columns) == 2):
         df =  df[(df[columns[0]] != "") | (df[columns[1]] != "")]
-        print "---------------1-------------"
-        print df.head()
+        #print "---------------1-------------"
+        #print df.head()
         df =  df[(df[columns[0]].notnull()) | (df[columns[1]].notnull())]
-        print "---------------2-------------"
-        print df.head()
+        #print "---------------2-------------"
+        #print df.head()
         
     return df
 
