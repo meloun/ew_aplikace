@@ -25,18 +25,19 @@ def Update(df, new_time):
         #get position of new time (first from defined list)
         try:
             cell_position = cells.index(new_time["cell"])
-            #print "tp:", time_position            
+            #­print "cp:", cell_position            
         except ValueError:
             continue
                   
-        # get starttime 
-        starttime = GetStartime(df, number)
+        # get starttime         
+        #starttime = GetStartime2(df, number) #bug cell 2,250
+        starttime = GetLasttime(df, number, cells[0])        
         
         if starttime != None:                                    
             sequence_times = df[(df.nr==number)  & (df.id >= starttime['id'])]
             sequence_cells = list(sequence_times.cell)
         else:
-            sequence_cells = [] 
+            sequence_cells = []         
 
         if (
                 (new_time["cell"]) == 1 and (sequence_cells ==  cells[:nr_cells]) or
@@ -62,6 +63,19 @@ def GetStartime(df, nr):
     
     try:      
         starttime = df[(df.nr==nr) & (df.cell ==1)].iloc[-1]
+        starttime = dict(starttime)
+    except IndexError, AttributeError:
+        starttime = None
+    
+    return starttime
+
+def GetLasttime(df, nr, cell):
+    
+    if df.empty:
+        return None
+    
+    try:              
+        starttime = df[(df.nr==nr) & (df.cell == int(cell))].iloc[-1]
         starttime = dict(starttime)
     except IndexError, AttributeError:
         starttime = None
