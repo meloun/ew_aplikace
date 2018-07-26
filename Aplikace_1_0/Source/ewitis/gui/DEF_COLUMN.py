@@ -31,7 +31,7 @@ TIMES = {}
 
 """ table collumn for times, mode race """
 TIMES['table'] =   {
-                           "id"           : {"index": 0,  "name": "id",         "name_cz": u"id",       "type":"number",    "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":False  },
+                           "id"           : {"index": 0,  "name": "id",         "name_cz": u"id",       "type":"number",    "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":False  },                           
                            "nr"           : {"index": 1,  "name": "nr",         "name_cz": u"Číslo",    "type":"number",    "default": 0,           "width": WIDTH_NUMBER_4DIGIT,    "write":True  },
                            "cell"         : {"index": 2,  "name": "cell",       "name_cz": u"Buňka",                        "default": 250,         "width": 35,                     "write":True  },
                            "status"       : {"index": 3,  "name": "status",     "name_cz": u"Status",                       "default": "race",      "width": 60,                     "write":True  },                           
@@ -58,8 +58,9 @@ TIMES['table'] =   {
                            "un2"          : {"index": 24, "name": "un2",        "name_cz": u"un2",                          "default": "",          "width": WIDTH_NUMBER_3DIGIT,    "write":True  },                                                                                                     
                            "un3"          : {"index": 25, "name": "un3",        "name_cz": u"un3",                          "default": "",          "width": WIDTH_NUMBER_3DIGIT,    "write":True  },                                                                                                     
                            "us1"          : {"index": 26, "name": "us1",        "name_cz": u"us1",                          "default": "",          "width": 80,                     "write":True  },                                                                                                     
+                           "state"        : {"index": 27, "name": "state",      "name_cz": u"state",                        "default": "",          "width": 80,                     "write":False },
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"      : {"index": 27, "name": "timeraw",      "name_cz": u"Čas Raw",                    "default": 161,         "width": 100,                    "write":True  },                        
+                           "timeraw"      : {"index": 28, "name": "timeraw",      "name_cz": u"Čas Raw",                    "default": 161,         "width": 100,                    "write":True  },                        
                         
                         }
 """

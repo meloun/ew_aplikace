@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'tableView.ui'
 #
-# Created: Tue Jul 28 21:29:14 2015
+# Created: Wed Jun 27 19:50:42 2018
 #      by: PyQt4 UI code generator 4.11.1
 #
 # WARNING! All changes made in this file will be lost!

@@ -111,7 +111,8 @@ class DfModelTimes(DataframeTableModel):
         
                                                             
     def GetDataframe(self):
-        df = mgr.GetDfs()["table"]        
+        df = mgr.GetDfs()["table"]
+        #print df.columns        
                 
         if eventCalcReady.is_set() == False:        
             for index, row in self.changed_rows.iterrows():
@@ -330,8 +331,8 @@ class DfTableTimes(DfTable):
         
     def InitGui(self):
         DfTable.InitGui(self)          
-              
-        self.gui['export_www'] = Ui().TimesWwwExport         
+                        
+        self.gui['civils_to_zeroes'] = Ui().TimesCivilsToZeroes        
         self.gui['recalculate'] = Ui().TimesRecalculate        
         self.gui['aWwwExportDirect'] = Ui().aWwwExportDirect
         self.gui['aWwwExportLogo'] = Ui().aWwwExportLogo
@@ -361,7 +362,7 @@ class DfTableTimes(DfTable):
         DfTable.Init(self)
         
         #set sort rules
-        self.gui['view'].sortByColumn(27, QtCore.Qt.DescendingOrder) 
+        self.gui['view'].sortByColumn(28, QtCore.Qt.DescendingOrder) 
 
         self.UpdateGui()
         
@@ -404,6 +405,7 @@ class DfTableTimes(DfTable):
         #QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:DfTable.sExport(self, DfTable.eDB, True))
         
         #button Recalculate
+        QtCore.QObject.connect(self.gui['civils_to_zeroes'], QtCore.SIGNAL("clicked()"), lambda:self.sCivilsToZeroes(dstore.Get("current_run")))
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(dstore.Get("current_run")))
         
          
@@ -418,6 +420,22 @@ class DfTableTimes(DfTable):
         
     def EditingFinished(self, x):
         print "self.EditingFinished", x
+        
+    def sCivilsToZeroes(self, run_id):
+        if (uiAccesories.showMessage("Civils to zeroes", "Are you sure you want to set civils numbers to zeroes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
+            return
+        print "A: Times: Civils to zeroes.. run id:", run_id
+        query = \
+                " UPDATE times" +\
+                    " SET user_id=0, time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null,  time4 = Null, lap4 = Null" +\
+                    " WHERE (times.user_id > 100000)"                    
+        res = db.query(query)                        
+                        
+        db.commit()
+        eventCalcNow.set()
+        print "A: Times: Civils to zeroes.. press F5 to finish"
+        return res
+    
     def sRecalculate(self, run_id):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
@@ -540,7 +558,13 @@ class DfTableTimes(DfTable):
             for update in updates:
                 user = tableUsers.model.getUserParNr(int(update['nr']))                                                                                   
                 if user != None:
-                    db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
+                                        
+                    #update user id in db
+                    if user["nr"] < 0:
+                        #for civils also write name to user string
+                        db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"], "us1":user["name"]})
+                    else:    
+                        db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
                     print "I: auto number: update:", update['nr'], "id:", update["id"]
                     eventCalcNow.set()
                     return True #only one number at once
@@ -581,7 +605,7 @@ class DfTableTimes(DfTable):
         #set autonumbers value  
         for i in range(0, NUMBER_OF.AUTO_NUMBER):  
             #if self.gui['auto_number'+str(i+1)].hasFocus() == False:                                                                               
-            if self.gui['auto_number'+str(i+1)].text() != '':                                                                               
+            if self.gui['auto_number'+str(i+1)].text() != '' and self.gui['auto_number'+str(i+1)].text() != '-':                                                                               
                 self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
@@ -610,7 +634,7 @@ class DfTableTimes(DfTable):
                                                                                         
         # stop dynamic filtering if no children
         # because of filter issue and "has stopped working" error            
-        self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())                    
+        #self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())                    
         ret = DfTable.Update(self)      
                 
         #update gui            

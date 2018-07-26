@@ -128,7 +128,8 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
                 ret_value = int((value.toString())) #bug in qt: http://pyqt.sourceforge.net/Docs/PyQt4/qvariant.html#toInt
             else:                
                 ret_value = value.toString()
-                
+            
+            #print "AA", id, header    
             ret =  self.setDataFromDict({'id':id, header: ret_value})
 
             if ret == True:                                                          
@@ -150,7 +151,7 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         if (role == QtCore.Qt.DisplayRole) or (role == QtCore.Qt.EditRole):
             i = index.row()
             j = index.column()
-            item = self.df.iget_value(i, j)            
+            item = self.df.iat[i, j]            
             
             if pd.notnull(item):            
                 if isinstance( item, numpy.int64 ):                                                        
@@ -158,6 +159,23 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
                 if isinstance( item, numpy.float64 ):                
                     item = float(item)                             
             return item
+#         elif (role == QtCore.Qt.BackgroundRole):
+#             try:               
+#                 'changed rawtime -> lila'            
+#                 if self.df.iloc[index.row()]['state'][0]== 'C' :
+#                     return QtGui.QColor(0xffff99)                          
+#                 'requested time -> yellow'            
+#                 if self.df.iloc[index.row()]['state'][1]== 'R' :
+#                     return QtGui.QColor(0xffccff)
+#                 'no number and no user string'
+#                 if self.df.iloc[index.row()]['nr']== 0 and self.df.iloc[index.row()]['us1'] == '':
+#                     return QtGui.QColor(0xffcc99)
+#                     
+#                     #return QtGui.QColor(0xffcc99)                                                  
+#             except:
+#                 
+#                 pass
+#             return QtCore.QVariant()
         else:            
             return QtCore.QVariant()
         
@@ -222,12 +240,12 @@ if __name__ == "__main__":
 
     
 
-    p = Pool(2)
-    print(p.apply_async(f, ["A"]))
-    print(p.apply_async(f, ["B"]))
-    while(1):
-        time.sleep(1)
-        print "Konexc"
+#     p = Pool(2)
+#     print(p.apply_async(f, ["A"]))
+#     print(p.apply_async(f, ["B"]))
+#     while(1):
+#         time.sleep(1)
+#         print "Konexc"
     
 
     

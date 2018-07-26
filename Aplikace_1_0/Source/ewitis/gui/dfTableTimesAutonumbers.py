@@ -19,14 +19,15 @@ def Update(df, new_time):
     for number in dstore.GetItem("times", ["auto_number"]):            
         """test if this user should be taken"""
 
-        if number == 0: #number not set
-            continue
+        #print "number", number
+        #if number == 0: #number not set
+        #    continue
         
         #get position of new time (first from defined list)
         try:
             cell_position = cells.index(new_time["cell"])
-            #­print "cp:", cell_position            
-        except ValueError:
+            #print "cp:", cell_position            
+        except ValueError:            
             continue
                   
         # get starttime         
@@ -36,7 +37,7 @@ def Update(df, new_time):
         if starttime != None:                                    
             sequence_times = df[(df.nr==number)  & (df.id >= starttime['id'])]
             sequence_cells = list(sequence_times.cell)
-        else:
+        else:            
             sequence_cells = []         
 
         if (

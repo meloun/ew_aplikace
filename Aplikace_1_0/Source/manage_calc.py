@@ -135,6 +135,7 @@ class ManageCalcProcess():
             
             #convert times to string format
             self.joinedDf = self.df2tableDf(self.joinedDf)
+            #print "#5", self.joinedDf
             
             #time.sleep(6)
             
@@ -143,14 +144,15 @@ class ManageCalcProcess():
             if self.joinedDf.empty:
                 dfs["table"] = pd.DataFrame()                
             else:                              
-                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]   
+                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]                   
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
                 self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "time4", "lap1", "lap2", "lap3", "lap4"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None, None]
-                #print self.joinedDf                                
+                                
+                #print "#6", self.joinedDf                                
                 #self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "lap1", "lap2", "lap3"]] = [0, "UNKNOWN user id: "+self.joinedDf[pd.isnull(self.joinedDf.nr)]["user_id"].astype(str), "not def", 1, None, None, None, None, None, None]
                 self.joinedDf.loc[pd.isnull(self.joinedDf.nr) , ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "time4", "lap1", "lap2", "lap3", "lap4"]] = [0, "UNKNOWN user", "not def", 1, None, None, None, None, None, None, None, None]
                 
-                #print self.joinedDf
+                #print "#7", self.joinedDf
                 #umele pretypovani na long, defaultne float a 7.00
                 self.joinedDf["nr"] = self.joinedDf["nr"].astype(long)
                                              

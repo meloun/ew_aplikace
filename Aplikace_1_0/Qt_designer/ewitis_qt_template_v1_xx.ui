@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>10</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -247,7 +247,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="TimesWwwExport">
+                <widget class="QPushButton" name="TimesCivilsToZeroes">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -255,14 +255,14 @@
                   </sizepolicy>
                  </property>
                  <property name="toolTip">
-                  <string>Export WWW</string>
+                  <string>Civils to Zeroes</string>
                  </property>
                  <property name="text">
                   <string/>
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>gui/icons/internet-web-browser.png</normaloff>gui/icons/internet-web-browser.png</iconset>
+                   <normaloff>gui/icons/zero-button.png</normaloff>gui/icons/zero-button.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -715,6 +715,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
               <property name="maximum">
                <number>99999</number>
               </property>
@@ -833,6 +836,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
               <property name="maximum">
                <number>99999</number>
               </property>
@@ -852,6 +858,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
               <property name="maximum">
                <number>99999</number>
               </property>
@@ -870,6 +879,9 @@
                 <width>60</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="minimum">
+               <number>-10</number>
               </property>
               <property name="maximum">
                <number>99999</number>
@@ -49273,7 +49285,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>RunsAdd</tabstop>
   <tabstop>UsersFilterClear</tabstop>
   <tabstop>UsersProxyView</tabstop>
-  <tabstop>TimesWwwExport</tabstop>
+  <tabstop>TimesCivilsToZeroes</tabstop>
   <tabstop>TimesFilterClear</tabstop>
   <tabstop>UsersRemove</tabstop>
   <tabstop>CategoriesFilterClear</tabstop>

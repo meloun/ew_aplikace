@@ -12,22 +12,22 @@
             "changed": true,
             "value": [
                 {
-                    "headertext": "čas exportu: %time%",
+                    "headertext": "Ausgabezeitpunkt: %time%",
                     "racename": "%race%",
-                    "categoryname": "Skid Pad",
-                    "description": "CSV results"
+                    "categoryname": "SG2 - %category%",
+                    "description": "St. Leonhard (100m/12s)"
+                },
+                {
+                    "headertext": "Ausgabezeitpunkt: %time%",
+                    "racename": "%race%",
+                    "categoryname": "SG2",
+                    "description": "St. Leonhard (100m/12s)"
                 },
                 {
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%",
-                    "categoryname": "Skid Pad",
-                    "description": "Monitor"
-                },
-                {
-                    "headertext": "čas exportu: %time%",
-                    "racename": "%race%",
-                    "categoryname": "Skid Pad",
-                    "description": "Web"
+                    "categoryname": "SG2 celkove",
+                    "description": "%description%"
                 }
             ]
         },
@@ -38,24 +38,24 @@
             "changed": true,
             "value": [
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
                     "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
-                    "css_filename": "css/nr_name_time.css",
+                    "css_filename": "css/results.css",
                     "js_filename": "",
-                    "firsttimes": 2
+                    "lasttimes": 0,
+                    "transpose": 0,
+                    "firsttimes": 0
                 },
                 {
-                    "transpose": 0,
-                    "lasttimes": 0,
                     "css_filename": "css/results.css",
-                    "js_filename": "times_skid",
+                    "js_filename": "",
+                    "lasttimes": 0,
+                    "transpose": 0,
                     "firsttimes": 0
                 }
             ]
@@ -68,34 +68,34 @@
             "value": {
                 "forward": [
                     {
-                        "user_nr": 0,
-                        "phone_nr": "737968177",
-                        "desc": ""
+                        "desc": "Ewitis",
+                        "user_nr": 1,
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "777654354",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     },
                     {
+                        "desc": "",
                         "user_nr": 0,
-                        "phone_nr": "702421142",
-                        "desc": ""
+                        "phone_nr": "702421142"
                     }
                 ],
                 "text": [
-                    "",
+                    "Mühlviertel CLASSIC 2018 - St-Nr. %nr%: SG2 – %time1%s",
                     "text sms zprávy",
                     "text sms zprávy"
                 ],
                 "phone_column": [
                     "o3",
-                    "o4"
+                    "- - -"
                 ]
             }
         },
@@ -108,29 +108,29 @@
                 {
                     "sortorder2": "asc",
                     "sortorder1": "asc",
-                    "filter": "all times with time3",
+                    "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "timeraw",
+                    "sort1": "order1",
                     "sort2": "- - -",
                     "type": "categories"
                 },
                 {
                     "sortorder2": "asc",
-                    "sortorder1": "desc",
-                    "filter": "all times with time2",
+                    "sortorder1": "asc",
+                    "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "timeraw",
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "type": "groups"
+                },
+                {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
+                    "filter": "last times with time1",
+                    "onerow": 0,
+                    "sort1": "order1",
                     "sort2": "- - -",
                     "type": "total"
-                },
-                {
-                    "sortorder2": "asc",
-                    "sortorder1": "desc",
-                    "filter": "all times with time3",
-                    "onerow": 0,
-                    "sort1": "timeraw",
-                    "sort2": "- - -",
-                    "type": "categories"
                 }
             ]
         },
@@ -150,25 +150,25 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "profile": "C:/Data/Dropbox/casomira/Zavody/2017/2017_08_04_Formule/db/skid/conf_work.json",
+                "profile": "C:/Data/Dropbox/casomira/Zavody/2018/2018_06_14_16_Muhlviertel/Importy/profily/SP03.json",
                 "remote": 0,
-                "race_name": "Formula Student Czech 2018",
+                "race_name": "Mühlviertel CLASSIC 2018",
                 "rfid": 0,
                 "autonumbers": {
                     "nr_users": 4,
                     "cells": [
                         1,
+                        2,
                         250,
+                        4,
                         250,
-                        250,
-                        250,
-                        250,
+                        0,
                         0
                     ],
-                    "nr_cells": 6
+                    "nr_cells": 3
                 },
                 "tag_filter": 0,
-                "profile_desc": "Skid Pad\n\nS-->C-->C-->C(!)-->C-->C(!)\n\npoints1= time2 ve vterinach \npoints2 = time3 ve vterinach\n\n!! vypnout buffer čísel, nechat jenom 1 číslo !!\n!! nastavit pocet casu na zobrazeni podle obrazovky !!\n\nE1: do CSV\nE2: na monitor\nE3: na web",
+                "profile_desc": "SP9, SG2 - St. Leonhard, S\n\nSA(jiny team)-SG2-ZA/ZG2\nSA-ZA 5810m/8min\nSG2-ZG2 100m/12s\n",
                 "evaluation": {
                     "finishtime": {
                         "laps": 0,
@@ -186,20 +186,100 @@
             "value": {
                 "enabled_htm": [
                     false,
-                    true,
-                    true
+                    false,
+                    false
                 ],
                 "checked": [
                     {
                         "sex": 0,
+                        "year": 2,
+                        "category": 2,
+                        "un1": 2,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 2,
+                        "time2": 0,
+                        "time3": 0,
+                        "time1": 2,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 2,
+                        "o1": 0,
+                        "status": 0,
+                        "club": 0,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 2,
+                        "ordercat1": 0,
+                        "name": 2,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    },
+                    {
+                        "sex": 0,
+                        "year": 2,
+                        "category": 2,
+                        "un1": 2,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 2,
+                        "time2": 0,
+                        "time3": 0,
+                        "time1": 2,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 2,
+                        "o1": 0,
+                        "status": 0,
+                        "club": 0,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 2,
+                        "ordercat1": 0,
+                        "name": 2,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    },
+                    {
+                        "sex": 0,
                         "year": 0,
                         "category": 0,
-                        "un1": 0,
+                        "un1": 2,
                         "un2": 0,
                         "un3": 0,
                         "time4": 0,
                         "points1": 2,
-                        "points2": 2,
+                        "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
@@ -221,91 +301,11 @@
                         "order3": 0,
                         "order1": 0,
                         "ordercat1": 0,
-                        "name": 2,
-                        "ordercat3": 0,
-                        "ordercat2": 0,
-                        "lap1": 0,
-                        "lap3": 2,
-                        "lap2": 0,
-                        "lap4": 0,
-                        "us1": 2
-                    },
-                    {
-                        "sex": 0,
-                        "year": 0,
-                        "category": 0,
-                        "un1": 0,
-                        "un2": 0,
-                        "un3": 0,
-                        "time4": 0,
-                        "points1": 0,
-                        "points2": 0,
-                        "points3": 0,
-                        "points4": 0,
-                        "points5": 0,
-                        "time2": 2,
-                        "time3": 0,
-                        "time1": 0,
-                        "nr": 2,
-                        "o4": 0,
-                        "o3": 0,
-                        "o2": 0,
-                        "o1": 0,
-                        "status": 0,
-                        "club": 0,
-                        "gap1": 0,
-                        "gap2": 0,
-                        "gap3": 0,
-                        "gap4": 0,
-                        "order2": 0,
-                        "order3": 0,
-                        "order1": 0,
-                        "ordercat1": 0,
-                        "name": 2,
+                        "name": 0,
                         "ordercat3": 0,
                         "ordercat2": 0,
                         "lap1": 0,
                         "lap3": 0,
-                        "lap2": 0,
-                        "lap4": 0,
-                        "us1": 0
-                    },
-                    {
-                        "sex": 0,
-                        "year": 0,
-                        "category": 0,
-                        "un1": 0,
-                        "un2": 0,
-                        "un3": 0,
-                        "time4": 0,
-                        "points1": 0,
-                        "points2": 0,
-                        "points3": 0,
-                        "points4": 0,
-                        "points5": 0,
-                        "time2": 2,
-                        "time3": 2,
-                        "time1": 0,
-                        "nr": 2,
-                        "o4": 0,
-                        "o3": 0,
-                        "o2": 0,
-                        "o1": 0,
-                        "status": 0,
-                        "club": 0,
-                        "gap1": 0,
-                        "gap2": 0,
-                        "gap3": 0,
-                        "gap4": 0,
-                        "order2": 0,
-                        "order3": 0,
-                        "order1": 0,
-                        "ordercat1": 0,
-                        "name": 2,
-                        "ordercat3": 0,
-                        "ordercat2": 0,
-                        "lap1": 0,
-                        "lap3": 2,
                         "lap2": 0,
                         "lap4": 0,
                         "us1": 0
@@ -314,64 +314,24 @@
                 "names": [
                     {
                         "sex": "",
-                        "year": "",
-                        "category": "",
-                        "un1": "",
+                        "year": "Bj.",
+                        "category": "Kategorie",
+                        "un1": "Strafpunkte",
                         "un2": "",
                         "un3": "",
-                        "time4": "",
-                        "points1": "Time 2 [sec]",
-                        "points2": "Time 1 [sec]",
-                        "points3": "",
-                        "points4": "",
-                        "points5": "",
-                        "time2": "",
-                        "time3": "",
-                        "time1": "cas",
-                        "nr": "Car Number",
-                        "o4": "",
-                        "o3": "",
-                        "o2": "",
-                        "o1": "",
-                        "status": "Status",
-                        "club": "",
-                        "gap1": "",
-                        "gap2": "",
-                        "gap3": "",
-                        "gap4": "",
-                        "order2": "",
-                        "order3": "",
-                        "order1": "",
-                        "ordercat1": "",
-                        "name": "Team Name",
-                        "ordercat3": "",
-                        "ordercat2": "",
-                        "lap1": "",
-                        "lap3": "Finished run",
-                        "lap2": "",
-                        "lap4": "",
-                        "us1": ""
-                    },
-                    {
-                        "sex": "",
-                        "year": "",
-                        "category": "",
-                        "un1": "",
-                        "un2": "",
-                        "un3": "",
-                        "time4": "",
+                        "time4": "Zeit 4",
                         "points1": "",
                         "points2": "",
                         "points3": "",
                         "points4": "",
-                        "points5": "",
-                        "time2": "Time",
-                        "time3": "",
-                        "time1": "cas",
-                        "nr": "NR",
+                        "points5": "Gesamtpunkte",
+                        "time2": "Zeit 2",
+                        "time3": "Zeit 3",
+                        "time1": "Zeit 1",
+                        "nr": "St-Nr.",
                         "o4": "",
                         "o3": "",
-                        "o2": "",
+                        "o2": "Fahrzeug",
                         "o1": "",
                         "status": "Status",
                         "club": "",
@@ -381,34 +341,74 @@
                         "gap4": "",
                         "order2": "",
                         "order3": "",
-                        "order1": "",
+                        "order1": "Platz",
                         "ordercat1": "",
-                        "name": "Team Name",
+                        "name": "Name",
                         "ordercat3": "",
                         "ordercat2": "",
                         "lap1": "",
                         "lap3": "",
                         "lap2": "",
                         "lap4": "",
-                        "us1": ""
+                        "us1": "Us 1"
+                    },
+                    {
+                        "sex": "",
+                        "year": "Bj.",
+                        "category": "Kategorie",
+                        "un1": "Strafpunkte",
+                        "un2": "",
+                        "un3": "",
+                        "time4": "Zeit 4",
+                        "points1": "",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
+                        "points5": "Gesamtpunkte",
+                        "time2": "Zeit 2",
+                        "time3": "Zeit 3",
+                        "time1": "Zeit 1",
+                        "nr": "St-Nr.",
+                        "o4": "",
+                        "o3": "",
+                        "o2": "Fahrzeug",
+                        "o1": "",
+                        "status": "Status",
+                        "club": "",
+                        "gap1": "",
+                        "gap2": "",
+                        "gap3": "",
+                        "gap4": "",
+                        "order2": "",
+                        "order3": "",
+                        "order1": "Platz",
+                        "ordercat1": "",
+                        "name": "Name",
+                        "ordercat3": "",
+                        "ordercat2": "",
+                        "lap1": "",
+                        "lap3": "",
+                        "lap2": "",
+                        "lap4": "",
+                        "us1": "Us 1"
                     },
                     {
                         "sex": "",
                         "year": "",
                         "category": "",
-                        "un1": "",
+                        "un1": "Penal",
                         "un2": "",
                         "un3": "",
                         "time4": "",
-                        "points1": "",
-                        "points2": "",
-                        "points3": "",
-                        "points4": "",
-                        "points5": "",
-                        "time2": "Time 2",
-                        "time3": "Time 1",
-                        "time1": "cas",
-                        "nr": "Car Number",
+                        "points1": "Body1",
+                        "points2": "Body2",
+                        "points3": "Body3",
+                        "points4": "Body4",
+                        "points5": "Body",
+                        "time2": "",
+                        "time3": "",
+                        "time1": "",
+                        "nr": "Číslo",
                         "o4": "",
                         "o3": "",
                         "o2": "",
@@ -423,14 +423,14 @@
                         "order3": "",
                         "order1": "",
                         "ordercat1": "",
-                        "name": "Team Name",
+                        "name": "",
                         "ordercat3": "",
                         "ordercat2": "",
                         "lap1": "",
-                        "lap3": "Finished run",
+                        "lap3": "",
                         "lap2": "",
                         "lap4": "",
-                        "us1": ""
+                        "us1": "Us 1"
                     }
                 ],
                 "sorted": [
@@ -441,19 +441,19 @@
                         "un1": 27,
                         "un2": 35,
                         "un3": 36,
-                        "time4": 27,
-                        "points1": 5,
-                        "points2": 4,
+                        "time4": 26,
+                        "points1": 29,
+                        "points2": 30,
                         "points3": 31,
                         "points4": 32,
                         "points5": 33,
                         "time2": 23,
                         "time3": 25,
                         "time1": 21,
-                        "nr": 1,
+                        "nr": 4,
                         "o4": 16,
                         "o3": 15,
-                        "o2": 2,
+                        "o2": 10,
                         "o1": 9,
                         "status": 38,
                         "club": 11,
@@ -465,35 +465,35 @@
                         "order3": 3,
                         "order1": 1,
                         "ordercat1": 5,
-                        "name": 2,
+                        "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 2,
-                        "lap3": 3,
+                        "lap1": 22,
+                        "lap3": 26,
                         "lap2": 24,
                         "lap4": 28,
-                        "us1": 5
+                        "us1": 37
                     },
                     {
                         "sex": 12,
-                        "year": 10,
+                        "year": 12,
                         "category": 9,
-                        "un1": 34,
+                        "un1": 27,
                         "un2": 32,
                         "un3": 36,
-                        "time4": 22,
-                        "points1": 4,
+                        "time4": 26,
+                        "points1": 29,
                         "points2": 30,
                         "points3": 31,
                         "points4": 32,
                         "points5": 33,
-                        "time2": 3,
+                        "time2": 23,
                         "time3": 25,
-                        "time1": 3,
-                        "nr": 1,
+                        "time1": 21,
+                        "nr": 4,
                         "o4": 16,
                         "o3": 15,
-                        "o2": 14,
+                        "o2": 10,
                         "o1": 13,
                         "status": 38,
                         "club": 11,
@@ -505,10 +505,10 @@
                         "order3": 3,
                         "order1": 1,
                         "ordercat1": 5,
-                        "name": 2,
+                        "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 4,
+                        "lap1": 22,
                         "lap3": 26,
                         "lap2": 24,
                         "lap4": 28,
@@ -527,13 +527,13 @@
                         "points3": 31,
                         "points4": 32,
                         "points5": 33,
-                        "time2": 5,
-                        "time3": 4,
+                        "time2": 23,
+                        "time3": 25,
                         "time1": 21,
-                        "nr": 1,
+                        "nr": 4,
                         "o4": 16,
                         "o3": 15,
-                        "o2": 2,
+                        "o2": 14,
                         "o1": 13,
                         "status": 38,
                         "club": 11,
@@ -545,58 +545,30 @@
                         "order3": 3,
                         "order1": 1,
                         "ordercat1": 5,
-                        "name": 2,
+                        "name": 8,
                         "ordercat3": 7,
                         "ordercat2": 6,
-                        "lap1": 2,
-                        "lap3": 3,
+                        "lap1": 22,
+                        "lap3": 26,
                         "lap2": 24,
                         "lap4": 28,
                         "us1": 37
                     }
                 ],
                 "enabled_sms": [
-                    false,
+                    true,
                     false,
                     false
                 ],
                 "enabled_csv": [
                     true,
-                    false,
-                    false
+                    true,
+                    true
                 ]
             }
         },
         "permanent": true,
         "name": "export"
-    },
-    "timing_settings": {
-        "permanent": true,
-        "SET": {
-            "changed": false,
-            "value": {
-                "logic_mode": 1,
-                "filter_maxlapnumber": 0,
-                "name_id": 1,
-                "measurement_state": 0,
-                "filter_minlaptime": 10,
-                "filter_tagtime": 0,
-                "tags_reading_enable": 1
-            }
-        },
-        "name": "timing_settings",
-        "GET": {
-            "refresh_countdown": 1,
-            "value": {
-                "logic_mode": null,
-                "times_download_mode": 0,
-                "autorequest_missingtimes": 2,
-                "autoenable_cell": 0,
-                "autoenable_bb": 0,
-                "measurement_state": 0,
-                "tags_reading_enable": 0
-            }
-        }
     },
     "additional_info": {
         "GET_SET": {
@@ -611,7 +583,7 @@
                 ],
                 "un": [
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "checked": 0
@@ -623,34 +595,34 @@
                 "time": [
                     {
                         "filter": "cell=250",
-                        "checked": 2,
                         "minute_timeformat": 2,
-                        "rule": "time - previoustime"
+                        "checked": 2,
+                        "rule": "time - celltime2"
                     },
                     {
-                        "filter": "cell=250;lap1=3|5",
-                        "checked": 2,
+                        "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - previoustime"
-                    },
-                    {
-                        "filter": "cell=250;lap1=5",
-                        "checked": 2,
-                        "minute_timeformat": 0,
-                        "rule": "prev2time1"
-                    },
-                    {
-                        "filter": "cell=4",
                         "checked": 0,
+                        "rule": "time - celltime2"
+                    },
+                    {
+                        "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime3"
+                        "checked": 0,
+                        "rule": "celltime4 - celltime1"
+                    },
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 0,
+                        "rule": "time - starttime"
                     }
                 ],
                 "lap": [
                     {
                         "filter": "",
-                        "fromlaststart": 2,
-                        "checked": 2
+                        "fromlaststart": 0,
+                        "checked": 0
                     },
                     {
                         "filter": "",
@@ -660,7 +632,7 @@
                     {
                         "filter": "",
                         "fromlaststart": 0,
-                        "checked": 2
+                        "checked": 0
                     },
                     {
                         "filter": "",
@@ -670,61 +642,61 @@
                 ],
                 "order": [
                     {
-                        "checked": 0,
-                        "order1": "Asc",
+                        "checked": 2,
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": "Year",
+                        "type": "Category",
+                        "row": "Last times",
                         "column1": "Points5",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     },
                     {
                         "checked": 0,
-                        "order1": "Asc",
                         "order2": "Asc",
-                        "type": "Total",
                         "column2": " - - -",
+                        "type": "Total",
+                        "row": "Last times",
                         "column1": "Time1",
-                        "row": "Last times"
+                        "order1": "Asc"
                     }
                 ],
                 "points": [
                     {
                         "minimum": 0,
                         "checked": 2,
-                        "maximum": 99999,
-                        "rule": "time2/100"
+                        "maximum": 1000,
+                        "rule": "abs(time1 - %00:00:12,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "maximum": 1000,
+                        "rule": "abs(time2 - %00:00:04,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "maximum": 1000,
+                        "rule": "abs(time3 - %00:00:20,00%)"
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "maximum": 1000,
+                        "rule": "abs(time3 - %00:00:26,00%)"
                     },
                     {
                         "minimum": 0,
                         "checked": 2,
-                        "maximum": 99999,
-                        "rule": "time3/100"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 500,
-                        "rule": "abs(time3 - %00:00:15,00%)"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
-                        "maximum": 9999,
-                        "rule": "points1+points2+points3+un1"
-                    },
-                    {
-                        "minimum": 0,
-                        "checked": 0,
                         "maximum": 9999,
                         "rule": "points1 + un1"
                     }

@@ -643,30 +643,30 @@
                 "order": [
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     },
                     {
                         "checked": 2,
-                        "order2": "Asc",
-                        "column2": " - - -",
-                        "type": "Total",
                         "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "order1": "Asc",
                         "column1": "Time1",
-                        "order1": "Asc"
+                        "column2": " - - -"
                     }
                 ],
                 "points": [

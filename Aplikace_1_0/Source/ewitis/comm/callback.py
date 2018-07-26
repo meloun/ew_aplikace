@@ -63,9 +63,14 @@ def unpack_data(command, data, senddata):
             | error (2b) | state(1b) | id (4b) | run_id (2b) | user_id (4b) | cell (1b) | time(4b) |
         '''
         aux_time = {}
-        aux_time['error'], aux_time['state'], aux_time['id'],  aux_time['run_id'], \
+        aux_time['error'], aux_state, aux_time['id'],  aux_time['run_id'], \
         aux_time['user_id'], aux_time['cell'],aux_time['time_raw'], = struct.unpack("<HBIHIBI", data)
 
+        if (aux_state & 0x03) == 0x03:
+            aux_time['state'] = "NR"
+        else:
+            aux_time['state'] = "NN"
+             
         #pricteni casu ke vsem casum, chyba blizak
         #if(aux_time['cell'] != 1):
         #    aux_time['time_raw'] = aux_time['time_raw'] + 255800

@@ -87,11 +87,15 @@ def Export(utDf, export_type = eCSV_EXPORT):
                 gapX = 'gap'+str(nr+1)
                 lapX = 'lap'+str(nr+1)
                 timeX = 'time'+str(nr+1)
-                winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
-                if (lapX in winnerX) and (timeX in winnerX):                    
-                    aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
-                else:
+                try:
+                    winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
+                    if (lapX in winnerX) and (timeX in winnerX):                    
+                        aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+                    else:
+                        aux_df[gapX] = None
+                except:
                     aux_df[gapX] = None
+                    
             #lapsexport
             if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):                       
                 aux_df = ToLapsExport(aux_df)
@@ -397,7 +401,7 @@ def ExportToHtmFiles(dfs, type):
             aux_columns = df.columns
             df = df.T
             df.insert(0,"", aux_columns)
-        
+                
         ExportToHtmFile(filename, Columns2Cz(df, i), css_filename, js_filename, title)            
         exported["total"] = len(df)
          
@@ -613,10 +617,14 @@ def ConvertToInt(df):
     return df
 
 def Columns2Cz(df, idx):
+    
+    if df.empty:
+        return df
+    
     #convert header EN => CZ
     tocz_dict = dstore.GetItem("export", ["names", idx])                                                 
     df = df.rename(columns = tocz_dict)     
-    
+
     #onerow columns to CZ                                        
     for x in range(0, NUMBER_OF.TIMESCOLUMNS):
         timeX = "time"+str(x+1) 

@@ -215,7 +215,7 @@ class TabRaceSettings():
             
         """ AutoEnable by BB """                
         if(timing_settings_get['autoenable_bb'] != None):
-            print "AA:", timing_settings_get['autoenable_bb'], type(timing_settings_get['autoenable_bb'])                                    
+            #print "AE:", timing_settings_get['autoenable_bb'], type(timing_settings_get['autoenable_bb'])                                    
             Ui().lineAutoenableBB.setText(str(timing_settings_get['autoenable_bb']))
             #init set value from get value (typically after app starts)
             Ui().spinAutoenableBB.blockSignals(True)

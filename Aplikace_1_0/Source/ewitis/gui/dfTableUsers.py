@@ -49,7 +49,7 @@ class DfModelUsers(DataframeTableModel):
         uDf =  pd.merge(uDf,  cDf, left_on='category_id', right_on='cdf_id', how="left")        
         uDf = uDf[["id", "nr", "status", "name",  "first_name", "category", "club", "year", "sex", "email", "o1", "o2", "o3", "o4"]]
            
-        return uDf
+        return uDf       
     
     def setDataFromDict(self, mydict):
         print "setDataFromDict()", mydict, self.name
@@ -141,7 +141,10 @@ class DfTableUsers(DfTable):
         DfTable.InitGui(self)        
      
     def createSlots(self):
-        DfTable.createSlots(self)        
+        DfTable.createSlots(self)
+        
+    def deleteAll(self, db_con = None, ids_less_than = None):        
+        DfTable.deleteAll(self, db_con, ids_less_than = 100000)          
 
     def importDf2dbDdf(self, df): 
 
