@@ -846,12 +846,12 @@ class ManageCalcProcess():
                         return None                    
     
         # previoustime                
-        if ("previoustime" in rule) or ("prevtime" in rule):                              
+        if ("prevtime" in rule) or ("prev1time" in rule):                              
             try:  
                 time = self.GetPrevious(joinTime, {}, df)
                 if(time == None):
                     return None                
-                expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
+                expression_string = expression_string.replace("prev1time", str(time['time_raw']))                           
                 expression_string = expression_string.replace("prevtime", str(time['time_raw']))
             except TypeError:       
                 print "type error previoustime"         
@@ -859,12 +859,12 @@ class ManageCalcProcess():
                 # prevI-timeX
                 
         # previous2time                        
-        if ("previous2time" in rule) or ("prev2time" in rule):                              
+        if ("prev2time" in rule):                              
             try:  
                 time = self.GetPrevious(joinTime, {}, df, -2)
                 if(time == None):
-                    return None                
-                expression_string = expression_string.replace("previoustime", str(time['time_raw']))                           
+                    return None                                
+                expression_string = expression_string.replace("prev2time", str(time['time_raw']))                           
             except TypeError:       
                 print "type error previoustime"         
                 return None                
@@ -882,7 +882,7 @@ class ManageCalcProcess():
                         print "type error", nexttimeX         
                         return None 
         # nexttime                
-        if ("nexttime" in rule):                              
+        if ("nexttime" in rule) or ("next1time" in rule):                              
             try:                
                 time = self.GetNext(joinTime, {}, df, 0)                
                 if(time == None):                                                                            

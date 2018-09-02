@@ -162,10 +162,10 @@ def ExportToSmsFiles(dfs, dirname):
             #add sms-text as additional column
             mystr = dstore.GetItem("export_sms", ['text',i])
             mystr =  mystr.replace("%racename%", dstore.GetItem("racesettings-app", ['race_name']))
-            df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)
+            df["sms_text"] = df.apply(lambda row: replaceSmsTags(mystr, row), axis = 1)            
             
             #create empty frame
-            df_sms = pd.DataFrame(columns=["phone_nr", "sms_text"])
+            df_sms = pd.DataFrame(columns=["phone_nr", "prio", "sms_text"])
             
             #phone numbers are in phonecol (o1/o2/o3/o4) 
             for phonecol in dstore.GetItem("export_sms", ['phone_column']):
@@ -205,6 +205,7 @@ def ExportToSmsFiles(dfs, dirname):
 def replaceSmsTags(text, row):
     for c,r in row.iteritems():
         text = text.replace("%"+c+"%", utils.toUnicode(row[c]))
+    text = text.replace("DNSs", "DNS")
     return text      
 '''
 ExportToCsvFiles
