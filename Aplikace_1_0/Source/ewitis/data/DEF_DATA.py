@@ -395,7 +395,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.19b - Formule"},                                                                                                                    
+                                                        "app": "v3.20a - SBC"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

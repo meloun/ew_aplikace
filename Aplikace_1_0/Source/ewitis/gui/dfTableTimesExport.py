@@ -551,7 +551,8 @@ def AddOrderToMissingUsers(tDf):
             #print "LO", last_order            
             retDf.loc[retDf[c] == "0",c] = int(last_order) + 1
             #print "ONE DF", retDf[c]
-        except (ValueError, IndexError):
+        #TypeError - podle casu ktery tam neni, potom ordercat je float
+        except (ValueError, IndexError, TypeError):
             pass                                          
     return retDf 
          
