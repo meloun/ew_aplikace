@@ -832,10 +832,10 @@ class ManageCalcProcess():
                         return None
 
         # prevYtimeX
-        for prev_i in range(1, 4):
+        for prev_i in range(1, 5):
             for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
                 previoustimeX = "prev"+str(prev_i)+"time" + str(i)
-                if previoustimeX in rule:                    
+                if previoustimeX in rule:
                     try:  
                         time = self.GetPrevious(joinTime, {}, df, prev_i * -1)                        
                         if(time == None):
@@ -869,7 +869,7 @@ class ManageCalcProcess():
                 print "type error previoustime"         
                 return None                
         # nextYtimeX        
-        for next_i in range(1, 4):
+        for next_i in range(1, 5):
             for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
                 nexttimeX = "next"+str(prev_i)+"time" + str(i)
                 if nexttimeX in rule:                                        
