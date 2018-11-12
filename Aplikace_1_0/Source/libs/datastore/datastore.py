@@ -5,6 +5,7 @@ Created on 29.12.2011
 @author: Meloun
 '''
 from threading import RLock
+import copy
 """
 definice DAT pro DATASTORE
  - přenos dat mezi gui a kommunikací
@@ -73,7 +74,7 @@ class Datastore():
         '''
         Constructor
         '''
-        self.data = data
+        self.data = copy.deepcopy(data)
         
         self.datalock = RLock(False)
         

@@ -163,6 +163,7 @@ DEF_DATA = {
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell=2|3|250",
                                                                             "minute_timeformat" : CheckboxValue.unchecked,
+                                                                            "description"       : ""
                                                                          }] * NUMBER_OF.TIMESCOLUMNS,                                                                                                                 
                                                         "lap"           : [{
                                                                             "checked"           : CheckboxValue.checked,

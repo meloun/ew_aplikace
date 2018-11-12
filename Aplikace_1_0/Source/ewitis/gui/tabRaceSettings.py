@@ -15,7 +15,6 @@ from ewitis.gui.Ui import Ui
 from ewitis.data.dstore import dstore
 import libs.utils.utils as utils
 from ewitis.data.DEF_ENUM_STRINGS import COLORS
-from libs.myqt.mygroups import FilterGroup
 import simplejson as json
 import codecs 
    

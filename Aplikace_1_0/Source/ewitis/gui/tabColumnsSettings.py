@@ -21,7 +21,8 @@ import codecs
 class TimesGroup(FilterGroup):    
     def __init__(self,  nr):
         self.rule = getattr(Ui(), "lineAInfoTimeRule_" + str(nr))
-        self.minute_timeformat = getattr(Ui(), "checkExportMinuteTimeformat_" + str(nr)) 
+        self.minute_timeformat = getattr(Ui(), "checkExportMinuteTimeformat_" + str(nr))
+        self.description = getattr(Ui(), "lineAInfo"+"TimeDescription_" + str(nr)) 
         FilterGroup.__init__(self, nr, "Time")
 
     def CreateSlots(self):
@@ -32,18 +33,21 @@ class TimesGroup(FilterGroup):
     def setEnabled(self, enabled):
         self.rule.setEnabled(enabled)        
         self.minute_timeformat.setEnabled(enabled)
+        self.description.setEnabled(enabled)
         FilterGroup.setEnabled(self, enabled)
     
     def Update(self):        
         # set values from datastore              
         info = self.GetInfo()                                                                            
         uiAccesories.UpdateText(self.rule, info["rule"])        
-        self.minute_timeformat.setCheckState(info["minute_timeformat"]) 
+        self.minute_timeformat.setCheckState(info["minute_timeformat"])
+        uiAccesories.UpdateText(self.description, info["description"])        
         FilterGroup.Update(self)
 
 class LapGroup(FilterGroup):    
     def __init__(self,  nr):                
-        self.fromlaststart = getattr(Ui(), "checkAI_FromLastStart_Lap_" + str(nr)) 
+        self.fromlaststart = getattr(Ui(), "checkAI_FromLastStart_Lap_" + str(nr))
+        self.description = getattr(Ui(), "lineAInfo"+"LapDescription_" + str(nr)) 
         FilterGroup.__init__(self, nr, "Lap")
 
     def CreateSlots(self):        
@@ -74,7 +78,8 @@ class PointGroup():
         self.checked = getattr(ui, "checkAInfoPoints_" + str(nr))        
         self.rule = getattr(ui, "lineAInfoPointRule_" + str(nr))     
         self.minimum = getattr(ui, "spinAInfoPointMinimum_" + str(nr))
-        self.maximum = getattr(ui, "spinAInfoPointMaximum_" + str(nr))                                                                                         
+        self.maximum = getattr(ui, "spinAInfoPointMaximum_" + str(nr))
+        self.description = getattr(ui, "lineAInfo"+"PointsDescription_" + str(nr))                                                                                         
 
     def CreateSlots(self):
                                              
@@ -118,7 +123,8 @@ class OrderGroup():
         self.column1 = getattr(ui, "comboOrderColumn_" + str(nr) + "_1")                                
         self.order1 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_1")
         self.column2 = getattr(ui, "comboOrderColumn_" + str(nr) + "_2")                             
-        self.order2 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_2")                                              
+        self.order2 = getattr(ui,  "comboOrderOrder_" + str(nr) + "_2")
+        self.description = getattr(ui, "lineAInfo"+"OrderDescription_" + str(nr))                                              
 
     def CreateSlots(self):
         

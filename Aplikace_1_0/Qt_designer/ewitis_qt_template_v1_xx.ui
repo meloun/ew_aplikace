@@ -5866,7 +5866,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_2">
+            <widget class="QLineEdit" name="lineAInfoLapDescription_1">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -5911,7 +5911,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_3">
+            <widget class="QLineEdit" name="lineAInfoTimeDescription_2">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -5956,7 +5956,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_5">
+            <widget class="QLineEdit" name="lineAInfoTimeDescription_3">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -6001,7 +6001,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_6">
+            <widget class="QLineEdit" name="lineAInfoLapDescription_3">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -6046,7 +6046,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_4">
+            <widget class="QLineEdit" name="lineAInfoLapDescription_2">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -6091,7 +6091,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_7">
+            <widget class="QLineEdit" name="lineAInfoTimeDescription_4">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -6136,7 +6136,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoTimeDescription_8">
+            <widget class="QLineEdit" name="lineAInfoLapDescription_4">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -6541,7 +6541,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineAInfoOrderDescription_">
+            <widget class="QLineEdit" name="lineAInfoOrderDescription_1">
              <property name="geometry">
               <rect>
                <x>810</x>

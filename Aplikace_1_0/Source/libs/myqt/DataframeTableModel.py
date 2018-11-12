@@ -159,23 +159,6 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
                 if isinstance( item, numpy.float64 ):                
                     item = float(item)                             
             return item
-#         elif (role == QtCore.Qt.BackgroundRole):
-#             try:               
-#                 'changed rawtime -> lila'            
-#                 if self.df.iloc[index.row()]['state'][0]== 'C' :
-#                     return QtGui.QColor(0xffff99)                          
-#                 'requested time -> yellow'            
-#                 if self.df.iloc[index.row()]['state'][1]== 'R' :
-#                     return QtGui.QColor(0xffccff)
-#                 'no number and no user string'
-#                 if self.df.iloc[index.row()]['nr']== 0 and self.df.iloc[index.row()]['us1'] == '':
-#                     return QtGui.QColor(0xffcc99)
-#                     
-#                     #return QtGui.QColor(0xffcc99)                                                  
-#             except:
-#                 
-#                 pass
-#             return QtCore.QVariant()
         else:            
             return QtCore.QVariant()
         

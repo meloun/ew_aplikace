@@ -6,6 +6,7 @@ class PermanentDatastore(datastore.Datastore):
     
     def __init__(self, filename, default_data):
         
+        
         #create datastore, default dictionary
         datastore.Datastore.__init__(self, default_data)        
         
@@ -13,9 +14,46 @@ class PermanentDatastore(datastore.Datastore):
         self.db = db_json.Db(filename, self.GetAllPermanents())
         
         #update datastore from db
-        self.Update(self.db.load())
+        self.Update(self.db.load())        
+       
+        #update consistency        
+        self.consistency_check = self.UpdateConsistencyDict(self.data, default_data)
+        print "I: Dstore: consistency check: ", self.consistency_check 
+        if(self.consistency_check == False):
+            self.db.dump(self.GetAllPermanents())
         
         
+    #update consistency
+    def UpdateConsistencyDict(self, destination, source):                            
+        ret = True
+        for k,v in source.iteritems():                         
+            if isinstance(v, dict):
+                #print "UCD----UCL", k, v                                                         
+                if self.UpdateConsistencyDict(destination[k], v) == False:
+                    ret = False
+            elif isinstance(v, list):
+                if self.UpdateConsistencyList(destination[k], v) == False:
+                    ret = False            
+            else:
+                if k not in destination:
+                    print "----NOT MATCH", k, v
+                    destination[k] = v
+                    ret = False                    
+                #else:
+                #    print "-MATCH", k, v
+        return ret
+    def UpdateConsistencyList(self, destination, source):
+        ret = True
+        for i in range(len(source)):
+            if isinstance(source[i], dict):
+                #print "UCL----UCD", source[i]                                                        
+                if self.UpdateConsistencyDict(destination[i], source[i]) == False:
+                    ret = False
+            elif isinstance(source[i], list):
+                #print "UCL----UCL", source[i]
+                if self.UpdateConsistencyList(destination[i], source[i]) == False:
+                    ret = False   
+        return ret                 
     def Update(self, update_dict):
         
         #update data

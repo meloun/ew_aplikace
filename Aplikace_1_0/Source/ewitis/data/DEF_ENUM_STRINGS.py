@@ -37,6 +37,9 @@ class COLORS:
     red = "#ff7f50" 
     orange = "#ffa500"
     light_green = "#bcf5bc"
+    yellow = "#ffff99"
+    lila = "#ffccff"
+    peachorange = "#ffcc99"
     none = ""
     
     @staticmethod

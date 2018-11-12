@@ -91,6 +91,22 @@ class DfModelTimes(DataframeTableModel):
         
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
     
+    def data(self, index, role=QtCore.Qt.DisplayRole):
+        if (role == QtCore.Qt.BackgroundRole):
+            try:               
+                'changed rawtime -> yellow'            
+                if self.df.iloc[index.row()]['state'][0]== 'C' :
+                    return QtGui.QColor(COLORS.yellow)                          
+                'time on request -> lila'            
+                if self.df.iloc[index.row()]['state'][1]== 'R' :
+                    return QtGui.QColor(COLORS.lila)
+                'no number and no user string'
+                if self.df.iloc[index.row()]['nr']== 0 and self.df.iloc[index.row()]['us1'] == '':
+                    return QtGui.QColor(COLORS.peachorange)                                                              
+            except:                 
+                pass
+        return DataframeTableModel.data(self, index, role)
+    
     def IsColumnAutoEditable(self, column):
         '''pokud true, po uživatelské editaci focus na další řádek'''
         
