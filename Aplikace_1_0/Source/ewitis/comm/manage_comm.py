@@ -8,7 +8,8 @@ import serial
 import time
 import datetime
 import struct
-import json
+import simplejson as json
+import codecs
 import libs.dicts.dicts as dicts
 import libs.file.file as file
 import libs.comm.serialprotocol as serialprotocol
@@ -36,8 +37,7 @@ class ManageComm(Thread):
         
         Thread.__init__(self)        
         
-        #set start download indexes
-        self.index_runs = 0
+        #set start download indexes        
         self.index_times = 0
         #self.no_new_times = 0
         #self.no_new_runs = 0
@@ -84,6 +84,7 @@ class ManageComm(Thread):
                 dstore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''
             receivedata = self.protokol.send_receive_frame(command, data)
+            print "RD", receivedata
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
             '''response diagnostic'''
@@ -109,6 +110,19 @@ class ManageComm(Thread):
     def run(self):       
         print "COMM: zakladam vlakno..", time.clock()
         dstore.Set("com_init", 2)
+        
+        ##Reset all HW settings
+        #projit def_data a co neni permanent tak dát do default?
+        
+        #BB version
+        dstore.SetItem("versions", ["hw"], None)
+        dstore.SetItem("versions", ["sw"], None)
+        #cell versions
+        
+        #timing settings
+        
+        #cell info
+        #device info     
         
         ''' CONNECT TO EWITIS '''
         try:
@@ -141,7 +155,7 @@ class ManageComm(Thread):
         """slot tasking"""
         idx = idx_a = idx_b = idx_c = 0
         SLOT_A = [self.runGetCellOverview, self.runGetDeviceOverview, self.runGetTime, self.runGetTabSpecific, None]
-        SLOT_B = [self.runGetRun, self.runGetCellInfo, None]
+        SLOT_B = [self.runGetCellInfo, None]
         SLOT_C = [self.runGetDeviceInfo, self.runGetRaceInfo, self.runGetDiagnostic]
         LeastCommonMultiple = len(SLOT_A) * len(SLOT_B) * len(SLOT_C) 
         print "LCM:", LeastCommonMultiple
@@ -159,6 +173,16 @@ class ManageComm(Thread):
 
             #terminate thread?                                                 
             if dstore.Get("port")["opened"] == False:
+                try:
+                    aux_diagnostics = self.runGetDiagnostic()
+                    myjson = json.dumps(aux_diagnostics)
+                    filename = 'log/'+time.strftime("%Y_%m_%d__%H_%M_", time.localtime())+'00_diagnostics.txt'
+                    json.dump(aux_diagnostics, codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4, sort_keys=True)
+                    #f = open("Diagnostics.log","w")
+                    #f.write( str(aux_diagnostics) )
+                    #f.close()                    
+                except:
+                    print "E: Comm: Diagnostics.log"
                 self.stop()
                 return
                 
@@ -539,41 +563,15 @@ class ManageComm(Thread):
                                                
         if(aux_time['error'] != 0):
             dstore.SetItem("diagnostic", ["no_new_time_cnt"], aux_diagnostic["no_new_time_cnt"]+1)            
-                                                                                                                                                                                
-                
-        """ STORE NEW TIME TO THE DATABASE """
-        if(aux_time['error'] == 0):                 
-            self.AddTimeToDb(aux_time)                                                                                                                           
-            self.index_times += 1 # done, take next 
-            eventCalcNow.set()                                                                            
-        else:
-            pass # no new time                  
-    
 
-    """
-    runGetRun()
-     - get new run
-     - store new run to the databasae 
-    """
-    def runGetRun(self):        
-        
-        """ GET NEW RUN """                                                                                   
-        aux_run = self.send_receive_frame("GET_RUN_PAR_INDEX", self.index_runs, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
-        if(aux_run['error'] == 0):
-            print"================="
-            
-                    
-        if(aux_run['error'] != 0):
-            dstore.SetItem("diagnostic", ["no_new_run_cnt"], dstore.Get("diagnostic")["no_new_run_cnt"]+1)
-        
-        """ STORE NEW RUN TO THE DATABASE """
-        if(aux_run['error'] == 0):                       
-            self.AddRunToDb(aux_run)                                                                              
-            self.index_runs += 1 # done, take next
-            if dstore.Get("current_run") == 0:
-                dstore.Set("current_run", aux_run["id"])                                                                                                        
-        else:            
-            pass # no new run                        
+
+        """ STORE NEW TIME TO THE DATABASE """
+        if(aux_time['error'] == 0):
+            self.AddTimeToDb(aux_time)
+            self.index_times += 1 # done, take next 
+            eventCalcNow.set()
+        else:
+            pass # no new time                                         
     
     """
     runGetDiagnostic()
@@ -581,23 +579,23 @@ class ManageComm(Thread):
     """
     def runGetDiagnostic(self):
         """ get diagnostic """
-        #for cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']:
-        cmd_group = DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic']['development']
-        aux_diagnostic = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
-
-        #print "aux_diagnostic", aux_diagnostic
+        aux_diagnostic = {}
+        for k, cmd_group in DEF_COMMANDS.DEF_COMMAND_GROUP['diagnostic'].iteritems():
+            #print k, cmd_group
+            aux_diagnostic[k] = self.send_receive_frame("GET_DIAGNOSTIC", cmd_group, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
                     
         """ store terminal-states to the datastore """ 
         #if(dstore.IsReadyForRefresh("timing_settings")):           
         #    dstore.Set("timing_settings", aux_timing_setting, "GET")
         #else:
-        #    print "not ready for refresh", aux_timing_setting                                                                             
+        #    print "not ready for refresh", aux_timing_setting
+        return aux_diagnostic                                                                             
             
     def AddTimeToDb(self, time):                       
                                     
         '''console ouput''' 
         print time                               
-        aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + str(time['run_id']) + ";" + str(time['time_raw']).replace(',', '.')                                
+        aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + ";" + str(time['time_raw']).replace(',', '.')                                
         print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
         
         #print struct.pack('<I', time['user_id']).encode('hex')
@@ -629,16 +627,14 @@ class ManageComm(Thread):
                     return False #tag not found
                                         
         '''save to database'''        
-        keys = ["state", "id", "run_id", "user_id", "cell", "time_raw"]#, "time"]
-        values = [time['state'], time['id'],time['run_id'], time['user_id'], time['cell'], time['time_raw']] #, time['time']]
+        keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
+        values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]
         
         '''hack for car sprint'''
         #keys.append("un1")
         #values.append(time["un1"])
         ret = self.db.insert_from_lists("times", keys, values)
-        
-      
-        
+                
         '''return'''
         if ret == False:            
             print "I: DB: time already exists"
@@ -647,24 +643,6 @@ class ManageComm(Thread):
             aux_new_times = dstore.GetItem("gui", ["update_requests", "new_times"])
             aux_new_times.append(time)  
             dstore.SetItem("gui", ["update_requests", "new_times"], aux_new_times)                                                                              
-        return ret                         
-
-    def AddRunToDb(self, run):                
-                                                    
-        '''console output'''                   
-        aux_csv_string = str(run['id']) + ";" + str(run['name_id']) + ";"
-        print "I: Comm: receive run: ", self.index_runs, ":", aux_csv_string               
-        
-        '''save to database'''        
-        keys = ["state","id", "starttime_id", "date", "name_id", "description"]
-        values = [run['state'], run['id'], run['starttime_id'], run['datetime'], run['name_id'], u"race nr."+str(self.index_runs+1)]             
-        ret = self.db.insert_from_lists("runs", keys, values)        
-        
-        '''return'''
-        if ret == False:            
-            print "I: DB: run already exists"                                                                            
-        return ret 
-                        
         return ret
                 
 if __name__ == "__main__":    

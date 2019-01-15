@@ -146,7 +146,7 @@ def sTimer():
         #ŕrequests["new_times"] = []     
     else:
         #timer auto-updates
-        tabRunsTimes.tables[1].AutoUpdate() #table times
+        tabRunsTimes.tables[0].AutoUpdate() #table times
         timer1_1s_cnt = 0
     
     return
@@ -192,12 +192,12 @@ if __name__ == "__main__":
         
     #init shared-data (and sync with dstore)
     print "I: Init multiprocessing manager"
-    mgr.Init( {"current_run":None, "racesettings-app":None, "additional_info": None},  #shared-dstore
+    mgr.Init( {"racesettings-app":None, "additional_info": None},  #shared-dstore
               {"table"  :  pd.DataFrame()},                #shared-dfs
               {"wdg_calc":0, "lastcalctime"  :  " - - - "}                                           #shared-info
             )    
     dstore.SetSharedData(mgr.GetDstore())
-    dstore.UpdateSharedData("current_run")  
+    dstore.UpdateSharedData("racesettings-app")  
     print "I: Shared dstore" #, mgr.GetDstore()  
     
     #tabs

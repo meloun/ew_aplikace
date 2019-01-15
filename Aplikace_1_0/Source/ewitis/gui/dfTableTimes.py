@@ -100,6 +100,9 @@ class DfModelTimes(DataframeTableModel):
                 'time on request -> lila'            
                 if self.df.iloc[index.row()]['state'][1]== 'R' :
                     return QtGui.QColor(COLORS.lila)
+                'manual time -> lila'            
+                if self.df.iloc[index.row()]['state'][2]== 'M' :
+                    return QtGui.QColor(COLORS.light_green)
                 'no number and no user string'
                 if self.df.iloc[index.row()]['nr']== 0 and self.df.iloc[index.row()]['us1'] == '':
                     return QtGui.QColor(COLORS.peachorange)                                                              
@@ -118,7 +121,7 @@ class DfModelTimes(DataframeTableModel):
     
     def getDefaultRow(self):
         row = DataframeTableModel.getDefaultRow(self)
-        row["run_id"] = dstore.Get("current_run")        
+        row["run_id"] = 0#dstore.Get("current_run")        
         row["cell"] = 250
         return row
                      
@@ -299,17 +302,17 @@ class DfModelTimes(DataframeTableModel):
         query = \
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
-                    " WHERE (times.run_id = \""+str(dstore.Get("current_run"))+"\") AND (times.user_id = \""+str(user_id)+"\")"                                
+                    " WHERE (times.user_id = \""+str(user_id)+"\")"
         res = db.query(query) 
-        db.commit()                                                              
+        db.commit()
         return res
     
     def ResetNrOfLaps(self):
         query = \
                 " UPDATE times" +\
-                    " SET lap1 = Null, lap2 = Null, lap3 = Null, lap4 = Null"                                                    
-        res = db.query(query)                        
-        db.commit()        
+                    " SET lap1 = Null, lap2 = Null, lap3 = Null, lap4 = Null"
+        res = db.query(query)
+        db.commit()
         return res
         
              
@@ -421,9 +424,8 @@ class DfTableTimes(DfTable):
         #QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:DfTable.sExport(self, DfTable.eDB, True))
         
         #button Recalculate
-        QtCore.QObject.connect(self.gui['civils_to_zeroes'], QtCore.SIGNAL("clicked()"), lambda:self.sCivilsToZeroes(dstore.Get("current_run")))
-        QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate(dstore.Get("current_run")))
-        
+        QtCore.QObject.connect(self.gui['civils_to_zeroes'], QtCore.SIGNAL("clicked()"), lambda:self.sCivilsToZeroes())
+        QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate())        
          
         #exports
         QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
@@ -437,10 +439,10 @@ class DfTableTimes(DfTable):
     def EditingFinished(self, x):
         print "self.EditingFinished", x
         
-    def sCivilsToZeroes(self, run_id):
+    def sCivilsToZeroes(self):
         if (uiAccesories.showMessage("Civils to zeroes", "Are you sure you want to set civils numbers to zeroes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
-        print "A: Times: Civils to zeroes.. run id:", run_id
+        print "A: Times: Civils to zeroes.. "
         query = \
                 " UPDATE times" +\
                     " SET user_id=0, time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null,  time4 = Null, lap4 = Null" +\
@@ -452,19 +454,18 @@ class DfTableTimes(DfTable):
         print "A: Times: Civils to zeroes.. press F5 to finish"
         return res
     
-    def sRecalculate(self, run_id):
+    def sRecalculate(self):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
             return
-        print "A: Times: Recalculating.. run id:", run_id
+
         query = \
                 " UPDATE times" +\
-                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null,  time4 = Null, lap4 = Null" +\
-                    " WHERE (times.run_id = \""+str(run_id)+"\")"
-                        
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null,  time4 = Null, lap4 = Null"
+
         res = db.query(query)
-                
+
         #self.ResetStatus() 
-                        
+
         db.commit()
         eventCalcNow.set()
         print "A: Times: Recalculating.. press F5 to finish"

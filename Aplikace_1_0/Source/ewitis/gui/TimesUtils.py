@@ -169,7 +169,6 @@ class TimesOrder():
                 
                 
         query = query + \
-            " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
             " (times.user_id == " +str(dbTime['user_id'])+ ") AND "+\
             " (times.cell = 250)"
         
@@ -255,16 +254,15 @@ class TimesOrder():
                 
             query_order = query_order + \
                     " WHERE (times.time < " + str(dbTime['time1']) + ")"            
-                                    
+
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
-                        " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                         " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
-            
+
             query_order = query_order + \
                         " AND (times.user_id != 0)"+\
                         " AND (times.time != 0 )"
-                        
+
             if(dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
                 query_order = query_order + \
                     " AND (times.cell != 1 )"
@@ -300,7 +298,6 @@ class TimesOrder():
                         " WHERE"
                             
                 query_order = query_order + \
-                            "(times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                             " (times.user_id != " +str(dbTime['user_id'])+ ")"+\
                             " AND (times.user_id != 0 )"+\
                             " AND (times.time != 0 )"
@@ -328,17 +325,16 @@ class TimesOrder():
                 "SELECT user_id FROM times"
             
             query_order = query_order + \
-                    " WHERE (times.time < " + str(dbTime['time1']) + ")"                        
+                    " WHERE (times.time < " + str(dbTime['time1']) + ")"
 
             #if(dstore.Get('onelap_race') == 0):
             query_order = query_order + \
-                    " AND (times.run_id=\""+str(dbTime['run_id'])+"\")"+\
                     " AND (times.user_id != " +str(dbTime['user_id'])+ ")"
-                                
+
             query_order = query_order + \
                     " AND (times.user_id != 0)"+\
                     " AND (times.time != 0 )"
-                    
+
             if (dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
                 query_order = query_order + \
                     " AND (times.cell != 1 )"
@@ -363,10 +359,9 @@ class TimesOrder():
                     " WHERE"                    
                                      
                 query_order = query_order +\
-                    " (times.run_id=\""+str(dbTime['run_id'])+"\") AND"+\
                     " (times.user_id != 0)"+\
                     " AND (times.time != 0 )"
-                    
+
                 if(dstore.Get("evaluation")['laptime'] == LaptimeEvaluation.ALL_TIMES):
                     query_order = query_order + \
                         " AND (times.cell != 1 )"

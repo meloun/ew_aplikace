@@ -126,8 +126,7 @@ DEF_DATA = {
                                                 }
                                   },                
         #tab RACE SETTINGS
-        "race_time"          : {"GET_SET"  : { "value"   : 0},},        
-        "current_run"        : {"GET_SET"  : { "value"   : 0},},
+        "race_time"          : {"GET_SET"  : { "value"   : 0},},
                 
         #group timing setting: below
         
@@ -396,7 +395,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.20b - SBC"},                                                                                                                    
+                                                        "app": "v3.21 - Test"},                                                                                                                    
                                              },
                                 },                                               
         "terminal_info"      : {"name"    : "terminal info",

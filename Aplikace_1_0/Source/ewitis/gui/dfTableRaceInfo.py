@@ -47,16 +47,13 @@ class DfModelRaceInfo(DataframeTableModel):
     
     #virtual function to override
     def GetDataframe(self):
-        
-                           
-        run_id = tableRuns.run_id        
         row_id = 1
         rows = []
         
         
         row = {}
         row["id"] = row_id
-        row["name"] = "Run id:"+ str(run_id)
+        row["name"] = "Run id:" #+ str(run_id)
         row["startlist"] = 0 #tableUsers.getCount()  
         row["dns"] = 0#tableUsers.getCount("dns")          
         row["finished"] = 0#tableUsers.getCount("finished")
@@ -66,7 +63,7 @@ class DfModelRaceInfo(DataframeTableModel):
         
         
         if row["startlist"] ==  row["dns"] + row["finished"] + row["dq"] + row["dnf"] + row["race"]:
-           row["check"] = "ok"
+            row["check"] = "ok"
         else:
             row["check"] = "ko"        
              

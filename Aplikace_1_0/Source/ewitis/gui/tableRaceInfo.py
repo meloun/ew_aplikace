@@ -46,10 +46,7 @@ class RaceInfoModel(myModel):
         Update(parameter, value) => vsechny radky s parametrem = value
         Update(conditions, operation) => condition[0][0]=condition[0][1] OPERATION condition[1][0]=condition[1][1]                 
         """                                
-    
-        #run_id                      
-        run_id = tableRuns.run_id
-        
+
         #disable user actions        
         dstore.Set("user_actions", dstore.Get("user_actions")+1)          
                       
@@ -61,7 +58,7 @@ class RaceInfoModel(myModel):
         #row_table = self.db2tableRow(row)
         row_table = {}
         row_table["id"] = row_id
-        row_table["name"] = "Run id:"+ str(run_id)
+        row_table["name"] = "Run id:"#+ str(run_id)
         row_table["startlist"] = 0 #tableUsers.getCount()  
         row_table["dns"] = 0#tableUsers.getCount("dns")          
         row_table["finished"] = 0#tableUsers.getCount("finished")

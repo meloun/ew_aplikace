@@ -71,4 +71,4 @@ class ActionToolbar():
         dstore.Set("tags_reading", 0x00, "SET")
     
 actionToolbar = ActionToolbar()
-tabRunsTimes = MyTab(tables = [tableRuns, tableTimes], items = [actionToolbar,])  
+tabRunsTimes = MyTab(tables = [tableTimes,], items = [actionToolbar,])  

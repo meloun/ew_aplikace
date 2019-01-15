@@ -63,14 +63,22 @@ def unpack_data(command, data, senddata):
             | error (2b) | state(1b) | id (4b) | run_id (2b) | user_id (4b) | cell (1b) | time(4b) |
         '''
         aux_time = {}
-        aux_time['error'], aux_state, aux_time['id'],  aux_time['run_id'], \
-        aux_time['user_id'], aux_time['cell'],aux_time['time_raw'], = struct.unpack("<HBIHIBI", data)
+        aux_not_used = 0
+        
+        aux_time['error'], aux_not_used, aux_time['id'],  aux_state, \
+        aux_not_used, aux_time['cell'],aux_time['time_raw'], = struct.unpack("<HBIHIBI", data)
 
-        if (aux_state & 0x03) == 0x03:
-            aux_time['state'] = "NR"
-        else:
-            aux_time['state'] = "NN"
-             
+        aux_time['user_id'] = 0;
+        
+        #time on request
+        aux_time['state'] = "---"
+        if (aux_state & 0x01) == 0x01:
+            aux_time['state'] = aux_time['state'][0] + "R" + aux_time['state'][2]            
+                
+        #manual time
+        if (aux_state & 0x02) == 0x02:
+            aux_time['state'] = aux_time['state'][0] + aux_time['state'][1] + "M"
+                 
         #pricteni casu ke vsem casum, chyba blizak
         #if(aux_time['cell'] != 1):
         #    aux_time['time_raw'] = aux_time['time_raw'] + 255800
@@ -122,8 +130,8 @@ def unpack_data(command, data, senddata):
         ''' GET_DEVICE_OVERVIEW RESPONSE
             | actual race time (4B) | measurement state (1B)| tag reading (1B) | reseved (10B)
         ''' 
-        aux_terminal_overview = {}  
-        r = ""      
+        aux_terminal_overview = {}
+        r = ""
 
         aux_terminal_overview['race_time'], aux_terminal_overview['measurement_state'], aux_terminal_overview['autoenable_cell'],\
         r, r, r, r, r, r, r, r, r, r \
@@ -210,11 +218,11 @@ def unpack_data(command, data, senddata):
         ''' 
         aux_diagnostic = {}
 
-        #values = struct.unpack('<bb', senddata) #[3,0, .. 5]
-        
+        senddata = struct.unpack('<bb', senddata) #(0,20)
         values = struct.unpack('<'+len(data)*'b', data) #[3,0, .. 5]
-        keys = ['nr{0}'.format(x) for x in range(1, len(values)+1)] #['nr1','nr2' .. 'nr3']
-        aux_diagnostic = dict(zip(keys, values))
+        keys = ['nr{:03d}'.format(x) for x in range(senddata[0], len(values)+senddata[0])]
+        descriptions = DEF_COMMANDS.DIAGNOSTICS_DESCRIPTION[senddata[0] : len(values)+senddata[0]]
+        aux_diagnostic = dict(zip([str(a) + " : " + b for a,b in zip(keys, descriptions)], values))
         
         return aux_diagnostic
         
@@ -307,7 +315,7 @@ def pack_data(command_key, data):
 #        aux_data = struct.pack('<B', data['task'])
     elif(command == DEF_COMMANDS.DEF_COMMANDS["GENERATE_CELLTIME"]['cmd']):
         # GENERATE CELLTIME       
-        aux_data = struct.pack('<BL', data['task'], data['user_id'])
+        aux_data = struct.pack('<B', data['task'])
         
     # NUMBER    
     elif(length_tx == 1):

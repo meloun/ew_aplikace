@@ -52,7 +52,7 @@ class DfTable():
         
     def InitGui(self, sImport = True):
   
-        self.gui = {}     
+        self.gui = {}
         self.gui['view'] = getattr(Ui(), self.name+"ProxyView")
          
         #FILTER
@@ -525,7 +525,7 @@ class DfTable():
             
             
     def updateTabCounter(self):
-        if  self.gui['counter'] != None:         
+        if  self.gui['counter'] != None:
             self.gui['counter'].setText(str(self.proxy_model.rowCount())+"/"+str(self.model.rowCount()))
         
     def updateDbCounter(self):        

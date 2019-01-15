@@ -30,7 +30,7 @@ class Db():
     
     #dump data to the file
     def dump(self, data):
-        json.dump(data, codecs.open(self.filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
+        json.dump(data, codecs.open(self.filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4,  sort_keys = True)
             
     #restore from data        
     def restore_from_data(self, data = None):

@@ -199,15 +199,12 @@ class ManageCalcProcess():
         #uDf.loc[0] = [0, None, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None]        
         return uDf
                     
-    def GetJoinedDf(self):
-        run_id = self.dstore.Get("current_run")
+    def GetJoinedDf(self):        
             
         # DB df 
         #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
-        self.joinedDf = psql.read_sql(\
-                                "SELECT * FROM times" +\
-                                " WHERE (times.run_id = "+ str(run_id ) +")"\
-                                , self.db)                  
+        self.joinedDf = psql.read_sql("SELECT * FROM times", self.db)
+                          
         #set index = id
         self.joinedDf.set_index('id',  drop=False, inplace = True)            
         
