@@ -23,7 +23,6 @@ from ewitis.gui.Ui import appWindow
 # from ewitis.gui.dfTableAlltags import DfTableAlltags
 # from ewitis.gui.tableRaceInfo import RaceInfo
 
-from ewitis.gui.dfTableRuns import tableRuns
 from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.dfTableUsers import tableUsers

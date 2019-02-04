@@ -9,7 +9,6 @@ from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils
 from ewitis.gui.dfTable import DfTable
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
-from ewitis.gui.dfTableRuns import tableRuns
 from ewitis.data.dstore import dstore
             
 class DfModelRaceInfo(DataframeTableModel):

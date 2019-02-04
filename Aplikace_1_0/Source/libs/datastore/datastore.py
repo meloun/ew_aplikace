@@ -6,6 +6,7 @@ Created on 29.12.2011
 '''
 from threading import RLock
 import copy
+from ewitis.data.DEF_DATA import *
 """
 definice DAT pro DATASTORE
  - přenos dat mezi gui a kommunikací
@@ -29,7 +30,7 @@ definice DAT pro DATASTORE
           pokud je nulový vyčítá se z terminálu hodnota, ukládá se  
      
 """
-DEF_DATA = {
+DEF_DATA2 = {
                
         # GET_SET, LOKÁLNÍ DATA (neposílájí se do terminálu)
         "port_enable"        : {"name"   : "Port enable",
@@ -74,6 +75,7 @@ class Datastore():
         '''
         Constructor
         '''
+        self.default_data = copy.deepcopy(data)         
         self.data = copy.deepcopy(data)
         
         self.datalock = RLock(False)
@@ -97,6 +99,8 @@ class Datastore():
             
         self.data[name]['GET']['refresh_countdown'] = self.REFRESH_COUNTDOWN  
                                       
+
+        
     def ResetValue(self, name, keys = [], value = None):
         '''
         only for GET section
@@ -197,6 +201,14 @@ class Datastore():
         self.datalock.release() 
     
         return None
+    
+    def ResetToDefault(self, name, section = "GET_SET", changed = True):        
+        self.data[name][section]["value"] = copy.deepcopy(self.default_data[name][section]["value"])
+        self.data[name][section]['changed'] = changed
+        
+        
+        
+        
         
     def SetChangedFlag(self, name, flag):
         """

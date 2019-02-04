@@ -62,6 +62,14 @@ class ManageComm(Thread):
         
     def stop(self):
         self.protokol.close_port()
+        #cell versions
+        print "COMM: Reset: cells_info"   
+        
+        dstore.SetItem("gui", ["update_requests", "tableCells_sync"], True)             
+        print "STOP: nastavuju", dstore.GetItem("gui", ["update_requests", "tableCells_sync"]) 
+        dstore.ResetToDefault("cells_info", "GET", False)
+        dstore.ResetToDefault("cells_info", "SET", False)
+                
         print "COMM: koncim vlakno.."
         
     def send_receive_frame(self, command_key, data="", length = None, diagnostic = True):
@@ -83,8 +91,7 @@ class ManageComm(Thread):
             if diagnostic:
                 dstore.AddDiagnostic(command, data, 'green', command_key)
             '''send and receive data'''
-            receivedata = self.protokol.send_receive_frame(command, data)
-            print "RD", receivedata
+            receivedata = self.protokol.send_receive_frame(command, data)            
             '''unpack data to dict structure'''
             data = callback.unpack_data(receivedata['cmd'], receivedata['data'], data)
             '''response diagnostic'''
@@ -109,19 +116,24 @@ class ManageComm(Thread):
     
     def run(self):       
         print "COMM: zakladam vlakno..", time.clock()
-        dstore.Set("com_init", 2)
+        dstore.Set("com_init", 30)
         
         ##Reset all HW settings
-        #projit def_data a co neni permanent tak dát do default?
+        #projit def_data a co neni permanent tak dat do default?
         
         #BB version
+        print "COMM: Reset: versions"
         dstore.SetItem("versions", ["hw"], None)
         dstore.SetItem("versions", ["sw"], None)
+        
         #cell versions
+        print "COMM: Reset: cells_info"
+        #dstore.ResetToDefault("cells_info", "GET")
         
         #timing settings
         
         #cell info
+        
         #device info     
         
         ''' CONNECT TO EWITIS '''
@@ -149,13 +161,12 @@ class ManageComm(Thread):
         #dstore.Set("port_enable", True)
         dstore.SetItem("port", ["opened"], True)
 
-        self.cell_nr = 0
-        dstore.Set("cells_initiated", False)        
+        self.cell_nr = 0                
 
         """slot tasking"""
         idx = idx_a = idx_b = idx_c = 0
-        SLOT_A = [self.runGetCellOverview, self.runGetDeviceOverview, self.runGetTime, self.runGetTabSpecific, None]
-        SLOT_B = [self.runGetCellInfo, None]
+        SLOT_A = [self.runGetCellOverview, self.runGetDeviceOverview, self.runGetTime, None]
+        SLOT_B = [self.runGetCellInfo, self.runGetTabSpecific, None]
         SLOT_C = [self.runGetDeviceInfo, self.runGetRaceInfo, self.runGetDiagnostic]
         LeastCommonMultiple = len(SLOT_A) * len(SLOT_B) * len(SLOT_C) 
         print "LCM:", LeastCommonMultiple
@@ -231,12 +242,12 @@ class ManageComm(Thread):
                 #print "-",idx,"-"
                 idx_a = idx % len(SLOT_A)
                 if idx_a != len(SLOT_A)-1:
-                    SLOT_A[idx_a]()
+                    SLOT_A[idx_a]()                    
                 else:
                     '''slot B''' 
                     idx_b = (idx / len(SLOT_A)) % len(SLOT_B) 
                     if idx_b != len(SLOT_B)-1:
-                        SLOT_B[idx_b]()
+                        SLOT_B[idx_b]()                        
                     else:
                         '''slot C'''
                         idx_c = (idx / len(SLOT_A) / len(SLOT_B)) % len(SLOT_C)
@@ -261,6 +272,13 @@ class ManageComm(Thread):
             """
             if dstore.Get("com_init") != 0:
                 dstore.Set("com_init", dstore.Get("com_init") - 1)
+                if(dstore.Get("com_init") == 0):
+                    
+                    """ Init Event """                    
+                    #
+                    print "init: nastavuju"                    
+                    dstore.SetItem("gui", ["update_requests", "tableCells_sync"], True)
+                    print "COMM: Initialized"
             
             
             dstore.SetItem("systemcheck", ["wdg_comm"],  dstore.GetItem("systemcheck", ["wdg_comm"])+1)
@@ -304,7 +322,8 @@ class ManageComm(Thread):
                         dstore.SetItem("cells_info", [nr, "synchronized_once"], co["synchronized_once"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "missing_time_flag"], co["missing_time_flag"], "GET", permanent = False)
-                        dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)               
+                        dstore.SetItem("cells_info", [nr, "insystem"], co["insystem"], "GET", permanent = False)
+                        dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)                                               
 
     
     """
@@ -349,26 +368,40 @@ class ManageComm(Thread):
         
         aux_diagnostic = dstore.Get("diagnostic") 
          
-        """get cell info"""                                
-        aux_cells_info = [None] #* NUMBER_OF.CELLS                
-        #for i in range(0,  NUMBER_OF.CELLS):                                       
-        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr +1, diagnostic = aux_diagnostic["log_cyclic"])                                                    
-    
-        """ store terminal-states to the datastore """ 
+        """get cell info"""                        
+        ds_cells_info = dstore.Get("cells_info", "GET")                
+                  
+        if ds_cells_info != None:            
+            for i in range(0,  NUMBER_OF.CELLS):                
+                aux_cell_nr = (self.cell_nr + i) % NUMBER_OF.CELLS                                                 
+                if(ds_cells_info[aux_cell_nr]["insystem"]) == True:
+                    #print "InSystem: ", aux_cell_nr, i
+                    self.cell_nr = aux_cell_nr
+                    break;
+                #else:
+                #    print "NO InSystem: ", aux_cell_nr, i
+                 
+        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr + 1, diagnostic = aux_diagnostic["log_cyclic"])
+        #print "COMM CellInfo", self.cell_nr, "-", time.clock(), dstore.Get("com_init")   
+        #print "COMM CellInfo", self.cell_nr, "-", aux_cells_info,  time.clock()                                                  
+     
+#         """ store cell info to the datastore """ 
         if not('error' in aux_cells_info):                    
-            if(dstore.IsReadyForRefresh("cells_info")):            
+            if(dstore.IsReadyForRefresh("cells_info")):
+                
+                #copy insystem
+                aux_cells_info["insystem"] = ds_cells_info[self.cell_nr]["insystem"]
+                
+                #save to dstore                                           
                 dstore.SetItem("cells_info", [self.cell_nr], aux_cells_info, "GET", permanent = False)
-                if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
+                if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace                    
                     dstore.SetItem("cells_info", [self.cell_nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
-                    
-        #return nr of next cell
-        self.cell_nr = self.cell_nr  +1 
-        
+
+                     
+        self.cell_nr = self.cell_nr + 1;
         if (self.cell_nr  == NUMBER_OF.CELLS):
             self.cell_nr  = 0
-            if (dstore.Get("cells_initiated") == False):
-                dstore.Set("cells_initiated", True)  
-                print "I: comm: cells initiated", time.clock()              
+                                 
     """
     runActions()
      - quit timing

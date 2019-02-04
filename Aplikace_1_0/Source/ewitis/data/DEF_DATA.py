@@ -110,7 +110,8 @@ DEF_DATA = {
                                                                          "tableUsers":False, #table users update
                                                                          "tableTimes":False, #table times update
                                                                          "new_times": [],    #new times for autonumbers
-                                                                         "comm":      []     #not implemented - request for communication
+                                                                         "comm":      [],     #not implemented - request for communication
+                                                                         "tableCells_sync": False
                                                                         }
                                                         }
                                               }
@@ -347,8 +348,7 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                                 }, 
-        #tab cells
-        "cells_initiated"    : {"GET_SET"  : { "value"   : False},},
+        #tab cells        
         
          #tab DIAGNOSTIC                      
         "diagnostic"         : {"GET_SET"  : {"value": {
@@ -420,9 +420,10 @@ DEF_DATA = {
                                                            "synchronized": None,
                                                            "times_bb": None,
                                                            "times_cell": None,
+                                                           "insystem": None,
                                                            "missing_time_flag": None,                                                           
                                                            "address": index+1,
-                                                           "task": None,
+                                                           "task": 0,
                                                            "trigger": 0,
                                                            "auto_enable": 0,
                                                            "diagnostic_long_ok":  0,

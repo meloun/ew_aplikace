@@ -13,6 +13,7 @@ from ewitis.data.dstore import dstore
 from ewitis.gui.Ui import Ui
 from ewitis.data.DEF_ENUM_STRINGS import COLORS, STATUS
 from ewitis.data.DEF_DATA import *
+from threading import Timer
 
 
 
@@ -57,7 +58,7 @@ class CellGroup ():
         
         self.timer_nodialog = CellGroup.TIMER_NODIALOG_INIT
         self.timer_nochange = CellGroup.TIMER_NOCHANGE
-        self.initialized = False
+        #self.initialized = False
         
     
     def Init(self):        
@@ -79,12 +80,17 @@ class CellGroup ():
     
     def sComboCellTask(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
-        cells_info = dstore.Get("cells_info", "GET")
-        get_cell_info = cells_info[self.nr-1]
-        set_cell_info = {}
+        #cells_info = dstore.Get("cells_info", "GET")
+        #set_cell_info = {}
+        get_cell_info = dstore.Get("cells_info", "GET")[self.nr-1]
+        set_cell_info = dstore.Get("cells_info", "SET")[self.nr-1].copy()
+        
+        #print "index", index, self.nr
         task = self.Idx2TaskNr(index)
+        #print "task", task
         set_cell_info["task"] = task
-        set_cell_info["trigger"] = get_cell_info["trigger"]
+                
+        #set_cell_info["trigger"] = get_cell_info["trigger"]
         set_cell_info["auto_enable"] = get_cell_info["auto_enable"]                               
         set_cell_info["address"] = self.nr                               
         set_cell_info["fu1"] = 0x00                               
@@ -94,16 +100,25 @@ class CellGroup ():
         
         if task != 0:
             for info in cells_info:
-                if info['task'] == task:         
-                    self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(get_cell_info["task"]))                                                                                                            
+                if info['task'] == task:
+                     
+                    self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(get_cell_info["task"]))                                                                                                                                                            
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
-                    return        
+                    return False
+            print "set timer"
+            r = Timer(2, self.SyncGet)
+            r.start()
+        else:
+            self.comboCellTrigger.setCurrentIndex(0)
+            set_cell_info["trigger"] = 0
+            get_cell_info["trigger"] = None        
                                
+        '''store new value to dstore, communication request'''
+        #print "Request", set_cell_info        
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", [self.nr-1, 'task'])
-        #self.timer_nochange = CellGroup.TIMER_NOCHANGE
+        dstore.ResetValue("cells_info", [self.nr-1, 'task'])        
       
         
     def sComboCellTrigger(self, index):                        
@@ -118,11 +133,11 @@ class CellGroup ():
         set_cell_info["fu1"] = 0x00                               
         set_cell_info["fu2"] = 0x00                                      
                                
+        '''store new value to dstore, communication request'''
         dstore.SetItem("cells_info", [self.nr-1], set_cell_info, "SET", changed = [self.nr-1])                               
         
         '''reset GET hodnoty'''
-        dstore.ResetValue("cells_info", [self.nr-1, 'trigger'])
-        #self.timer_nochange = CellGroup.TIMER_NOCHANGE
+        dstore.ResetValue("cells_info", [self.nr-1, 'trigger'])        
         
     def sComboCellAutoEnable(self, index):                        
         '''získání a nastavení nové SET hodnoty'''
@@ -184,7 +199,9 @@ class CellGroup ():
     
     def TaskNr2Idx(self, task):
         #take care about finish time
-        if task == 250:
+        if task == None:
+            task = 0
+        elif task == 250:
             task = 6
         return task
     
@@ -203,6 +220,8 @@ class CellGroup ():
         
         #set enabled               
         if(port_open ==False) or (get_info['task'] == None) or (get_info['task'] == 0):
+            if self.nr == 7:
+                print "AAAAAA"
             self.SetEnabled(False, port_open)
         else: 
             self.SetEnabled(True, port_open)                    
@@ -227,51 +246,22 @@ class CellGroup ():
             self.lineCellAutoEnable.setText(self.comboCellAutoEnable.itemText(get_info['auto_enable']))
         else:
             self.lineCellAutoEnable.setText(" - - - ")
-        #self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))
-                 
-                               
-        #synchronize comboboxes with GET value (after timeout)
-        if port_open:            
-            if dstore.Get("cells_initiated") == True:
-                if(self.initialized == False):                    
-                    self.initialized = True
-                    
-                    task_index = self.TaskNr2Idx(get_info["task"])
-                    if task_index:
-                        if(task_index != self.comboCellTask.currentIndex()):
-                            self.comboCellTask.setCurrentIndex(task_index)
-                            dstore.SetItem("cells_info", [self.nr-1, "task"], get_info["task"], "SET", changed = False)
-                            #if port_open and (self.timer_nodialog==0):                    
-                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this task!")           
-                    else:
-                        self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
-                    
-                    if get_info["trigger"] != None:
-                        if(get_info["trigger"] != self.comboCellTrigger.currentIndex()):
-                            self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
-                            dstore.SetItem("cells_info", [self.nr-1, "trigger"], get_info["trigger"], "SET", changed = False)
-                            #if port_open and (self.timer_nodialog==0):                 
-                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this trigger!")  
-                    else:                
-                        self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
-                    
-                    if get_info["auto_enable"] != None:
-                        if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()):
-                            self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
-                            dstore.SetItem("cells_info", [self.nr-1, "auto_enable"], get_info["auto_enable"], "SET", changed = False)
-                            #if port_open and (self.timer_nodialog==0):                 
-                            #    uiAccesories.showMessage("Cell Update error", "Cannot assign this settings!")  
-                    else:                
-                        self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"         
-        
+        #self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))                                                    
+                
         #set match color        
         match = (get_info['task'] == set_info['task'])
+        if self.nr == 7:
+            print "match", match, get_info['task'], set_info['task']
         #print "TZZ", self.nr, get_info['task'], set_info['task'] 
         self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
         #print get_info['task'], set_info['task']
         match = (get_info['auto_enable'] == set_info['auto_enable'])
         self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
         match = (get_info['trigger'] == set_info['trigger'])
+        if self.nr == 7:
+            print "--------------------"
+            print "G:", get_info["task"], get_info["trigger"]
+            print "S:", set_info["task"], set_info["trigger"]
         self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))    
                                     
         
@@ -372,7 +362,33 @@ class CellGroup ():
         else:
             self.lineCellDiagLongRatio.setText("- -")
             
-            
+   
+    def SyncGet(self):
+        print "SYNC GET SET"
+        #synchronize comboboxes with GET value (after timeout)                                                        
+        get_info = self.GetInfo()    
+        task_index = self.TaskNr2Idx(get_info["task"])
+        if task_index:
+            if(task_index != self.comboCellTask.currentIndex()):
+                self.comboCellTask.setCurrentIndex(task_index)
+                dstore.SetItem("cells_info", [self.nr-1, "task"], get_info["task"], "SET", changed = False)                           
+        else:
+            self.comboCellTask.setCurrentIndex(0) #get value None <= "- - -"
+        
+        if get_info["trigger"] != None:
+            if(get_info["trigger"] != self.comboCellTrigger.currentIndex()):
+                self.comboCellTrigger.setCurrentIndex(get_info["trigger"])
+                dstore.SetItem("cells_info", [self.nr-1, "trigger"], get_info["trigger"], "SET", changed = False)                  
+        else:                
+            self.comboCellTrigger.setCurrentIndex(0)  #get value None <= "- - -"
+        
+        if get_info["auto_enable"] != None:
+            if(get_info["auto_enable"] != self.comboCellAutoEnable.currentIndex()):
+                self.comboCellAutoEnable.setCurrentIndex(get_info["auto_enable"])
+                dstore.SetItem("cells_info", [self.nr-1, "auto_enable"], get_info["auto_enable"], "SET", changed = False)                  
+        else:                
+            self.comboCellAutoEnable.setCurrentIndex(0)  #get value None <= "- - -"         
+        
     def GetColorParBattery(self, battery, enabled):    
         if enabled:                                 
             if battery > 25:
@@ -453,8 +469,17 @@ class TabCells(MyTab):
         return status
     
     def Update(self, mode = UPDATE_MODE.all):
+        
+        #update gui
         for i in range(0, NUMBER_OF.CELLS):
             self.cellgroups[i].Update()
+        
+        #request - synchronize comboboxes with GET value        
+        if dstore.GetItem("gui", ["update_requests", "tableCells_sync"]):
+            dstore.SetItem("gui", ["update_requests", "tableCells_sync"], False) 
+            for i in range(0, NUMBER_OF.CELLS):
+                self.cellgroups[i].SyncGet()
+        
         return True        
     
          

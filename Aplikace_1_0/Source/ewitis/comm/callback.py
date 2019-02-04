@@ -204,7 +204,8 @@ def unpack_data(command, data, senddata):
             aux_cell['ir_signal'] = bool(cell_flags & 0x01)
             aux_cell['synchronized_once'] = bool(cell_flags & 0x02)
             aux_cell['synchronized'] = bool(cell_flags & 0x04)
-            aux_cell['missing_time_flag'] = (cell_flags >> 3) & 0x03
+            aux_cell['missing_time_flag'] = bool(cell_flags & 0x3)
+            aux_cell['insystem'] =  bool(cell_flags & 0x40)
             aux_cell['active'] = bool(cell_flags & 0x80)
 
             aux_cell_overview[i] = aux_cell
