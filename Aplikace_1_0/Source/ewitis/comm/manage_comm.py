@@ -161,7 +161,9 @@ class ManageComm(Thread):
         #dstore.Set("port_enable", True)
         dstore.SetItem("port", ["opened"], True)
 
-        self.cell_nr = 0                
+        self.CellIdx_ForCellInfo = 0
+        self.CellIdx_ForVersions = 0
+                        
 
         """slot tasking"""
         idx = idx_a = idx_b = idx_c = 0
@@ -294,6 +296,7 @@ class ManageComm(Thread):
             self.runGetRaceInfo()
         elif(aux_tab == TAB.device):
             self.runGetDeviceInfo()
+            self.runGetCellVersion()
         elif(aux_tab == TAB.cells1) or (aux_tab == TAB.cells2) or (aux_tab == TAB.cells3):
             self.runGetCellInfo()
         elif(aux_tab == TAB.diagnostic):
@@ -363,44 +366,114 @@ class ManageComm(Thread):
                 dstore.Set("timing_settings", aux_timing_setting, "GET")                
             #else:
             #   print "I: COMM: aux_timing_setting: not ready for refresh",aux_timing_setting
-            
-    def runGetCellInfo(self):        
+    
+    
+    """
+    GetCellInSystem()
+    """
+    def GetCellInSystem(self, start_idx):
+        ''' get cell info '''                        
+        ds_cells_info = dstore.Get("cells_info", "GET")
         
-        aux_diagnostic = dstore.Get("diagnostic") 
-         
+        ''' find next cell in system '''                  
+        if ds_cells_info != None:            
+            for i in range(0,  NUMBER_OF.CELLS):                
+                aux_cell_nr = (start_idx + i) % NUMBER_OF.CELLS                                                 
+                if(ds_cells_info[aux_cell_nr]["insystem"]) == True:                                        
+                    break;
+            else:
+                ''' no cell found '''
+                aux_cell_nr = None
+
+            return aux_cell_nr 
+    
+    def runGetCellVersion(self):
+        ''' find next cell in in system '''
+        cell_idx = self.GetCellInSystem(self.CellIdx_ForVersions)
+        #print "CV1:", self.CellIdx_ForVersions, cell_idx
+        
+        
+        if(cell_idx != None):
+            ''' send command '''
+            aux_cells_version = self.send_receive_frame("GET_CELL_VERSION", cell_idx + 1, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
+
+            ''' store cell info to the datastore  '''
+            if not('error' in aux_cells_version):
+                #save to dstore                                           
+                dstore.SetItem("versions", ["cells", cell_idx], aux_cells_version["cells"],  permanent = False)
+                
+            ''' update idx after last cell in sysem '''
+            self.CellIdx_ForVersions = (cell_idx + 1) % NUMBER_OF.CELLS
+        else:
+            ''' increment idx to next cell '''
+            self.CellIdx_ForVersions = (self.CellIdx_ForVersions + 1) % NUMBER_OF.CELLS   
+
+
+    def runGetCellInfo(self):
+        ''' find next cell in in system '''
+        cell_idx = self.GetCellInSystem(self.CellIdx_ForCellInfo)
+
+        if(cell_idx != None):
+            
+            ''' send command '''
+            aux_cells_info = self.send_receive_frame("GET_CELL_INFO", cell_idx + 1, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
+
+            ''' store cell info to the datastore ''' 
+            if not('error' in aux_cells_info):                    
+                if(dstore.IsReadyForRefresh("cells_info")):
+                    #copy insystem                    
+                    aux_cells_info["insystem"] = dstore.Get("cells_info", "GET")[cell_idx]["insystem"]
+                
+                    #save to dstore                                           
+                    dstore.SetItem("cells_info", [cell_idx], aux_cells_info, "GET", permanent = False)
+                    
+                    #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
+                    if dstore.Get("com_init"):                     
+                        dstore.SetItem("cells_info", [cell_idx, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
+                        
+                ''' update idx after last cell in sysem '''
+                self.CellIdx_ForCellInfo = (cell_idx + 1) % NUMBER_OF.CELLS
+            else:
+                ''' increment idx to next cell '''
+                self.CellIdx_ForVersions = (self.CellIdx_ForVersions + 1) % NUMBER_OF.CELLS
+
+            
+    def runGetCellInfo_OLD(self):        
+                          
         """get cell info"""                        
         ds_cells_info = dstore.Get("cells_info", "GET")                
                   
         if ds_cells_info != None:            
             for i in range(0,  NUMBER_OF.CELLS):                
-                aux_cell_nr = (self.cell_nr + i) % NUMBER_OF.CELLS                                                 
+                aux_cell_nr = (self.CellIdx_ForCellInfo + i) % NUMBER_OF.CELLS                                                 
                 if(ds_cells_info[aux_cell_nr]["insystem"]) == True:
                     #print "InSystem: ", aux_cell_nr, i
-                    self.cell_nr = aux_cell_nr
-                    break;
+                    self.CellIdx_ForCellInfo = aux_cell_nr
+                    break
                 #else:
                 #    print "NO InSystem: ", aux_cell_nr, i
-                 
-        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.cell_nr + 1, diagnostic = aux_diagnostic["log_cyclic"])
+                         
+        aux_cells_info = self.send_receive_frame("GET_CELL_INFO", self.CellIdx_ForCellInfo + 1, diagnostic = dstore.Get("diagnostic")["log_cyclic"])
         #print "COMM CellInfo", self.cell_nr, "-", time.clock(), dstore.Get("com_init")   
         #print "COMM CellInfo", self.cell_nr, "-", aux_cells_info,  time.clock()                                                  
      
-#         """ store cell info to the datastore """ 
+        """ store cell info to the datastore """ 
         if not('error' in aux_cells_info):                    
             if(dstore.IsReadyForRefresh("cells_info")):
                 
                 #copy insystem
-                aux_cells_info["insystem"] = ds_cells_info[self.cell_nr]["insystem"]
+                aux_cells_info["insystem"] = ds_cells_info[self.CellIdx_ForCellInfo]["insystem"]
                 
                 #save to dstore                                           
-                dstore.SetItem("cells_info", [self.cell_nr], aux_cells_info, "GET", permanent = False)
-                if dstore.Get("com_init"): #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace                    
-                    dstore.SetItem("cells_info", [self.cell_nr, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
+                dstore.SetItem("cells_info", [self.CellIdx_ForCellInfo], aux_cells_info, "GET", permanent = False)
+                #synchro get a set, tzn. comboboxu s lineedit - po navazani komunikace
+                if dstore.Get("com_init"):                     
+                    dstore.SetItem("cells_info", [self.CellIdx_ForCellInfo, "task"], aux_cells_info["task"], "SET", permanent = False, changed = False)
 
                      
-        self.cell_nr = self.cell_nr + 1;
-        if (self.cell_nr  == NUMBER_OF.CELLS):
-            self.cell_nr  = 0
+        self.CellIdx_ForCellInfo = self.CellIdx_ForCellInfo + 1;
+        if (self.CellIdx_ForCellInfo  == NUMBER_OF.CELLS):
+            self.CellIdx_ForCellInfo  = 0
                                  
     """
     runActions()
@@ -526,7 +599,7 @@ class ManageComm(Thread):
     def runGetRaceTime(self):            
         """get race time"""   
         aux_diagnostic = dstore.Get("diagnostic")                                                                                
-        aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = aux_diagnostic["log_cyclic"])
+        aux_racetime = self.send_receive_frame("GET_ACTUAL_RACE_TIME", diagnostic = aux_diagnostic["log_cyclic"])        
         dstore.Set("race_time", aux_racetime['time'])                          
         
     """

@@ -138,6 +138,11 @@ def unpack_data(command, data, senddata):
         = struct.unpack("<IBBBBBBBBBBBB", data)
 
         return aux_terminal_overview
+        # HW & FW VERSIONS
+    if(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_VERSION"]["cmd"] | 0x80)):        
+        aux_versions = {}
+        aux_versions['cells'], = struct.unpack("<I", data)        
+        return aux_versions
 
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_TIMING_SETTINGS"]["cmd"] | 0x80)):
         ''' GET_TIMING_SETTINGS RESPONSE
@@ -264,7 +269,7 @@ def unpack_data(command, data, senddata):
         return data    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_ACTUAL_RACE_TIME"]["cmd"] | 0x80)):
         aux_time = {}        
-        aux_time['time'], = struct.unpack("<I", data)        
+        aux_time['time'], = struct.unpack("<I", data)
         return aux_time    
     elif(command == (DEF_COMMANDS.DEF_COMMANDS["GET_CELL_LAST_TIME"]["cmd"] | 0x80)):
         return data    

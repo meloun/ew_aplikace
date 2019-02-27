@@ -111,7 +111,9 @@ class CellGroup ():
         else:
             self.comboCellTrigger.setCurrentIndex(0)
             set_cell_info["trigger"] = 0
-            get_cell_info["trigger"] = None        
+            get_cell_info["trigger"] = None
+            #reset cell version
+            dstore.SetItem("versions", ["cells", self.nr-1], None,  permanent = False)        
                                
         '''store new value to dstore, communication request'''
         #print "Request", set_cell_info        
@@ -220,8 +222,6 @@ class CellGroup ():
         
         #set enabled               
         if(port_open ==False) or (get_info['task'] == None) or (get_info['task'] == 0):
-            if self.nr == 7:
-                print "AAAAAA"
             self.SetEnabled(False, port_open)
         else: 
             self.SetEnabled(True, port_open)                    
@@ -249,19 +249,12 @@ class CellGroup ():
         #self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(self.lineCellAutoEnable.text(), get_info['auto_enable']))                                                    
                 
         #set match color        
-        match = (get_info['task'] == set_info['task'])
-        if self.nr == 7:
-            print "match", match, get_info['task'], set_info['task']
-        #print "TZZ", self.nr, get_info['task'], set_info['task'] 
+        match = (get_info['task'] == set_info['task']) 
         self.lineCellTask.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
         #print get_info['task'], set_info['task']
         match = (get_info['auto_enable'] == set_info['auto_enable'])
         self.lineCellAutoEnable.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))
         match = (get_info['trigger'] == set_info['trigger'])
-        if self.nr == 7:
-            print "--------------------"
-            print "G:", get_info["task"], get_info["trigger"]
-            print "S:", set_info["task"], set_info["trigger"]
         self.lineCellTrigger.setStyleSheet("background:"+COLORS.GetColor(match, get_info['task']))    
                                     
         
@@ -364,7 +357,6 @@ class CellGroup ():
             
    
     def SyncGet(self):
-        print "SYNC GET SET"
         #synchronize comboboxes with GET value (after timeout)                                                        
         get_info = self.GetInfo()    
         task_index = self.TaskNr2Idx(get_info["task"])

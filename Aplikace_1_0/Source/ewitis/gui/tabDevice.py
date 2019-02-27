@@ -5,11 +5,14 @@ Created on 14.12.2013
 @author: Meloun
 '''
 
+
 from PyQt4 import QtCore
 from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.gui.Ui import Ui
+from ewitis.data.DEF_DATA import NUMBER_OF
 from ewitis.data.dstore import dstore
 from ewitis.data.DEF_ENUM_STRINGS import *
+
 import datetime
 import ewitis.gui.TimesUtils as TimesUtils
 
@@ -23,6 +26,11 @@ class TabDevice():
         print "I: CREATE: tabDevice"
         
     def Init(self):
+        ui = Ui()
+        ''' cell version'''
+        self.cell_versions = [None] * NUMBER_OF.CELLS
+        for nr in range (0, NUMBER_OF.CELLS):
+            self.cell_versions[nr] = getattr(ui, "lineCellVersion_"+str(nr+1))  
         self.CreateSlots()
                 
     def CreateSlots(self):                    
@@ -76,42 +84,42 @@ class TabDevice():
         return status                                 
 
     def Update(self, mode = UPDATE_MODE.all):
-        """ HW & FW VERSION """
+        """ DEVICE SETTINGS & INFO """
         aux_versions = dstore.Get("versions")
         
+        '''hw version'''
         if(aux_versions['hw'] != None):                                        
             Ui().lineHwVersion.setText(str(aux_versions['hw']))  
         else:
             Ui().lineHwVersion.setText("- -")
-             
+
+        '''fw version'''             
         if(aux_versions['fw'] != None):                                        
             Ui().lineFwVersion.setText(str(aux_versions['fw']))  
         else:
             Ui().lineFwVersion.setText("- -") 
           
+        '''datetime'''
         aux_datetime = dstore.Get("race_time")  
-        Ui().lineDatetime.setText(TimesUtils.TimesUtils.time2timestring(aux_datetime, including_days = True))
+        Ui().lineDatetime.setText(TimesUtils.TimesUtils.time2timestring(aux_datetime, including_days = True))                
         
-        
-        
-        
-        """ TERMINAL INFO """
+                
         aux_terminal_info = dstore.Get("terminal_info", "GET")
         
-        """ number of cells """
+        ''' number of cells '''
         if(aux_terminal_info['number_of_cells'] != None):
             Ui().lineCells.setText(str(aux_terminal_info['number_of_cells']))                        
         else:
             Ui().lineCells.setText("-") 
             
         
-        """ battery """
+        ''' battery '''
         if(aux_terminal_info['battery'] != None):
             Ui().lineBattery.setText(str(aux_terminal_info['battery'])+" %")                        
         else:
             Ui().lineBattery.setText("-- %")              
         
-        """ speaker """        
+        ''' speaker '''        
         if(aux_terminal_info['speaker']['keys'] == True):
             Ui().lineSpeakerKeys.setText("ON")
             Ui().pushSpeakerKeys.setText("OFF")
@@ -163,7 +171,15 @@ class TabDevice():
             Ui().pushSpeakerSystem.setEnabled(True)
             Ui().pushSpeakerTiming.setEnabled(True)
                 
+        """ CELLS INFO """
+        for nr in range (0, NUMBER_OF.CELLS):
+            aux_cellversion = aux_versions['cells'][nr]
+            if( aux_cellversion != None):                                        
+                self.cell_versions[nr].setText(str(aux_cellversion))  
+            else:
+                self.cell_versions[nr].setText("- - -")
             
+  
         return True    
         
 tabDevice = TabDevice()  
