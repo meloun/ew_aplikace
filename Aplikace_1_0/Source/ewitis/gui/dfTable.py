@@ -92,7 +92,7 @@ class DfTable():
         #self.proxy_model = proxymodel        
         
         #create MODEL        
-        self.model = getattr(module, "DfModel"+self.name)(self)
+        self.model = getattr(module, "DfModel"+self.name)(self)        
         #self.model = model                                 
         
         
@@ -112,6 +112,9 @@ class DfTable():
         self.gui['view'].setSortingEnabled(True)
         self.gui['view'].sortByColumn(0, QtCore.Qt.DescendingOrder)                      
         self.gui['view'].setAlternatingRowColors(True)
+        self.gui['view'].setUniformRowHeights(True)
+        self.gui['view'].setItemsExpandable(False)
+        self.gui['view'].header().setStretchLastSection(False)
         #only for treeview  
         try:      
             self.gui['view'].setRootIsDecorated(False)
@@ -131,7 +134,7 @@ class DfTable():
         # init Gui/Models/View
         self.InitGui()                               
         self.InitModels()
-        self.InitView()    
+        self.InitView()
                          
         #TIMERs
         #self.timer1s = QtCore.QTimer(); 
@@ -141,7 +144,9 @@ class DfTable():
         
         #update "Counter"
         if(self.gui['filter']  != None):
-            self.sFilterRegExp()        
+            self.sFilterRegExp()
+        
+        self.update_init_cnt = 5        
         
     def sSelectionChanged(self, selected, deselected):
         #if selected:
@@ -155,8 +160,7 @@ class DfTable():
             index = self.TABLE_COLLUMN_DEF[key]["index"]
             width = self.TABLE_COLLUMN_DEF[key]["width"]
             if(width):            
-                self.gui['view'].setColumnWidth(index,width)
-                #print index, key, width                        
+                self.gui['view'].setColumnWidth(index, width)
         
     def createSlots(self):
         print "I: SLOTS: ",self.name
@@ -460,11 +464,17 @@ class DfTable():
         
         #resize collumns to contents        
         #for col in range(self.proxy_model.columnCount()):
-        #    self.params.gui['view'].resizeColumnToContents(col)        
-        #self.setColumnWidth()                   
+        #    self.gui['view'].resizeColumnToContents(col)
         
-        self.HideColumns()    
-                                  
+        #set column width
+        if(self.update_init_cnt != 0):
+            self.update_init_cnt = self.update_init_cnt - 1;
+            self.setColumnWidth()                   
+        
+        self.HideColumns()
+        
+
+
         #@print "dfTable.Update()", self.name, time.clock() - ztime,"s"        
         return True 
     
@@ -593,8 +603,10 @@ if __name__ == "__main__":
     appWindow.Init()
     uiAccesories.Init()
     
-    tableTest =  myTable("Points")
+    tableTest =  DfTable("Times")
     tableTest.Init()
+    #time.sleep(5)
+    tableTest.Update()
         
     appWindow.show()    
     sys.exit(app.exec_())

@@ -49,9 +49,10 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
     def __init__(self, table): 
         super(DataframeTableModel, self).__init__()
         self.table = table
-        self.name = table.name
+        self.name =  table.name #AA
         self.df = pd.DataFrame()        
         QtCore.QObject.connect(self, QtCore.SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), self.sModelChanged)
+        self.cnt = 0        
                          
         
     def flags(self, index):
@@ -64,12 +65,12 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         return False                
     
     #virtual function to override
-    def GetDataframe(self):
-        myheader = ["test1", "test2", "test3"]
+    def GetDataframe(self):        
+        myheader = ["test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9"]
         random_nr = int(round(time.clock() * 10))            
-        myrow1 =   [ random_nr,  random_nr+400, 250]
-        myrow2 =   [ random_nr+1,  random_nr+400, 250]
-        df = pd.DataFrame([myrow1]*10 + [myrow2]*10, columns = myheader)
+        myrow1 =   [ random_nr,  random_nr+2, random_nr+3, random_nr+4, random_nr+5,random_nr+6,random_nr+7,random_nr+8,random_nr+9]
+        myrow2 =   [ random_nr,  random_nr+2, random_nr+3, random_nr+4, random_nr+5,random_nr+6,random_nr+7,random_nr+8,random_nr+9]
+        df = pd.DataFrame([myrow1]*5000 + [myrow2]*5000, columns = myheader)
         print "GetDataframe"
         return df
     
@@ -97,12 +98,12 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         
     def Update(self):   
         
-        
+        self.cnt = 0
         ztime = time.clock()                               
         self.layoutAboutToBeChanged.emit()        
         self.df = self.GetDataframe()                                      
         self.layoutChanged.emit()
-        #@print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
+        print 'DataframeTableModel.Update()', time.clock() - ztime,"s"       
      
     def rowCount(self, parent=QtCore.QModelIndex()):
         if parent.isValid():
@@ -112,7 +113,7 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
     def columnCount(self, parent=QtCore.QModelIndex()):
         return len(self.df.columns.values)
      
-    def setData(self, index, value, role = QtCore.Qt.EditRole):  
+    def setData(self, index, value, role = QtCore.Qt.EditRole):
         if role == QtCore.Qt.EditRole:
             
             if self.data(index) == value:                
@@ -141,25 +142,31 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
         print "setDataFromDict()", mydict
         
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
-        if role == QtCore.Qt.DisplayRole and orientation == QtCore.Qt.Horizontal:
+        if (role == QtCore.Qt.TextAlignmentRole):
+            return QtCore.Qt.AlignHCenter
+        elif role == QtCore.Qt.DisplayRole and orientation == QtCore.Qt.Horizontal:
             #print "TADY SI TO BERU", section, self.df.columns[section]
             return self.df.columns[section]
         return QtCore.QAbstractTableModel.headerData(self, section, orientation, role)  
         
     def data(self, index, role=QtCore.Qt.DisplayRole):
-        
-        if (role == QtCore.Qt.DisplayRole) or (role == QtCore.Qt.EditRole):
-            i = index.row()
-            j = index.column()
-            item = self.df.iat[i, j]            
+        #ztime = time.clock()
+        if (role == QtCore.Qt.TextAlignmentRole):
+            return QtCore.Qt.AlignHCenter
+        elif (role == QtCore.Qt.DisplayRole) or (role == QtCore.Qt.EditRole):
+            self.cnt = self.cnt + 1
+            #print self.cnt            
+            item = self.df.iat[index.row(), index.column()]            
             
-            if pd.notnull(item):            
-                if isinstance( item, numpy.int64 ):                                                        
-                    item = int(item)                
-                if isinstance( item, numpy.float64 ):                
-                    item = float(item)                             
+            if pd.notnull(item):
+                if isinstance( item, numpy.int64 ):
+                    item = int(item)
+                if isinstance( item, numpy.float64 ):
+                    item = float(item)
+            #print 'data', time.clock() - ztime,"s"
             return item
-        else:            
+        else:
+            #print "ELSE", time.clock() - ztime,"s"
             return QtCore.QVariant()
         
     def getRow(self, id):
@@ -220,6 +227,7 @@ if __name__ == "__main__":
     
         
     ui.tableView.setModel(myProxymodel)
+    ui.treeView.setModel(myProxymodel)
 
     
 

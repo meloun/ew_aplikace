@@ -17,7 +17,7 @@ def connect(filename):
     return db
         
 def commit(db):                
-    res = db.commit()                                                  
+    res = db.commit()
     return res 
             
 def query(db, query_string):

@@ -27,7 +27,7 @@
                 "order": [
                     {
                         "checked": 2,
-                        "column1": "Points5",
+                        "column1": "Time1",
                         "column2": "Year",
                         "order1": "Asc",
                         "order2": "Asc",
@@ -35,7 +35,7 @@
                         "type": "Category"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "column1": "Points4",
                         "column2": "Year",
                         "order1": "Asc",
@@ -55,19 +55,19 @@
                 ],
                 "points": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "minimum": 0,
                         "rule": "abs(time1 - %00:00:07,00%)"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "minimum": 0,
                         "rule": "abs(time2 - %00:00:33,00%)"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "maximum": 500,
                         "minimum": 0,
                         "rule": "abs(time3 - %00:00:38,00%)"
@@ -97,7 +97,7 @@
                         "rule": "time - celltime1"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
@@ -120,10 +120,10 @@
                 ],
                 "un": [
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
-                        "checked": 0
+                        "checked": 2
                     },
                     {
                         "checked": 0
@@ -254,9 +254,9 @@
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 2,
-                        "points2": 2,
-                        "points3": 2,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
                         "points4": 0,
                         "points5": 0,
                         "sex": 0,
@@ -712,12 +712,12 @@
     },
     "timing_settings": {
         "GET": {
-            "refresh_countdown": 0,
+            "refresh_countdown": 1,
             "value": {
                 "autoenable_bb": 0,
                 "autoenable_cell": 0,
                 "autorequest_missingtimes": 2,
-                "logic_mode": 2,
+                "logic_mode": null,
                 "measurement_state": 0,
                 "tags_reading_enable": 0,
                 "times_download_mode": 0

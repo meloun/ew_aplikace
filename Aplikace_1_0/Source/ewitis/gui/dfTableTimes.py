@@ -79,6 +79,7 @@ class DfModelTimes(DataframeTableModel):
         self.conf = ListOfDicts(CONF_TABLE_TIMES) 
         self.db_con = db.getDb()
         self.changed_rows = pd.DataFrame()
+        self.mynr = 0 
                 
         
     def flags(self, index):                 
@@ -93,21 +94,24 @@ class DfModelTimes(DataframeTableModel):
     
     def data(self, index, role=QtCore.Qt.DisplayRole):
         if (role == QtCore.Qt.BackgroundRole):
-            try:               
-                'changed rawtime -> yellow'            
-                if self.df.iloc[index.row()]['state'][0]== 'C' :
-                    return QtGui.QColor(COLORS.yellow)                          
-                'time on request -> lila'            
-                if self.df.iloc[index.row()]['state'][1]== 'R' :
-                    return QtGui.QColor(COLORS.lila)
-                'manual time -> lila'            
-                if self.df.iloc[index.row()]['state'][2]== 'M' :
-                    return QtGui.QColor(COLORS.light_green)
-                'no number and no user string'
-                if self.df.iloc[index.row()]['nr']== 0 and self.df.iloc[index.row()]['us1'] == '':
-                    return QtGui.QColor(COLORS.peachorange)                                                              
-            except:                 
-                pass
+            if dstore.Get("times")["highlight_enable"]:
+                try:
+                    row = self.df.iloc[index.row()]
+                    #manual time -> green
+                    if row['state'][2]== 'M':
+                        return QtGui.QColor(COLORS.light_green)
+                    #changed rawtime -> yellow
+                    elif row['state'][0]== 'C':
+                        return QtGui.QColor(COLORS.yellow)
+                    #time on request -> lila
+                    elif row['state'][1] == 'R':
+                        return QtGui.QColor(COLORS.lila)
+                    #no number and no user string
+                    elif row['nr']== 0 and row['us1'] == '':
+                        return QtGui.QColor(COLORS.peachorange)
+                except:
+                    pass
+            return
         return DataframeTableModel.data(self, index, role)
     
     def IsColumnAutoEditable(self, column):
@@ -130,8 +134,10 @@ class DfModelTimes(DataframeTableModel):
         
                                                             
     def GetDataframe(self):
+        
         df = mgr.GetDfs()["table"]
         #print df.columns        
+        
                 
         if eventCalcReady.is_set() == False:        
             for index, row in self.changed_rows.iterrows():
@@ -139,6 +145,13 @@ class DfModelTimes(DataframeTableModel):
                     df.loc[index] = row             
         else:            
             self.changed_rows = pd.DataFrame()
+
+        #ToDo: remove
+        mynr = len(df.index)
+        print "mynr:", mynr
+        if(mynr > self.mynr):
+            print "TT: new record", time.clock()
+        self.mynr = mynr
                          
         return df
     
@@ -314,6 +327,7 @@ class DfModelTimes(DataframeTableModel):
         res = db.query(query)
         db.commit()
         return res
+
         
              
     
@@ -333,8 +347,6 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
         #This property holds the column where the key used to filter the contents of the source model is read from.
         #The default value is 0. If the value is -1, the keys will be read from all columns.                
         self.setFilterKeyColumn(-1)
-                
-    
 
                 
 
@@ -375,13 +387,14 @@ class DfTableTimes(DfTable):
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         self.gui['auto_www_refresh'] = Ui().TimesAutoWWWRefresh
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
+        self.gui['highlight_enable'] = Ui().TimesHighlightEnable
         
     def Init(self):
         
         DfTable.Init(self)
         
         #set sort rules
-        self.gui['view'].sortByColumn(28, QtCore.Qt.DescendingOrder) 
+        self.gui['view'].sortByColumn(28, QtCore.Qt.DescendingOrder)
 
         self.UpdateGui()
         
@@ -417,6 +430,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['auto_www_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], state, self.UpdateGui), setattr(self, "auto_www_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_www_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], 0, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['highlight_enable'], QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("times", ["highlight_enable"], state, self.UpdateGui))
         
         #export/import table (db format)
         #to do:
@@ -551,8 +565,10 @@ class DfTableTimes(DfTable):
                 localtime = time.strftime("%H:%M:%S", time.localtime())
                 updatetime = str(time.clock() - ztime)[0:5]+"s"
                 calctime = str(mgr.GetInfo()["lastcalctime"])[0:5]+"s"                              
-                uiAccesories.showMessage("Auto Refresh", localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)                        
+                uiAccesories.showMessage("Auto Refresh", localtime + " :: update: "+updatetime +" / calc: "+ str(calctime), MSGTYPE.statusbar)
                 #uiAccesories.showMessage("Auto Refresh", time.strftime("%H:%M:%S", time.localtime())+" ("+str(time.clock() - ztime)[0:5]+"s)", MSGTYPE.statusbar)        ztime = time.clock()                   
+            else:
+                print "AutoUpdate: KO"
 
         autorefresh = dstore.GetItem("times", ["auto_www_refresh"])
         if(autorefresh == 0):
@@ -583,7 +599,7 @@ class DfTableTimes(DfTable):
                     else:    
                         db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
                     print "I: auto number: update:", update['nr'], "id:", update["id"]
-                    eventCalcNow.set()
+                    #eventCalcNow.set()
                     return True #only one number at once
         return False
             #time.sleep(0.05)
@@ -597,6 +613,7 @@ class DfTableTimes(DfTable):
         times = dstore.Get("times")
         
         self.gui['auto_number_enable'].setCheckState(times["auto_number_enable"])
+        self.gui['highlight_enable'].setCheckState(times["highlight_enable"])
         self.gui['auto_number_logic'].setChecked(times["auto_number_logic"])
         
         if(times["auto_number_enable"] == 0):
@@ -651,11 +668,14 @@ class DfTableTimes(DfTable):
                                                                                         
         # stop dynamic filtering if no children
         # because of filter issue and "has stopped working" error            
-        #self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())                    
-        ret = DfTable.Update(self)      
+        #self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())
+        print "U1"                    
+        ret = DfTable.Update(self)
+        print "U2"      
                 
         #update gui            
         self.UpdateGui()
+        print "U3"
                 
 #         # po F5 edituje číslo u prvniho radku
 #         myindex = self.proxy_model.index(0,1)

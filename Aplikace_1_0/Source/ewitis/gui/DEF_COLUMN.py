@@ -7,8 +7,8 @@ Created on 27.12.2011
 '''
 
 """ WIDTHS """
-WIDTH_NUMBER_4DIGIT = 40
-WIDTH_NUMBER_3DIGIT = 35
+WIDTH_NUMBER_4DIGIT = 50
+WIDTH_NUMBER_3DIGIT = 40
 
 """
 RUNS
@@ -43,7 +43,7 @@ TIMES['table'] =   {
                            "lap3"         : {"index": 9,  "name": "lap3",       "name_cz": u"Okruhy3",                      "default": "",          "width": 50,                     "write":False  },
                            "time4"        : {"index": 10, "name": "time4",      "name_cz": u"Čas4",                         "default": "",          "width": 80,                     "write":False  },
                            "lap4"         : {"index": 11, "name": "lap4",       "name_cz": u"Okruhy4",                      "default": "",          "width": 50,                     "write":False  },
-                           "name"         : {"index": 12, "name": "name",       "name_cz": u"Jméno",                        "default": "unknow",    "width": 150,                    "write":False  },
+                           "name"         : {"index": 12, "name": "name",       "name_cz": u"Jméno",                        "default": "unknow",    "width": 200,                    "write":False  },
                            "category"     : {"index": 13, "name": "category",   "name_cz": u"Kategorie",                    "default": "unknown",   "width": 100,                    "write":False  },
                            "order1"       : {"index": 14, "name": "order1",     "name_cz": u"Pořadí1",  "type":"number",    "default": "",          "width": 60,                     "write":False  },                                 
                            "order2"       : {"index": 15, "name": "order2",     "name_cz": u"Pořadí2",  "type":"number",    "default": "",          "width": 60,                     "write":False  },
@@ -60,7 +60,7 @@ TIMES['table'] =   {
                            "us1"          : {"index": 26, "name": "us1",        "name_cz": u"us1",                          "default": "",          "width": 80,                     "write":True  },                                                                                                     
                            "state"        : {"index": 27, "name": "state",      "name_cz": u"state",                        "default": "",          "width": 80,                     "write":False },
                            #!! nedavat 'time_raw' => stejne jmeno s tabulkou a kreje se
-                           "timeraw"      : {"index": 28, "name": "timeraw",      "name_cz": u"Čas Raw",                    "default": 161,         "width": 100,                    "write":True  },                        
+                           "timeraw"      : {"index": 28, "name": "timeraw",      "name_cz": u"Čas Raw",                    "default": 161,         "width": 120,                    "write":True  },                        
                         
                         }
 """

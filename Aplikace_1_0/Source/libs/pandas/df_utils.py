@@ -4,18 +4,19 @@ Created on 29.05.2015
 '''
 import pandas as pd
 
-def Filter(df, filter):
+def Filter(df_in, filter):
     '''
     filter dataframe according to pattern {"cell":"2|250";"lap":"2|4"}        
-    '''                                                  
+    '''    
+    df = df_in.copy()
     if filter != None:        
         for k,v in filter.iteritems():                
             try:
                 
                 if(isinstance(v, int)):
-                    df = df[df[k].notnull()]                                                                                                                                                                                                                                                                  
-                    df = df[df[k] == v]                    
-                else:                                    
+                    df = df[df[k].notnull()]
+                    df = df[df[k] == v]
+                else:
                     #replace                
                     v = str(v)
                     

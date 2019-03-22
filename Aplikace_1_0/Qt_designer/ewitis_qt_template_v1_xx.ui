@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>10</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -95,7 +95,14 @@
             <property name="horizontalSpacing">
              <number>0</number>
             </property>
-            <item row="0" column="23">
+            <item row="0" column="22">
+             <widget class="QCheckBox" name="TimesHighlightEnable">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="28">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -347,50 +354,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="11">
-             <widget class="QSpinBox" name="TimesAutoNumber2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>60</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="12">
-             <widget class="QSpinBox" name="TimesAutoNumber3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>60</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="17">
              <widget class="QPushButton" name="TimesAutoRefreshClear">
               <property name="sizePolicy">
@@ -417,21 +380,49 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="21" colspan="2">
-             <spacer name="horizontalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="0" column="12">
+             <widget class="QSpinBox" name="TimesAutoNumber3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
+              <property name="minimumSize">
                <size>
-                <width>200</width>
-                <height>20</height>
+                <width>60</width>
+                <height>0</height>
                </size>
               </property>
-             </spacer>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="11">
+             <widget class="QSpinBox" name="TimesAutoNumber2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+             </widget>
             </item>
             <item row="0" column="15">
              <widget class="QLabel" name="label_62">
@@ -541,7 +532,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
+                <width>75</width>
                 <height>0</height>
                </size>
               </property>
@@ -571,7 +562,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="23">
+            <item row="2" column="28">
              <widget class="QLabel" name="TimesCounter">
               <property name="text">
                <string>0/0</string>
@@ -581,7 +572,33 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2" colspan="22">
+            <item row="0" column="6">
+             <widget class="QPushButton" name="TimesFilterClear">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2" colspan="27">
              <widget class="QTreeView" name="TimesProxyView">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -613,32 +630,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="6">
-             <widget class="QPushButton" name="TimesFilterClear">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>20</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="2">
              <widget class="QLineEdit" name="TimesFilterLineEdit">
               <property name="sizePolicy">
@@ -652,32 +643,6 @@
                 <width>150</width>
                 <height>16777215</height>
                </size>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="5">
-             <widget class="QPushButton" name="TimesFilterFinishes">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>20</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/F_arial.png</normaloff>gui/icons/F_arial.png</iconset>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -713,25 +678,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="3">
-             <widget class="QSpinBox" name="TimesFilterColumn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimum">
-               <number>-1</number>
-              </property>
-              <property name="singleStep">
-               <number>1</number>
-              </property>
-              <property name="value">
-               <number>-1</number>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="4">
              <widget class="QPushButton" name="TimesFilterStarts">
               <property name="sizePolicy">
@@ -755,6 +701,51 @@
               </property>
               <property name="flat">
                <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <widget class="QPushButton" name="TimesFilterFinishes">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>20</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>gui/icons/F_arial.png</normaloff>gui/icons/F_arial.png</iconset>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QSpinBox" name="TimesFilterColumn">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimum">
+               <number>-1</number>
+              </property>
+              <property name="singleStep">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>-1</number>
               </property>
              </widget>
             </item>
@@ -787,7 +778,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>25</width>
                 <height>0</height>
                </size>
               </property>
@@ -807,6 +798,44 @@
                <string>   Nr:  </string>
               </property>
              </widget>
+            </item>
+            <item row="0" column="21">
+             <widget class="QLabel" name="label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>75</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Highlight: </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="24" colspan="4">
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>200</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -51564,6 +51593,370 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineCommData_template_5</tabstop>
   <tabstop>pushSaveTemplate_5</tabstop>
   <tabstop>pushLoadTemplate_5</tabstop>
+  <tabstop>TimesAutoNumberClear</tabstop>
+  <tabstop>TimesAutoNumber1</tabstop>
+  <tabstop>TimesAutoNumber2</tabstop>
+  <tabstop>TimesAutoNumber3</tabstop>
+  <tabstop>TimesAutoNumber4</tabstop>
+  <tabstop>TimesAutoRefreshClear</tabstop>
+  <tabstop>TimesAutoWWWRefreshClear</tabstop>
+  <tabstop>TimesAutoRefresh</tabstop>
+  <tabstop>TimesAutoWWWRefresh</tabstop>
+  <tabstop>TimesAutoNumberEnable</tabstop>
+  <tabstop>TimesFilterClear</tabstop>
+  <tabstop>TimesFilterLineEdit</tabstop>
+  <tabstop>TimesFilterFinishes</tabstop>
+  <tabstop>TimesAutoNumberLogic</tabstop>
+  <tabstop>TimesFilterColumn</tabstop>
+  <tabstop>TimesFilterStarts</tabstop>
+  <tabstop>comboTimesDownloadMode</tabstop>
+  <tabstop>lineTimesDownloadMode</tabstop>
+  <tabstop>checkAInfoOrder_1</tabstop>
+  <tabstop>checkAInfoPoints_1</tabstop>
+  <tabstop>checkAInfoPoints_2</tabstop>
+  <tabstop>checkAInfoPoints_3</tabstop>
+  <tabstop>checkAInfoLap_1</tabstop>
+  <tabstop>checkAInfoLap_3</tabstop>
+  <tabstop>checkAInfoLap_2</tabstop>
+  <tabstop>checkAInfoTime_3</tabstop>
+  <tabstop>checkAInfoTime_1</tabstop>
+  <tabstop>checkAInfoTime_2</tabstop>
+  <tabstop>checkAInfoOrder_2</tabstop>
+  <tabstop>checkAInfoOrder_3</tabstop>
+  <tabstop>lineAInfoTimeRule_1</tabstop>
+  <tabstop>lineAInfoTimeRule_2</tabstop>
+  <tabstop>lineAInfoTimeRule_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_2</tabstop>
+  <tabstop>lineAInfoPointRule_1</tabstop>
+  <tabstop>spinAInfoPointMinimum_3</tabstop>
+  <tabstop>spinAInfoPointMinimum_2</tabstop>
+  <tabstop>spinAInfoPointMinimum_1</tabstop>
+  <tabstop>lineAInfoPointRule_3</tabstop>
+  <tabstop>spinAInfoPointMaximum_1</tabstop>
+  <tabstop>lineAInfoPointRule_2</tabstop>
+  <tabstop>lineAInfoTimeFilter_1</tabstop>
+  <tabstop>lineAInfoTimeFilter_2</tabstop>
+  <tabstop>lineAInfoTimeFilter_3</tabstop>
+  <tabstop>comboOrderColumn_1_1</tabstop>
+  <tabstop>comboOrderOrder_1_1</tabstop>
+  <tabstop>comboOrderColumn_1_2</tabstop>
+  <tabstop>comboOrderOrder_1_2</tabstop>
+  <tabstop>comboOrderColumn_2_1</tabstop>
+  <tabstop>comboOrderColumn_2_2</tabstop>
+  <tabstop>comboOrderOrder_2_1</tabstop>
+  <tabstop>comboOrderOrder_2_2</tabstop>
+  <tabstop>comboOrderColumn_3_1</tabstop>
+  <tabstop>comboOrderColumn_3_2</tabstop>
+  <tabstop>comboOrderOrder_3_1</tabstop>
+  <tabstop>comboOrderOrder_3_2</tabstop>
+  <tabstop>comboOrderRow_1</tabstop>
+  <tabstop>comboOrderRow_2</tabstop>
+  <tabstop>comboOrderRow_3</tabstop>
+  <tabstop>checkAInfoUserNumber_1</tabstop>
+  <tabstop>checkAInfoUserNumber_3</tabstop>
+  <tabstop>checkAInfoUserNumber_2</tabstop>
+  <tabstop>checkAInfoUserString_1</tabstop>
+  <tabstop>lineAInfoLapFilter_1</tabstop>
+  <tabstop>lineAInfoLapFilter_2</tabstop>
+  <tabstop>lineAInfoLapFilter_3</tabstop>
+  <tabstop>comboOrderType_1</tabstop>
+  <tabstop>comboOrderType_2</tabstop>
+  <tabstop>comboOrderType_3</tabstop>
+  <tabstop>checkAInfoPoints_4</tabstop>
+  <tabstop>spinAInfoPointMinimum_4</tabstop>
+  <tabstop>lineAInfoPointRule_4</tabstop>
+  <tabstop>spinAInfoPointMaximum_4</tabstop>
+  <tabstop>checkAInfoStatus</tabstop>
+  <tabstop>checkAInfoPoints_5</tabstop>
+  <tabstop>spinAInfoPointMaximum_5</tabstop>
+  <tabstop>lineAInfoPointRule_5</tabstop>
+  <tabstop>spinAInfoPointMinimum_5</tabstop>
+  <tabstop>checkExportMinuteTimeformat_1</tabstop>
+  <tabstop>checkExportMinuteTimeformat_2</tabstop>
+  <tabstop>checkExportMinuteTimeformat_3</tabstop>
+  <tabstop>lineAInfoLapFilter_4</tabstop>
+  <tabstop>checkExportMinuteTimeformat_4</tabstop>
+  <tabstop>lineAInfoTimeFilter_4</tabstop>
+  <tabstop>checkAInfoTime_4</tabstop>
+  <tabstop>checkAInfoLap_4</tabstop>
+  <tabstop>lineAInfoTimeRule_4</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_1</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_2</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_3</tabstop>
+  <tabstop>checkAI_FromLastStart_Lap_4</tabstop>
+  <tabstop>lineAInfoTimeDescription_1</tabstop>
+  <tabstop>lineAInfoLapDescription_1</tabstop>
+  <tabstop>lineAInfoTimeDescription_2</tabstop>
+  <tabstop>lineAInfoTimeDescription_3</tabstop>
+  <tabstop>lineAInfoLapDescription_3</tabstop>
+  <tabstop>lineAInfoLapDescription_2</tabstop>
+  <tabstop>lineAInfoTimeDescription_4</tabstop>
+  <tabstop>lineAInfoLapDescription_4</tabstop>
+  <tabstop>lineAInfoPointsDescription_4</tabstop>
+  <tabstop>lineAInfoPointsDescription_3</tabstop>
+  <tabstop>lineAInfoPointsDescription_5</tabstop>
+  <tabstop>lineAInfoPointsDescription_2</tabstop>
+  <tabstop>lineAInfoPointsDescription_1</tabstop>
+  <tabstop>lineAInfoUnDescription_1</tabstop>
+  <tabstop>lineExpolineAInfoUnDescription_2rtForwardDesc1_16</tabstop>
+  <tabstop>lineAInfoOrderDescription_2</tabstop>
+  <tabstop>lineAInfoOrderDescription_1</tabstop>
+  <tabstop>lineAInfoOrderDescription_3</tabstop>
+  <tabstop>lineAInfoUnDescription_3</tabstop>
+  <tabstop>lineAInfoUsDescription_1</tabstop>
+  <tabstop>lineCellVersion_1</tabstop>
+  <tabstop>lineCellVersion_2</tabstop>
+  <tabstop>lineCellVersion_3</tabstop>
+  <tabstop>lineCellVersion_4</tabstop>
+  <tabstop>lineCellVersion_5</tabstop>
+  <tabstop>lineCellVersion_6</tabstop>
+  <tabstop>lineCellVersion_7</tabstop>
+  <tabstop>lineCellVersion_8</tabstop>
+  <tabstop>lineCellVersion_9</tabstop>
+  <tabstop>lineCellVersion_10</tabstop>
+  <tabstop>lineCellVersion_11</tabstop>
+  <tabstop>lineCellVersion_12</tabstop>
+  <tabstop>lineCellVersion_13</tabstop>
+  <tabstop>lineCellVersion_14</tabstop>
+  <tabstop>lineCellVersion_15</tabstop>
+  <tabstop>lineCellVersion_16</tabstop>
+  <tabstop>lineCellVersion_17</tabstop>
+  <tabstop>lineCellVersion_18</tabstop>
+  <tabstop>lineCellVersion_19</tabstop>
+  <tabstop>lineCellVersion_20</tabstop>
+  <tabstop>pushCellClearMissingTimes_2</tabstop>
+  <tabstop>lineCellTimesBB_2</tabstop>
+  <tabstop>lineCellTimesCell_2</tabstop>
+  <tabstop>lineCellTimesBB_5</tabstop>
+  <tabstop>lineCellTimesCell_5</tabstop>
+  <tabstop>pushCellClearMissingTimes_5</tabstop>
+  <tabstop>lineCellTimesBB_4</tabstop>
+  <tabstop>lineCellTimesCell_4</tabstop>
+  <tabstop>pushCellClearMissingTimes_4</tabstop>
+  <tabstop>lineCellTimesBB_3</tabstop>
+  <tabstop>lineCellTimesCell_3</tabstop>
+  <tabstop>pushCellClearMissingTimes_3</tabstop>
+  <tabstop>lineCellTimesBB_1</tabstop>
+  <tabstop>lineCellTimesCell_1</tabstop>
+  <tabstop>pushCellClearMissingTimes_1</tabstop>
+  <tabstop>lineCellTimesBB_8</tabstop>
+  <tabstop>lineCellTimesCell_8</tabstop>
+  <tabstop>pushCellClearMissingTimes_8</tabstop>
+  <tabstop>lineCellTimesBB_6</tabstop>
+  <tabstop>lineCellTimesCell_6</tabstop>
+  <tabstop>pushCellClearMissingTimes_6</tabstop>
+  <tabstop>lineCellTimesBB_7</tabstop>
+  <tabstop>lineCellTimesCell_7</tabstop>
+  <tabstop>pushCellClearMissingTimes_7</tabstop>
+  <tabstop>lineCellTimesBB_12</tabstop>
+  <tabstop>lineCellTimesCell_12</tabstop>
+  <tabstop>pushCellClearMissingTimes_12</tabstop>
+  <tabstop>lineCellTimesCell_13</tabstop>
+  <tabstop>pushCellClearMissingTimes_13</tabstop>
+  <tabstop>lineCellTimesBB_13</tabstop>
+  <tabstop>lineCellTimesCell_14</tabstop>
+  <tabstop>pushCellClearMissingTimes_14</tabstop>
+  <tabstop>lineCellTimesBB_14</tabstop>
+  <tabstop>lineCellTimesCell_15</tabstop>
+  <tabstop>pushCellClearMissingTimes_15</tabstop>
+  <tabstop>lineCellTimesBB_15</tabstop>
+  <tabstop>lineCellTimesBB_11</tabstop>
+  <tabstop>lineCellTimesCell_11</tabstop>
+  <tabstop>pushCellClearMissingTimes_11</tabstop>
+  <tabstop>lineCellTimesBB_10</tabstop>
+  <tabstop>lineCellTimesCell_10</tabstop>
+  <tabstop>pushCellClearMissingTimes_10</tabstop>
+  <tabstop>lineCellTimesBB_9</tabstop>
+  <tabstop>lineCellTimesCell_9</tabstop>
+  <tabstop>pushCellClearMissingTimes_9</tabstop>
+  <tabstop>lineCellTimesCell_16</tabstop>
+  <tabstop>pushCellClearMissingTimes_16</tabstop>
+  <tabstop>lineCellTimesBB_16</tabstop>
+  <tabstop>lineCellBattery_17</tabstop>
+  <tabstop>comboCellTask_17</tabstop>
+  <tabstop>lineCellTask_17</tabstop>
+  <tabstop>lineCellDiagLongOk_17</tabstop>
+  <tabstop>lineCellDiagShortKo_17</tabstop>
+  <tabstop>pushCellPing_17</tabstop>
+  <tabstop>lineCellDiagLongRatio_17</tabstop>
+  <tabstop>pushCellClearCounters_17</tabstop>
+  <tabstop>lineCellSynchronizedOnce_17</tabstop>
+  <tabstop>lineCellSynchronized_17</tabstop>
+  <tabstop>lineCellIrSinal_17</tabstop>
+  <tabstop>lineCellActive_17</tabstop>
+  <tabstop>lineCellDiagLongKo_17</tabstop>
+  <tabstop>lineCellDiagShortOk_17</tabstop>
+  <tabstop>lineCellDiagShortRatio_17</tabstop>
+  <tabstop>pushCellRunDiagnostic_17</tabstop>
+  <tabstop>comboCellTrigger_17</tabstop>
+  <tabstop>lineCellTrigger_17</tabstop>
+  <tabstop>comboCellAutoEnable_17</tabstop>
+  <tabstop>lineCellAutoEnable_17</tabstop>
+  <tabstop>lineCellTimesBB_17</tabstop>
+  <tabstop>lineCellTimesCell_17</tabstop>
+  <tabstop>pushCellClearMissingTimes_17</tabstop>
+  <tabstop>lineCellBattery_21</tabstop>
+  <tabstop>comboCellTask_21</tabstop>
+  <tabstop>lineCellTask_21</tabstop>
+  <tabstop>lineCellDiagLongOk_21</tabstop>
+  <tabstop>lineCellDiagShortKo_21</tabstop>
+  <tabstop>pushCellPing_21</tabstop>
+  <tabstop>lineCellDiagLongRatio_21</tabstop>
+  <tabstop>pushCellClearCounters_21</tabstop>
+  <tabstop>lineCellSynchronizedOnce_21</tabstop>
+  <tabstop>lineCellSynchronized_21</tabstop>
+  <tabstop>lineCellIrSinal_21</tabstop>
+  <tabstop>lineCellActive_21</tabstop>
+  <tabstop>lineCellDiagLongKo_21</tabstop>
+  <tabstop>lineCellDiagShortOk_21</tabstop>
+  <tabstop>lineCellDiagShortRatio_21</tabstop>
+  <tabstop>pushCellRunDiagnostic_21</tabstop>
+  <tabstop>lineCellTrigger_21</tabstop>
+  <tabstop>comboCellTrigger_21</tabstop>
+  <tabstop>comboCellAutoEnable_21</tabstop>
+  <tabstop>lineCellAutoEnable_21</tabstop>
+  <tabstop>lineCellTimesCell_21</tabstop>
+  <tabstop>pushCellClearMissingTimes_21</tabstop>
+  <tabstop>lineCellTimesBB_21</tabstop>
+  <tabstop>lineCellBattery_19</tabstop>
+  <tabstop>comboCellTask_19</tabstop>
+  <tabstop>lineCellTask_19</tabstop>
+  <tabstop>lineCellDiagLongOk_19</tabstop>
+  <tabstop>lineCellDiagShortKo_19</tabstop>
+  <tabstop>pushCellPing_19</tabstop>
+  <tabstop>lineCellDiagLongRatio_19</tabstop>
+  <tabstop>pushCellClearCounters_19</tabstop>
+  <tabstop>lineCellSynchronizedOnce_19</tabstop>
+  <tabstop>lineCellSynchronized_19</tabstop>
+  <tabstop>lineCellIrSinal_19</tabstop>
+  <tabstop>lineCellActive_19</tabstop>
+  <tabstop>lineCellDiagLongKo_19</tabstop>
+  <tabstop>lineCellDiagShortOk_19</tabstop>
+  <tabstop>lineCellDiagShortRatio_19</tabstop>
+  <tabstop>pushCellRunDiagnostic_19</tabstop>
+  <tabstop>lineCellTrigger_19</tabstop>
+  <tabstop>comboCellTrigger_19</tabstop>
+  <tabstop>comboCellAutoEnable_19</tabstop>
+  <tabstop>lineCellAutoEnable_19</tabstop>
+  <tabstop>lineCellTimesBB_19</tabstop>
+  <tabstop>lineCellTimesCell_19</tabstop>
+  <tabstop>pushCellClearMissingTimes_19</tabstop>
+  <tabstop>lineCellBattery_20</tabstop>
+  <tabstop>comboCellTask_20</tabstop>
+  <tabstop>lineCellTask_20</tabstop>
+  <tabstop>lineCellDiagLongOk_20</tabstop>
+  <tabstop>lineCellDiagShortKo_20</tabstop>
+  <tabstop>pushCellPing_20</tabstop>
+  <tabstop>lineCellDiagLongRatio_20</tabstop>
+  <tabstop>pushCellClearCounters_20</tabstop>
+  <tabstop>lineCellSynchronizedOnce_20</tabstop>
+  <tabstop>lineCellSynchronized_20</tabstop>
+  <tabstop>lineCellIrSinal_20</tabstop>
+  <tabstop>lineCellActive_20</tabstop>
+  <tabstop>lineCellDiagLongKo_20</tabstop>
+  <tabstop>lineCellDiagShortOk_20</tabstop>
+  <tabstop>lineCellDiagShortRatio_20</tabstop>
+  <tabstop>pushCellRunDiagnostic_20</tabstop>
+  <tabstop>comboCellTrigger_20</tabstop>
+  <tabstop>lineCellTrigger_20</tabstop>
+  <tabstop>comboCellAutoEnable_20</tabstop>
+  <tabstop>lineCellAutoEnable_20</tabstop>
+  <tabstop>lineCellTimesCell_20</tabstop>
+  <tabstop>pushCellClearMissingTimes_20</tabstop>
+  <tabstop>lineCellTimesBB_20</tabstop>
+  <tabstop>lineCellBattery_22</tabstop>
+  <tabstop>comboCellTask_22</tabstop>
+  <tabstop>lineCellTask_22</tabstop>
+  <tabstop>lineCellDiagLongOk_22</tabstop>
+  <tabstop>lineCellDiagShortKo_22</tabstop>
+  <tabstop>pushCellPing_22</tabstop>
+  <tabstop>lineCellDiagLongRatio_22</tabstop>
+  <tabstop>pushCellClearCounters_22</tabstop>
+  <tabstop>lineCellSynchronizedOnce_22</tabstop>
+  <tabstop>lineCellSynchronized_22</tabstop>
+  <tabstop>lineCellIrSinal_22</tabstop>
+  <tabstop>lineCellActive_22</tabstop>
+  <tabstop>lineCellDiagLongKo_22</tabstop>
+  <tabstop>lineCellDiagShortOk_22</tabstop>
+  <tabstop>lineCellDiagShortRatio_22</tabstop>
+  <tabstop>pushCellRunDiagnostic_22</tabstop>
+  <tabstop>comboCellTrigger_22</tabstop>
+  <tabstop>lineCellTrigger_22</tabstop>
+  <tabstop>comboCellAutoEnable_22</tabstop>
+  <tabstop>lineCellAutoEnable_22</tabstop>
+  <tabstop>lineCellTimesCell_22</tabstop>
+  <tabstop>pushCellClearMissingTimes_22</tabstop>
+  <tabstop>lineCellTimesBB_22</tabstop>
+  <tabstop>lineCellBattery_18</tabstop>
+  <tabstop>comboCellTask_18</tabstop>
+  <tabstop>lineCellTask_18</tabstop>
+  <tabstop>lineCellDiagLongOk_18</tabstop>
+  <tabstop>lineCellDiagShortKo_18</tabstop>
+  <tabstop>pushCellPing_18</tabstop>
+  <tabstop>lineCellDiagLongRatio_18</tabstop>
+  <tabstop>pushCellClearCounters_18</tabstop>
+  <tabstop>lineCellSynchronizedOnce_18</tabstop>
+  <tabstop>lineCellSynchronized_18</tabstop>
+  <tabstop>lineCellIrSinal_18</tabstop>
+  <tabstop>lineCellActive_18</tabstop>
+  <tabstop>lineCellDiagLongKo_18</tabstop>
+  <tabstop>lineCellDiagShortOk_18</tabstop>
+  <tabstop>lineCellDiagShortRatio_18</tabstop>
+  <tabstop>pushCellRunDiagnostic_18</tabstop>
+  <tabstop>lineCellTrigger_18</tabstop>
+  <tabstop>comboCellTrigger_18</tabstop>
+  <tabstop>comboCellAutoEnable_18</tabstop>
+  <tabstop>lineCellAutoEnable_18</tabstop>
+  <tabstop>lineCellTimesBB_18</tabstop>
+  <tabstop>lineCellTimesCell_18</tabstop>
+  <tabstop>pushCellClearMissingTimes_18</tabstop>
+  <tabstop>lineCellBattery_24</tabstop>
+  <tabstop>comboCellTask_24</tabstop>
+  <tabstop>lineCellTask_24</tabstop>
+  <tabstop>lineCellDiagLongOk_24</tabstop>
+  <tabstop>lineCellDiagShortKo_24</tabstop>
+  <tabstop>pushCellPing_24</tabstop>
+  <tabstop>lineCellDiagLongRatio_24</tabstop>
+  <tabstop>pushCellClearCounters_24</tabstop>
+  <tabstop>lineCellSynchronizedOnce_24</tabstop>
+  <tabstop>lineCellSynchronized_24</tabstop>
+  <tabstop>lineCellIrSinal_24</tabstop>
+  <tabstop>lineCellActive_24</tabstop>
+  <tabstop>lineCellDiagLongKo_24</tabstop>
+  <tabstop>lineCellDiagShortOk_24</tabstop>
+  <tabstop>lineCellDiagShortRatio_24</tabstop>
+  <tabstop>pushCellRunDiagnostic_24</tabstop>
+  <tabstop>lineCellTrigger_24</tabstop>
+  <tabstop>comboCellTrigger_24</tabstop>
+  <tabstop>comboCellAutoEnable_24</tabstop>
+  <tabstop>lineCellAutoEnable_24</tabstop>
+  <tabstop>lineCellTimesCell_24</tabstop>
+  <tabstop>pushCellClearMissingTimes_24</tabstop>
+  <tabstop>lineCellTimesBB_24</tabstop>
+  <tabstop>lineCellBattery_23</tabstop>
+  <tabstop>comboCellTask_23</tabstop>
+  <tabstop>lineCellTask_23</tabstop>
+  <tabstop>lineCellDiagLongOk_23</tabstop>
+  <tabstop>lineCellDiagShortKo_23</tabstop>
+  <tabstop>pushCellPing_23</tabstop>
+  <tabstop>lineCellDiagLongRatio_23</tabstop>
+  <tabstop>pushCellClearCounters_23</tabstop>
+  <tabstop>lineCellSynchronizedOnce_23</tabstop>
+  <tabstop>lineCellSynchronized_23</tabstop>
+  <tabstop>lineCellIrSinal_23</tabstop>
+  <tabstop>lineCellActive_23</tabstop>
+  <tabstop>lineCellDiagLongKo_23</tabstop>
+  <tabstop>lineCellDiagShortOk_23</tabstop>
+  <tabstop>lineCellDiagShortRatio_23</tabstop>
+  <tabstop>pushCellRunDiagnostic_23</tabstop>
+  <tabstop>lineCellTrigger_23</tabstop>
+  <tabstop>comboCellTrigger_23</tabstop>
+  <tabstop>comboCellAutoEnable_23</tabstop>
+  <tabstop>lineCellAutoEnable_23</tabstop>
+  <tabstop>lineCellTimesBB_23</tabstop>
+  <tabstop>lineCellTimesCell_23</tabstop>
+  <tabstop>pushCellClearMissingTimes_23</tabstop>
  </tabstops>
  <resources/>
  <connections/>

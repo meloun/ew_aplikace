@@ -48,87 +48,103 @@ class ProcessDstore():
 
 class ManageCalcProcess():            
     def __init__(self):         
-        self.maxcalctime = 0 
+        self.maxcalctime = 0
+        self.commit_flag = False 
              
-    def run(self, dstore, dfs, info, eventCalcNow, eventCalcReady):        
-        print "I:P: CALC: zakladam process.." #, dstore
+    def CommitRequest(self):
+        self.commit_flag = True
+    
+    def Commit(self):
+        if self.commit_flag:
+            db_utils.commit(self.db) 
+            self.commit_flag = False
+            
+    def run_fast(self, dstore, dfs, info, eventCalcNow, eventCalcReady):
+        """ update joined DF"""
+        #self.GetJoinedDf()
+        pass
         
+    def run(self, dstore, dfs, info, eventCalcNow, eventCalcReady):
         
+        print "I:P: CALC: zakladam process.." #, dstor
         self.dstore = ProcessDstore(dstore)    
-        
-        print "I:P: CALC: dstore.." #,  self.dstore.GetData()    
-        
-        #myevent2.set()                    
+        print "I:P: CALC: dstore.." #,  self.dstore.GetData()
+                                    
         
         """ DATABASE """                
         try:           
-            self.db = db_utils.connect("db/test_db.sqlite")                        
+            self.db = db_utils.connect("db/test_db.sqlite")
         except:                    
             print "E: Database"
             
-        sys.stdout = sys.__stdout__        
+        sys.stdout = sys.__stdout__
             
-        complete_calc_flag = False    
+        complete_calc_flag = False
+        
+        self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
+        self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
+        self.orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
+        
         while(1):
             
+            print "P: C: START ------------------------"
+            
+            #delay            
+            ztime = time.clock()
             
             #
             if(eventCalcReady.is_set() == False):
                 complete_calc_flag = True 
             
-            #delay            
-            ztime = time.clock()
             
-            self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
-            self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
-            self.orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]                                            
-                                
+            """ run fast """
+            self.run_fast(dstore, dfs, info, eventCalcNow, eventCalcReady)
+            
             """ update DFs """
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
 
-            #print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
+            print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
             
             """ update joined DF"""
             ytime = time.clock() 
-            self.GetJoinedDf()            
+            self.GetJoinedDf()
             #print "#1", self.joinedDf
-            #print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
+            print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
             """ update times """                                            
             ytime = time.clock() 
-            self.GetTimesDfs()                                                 
-            self.UpdateTimes(self.timesDfs)                                                        
-            self.GetJoinedDf()
+            #@self.GetTimesDfs()
+            #@self.UpdateTimes(self.timesDfs)
+            #! self.GetJoinedDf()
             #print "#2", self.joinedDf
             #print "TTT", self.joinedDf.loc[2237]
-            #print "P: C: UpdateTimes()", time.clock() - ytime,"s"                        
+            print "P: C: UpdateTimes()", time.clock() - ytime,"s"                        
                                                                                                                                                                                         
             #laps
             ytime = time.clock()
-            self.GetLapsDfs()                                                                         
-            self.UpdateLaps(self.lapsDfs)
-            self.GetJoinedDf()  
+            #@self.GetLapsDfs()                                                                         
+            #@self.UpdateLaps(self.lapsDfs)
+            #! self.GetJoinedDf()  
             #print "#3", self.joinedDf                                                                                                                                                                                                                      
-            #print "P: C: UpdateLaps()", time.clock() - ytime,"s"
+            print "P: C: UpdateLaps()", time.clock() - ytime,"s"
                         
             #orderX 
-            self.orderDfs = self.GetOrderDfs()                                                   
             ytime = time.clock()
+            self.orderDfs = self.GetOrderDfs()                                                   
             self.joinedDf = self.UpdateOrder()                        
-            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #points                                                  
             ytime = time.clock()
             self.joinedDf = self.UpdatePoints(self.joinedDf)            
-            #print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
+            print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
             
             #orderX 
             ytime = time.clock()
-            self.GetOrderDfs()                                                                                       
-            ytime = time.clock()
-            self.UpdateOrder()                                    
-            #print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            self.GetOrderDfs()            
+            self.UpdateOrder()
+            print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
@@ -142,7 +158,7 @@ class ManageCalcProcess():
             #sort and copy 
             ytime = time.clock()           
             if self.joinedDf.empty:
-                dfs["table"] = pd.DataFrame()                
+                dfs["table"] = pd.DataFrame()
             else:                              
                 columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]                   
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
@@ -156,15 +172,19 @@ class ManageCalcProcess():
                 #umele pretypovani na long, defaultne float a 7.00
                 self.joinedDf["nr"] = self.joinedDf["nr"].astype(long)
                                              
-                dfs["table"] = self.joinedDf[columns].copy()                
+                dfs["table"] = self.joinedDf[columns].copy()
+                #print  dfs["table"].sort_values("timeraw").tail(3)                
                 
+            
+            """ commit the changes to db """
+            self.Commit()
             
             if(complete_calc_flag):
                 eventCalcReady.set()
-                                            
-            #print "P: C: sort and copy", time.clock() - ytime,"s"                                 
+
+            print "P: C: sort and copy", time.clock() - ytime,"s"                                 
                         
-            #print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
+            print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
             #print 'process id:', os.getpid()                                                                    
             sys.stdout.write('.')
             
@@ -173,10 +193,12 @@ class ManageCalcProcess():
             if info["lastcalctime"] > self.maxcalctime:
                 self.maxcalctime = info["lastcalctime"]
                 print "MAX CALC-TIME:", self.maxcalctime
-                                                     
-            sys.stdout.flush()              
-            eventCalcNow.wait(2)                        
-            eventCalcNow.clear()             
+
+            sys.stdout.flush()
+            print "CalcNow: wait", time.clock()
+            ret = eventCalcNow.wait(4)
+            eventCalcNow.clear()
+            print "CalcNow: clear", ret, time.clock()
             
     def LastCalcTime(self):
         return self.calctime
@@ -199,7 +221,9 @@ class ManageCalcProcess():
         #uDf.loc[0] = [0, None, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None]        
         return uDf
                     
-    def GetJoinedDf(self):        
+    """ GetJoinedDf
+    """
+    def GetJoinedDf(self):
             
         # DB df 
         #[u'state', u'id', u'run_id', u'user_id', u'cell', u'time_raw', u'time1', u'lap1', u'time2', u'lap2', u'time3', u'lap3', u'un1', u'un2', u'un3', u'us1']            
@@ -212,24 +236,12 @@ class ManageCalcProcess():
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)
         #print "1111", self.joinedDf.loc[2237]                    
 
+        #print  "left",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
+        #print  "right",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="right")
+        self.joinedDf =  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
+        #print "HUUU", self.joinedDf[["user_id", "nr", "name"]].head(2)
         
-        if(self.dstore.GetItem("racesettings-app", ['rfid']) == 2):
-            tDf = psql.read_sql("SELECT * FROM tags", self.db, index_col = "id")   
-            tDf = tDf[["user_nr", "tag_id"]]
-            #adding row for user_id = 0
-            #tDf.loc[0] = [0, 0]  
-            self.joinedDf =  pd.merge(self.joinedDf,  tDf, left_on='user_id', right_on='tag_id', how="left")
-            self.joinedDf =  pd.merge(self.joinedDf,  self.ucDf, left_on='user_nr', right_on='nr',  how="left")            
-            self.joinedDf.set_index('id',  drop=False, inplace = True) 
-        else:                        
-            #print  "left",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
-            #print  "right",  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="right")
-            self.joinedDf =  pd.merge(self.joinedDf, self.ucDf, left_on='user_id', right_index=True, how="left")
-            #print "HUUU", self.joinedDf[["user_id", "nr", "name"]].head(2)
-            
-        
-        
-        self.joinedDf.sort("time_raw", inplace=True)
+        self.joinedDf.sort_values(by="time_raw", inplace=True)
         
         #self.joinedDf["nr"].fillna(0, inplace = True)                     
         
@@ -277,7 +289,7 @@ class ManageCalcProcess():
                 #prepare filtered df for times                                                
                 filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
                 tempDf = df_utils.Filter(self.joinedDf, filter_dict)                    
-                tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                          
+                tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number
                                          
                 self.timesDfs[i] = tempDf
 #         print "tDdfs 0",timesDfs[0]
@@ -346,7 +358,7 @@ class ManageCalcProcess():
             elif group['row'] == u'Best times4':                           
                 aux_df = aux_df.sort("time4", ascending = False )   
             elif group['row'] == u'Last times':                                 
-                aux_df = aux_df.sort("time_raw")
+                aux_df = aux_df.sort_values(by="time_raw")
             else:
                 print "ERROR: no row specified!!!", group        
                                                                          
@@ -358,11 +370,11 @@ class ManageCalcProcess():
             if(column2 in aux_df.columns):
                 #print "nested sorting", column1, column2, asc1, asc2                
                 try:                
-                    aux_df = aux_df.sort([column1, column2], ascending = [asc1, asc2])
+                    aux_df = aux_df.sort_values(by=[column1, column2], ascending = [asc1, asc2])
                 except IndexError:
-                    aux_df = aux_df.sort(column1, ascending = asc1)
+                    aux_df = aux_df.sort_values(by=column1, ascending = asc1)
             else:                    
-                aux_df = aux_df.sort(column1, ascending = asc1)            
+                aux_df = aux_df.sort_values(by=column1, ascending = asc1)            
             
             #category order            
             if(group['type'] == "Total"):
@@ -396,12 +408,12 @@ class ManageCalcProcess():
         """
         ret_ko_times = []                
                                        
-        self.commit_flag = False
+        #self.commit_flag = False
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):                                               
             timesDfs[i].apply(lambda row: self.CalcAndUpdateTime(row, i), axis = 1)                                                                       
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if self.commit_flag:                          
-            db_utils.commit(self.db)                                                                     
+        #if self.commit_flag:                          
+        #    db_utils.commit(self.db)                                                                     
                           
         return ret_ko_times
     
@@ -415,14 +427,14 @@ class ManageCalcProcess():
         """
         ret_ko_times = []        
                         
-        self.commit_flag = False
+        #self.commit_flag = False
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):                        
             self.lapsDfs[i].apply(lambda row: self.CalcAndUpdateLap(row, i), axis = 1)
                                                                                                     
-        if self.commit_flag:
-            db_utils.commit(self.db) 
-            self.commit_flag = False                                        
-                                                      
+        #if self.commit_flag:
+        #    db_utils.commit(self.db) 
+        #    self.commit_flag = False
+
         return ret_ko_times
       
     def UpdateOrder(self):
@@ -470,17 +482,19 @@ class ManageCalcProcess():
     
     def CalcTime(self, dbTime, index):
         return self.Calc(dbTime, index, 'time')
+
     def CalcAndUpdateTime(self, dbTime, index):        
         time = self.CalcTime(dbTime, index)                                                                                                                                                                              
         if time != None:                                                                                             
             db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], "time"+str(index+1):time}, commit_flag = False)
-            self.commit_flag = True                                                                                                           
+            self.CommitRequest()                                                                                                           
             return time
         return time
     
     def CalcPoints(self, tabTime, index):        
-        points = self.Calc(tabTime, index, 'points')        
+        points = self.Calc(tabTime, index, 'points')
         return points
+    
     def CalcAndUpdatePoints(self, tabTime, index):
         points = self.CalcPoints(tabTime, index)
         if points != None:                                                                                 
@@ -560,7 +574,8 @@ class ManageCalcProcess():
         lap = self.CalcLap(dbTime, index)                                                                                                                                                                              
         if lap != None:                                                                                             
             db_utils.update_from_dict(self.db, "times", {'id':dbTime['id'], "lap"+str(index+1):lap}, commit_flag = False)
-            self.commit_flag = True                                                                                                 
+            #self.commit_flag = True
+            self.CommitRequest()
             return True
         return False
     

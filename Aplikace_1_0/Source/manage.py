@@ -94,11 +94,24 @@ def sFocusHandler(old, new):
     
 #shortcut home -> focus to first auto number    
 def sFocusNumber():
-    #print "sFocusNumber"                         
+    #print "sFocusNumber"
     tableTimes.CloseEditor()
-    tableTimes.gui['auto_number1'].selectAll()
-    tableTimes.gui['auto_number1'].setFocus()           
-        
+    if(tableTimes.gui['auto_number1'].value() == 0):
+        tableTimes.gui['auto_number1'].selectAll()
+        tableTimes.gui['auto_number1'].setFocus()
+    elif(tableTimes.gui['auto_number2'].value() == 0):
+        tableTimes.gui['auto_number2'].selectAll()
+        tableTimes.gui['auto_number2'].setFocus()
+    elif(tableTimes.gui['auto_number3'].value() == 0):
+        tableTimes.gui['auto_number3'].selectAll()
+        tableTimes.gui['auto_number3'].setFocus()
+    elif(tableTimes.gui['auto_number4'].value() == 0):
+        tableTimes.gui['auto_number4'].selectAll()
+        tableTimes.gui['auto_number4'].setFocus()
+    else:
+        tableTimes.gui['auto_number1'].selectAll()
+        tableTimes.gui['auto_number1'].setFocus()
+
 def sFocusTable():    
     #print "sFocusTable"
     tableTimes.CloseEditor()

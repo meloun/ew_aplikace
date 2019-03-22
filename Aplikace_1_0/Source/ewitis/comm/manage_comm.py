@@ -676,6 +676,7 @@ class ManageComm(Thread):
             self.AddTimeToDb(aux_time)
             self.index_times += 1 # done, take next 
             eventCalcNow.set()
+            print "CalcNow: set", time.clock()
         else:
             pass # no new time                                         
     

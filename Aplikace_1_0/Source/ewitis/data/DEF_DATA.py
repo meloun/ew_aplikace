@@ -122,7 +122,8 @@ DEF_DATA = {
                                                           "auto_number_logic": False,                                                          
                                                           "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_refresh": 0,
-                                                          "auto_www_refresh": 0
+                                                          "auto_www_refresh": 0,
+                                                          "highlight_enable": CheckboxValue.unchecked,
                                                          }
                                                 }
                                   },                
