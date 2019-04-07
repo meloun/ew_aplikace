@@ -669,13 +669,13 @@ class DfTableTimes(DfTable):
         # stop dynamic filtering if no children
         # because of filter issue and "has stopped working" error            
         #self.proxy_model.setDynamicSortFilter(self.proxy_model.hasChildren())
-        print "U1"                    
+        #print "U1"                    
         ret = DfTable.Update(self)
-        print "U2"      
+        #print "U2"      
                 
         #update gui            
         self.UpdateGui()
-        print "U3"
+        #print "U3"
                 
 #         # po F5 edituje číslo u prvniho radku
 #         myindex = self.proxy_model.index(0,1)

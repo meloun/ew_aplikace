@@ -6,7 +6,7 @@ import matplotlib
 setup(    
     options={
        "py2exe" : {
-			 		"includes" : ["sip", "PyQt4.QtNetwork"]			 		
+			 		"includes" : ["sip", "PyQt4.QtNetwork", "pandas._libs.skiplist"]			 		
           }			 		
     },
     data_files = matplotlib.get_py2exe_datafiles(),

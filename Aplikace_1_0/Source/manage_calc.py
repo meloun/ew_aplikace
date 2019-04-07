@@ -66,9 +66,9 @@ class ManageCalcProcess():
         
     def run(self, dstore, dfs, info, eventCalcNow, eventCalcReady):
         
-        print "I:P: CALC: zakladam process.." #, dstor
+        #@print "I:P: CALC: zakladam process.." #, dstor
         self.dstore = ProcessDstore(dstore)    
-        print "I:P: CALC: dstore.." #,  self.dstore.GetData()
+        #@print "I:P: CALC: dstore.." #,  self.dstore.GetData()
                                     
         
         """ DATABASE """                
@@ -104,13 +104,13 @@ class ManageCalcProcess():
             ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
 
-            print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
+            #@print "P: C: GetUserCategoryDf()", time.clock() - ytime,"s"                        
             
             """ update joined DF"""
             ytime = time.clock() 
             self.GetJoinedDf()
             #print "#1", self.joinedDf
-            print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
+            #@print "P: C: GetJoinedDf() 1", time.clock() - ytime,"s"             
             
             """ update times """                                            
             ytime = time.clock() 
@@ -119,7 +119,7 @@ class ManageCalcProcess():
             #! self.GetJoinedDf()
             #print "#2", self.joinedDf
             #print "TTT", self.joinedDf.loc[2237]
-            print "P: C: UpdateTimes()", time.clock() - ytime,"s"                        
+            #@print "P: C: UpdateTimes()", time.clock() - ytime,"s"                        
                                                                                                                                                                                         
             #laps
             ytime = time.clock()
@@ -127,24 +127,24 @@ class ManageCalcProcess():
             #@self.UpdateLaps(self.lapsDfs)
             #! self.GetJoinedDf()  
             #print "#3", self.joinedDf                                                                                                                                                                                                                      
-            print "P: C: UpdateLaps()", time.clock() - ytime,"s"
+            #@print "P: C: UpdateLaps()", time.clock() - ytime,"s"
                         
             #orderX 
             ytime = time.clock()
             self.orderDfs = self.GetOrderDfs()                                                   
             self.joinedDf = self.UpdateOrder()                        
-            print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #@print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #points                                                  
             ytime = time.clock()
             self.joinedDf = self.UpdatePoints(self.joinedDf)            
-            print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
+            #@print "P: C: UpdatePoints()", time.clock() - ytime,"s"                        
             
             #orderX 
             ytime = time.clock()
             self.GetOrderDfs()            
             self.UpdateOrder()
-            print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
+            #@print "P: C: UpdateOrder() 1", time.clock() - ytime,"s"                        
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
@@ -182,9 +182,9 @@ class ManageCalcProcess():
             if(complete_calc_flag):
                 eventCalcReady.set()
 
-            print "P: C: sort and copy", time.clock() - ytime,"s"                                 
+            #@print "P: C: sort and copy", time.clock() - ytime,"s"                                 
                         
-            print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
+            #@print "P: I: Calc: COMPLETE", time.clock() - ztime,"s"            
             #print 'process id:', os.getpid()                                                                    
             sys.stdout.write('.')
             
@@ -195,10 +195,10 @@ class ManageCalcProcess():
                 print "MAX CALC-TIME:", self.maxcalctime
 
             sys.stdout.flush()
-            print "CalcNow: wait", time.clock()
-            ret = eventCalcNow.wait(4)
+            #@print "CalcNow: wait", time.clock()
+            ret = eventCalcNow.wait(1)
             eventCalcNow.clear()
-            print "CalcNow: clear", ret, time.clock()
+            #@print "CalcNow: clear", ret, time.clock()
             
     def LastCalcTime(self):
         return self.calctime
