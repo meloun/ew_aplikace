@@ -186,10 +186,10 @@ class ManageCalcProcess():
             
             #sort and copy 
             if __debug__: ytime = time.clock()
+            columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]                   
             if self.joinedDf.empty:
-                dfs["table"] = pd.DataFrame()
+                dfs["table"] = pd.DataFrame(columns=columns)                            
             else:                              
-                columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]                   
                 #self.joinedDf.loc[self.joinedDf.user_id == 0,  self.joinedDf.columns - ["id", "cell"]] = None             
                 self.joinedDf.loc[self.joinedDf.user_id == 0, ["nr", "name", "category", "start_nr", "time1", "time2", "time3", "time4", "lap1", "lap2", "lap3", "lap4"]] = [0, "UNKNOWN unknown", "not def", 1, None, None, None, None, None, None, None, None]
                                 

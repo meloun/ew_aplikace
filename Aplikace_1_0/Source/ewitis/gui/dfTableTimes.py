@@ -135,9 +135,7 @@ class DfModelTimes(DataframeTableModel):
                                                             
     def GetDataframe(self):
         
-        df = mgr.GetDfs()["table"]
-        #print df.columns        
-        
+        df = mgr.GetDfs()["table"]        
                 
         if eventCalcReady.is_set() == False:        
             for index, row in self.changed_rows.iterrows():
@@ -163,12 +161,13 @@ class DfModelTimes(DataframeTableModel):
         dfChange = pd.DataFrame([mydict])
         dfChange.set_index(dfChange.id, inplace=True)                   
                        
-        dfChangedRow = self.df.loc[dfChange.id]  #take row before change (from global df)                                                 
-        old_user = tableUsers.model.getUserParNr(int(dfChangedRow['nr'])) #take user before change
+        #take row before change (from global df)
+        dfChangedRow = self.df.loc[dfChange.id]
+        #take user before change                                                        
+        old_user = tableUsers.model.getUserParNr(int(dfChangedRow['nr']))
                
         #update row before change with change                 
         dfChangedRow.update(dfChange)        
-        
         
         #category changed        
         if "nr" in mydict:            
@@ -196,6 +195,10 @@ class DfModelTimes(DataframeTableModel):
             #adjust dict for writing to db
             mydict["time_raw"] = dbTimeraw
             del mydict["timeraw"]            
+
+            #change the state (C -> manually Changed)            
+            state = str(dfChangedRow.iloc[0]['state'])         
+            mydict["state"] = "C" + state[1] + state[2]            
             
 
         elif "un1" in mydict:

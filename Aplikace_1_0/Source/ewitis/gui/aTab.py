@@ -25,12 +25,12 @@ class MyTab():
     def Update(self, mode = UPDATE_MODE.all):
         ret1 = True
         ret2 = True        
-        
+                
         #update tables
         for table in self.tables:
             ret1 = table.UpdateGui()
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
-                ret1 = table.Update()            
+                ret1 = table.Update()                            
                             
                                                 
 
