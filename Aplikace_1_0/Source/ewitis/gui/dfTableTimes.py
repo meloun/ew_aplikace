@@ -147,11 +147,11 @@ class DfModelTimes(DataframeTableModel):
             self.changed_rows = pd.DataFrame()
 
         #ToDo: remove
-        mynr = len(df.index)
-        print "mynr:", mynr
-        if(mynr > self.mynr):
-            print "TT: new record", time.clock()
-        self.mynr = mynr
+        #mynr = len(df.index)
+        #print "mynr:", mynr
+        #if(mynr > self.mynr):
+        #    print "TT: new record", time.clock()
+        #self.mynr = mynr
                          
         return df
     

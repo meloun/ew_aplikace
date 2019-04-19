@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 '''
 Created on 10.06.2010
 @author: Lubos Melichar
@@ -676,7 +676,7 @@ class ManageComm(Thread):
             self.AddTimeToDb(aux_time)
             self.index_times += 1 # done, take next 
             eventCalcNow.set()
-            print "CalcNow: set", time.clock()
+            #print "CalcNow: set", time.clock()
         else:
             pass # no new time                                         
     

@@ -27,7 +27,7 @@
                 "order": [
                     {
                         "checked": 2,
-                        "column1": "Time1",
+                        "column1": "Points5",
                         "column2": "Year",
                         "order1": "Asc",
                         "order2": "Asc",
@@ -36,12 +36,12 @@
                     },
                     {
                         "checked": 0,
-                        "column1": "Points4",
-                        "column2": "Year",
+                        "column1": "Time1",
+                        "column2": " - - -",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
-                        "type": "Category"
+                        "type": "Total"
                     },
                     {
                         "checked": 0,
@@ -58,31 +58,31 @@
                         "checked": 2,
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:01,00%)"
+                        "rule": "abs(time1 - %00:00:12,00%)"
                     },
                     {
                         "checked": 0,
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time2 - %00:00:33,00%)"
+                        "rule": "abs(time2 - %00:00:26,00%)"
                     },
                     {
                         "checked": 0,
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time3 - %00:00:38,00%)"
-                    },
-                    {
-                        "checked": 0,
-                        "maximum": 500,
-                        "minimum": 0,
-                        "rule": "abs(time4 - %00:00:14,00%)"
+                        "rule": "abs(time2 - %00:00:45,00%)"
                     },
                     {
                         "checked": 0,
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "points1 + points2 + points3 + un1"
+                        "rule": "(5 / time3) * 3.6 * 100"
+                    },
+                    {
+                        "checked": 2,
+                        "maximum": 9999,
+                        "minimum": 0,
+                        "rule": "points1 + un1"
                     }
                 ],
                 "status": {
@@ -101,21 +101,21 @@
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "prev1time4"
+                        "rule": "celltime2 - celltime1"
                     },
                     {
                         "checked": 0,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "prev4time4"
+                        "rule": "time - starttime"
                     },
                     {
                         "checked": 0,
                         "description": "",
-                        "filter": "cell=2",
+                        "filter": "cell=4",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime1"
+                        "rule": "time - celltime3"
                     }
                 ],
                 "un": [
@@ -178,14 +178,14 @@
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
-                        "points5": 0,
+                        "points5": 2,
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
                         "time2": 0,
                         "time3": 0,
                         "time4": 0,
-                        "un1": 0,
+                        "un1": 2,
                         "un2": 0,
                         "un3": 0,
                         "us1": 0,
@@ -254,7 +254,7 @@
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 0,
+                        "points1": 2,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
@@ -265,7 +265,7 @@
                         "time2": 0,
                         "time3": 0,
                         "time4": 0,
-                        "un1": 0,
+                        "un1": 2,
                         "un2": 0,
                         "un3": 0,
                         "us1": 0,
@@ -318,14 +318,14 @@
                         "points5": "Body celkem",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Čas1",
-                        "time2": "Čas2",
-                        "time3": "Čas3",
+                        "time1": "Čas",
+                        "time2": "",
+                        "time3": "",
                         "time4": "",
                         "un1": "Penalizace",
                         "un2": "",
                         "un3": "",
-                        "us1": "",
+                        "us1": "Us 1",
                         "year": "RV"
                     },
                     {
@@ -365,7 +365,7 @@
                         "un1": "",
                         "un2": "",
                         "un3": "",
-                        "us1": "",
+                        "us1": "Us 1",
                         "year": ""
                     },
                     {
@@ -392,8 +392,8 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "Body1",
-                        "points2": "Body2",
-                        "points3": "Body3",
+                        "points2": "",
+                        "points3": "",
                         "points4": "",
                         "points5": "",
                         "sex": "",
@@ -405,7 +405,7 @@
                         "un1": "Penal",
                         "un2": "",
                         "un3": "",
-                        "us1": "",
+                        "us1": "Us 1",
                         "year": ""
                     }
                 ],
@@ -444,7 +444,7 @@
                         "time2": 23,
                         "time3": 25,
                         "time4": 27,
-                        "un1": 27,
+                        "un1": 34,
                         "un2": 35,
                         "un3": 36,
                         "us1": 37,
@@ -483,7 +483,7 @@
                         "time1": 21,
                         "time2": 23,
                         "time3": 25,
-                        "time4": 22,
+                        "time4": 27,
                         "un1": 34,
                         "un2": 32,
                         "un3": 36,
@@ -541,7 +541,7 @@
             "changed": true,
             "value": [
                 {
-                    "filter": "last times with time4",
+                    "filter": "last times with time1",
                     "onerow": 0,
                     "sort1": "order1",
                     "sort2": "- - -",
@@ -552,11 +552,11 @@
                 {
                     "filter": "last times with time4",
                     "onerow": 0,
-                    "sort1": "order2",
+                    "sort1": "order1",
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
-                    "type": "categories"
+                    "type": "total"
                 },
                 {
                     "filter": "last times with time1",
@@ -576,19 +576,19 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "RT04 - %category%",
-                    "description": "Linde Pohony (37m / 7s, 201m / 33s, 227m / 38s)",
+                    "categoryname": "RTx - %category%",
+                    "description": "TestDescription (77m / 12s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "ST 01 - %category%",
-                    "description": "IRO stavební (62m / 14s)",
+                    "categoryname": "%category%",
+                    "description": "%description%",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "RT01 celk %category%",
+                    "categoryname": "RTX celk %category%",
                     "description": "%description%",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
@@ -638,8 +638,8 @@
                     "o4"
                 ],
                 "text": [
-                    "St. č. %nr% - RT 4:  %time1%s, %time2%s, %time3%s",
-                    "",
+                    "St. č. %nr% - RT X: %time1%s",
+                    "text sms zprávy",
                     "text sms zprávy"
                 ]
             }
@@ -683,8 +683,8 @@
                     "cells": [
                         1,
                         250,
-                        2,
-                        250,
+                        0,
+                        0,
                         0,
                         0,
                         0
@@ -699,43 +699,15 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Dropbox/casomira/_Aplikace/measurement/TEST_S_F_1second.json",
-                "profile_desc": "S1(1) – C1(2)\n\n1s\n\n",
-                "race_name": "TEST S->F 1 second",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/xx.json",
+                "profile_desc": "S1 – C1 \n\n77m / 12s",
+                "race_name": "Test S-F",
                 "remote": 0,
                 "rfid": 0,
                 "tag_filter": 0
             }
         },
         "name": "race settings",
-        "permanent": true
-    },
-    "timing_settings": {
-        "GET": {
-            "refresh_countdown": 1,
-            "value": {
-                "autoenable_bb": 0,
-                "autoenable_cell": 0,
-                "autorequest_missingtimes": 2,
-                "logic_mode": null,
-                "measurement_state": 0,
-                "tags_reading_enable": 0,
-                "times_download_mode": 0
-            }
-        },
-        "SET": {
-            "changed": false,
-            "value": {
-                "autoenable_bb": 0,
-                "autoenable_cell": 1,
-                "autorequest_missingtimes": 2,
-                "logic_mode": 2,
-                "measurement_state": 2,
-                "tags_reading_enable": 0,
-                "times_download_mode": 0
-            }
-        },
-        "name": "timing_settings",
         "permanent": true
     }
 }

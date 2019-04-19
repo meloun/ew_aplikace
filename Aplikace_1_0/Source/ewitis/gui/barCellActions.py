@@ -209,7 +209,7 @@ class BarCellActions():
             status = STATUS.ok #everything fine
         else:            
             status = STATUS.error #something is wrong
-            print "Error: wdg: ", self.lastcheckKO
+            #print "Error: wdg: ", self.lastcheckKO
                     
         #copy        
         self.lastcheck["wdg_calc"] = wdg_calc

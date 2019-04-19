@@ -268,13 +268,13 @@ class ManageCalcProcess():
                 tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                          
                                          
                 self.timesDfs[i] = tempDf
-#         print "tDdfs 0",timesDfs[0]
-#         print "=================="
-#         print "tDdfs 1",timesDfs[1]
-#         print "=================="
-#         print "tDdfs 2",timesDfs[2]
-#         print "=================="
-#         print "=================="
+        print "tDdfs 0",timesDfs[0]
+        print "=================="
+        print "tDdfs 1",timesDfs[1]
+        print "=================="
+        print "tDdfs 2",timesDfs[2]
+        print "=================="
+        print "=================="
         return self.timesDfs
                 
                             

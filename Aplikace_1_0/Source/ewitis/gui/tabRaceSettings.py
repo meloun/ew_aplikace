@@ -107,6 +107,7 @@ class TabRaceSettings():
             return  
         
         permanentdata = dstore.GetAllPermanents()
+        print permanentdata
         
         json.dump(permanentdata, codecs.open(filename, 'w', 'utf-8'), ensure_ascii = False, indent = 4)
         uiAccesories.sGuiSetItem("racesettings-app", ["profile"], utils.toUnicode(filename))
