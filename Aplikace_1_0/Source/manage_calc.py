@@ -817,32 +817,36 @@ class ManageCalcProcess():
         except KeyError:        
             return None
         
-        # ORDER1-ORDER3       
-        try:
-            if ("order1" in rule):                                
-                expression_string = expression_string.replace("order1", str(joinTime['order1']))
-            if ("order2" in rule):                                
-                expression_string = expression_string.replace("order2", str(joinTime['order2']))
-            if ("order3" in rule):                                
-                expression_string = expression_string.replace("order3", str(joinTime['order3']))
-        except KeyError:        
-            return None
+        # ORDER1-ORDER3
+        if "order" in rule:        
+            try:
+                if ("order1" in rule):                                
+                    expression_string = expression_string.replace("order1", str(joinTime['order1']))
+                if ("order2" in rule):                                
+                    expression_string = expression_string.replace("order2", str(joinTime['order2']))
+                if ("order3" in rule):                                
+                    expression_string = expression_string.replace("order3", str(joinTime['order3']))
+            except KeyError:        
+                return None
+        #end of ORDER
         
-        # POINTS1-POINTS3       
-        try:
-            if ("points1" in rule):
-                #print rule, joinTime                                
-                expression_string = expression_string.replace("points1", str(tabTime['points1']))
-            if ("points2" in rule):                                
-                expression_string = expression_string.replace("points2", str(tabTime['points2']))
-            if ("points3" in rule):                                
-                expression_string = expression_string.replace("points3", str(tabTime['points3']))
-            if ("points4" in rule):                                
-                expression_string = expression_string.replace("points4", str(tabTime['points4']))
-            if ("points5" in rule):                                
-                expression_string = expression_string.replace("points5", str(tabTime['points5']))
-        except KeyError:        
-            return None
+        # POINTS1-POINTS3        
+        if "points" in rule:       
+            try:
+                if ("points1" in rule):
+                    #print rule, joinTime                                
+                    expression_string = expression_string.replace("points1", str(tabTime['points1']))
+                if ("points2" in rule):                                
+                    expression_string = expression_string.replace("points2", str(tabTime['points2']))
+                if ("points3" in rule):                                
+                    expression_string = expression_string.replace("points3", str(tabTime['points3']))
+                if ("points4" in rule):                                
+                    expression_string = expression_string.replace("points4", str(tabTime['points4']))
+                if ("points5" in rule):                                
+                    expression_string = expression_string.replace("points5", str(tabTime['points5']))
+            except KeyError:        
+                return None
+        #end of points
                
         # CELLTIME2 - CELLTIME250                
         if "celltime" in rule:
@@ -864,76 +868,93 @@ class ManageCalcProcess():
                         print "type error celltime: ", rule, "time id:", joinTime["id"]         
                         return None
 
-        # prevYtimeX
-        for prev_i in range(1, 5):
-            for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
-                previoustimeX = "prev"+str(prev_i)+"time" + str(i)
-                if previoustimeX in rule:
-                    try:  
-                        time = self.GetPrevious(joinTime, {}, df, prev_i * -1)                        
-                        if(time == None):
-                            return None                     
-                        expression_string = expression_string.replace(previoustimeX, str(time['time'+str(i)]))                           
-                    except TypeError:       
-                        print "type error", previoustimeX         
-                        return None                    
-    
-        # previoustime                
-        if ("prevtime" in rule) or ("prev1time" in rule):                              
-            try:  
-                time = self.GetPrevious(joinTime, {}, df)
-                if(time == None):
+        #PREV
+        if "prev" in rule:
+            # prevYtimeX
+            for prev_i in range(1, 5):
+                for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
+                    previoustimeX = "prev"+str(prev_i)+"time" + str(i)
+                    if previoustimeX in rule:
+                        try:  
+                            time = self.GetPrevious(joinTime, {}, df, prev_i * -1)                        
+                            if(time == None):
+                                return None                     
+                            expression_string = expression_string.replace(previoustimeX, str(time['time'+str(i)]))                           
+                        except TypeError:       
+                            print "type error", previoustimeX         
+                            return None                    
+        
+            # previoustime                
+            if ("prevtime" in rule) or ("prev1time" in rule):                              
+                try:  
+                    time = self.GetPrevious(joinTime, {}, df)
+                    if(time == None):
+                        return None                
+                    expression_string = expression_string.replace("prev1time", str(time['time_raw']))                           
+                    expression_string = expression_string.replace("prevtime", str(time['time_raw']))
+                except TypeError:       
+                    print "type error previoustime"         
+                    return None
+                    # prevI-timeX
+                    
+            # previous2time                        
+            if ("prev2time" in rule):                              
+                try:  
+                    time = self.GetPrevious(joinTime, {}, df, -2)
+                    if(time == None):
+                        return None                                
+                    expression_string = expression_string.replace("prev2time", str(time['time_raw']))                           
+                except TypeError:       
+                    print "type error previoustime"         
                     return None                
-                expression_string = expression_string.replace("prev1time", str(time['time_raw']))                           
-                expression_string = expression_string.replace("prevtime", str(time['time_raw']))
-            except TypeError:       
-                print "type error previoustime"         
-                return None
-                # prevI-timeX
-                
-        # previous2time                        
-        if ("prev2time" in rule):                              
-            try:  
-                time = self.GetPrevious(joinTime, {}, df, -2)
-                if(time == None):
-                    return None                                
-                expression_string = expression_string.replace("prev2time", str(time['time_raw']))                           
-            except TypeError:       
-                print "type error previoustime"         
-                return None                
-        # nextYtimeX        
-        for next_i in range(1, 5):
-            for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
-                nexttimeX = "next"+str(prev_i)+"time" + str(i)
-                if nexttimeX in rule:                                        
-                    try:  
-                        time = self.Next(joinTime, {}, df, next_i * -1)                        
-                        if(time == None):
-                            return None                     
-                        expression_string = expression_string.replace(nexttimeX, str(time['time'+str(i)]))                           
-                    except TypeError:       
-                        print "type error", nexttimeX         
-                        return None 
-        # nexttime                
-        if ("nexttime" in rule) or ("next1time" in rule):                              
-            try:                
-                time = self.GetNext(joinTime, {}, df, 0)                
-                if(time == None):                                                                            
-                    return None                                    
-                expression_string = expression_string.replace("nexttime", str(time['time_raw']))                                       
-            except TypeError:       
-                print "type error nexttime"         
-                return None
-        # next2time                
-        if ("next2time" in rule):                              
-            try:                  
-                time = self.GetNext(joinTime, {}, df, 1)                
-                if(time == None):                                                                            
-                    return None                                    
-                expression_string = expression_string.replace("next2time", str(time['time_raw']))                                       
-            except TypeError:       
-                print "type error nexttime"         
-                return None
+            # previous3time                        
+            if ("prev3time" in rule):                              
+                try:  
+                    time = self.GetPrevious(joinTime, {}, df, -3)
+                    if(time == None):
+                        return None                                
+                    expression_string = expression_string.replace("prev3time", str(time['time_raw']))                           
+                except TypeError:       
+                    print "type error previoustime"         
+                    return None
+        #end of PREV
+        
+        #NEXT
+        if "next" in rule:                       
+            # nextYtimeX        
+            for next_i in range(1, 5):
+                for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
+                    nexttimeX = "next"+str(prev_i)+"time" + str(i)
+                    if nexttimeX in rule:                                        
+                        try:  
+                            time = self.Next(joinTime, {}, df, next_i * -1)                        
+                            if(time == None):
+                                return None                     
+                            expression_string = expression_string.replace(nexttimeX, str(time['time'+str(i)]))                           
+                        except TypeError:       
+                            print "type error", nexttimeX         
+                            return None 
+            # nexttime                
+            if ("nexttime" in rule) or ("next1time" in rule):                              
+                try:                
+                    time = self.GetNext(joinTime, {}, df, 0)                
+                    if(time == None):                                                                            
+                        return None                                    
+                    expression_string = expression_string.replace("nexttime", str(time['time_raw']))                                       
+                except TypeError:       
+                    print "type error nexttime"         
+                    return None
+            # next2time                
+            if ("next2time" in rule):                              
+                try:                  
+                    time = self.GetNext(joinTime, {}, df, 1)                
+                    if(time == None):                                                                            
+                        return None                                    
+                    expression_string = expression_string.replace("next2time", str(time['time_raw']))                                       
+                except TypeError:       
+                    print "type error nexttime"         
+                    return None
+        #end of NEXT
                 
         # STARTTIME    
         #user without number => no time

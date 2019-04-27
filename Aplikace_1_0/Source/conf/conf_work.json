@@ -56,21 +56,21 @@
                 "points": [
                     {
                         "checked": 2,
-                        "maximum": 500,
+                        "maximum": 1000,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:12,00%)"
+                        "rule": "abs(time1 - %00:00:08,00%)"
                     },
                     {
-                        "checked": 0,
-                        "maximum": 500,
+                        "checked": 2,
+                        "maximum": 1000,
                         "minimum": 0,
-                        "rule": "abs(time2 - %00:00:26,00%)"
+                        "rule": "abs(time2 - %00:00:08,00%)"
                     },
                     {
-                        "checked": 0,
-                        "maximum": 500,
+                        "checked": 2,
+                        "maximum": 1000,
                         "minimum": 0,
-                        "rule": "abs(time2 - %00:00:45,00%)"
+                        "rule": "abs(time2 - %00:00:16,00%)"
                     },
                     {
                         "checked": 0,
@@ -82,7 +82,7 @@
                         "checked": 2,
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "points1 + un1"
+                        "rule": "points1 + points2 + points3 + un1"
                     }
                 ],
                 "status": {
@@ -94,28 +94,28 @@
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "prev3time - starttime"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "celltime2 - celltime1"
+                        "rule": "celltime3 - starttime"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
+                        "description": "",
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "rule": "celltime2 - starttime"
+                    },
+                    {
+                        "checked": 2,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
                         "rule": "time - starttime"
-                    },
-                    {
-                        "checked": 0,
-                        "description": "",
-                        "filter": "cell=4",
-                        "minute_timeformat": 2,
-                        "rule": "time - celltime3"
                     }
                 ],
                 "un": [
@@ -153,7 +153,7 @@
                 "checked": [
                     {
                         "category": 0,
-                        "club": 0,
+                        "club": 2,
                         "gap1": 0,
                         "gap2": 0,
                         "gap3": 0,
@@ -182,8 +182,8 @@
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
-                        "time2": 0,
-                        "time3": 0,
+                        "time2": 2,
+                        "time3": 2,
                         "time4": 0,
                         "un1": 2,
                         "un2": 0,
@@ -255,8 +255,8 @@
                         "ordercat2": 0,
                         "ordercat3": 0,
                         "points1": 2,
-                        "points2": 0,
-                        "points3": 0,
+                        "points2": 2,
+                        "points3": 2,
                         "points4": 0,
                         "points5": 0,
                         "sex": 0,
@@ -290,7 +290,7 @@
                 "names": [
                     {
                         "category": "",
-                        "club": "",
+                        "club": "Tým",
                         "gap1": "",
                         "gap2": "",
                         "gap3": "",
@@ -318,9 +318,9 @@
                         "points5": "Body celkem",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Čas",
-                        "time2": "",
-                        "time3": "",
+                        "time1": "Čas 1",
+                        "time2": "Čas 2",
+                        "time3": "Čas 3",
                         "time4": "",
                         "un1": "Penalizace",
                         "un2": "",
@@ -392,8 +392,8 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "Body1",
-                        "points2": "",
-                        "points3": "",
+                        "points2": "Body2",
+                        "points3": "Body3",
                         "points4": "",
                         "points5": "",
                         "sex": "",
@@ -437,7 +437,7 @@
                         "points2": 30,
                         "points3": 26,
                         "points4": 32,
-                        "points5": 33,
+                        "points5": 35,
                         "sex": 12,
                         "status": 38,
                         "time1": 21,
@@ -576,8 +576,8 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "RTx - %category%",
-                    "description": "TestDescription (77m / 12s)",
+                    "categoryname": "TP06",
+                    "description": "Voix (30m / 6s, 60m / 17s, 170m / 30s, 260m / 45s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
@@ -588,8 +588,8 @@
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "RTX celk %category%",
-                    "description": "%description%",
+                    "categoryname": "TP06 celk",
+                    "description": "celkove vysledky",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 }
@@ -638,7 +638,7 @@
                     "o4"
                 ],
                 "text": [
-                    "St. č. %nr% - RT X: %time1%s",
+                    "7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP06 – %time1%s, %time2%s, %time3%s, %time4%s. PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -682,15 +682,15 @@
                 "autonumbers": {
                     "cells": [
                         1,
+                        2,
                         250,
-                        0,
                         0,
                         0,
                         0,
                         0
                     ],
-                    "nr_cells": 2,
-                    "nr_users": 4
+                    "nr_cells": 0,
+                    "nr_users": 1
                 },
                 "evaluation": {
                     "finishtime": {
@@ -699,9 +699,9 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/xx.json",
-                "profile_desc": "S1 – C1 \n\n77m / 12s",
-                "race_name": "Test S-F",
+                "profile": "D:/Elektronika/EWITIS/app/v3_22a_7CT/conf/TP06.json",
+                "profile_desc": "Voix\nKoupaliště parkoviště\t\n\nLogika automatického doplňování z bufferu nefunguje.\nJednou bránou se jede 2x\n\nS (1) – C1 (2) – C2 (3) – C3 (2) – C4 (250)\n\n30m / 6s, 60m / 17s, 170m / 30s, 260m / 45s",
+                "race_name": "7 Castles Trial 2019",
                 "remote": 0,
                 "rfid": 0,
                 "tag_filter": 0
