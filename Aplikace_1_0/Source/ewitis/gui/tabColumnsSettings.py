@@ -27,8 +27,9 @@ class TimesGroup(FilterGroup):
 
     def CreateSlots(self):
         QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "rule"], utils.toUnicode(x)))
-        QtCore.QObject.connect(self.minute_timeformat, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "minute_timeformat"], state, self.Update))            
         FilterGroup.CreateSlots(self)                                                                                    
+        QtCore.QObject.connect(self.minute_timeformat, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "minute_timeformat"], state, self.Update))
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["time", self.nr-1, "description"], utils.toUnicode(x)))            
      
     def setEnabled(self, enabled):
         self.rule.setEnabled(enabled)        
@@ -51,18 +52,21 @@ class LapGroup(FilterGroup):
         FilterGroup.__init__(self, nr, "Lap")
 
     def CreateSlots(self):        
+        FilterGroup.CreateSlots(self)
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["lap", self.nr-1, "description"], utils.toUnicode(x)))                                                                                    
         QtCore.QObject.connect(self.fromlaststart, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("additional_info", ["lap", self.nr-1, "fromlaststart"], state, self.Update))            
-        FilterGroup.CreateSlots(self)                                                                                    
      
     def setEnabled(self, enabled):                
         self.fromlaststart.setEnabled(enabled)
+        self.description.setEnabled(enabled)
         FilterGroup.setEnabled(self, enabled)
     
     def Update(self):        
         # set values from datastore              
         info = self.GetInfo()                
         self.fromlaststart.setCheckState(info["fromlaststart"]) 
-        FilterGroup.Update(self)        
+        FilterGroup.Update(self)
+        uiAccesories.UpdateText(self.description, info["description"])        
                   
                 
 class PointGroup():    
@@ -84,9 +88,11 @@ class PointGroup():
     def CreateSlots(self):
                                              
         QtCore.QObject.connect(self.checked, QtCore.SIGNAL("stateChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "checked"], x, self.Update))                          
-        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "rule"], utils.toUnicode(x)))            
+        QtCore.QObject.connect(self.rule, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "rule"], utils.toUnicode(x)))
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "description"], utils.toUnicode(x)))            
         QtCore.QObject.connect(self.minimum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "minimum"], x, self.Update))
         QtCore.QObject.connect(self.maximum, QtCore.SIGNAL("valueChanged(int)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "maximum"], x, self.Update))
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["points", self.nr-1, "description"], utils.toUnicode(x)))
 
     def GetInfo(self):
         return dstore.GetItem("additional_info", [ "points", self.nr-1])
@@ -94,7 +100,8 @@ class PointGroup():
     def setEnabled(self, enabled):
         self.rule.setEnabled(enabled)        
         self.minimum.setEnabled(enabled)          
-        self.maximum.setEnabled(enabled)       
+        self.maximum.setEnabled(enabled)
+        self.description.setEnabled(enabled)       
     
     def Update(self):                                    
         # set values from datastore
@@ -103,8 +110,8 @@ class PointGroup():
         self.checked.setChecked(info["checked"])
         self.minimum.setValue(info["minimum"])
         self.maximum.setValue(info["maximum"])
-        uiAccesories.UpdateText(self.rule, info["rule"])
-        
+        uiAccesories.UpdateText(self.description, info["description"])
+        uiAccesories.UpdateText(self.rule, info["rule"])        
         self.setEnabled(info["checked"]) 
                               
                                                   
@@ -138,7 +145,8 @@ class OrderGroup():
         QtCore.QObject.connect(self.order1, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order1"], utils.toUnicode(x)))
         
         QtCore.QObject.connect(self.column2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "column2"], utils.toUnicode(x)))                                      
-        QtCore.QObject.connect(self.order2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order2"], utils.toUnicode(x)))             
+        QtCore.QObject.connect(self.order2, QtCore.SIGNAL("activated(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "order2"], utils.toUnicode(x)))
+        QtCore.QObject.connect(self.description, QtCore.SIGNAL("textEdited(const QString&)"), lambda x: uiAccesories.sGuiSetItem("additional_info", ["order", self.nr-1, "description"], utils.toUnicode(x)))             
             
     def GetInfo(self):
         return dstore.GetItem("additional_info", [ "order", self.nr-1])
@@ -146,11 +154,12 @@ class OrderGroup():
     def setEnabled(self, enabled):
         self.type.setEnabled(enabled)   
         self.column1.setEnabled(enabled)        
-        self.row1.setEnabled(enabled)
+        self.row.setEnabled(enabled)
+        self.column1.setEnabled(enabled)
         self.order1.setEnabled(enabled)
-        self.column2.setEnabled(enabled)        
-        self.row2.setEnabled(enabled)
+        self.column2.setEnabled(enabled)                
         self.order2.setEnabled(enabled)
+        self.description.setEnabled(enabled)
     
     def Update(self):                
         # set values from datastore              
@@ -164,7 +173,11 @@ class OrderGroup():
         uiAccesories.SetCurrentIndex(self.order1, info["order1"])
         
         uiAccesories.SetCurrentIndex(self.column2, info["column2"])        
-        uiAccesories.SetCurrentIndex(self.order2, info["order2"])    
+        uiAccesories.SetCurrentIndex(self.order2, info["order2"])
+        
+        uiAccesories.UpdateText(self.description, info["description"])
+        
+        self.setEnabled(info["checked"])    
 
 
 
@@ -182,7 +195,9 @@ class TabColumnsSettings():
         self.lapgroups = [None] * NUMBER_OF.TIMESCOLUMNS
         self.ordergroups = [None] * NUMBER_OF.THREECOLUMNS
         self.un = [None] * NUMBER_OF.THREECOLUMNS
+        self.un_description = [None] * NUMBER_OF.THREECOLUMNS
         self.us = [None] * 1
+        self.us_description = [None] * 1
         
         
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
@@ -192,7 +207,9 @@ class TabColumnsSettings():
         for i in range(0, NUMBER_OF.THREECOLUMNS):
             self.ordergroups[i] =  OrderGroup(i+1)
             self.un[i] = getattr(Ui(), "checkAInfoUserNumber_" + str(i+1))
+            self.un_description[i] = getattr(Ui(), "lineAInfoUnDescription_" + str(i+1))
         self.us[0] = getattr(Ui(), "checkAInfoUserString_" + str(1))
+        self.us_description[0] = getattr(Ui(), "lineAInfoUsDescription_" + str(1))
         self.status = getattr(Ui(), "checkAInfoStatus")
                                       
         for i in range(0, NUMBER_OF.POINTSCOLUMNS): 
@@ -211,10 +228,12 @@ class TabColumnsSettings():
             self.timesgroups[i].CreateSlots()                  
             self.lapgroups[i].CreateSlots()
         for i in range(0, NUMBER_OF.THREECOLUMNS):                                                                     
-            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))            
+            QtCore.QObject.connect(self.un[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "checked"], state, self.Update))
+            QtCore.QObject.connect(self.un_description[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda x, index = i: uiAccesories.sGuiSetItem("additional_info", ["un", index, "description"], utils.toUnicode(x)))            
             self.ordergroups[i].CreateSlots()                              
         i=0
         QtCore.QObject.connect(self.us[i], QtCore.SIGNAL("stateChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("additional_info", ["us", index, "checked"], state, self.Update))
+        QtCore.QObject.connect(self.us_description[i], QtCore.SIGNAL("textEdited(const QString&)"), lambda x, index = i: uiAccesories.sGuiSetItem("additional_info", ["us", index, "description"], utils.toUnicode(x)))
         
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):                                                                                    
             self.pointgroups[i].CreateSlots()
@@ -226,15 +245,16 @@ class TabColumnsSettings():
             self.timesgroups[i].Update()
             self.lapgroups[i].Update()          
         for i in range(0, NUMBER_OF.THREECOLUMNS):
-            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))                                                                                                                                      
+            self.un[i].setChecked(dstore.GetItem("additional_info", ['un', i, "checked"]))
+            uiAccesories.UpdateText(self.un_description[i], dstore.GetItem("additional_info", ['un', i, "description"]))                                                                                                                                      
             self.ordergroups[i].Update()
         i=0
-        self.us[i].setChecked(dstore.GetItem("additional_info", ['us', i, "checked"]))                                                                                                                                      
+        self.us[i].setChecked(dstore.GetItem("additional_info", ['us', i, "checked"]))
+        uiAccesories.UpdateText(self.us_description[i], dstore.GetItem("additional_info", ['us', i, "description"]))                                                                                                                                                
         self.status.setChecked(dstore.GetItem("additional_info", ['status',"checked"]))                                                                                                                                      
                             
         for i in range(0, NUMBER_OF.POINTSCOLUMNS):
-            self.pointgroups[i].Update()  
-            
+            self.pointgroups[i].Update()            
             
         #disable columns for export also
         tabExportSettings.Update()

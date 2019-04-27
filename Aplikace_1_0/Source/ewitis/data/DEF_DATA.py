@@ -171,6 +171,7 @@ DEF_DATA = {
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "filter"            : "",
                                                                             "fromlaststart"     : CheckboxValue.unchecked,
+                                                                            "description"       : ""
                                                                                        
                                                                          }] * NUMBER_OF.TIMESCOLUMNS,                                    
                                                         "order"         : [
@@ -181,17 +182,25 @@ DEF_DATA = {
                                                                             "column1"            : "Time1",
                                                                             "order1"             : "Asc",                                                                                  
                                                                             "column2"            : " - - -",                                                                           
-                                                                            "order2"             : "Asc"                                                                                  
+                                                                            "order2"             : "Asc",
+                                                                            "description"       : ""                                                                                  
                                                                           }] * NUMBER_OF.THREECOLUMNS,                                                                                                                                                                                                                                                                                                                           
                                                         "points"        :[
                                                                           {                                                                     
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "abs(time1 - %00:01:30,00%)", 
                                                                             "minimum"           : 0, 
-                                                                            "maximum"           : 9999                                                                                                                                                                                                                                                                    
+                                                                            "maximum"           : 9999,
+                                                                            "description"       : ""                                                                                                                                                                                                                                                                    
                                                                          }] * NUMBER_OF.POINTSCOLUMNS,
-                                                        "un"            : [{"checked"           : CheckboxValue.checked}] * NUMBER_OF.THREECOLUMNS,
-                                                        "us"            : [{"checked"           : CheckboxValue.checked}],                                                                                                                                                                
+                                                        "un"            : [{
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "description"       : ""
+                                                                            }] * NUMBER_OF.THREECOLUMNS,
+                                                        "us"            : [{
+                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "description"       : ""
+                                                                            }],                                                                                                                                                                
                                                         }
                                               }  
                                },

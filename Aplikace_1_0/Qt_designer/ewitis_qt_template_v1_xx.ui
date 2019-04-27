@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -6332,7 +6332,7 @@ next3timeX - 3.předchozí čas X závodníka</string>
               <bool>false</bool>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineExpolineAInfoUnDescription_2rtForwardDesc1_16">
+            <widget class="QLineEdit" name="lineAInfoUnDescription_2">
              <property name="geometry">
               <rect>
                <x>810</x>
@@ -51699,7 +51699,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineAInfoPointsDescription_2</tabstop>
   <tabstop>lineAInfoPointsDescription_1</tabstop>
   <tabstop>lineAInfoUnDescription_1</tabstop>
-  <tabstop>lineExpolineAInfoUnDescription_2rtForwardDesc1_16</tabstop>
+  <tabstop>lineAInfoUnDescription_2</tabstop>
   <tabstop>lineAInfoOrderDescription_2</tabstop>
   <tabstop>lineAInfoOrderDescription_1</tabstop>
   <tabstop>lineAInfoOrderDescription_3</tabstop>

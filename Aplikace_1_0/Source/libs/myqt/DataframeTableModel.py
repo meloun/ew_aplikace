@@ -99,7 +99,7 @@ class DataframeTableModel(QtCore.QAbstractTableModel, ModelUtils):
     def Update(self):   
         
         self.cnt = 0
-        ztime = time.clock()                               
+        #ztime = time.clock()                               
         self.layoutAboutToBeChanged.emit()        
         self.df = self.GetDataframe()                                      
         self.layoutChanged.emit()

@@ -178,6 +178,8 @@ class DfModelTimes(DataframeTableModel):
             
             #adjust dict for writing to db
             mydict["user_id"] = user_id
+            if mydict["nr"] < 0:                       
+                mydict["us1"] = "Civil #"+str(abs(mydict["nr"]))
             del mydict["nr"]                            
                                          
         elif "cell" in mydict:                                                                      
@@ -586,10 +588,12 @@ class DfTableTimes(DfTable):
             ret = self.sExportDirect(self.eHTM_EXPORT)
 
                 
-    def Update_AutoNumbers(self, new_time):
+    def Update_AutoNumbers(self, new_time):  
+        ret = False      
         ds_times = dstore.Get("times")
         if(ds_times["auto_number_enable"] and ds_times["auto_number_logic"]):
-            updates = ttAutonumbers.Update(self.model.GetDataframe(), new_time)                
+            updates = ttAutonumbers.Update(self.model.GetDataframe(), new_time)
+            #print "00: Update_AutoNumbers: ", updates, time.clock()                
             #self.model.Update()
             for update in updates:
                 user = tableUsers.model.getUserParNr(int(update['nr']))                                                                                   
@@ -602,11 +606,11 @@ class DfTableTimes(DfTable):
                     else:    
                         db.update_from_dict(self.model.name, {"id":update["id"], "user_id":user["id"]})
                     print "I: auto number: update:", update['nr'], "id:", update["id"]
-                    #eventCalcNow.set()
-                    return True #only one number at once
-        return False
-            #time.sleep(0.05)
-            #self.model.Update()
+                    ret = True #only one number at once
+            if ret == True:
+                eventCalcNow.set()                  
+        return ret
+
         
                      
     def UpdateGui(self): 

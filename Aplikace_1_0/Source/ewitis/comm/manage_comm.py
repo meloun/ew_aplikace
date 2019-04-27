@@ -707,7 +707,8 @@ class ManageComm(Thread):
         
         #print struct.pack('<I', time['user_id']).encode('hex')
 
-        '''auto number'''
+        '''auto number, no logic'''
+        ''' -> insert number(id) directly to the structure '''
         ds_times = dstore.Get("times")
         if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
             auto_number = ds_times["auto_number"][0]
@@ -721,25 +722,14 @@ class ManageComm(Thread):
 #         if (time['cell'] == 2) or (time['cell']== 3):
 #             time['cell'] = 1
 #         elif (time['cell'] == 4) or (time['cell'] == 5):
-#             time['cell'] = 250       
-                                
-        '''alltag filter - active only when rfid race and tag filter checked'''
-        racesettings_app = dstore.Get("racesettings-app")
-        if(racesettings_app["rfid"] == 2) and (racesettings_app["tag_filter"] == 2):                
-            ''' check tag id from table alltags'''
-            if(time['user_id'] != 0) and (time['user_id'] != 1):            
-                dbTag = self.db.getParX("alltags", "tag_id", time['user_id'], limit = 1).fetchone()
-                if(dbTag == None):                
-                    print "I: DB: this tag is NOT in table Alltags", time['user_id']
-                    return False #tag not found
+#             time['cell'] = 250                                
                                         
         '''save to database'''        
         keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
-        values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]
-        
+        values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]        
         '''hack for car sprint'''
         #keys.append("un1")
-        #values.append(time["un1"])
+        #values.append(time["un1"])        
         ret = self.db.insert_from_lists("times", keys, values)
                 
         '''return'''

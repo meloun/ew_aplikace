@@ -4,22 +4,26 @@
             "value": {
                 "lap": [
                     {
-                        "checked": 0,
+                        "checked": 2,
+                        "description": "ahoj2",
                         "filter": "",
                         "fromlaststart": 0
                     },
                     {
                         "checked": 0,
+                        "description": "",
                         "filter": "",
                         "fromlaststart": 0
                     },
                     {
                         "checked": 0,
+                        "description": "",
                         "filter": "",
                         "fromlaststart": 0
                     },
                     {
                         "checked": 0,
+                        "description": "",
                         "filter": "",
                         "fromlaststart": 0
                     }
@@ -29,6 +33,7 @@
                         "checked": 2,
                         "column1": "Points5",
                         "column2": "Year",
+                        "description": "nazdar3",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
@@ -38,6 +43,7 @@
                         "checked": 0,
                         "column1": "Time1",
                         "column2": " - - -",
+                        "description": "",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
@@ -47,6 +53,7 @@
                         "checked": 0,
                         "column1": "Time1",
                         "column2": " - - -",
+                        "description": "",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
@@ -56,33 +63,38 @@
                 "points": [
                     {
                         "checked": 2,
-                        "maximum": 1000,
+                        "description": "čus4",
+                        "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:08,00%)"
-                    },
-                    {
-                        "checked": 2,
-                        "maximum": 1000,
-                        "minimum": 0,
-                        "rule": "abs(time2 - %00:00:08,00%)"
-                    },
-                    {
-                        "checked": 2,
-                        "maximum": 1000,
-                        "minimum": 0,
-                        "rule": "abs(time2 - %00:00:16,00%)"
+                        "rule": "abs(time1 - %00:00:12,00%)"
                     },
                     {
                         "checked": 0,
+                        "description": "",
+                        "maximum": 500,
+                        "minimum": 0,
+                        "rule": "abs(time2 - %00:00:26,00%)"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "maximum": 500,
+                        "minimum": 0,
+                        "rule": "abs(time2 - %00:00:45,00%)"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
                         "maximum": 9999,
                         "minimum": 0,
                         "rule": "(5 / time3) * 3.6 * 100"
                     },
                     {
                         "checked": 2,
+                        "description": "dasdf",
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "points1 + points2 + points3 + un1"
+                        "rule": "points1 + un1"
                     }
                 ],
                 "status": {
@@ -91,47 +103,51 @@
                 "time": [
                     {
                         "checked": 2,
+                        "description": "čau1",
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "rule": "time - starttime"
+                    },
+                    {
+                        "checked": 0,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "prev3time - starttime"
+                        "rule": "celltime2 - celltime1"
                     },
                     {
-                        "checked": 2,
-                        "description": "",
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "rule": "celltime3 - starttime"
-                    },
-                    {
-                        "checked": 2,
-                        "description": "",
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "rule": "celltime2 - starttime"
-                    },
-                    {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
                         "rule": "time - starttime"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "filter": "cell=4",
+                        "minute_timeformat": 2,
+                        "rule": "time - celltime3"
                     }
                 ],
                 "un": [
                     {
-                        "checked": 2
+                        "checked": 2,
+                        "description": "asdfA"
                     },
                     {
-                        "checked": 0
+                        "checked": 0,
+                        "description": "asdfB"
                     },
                     {
-                        "checked": 0
+                        "checked": 0,
+                        "description": "asdfaC"
                     }
                 ],
                 "us": [
                     {
-                        "checked": 2
+                        "checked": 2,
+                        "description": "asdfasD"
                     }
                 ]
             }
@@ -153,7 +169,7 @@
                 "checked": [
                     {
                         "category": 0,
-                        "club": 2,
+                        "club": 0,
                         "gap1": 0,
                         "gap2": 0,
                         "gap3": 0,
@@ -182,8 +198,8 @@
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
-                        "time2": 2,
-                        "time3": 2,
+                        "time2": 0,
+                        "time3": 0,
                         "time4": 0,
                         "un1": 2,
                         "un2": 0,
@@ -255,8 +271,8 @@
                         "ordercat2": 0,
                         "ordercat3": 0,
                         "points1": 2,
-                        "points2": 2,
-                        "points3": 2,
+                        "points2": 0,
+                        "points3": 0,
                         "points4": 0,
                         "points5": 0,
                         "sex": 0,
@@ -290,7 +306,7 @@
                 "names": [
                     {
                         "category": "",
-                        "club": "Tým",
+                        "club": "",
                         "gap1": "",
                         "gap2": "",
                         "gap3": "",
@@ -318,9 +334,9 @@
                         "points5": "Body celkem",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Čas 1",
-                        "time2": "Čas 2",
-                        "time3": "Čas 3",
+                        "time1": "Čas",
+                        "time2": "",
+                        "time3": "",
                         "time4": "",
                         "un1": "Penalizace",
                         "un2": "",
@@ -392,8 +408,8 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "Body1",
-                        "points2": "Body2",
-                        "points3": "Body3",
+                        "points2": "",
+                        "points3": "",
                         "points4": "",
                         "points5": "",
                         "sex": "",
@@ -437,7 +453,7 @@
                         "points2": 30,
                         "points3": 26,
                         "points4": 32,
-                        "points5": 35,
+                        "points5": 33,
                         "sex": 12,
                         "status": 38,
                         "time1": 21,
@@ -576,8 +592,8 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "TP06",
-                    "description": "Voix (30m / 6s, 60m / 17s, 170m / 30s, 260m / 45s)",
+                    "categoryname": "RTx - %category%",
+                    "description": "TestDescription (77m / 12s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
@@ -588,8 +604,8 @@
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "TP06 celk",
-                    "description": "celkove vysledky",
+                    "categoryname": "RTX celk %category%",
+                    "description": "%description%",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 }
@@ -638,7 +654,7 @@
                     "o4"
                 ],
                 "text": [
-                    "7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP06 – %time1%s, %time2%s, %time3%s, %time4%s. PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!",
+                    "St. č. %nr% - RT X: %time1%s",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -682,15 +698,15 @@
                 "autonumbers": {
                     "cells": [
                         1,
-                        2,
                         250,
+                        0,
                         0,
                         0,
                         0,
                         0
                     ],
-                    "nr_cells": 0,
-                    "nr_users": 1
+                    "nr_cells": 2,
+                    "nr_users": 4
                 },
                 "evaluation": {
                     "finishtime": {
@@ -699,9 +715,9 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Elektronika/EWITIS/app/v3_22a_7CT/conf/TP06.json",
-                "profile_desc": "Voix\nKoupaliště parkoviště\t\n\nLogika automatického doplňování z bufferu nefunguje.\nJednou bránou se jede 2x\n\nS (1) – C1 (2) – C2 (3) – C3 (2) – C4 (250)\n\n30m / 6s, 60m / 17s, 170m / 30s, 260m / 45s",
-                "race_name": "7 Castles Trial 2019",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/xx.json",
+                "profile_desc": "S1 – C1 \n\n77m / 12s",
+                "race_name": "Test S-F",
                 "remote": 0,
                 "rfid": 0,
                 "tag_filter": 0

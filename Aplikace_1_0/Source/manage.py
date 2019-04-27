@@ -153,10 +153,7 @@ def sTimer():
         
     
     if(timer1_1s_cnt == 0):
-        timer1_1s_cnt = 1
-        
-
-        #ŕrequests["new_times"] = []     
+        timer1_1s_cnt = 1        
     else:
         #timer auto-updates
         tabRunsTimes.tables[0].AutoUpdate() #table times
