@@ -459,7 +459,7 @@ class DfTableTimes(DfTable):
         print "self.EditingFinished", x
         
     def sCivilsToZeroes(self):
-        if (uiAccesories.showMessage("Civils to zeroes", "Are you sure you want to set civils numbers to zeroes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
+        if (uiAccesories.showMessage("Civils to zeroes", "Are you sure you want to set civils numbers to zeroes?", MSGTYPE.warning_dialog) != True):            
             return
         print "A: Times: Civils to zeroes.. "
         query = \
@@ -474,7 +474,7 @@ class DfTableTimes(DfTable):
         return res
     
     def sRecalculate(self):
-        if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes? \n (only for the current run) ", MSGTYPE.warning_dialog) != True):            
+        if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes?", MSGTYPE.warning_dialog) != True):            
             return
 
         query = \

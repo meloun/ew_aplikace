@@ -96,7 +96,7 @@ class ManageCalcProcess():
             # NORMAL
             #=====================================================================
             #=====================================================================
-            if __debug__: print "P: C: START ------------------------"
+           # if __debug__: print "P: C: START ------------------------"
             #delay            
             ztime = time.clock()
             
@@ -109,41 +109,41 @@ class ManageCalcProcess():
             self.run_fast(dstore, dfs, info, eventCalcNow, eventCalcReady)
             
             """ update DFs """
-            if __debug__: ytime = time.clock() 
+           # if __debug__: ytime = time.clock() 
             self.ucDf = self.GetUserCategoryDf()
-            if __debug__: print "P1: C: GetUserCategoryDf()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P1: C: GetUserCategoryDf()", (time.clock() - ytime)*1000,"ms"
             
             """ update joined DF"""
-            if __debug__: ytime = time.clock() 
+           # if __debug__: ytime = time.clock() 
             self.GetJoinedDf()
-            if __debug__: print "P2: C: GetJoinedDf() 1", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P2: C: GetJoinedDf() 1", (time.clock() - ytime)*1000,"ms"
             
             """ update times """
-            if __debug__: ytime = time.clock() 
+           # if __debug__: ytime = time.clock() 
             self.GetTimesDfs()
             self.UpdateTimes(self.timesDfs)
             #! self.GetJoinedDf()
             #print "#3", self.joinedDf
             #print "TTT", self.joinedDf.loc[2237]
-            if __debug__: print "P3: C: UpdateTimes()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P3: C: UpdateTimes()", (time.clock() - ytime)*1000,"ms"
 
             #laps
-            if __debug__: ytime = time.clock()
+           # if __debug__: ytime = time.clock()
             self.GetLapsDfs()
-            if __debug__: print "P4a: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P4a: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
             ret = self.UpdateLaps(self.lapsDfs)
-            if __debug__: print "P4b: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P4b: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
             if ret:
                 self.GetJoinedDf()  
             #print "#4", self.joinedDf
-            if __debug__: print "P4: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P4: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
 
             #orderX
             ytime = time.clock()
             #@ likely not needed?  
             #self.orderDfs = self.GetOrderDfs()
             #self.joinedDf = self.UpdateOrder()            
-            if __debug__: print "P5: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P5: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
             
             #points                                                  
             ytime = time.clock()
@@ -157,12 +157,12 @@ class ManageCalcProcess():
             #    self.joinedDf["points4"] = dfs["table"]["points4"]
             #    self.joinedDf["points5"] = dfs["table"]["points5"]
             #    self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)             
-            if __debug__: print "P6: C: UpdatePoints()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P6: C: UpdatePoints()", (time.clock() - ytime)*1000,"ms"
             
             #orderX 
-            if __debug__: ytime = time.clock()
+           # if __debug__: ytime = time.clock()
             self.GetOrderDfs()                
-            if __debug__: print "P7a: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P7a: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
             self.UpdateOrder()
             #if (info["wdg_calc"] % 2 == 1) or (info["wdg_calc"]==0):
             #    self.UpdateOrder()
@@ -171,21 +171,21 @@ class ManageCalcProcess():
             #    self.joinedDf["order2"] = dfs["table"]["order2"]
             #    self.joinedDf["order3"] = dfs["table"]["order3"]
             #    self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)             
-            if __debug__: print "P7: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P7: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
             
             #update status                                                 
             #self.joinedDf = self.GetJoinedDf()
             
             #convert times to string format
-            if __debug__: ytime = time.clock()
+           # if __debug__: ytime = time.clock()
             self.joinedDf = self.df2tableDf(self.joinedDf)
-            if __debug__: print "P8: C: Convert", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P8: C: Convert", (time.clock() - ytime)*1000,"ms"
             #print "#5", self.joinedDf
             
             #time.sleep(6)
             
             #sort and copy 
-            if __debug__: ytime = time.clock()
+           # if __debug__: ytime = time.clock()
             columns = [item[0] for item in sorted(DEF_COLUMN.TIMES['table'].items(), key = lambda (k,v): (v["index"]))]                   
             if self.joinedDf.empty:
                 dfs["table"] = pd.DataFrame(columns=columns)                            
@@ -211,9 +211,9 @@ class ManageCalcProcess():
             if(complete_calc_flag):
                 eventCalcReady.set()
 
-            if __debug__: print "P9: C: sort and copy", (time.clock() - ytime)*1000,"ms"
+           # if __debug__: print "P9: C: sort and copy", (time.clock() - ytime)*1000,"ms"
                         
-            if __debug__: print "Px: I: Calc: COMPLETE", (time.clock() - ztime)*1000,"ms"
+           # if __debug__: print "Px: I: Calc: COMPLETE", (time.clock() - ztime)*1000,"ms"
             #print 'process id:', os.getpid()
             sys.stdout.write('.')
             

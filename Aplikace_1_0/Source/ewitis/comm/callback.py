@@ -181,6 +181,7 @@ def unpack_data(command, data, senddata):
         aux_cell_info['trigger'] = (aux_flags2 & 0x07)
         aux_cell_info['auto_enable'] = (aux_flags2 >> 3) & 0x07
         aux_cell_info['missing_time_flag'] = (aux_flags2 >> 6) & 0x03
+        #print aux_cell_info['task']," - " ,aux_cell_info['missing_time_flag']
         
         return aux_cell_info
 
@@ -209,9 +210,11 @@ def unpack_data(command, data, senddata):
             aux_cell['ir_signal'] = bool(cell_flags & 0x01)
             aux_cell['synchronized_once'] = bool(cell_flags & 0x02)
             aux_cell['synchronized'] = bool(cell_flags & 0x04)
-            aux_cell['missing_time_flag'] = bool(cell_flags & 0x3)
+            aux_cell['missing_time_flag'] = bool(cell_flags & 0x08)
             aux_cell['insystem'] =  bool(cell_flags & 0x40)
             aux_cell['active'] = bool(cell_flags & 0x80)
+            
+            #print i," - " ,aux_cell['missing_time_flag']
 
             aux_cell_overview[i] = aux_cell
 

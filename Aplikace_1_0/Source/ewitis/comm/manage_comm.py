@@ -326,7 +326,8 @@ class ManageComm(Thread):
                         dstore.SetItem("cells_info", [nr, "synchronized"], co["synchronized"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "missing_time_flag"], co["missing_time_flag"], "GET", permanent = False)
                         dstore.SetItem("cells_info", [nr, "insystem"], co["insystem"], "GET", permanent = False)
-                        dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False)                                               
+                        dstore.SetItem("cells_info", [nr, "active"], co["active"], "GET", permanent = False) 
+                        #print "INFO: ", nr, dstore.Get("cells_info", "GET")[nr]                                               
 
     
     """
@@ -423,6 +424,8 @@ class ManageComm(Thread):
                 if(dstore.IsReadyForRefresh("cells_info")):
                     #copy insystem                    
                     aux_cells_info["insystem"] = dstore.Get("cells_info", "GET")[cell_idx]["insystem"]
+                    
+                    aux_cells_info["missing_time_flag"] = bool(aux_cells_info["missing_time_flag"])
                 
                     #save to dstore                                           
                     dstore.SetItem("cells_info", [cell_idx], aux_cells_info, "GET", permanent = False)

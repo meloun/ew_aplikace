@@ -238,118 +238,112 @@ class BarCellActions():
         css_string2 = "QToolButton {height:1px;}"      
         
         #enable/disable items in cell toolbar 
-        if(dstore.GetItem("racesettings-app", ['rfid']) == 2):
-            '''RFID RACE'''
+        '''IR'''                                     
+        for i, cell_actions in enumerate(self.cells_actions):
+                                        
+            #convert index to task nr
+            i = self.Collumn2TaskNr(i)
             
-            #enable 'generate celltime' for START and FINISH
-            for i, cell_actions in enumerate(self.cells_actions):
-                for key, action in cell_actions.items():                    
-                    if (i==0 or i==5) and (key == 'generate_celltime') and dstore.Get("port")["opened"]:                    
-                        action.setEnabled(True)
-                    else:
-                        action.setEnabled(False)                    
-        else:
-            '''IR'''                                     
-            for i, cell_actions in enumerate(self.cells_actions):
-                                            
-                #convert index to task nr
-                i = self.Collumn2TaskNr(i)
-                
-                cell = tabCells.GetCellParTask(i)            
-                if cell != None and dstore.Get("port")["opened"]:
-                   
-                    #get info
-                    info = cell.GetInfo()                                    
-                                         
-                    # PING, set bold if cell active
-                    if info['active']:                    
-                        font = cell_actions['ping_cell'].font()
-                        font.setBold(True)
-                        font.setUnderline(True)
-                        cell_actions['ping_cell'].setFont(font)                        
-                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.green+";width: 28px;}"
-                                            
-                    else:
-                        font = cell_actions['ping_cell'].font()
-                        font.setBold(False)
-                        font.setUnderline(False)
-                        cell_actions['ping_cell'].setFont(font)
-                        css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"
-                                                                                                                                                                        
-                    # MISSING TIME FLAG, set bold if cell active
-                    if info['missing_time_flag']:                        
-                        css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"                                                                      
-                    else:
-                        css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"
-                    
-                    # enable/disable all actions
-                    if(info['trigger'] == 3): #MANUAL
-                        cell_actions['ping_cell'].setEnabled(False)
-                        cell_actions['enable_cell'].setEnabled(False)
-                        cell_actions['disable_cell'].setEnabled(False)
-                        cell_actions['generate_celltime'].setEnabled(True)
-                    else:
-                        for key, action in cell_actions.items():                                                                
-                            action.setEnabled(True)
-                        
+            cell = tabCells.GetCellParTask(i)            
+            if cell != None and dstore.Get("port")["opened"]:
+               
+                #get info
+                info = cell.GetInfo()
+                print "INFO: ", i, info                                   
+                                     
+                # PING, set bold if cell active
+                if info['active']:                    
+                    font = cell_actions['ping_cell'].font()
+                    font.setBold(True)
+                    font.setUnderline(True)
+                    cell_actions['ping_cell'].setFont(font)                        
+                    css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.green+";width: 28px;}"
+                                        
                 else:
-                    #DISABLE all actions, cell not configured or no connection with device
                     font = cell_actions['ping_cell'].font()
                     font.setBold(False)
                     font.setUnderline(False)
                     cell_actions['ping_cell'].setFont(font)
-                    css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ width: 31px;}"                    
-                    for key, action in cell_actions.items(): 
-                        action.setEnabled(False)
-                 
-                                    
-            #auto enable cells
-            self.auto_enable.setEnabled(dstore.Get("port")["opened"])
-            Ui().aAutoEnableCells_ON.setEnabled(dstore.Get("port")["opened"])
-            Ui().aAutoEnableCells_OFF.setEnabled(dstore.Get("port")["opened"])
-            timing_settings = dstore.Get("timing_settings", "GET")
-            
-            if dstore.Get("port")["opened"]:
-                if timing_settings["autoenable_cell"]:                    
-                    font = self.auto_enable.font()
-                    font.setBold(True)
-                    font.setUnderline(True)
-                    self.auto_enable.setFont(font)                        
-                    css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.green+";width: 28px;}"
-                                        
+                    css_string = css_string + "QToolButton#w_ping_cell"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"
+                                                                                                                                                                    
+                # MISSING TIME FLAG, set bold if cell active
+                if info['missing_time_flag']:                        
+                    css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.red+"; width: 28px;}"                                                                      
                 else:
-                    font = self.auto_enable.font()
-                    font.setBold(False)
-                    font.setUnderline(False)
-                    self.auto_enable.setFont(font)
-                    css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.red+";width: 28px;}"
+                    css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ background:"+COLORS.green+"; width: 28px;}"
+                
+                # enable/disable all actions
+                if(info['trigger'] == 3): #MANUAL
+                    cell_actions['ping_cell'].setEnabled(False)
+                    cell_actions['enable_cell'].setEnabled(False)
+                    cell_actions['disable_cell'].setEnabled(False)
+                    cell_actions['generate_celltime'].setEnabled(True)
+                else:
+                    cell_actions['ping_cell'].setEnabled(True)
+                    cell_actions['enable_cell'].setEnabled(True)
+                    cell_actions['disable_cell'].setEnabled(True)
+                    cell_actions['generate_celltime'].setEnabled(True)
+                    #for key, action in cell_actions.items():                                                                
+                    #    action.setEnabled(True)
+                    
+            else:
+                #DISABLE all actions, cell not configured or no connection with device
+                font = cell_actions['ping_cell'].font()
+                font.setBold(False)
+                font.setUnderline(False)
+                cell_actions['ping_cell'].setFont(font)
+                css_string2 = css_string2 + "QToolButton#w_missing_time_flag"+str(i)+"{ width: 31px;}"                    
+                for key, action in cell_actions.items(): 
+                    action.setEnabled(False)
+             
+                                
+        #auto enable cells
+        self.auto_enable.setEnabled(dstore.Get("port")["opened"])
+        Ui().aAutoEnableCells_ON.setEnabled(dstore.Get("port")["opened"])
+        Ui().aAutoEnableCells_OFF.setEnabled(dstore.Get("port")["opened"])
+        timing_settings = dstore.Get("timing_settings", "GET")
+        
+        if dstore.Get("port")["opened"]:
+            if timing_settings["autoenable_cell"]:                    
+                font = self.auto_enable.font()
+                font.setBold(True)
+                font.setUnderline(True)
+                self.auto_enable.setFont(font)                        
+                css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.green+";width: 28px;}"
+                                    
             else:
                 font = self.auto_enable.font()
                 font.setBold(False)
                 font.setUnderline(False)
                 self.auto_enable.setFont(font)
-                                               
-            #background to the toolbars
-            hw_status = self.GetHwStatus()   
-            app_status = self.GetAppStatus()                      
-            self.toolbar_ping.setStyleSheet(css_string)  #cell enabled => green, bold            
-            self.toolbar_missing_time_flag.setStyleSheet(css_string2) #cell missing time flag => green, bold
-            #self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
-            #self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
-            
-           
-            self.toggle_status = self.toggle_status + 1                            
-            if self.toggle_status == 2:
-                if app_status != STATUS.ok:
-                    app_status = STATUS.none
-                if hw_status != STATUS.ok:
-                    hw_status = STATUS.none                
-                self.toggle_status = 0
-                            
-            self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
-            self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+                css_string = css_string + "QToolButton#w_auto_enable"+"{ background:"+COLORS.red+";width: 28px;}"
+        else:
+            font = self.auto_enable.font()
+            font.setBold(False)
+            font.setUnderline(False)
+            self.auto_enable.setFont(font)
+                                           
+        #background to the toolbars
+        hw_status = self.GetHwStatus()   
+        app_status = self.GetAppStatus()                      
+        self.toolbar_ping.setStyleSheet(css_string)  #cell enabled => green, bold            
+        self.toolbar_missing_time_flag.setStyleSheet(css_string2) #cell missing time flag => green, bold
+        #self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
+        #self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
+        
+       
+        self.toggle_status = self.toggle_status + 1                            
+        if self.toggle_status == 2:
+            if app_status != STATUS.ok:
+                app_status = STATUS.none
+            if hw_status != STATUS.ok:
+                hw_status = STATUS.none                
+            self.toggle_status = 0
+                        
+        self.toolbar_generate.setStyleSheet("QToolButton#w_check_app{ background:"+BarCellActions.STATUS_COLOR[app_status]+"; }")
+        self.toolbar_enable.setStyleSheet("QToolButton#w_check_hw{ background:"+BarCellActions.STATUS_COLOR[hw_status]+"; }")
 
-            
+        
 #             font = self.check_app.font()
 #             font.setItalic(not font.italic())
 #             self.check_app.setFont(font)               
