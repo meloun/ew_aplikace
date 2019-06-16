@@ -249,7 +249,7 @@ class BarCellActions():
                
                 #get info
                 info = cell.GetInfo()
-                print "INFO: ", i, info                                   
+                #print "INFO: ", i, info                                   
                                      
                 # PING, set bold if cell active
                 if info['active']:                    

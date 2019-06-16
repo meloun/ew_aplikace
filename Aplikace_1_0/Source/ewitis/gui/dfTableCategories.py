@@ -54,10 +54,10 @@ class DfModelCategories(DataframeTableModel):
     
     def getCategoryParName(self, name):        
         #category = df_utils.Get(self.df, 0, {"name":name})        
-        categories = self.df[self.df['name'].str.match(name)]
         try:                  
+            categories = self.df[self.df['name'].str.match(name)]
             category = categories.iloc[0]
-        except IndexError:
+        except TypeError, IndexError:            
             return pd.DataFrame()
 
                   

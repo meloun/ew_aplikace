@@ -294,8 +294,8 @@ class DfModelTimes(DataframeTableModel):
             
             #category exist?                                                                                              
             category = tableCategories.model.getCategoryParName(user['category'])                        
-            if category.empty:
-                uiAccesories.showMessage(self.name+" Update error", "Category not found " + user['category'])
+            if category.empty:                
+                uiAccesories.showMessage(self.name+" Update error", "Category not found " + str(user['category']))
                 return None 
             
             #user id exist?                                        
