@@ -24,14 +24,14 @@ import time
 
 #'''čísla záložek v TAB widgetu'''
 class TAB:
-    nr_tabs = 17
+    nr_tabs = 18
     runs_times, users, categories, cgroups, race_info, race_settings, columns_settings, \
-    export_settings, export_columns, device, cells1, cells2, cells3, diagnostic, communication, manual, about = range(0, nr_tabs)
+    export_settings, export_columns, device, cells1, cells2, cells3, diagnostic, communication, profile_maker, manual, about = range(0, nr_tabs)
     NAME =  {runs_times:"RunsTimes", users:"Users", categories:"Categories", cgroups:"CGroups", \
               race_info:"RaceInfo", race_settings:"RaceSettings", columns_settings:"ColumnsSettings",\
               export_settings:"ExportSettings", export_columns:"ExportColumns", device:"Device", \
               cells1: "Cells", cells2: "Cells", cells3: "Cells",\
-              diagnostic: "Diagnostic", communication: "Communication",  \
+              diagnostic: "Diagnostic", communication: "Communication",  profile_maker: "ProfileMaker",\
               manual: "Manual", about: "About",    \
             }
 class MeasurementState:
@@ -57,6 +57,7 @@ class CheckboxValue:
 class NUMBER_OF:
     CELLS = 20
     EXPORTS = 3
+    KEYWORDS = 20
     
     POINTSCOLUMNS = 5
     TIMESCOLUMNS = 4
@@ -361,7 +362,7 @@ DEF_DATA = {
                                 }, 
         #tab cells        
         
-         #tab DIAGNOSTIC                      
+        #tab DIAGNOSTIC                      
         "diagnostic"         : {"GET_SET"  : {"value": {
                                                         "sendcommandkey": None,
                                                         "senddata": 0,
@@ -373,7 +374,16 @@ DEF_DATA = {
                                                         },
                                               "changed": True
                                               }
-                                },         
+                                },
+        #tab PROFILE-MAKER                      
+        "profilemaker-keywords" : {"permanent": True,
+                                   "GET_SET":   {"value":   [{
+                                                             "keyword": "keyword",
+                                                             "value": "value",
+                                                             "description": "description"
+                                                            }]* NUMBER_OF.KEYWORDS
+                                                 }
+                                   },
         "user_actions"       : {"name"     : "user_actions",
                                 "GET_SET"  : {"value": 0}  
                                },
@@ -406,7 +416,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.23a - Innovate",
+                                                        "app": "v3.24a - MVC",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

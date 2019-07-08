@@ -66,7 +66,7 @@
                         "description": "čus4",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:26,00%)"
+                        "rule": "abs(time1 - %00:00:12,00%)"
                     },
                     {
                         "checked": 0,
@@ -696,8 +696,8 @@
             "value": [
                 {
                     "description": "description",
-                    "keyword": "asdf",
-                    "value": "klicek"
+                    "keyword": "keyword2",
+                    "value": "value1"
                 },
                 {
                     "description": "description",
@@ -766,8 +766,8 @@
                 },
                 {
                     "description": "description",
-                    "keyword": "time1",
-                    "value": "00:00:26,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
@@ -822,8 +822,8 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/conf_work.tjson",
-                "profile_desc": "S1 – C1 \n\n77m / 12s\nklicek\nasdfasf\nklicek",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/xx.json",
+                "profile_desc": "S1 – C1 \n\n77m / 12s\n$mujklic$",
                 "race_name": "Test S-F",
                 "remote": 0,
                 "rfid": 0,

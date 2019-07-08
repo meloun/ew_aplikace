@@ -60,6 +60,7 @@ from ewitis.gui.tabCommunication import tabCommunication
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.tabColumnsSettings import tabColumnsSettings
 from ewitis.gui.tabDiagnostic import tabDiagnostic
+from ewitis.gui.tabProfileMaker import tabProfileMaker
 from ewitis.gui.tabManual import tabManual
 from ewitis.gui.tabAbout import tabAbout
 from ewitis.gui.MenusBars import bars
@@ -131,6 +132,7 @@ class TabManager():
         tabCells.Init()
         tabDevice.Init()        
         tabCommunication.Init()
+        tabProfileMaker.Init()
         tabManual.Init()    
         bars.Init() 
         
@@ -155,6 +157,7 @@ class TabManager():
         tabCells.Update()
         tabDevice.Update()        
         tabCommunication.Update()
+        tabProfileMaker.Update() 
         tabManual.Update() 
         tabAbout.Update()  
         

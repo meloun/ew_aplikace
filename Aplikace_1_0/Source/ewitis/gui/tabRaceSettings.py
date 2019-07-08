@@ -77,10 +77,10 @@ class TabRaceSettings():
     def sTextChanged(self):                
         uiAccesories.sGuiSetItem("racesettings-app", ["profile_desc"], utils.toUnicode( Ui().textProfileDesc.toPlainText()), self.Update)
         
-    def sLoadProfile(self):
+    def sLoadProfile(self, suffix="json"):
         
         #gui dialog                        
-        filename = uiAccesories.getOpenFileName("Load profile","profiles_directory","Profile Files (*.json)", "profile.json")                
+        filename = uiAccesories.getOpenFileName("Load profile","profiles_directory","Profile Files (*."+suffix+")", "profile.json")                
         if(filename == ""):                        
             return  
         profile = json.load(codecs.open(filename, 'r', 'utf-8'))
@@ -100,9 +100,9 @@ class TabRaceSettings():
         
         
         
-    def sSaveProfile(self):
+    def sSaveProfile(self, suffix="json"):
         #gui dialog                        
-        filename = uiAccesories.getSaveFileName("Save Profile","profiles", "Profile Files (*.json)", "neni treba")               
+        filename = uiAccesories.getSaveFileName("Save Profile","profiles", "Profile Files (*."+suffix+")", "neni treba")               
         if(filename == ""):                        
             return  
         

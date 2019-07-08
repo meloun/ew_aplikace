@@ -16,13 +16,20 @@ class PermanentDatastore(datastore.Datastore):
         #update datastore from db
         self.Update(self.db.load())        
        
-        #update consistency        
+        #consistency check, if not consistent then update the datastore        
         self.consistency_check = self.UpdateConsistencyDict(self.data, default_data)
         print "I: Dstore: consistency check: ", self.consistency_check 
         if(self.consistency_check == False):
             self.db.dump(self.GetAllPermanents())
         
+    def Update(self, update_dict):
         
+        #update data
+        datastore.Datastore.Update(self, update_dict)
+        
+        #update file with permanents datapoints
+        self.db.dump(self.GetAllPermanents())
+             
     #update consistency
     def UpdateConsistencyDict(self, destination, source):                            
         ret = True
@@ -42,6 +49,7 @@ class PermanentDatastore(datastore.Datastore):
                 #else:
                 #    print "-MATCH", k, v
         return ret
+    
     def UpdateConsistencyList(self, destination, source):
         ret = True
         for i in range(len(source)):
@@ -53,14 +61,9 @@ class PermanentDatastore(datastore.Datastore):
                 #print "UCL----UCL", source[i]
                 if self.UpdateConsistencyList(destination[i], source[i]) == False:
                     ret = False   
-        return ret                 
-    def Update(self, update_dict):
-        
-        #update data
-        datastore.Datastore.Update(self, update_dict)
-        
-        #update file with permanents datapoints
-        self.db.dump(self.GetAllPermanents()) 
+        return ret
+                     
+
         
             
         
