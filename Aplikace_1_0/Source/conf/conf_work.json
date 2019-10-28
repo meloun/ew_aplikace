@@ -123,7 +123,7 @@
                         "rule": "time - starttime"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "cell=4",
                         "minute_timeformat": 2,
@@ -592,7 +592,7 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "RTx - %category%",
+                    "categoryname": "tp06 - %category%",
                     "description": "TestDescription (77m / 12s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
@@ -630,7 +630,7 @@
                 "forward": [
                     {
                         "desc": "Ewitis",
-                        "phone_nr": "702421142",
+                        "phone_nr": "$mojecislo$",
                         "user_nr": 1
                     },
                     {
@@ -654,7 +654,7 @@
                     "o4"
                 ],
                 "text": [
-                    "St. č. %nr% - RT X: %time1%s",
+                    "St. č. %nr% - tp06 X: %time1%s",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -696,18 +696,18 @@
             "value": [
                 {
                     "description": "description",
-                    "keyword": "asdf",
-                    "value": "klicek"
+                    "keyword": "tp",
+                    "value": "tp06"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value2"
+                    "keyword": "racename",
+                    "value": "Testrace 2019"
                 },
                 {
                     "description": "description",
                     "keyword": "mujklic",
-                    "value": "klicek"
+                    "value": "klicek1243\\n5678"
                 },
                 {
                     "description": "description4",
@@ -822,9 +822,9 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/conf_work.tjson",
-                "profile_desc": "S1 – C1 \n\n77m / 12s\nklicek\nasdfasf\nklicek",
-                "race_name": "Test S-F",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_TP06.tjson",
+                "profile_desc": "Testrace 2019\nS1 – C1 \n\n77m / 12s\ntp06\nklicek1243\n5678\nasdfasf\nklicek1243\n5678\n5678",
+                "race_name": "Testrace 2019",
                 "remote": 0,
                 "rfid": 0,
                 "tag_filter": 0

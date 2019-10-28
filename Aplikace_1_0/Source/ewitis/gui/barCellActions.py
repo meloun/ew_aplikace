@@ -18,6 +18,7 @@ import libs.timeutils.timeutils as timeutils
 import os
 import zipfile
 from ewitis.gui.tabRaceSettings import tabRaceSettings
+from ewitis.gui.dfTableTimes import tableTimes
 
 class BarCellActions():
     STATUS_COLOR = ["#d7d6d5", COLORS.green, COLORS.orange, COLORS.red]
@@ -30,6 +31,7 @@ class BarCellActions():
         self.lastcheckKO = {"wdg_calc":0, "wdg_comm":0}
         self.toggle_status = True
         self.test_cnt = 0
+        self.active_numbers_list = []
     def Init(self):
         self.InitGui()        
     
@@ -45,6 +47,8 @@ class BarCellActions():
         
         self.check_hw =  getattr(ui, "aHwCheck")
         self.check_app = getattr(ui, "aAppCheck")
+        self.active_numbers = getattr(ui, "aActiveNumbers")
+        self.active_numbers.setText(self.active_numbers.text() + ' - 5')
         
         # list of dict
         # in each dict all gui item
@@ -73,8 +77,7 @@ class BarCellActions():
         self.toolbar_enable.widgetForAction(self.check_hw).setObjectName("w_check_hw")                
         self.toolbar_generate.widgetForAction(self.check_app).setObjectName("w_check_app")
             
-            
-            
+                         
     def Collumn2TaskNr(self, idx):
         #take care about finish time
         if idx == (self.nr - 1):
@@ -217,7 +220,16 @@ class BarCellActions():
         #print self.lastcheckKO,  self.lastcheck                        
         return status
               
+    ''' UpdateToolbarActiveNrs() '''
+    def UpdateToolbarActiveNrs(self):
+        active_nrs = tableTimes.Get_ActiveNumbers()        
+        self.active_numbers.setText('-'.join(str(x) for x in active_nrs))        
+        
     def Update(self):  
+        
+        #update toolBarActiveNumbers
+        self.UpdateToolbarActiveNrs()
+        
         #self.lineCellSynchronizedOnce.setStyleSheet("background:"+COLORS.green)
         
         cell = tabCells.GetCellParTask(1)

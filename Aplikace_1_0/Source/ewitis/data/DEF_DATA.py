@@ -126,6 +126,7 @@ DEF_DATA = {
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0,
                                                           "highlight_enable": CheckboxValue.unchecked,
+                                                          "auto_timer": 0 
                                                          }
                                                 }
                                   },                
@@ -416,7 +417,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.24a - MVC",
+                                                        "app": "v3.25b - profile maker",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

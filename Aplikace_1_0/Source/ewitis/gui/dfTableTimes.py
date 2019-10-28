@@ -393,6 +393,17 @@ class DfTableTimes(DfTable):
         self.gui['auto_www_refresh'] = Ui().TimesAutoWWWRefresh
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
         self.gui['highlight_enable'] = Ui().TimesHighlightEnable
+        self.gui['auto_timer_set'] = Ui().TimerSet
+        self.gui['auto_timer_get'] = Ui().TimerGet
+        self.gui['auto_timer_icon'] = Ui().TimerIcon
+        
+        self.auto_timer_cnt = 0
+        self.timericon_grey = QtGui.QIcon("gui/icons/Circle_Grey_34212.png")
+        self.timericon_green = QtGui.QIcon("gui/icons/Circle_Green_34211.png")
+        self.timericon_yellow = QtGui.QIcon("gui/icons/Circle_Yellow_34215.png")
+        self.timericon_orange = QtGui.QIcon("gui/icons/Circle_Orange_34213.png")
+        self.timericon_red = QtGui.QIcon("gui/icons/Circle_Red_34214.png")
+        
         
     def Init(self):
         
@@ -402,6 +413,8 @@ class DfTableTimes(DfTable):
         self.gui['view'].sortByColumn(28, QtCore.Qt.DescendingOrder)
 
         self.UpdateGui()
+        
+        self.dfActiveNrs = pd.DataFrame()
         
     def sDeletePreCallback(self, id):        
                        
@@ -436,6 +449,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_www_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['highlight_enable'], QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("times", ["highlight_enable"], state, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['auto_timer_set'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_timer"], state, self.UpdateGui), setattr(self, "auto_timer_cnt", state)))
         
         #export/import table (db format)
         #to do:
@@ -586,10 +600,37 @@ class DfTableTimes(DfTable):
             #print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
             self.auto_www_refresh_cnt = autorefresh
             ret = self.sExportDirect(self.eHTM_EXPORT)
+                       
+        #decrement the timer
+        if(self.auto_timer_cnt > 0):
+            self.auto_timer_cnt = self.auto_timer_cnt - 1
+            
+        #update the get value
+        self.gui['auto_timer_get'].setText(str(self.auto_timer_cnt)+" s")            
+                    
+        #update the icon
+        autorefresh_set = dstore.GetItem("times", ["auto_timer"]) 
+        if(autorefresh_set == 0):
+            self.gui['auto_timer_icon'].setIcon(self.timericon_grey)
+        elif(self.auto_timer_cnt == 0):                                        
+            self.gui['auto_timer_icon'].setIcon(self.timericon_green)            
+        elif(self.auto_timer_cnt <= 5):            
+            self.gui['auto_timer_icon'].setIcon(self.timericon_yellow)                            
+        elif((self.auto_timer_cnt-1) != 0):
+            self.gui['auto_timer_icon'].setIcon(self.timericon_red)                                      
+        else:            
+            self.auto_timer_cnt = autorefresh_set
+                    
 
                 
     def Update_AutoNumbers(self, new_time):  
-        ret = False      
+        ret = False
+        
+        #auto timer
+        if new_time["cell"] == 1:
+            self.auto_timer_cnt = dstore.GetItem("times", ["auto_timer"])
+        
+        #auto numbers
         ds_times = dstore.Get("times")
         if(ds_times["auto_number_enable"] and ds_times["auto_number_logic"]):
             updates = ttAutonumbers.Update(self.model.GetDataframe(), new_time)
@@ -611,8 +652,20 @@ class DfTableTimes(DfTable):
                 eventCalcNow.set()                  
         return ret
 
+
+    def Get_ActiveNumbers(self):
+        ret_list = []
+        if 'nr' in self.dfActiveNrs:
+            return self.dfActiveNrs["nr"].tolist()
+        return ret_list        
         
-                     
+    def Update_ActiveNumbers(self):
+        ttDf = self.model.GetDataframe()        
+        if 'nr' in ttDf.columns:
+            ttDf = ttDf.groupby("nr", as_index = False).last()
+            self.dfActiveNrs = ttDf[(ttDf.cell!=250) & (ttDf.status.str.match('race'))]                        
+        
+                          
     def UpdateGui(self): 
         
         DfTable.UpdateGui(self)
@@ -682,7 +735,9 @@ class DfTableTimes(DfTable):
                 
         #update gui            
         self.UpdateGui()
-        #print "U3"
+        
+        #update active numbers
+        self.Update_ActiveNumbers()
                 
 #         # po F5 edituje číslo u prvniho radku
 #         myindex = self.proxy_model.index(0,1)

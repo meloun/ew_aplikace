@@ -66,7 +66,7 @@
                         "description": "čus4",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:12,00%)"
+                        "rule": "abs(time1 - %$time1$%)"
                     },
                     {
                         "checked": 0,
@@ -592,7 +592,7 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "RTx - %category%",
+                    "categoryname": "$tp$ - %category%",
                     "description": "TestDescription (77m / 12s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
@@ -630,7 +630,7 @@
                 "forward": [
                     {
                         "desc": "Ewitis",
-                        "phone_nr": "702421142",
+                        "phone_nr": "$mujecislo$",
                         "user_nr": 1
                     },
                     {
@@ -654,7 +654,7 @@
                     "o4"
                 ],
                 "text": [
-                    "St. č. %nr% - RT X: %time1%s",
+                    "St. č. %nr% - $tp$ X: %time1%s",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -696,8 +696,8 @@
             "value": [
                 {
                     "description": "description",
-                    "keyword": "keyword2",
-                    "value": "value1"
+                    "keyword": "tp",
+                    "value": "tp06"
                 },
                 {
                     "description": "description",
@@ -707,7 +707,7 @@
                 {
                     "description": "description",
                     "keyword": "mujklic",
-                    "value": "klicek"
+                    "value": "klicek1243\\n5678"
                 },
                 {
                     "description": "description4",
@@ -766,8 +766,8 @@
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "time1",
+                    "value": "00:00:26,00"
                 },
                 {
                     "description": "description",
@@ -822,8 +822,8 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/xx.json",
-                "profile_desc": "S1 – C1 \n\n77m / 12s\n$mujklic$",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/conf_work.tjson",
+                "profile_desc": "S1 – C1 \n\n77m / 12s\n$tp$\n$mujklic$\nasdfasf\n$mujklic$\n5678",
                 "race_name": "Test S-F",
                 "remote": 0,
                 "rfid": 0,

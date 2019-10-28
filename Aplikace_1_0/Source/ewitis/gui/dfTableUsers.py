@@ -143,7 +143,7 @@ class DfTableUsers(DfTable):
     def createSlots(self):
         DfTable.createSlots(self)
         
-    def deleteAll(self, db_con = None, ids_less_than = None):        
+    def deleteAll(self, db_con = None, ids_less_than = None, id_not_equal = None):        
         DfTable.deleteAll(self, db_con, ids_less_than = 100000)          
 
     def importDf2dbDdf(self, df): 

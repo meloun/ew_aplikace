@@ -99,9 +99,11 @@ class TabProfileMaker():
         with open("conf/conf_work.json", "r") as fin:
             new_text = fin.read()
             for keyword in dstore.Get("profilemaker-keywords"):                        
-                keyword_str = '$'+keyword["keyword"]+'$'                                                                                
-                report = report + str(new_text.count(keyword_str)) + "x : " +keyword_str + " -> " + keyword["value"] + "\n"                 
-                new_text = new_text.replace(keyword_str, keyword["value"])                                
+                keyword_str = '$'+keyword["keyword"]+'$'
+                keyword_str = utils.getUtf8String(keyword_str)                                                                                
+                report = report + str(new_text.count(keyword_str)) + "x : " +keyword_str + " -> " + keyword["value"] + "\n"
+                keyword_value = utils.getUtf8String(keyword["value"])                 
+                new_text = new_text.replace(keyword_str, keyword_value)                                
          
         with open("conf/conf_work.json", "w") as f:
             f.write(new_text)           

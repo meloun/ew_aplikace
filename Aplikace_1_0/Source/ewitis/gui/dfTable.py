@@ -587,11 +587,11 @@ class DfTable():
         db_utils.delete(db_con, self.name, id)                                                    
         self.model.Update()
         
-    def deleteAll(self, db_con = None, ids_less_than = None):        
+    def deleteAll(self, db_con = None, ids_less_than = None, id_not_equal = None):        
         if db_con == None:
             db_con = self.db_con
         #db.deleteAll(self.name)
-        db_utils.deleteAll(db_con, self.name, ids_less_than)                                                    
+        db_utils.deleteAll(db_con, self.name, ids_less_than, id_not_equal)                                                    
         self.model.Update()        
 
 if __name__ == "__main__":

@@ -501,15 +501,15 @@ class ManageComm(Thread):
             dstore.ResetChangedFlag("clear_database")
             print "I: Comm: database should be empty now"
             
-        """ enable/disable tags reading """
-        if(dstore.IsChanged("tags_reading")):         
-            on_off = dstore.Get("tags_reading", "SET")                                                                                               
-            ret = self.send_receive_frame("SET_TAGS_READING", on_off)
-            dstore.ResetChangedFlag("tags_reading")
-            if(on_off):
-                print "I: Comm: Enable tags reading"
-            else:
-                print "I: Comm: Disable tags reading"                
+#         """ enable/disable tags reading """
+#         if(dstore.IsChanged("tags_reading")):         
+#             on_off = dstore.Get("tags_reading", "SET")                                                                                               
+#             ret = self.send_receive_frame("SET_TAGS_READING", on_off)
+#             dstore.ResetChangedFlag("tags_reading")
+#             if(on_off):
+#                 print "I: Comm: Enable tags reading"
+#             else:
+#                 print "I: Comm: Disable tags reading"                
                 
         """set cells info"""
         nr_changed_cells = dstore.IsChanged("cells_info")

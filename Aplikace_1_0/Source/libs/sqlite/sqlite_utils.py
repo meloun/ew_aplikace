@@ -208,9 +208,11 @@ def delete(db, tablename, id):
     res = query(db, query_string)
     commit(db)
     
-def deleteAll(db, tablename, ids_less_than = None):
+def deleteAll(db, tablename, ids_less_than = None, id_not_equal = None):
     if ids_less_than != None:
         query_string = "delete from " + tablename + " where id < "+str(ids_less_than)
+    elif id_not_equal != None:
+        query_string = "delete from " + tablename + " where id != "+str(id_not_equal)
     else:        
         query_string = "delete from " + tablename
     res = query(db, query_string)

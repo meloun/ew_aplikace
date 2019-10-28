@@ -105,6 +105,10 @@ class DfTableCategories(DfTable):
     def Update(self):    
         ret = DfTable.Update(self)                                                                                           
         return ret
+    
+    def deleteAll(self, db_con = None, ids_less_than = None): 
+        print "AAAA"       
+        DfTable.deleteAll(self, db_con, id_not_equal = 1)  
         
           
                 
