@@ -140,6 +140,7 @@ DEF_DATA = {
                                 "name": "race settings",
                                 "GET_SET"  : {"value": {
                                                         "race_name"    :      u"Test Race",
+                                                        "section_name" :      u"TPxy",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
                                                         "remote"       :      CheckboxValue.unchecked,

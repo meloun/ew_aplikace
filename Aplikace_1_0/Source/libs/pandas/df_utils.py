@@ -41,8 +41,9 @@ def Filter(df_in, filter):
 """
 Filter dataframe
 - filter out all rows with empty columns
+- "last/all times with time1 or time2" => filter out empty time1 or time2     
 """
-def FilterEmptyColumns(df, columns):
+def FilterRowsWithEmptyColumns(df, columns):
          
     columns = [x for x in columns if x in df.columns]  
     

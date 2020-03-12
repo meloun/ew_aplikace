@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
 '''
-Created on 16. 1. 2016
+Description:
 
-@author: Meloun
+    trigger: 
+        - F11:       sExportDirect(eCSV_EXPORT)
+        - Alt + F11: sExportDirect(eCSV_EXPORT_DNS)
+        - F12:       sExportDirect(eHTM_EXPORT)
+        - Alt + F12: sExportDirect(eHTM_EXPORT_LOGO)
+
+-tt.Direct(eCSV_EXPORT)
+    - ttExport.Export(utDf, eCSV_EXPORT)
+        - ExportToCsvFiles(exportDf, dirname)
+        - ExportToSmsFiles(exportDf, dirname)
+        OR
+        - ExportToHtmFilesexportDf, dirname)        
+    
 '''
 import time, os
 import libs.pandas.df_utils as df_utils
@@ -20,23 +32,29 @@ import libs.timeutils.timeutils as timeutils
 import ewitis.exports.ewitis_html as ew_html
 
 
-(eCSV_EXPORT, eCSV_EXPORT_DNS, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
+(eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_DB_EXPORT, eCSV_DB_EXPORT_DNS, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,6)
     
 '''
  F11, F12 - final results
- - prepare DFs for export (according to filter, sort, etc.)
- - call ExportToXXXFiles with these 3 DFs
+ - prepare DFs for export 
+     - filter
+     - sort
+     - add (order in category, gaps, users with DNS)
+ - call ExportToXXXFiles( DFs[] )
+ 
+:param utDf:        one merged dataframe times & users
+:param export_type: type of export (eCSV_EXPORT, eCSV_EXPORT_DNS, eHTM_EXPORT, eHTM_EXPORT_LOGO)
+:returns: exported: {filename:number, filename2:number}
+ 
 '''  
-def Export(utDf, export_type = eCSV_EXPORT):             
-    
+def Export(utDf, export_type = eCSV_EXPORT):                 
        
     # 3DFs for 3 exports
     exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS
     
-    
     if len(utDf) != 0:                      
         
-        #update export df
+        #prepare exportDf
         for i in range(0, NUMBER_OF.EXPORTS):
                           
             aux_df = utDf.copy()
@@ -45,21 +63,21 @@ def Export(utDf, export_type = eCSV_EXPORT):
                 continue
             
             #get export filtersort
-            filtersort = dstore.GetItem('export_filtersort', [i])
-                                      
+            filtersort = dstore.GetItem('export_filtersort', [i])           
             filter = filtersort['filter']
             sort1 = filtersort['sort1'].lower()  
             sort2 = filtersort['sort2'].lower()
             sortorder1 = True if(filtersort['sortorder1'].lower() == "asc") else False
             sortorder2 = True if(filtersort['sortorder2'].lower() == "asc") else False
             
-            #filter                 
-            aux_df = df_utils.FilterEmptyColumns(aux_df, filter.split(" "))
+            #FILTER: no empty rows 
+            # "last/all times with time1 or time2" => filter out empty time1 or time2]              
+            aux_df = df_utils.FilterRowsWithEmptyColumns(aux_df, filter.split(" "))
                             
             #aux_df = self.joinedDf[(aux_df[column1].notnull()) & (self.joinedDf['user_id']!=0)]                
                         
-            #last time from each user?                    
-            aux_df = aux_df.sort("timeraw")                        
+            #FILTER: last time from each user                    
+            aux_df = aux_df.sort_values(by="timeraw")                        
             if("last" in filter):                                                                
                 aux_df = aux_df.groupby("nr", as_index = False).last()
                 
@@ -67,46 +85,35 @@ def Export(utDf, export_type = eCSV_EXPORT):
             aux_df = aux_df.where(pd.notnull(aux_df), None)
             aux_df.set_index('id',  drop=False, inplace = True)
             
-            #sort
+            #SORT
             if(sort2 in aux_df.columns):
-                aux_df = aux_df.sort([sort1, sort2], ascending = [sortorder1, sortorder2])
+                aux_df = aux_df.sort_values([sort1, sort2], ascending = [sortorder1, sortorder2])
             else:
-                aux_df = aux_df.sort(sort1, ascending = sortorder1)
+                aux_df = aux_df.sort_values(by=sort1, ascending = sortorder1)
                         
-            #add "order in category" -> "3./Kategorie XY"
+            #ADD: "order in category" -> "3./Kategorie XY"
             for oc in range(0, NUMBER_OF.EXPORTS):
                 ordercatX = 'ordercat'+str(oc+1)
                 orderX = 'order'+str(oc+1)
                                 
-                #aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category
-                                       
+                #aux_df[ordercatX] = aux_df[orderX].astype(str)+"./"+aux_df.category                                       
                 aux_df[ordercatX] = aux_df[orderX].astype(float).map('{:,g}'.format)+"./"+aux_df.category
                                                 
-#             #get winner and compute GAPs                       
+            #ADD: GAPs - get winner and compute GAPs     
             for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
-                gapX = 'gap'+str(nr+1)
-                lapX = 'lap'+str(nr+1)
-                timeX = 'time'+str(nr+1)
-                try:
-                    winnerX = aux_df.sort([lapX,timeX], ascending = [False, True]).iloc[0] 
-                    if (lapX in winnerX) and (timeX in winnerX):                    
-                        aux_df[gapX] =  aux_df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
-                    else:
-                        aux_df[gapX] = None
-                except:
-                    aux_df[gapX] = None
+                aux_df = AddGap(aux_df, nr)
                     
-            #lapsexport
+            #CONVERT: lapsexport, one row for each user
             if (dstore.GetItem('export_filtersort', [i, "onerow"]) != 0):                       
                 aux_df = ToLapsExport(aux_df)
             
+            #CONVERT: to integer
             #print "PRED",i, aux_df.head(2), aux_df.dtypes
             ConvertToInt(aux_df)
             #print "PO",i, aux_df.head(2), aux_df.dtypes
             
-            #add missing users with DNS status
-            if export_type == eCSV_EXPORT_DNS:
-                #print "==========================AddMissingUsers", i                
+            #ADD: missing users with DNS status
+            if export_type == eCSV_EXPORT_DNS:                
                 aux_df = AddMissingUsers(aux_df)                                        
                 #beautify once again
                 aux_df = aux_df.where(pd.notnull(aux_df), None)
@@ -115,9 +122,10 @@ def Export(utDf, export_type = eCSV_EXPORT):
                                                                         
             exportDf[i] = aux_df
     
-    #export complete/ category and group results from export DFs        
-    exported = {}
-    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
+    #CALL: ExportToXXXFiles
+    #export complete/category/group results from export DFs        
+    exported = {}    
+    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS) or (export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
         #get dirname
         racename = dstore.GetItem("racesettings-app", ['race_name'])     
         dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")        
@@ -125,7 +133,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
             os.makedirs(dirname)
         except WindowsError:
             pass                                                                                      
-        exported = ExportToCsvFiles(exportDf, dirname)
+        exported = ExportToCsvFiles(exportDf, dirname, export_type)
         exported.update(ExportToSmsFiles(exportDf, dirname))           
     elif (export_type == eHTM_EXPORT) or (export_type == eHTM_EXPORT_LOGO):
         exported = ExportToHtmFiles(exportDf, export_type)    
@@ -209,24 +217,18 @@ def replaceSmsTags(text, row):
     return text      
 '''
 ExportToCsvFiles
-- from prepared DFs export complete, category and group export    
+- from prepared DFs export complete/category/group results    
 - prepare header and df and call ExportToCsvFile()
 '''
 # def ExportToCsvFiles(self, df, i):
-def ExportToCsvFiles(dfs, dirname):               
+def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):    
     
-    #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
-    #if ret == False: #cancel button
-    #    return         
-    
+    export_type = eCSV_DB_EXPORT
     #return info
     exported = {}
     
     #get dirname
-    racename = dstore.GetItem("racesettings-app", ['race_name'])      
-    #dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")
-    #print "DN", dirname
-    #os.makedirs(dirname)                                                                                       
+    racename = dstore.GetItem("racesettings-app", ['race_name'])                                                                                      
             
     for i in range(0, NUMBER_OF.EXPORTS): 
         
@@ -243,14 +245,15 @@ def ExportToCsvFiles(dfs, dirname):
         headertext = header["headertext"].replace("%time%", timeutils.getCurrentDateTime())
         firstline = [racename, headertext]            
                     
-        #filter to checked columns            
-        columns = GetExportCollumns(df, i)                                    
+        #FILTER: checked columns only (export epcific)            
+        columns = GetExportCollumns(df, i)        
+        #print "columns_1: ", columns                                    
         
         #workarround
         #replace time with DNF for long times
         #df = self.DNF_workarround(df)          
                     
-        #total export
+        #EXPORT: total
         if "total" in filtersort["type"]:
             #print i, "TOTAL"
             if(len(df) != 0):
@@ -263,40 +266,70 @@ def ExportToCsvFiles(dfs, dirname):
                     #print df[["nr","gap1"]]
                     #print "================"
                     
-                #
-                filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)                                                         
-                ExportToCsvFile(dirname+filename+".csv", Columns2Cz(df[columns], i), firstline)                                
+                #filename
+                filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
+                    
+                #FILTER: checked columns only
+                df = df[columns]
+
+                #EXPORT: prepare header, format and export
+                if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
+                    secondline = ['','']
+                elif(export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
+                    #ADD: nulls
+                    df = FormatAsNullsTable(df)
+                    #no csv header
+                    firstline = None
+                    secondline = None
+                else:
+                    print "ERROR: nepodporovaný csv export"  
+                ExportToCsvFile(dirname+filename+".csv", Columns2Cz(df, i), firstline, secondline)                                
                 exported[filename] = len(df) 
                     
-        #category export    
-        if "categories" in filtersort["type"]:
-            #print i, "CATEGORIES"            
+        #EXPORT: categories    
+        if "categories" in filtersort["type"]:           
             c_df = dfs[i]           
             c_df = c_df.set_index("category", drop = False)
             category_groupby = c_df.groupby(c_df.index)
+            
             for c_name, c_df in category_groupby:
+                
+                #ADD: order for DNS
                 c_df = AddOrderToMissingUsers(c_df)                
                 if(len(c_df) != 0):
                     
-                    #get winner and compute GAPs                       
+                    #ADD: gaps                       
                     for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
                         c_df = AddGap(c_df, nr)
 
-
+                    #get category row
                     category = tableCategories.model.getCategoryParName(c_name)
-                    category = category.to_dict()
-                     
-                    #get secondline (!!c_name used also for filename!!)
-                    c_name = header["categoryname"].replace("%category%", c_name)
-                    secondline = [c_name, header["description"].replace("%description%", category["description"])]
+                    category = category.to_dict()               
                     
-                    #write to file
+                    #FILTER: checked columns only
+                    c_df = c_df[columns]
+                                        
+                    #CALL: ExportToCsvFile()
+                    c_name = header["categoryname"].replace("%category%", c_name)
                     filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)
-                    ExportToCsvFile(dirname+filename+".csv",  Columns2Cz(c_df[columns], i), firstline, secondline)                                                                                                                                                
+                    
+                    #EXPORT: prepare header, format and export
+                    if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
+                        secondline = [c_name, header["description"].replace("%description%", category["description"])]
+                    elif(export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
+                        #ADD: nulls
+                        c_df = FormatAsNullsTable(c_df)
+                        #no csv header
+                        firstline = None
+                        secondline = None                        
+                    else:
+                        print "ERROR: nepodporovaný csv export"                                                                                                                                 
+                    #csv export to file                                                                                                                                                                                                                                                                                               
+                    ExportToCsvFile(dirname+filename+".csv",  Columns2Cz(c_df, i), firstline, secondline)
                     
                     exported[filename] = len(c_df) 
                  
-        #group export 
+        #EXPORT: groups   
         if "groups" in filtersort["type"]: 
             #print i, "GROUPS"          
             g_df = dfs[i]
@@ -307,7 +340,7 @@ def ExportToCsvFiles(dfs, dirname):
                 aux_df = g_df[g_df["category"].isin(categories["name"])]                                                                           
                 if(aux_df.empty == False):
                     
-                    #get winner and compute GAPs                       
+                    #ADD: gaps                       
                     for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
                         aux_df = AddGap(aux_df, nr)
                                                          
@@ -321,13 +354,39 @@ def AddGap(df, nr):
     gapX = 'gap'+str(nr+1)
     lapX = 'lap'+str(nr+1)
     timeX = 'time'+str(nr+1)
-    winnerX = df.sort([lapX,timeX], ascending = [False, True]).iloc[0]     
-    df = df.copy()  #SettingWithCopyWarning
-    if (lapX in winnerX) and (timeX in winnerX):                   
-        df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
-    else:
+    try:
+        winnerX = df.sort_values(by=[lapX,timeX], ascending = [False, True]).iloc[0]     
+        df = df.copy()  #SettingWithCopyWarning
+        if (lapX in winnerX) and (timeX in winnerX):                   
+            df[gapX] =  df.apply(lambda row: GetGap(row[timeX],row[lapX], winnerX[timeX], winnerX[lapX]), axis = 1)
+        else:
+            df[gapX] = None
+    except:
         df[gapX] = None
     return df 
+
+def FormatAsNullsTable(df):
+    df = df.copy()  #SettingWithCopyWarning        
+    racename = dstore.GetItem("racesettings-app", ['race_name'])
+    sectionname = dstore.GetItem("racesettings-app", ['section_name'])
+       
+    #ADD: racename
+    df['racename'] = racename
+    
+    #ADD: tp_name
+    df['tp_name'] = sectionname
+    
+    #ADD: non existing columns
+    NullTableColumns = [u'id', u'nr', u'time1', u'time2', u'time3', u'time4', u'time5', u'points1', u'points2', u'points3', u'points4', u'points5', u'un1', u'us1', u'tp_name', u'racename']
+    for column in NullTableColumns:        
+        if column not in df.columns:
+            print "ADDING COLUMN: ", column
+            df[column] = 'NULL'
+            
+    #REPLACE NONE with NULLS
+    df.replace([None],'NULL', inplace=True)
+    df = df[NullTableColumns]    
+    return df
 
 """
 ExportToCsvFile
@@ -534,9 +593,9 @@ def AddMissingUsers(tDf):
 
 """
 Add users to dataframe
+order = lastorder + 1 (for all DNF users same order)
 """
 def AddOrderToMissingUsers(tDf):
-    # order = lastorder + 1 (for all DNF users same order)
     retDf = tDf.copy()
     #print  "JEDNA============="
     #print retDf["order1"]

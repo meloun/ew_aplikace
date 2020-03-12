@@ -523,42 +523,37 @@ class DfTableTimes(DfTable):
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
         #    return 
-    
-        #take last calculated data
-        #self.Update()
         
         # 3DFs for 3 exports
         exportDf = [pd.DataFrame()] * NUMBER_OF.EXPORTS        
         exported = {}
         ttDf = self.model.GetDataframe() #self.model.df      
         utDf = pd.DataFrame()
-        if len(ttDf) != 0:                       
-            #merge table users and times
-            cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
-            cols_to_use = list(cols_to_use) + ["nr"]
-            #print "cols_to_use",cols_to_use       
-            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")
-            #print "cols_to_use",utDf.columns            
         
+        #merge table users and times
+        if len(ttDf) != 0:                       
+            cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
+            cols_to_use = list(cols_to_use) + ["nr"]     
+            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")                    
+        
+        #call export function
         if (len(ttDf) != 0) or (export_type == ttExport.eHTM_EXPORT_LOGO):   
-            #call export function
             try:            
                 exported = ttExport.Export(utDf, export_type)
             except IOError:                            
                 uiAccesories.showMessage("Export", time.strftime("%H:%M:%S", time.localtime())+" :: NOT succesfully, cannot write into the file.", MSGTYPE.statusbar)
                 return
-        
+            
+        #dialog message
         exported_string = ""        
         for key in sorted(exported.keys()):
-            exported_string += key + " : " + str(exported[key])+" times\n"
-               
+            exported_string += key + " : " + str(exported[key])+" times\n"               
         if export_type == ttExport.eHTM_EXPORT or export_type == ttExport.eHTM_EXPORT_LOGO:                        
             uiAccesories.showMessage("WWW Export", time.strftime("%H:%M:%S", time.localtime())+" :: exported "+exported_string, MSGTYPE.statusbar)
         else:
             uiAccesories.showMessage("Table Times Exported", exported_string, MSGTYPE.info)
                  
         return                      
-
         
         
     ''' 
