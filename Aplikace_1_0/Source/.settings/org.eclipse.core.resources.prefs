@@ -21,6 +21,7 @@ encoding//ewitis/gui/dfTableCGroups.py=utf-8
 encoding//ewitis/gui/dfTableCategories.py=utf-8
 encoding//ewitis/gui/dfTableRaceInfo.py=utf-8
 encoding//ewitis/gui/dfTableTimes.py=utf-8
+encoding//ewitis/gui/dfTableTimesAutocell.py=utf-8
 encoding//ewitis/gui/dfTableTimesAutonumbers.py=utf-8
 encoding//ewitis/gui/dfTableTimesExport.py=utf-8
 encoding//ewitis/gui/dfTableUsers.py=utf-8

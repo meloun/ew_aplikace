@@ -32,7 +32,7 @@ import libs.timeutils.timeutils as timeutils
 import ewitis.exports.ewitis_html as ew_html
 
 
-(eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_DB_EXPORT, eCSV_DB_EXPORT_DNS, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,6)
+(eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_EXPORT_DB, eCSV_EXPORT_DNS_DB, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,6)
     
 '''
  F11, F12 - final results
@@ -125,7 +125,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
     #CALL: ExportToXXXFiles
     #export complete/category/group results from export DFs        
     exported = {}    
-    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS) or (export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
+    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS) or (export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
         #get dirname
         racename = dstore.GetItem("racesettings-app", ['race_name'])     
         dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")        
@@ -223,7 +223,6 @@ ExportToCsvFiles
 # def ExportToCsvFiles(self, df, i):
 def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):    
     
-    export_type = eCSV_DB_EXPORT
     #return info
     exported = {}
     
@@ -239,11 +238,15 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
         df =  dfs[i]                        
         filtersort = dstore.GetItem('export_filtersort', [i])
         
+        #HEADER: replace values
+        header = dstore.GetItem("export_header", [i])        
+        for key in header:
+            header[key] = header[key].replace("%race%", dstore.GetItem("racesettings-app", ['race_name'])) 
+            header[key] = header[key].replace("%testname%", dstore.GetItem("racesettings-app", ['test_name']))
+            header[key] = header[key].replace("%time%", timeutils.getCurrentDateTime())
+                     
         #get firstline (racename, time)
-        header = dstore.GetItem("export_header", [i])             
-        racename =  header["racename"].replace("%race%", dstore.GetItem("racesettings-app", ['race_name']))
-        headertext = header["headertext"].replace("%time%", timeutils.getCurrentDateTime())
-        firstline = [racename, headertext]            
+        firstline = [header["racename"], header["headertext"]]            
                     
         #FILTER: checked columns only (export epcific)            
         columns = GetExportCollumns(df, i)        
@@ -255,16 +258,13 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     
         #EXPORT: total
         if "total" in filtersort["type"]:
-            #print i, "TOTAL"
             if(len(df) != 0):
-                #df = AddOrderToMissingUsers(df)                 
+                df = AddOrderToMissingUsers(df)                 
                 #get winner and compute GAPs                       
                 for nr in range(0, NUMBER_OF.TIMESCOLUMNS):                                
                     #print df.columns
-                    #df = AddGap(df, nr)
-                    pass
-                    #print df[["nr","gap1"]]
-                    #print "================"
+                    df = AddGap(df, nr)                    
+                    #print df[["nr","gap1"]]                    
                     
                 #filename
                 filename = utils.get_filename("e"+str(i+1)+"_t_"+racename)
@@ -275,7 +275,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                 #EXPORT: prepare header, format and export
                 if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
                     secondline = ['','']
-                elif(export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
+                elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
                     #ADD: nulls
                     df = FormatAsNullsTable(df)
                     #no csv header
@@ -316,7 +316,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     #EXPORT: prepare header, format and export
                     if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
                         secondline = [c_name, header["description"].replace("%description%", category["description"])]
-                    elif(export_type == eCSV_DB_EXPORT) or (export_type == eCSV_DB_EXPORT_DNS):
+                    elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
                         #ADD: nulls
                         c_df = FormatAsNullsTable(c_df)
                         #no csv header
@@ -368,19 +368,19 @@ def AddGap(df, nr):
 def FormatAsNullsTable(df):
     df = df.copy()  #SettingWithCopyWarning        
     racename = dstore.GetItem("racesettings-app", ['race_name'])
-    sectionname = dstore.GetItem("racesettings-app", ['section_name'])
+    testname = dstore.GetItem("racesettings-app", ['test_name'])
        
     #ADD: racename
     df['racename'] = racename
     
     #ADD: tp_name
-    df['tp_name'] = sectionname
+    df['tp_name'] = testname
     
     #ADD: non existing columns
     NullTableColumns = [u'id', u'nr', u'time1', u'time2', u'time3', u'time4', u'time5', u'points1', u'points2', u'points3', u'points4', u'points5', u'un1', u'us1', u'tp_name', u'racename']
     for column in NullTableColumns:        
         if column not in df.columns:
-            print "ADDING COLUMN: ", column
+            #print "ADDING COLUMN: ", column
             df[column] = 'NULL'
             
     #REPLACE NONE with NULLS

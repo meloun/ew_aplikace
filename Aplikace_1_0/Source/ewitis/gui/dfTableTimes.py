@@ -24,6 +24,7 @@ from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.gui.dfTableCGroups import tableCGroups
 import ewitis.gui.dfTableTimesExport as ttExport
 import ewitis.gui.dfTableTimesAutonumbers as ttAutonumbers
+import ewitis.gui.dfTableTimesAutocell as ttAutocell
 from ewitis.data.db import db
 from ewitis.gui.dfTable import DfTable
 from ewitis.data.dstore import dstore
@@ -358,11 +359,10 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
 '''
 Table
 '''        
-class DfTableTimes(DfTable):
+class DfTableTimes(DfTable):    
     
-    (eCSV_EXPORT, eCSV_EXPORT_DNF, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0,4)
-    
-    def  __init__(self):        
+    def  __init__(self):     
+        self.init = False   
         DfTable.__init__(self, "Times")                
         
     def InitGui(self):
@@ -374,10 +374,16 @@ class DfTableTimes(DfTable):
         self.gui['aWwwExportLogo'] = Ui().aWwwExportLogo
         self.gui['aExportResults'] = Ui().aExportResults
         self.gui['aExportResultsDNF'] = Ui().aExportResultsDNF
+        self.gui['aExportDbResults'] = Ui().aExportDbResults
+        self.gui['aExportDbResultsDNF'] = Ui().aExportDbResultsDNF
         self.gui['aExportAllTimes'] = Ui().aExportAllTimes 
-        self.gui['aExportLaptimes'] = Ui().aExportLaptimes 
-        self.gui['times_db_export'] = Ui().TimesDbExport 
-        self.gui['times_db_import'] = Ui().TimesDbImport 
+        self.gui['aExportLaptimes'] = Ui().aExportLaptimes
+        try: 
+            self.gui['times_db_export'] = Ui().TimesDbExport
+            self.gui['times_db_import'] = Ui().TimesDbImport 
+        except AttributeError:
+            pass
+             
         self.gui['filter_column'] = Ui().TimesFilterColumn
         self.gui['filter_starts'] = Ui().TimesFilterStarts
         self.gui['filter_finishes'] = Ui().TimesFilterFinishes
@@ -389,6 +395,7 @@ class DfTableTimes(DfTable):
         self.gui['auto_number4'] = Ui().TimesAutoNumber4
         self.gui['auto_refresh'] = Ui().TimesAutoRefresh
         self.gui['auto_number_clear'] = Ui().TimesAutoNumberClear
+        ttAutocell.InitGui()
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         self.gui['auto_www_refresh'] = Ui().TimesAutoWWWRefresh
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
@@ -415,6 +422,7 @@ class DfTableTimes(DfTable):
         self.UpdateGui()
         
         self.dfActiveNrs = pd.DataFrame()
+        self.init = True 
         
     def sDeletePreCallback(self, id):        
                        
@@ -444,6 +452,7 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['auto_number3'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 2], state, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_number4'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 3], state, self.UpdateGui))        
         QtCore.QObject.connect(self.gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], [0]*NUMBER_OF.AUTO_NUMBER, self.UpdateGui))
+        ttAutocell.createSlots()
         QtCore.QObject.connect(self.gui['auto_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_refresh"], state, self.UpdateGui), setattr(self, "auto_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_www_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], state, self.UpdateGui), setattr(self, "auto_www_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
@@ -461,10 +470,12 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate())        
          
         #exports
-        QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT))
-        QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eHTM_EXPORT_LOGO))                                                    
-        QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT))
-        QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(self.eCSV_EXPORT_DNF))
+        QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eHTM_EXPORT))
+        QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eHTM_EXPORT_LOGO))                                                    
+        QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT))
+        QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DNF))
+        QtCore.QObject.connect(self.gui['aExportDbResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DB))
+        QtCore.QObject.connect(self.gui['aExportDbResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DB_DNF))
          
     def sSlot(self, state = False):
         print "sSlot", state
@@ -518,7 +529,7 @@ class DfTableTimes(DfTable):
      - prepare DFs for export (according to filter, sort, etc.)
      - call ExportToXXXFiles with these 3 DFs
     '''  
-    def sExportDirect(self, export_type = eCSV_EXPORT):             
+    def sExportDirect(self, export_type = ttExport.eCSV_EXPORT):             
         
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
@@ -696,6 +707,8 @@ class DfTableTimes(DfTable):
             #if self.gui['auto_number'+str(i+1)].hasFocus() == False:                                                                               
             if self.gui['auto_number'+str(i+1)].text() != '' and self.gui['auto_number'+str(i+1)].text() != '-':                                                                               
                 self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
+                
+        ttAutocell.UpdateGui()
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
         self.gui['auto_www_refresh'].setValue(times["auto_www_refresh"])
@@ -708,7 +721,7 @@ class DfTableTimes(DfTable):
 #             
 #             
         for nr in range(NUMBER_OF.AUTO_NUMBER):
-            if(times["auto_number"][nr] == 0):            
+            if(times["auto_number"][nr] == 0) or (self.init == False):            
                 self.gui['auto_number'+str(nr+1)].setStyleSheet("")
             else:
                 if(tableUsers.model.getUserParNr(times["auto_number"][nr]) != None):

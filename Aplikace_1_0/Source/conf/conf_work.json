@@ -37,7 +37,7 @@
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
-                        "type": "Category"
+                        "type": "Total"
                     },
                     {
                         "checked": 0,
@@ -98,7 +98,7 @@
                     }
                 ],
                 "status": {
-                    "checked": 0
+                    "checked": 2
                 },
                 "time": [
                     {
@@ -109,7 +109,7 @@
                         "rule": "time - starttime"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
@@ -198,7 +198,7 @@
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
-                        "time2": 2,
+                        "time2": 0,
                         "time3": 0,
                         "time4": 0,
                         "un1": 2,
@@ -812,7 +812,7 @@
                         0,
                         0
                     ],
-                    "nr_cells": 2,
+                    "nr_cells": 4,
                     "nr_users": 4
                 },
                 "evaluation": {
@@ -824,14 +824,43 @@
                 },
                 "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_TP06.tjson",
                 "profile_desc": "Testrace 2019\nS1 – C1 \n\n77m / 12s\ntp06\nklicek1243\n5678\nasdfasf\nklicek1243\n5678\n5678",
-                "race_name": "Testrace 2019",
+                "race_name": "Testrace 2019 AB",
                 "remote": 0,
                 "rfid": 0,
                 "section_name": "TPxy",
-                "tag_filter": 0
+                "tag_filter": 0,
+                "test_name": "TPxy"
             }
         },
         "name": "race settings",
+        "permanent": true
+    },
+    "times": {
+        "GET_SET": {
+            "value": {
+                "auto_cell": [
+                    7,
+                    8,
+                    9,
+                    10
+                ],
+                "auto_cell_address": 1,
+                "auto_cell_index": 0,
+                "auto_cell_index_max": 2,
+                "auto_number": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "auto_number_enable": 2,
+                "auto_number_logic": true,
+                "auto_refresh": 1,
+                "auto_timer": 0,
+                "auto_www_refresh": 0,
+                "highlight_enable": 0
+            }
+        },
         "permanent": true
     }
 }

@@ -33,7 +33,7 @@ def Filter(df_in, filter):
                     df = df[df[k].astype(int).astype(str).str.match(v)] #convert to int because of float type (3.0)
                        
             except (KeyError):
-                print "error: race settings: filter", k,":",v,"-", filter
+                print "error: filter", k,":",v,"-", filter
                 continue
     return df
 

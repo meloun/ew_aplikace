@@ -57,6 +57,7 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().pushLoadProfile, QtCore.SIGNAL('clicked()'), self.sLoadProfile)
         QtCore.QObject.connect(Ui().pushSaveProfile, QtCore.SIGNAL('clicked()'), self.sSaveProfile)                    
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
+        QtCore.QObject.connect(Ui().lineTestName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["test_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)        
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
         QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
@@ -255,6 +256,7 @@ class TabRaceSettings():
         uiAccesories.UpdateText(Ui().lineProfileName, dstore.GetItem("racesettings-app", ["profile"]))
         uiAccesories.UpdateText(Ui().textProfileDesc, dstore.GetItem("racesettings-app", ["profile_desc"]))
         uiAccesories.UpdateText(Ui().lineRaceName, dstore.GetItem("racesettings-app", ["race_name"]))
+        uiAccesories.UpdateText(Ui().lineTestName, dstore.GetItem("racesettings-app", ["test_name"]))
         
                     
         #dstore.ResetChangedFlag("racesettings-app")        

@@ -119,10 +119,11 @@ DEF_DATA = {
                                               }
                                },        
         #tab TIMES
-        "times"                : {"GET_SET"  : {"value": {
+        "times"                : {"permanent": True,
+                                  "GET_SET"  : {"value": {
                                                           "auto_number_enable": CheckboxValue.unchecked,
                                                           "auto_number_logic": False,                                                          
-                                                          "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
+                                                          "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,                                                          
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0,
                                                           "highlight_enable": CheckboxValue.unchecked,
@@ -140,7 +141,7 @@ DEF_DATA = {
                                 "name": "race settings",
                                 "GET_SET"  : {"value": {
                                                         "race_name"    :      u"Test Race",
-                                                        "section_name" :      u"TPxy",
+                                                        "test_name" :         u"TPxy",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
                                                         "remote"       :      CheckboxValue.unchecked,

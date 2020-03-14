@@ -187,7 +187,7 @@ class Datastore():
                 item = item[key]                               
         self.datalock.acquire() 
         
-        #set data                            
+        #set data                           
         item[keys[-1]] = value
                 
         

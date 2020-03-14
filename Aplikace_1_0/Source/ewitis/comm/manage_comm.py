@@ -704,36 +704,54 @@ class ManageComm(Thread):
     def AddTimeToDb(self, time):                       
                                     
         '''console ouput''' 
-        print time                               
+        #print time                               
         aux_csv_string = str(time['id']) + ";" + hex(time['user_id'])+ ";" + str(time['cell']) + ";" + ";" + str(time['time_raw']).replace(',', '.')                                
         print "I: Comm: receive time:",self.index_times, ":", aux_csv_string
         
         #print struct.pack('<I', time['user_id']).encode('hex')
-
-        '''auto number, no logic'''
-        ''' -> insert number(id) directly to the structure '''
-        ds_times = dstore.Get("times")
-        if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
-            auto_number = ds_times["auto_number"][0]
-            if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
-                dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
-                if dbUser != None:
-                    time['user_id'] = dbUser['id']
         
-        '''hack for car sprint'''
-#         time['un1'] = time['cell']                    
-#         if (time['cell'] == 2) or (time['cell']== 3):
-#             time['cell'] = 1
-#         elif (time['cell'] == 4) or (time['cell'] == 5):
-#             time['cell'] = 250                                
-                                        
-        '''save to database'''        
-        keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
-        values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]        
-        '''hack for car sprint'''
-        #keys.append("un1")
-        #values.append(time["un1"])        
-        ret = self.db.insert_from_lists("times", keys, values)
+        DbTime = self.db.getParId("times", time['id'])
+
+        if(DbTime == None):
+            '''auto number, no logic'''
+            ''' -> insert number(id) directly to the structure '''
+            ds_times = dstore.Get("times")
+            if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
+                auto_number = ds_times["auto_number"][0]
+                if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
+                    dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
+                    if dbUser != None:
+                        time['user_id'] = dbUser['id']
+            
+             
+            ''' auto cell logic'''                        
+            ''' - inject the cell number
+                - increment the index (ring buffer)
+            '''
+            if(ds_times["auto_cell_address"] == time['cell']):
+                time['state'] = time['state']+str(time['cell'])                                
+                time['cell'] = ds_times["auto_cell"][ds_times["auto_cell_index"]]
+                if (ds_times["auto_cell_index"] != ds_times["auto_cell_index_max"]):           
+                    ds_times["auto_cell_index"] = ds_times["auto_cell_index"] + 1
+                else:
+                    ds_times["auto_cell_index"] = 0        
+                
+            '''hack for car sprint'''
+    #         time['un1'] = time['cell']                    
+    #         if (time['cell'] == 2) or (time['cell']== 3):
+    #             time['cell'] = 1
+    #         elif (time['cell'] == 4) or (time['cell'] == 5):
+    #             time['cell'] = 250                                
+                                            
+            '''save to database'''        
+            keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
+            values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]        
+            '''hack for car sprint'''
+            #keys.append("un1")
+            #values.append(time["un1"])        
+            ret = self.db.insert_from_lists("times", keys, values)
+        else:
+            ret = False
                 
         '''return'''
         if ret == False:            
