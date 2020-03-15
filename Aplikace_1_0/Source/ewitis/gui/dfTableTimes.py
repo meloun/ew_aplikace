@@ -352,9 +352,7 @@ class DfProxymodelTimes(QtGui.QSortFilterProxyModel):
 
         #This property holds the column where the key used to filter the contents of the source model is read from.
         #The default value is 0. If the value is -1, the keys will be read from all columns.                
-        self.setFilterKeyColumn(-1)
-
-                
+        self.setFilterKeyColumn(-1)                
 
 '''
 Table
@@ -387,14 +385,8 @@ class DfTableTimes(DfTable):
         self.gui['filter_column'] = Ui().TimesFilterColumn
         self.gui['filter_starts'] = Ui().TimesFilterStarts
         self.gui['filter_finishes'] = Ui().TimesFilterFinishes
-        self.gui['auto_number_enable'] = Ui().TimesAutoNumberEnable
-        self.gui['auto_number_logic'] = Ui().TimesAutoNumberLogic
-        self.gui['auto_number1'] = Ui().TimesAutoNumber1
-        self.gui['auto_number2'] = Ui().TimesAutoNumber2
-        self.gui['auto_number3'] = Ui().TimesAutoNumber3
-        self.gui['auto_number4'] = Ui().TimesAutoNumber4
         self.gui['auto_refresh'] = Ui().TimesAutoRefresh
-        self.gui['auto_number_clear'] = Ui().TimesAutoNumberClear
+        ttAutonumbers.InitGui()
         ttAutocell.InitGui()
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         self.gui['auto_www_refresh'] = Ui().TimesAutoWWWRefresh
@@ -443,28 +435,20 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['filter_starts'], QtCore.SIGNAL("clicked()"), self.sFilterStarts) 
         QtCore.QObject.connect(self.gui['filter_finishes'], QtCore.SIGNAL("clicked()"), self.sFilterFinishes)
         
-        #automatic number and refresh
-        QtCore.QObject.connect(self.gui['auto_number_enable'], QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("times", ["auto_number_enable"], state, self.UpdateGui))
-        QtCore.QObject.connect(self.gui['auto_number_logic'], QtCore.SIGNAL("toggled(bool)"), lambda state: uiAccesories.sGuiSetItem("times", ["auto_number_logic"], state, self.UpdateGui))
-        #QtCore.QObject.connect(self.gui['auto_number1'].lineEdit(),  QtCore.SIGNAL("returnPressed()"),  lambda x=1: self.EditingFinished(x))
-        QtCore.QObject.connect(self.gui['auto_number1'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 0], state, self.UpdateGui))     
-        QtCore.QObject.connect(self.gui['auto_number2'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 1], state, self.UpdateGui))
-        QtCore.QObject.connect(self.gui['auto_number3'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 2], state, self.UpdateGui))
-        QtCore.QObject.connect(self.gui['auto_number4'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 3], state, self.UpdateGui))        
-        QtCore.QObject.connect(self.gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], [0]*NUMBER_OF.AUTO_NUMBER, self.UpdateGui))
+        #autonumbers
+        ttAutonumbers.createSlots()
+        
+        #autocell
         ttAutocell.createSlots()
+        
+        #
         QtCore.QObject.connect(self.gui['auto_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_refresh"], state, self.UpdateGui), setattr(self, "auto_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_www_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], state, self.UpdateGui), setattr(self, "auto_www_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_www_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['highlight_enable'], QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("times", ["highlight_enable"], state, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_timer_set'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_timer"], state, self.UpdateGui), setattr(self, "auto_timer_cnt", state)))
-        
-        #export/import table (db format)
-        #to do:
-        #QtCore.QObject.connect(self.gui['times_db_import'], QtCore.SIGNAL("clicked()"), lambda:DfTable.sImport(self))        
-        #QtCore.QObject.connect(self.gui['times_db_export'], QtCore.SIGNAL("clicked()"), lambda:DfTable.sExport(self, DfTable.eDB, True))
-        
+               
         #button Recalculate
         QtCore.QObject.connect(self.gui['civils_to_zeroes'], QtCore.SIGNAL("clicked()"), lambda:self.sCivilsToZeroes())
         QtCore.QObject.connect(self.gui['recalculate'], QtCore.SIGNAL("clicked()"), lambda:self.sRecalculate())        
@@ -628,7 +612,7 @@ class DfTableTimes(DfTable):
             self.auto_timer_cnt = autorefresh_set
                     
 
-                
+    #called periodically, timer 1,5s            
     def Update_AutoNumbers(self, new_time):  
         ret = False
         
@@ -678,36 +662,13 @@ class DfTableTimes(DfTable):
         
         times = dstore.Get("times")
         
-        self.gui['auto_number_enable'].setCheckState(times["auto_number_enable"])
-        self.gui['highlight_enable'].setCheckState(times["highlight_enable"])
-        self.gui['auto_number_logic'].setChecked(times["auto_number_logic"])
-        
-        if(times["auto_number_enable"] == 0):
-            """ everything off """
-            self.gui['auto_number_logic'].setEnabled(False)
-            for i in range(0, NUMBER_OF.AUTO_NUMBER):
-                self.gui['auto_number'+str(i+1)].setEnabled(False)
-        else:
-            self.gui['auto_number_logic'].setEnabled(True)
-            if(times["auto_number_logic"] == 0):
-                """primitive auto number """
-                self.gui['auto_number1'].setEnabled(True)
-                for i in range(1, NUMBER_OF.AUTO_NUMBER):
-                    self.gui['auto_number'+str(i+1)].setEnabled(False)
-            else:
-                """auto numbers full logic"""
-                for i in range(0, NUMBER_OF.AUTO_NUMBER):     
-                    if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"])):
-                        self.gui['auto_number'+str(i+1)].setEnabled(True)
-                    else:
-                        self.gui['auto_number'+str(i+1)].setEnabled(False)
 
-        #set autonumbers value  
-        for i in range(0, NUMBER_OF.AUTO_NUMBER):  
-            #if self.gui['auto_number'+str(i+1)].hasFocus() == False:                                                                               
-            if self.gui['auto_number'+str(i+1)].text() != '' and self.gui['auto_number'+str(i+1)].text() != '-':                                                                               
-                self.gui['auto_number'+str(i+1)].setValue(times["auto_number"][i])
-                
+        self.gui['highlight_enable'].setCheckState(times["highlight_enable"])        
+        
+        #autonumbers        
+        ttAutonumbers.UpdateGui()
+        
+        #autocell        
         ttAutocell.UpdateGui()
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
@@ -718,18 +679,7 @@ class DfTableTimes(DfTable):
             self.gui['auto_refresh'].setStyleSheet("")
         else:
             self.gui['auto_refresh'].setStyleSheet("background:"+COLORS.green)
-#             
-#             
-        for nr in range(NUMBER_OF.AUTO_NUMBER):
-            if(times["auto_number"][nr] == 0) or (self.init == False):            
-                self.gui['auto_number'+str(nr+1)].setStyleSheet("")
-            else:
-                if(tableUsers.model.getUserParNr(times["auto_number"][nr]) != None):
-                    if(self.gui['auto_number'+str(nr+1)].styleSheet() != "background:"+COLORS.green):
-                        self.gui['auto_number'+str(nr+1)].setStyleSheet("")
-                else:
-                    if(self.gui['auto_number'+str(nr+1)].styleSheet() != "background:"+COLORS.red):
-                        self.gui['auto_number'+str(nr+1)].setStyleSheet("background:"+COLORS.red)
+            
         return 
        
     def Update(self):                                                           

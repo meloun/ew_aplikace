@@ -29,6 +29,7 @@ from ewitis.gui.aTab import MyTab, UPDATE_MODE
 # from ewitis.gui.dfTableUsers import tabUsers
 from ewitis.gui.tabRunsTimes import tabRunsTimes
 from ewitis.gui.dfTableTimes import tableTimes
+import ewitis.gui.dfTableTimesAutonumbers as ttAutonumbers
 from ewitis.gui.dfTableUsers import tableUsers
 # from ewitis.gui.dfTableTimes import tableTimes
 # 
