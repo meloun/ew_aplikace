@@ -716,6 +716,7 @@ class ManageComm(Thread):
             '''auto number, no logic'''
             ''' -> insert number(id) directly to the structure '''
             ds_times = dstore.Get("times")
+            ds_racesettings = dstore.Get("racesettings-app")
             if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
                 auto_number = ds_times["auto_number"][0]
                 if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
@@ -731,7 +732,7 @@ class ManageComm(Thread):
             if(ds_times["auto_cell_address"] == time['cell']):
                 time['state'] = time['state']+str(time['cell'])                                
                 time['cell'] = ds_times["auto_cell"][ds_times["auto_cell_index"]]
-                if (ds_times["auto_cell_index"] != ds_times["auto_cell_index_max"]):           
+                if ((ds_times["auto_cell_index"]+1) < ds_racesettings["autocell"]["nr_cells"]):           
                     ds_times["auto_cell_index"] = ds_times["auto_cell_index"] + 1
                 else:
                     ds_times["auto_cell_index"] = 0        

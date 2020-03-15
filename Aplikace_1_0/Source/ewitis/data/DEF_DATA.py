@@ -65,6 +65,7 @@ class NUMBER_OF:
     OPTIONCOLUMNS = 4
     
     AUTO_NUMBER = 4    
+    AUTO_CELL   = 4
     
 def Assigments2Dict(assigment):                                            
         if assigment == "":            
@@ -123,7 +124,10 @@ DEF_DATA = {
                                   "GET_SET"  : {"value": {
                                                           "auto_number_enable": CheckboxValue.unchecked,
                                                           "auto_number_logic": False,                                                          
-                                                          "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,                                                          
+                                                          "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
+                                                          "auto_cell_address": 0,
+                                                          "auto_cell": [0]*NUMBER_OF.AUTO_NUMBER,
+                                                          "auto_cell_index": 0,                                                          
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0,
                                                           "highlight_enable": CheckboxValue.unchecked,
@@ -144,9 +148,7 @@ DEF_DATA = {
                                                         "test_name" :         u"TPxy",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
-                                                        "remote"       :      CheckboxValue.unchecked,
-                                                        "rfid"         :      CheckboxValue.unchecked,
-                                                        "tag_filter"   :      CheckboxValue.unchecked,
+                                                        "remote"       :      CheckboxValue.unchecked,                                                                                                                
                                                         "evaluation"   :      {                                                         
                                                                                 "starttime": StarttimeEvaluation.VIA_USER, 
                                                                                 "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
@@ -155,6 +157,9 @@ DEF_DATA = {
                                                                                  "nr_users": 4,
                                                                                  "nr_cells": 2,
                                                                                  "cells": [1,250,0,0,0,0,0],
+                                                                               },
+                                                        "autocell"     :      {                                                                                 
+                                                                                 "nr_cells": 2,
                                                                                }
                                                         },                                              
                                               "changed": True

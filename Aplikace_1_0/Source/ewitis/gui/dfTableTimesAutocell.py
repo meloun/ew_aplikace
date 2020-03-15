@@ -10,6 +10,7 @@ import libs.pandas.df_utils as df_utils
 from ewitis.data.DEF_DATA import *
 from PyQt4 import QtCore, QtGui
 from ewitis.gui.Ui import Ui
+from ewitis.data.DEF_ENUM_STRINGS import COLORS
 from ewitis.data.dstore import dstore
 from ewitis.gui.UiAccesories import uiAccesories
 
@@ -36,14 +37,38 @@ def sComboAutoCellAddress(index):
 
 def UpdateGui():
     times = dstore.Get("times")
+    racesettings = dstore.Get("racesettings-app")
     gui['auto_cell_address'].setCurrentIndex(times["auto_cell_address"])
-    for nr in range(NUMBER_OF.AUTO_NUMBER):                      
+    for nr in range(NUMBER_OF.AUTO_CELL):                      
+        #value
         gui['auto_cell_'+str(nr+1)].setValue(times["auto_cell"][nr])
         
-
-def Update(df, new_time):
+        #enable/disable
+        if (nr < racesettings["autocell"]["nr_cells"]) and (racesettings["autocell"]["nr_cells"] != 0):
+            gui['auto_cell_'+str(nr+1)].setEnabled(True)
+            gui['auto_cell_address'].setEnabled(True)
+        else:
+            gui['auto_cell_'+str(nr+1)].setEnabled(False)
+            gui['auto_cell_address'].setEnabled(False)
+                
+        #stylesheets
+        if(nr == times["auto_cell_index"]) and (times["auto_cell_address"] != 0) and (racesettings["autocell"]["nr_cells"] != 0):
+            gui['auto_cell_'+str(nr+1)].setStyleSheet("background:"+COLORS.green)
+        else:
+            gui['auto_cell_'+str(nr+1)].setStyleSheet("")
+    
+    #enable/disable combobox address
+    if (racesettings["autocell"]["nr_cells"] != 0):       
+        gui['auto_cell_address'].setEnabled(True)
+    else:
         
-    pass
-
+        gui['auto_cell_address'].setEnabled(False)
+        
+    #check
+    #settings change and index is high
+    if(times["auto_cell_index"] >= racesettings["autocell"]["nr_cells"]) and (racesettings["autocell"]["nr_cells"] != 0):
+        print "W: autocell index changed to zero (probably setting change and index too high)"
+        times["auto_cell_index"] = 0;
+        
     
         

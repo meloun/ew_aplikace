@@ -59,17 +59,14 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().lineTestName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["test_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)        
-        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkRfidRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["rfid"], state, self.Update, True))        
-        QtCore.QObject.connect(Ui().checkTagFilter, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app",["tag_filter"], state, self.Update))                                                                               
-        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "starttime"], state, self.Update))
-        QtCore.QObject.connect(Ui().spinFinishLaps, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "finishtime", "laps"], state, self.Update))                                                                                                                                                                   
-        QtCore.QObject.connect(Ui().lineFinishTime, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "finishtime", "time"], utils.toUnicode(name), self.Update))        
+        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))                                                                                       
+        QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "starttime"], state, self.Update))                                                                                                                                                                                        
         #middle group: auto-numbers
         QtCore.QObject.connect(Ui().spinAutonumbersNrOfUsers, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "nr_users"], state, self.Update))
         QtCore.QObject.connect(Ui().spinAutonumbersNrOfCells, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "nr_cells"], state, self.Update))
         for i in range(0, len(self.autonumbers_cell)):                                                                     
             QtCore.QObject.connect(self.autonumbers_cell[i], QtCore.SIGNAL("valueChanged(int)"), lambda state, index = i: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "cells", index], state, self.Update))                       
+        QtCore.QObject.connect(Ui().spinAutocellNrOfCells, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autocell", "nr_cells"], state, self.Update))
                 
         
     """                 """
@@ -260,25 +257,23 @@ class TabRaceSettings():
         
                     
         #dstore.ResetChangedFlag("racesettings-app")        
-        Ui().checkRemoteRace.setChecked(dstore.GetItem("racesettings-app", ["remote"]))                                  
-        Ui().checkRfidRace.setChecked(dstore.GetItem("racesettings-app", ["rfid"]))                                  
-        Ui().checkTagFilter.setChecked(dstore.GetItem("racesettings-app", ["tag_filter"]))                                                                                                                                                                                                             
+        Ui().checkRemoteRace.setChecked(dstore.GetItem("racesettings-app", ["remote"]))                                                                                                                                                                                                                                               
             
         #evaluations        
-        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.GetItem("racesettings-app", ["evaluation", "starttime"]))                                                      
-        Ui().spinFinishLaps.setValue(dstore.GetItem("racesettings-app", ["evaluation", "finishtime", "laps"]))                                                      
-        uiAccesories.UpdateText(Ui().lineFinishTime, dstore.GetItem("racesettings-app", ["evaluation", "finishtime", "time"]))
+        Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.GetItem("racesettings-app", ["evaluation", "starttime"]))                                                             
         
         #autonumbers
         Ui().spinAutonumbersNrOfUsers.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"]))    
-        Ui().spinAutonumbersNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"]))
         for i in range(0, len(self.autonumbers_cell)):                                                        
             self.autonumbers_cell[i].setValue(dstore.GetItem("racesettings-app", ["autonumbers", "cells", i]))
             if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"])):            
                 self.autonumbers_cell[i].setEnabled(True)
             else:
                 self.autonumbers_cell[i].setEnabled(False)
-                        
+        #autocell
+        Ui().spinAutocellNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autocell", "nr_cells"]))
+        print "TT", dstore.GetItem("racesettings-app", ["autocell", "nr_cells"])
+                                
         self.init = True
         return True
     

@@ -802,6 +802,9 @@
         "GET_SET": {
             "changed": true,
             "value": {
+                "autocell": {
+                    "nr_cells": 0
+                },
                 "autonumbers": {
                     "cells": [
                         1,
@@ -839,22 +842,21 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
+                    10,
+                    11,
                     7,
-                    8,
-                    9,
-                    10
+                    8
                 ],
-                "auto_cell_address": 1,
+                "auto_cell_address": 2,
                 "auto_cell_index": 0,
-                "auto_cell_index_max": 2,
                 "auto_number": [
                     0,
                     0,
                     0,
                     0
                 ],
-                "auto_number_enable": 2,
-                "auto_number_logic": true,
+                "auto_number_enable": 0,
+                "auto_number_logic": false,
                 "auto_refresh": 1,
                 "auto_timer": 0,
                 "auto_www_refresh": 0,

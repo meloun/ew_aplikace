@@ -826,8 +826,6 @@
                 "profile_desc": "$racename$\nS1 – C1 \n\n77m / 12s\ntp06\nklicek1243\n5678\nasdfasf\nklicek1243\n5678\n5678",
                 "race_name": "Testrace 2019",
                 "remote": 0,
-                "rfid": 0,
-                "tag_filter": 0
             }
         },
         "name": "race settings",

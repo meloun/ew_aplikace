@@ -201,7 +201,7 @@ class DfModelTimes(DataframeTableModel):
 
             #change the state (C -> manually Changed)            
             state = str(dfChangedRow.iloc[0]['state'])         
-            mydict["state"] = "C" + state[1] + state[2]            
+            mydict["state"] = "C" + state[1:]            
             
 
         elif "un1" in mydict:
