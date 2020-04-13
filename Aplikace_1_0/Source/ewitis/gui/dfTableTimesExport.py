@@ -113,7 +113,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
             #print "PO",i, aux_df.head(2), aux_df.dtypes
             
             #ADD: missing users with DNS status
-            if export_type == eCSV_EXPORT_DNS:                
+            if export_type == eCSV_EXPORT_DNS or export_type == eCSV_EXPORT_DNS_DB:                
                 aux_df = AddMissingUsers(aux_df)                                        
                 #beautify once again
                 aux_df = aux_df.where(pd.notnull(aux_df), None)
@@ -125,7 +125,7 @@ def Export(utDf, export_type = eCSV_EXPORT):
     #CALL: ExportToXXXFiles
     #export complete/category/group results from export DFs        
     exported = {}    
-    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS) or (export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
+    if (export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS) or (export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DNS_DB):
         #get dirname
         racename = dstore.GetItem("racesettings-app", ['race_name'])     
         dirname = utils.get_filename("export/"+timeutils.getUnderlinedDatetime()+"_"+racename+"/")        
@@ -275,7 +275,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                 #EXPORT: prepare header, format and export
                 if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
                     secondline = ['','']
-                elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
+                elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DNS_DB):
                     #ADD: nulls
                     df = FormatAsNullsTable(df)
                     #no csv header
@@ -316,7 +316,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     #EXPORT: prepare header, format and export
                     if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
                         secondline = [c_name, header["description"].replace("%description%", category["description"])]
-                    elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DB_DNS):
+                    elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DNS_DB):
                         #ADD: nulls
                         c_df = FormatAsNullsTable(c_df)
                         #no csv header
@@ -561,7 +561,7 @@ def AddMissingUsers(tDf):
     #add name
     df_dnf_users['name'] = df_dnf_users['name'].str.upper() + ' ' + df_dnf_users['first_name']    
                         
-    # add "DNF" to timeX (and also timeraw)
+    # add "DNS" to timeX (and also timeraw)
     for c in [s for s in tDf.columns if "time" in s]:
         df_dnf_users[c] = "DNS"
     
@@ -577,7 +577,7 @@ def AddMissingUsers(tDf):
     for c in [s for s in tDf.columns if "un" in s]:
         df_dnf_users[c] = 0          
         
-    # order = lastorder + 1 (for all DNF users same order)
+    # order = lastorder + 1 (for all DNS users same order)
     for c in [s for s in tDf.columns if "order" in s]:
         #print  "A======", df_dnf_users.iloc[0]
         df_dnf_users[c] = int(0)

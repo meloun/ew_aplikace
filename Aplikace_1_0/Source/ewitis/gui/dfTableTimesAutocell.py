@@ -29,7 +29,7 @@ def createSlots():
     QtCore.QObject.connect(gui['auto_cell_2'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_cell", 1], state, UpdateGui))
     QtCore.QObject.connect(gui['auto_cell_3'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_cell", 2], state, UpdateGui))
     QtCore.QObject.connect(gui['auto_cell_4'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_cell", 3], state, UpdateGui))
-    QtCore.QObject.connect(gui['auto_cell_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_cell"], [0]*NUMBER_OF.AUTO_NUMBER, UpdateGui))
+    QtCore.QObject.connect(gui['auto_cell_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_cell_index"], 0, UpdateGui))
     QtCore.QObject.connect(gui['auto_cell_address'], QtCore.SIGNAL("activated(int)"), sComboAutoCellAddress)
     
 def sComboAutoCellAddress(index):
@@ -38,7 +38,8 @@ def sComboAutoCellAddress(index):
 def UpdateGui():
     times = dstore.Get("times")
     racesettings = dstore.Get("racesettings-app")
-    gui['auto_cell_address'].setCurrentIndex(times["auto_cell_address"])
+    #if gui['auto_cell_address'].hasFocus() == False:
+    #    gui['auto_cell_address'].setCurrentIndex(times["auto_cell_address"])
     for nr in range(NUMBER_OF.AUTO_CELL):                      
         #value
         gui['auto_cell_'+str(nr+1)].setValue(times["auto_cell"][nr])
@@ -46,11 +47,9 @@ def UpdateGui():
         #enable/disable
         if (nr < racesettings["autocell"]["nr_cells"]) and (racesettings["autocell"]["nr_cells"] != 0):
             gui['auto_cell_'+str(nr+1)].setEnabled(True)
-            gui['auto_cell_address'].setEnabled(True)
         else:
-            gui['auto_cell_'+str(nr+1)].setEnabled(False)
-            gui['auto_cell_address'].setEnabled(False)
-                
+            gui['auto_cell_'+str(nr+1)].setEnabled(False)            
+                 
         #stylesheets
         if(nr == times["auto_cell_index"]) and (times["auto_cell_address"] != 0) and (racesettings["autocell"]["nr_cells"] != 0):
             gui['auto_cell_'+str(nr+1)].setStyleSheet("background:"+COLORS.green)
@@ -61,7 +60,7 @@ def UpdateGui():
     if (racesettings["autocell"]["nr_cells"] != 0):       
         gui['auto_cell_address'].setEnabled(True)
     else:
-        
+         
         gui['auto_cell_address'].setEnabled(False)
         
     #check

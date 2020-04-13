@@ -173,11 +173,11 @@ DEF_DATA = {
                                                                             "checked"           : CheckboxValue.checked,
                                                                             "rule"              : "time - starttime", 
                                                                             "filter"            : "cell=2|3|250",
-                                                                            "minute_timeformat" : CheckboxValue.unchecked,
+                                                                            "minute_timeformat" : CheckboxValue.checked,
                                                                             "description"       : ""
                                                                          }] * NUMBER_OF.TIMESCOLUMNS,                                                                                                                 
                                                         "lap"           : [{
-                                                                            "checked"           : CheckboxValue.checked,
+                                                                            "checked"           : CheckboxValue.unchecked,
                                                                             "filter"            : "",
                                                                             "fromlaststart"     : CheckboxValue.unchecked,
                                                                             "description"       : ""
@@ -424,7 +424,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.25b - profile maker",
+                                                        "app": "v3.26b - Test",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

@@ -66,7 +66,7 @@
                         "description": "čus4",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:26,00%)"
+                        "rule": "abs(time1 - %00:00:12,00%)"
                     },
                     {
                         "checked": 0,
@@ -803,7 +803,7 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 0
+                    "nr_cells": 2
                 },
                 "autonumbers": {
                     "cells": [
@@ -825,13 +825,10 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_TP06.tjson",
-                "profile_desc": "Testrace 2019\nS1 – C1 \n\n77m / 12s\ntp06\nklicek1243\n5678\nasdfasf\nklicek1243\n5678\n5678",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_S_F.json",
+                "profile_desc": "Testrace 2019\nTPxy\nS1 – C1 \n\n77m / 12s\n\n",
                 "race_name": "Testrace 2019 AB",
                 "remote": 0,
-                "rfid": 0,
-                "section_name": "TPxy",
-                "tag_filter": 0,
                 "test_name": "TPxy"
             }
         },
@@ -842,10 +839,10 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
-                    10,
-                    11,
-                    7,
-                    8
+                    1,
+                    1,
+                    0,
+                    0
                 ],
                 "auto_cell_address": 2,
                 "auto_cell_index": 0,

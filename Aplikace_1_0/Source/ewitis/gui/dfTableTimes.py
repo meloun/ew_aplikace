@@ -457,9 +457,9 @@ class DfTableTimes(DfTable):
         QtCore.QObject.connect(self.gui['aWwwExportDirect'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eHTM_EXPORT))
         QtCore.QObject.connect(self.gui['aWwwExportLogo'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eHTM_EXPORT_LOGO))                                                    
         QtCore.QObject.connect(self.gui['aExportResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT))
-        QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DNF))
+        QtCore.QObject.connect(self.gui['aExportResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DNS))
         QtCore.QObject.connect(self.gui['aExportDbResults'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DB))
-        QtCore.QObject.connect(self.gui['aExportDbResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DB_DNF))
+        QtCore.QObject.connect(self.gui['aExportDbResultsDNF'], QtCore.SIGNAL("triggered()"), lambda: self.sExportDirect(ttExport.eCSV_EXPORT_DNS_DB))
          
     def sSlot(self, state = False):
         print "sSlot", state
