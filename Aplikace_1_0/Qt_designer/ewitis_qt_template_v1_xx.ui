@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>16</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -456,7 +456,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>45</width>
+                <width>50</width>
                 <height>0</height>
                </size>
               </property>
@@ -603,7 +603,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>40</width>
+                <width>50</width>
                 <height>0</height>
                </size>
               </property>
@@ -662,7 +662,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>45</width>
                 <height>0</height>
                </size>
               </property>
@@ -752,19 +752,16 @@
             <item row="0" column="8">
              <widget class="QCheckBox" name="TimesAutoNumberEnable">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>25</width>
+                <width>0</width>
                 <height>0</height>
                </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QCheckBox::indicator { width:26px; height: 26px; }</string>
               </property>
               <property name="text">
                <string/>
@@ -894,7 +891,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>45</width>
+                <width>50</width>
                 <height>0</height>
                </size>
               </property>
@@ -1038,12 +1035,12 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
+                <width>35</width>
                 <height>0</height>
                </size>
               </property>
               <property name="text">
-               <string>Cell:</string>
+               <string>Cell: </string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -51393,11 +51390,6 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="styleSheet">
                <string notr="true"/>
-              </property>
-              <property name="url">
-               <url>
-                <string>about:blank</string>
-               </url>
               </property>
              </widget>
             </item>

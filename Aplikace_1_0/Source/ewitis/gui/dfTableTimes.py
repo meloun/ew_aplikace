@@ -397,6 +397,7 @@ class DfTableTimes(DfTable):
         self.gui['auto_timer_icon'] = Ui().TimerIcon
         
         self.auto_timer_cnt = 0
+        self.auto_timer_green_cnt = 5
         self.timericon_grey = QtGui.QIcon("gui/icons/Circle_Grey_34212.png")
         self.timericon_green = QtGui.QIcon("gui/icons/Circle_Green_34211.png")
         self.timericon_yellow = QtGui.QIcon("gui/icons/Circle_Yellow_34215.png")
@@ -594,6 +595,7 @@ class DfTableTimes(DfTable):
         #decrement the timer
         if(self.auto_timer_cnt > 0):
             self.auto_timer_cnt = self.auto_timer_cnt - 1
+            self.auto_timer_green_cnt = 5
             
         #update the get value
         self.gui['auto_timer_get'].setText(str(self.auto_timer_cnt)+" s")            
@@ -602,8 +604,15 @@ class DfTableTimes(DfTable):
         autorefresh_set = dstore.GetItem("times", ["auto_timer"]) 
         if(autorefresh_set == 0):
             self.gui['auto_timer_icon'].setIcon(self.timericon_grey)
-        elif(self.auto_timer_cnt == 0):                                        
-            self.gui['auto_timer_icon'].setIcon(self.timericon_green)            
+        elif(self.auto_timer_cnt == 0):
+            #after 5s the green is blinking
+            if self.auto_timer_green_cnt == 0:                                        
+                self.gui['auto_timer_icon'].setIcon(self.timericon_grey)  
+                self.auto_timer_green_cnt = 1          
+            else:
+                self.gui['auto_timer_icon'].setIcon(self.timericon_green)
+                self.auto_timer_green_cnt = self.auto_timer_green_cnt - 1
+                
         elif(self.auto_timer_cnt <= 5):            
             self.gui['auto_timer_icon'].setIcon(self.timericon_yellow)                            
         elif((self.auto_timer_cnt-1) != 0):
