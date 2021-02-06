@@ -125,8 +125,7 @@ class DfModelTimes(DataframeTableModel):
         return False
     
     def getDefaultRow(self):
-        row = DataframeTableModel.getDefaultRow(self)
-        row["run_id"] = 0#dstore.Get("current_run")        
+        row = DataframeTableModel.getDefaultRow(self)     
         row["cell"] = 250
         return row
                      
@@ -286,8 +285,7 @@ class DfModelTimes(DataframeTableModel):
                 return None
                                         
             #user exist?            
-            user = tableUsers.model.getUserParNr(int(tabRow['nr']))            
-            #user_id = tableUsers.model.getIdOrTagIdParNr(tabRow['nr'])                                                           
+            user = tableUsers.model.getUserParNr(int(tabRow['nr']))                                                          
             if user == None:
                 uiAccesories.showMessage(self.name+" Update error", "User nr. "+ str(tabRow['nr'])+" not found !")                
                 QtCore.QTimer.singleShot(100, lambda: self.table.Edit())

@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1503, 748))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1495, 752))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_14 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_14.setObjectName(_fromUtf8("gridLayout_14"))
@@ -17661,7 +17661,6 @@ class Ui_MainWindow(object):
         self.webViewApp.setSizePolicy(sizePolicy)
         self.webViewApp.setMinimumSize(QtCore.QSize(0, 100))
         self.webViewApp.setStyleSheet(_fromUtf8(""))
-        self.webViewApp.setUrl(QtCore.QUrl(_fromUtf8("manual/manual.html")))
         self.webViewApp.setObjectName(_fromUtf8("webViewApp"))
         self.gridLayout_13.addWidget(self.webViewApp, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabManual, _fromUtf8(""))
@@ -17675,7 +17674,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.scrollArea)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1540, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1540, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuSettings = QtGui.QMenu(self.menubar)
         self.menuSettings.setObjectName(_fromUtf8("menuSettings"))
@@ -18049,6 +18048,8 @@ class Ui_MainWindow(object):
         self.aExportDbResults.setObjectName(_fromUtf8("aExportDbResults"))
         self.aExportDbResultsDNF = QtGui.QAction(MainWindow)
         self.aExportDbResultsDNF.setObjectName(_fromUtf8("aExportDbResultsDNF"))
+        self.aDNFforActiveNumbers = QtGui.QAction(MainWindow)
+        self.aDNFforActiveNumbers.setObjectName(_fromUtf8("aDNFforActiveNumbers"))
         self.menuLoad_Configuration.addAction(self.aSettingsLoadRfid)
         self.menuLoad_Configuration.addAction(self.aSettingsLoadIr)
         self.menuSettings.addAction(self.menuLoad_Configuration.menuAction())
@@ -18122,6 +18123,7 @@ class Ui_MainWindow(object):
         self.toolBarCellMissingTimeFlag.addSeparator()
         self.toolBarCellMissingTimeFlag.addSeparator()
         self.toolBarActiveNumbers.addAction(self.aActiveNumbers)
+        self.toolBarActiveNumbers.addAction(self.aDNFforActiveNumbers)
         self.toolBarCellEnable.addSeparator()
         self.toolBarCellEnable.addAction(self.aEnableCell_1)
         self.toolBarCellEnable.addSeparator()
@@ -19995,17 +19997,17 @@ class Ui_MainWindow(object):
         self.textExportSms1.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
         self.textExportSms2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
         self.textExportSms3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
         self.label_341.setText(_translate("MainWindow", "E1", None))
         self.label_342.setText(_translate("MainWindow", "E2", None))
@@ -21734,7 +21736,7 @@ class Ui_MainWindow(object):
         self.textCommLog.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\"><br /></span></p></body></html>", None))
         self.checkCommLogCyclic.setToolTip(_translate("MainWindow", "get run, get time, get timing settings", None))
         self.checkCommLogCyclic.setText(_translate("MainWindow", "Log Cyclic Telegrams", None))
@@ -22022,6 +22024,8 @@ class Ui_MainWindow(object):
         self.aExportDbResultsDNF.setText(_translate("MainWindow", "Export Db Results with DNF", None))
         self.aExportDbResultsDNF.setToolTip(_translate("MainWindow", "Export Db Results with DNF", None))
         self.aExportDbResultsDNF.setShortcut(_translate("MainWindow", "Alt+F10", None))
+        self.aDNFforActiveNumbers.setText(_translate("MainWindow", "-> DNF", None))
+        self.aDNFforActiveNumbers.setToolTip(_translate("MainWindow", "DNF for Active Numbers", None))
 
 from PyQt4 import QtWebKit
 

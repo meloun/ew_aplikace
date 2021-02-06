@@ -14,11 +14,14 @@ from ewitis.gui.tabDevice import tabDevice
 from ewitis.gui.multiprocessingManager import mgr
 from shutil import copyfile
 import libs.utils.utils as utils
+from ewitis.data.db import db  
 import libs.timeutils.timeutils as timeutils
 import os
 import zipfile
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.dfTableTimes import tableTimes
+from ewitis.gui.dfTableUsers import tableUsers
+import ewitis.gui.TimesUtils as TimesUtils
 
 class BarCellActions():
     STATUS_COLOR = ["#d7d6d5", COLORS.green, COLORS.orange, COLORS.red]
@@ -48,7 +51,10 @@ class BarCellActions():
         self.check_hw =  getattr(ui, "aHwCheck")
         self.check_app = getattr(ui, "aAppCheck")
         self.active_numbers = getattr(ui, "aActiveNumbers")
-        self.active_numbers.setText(self.active_numbers.text() + ' - 5')
+        self.active_numbers.setText(self.active_numbers.text() + ' INIT')
+        self.dnf_for_active_numbers = getattr(ui, "aDNFforActiveNumbers")
+        self.dnf_for_active_numbers.setText(self.dnf_for_active_numbers.text() + ' INIT')
+
         
         # list of dict
         # in each dict all gui item
@@ -117,6 +123,7 @@ class BarCellActions():
         QtCore.QObject.connect(Ui().aQuitTiming, QtCore.SIGNAL("triggered()"), self.sQuitTiming)
         QtCore.QObject.connect(Ui().aBackupDatabase, QtCore.SIGNAL("triggered()"), self.sBackupDatabase)
         QtCore.QObject.connect(Ui().aClearDatabase, QtCore.SIGNAL("triggered()"), self.sClearDatabase)
+        QtCore.QObject.connect(Ui().aDNFforActiveNumbers, QtCore.SIGNAL("triggered()"), self.sDnfForActiveNumbers)
              
     def sShortcutTest(self):
         print "pressed!"
@@ -174,6 +181,49 @@ class BarCellActions():
         uiAccesories.showMessage("Clear Database", "clearing database, please wait.. it will take 30 seconds.", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
         dstore.Set("clear_database", 0x00, "SET")
         self.clear_database_changed = True
+        
+    def sDnfForActiveNumbers(self):
+        active_nrs = tableTimes.Get_ActiveNumbers()        
+        self.active_numbers.setText('-'.join(str(x) for x in active_nrs))  
+        if (uiAccesories.showMessage("DNF for active users", "Are you sure you want generate finish time for all active users?\n\n Active Users: "+('-'.join(str(x) for x in active_nrs)), msgtype = MSGTYPE.warning_dialog) != True):            
+            return
+               
+        #get default row
+        dbRow = tableTimes.model.getDefaultRow() 
+        print dbRow
+        if (dbRow['id'] == None):
+            print "ERROR: DF for active nrs: id is NONE"
+            return
+        
+        '''iterate the active numbers and write finish time(cell=250)'''
+        for i, dfTime in tableTimes.dfActiveNrs.iterrows():
+            print "************************"
+            print "dbTime", i          
+            
+            #get user
+            user = tableUsers.model.getUserParNr(int(dfTime['nr']))                                                                      
+            if (user == None) :
+                print "ERROR: DF for active nrs: id is NONE"
+                continue
+            dbRow['user_id'] = user['id']
+            
+            #get last time
+            ttDf = tableTimes.model.GetDataframe()        
+            if 'nr' in ttDf.columns:
+                lasttime = ttDf[(ttDf.nr==dfTime['nr']) & (ttDf.cell!=0) & (ttDf.timeraw!=None)].iloc[-1]
+                #print "lasttime", lasttime            
+            try:
+                dbRow['time_raw'] = TimesUtils.TimesUtils.timestring2time(lasttime['timeraw']) + 300000
+            except TimesUtils.TimeFormat_Error:
+                print "ERROR: DF for active nrs: id is NONE"
+                continue
+            
+            print dbRow
+                                              
+            if(dbRow != None): 
+                db.insert_from_dict("Times", dbRow)   
+                dbRow['id'] = dbRow['id'] + 1         
+                uiAccesories.showMessage("DNF for active users", "succesfully (id="+str(dbRow['id'])+")", MSGTYPE.statusbar) 
 
     def GetHwStatus(self):
         status = STATUS.none
