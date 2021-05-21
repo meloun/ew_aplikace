@@ -97,21 +97,7 @@ def sFocusHandler(old, new):
 def sFocusNumber():
     #print "sFocusNumber"
     tableTimes.CloseEditor()
-    if(tableTimes.gui['auto_number1'].value() == 0):
-        tableTimes.gui['auto_number1'].selectAll()
-        tableTimes.gui['auto_number1'].setFocus()
-    elif(tableTimes.gui['auto_number2'].value() == 0):
-        tableTimes.gui['auto_number2'].selectAll()
-        tableTimes.gui['auto_number2'].setFocus()
-    elif(tableTimes.gui['auto_number3'].value() == 0):
-        tableTimes.gui['auto_number3'].selectAll()
-        tableTimes.gui['auto_number3'].setFocus()
-    elif(tableTimes.gui['auto_number4'].value() == 0):
-        tableTimes.gui['auto_number4'].selectAll()
-        tableTimes.gui['auto_number4'].setFocus()
-    else:
-        tableTimes.gui['auto_number1'].selectAll()
-        tableTimes.gui['auto_number1'].setFocus()
+    ttAutonumbers.Focus()
 
 def sFocusTable():    
     #print "sFocusTable"

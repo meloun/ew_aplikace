@@ -36,6 +36,25 @@ def createSlots():
     QtCore.QObject.connect(gui['auto_number4'],  QtCore.SIGNAL("valueChanged(int)"),  lambda state: uiAccesories.sGuiSetItem("times", ["auto_number", 3], state, UpdateGui))        
     QtCore.QObject.connect(gui['auto_number_clear'],  QtCore.SIGNAL("clicked()"),  lambda: uiAccesories.sGuiSetItem("times", ["auto_number"], [0]*NUMBER_OF.AUTO_NUMBER, UpdateGui))
     
+    
+#shortcut home -> focus to first auto number    
+def Focus():
+    if(gui['auto_number1'].value() == 0):
+        gui['auto_number1'].selectAll()
+        gui['auto_number1'].setFocus()
+    elif(gui['auto_number2'].value() == 0):
+        gui['auto_number2'].selectAll()
+        gui['auto_number2'].setFocus()
+    elif(gui['auto_number3'].value() == 0):
+        gui['auto_number3'].selectAll()
+        gui['auto_number3'].setFocus()
+    elif(gui['auto_number4'].value() == 0):
+        gui['auto_number4'].selectAll()
+        gui['auto_number4'].setFocus()
+    else:
+        gui['auto_number1'].selectAll()
+        gui['auto_number1'].setFocus()
+          
 def UpdateGui():
     times = dstore.Get("times")
     racesettings = dstore.Get("racesettings-app")

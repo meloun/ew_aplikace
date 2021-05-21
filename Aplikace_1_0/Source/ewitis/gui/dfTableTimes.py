@@ -98,18 +98,18 @@ class DfModelTimes(DataframeTableModel):
             if dstore.Get("times")["highlight_enable"]:
                 try:
                     row = self.df.iloc[index.row()]
-                    #manual time -> green
-                    if row['state'][2]== 'M':
-                        return QtGui.QColor(COLORS.light_green)
+                    #no number and no user string
+                    if row['nr']== 0 and row['us1'] == '':
+                        return QtGui.QColor(COLORS.peachorange)
                     #changed rawtime -> yellow
                     elif row['state'][0]== 'C':
                         return QtGui.QColor(COLORS.yellow)
                     #time on request -> lila
                     elif row['state'][1] == 'R':
                         return QtGui.QColor(COLORS.lila)
-                    #no number and no user string
-                    elif row['nr']== 0 and row['us1'] == '':
-                        return QtGui.QColor(COLORS.peachorange)
+                    #manual time -> green
+                    elif row['state'][2]== 'M':
+                        return QtGui.QColor(COLORS.light_green)
                 except:
                     pass
             return

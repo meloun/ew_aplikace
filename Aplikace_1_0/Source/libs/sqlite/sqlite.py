@@ -79,6 +79,10 @@ class sqlite_db(object):
             print "E: pysqlite2._sqlite.OperationalError", strerror
             print "query: ", query
             return None
+        except (sqlite.IntegrityError) as (strerror):#this entry probably already exist
+            print "E: pysqlite2._sqlite.IntegrityError", strerror
+            print "query: ", query
+            return None
         #except:
         #    print "E: query fatal error", sys.exc_info()[0]
         #    print "query: ", query
@@ -173,13 +177,10 @@ class sqlite_db(object):
         query_string = u"insert into %s(%s) values(%s)" % (tablename, keys_str, values_str)
         query_string = query_string.replace('\'None\'', 'Null')    
                  
-        try:
-            self.query(query_string)
-        except sqlite.IntegrityError:
-            ret = False  #this entry probably already exist
-        #except:
-        #    print "E: DB: insert from lists, some error"
-        #    ret = False
+
+        res = self.query(query_string)
+        if res == None:
+            return False
          
         if(commit_flag == True):
             self.commit()

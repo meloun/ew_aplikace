@@ -53,7 +53,7 @@ class BarCellActions():
         self.active_numbers = getattr(ui, "aActiveNumbers")
         self.active_numbers.setText(self.active_numbers.text() + ' INIT')
         self.dnf_for_active_numbers = getattr(ui, "aDNFforActiveNumbers")
-        self.dnf_for_active_numbers.setText(self.dnf_for_active_numbers.text() + ' INIT')
+        #self.dnf_for_active_numbers.setText(self.dnf_for_active_numbers.text() + ' INIT')
 
         
         # list of dict
@@ -190,40 +190,46 @@ class BarCellActions():
                
         #get default row
         dbRow = tableTimes.model.getDefaultRow() 
-        print dbRow
         if (dbRow['id'] == None):
-            print "ERROR: DF for active nrs: id is NONE"
+            uiAccesories.showMessage("DNF for active users", "ERROR: id is NONE", MSGTYPE.warning) 
             return
+        
+        #state
+        dbRow['state'] = '--M'
+        dbRow['us1'] = 'DNF'
         
         '''iterate the active numbers and write finish time(cell=250)'''
         for i, dfTime in tableTimes.dfActiveNrs.iterrows():
-            print "************************"
-            print "dbTime", i          
+            #print "DF for active nrs: nr:", dfTime['nr']        
             
             #get user
             user = tableUsers.model.getUserParNr(int(dfTime['nr']))                                                                      
             if (user == None) :
-                print "ERROR: DF for active nrs: id is NONE"
+                uiAccesories.showMessage("DNF for active users", "ERROR: no user found", MSGTYPE.warning) 
                 continue
             dbRow['user_id'] = user['id']
             
             #get last time
-            ttDf = tableTimes.model.GetDataframe()        
+            ttDf = tableTimes.model.GetDataframe()     
             if 'nr' in ttDf.columns:
                 lasttime = ttDf[(ttDf.nr==dfTime['nr']) & (ttDf.cell!=0) & (ttDf.timeraw!=None)].iloc[-1]
                 #print "lasttime", lasttime            
             try:
                 dbRow['time_raw'] = TimesUtils.TimesUtils.timestring2time(lasttime['timeraw']) + 300000
             except TimesUtils.TimeFormat_Error:
-                print "ERROR: DF for active nrs: id is NONE"
+                uiAccesories.showMessage("DNF for active users", "E: wrong time format", MSGTYPE.warning) 
                 continue
             
-            print dbRow
+            #print dbRow
                                               
             if(dbRow != None): 
-                db.insert_from_dict("Times", dbRow)   
-                dbRow['id'] = dbRow['id'] + 1         
-                uiAccesories.showMessage("DNF for active users", "succesfully (id="+str(dbRow['id'])+")", MSGTYPE.statusbar) 
+                ret = db.insert_from_dict("Times", dbRow)  
+                print "ret", ret
+                if ret == True: 
+                    dbRow['id'] = dbRow['id'] + 1         
+                    uiAccesories.showMessage("DNF for active users", "succesfully (nr:"+str(dfTime['nr'])+" id:"+str(dbRow['id'])+")", MSGTYPE.statusbar) 
+                else:
+                    uiAccesories.showMessage("DNF for active users", "E: writing in db failes", MSGTYPE.warning)
 
     def GetHwStatus(self):
         status = STATUS.none
