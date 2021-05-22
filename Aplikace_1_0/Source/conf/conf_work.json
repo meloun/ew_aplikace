@@ -803,7 +803,7 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 3
+                    "nr_cells": 0
                 },
                 "autonumbers": {
                     "cells": [
@@ -825,7 +825,7 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_S_F.json",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/import/template_S_F.json",
                 "profile_desc": "Testrace 2019\nTPxy\nS1 – C1 \n\n77m / 12s\n\n",
                 "race_name": "Testrace 2019 AB",
                 "remote": 0,
@@ -839,13 +839,13 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
-                    1,
-                    2,
-                    3,
-                    0
+                    10,
+                    11,
+                    7,
+                    8
                 ],
-                "auto_cell_address": 0,
-                "auto_cell_index": 2,
+                "auto_cell_address": 2,
+                "auto_cell_index": 0,
                 "auto_number": [
                     0,
                     0,
