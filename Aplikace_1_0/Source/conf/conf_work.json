@@ -592,10 +592,10 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "tp06 - %category%",
+                    "categoryname": "tp07 - %category%",
                     "description": "TestDescription (77m / 12s)",
-                    "headertext": "čas exportu: %time%",
-                    "racename": "%race%"
+                    "headertext": "čas exportu: 20:31:47 16.03.2020",
+                    "racename": "Testrace 2019 AB"
                 },
                 {
                     "categoryname": "%category%",
@@ -697,12 +697,12 @@
                 {
                     "description": "description",
                     "keyword": "tp",
-                    "value": "tp06"
+                    "value": "tp07"
                 },
                 {
                     "description": "description",
                     "keyword": "racename",
-                    "value": "Testrace 2019"
+                    "value": "Růžovoučký a žluťoučký kůň"
                 },
                 {
                     "description": "description",
@@ -803,19 +803,19 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 0
+                    "nr_cells": 3
                 },
                 "autonumbers": {
                     "cells": [
                         1,
+                        2,
+                        3,
+                        4,
                         250,
-                        0,
-                        0,
-                        0,
                         0,
                         0
                     ],
-                    "nr_cells": 2,
+                    "nr_cells": 5,
                     "nr_users": 4
                 },
                 "evaluation": {
@@ -825,8 +825,8 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/import/template_S_F.json",
-                "profile_desc": "Testrace 2019\nTPxy\nS1 – C1 \n\n77m / 12s\n\n",
+                "profile": "D:/Ewitis/_exe/v3_26a_Test/conf/mujtemplate.tjson",
+                "profile_desc": "Testrace 2019\nTPxy\nS1 – C1 \n\nRůžovoučký a žluťoučký kůň\n\n00:00:26,00\n\n\n77m / 12s\n\n",
                 "race_name": "Testrace 2019 AB",
                 "remote": 0,
                 "test_name": "TPxy"
@@ -839,22 +839,22 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
-                    10,
-                    11,
-                    7,
-                    8
+                    2,
+                    2,
+                    4,
+                    0
                 ],
-                "auto_cell_address": 2,
-                "auto_cell_index": 0,
+                "auto_cell_address": 0,
+                "auto_cell_index": 1,
                 "auto_number": [
-                    0,
-                    0,
-                    0,
+                    60,
+                    61,
+                    62,
                     0
                 ],
                 "auto_number_enable": 2,
                 "auto_number_logic": true,
-                "auto_refresh": 1,
+                "auto_refresh": 0,
                 "auto_timer": 0,
                 "auto_www_refresh": 0,
                 "highlight_enable": 0

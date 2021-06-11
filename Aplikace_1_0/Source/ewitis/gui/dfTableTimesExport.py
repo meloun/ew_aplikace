@@ -239,7 +239,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
         filtersort = dstore.GetItem('export_filtersort', [i])
         
         #HEADER: replace values
-        header = dstore.GetItem("export_header", [i])        
+        header = dstore.GetItem("export_header", [i]).copy()        
         for key in header:
             header[key] = header[key].replace("%race%", dstore.GetItem("racesettings-app", ['race_name'])) 
             header[key] = header[key].replace("%testname%", dstore.GetItem("racesettings-app", ['test_name']))
@@ -250,7 +250,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     
         #FILTER: checked columns only (export epcific)            
         columns = GetExportCollumns(df, i)        
-        #print "columns_1: ", columns                                    
+        print "columns: ",i, columns                                    
         
         #workarround
         #replace time with DNF for long times
@@ -306,25 +306,29 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     category = tableCategories.model.getCategoryParName(c_name)
                     category = category.to_dict()               
                     
-                    #FILTER: checked columns only
-                    c_df = c_df[columns]
+                    #FILTER: checked columns only                     
+                    c_df = c_df[columns]                    
                                         
                     #CALL: ExportToCsvFile()
-                    c_name = header["categoryname"].replace("%category%", c_name)
-                    filename = utils.get_filename("e"+str(i+1)+"_c_"+c_name)
-                    
+                    header["categoryname"] = header["categoryname"].replace("%category%", c_name)
+                    filename = utils.get_filename("e"+str(i+1)+"_c_"+header["categoryname"])
+                                        
                     #EXPORT: prepare header, format and export
                     if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
-                        secondline = [c_name, header["description"].replace("%description%", category["description"])]
+                        secondline = [header["categoryname"], header["description"].replace("%description%", category["description"])]
                     elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DNS_DB):
+                        #ADD: racename
+                        c_df['racename'] = header["racename"]
+                        #ADD: tp name
+                        c_df['tp_name'] = header["categoryname"]
                         #ADD: nulls
-                        c_df = FormatAsNullsTable(c_df)
+                        c_df = FormatAsNullsTable(c_df)                        
                         #no csv header
                         firstline = None
                         secondline = None                        
                     else:
                         print "ERROR: nepodporovaný csv export"                                                                                                                                 
-                    #csv export to file                                                                                                                                                                                                                                                                                               
+                    #csv export to file
                     ExportToCsvFile(dirname+filename+".csv",  Columns2Cz(c_df, i), firstline, secondline)
                     
                     exported[filename] = len(c_df) 
@@ -368,16 +372,16 @@ def AddGap(df, nr):
 def FormatAsNullsTable(df):
     df = df.copy()  #SettingWithCopyWarning        
     racename = dstore.GetItem("racesettings-app", ['race_name'])
-    testname = dstore.GetItem("racesettings-app", ['test_name'])
+    #testname = dstore.GetItem("racesettings-app", ['test_name'])    
        
     #ADD: racename
     df['racename'] = racename
     
     #ADD: tp_name
-    df['tp_name'] = testname
+    #df['tp_name'] = testname
     
     #ADD: non existing columns
-    NullTableColumns = [u'id', u'nr', u'time1', u'time2', u'time3', u'time4', u'time5', u'points1', u'points2', u'points3', u'points4', u'points5', u'un1', u'us1', u'tp_name', u'racename']
+    NullTableColumns = [u'id', u'nr', u'time1', u'time2', u'time3', u'time4', u'time5', u'points1', u'points2', u'points3', u'points4', u'points5', u'un1', u'un2', u'un3', u'us1', u'tp_name', u'racename']
     for column in NullTableColumns:        
         if column not in df.columns:
             #print "ADDING COLUMN: ", column

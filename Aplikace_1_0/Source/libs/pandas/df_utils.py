@@ -67,21 +67,22 @@ ExportToCsvFile
 """
 def WriteToCsvFile(filename, df, firstline = ['',''], secondline = ['','']):
     length = len(df.columns)
-    
+    header = True    
     if(length != 0):                   
         
         if (secondline == None):
-            if (firstline != None):
+            if (firstline == None):
+                header = False
+            else:
                 firstline =  [firstline[0],] + ((length-2) * ['',]) + [firstline[1],]                                                                       
-                pd.DataFrame([firstline]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
-        else:
+                pd.DataFrame([firstline]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")                                        
+        else:            
             firstline =  [firstline[0],] + ((length-2) * ['',]) + [firstline[1],]
             secondline = [secondline[0],]+ ((length-2) * ['',]) + [secondline[1],]                                                                      
             pd.DataFrame([firstline, secondline]).to_csv(filename, ";", index = False, header = None, encoding = "utf8")
         
-        df.to_csv(filename, ";", mode="a", index = False, encoding = "utf8", float_format = "%g", decimal = ',')                
-    
-    
+        df.to_csv(filename, ";", mode="a", index = False, header = header, encoding = "utf8", float_format = "%g", decimal = ',')                
+        
     
 '''
  
