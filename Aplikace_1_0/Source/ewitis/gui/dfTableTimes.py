@@ -588,7 +588,7 @@ class DfTableTimes(DfTable):
         else:
             #print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
             self.auto_www_refresh_cnt = autorefresh
-            ret = self.sExportDirect(self.eHTM_EXPORT)
+            ret = self.sExportDirect(ttExport.eHTM_EXPORT)
                        
         #decrement the timer
         if(self.auto_timer_cnt > 0):
