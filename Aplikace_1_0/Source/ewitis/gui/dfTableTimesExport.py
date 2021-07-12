@@ -294,6 +294,7 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
             
             for c_name, c_df in category_groupby:
                 
+                print "Export:category:", c_name
                 #ADD: order for DNS
                 c_df = AddOrderToMissingUsers(c_df)                
                 if(len(c_df) != 0):
@@ -310,17 +311,17 @@ def ExportToCsvFiles(dfs, dirname, export_type = eCSV_EXPORT):
                     c_df = c_df[columns]                    
                                         
                     #CALL: ExportToCsvFile()
-                    header["categoryname"] = header["categoryname"].replace("%category%", c_name)
-                    filename = utils.get_filename("e"+str(i+1)+"_c_"+header["categoryname"])
+                    header_categoryname = header["categoryname"].replace("%category%", c_name)
+                    filename = utils.get_filename("e"+str(i+1)+"_c_"+header_categoryname)
                                         
                     #EXPORT: prepare header, format and export
                     if(export_type == eCSV_EXPORT) or (export_type == eCSV_EXPORT_DNS):
-                        secondline = [header["categoryname"], header["description"].replace("%description%", category["description"])]
+                        secondline = [header_categoryname, header["description"].replace("%description%", category["description"])]
                     elif(export_type == eCSV_EXPORT_DB) or (export_type == eCSV_EXPORT_DNS_DB):
                         #ADD: racename
                         c_df['racename'] = header["racename"]
                         #ADD: tp name
-                        c_df['tp_name'] = header["categoryname"]
+                        c_df['tp_name'] = header_categoryname
                         #ADD: nulls
                         c_df = FormatAsNullsTable(c_df)                        
                         #no csv header

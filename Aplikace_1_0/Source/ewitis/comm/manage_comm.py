@@ -719,9 +719,12 @@ class ManageComm(Thread):
             ds_racesettings = dstore.Get("racesettings-app")
             if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
                 auto_number = ds_times["auto_number"][0]
-                if(auto_number != 0) and (time['user_id'] == 0) and (dstore.GetItem("racesettings-app", ['rfid']) == 0):
+                print "NAHRAZUJI", time['user_id']
+                if(auto_number != 0) and (time['user_id'] == 0):
+                    print "NAHRAZUJI", time['user_id']
                     dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
                     if dbUser != None:
+                        print "NAHRAZUJI", time['user_id'], dbUser['id']
                         time['user_id'] = dbUser['id']
             
              

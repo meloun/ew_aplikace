@@ -563,7 +563,7 @@
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
-                    "type": "categories"
+                    "type": "total"
                 },
                 {
                     "filter": "all times with time1",
@@ -847,16 +847,16 @@
                 "auto_cell_address": 0,
                 "auto_cell_index": 0,
                 "auto_number": [
-                    33,
+                    0,
                     0,
                     0,
                     0
                 ],
                 "auto_number_enable": 2,
-                "auto_number_logic": false,
+                "auto_number_logic": true,
                 "auto_refresh": 0,
                 "auto_timer": 0,
-                "auto_www_refresh": 0,
+                "auto_www_refresh": 1,
                 "highlight_enable": 0
             }
         },
