@@ -628,8 +628,9 @@ class DfTableTimes(DfTable):
             self.auto_timer_cnt = dstore.GetItem("times", ["auto_timer"])
         
         #auto numbers
-        ds_times = dstore.Get("times")
-        if(ds_times["auto_number_enable"] and ds_times["auto_number_logic"]):
+        #ds_times = dstore.Get("times")
+        an_mode = dstore.Get("racesettings-app")["autonumbers"] ["mode"]        
+        if(an_mode == AutonumbersMode.SIMPLE) or (an_mode == AutonumbersMode.LOGIC):
             updates = ttAutonumbers.Update(self.model.GetDataframe(), new_time)
             #print "00: Update_AutoNumbers: ", updates, time.clock()                
             #self.model.Update()
@@ -660,6 +661,7 @@ class DfTableTimes(DfTable):
         ttDf = self.model.GetDataframe()        
         if 'nr' in ttDf.columns:
             ttDf = ttDf.groupby("nr", as_index = False).last()
+            ttDf = ttDf.sort_values(by="timeraw")
             self.dfActiveNrs = ttDf[(ttDf.cell!=250) & (ttDf.status.str.match('race'))]                        
         
                           

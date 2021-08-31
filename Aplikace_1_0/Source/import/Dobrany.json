@@ -1,0 +1,865 @@
+{
+    "development": {
+        "GET_SET": {
+            "value": {
+                "disabled_cyclic_commands": false
+            }
+        },
+        "permanent": true
+    },
+    "export_header": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "headertext": "čas exportu: %time%",
+                    "racename": "%race%",
+                    "categoryname": "%category%",
+                    "description": "Kvalifikace"
+                },
+                {
+                    "headertext": "čas exportu: %time%",
+                    "racename": "%race%",
+                    "categoryname": "%category%",
+                    "description": "%description%"
+                },
+                {
+                    "headertext": "čas exportu: %time%",
+                    "racename": "%race%",
+                    "categoryname": "%category%",
+                    "description": "pouze pro celkove"
+                }
+            ]
+        },
+        "permanent": true
+    },
+    "export_www": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "transpose": 0,
+                    "lasttimes": 0,
+                    "css_filename": "css/results.css",
+                    "js_filename": "",
+                    "firsttimes": 0
+                },
+                {
+                    "transpose": 0,
+                    "lasttimes": 0,
+                    "css_filename": "css/results.css",
+                    "js_filename": "",
+                    "firsttimes": 0
+                },
+                {
+                    "transpose": 0,
+                    "lasttimes": 0,
+                    "css_filename": "css/results.css",
+                    "js_filename": "",
+                    "firsttimes": 0
+                }
+            ]
+        },
+        "permanent": true
+    },
+    "export_sms": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "forward": [
+                    {
+                        "user_nr": 1,
+                        "phone_nr": "737963352",
+                        "desc": "Bába"
+                    },
+                    {
+                        "user_nr": 0,
+                        "phone_nr": "",
+                        "desc": ""
+                    },
+                    {
+                        "user_nr": 0,
+                        "phone_nr": "",
+                        "desc": ""
+                    },
+                    {
+                        "user_nr": 0,
+                        "phone_nr": "",
+                        "desc": ""
+                    }
+                ],
+                "text": [
+                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI TP01 – %time1%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
+                    "text sms zprávy",
+                    "text sms zprávy"
+                ],
+                "phone_column": [
+                    "o3",
+                    "o4"
+                ]
+            }
+        },
+        "permanent": true
+    },
+    "export_filtersort": {
+        "GET_SET": {
+            "changed": true,
+            "value": [
+                {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
+                    "filter": "all times with order1",
+                    "onerow": 0,
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "type": "total"
+                },
+                {
+                    "sortorder2": "asc",
+                    "sortorder1": "desc",
+                    "filter": "all times with time1",
+                    "onerow": 0,
+                    "sort1": "timeraw",
+                    "sort2": "- - -",
+                    "type": "total"
+                },
+                {
+                    "sortorder2": "asc",
+                    "sortorder1": "asc",
+                    "filter": "last times with time1",
+                    "onerow": 0,
+                    "sort1": "order1",
+                    "sort2": "- - -",
+                    "type": "categories"
+                }
+            ]
+        },
+        "permanent": true
+    },
+    "profilemaker-keywords": {
+        "GET_SET": {
+            "value": [
+                {
+                    "value": "Skoda Training",
+                    "description": "description",
+                    "keyword": "JmenoZavodu"
+                },
+                {
+                    "value": "TP01",
+                    "description": "description",
+                    "keyword": "TestPresnosti"
+                },
+                {
+                    "value": "---",
+                    "description": "description",
+                    "keyword": "TestJmeno"
+                },
+                {
+                    "value": "S-C",
+                    "description": "description",
+                    "keyword": "TestCharakter"
+                },
+                {
+                    "value": "80m / 16s",
+                    "description": "description",
+                    "keyword": "TestCasy"
+                },
+                {
+                    "value": "---",
+                    "description": "description",
+                    "keyword": "TestMisto"
+                },
+                {
+                    "value": "NE",
+                    "description": "description",
+                    "keyword": "KdeJeHadice"
+                },
+                {
+                    "value": "00:00:16,00",
+                    "description": "description",
+                    "keyword": "CasUseku"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                },
+                {
+                    "value": "value",
+                    "description": "description",
+                    "keyword": "keyword"
+                }
+            ]
+        },
+        "permanent": true
+    },
+    "export_laps": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "column": 0
+            }
+        },
+        "permanent": true,
+        "name": "export_laps"
+    },
+    "racesettings-app": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "profile": "D:/Elektronika/EWITIS/app/v3_28b_ProTour_Dobrany/conf/Dobrany.json",
+                "autocell": {
+                    "nr_cells": 4
+                },
+                "remote": 0,
+                "race_name": "4x ProTour Dobřany 2021",
+                "autonumbers": {
+                    "nr_users": 4,
+                    "cells": [
+                        1,
+                        250,
+                        250,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "nr_cells": 2
+                },
+                "test_name": "Kvalifikace",
+                "profile_desc": "",
+                "evaluation": {
+                    "finishtime": {
+                        "laps": 0,
+                        "time": "00:00:00,00"
+                    },
+                    "starttime": 1
+                }
+            }
+        },
+        "permanent": true,
+        "name": "race settings"
+    },
+    "times": {
+        "GET_SET": {
+            "value": {
+                "auto_number_logic": true,
+                "auto_cell_index": 0,
+                "auto_cell": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "auto_number": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "auto_refresh": 0,
+                "highlight_enable": 0,
+                "auto_cell_address": 0,
+                "auto_timer": 0,
+                "auto_number_enable": 2,
+                "auto_www_refresh": 1
+            }
+        },
+        "permanent": true
+    },
+    "export": {
+        "GET_SET": {
+            "value": {
+                "enabled_htm": [
+                    false,
+                    true,
+                    false
+                ],
+                "checked": [
+                    {
+                        "sex": 0,
+                        "year": 0,
+                        "category": 2,
+                        "time1": 2,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
+                        "status": 0,
+                        "un1": 0,
+                        "club": 2,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 2,
+                        "ordercat1": 0,
+                        "name": 2,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    },
+                    {
+                        "sex": 0,
+                        "year": 0,
+                        "category": 2,
+                        "time1": 2,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
+                        "status": 0,
+                        "un1": 0,
+                        "club": 2,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 0,
+                        "ordercat1": 0,
+                        "name": 2,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    },
+                    {
+                        "sex": 0,
+                        "year": 0,
+                        "category": 0,
+                        "time1": 0,
+                        "un2": 0,
+                        "un3": 0,
+                        "time4": 0,
+                        "points1": 2,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "nr": 2,
+                        "o4": 0,
+                        "o3": 0,
+                        "o2": 0,
+                        "o1": 0,
+                        "status": 0,
+                        "un1": 2,
+                        "club": 0,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "order1": 0,
+                        "ordercat1": 0,
+                        "name": 0,
+                        "ordercat3": 0,
+                        "ordercat2": 0,
+                        "lap1": 0,
+                        "lap3": 0,
+                        "lap2": 0,
+                        "lap4": 0,
+                        "us1": 0
+                    }
+                ],
+                "enabled_csv": [
+                    true,
+                    false,
+                    false
+                ],
+                "sorted": [
+                    {
+                        "sex": 12,
+                        "year": 12,
+                        "category": 9,
+                        "time1": 21,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 35,
+                        "time2": 23,
+                        "time3": 25,
+                        "nr": 4,
+                        "o4": 16,
+                        "o3": 15,
+                        "o2": 10,
+                        "o1": 9,
+                        "status": 38,
+                        "un1": 34,
+                        "club": 11,
+                        "gap1": 17,
+                        "gap2": 18,
+                        "gap3": 19,
+                        "gap4": 20,
+                        "order2": 2,
+                        "order3": 3,
+                        "order1": 1,
+                        "ordercat1": 5,
+                        "name": 8,
+                        "ordercat3": 7,
+                        "ordercat2": 6,
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
+                    },
+                    {
+                        "sex": 12,
+                        "year": 10,
+                        "category": 9,
+                        "time1": 21,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 33,
+                        "time2": 23,
+                        "time3": 25,
+                        "nr": 4,
+                        "o4": 16,
+                        "o3": 15,
+                        "o2": 14,
+                        "o1": 13,
+                        "status": 38,
+                        "un1": 34,
+                        "club": 11,
+                        "gap1": 17,
+                        "gap2": 18,
+                        "gap3": 19,
+                        "gap4": 20,
+                        "order2": 2,
+                        "order3": 3,
+                        "order1": 1,
+                        "ordercat1": 5,
+                        "name": 8,
+                        "ordercat3": 7,
+                        "ordercat2": 6,
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
+                    },
+                    {
+                        "sex": 12,
+                        "year": 10,
+                        "category": 9,
+                        "time1": 21,
+                        "un2": 35,
+                        "un3": 36,
+                        "time4": 27,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 31,
+                        "points4": 32,
+                        "points5": 33,
+                        "time2": 23,
+                        "time3": 25,
+                        "nr": 4,
+                        "o4": 16,
+                        "o3": 15,
+                        "o2": 14,
+                        "o1": 13,
+                        "status": 38,
+                        "un1": 34,
+                        "club": 11,
+                        "gap1": 17,
+                        "gap2": 18,
+                        "gap3": 19,
+                        "gap4": 20,
+                        "order2": 2,
+                        "order3": 3,
+                        "order1": 1,
+                        "ordercat1": 5,
+                        "name": 8,
+                        "ordercat3": 7,
+                        "ordercat2": 6,
+                        "lap1": 22,
+                        "lap3": 26,
+                        "lap2": 24,
+                        "lap4": 28,
+                        "us1": 37
+                    }
+                ],
+                "enabled_sms": [
+                    false,
+                    false,
+                    false
+                ],
+                "names": [
+                    {
+                        "sex": "",
+                        "year": "RV",
+                        "category": "Kategorie",
+                        "time1": "Čas",
+                        "un2": "",
+                        "un3": "",
+                        "time4": "",
+                        "points1": "",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
+                        "points5": "Body celkem",
+                        "time2": "",
+                        "time3": "",
+                        "nr": "Číslo",
+                        "o4": "",
+                        "o3": "",
+                        "o2": "Vozidlo",
+                        "o1": "Nár.",
+                        "status": "Status",
+                        "un1": "Penalizace",
+                        "club": "Klub",
+                        "gap1": "",
+                        "gap2": "",
+                        "gap3": "",
+                        "gap4": "",
+                        "order2": "",
+                        "order3": "",
+                        "order1": "Pořadí",
+                        "ordercat1": "",
+                        "name": "Jméno",
+                        "ordercat3": "",
+                        "ordercat2": "",
+                        "lap1": "",
+                        "lap3": "",
+                        "lap2": "",
+                        "lap4": "",
+                        "us1": ""
+                    },
+                    {
+                        "sex": "",
+                        "year": "",
+                        "category": "",
+                        "time1": "",
+                        "un2": "",
+                        "un3": "",
+                        "time4": "",
+                        "points1": "",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
+                        "points5": "",
+                        "time2": "",
+                        "time3": "",
+                        "nr": "",
+                        "o4": "",
+                        "o3": "",
+                        "o2": "",
+                        "o1": "",
+                        "status": "Status",
+                        "un1": "",
+                        "club": "",
+                        "gap1": "",
+                        "gap2": "",
+                        "gap3": "",
+                        "gap4": "",
+                        "order2": "",
+                        "order3": "",
+                        "order1": "",
+                        "ordercat1": "",
+                        "name": "",
+                        "ordercat3": "",
+                        "ordercat2": "",
+                        "lap1": "",
+                        "lap3": "",
+                        "lap2": "",
+                        "lap4": "",
+                        "us1": ""
+                    },
+                    {
+                        "sex": "",
+                        "year": "",
+                        "category": "",
+                        "time1": "",
+                        "un2": "",
+                        "un3": "",
+                        "time4": "",
+                        "points1": "Body",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
+                        "points5": "",
+                        "time2": "",
+                        "time3": "",
+                        "nr": "Číslo",
+                        "o4": "",
+                        "o3": "",
+                        "o2": "",
+                        "o1": "",
+                        "status": "Status",
+                        "un1": "Penalizace",
+                        "club": "",
+                        "gap1": "",
+                        "gap2": "",
+                        "gap3": "",
+                        "gap4": "",
+                        "order2": "",
+                        "order3": "",
+                        "order1": "",
+                        "ordercat1": "",
+                        "name": "",
+                        "ordercat3": "",
+                        "ordercat2": "",
+                        "lap1": "",
+                        "lap3": "",
+                        "lap2": "",
+                        "lap4": "",
+                        "us1": ""
+                    }
+                ]
+            }
+        },
+        "permanent": true,
+        "name": "export"
+    },
+    "additional_info": {
+        "GET_SET": {
+            "value": {
+                "status": {
+                    "checked": 0
+                },
+                "us": [
+                    {
+                        "checked": 0,
+                        "description": "důvody penalizací"
+                    }
+                ],
+                "un": [
+                    {
+                        "checked": 0,
+                        "description": "penalizace"
+                    },
+                    {
+                        "checked": 0,
+                        "description": ""
+                    },
+                    {
+                        "checked": 0,
+                        "description": ""
+                    }
+                ],
+                "time": [
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 2,
+                        "description": "čas",
+                        "rule": "time - starttime"
+                    },
+                    {
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "time - celltime2"
+                    },
+                    {
+                        "filter": "cell=2|3|250",
+                        "minute_timeformat": 2,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "time - starttime"
+                    },
+                    {
+                        "filter": "cell=2|3|250",
+                        "minute_timeformat": 2,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "time - starttime"
+                    }
+                ],
+                "lap": [
+                    {
+                        "filter": "",
+                        "fromlaststart": 0,
+                        "checked": 2,
+                        "description": ""
+                    },
+                    {
+                        "filter": "",
+                        "fromlaststart": 0,
+                        "checked": 0,
+                        "description": ""
+                    },
+                    {
+                        "filter": "",
+                        "fromlaststart": 0,
+                        "checked": 0,
+                        "description": ""
+                    },
+                    {
+                        "filter": "",
+                        "fromlaststart": 0,
+                        "checked": 0,
+                        "description": ""
+                    }
+                ],
+                "order": [
+                    {
+                        "checked": 2,
+                        "description": "pořadí podle bodů",
+                        "row": "Best times1",
+                        "order2": "Asc",
+                        "type": "Category",
+                        "column2": " - - -",
+                        "column1": "Time1",
+                        "order1": "Asc"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "column2": " - - -",
+                        "column1": "Time1",
+                        "order1": "Asc"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "row": "Last times",
+                        "order2": "Asc",
+                        "type": "Total",
+                        "column2": " - - -",
+                        "column1": "Time1",
+                        "order1": "Asc"
+                    }
+                ],
+                "points": [
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "description": "časové trestné body",
+                        "rule": "abs(time1 - %00:00:16,00%)",
+                        "maximum": 9999
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "abs(time1 - %00:01:30,00%)",
+                        "maximum": 9999
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "abs(time1 - %00:01:30,00%)",
+                        "maximum": 9999
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "description": "",
+                        "rule": "abs(time1 - %00:01:30,00%)",
+                        "maximum": 9999
+                    },
+                    {
+                        "minimum": 0,
+                        "checked": 0,
+                        "description": "trestné body celkem",
+                        "rule": "points1 + un1",
+                        "maximum": 9999
+                    }
+                ]
+            }
+        },
+        "permanent": true,
+        "name": "additinal info"
+    }
+}

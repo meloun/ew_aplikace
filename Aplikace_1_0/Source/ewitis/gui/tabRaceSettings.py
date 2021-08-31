@@ -62,6 +62,7 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))                                                                                       
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "starttime"], state, self.Update))                                                                                                                                                                                        
         #middle group: auto-numbers
+        QtCore.QObject.connect(Ui().comboAutonumbersMode, QtCore.SIGNAL("activated(int)"),        lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "mode"], state, self.Update))
         QtCore.QObject.connect(Ui().spinAutonumbersNrOfUsers, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "nr_users"], state, self.Update))
         QtCore.QObject.connect(Ui().spinAutonumbersNrOfCells, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "nr_cells"], state, self.Update))
         for i in range(0, len(self.autonumbers_cell)):                                                                     
@@ -263,7 +264,9 @@ class TabRaceSettings():
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.GetItem("racesettings-app", ["evaluation", "starttime"]))                                                             
         
         #autonumbers
-        Ui().spinAutonumbersNrOfUsers.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"]))    
+        Ui().comboAutonumbersMode.setCurrentIndex(dstore.GetItem("racesettings-app", ["autonumbers", "mode"]))
+        Ui().spinAutonumbersNrOfUsers.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"]))
+        Ui().spinAutonumbersNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"]))    
         for i in range(0, len(self.autonumbers_cell)):                                                        
             self.autonumbers_cell[i].setValue(dstore.GetItem("racesettings-app", ["autonumbers", "cells", i]))
             if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"])):            
@@ -271,8 +274,8 @@ class TabRaceSettings():
             else:
                 self.autonumbers_cell[i].setEnabled(False)
         #autocell
-        Ui().spinAutocellNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autocell", "nr_cells"]))
-        print "TT", dstore.GetItem("racesettings-app", ["autocell", "nr_cells"])
+        Ui().spinAutocellNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autocell", "nr_cells"]))        
+        #print "TT", dstore.GetItem("racesettings-app", ["autocell", "nr_cells"])
                                 
         self.init = True
         return True

@@ -38,9 +38,23 @@ def sComboAutoCellAddress(index):
 def UpdateGui():
     times = dstore.Get("times")
     racesettings = dstore.Get("racesettings-app")
-    #if gui['auto_cell_address'].hasFocus() == False:
-    #    gui['auto_cell_address'].setCurrentIndex(times["auto_cell_address"])
-    for nr in range(NUMBER_OF.AUTO_CELL):                      
+    
+    ''' 1. update cell ADDRESS '''      
+    #value
+    if gui['auto_cell_address'].hasFocus() == False:
+        gui['auto_cell_address'].setCurrentIndex(times["auto_cell_address"])
+        
+    #enable/disable
+    if (racesettings["autocell"]["nr_cells"] != 0):       
+        gui['auto_cell_address'].setEnabled(True)
+    else:
+         
+        gui['auto_cell_address'].setEnabled(False)
+        
+        
+    ''' 2. update cell NUMBERs'''
+    for nr in range(NUMBER_OF.AUTO_CELL):                            
+         
         #value
         gui['auto_cell_'+str(nr+1)].setValue(times["auto_cell"][nr])
         
@@ -50,19 +64,13 @@ def UpdateGui():
         else:
             gui['auto_cell_'+str(nr+1)].setEnabled(False)            
                  
-        #stylesheets
+        #background
         if(nr == times["auto_cell_index"]) and (times["auto_cell_address"] != 0) and (racesettings["autocell"]["nr_cells"] != 0):
             gui['auto_cell_'+str(nr+1)].setStyleSheet("background:"+COLORS.green)
         else:
             gui['auto_cell_'+str(nr+1)].setStyleSheet("")
     
-    #enable/disable combobox address
-    if (racesettings["autocell"]["nr_cells"] != 0):       
-        gui['auto_cell_address'].setEnabled(True)
-    else:
-         
-        gui['auto_cell_address'].setEnabled(False)
-        
+
     #check
     #settings change and index is high
     if(times["auto_cell_index"] >= racesettings["autocell"]["nr_cells"]) and (racesettings["autocell"]["nr_cells"] != 0):

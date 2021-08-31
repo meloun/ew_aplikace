@@ -41,7 +41,9 @@ class Languages:
 class OrderEvaluation:
     RACE, SLALOM = range(0,2)    
 class StarttimeEvaluation:
-    VIA_CATEGORY, VIA_USER = range(0,2) 
+    VIA_CATEGORY, VIA_USER = range(0,2)
+class AutonumbersMode:
+    NONE, SINGLE, SIMPLE, LOGIC = range(0,4)  
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
 class ExportLapsFormat:
@@ -122,8 +124,6 @@ DEF_DATA = {
         #tab TIMES
         "times"                : {"permanent": True,
                                   "GET_SET"  : {"value": {
-                                                          "auto_number_enable": CheckboxValue.unchecked,
-                                                          "auto_number_logic": False,                                                          
                                                           "auto_number": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_cell_address": 0,
                                                           "auto_cell": [0]*NUMBER_OF.AUTO_NUMBER,
@@ -154,6 +154,7 @@ DEF_DATA = {
                                                                                 "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
                                                                               },
                                                         "autonumbers"  :      {
+                                                                                 "mode": AutonumbersMode.LOGIC,
                                                                                  "nr_users": 4,
                                                                                  "nr_cells": 2,
                                                                                  "cells": [1,250,0,0,0,0,0],
@@ -424,7 +425,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.28c - ProTourBugFix",
+                                                        "app": "v3.30a - SCT",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

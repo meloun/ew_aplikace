@@ -716,8 +716,8 @@ class ManageComm(Thread):
             '''auto number, no logic'''
             ''' -> insert number(id) directly to the structure '''
             ds_times = dstore.Get("times")
-            ds_racesettings = dstore.Get("racesettings-app")
-            if(ds_times["auto_number_enable"] and (ds_times["auto_number_logic"] == False)):
+            ds_racesettings = dstore.Get("racesettings-app")                       
+            if(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SINGLE):
                 auto_number = ds_times["auto_number"][0]
                 print "NAHRAZUJI", time['user_id']
                 if(auto_number != 0) and (time['user_id'] == 0):
@@ -740,19 +740,34 @@ class ManageComm(Thread):
                 else:
                     ds_times["auto_cell_index"] = 0        
                 
+            #us1
+            time['us1'] = ""
+            
             '''hack for car sprint'''
-    #         time['un1'] = time['cell']                    
-    #         if (time['cell'] == 2) or (time['cell']== 3):
-    #             time['cell'] = 1
-    #         elif (time['cell'] == 4) or (time['cell'] == 5):
-    #             time['cell'] = 250                                
+            HACK_SPRINT = False
+            if HACK_SPRINT:                    
+                time['un1'] = time['cell']
+                #replace the us1
+                if (time['cell'] == 2) or (time['cell']== 4):
+                    time["us1"] = "A"
+                if (time['cell'] == 3) or (time['cell']== 5):
+                    time["us1"] = "B"                      
+                #replace the cell 
+                if (time['cell'] == 2) or (time['cell']== 3):                    
+                    time['cell'] = 1
+                elif (time['cell'] == 4) or (time['cell'] == 5):
+                    time['cell'] = 250
+                                            
                                             
             '''save to database'''        
             keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
-            values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], ""] #, time['time']]        
+            values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], time['us1']] #, time['time']]        
             '''hack for car sprint'''
-            #keys.append("un1")
-            #values.append(time["un1"])        
+            if HACK_SPRINT:                  
+                keys.append("un1")
+                values.append(time["un1"])
+
+                     
             ret = self.db.insert_from_lists("times", keys, values)
         else:
             ret = False
