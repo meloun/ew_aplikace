@@ -920,6 +920,9 @@ class ManageCalcProcess():
         #end of PREV
         
         #NEXT
+        '''
+        zakomentovano, 
+        kvuli formulim se pri zmene cisla mazou jen budouci casy
         if "next" in rule:                       
             # nextYtimeX        
             for next_i in range(1, 5):
@@ -955,6 +958,7 @@ class ManageCalcProcess():
                     print "type error nexttime"         
                     return None
         #end of NEXT
+        '''
                 
         # STARTTIME    
         #user without number => no time

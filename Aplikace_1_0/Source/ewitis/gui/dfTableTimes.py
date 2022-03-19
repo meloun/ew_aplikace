@@ -155,24 +155,32 @@ class DfModelTimes(DataframeTableModel):
     
        
     def setDataFromDict(self, mydict):
-        print "setDataFromDict()", mydict, self.name
-                        
-        #dict => df
-        dfChange = pd.DataFrame([mydict])
-        dfChange.set_index(dfChange.id, inplace=True)                   
-                       
-        #take row before change (from global df)
-        dfChangedRow = self.df.loc[dfChange.id]
-        #take user before change                                                        
-        old_user = tableUsers.model.getUserParNr(int(dfChangedRow['nr']))
-               
-        #update row before change with change                 
-        dfChangedRow.update(dfChange)        
         
-        #category changed        
-        if "nr" in mydict:            
-                                                                        
-            user_id = self.checkChangedNumber(dfChangedRow.iloc[0])                                                                                            
+        #mydict: {'nr': 62, 'id': 57} 
+        
+        #print "setDataFromDict()", mydict, self.name
+              
+        #take row before change (from global df)
+        dfChangedRow = self.df.loc[[mydict['id']]]
+        
+        #take user before change                                                        
+        userBeforeChange = tableUsers.model.getUserParNr(int(dfChangedRow['nr']))
+               
+        #update row  with change
+        dfChangedRow.update(pd.DataFrame([mydict], index = [mydict['id']]))
+        srsChangedRow = dfChangedRow.iloc[0].copy()
+        
+        #get the time_raw
+        try:
+            dbTimeraw = TimesUtils.TimesUtils.timestring2time(srsChangedRow['timeraw'])
+        except TimesUtils.TimeFormat_Error:
+            uiAccesories.showMessage(self.name+" Update error", "Wrong Time format!")
+            return False
+        
+        
+        #nr changed        
+        if "nr" in mydict:                                                               
+            user_id = self.checkChangedNumber(srsChangedRow)                                                                                   
             if user_id == None: #dialog inside checkChangedNumber()
                 return False
             
@@ -181,28 +189,22 @@ class DfModelTimes(DataframeTableModel):
             if mydict["nr"] < 0:                       
                 mydict["us1"] = "Civil #"+str(abs(mydict["nr"]))
             del mydict["nr"]                            
-                                         
+        
+        #cell changed                                 
         elif "cell" in mydict:                                                                      
             pass
                       
-        # TIMERAW column
-        elif "timeraw" in mydict:   
-                              
-            try:
-                dbTimeraw = TimesUtils.TimesUtils.timestring2time(mydict['timeraw'])
-            except TimesUtils.TimeFormat_Error:
-                uiAccesories.showMessage(self.name+" Update error", "Wrong Time format!")
-                return False
+        #timeraw changed
+        elif "timeraw" in mydict:
             
             #adjust dict for writing to db
             mydict["time_raw"] = dbTimeraw
             del mydict["timeraw"]            
 
             #change the state (C -> manually Changed)            
-            state = str(dfChangedRow.iloc[0]['state'])         
+            state = str(srsChangedRow['state'])         
             mydict["state"] = "C" + state[1:]            
             
-
         elif "un1" in mydict:
             pass 
         elif "un2" in mydict:
@@ -217,8 +219,10 @@ class DfModelTimes(DataframeTableModel):
                                     
         # add changed row to "changed_rows"
         # keep as dataframe otherwise float issues for "nr" and "cell"
-        cleared = self.ClearCalculated(dfChangedRow.iloc[0].copy())                                                                                
+        cleared = self.ClearCalculated(srsChangedRow)  
+        #print "BEFORE: ", self.changed_rows                                                                         
         self.changed_rows = self.changed_rows.append(cleared)
+        #print "AFTER: ", self.changed_rows 
         try:
             self.changed_rows["nr"] = int(self.changed_rows["nr"])                           
             self.changed_rows["cell"] = int(self.changed_rows["cell"])                           
@@ -232,16 +236,16 @@ class DfModelTimes(DataframeTableModel):
         #user changed => reset all times for new user
         if mydict and ("user_id" in mydict):
             #print "mazu vsechny1", mydict["user_id"]
-            self.ResetCalculatedValuesForUser(mydict["user_id"])        
+            self.ResetCalculatedValuesForUser(mydict["user_id"], dbTimeraw)
 
         #reset 1 time
         elif mydict and ("id" in mydict):
             #print "mazu neco", mydict["id"]
             self.ResetCalculatedValues(mydict["id"])
         
-        if old_user and ("id" in old_user):
-            print "mazu vsechny2", old_user["id"]
-            self.ResetCalculatedValuesForUser(old_user["id"])
+        if userBeforeChange and ("id" in userBeforeChange):
+            #print "mazu vsechny2", userBeforeChange["id"]
+            self.ResetCalculatedValuesForUser(userBeforeChange["id"], dbTimeraw)
                 
         #self.ResetNrOfLaps()  
         eventCalcNow.set()
@@ -273,7 +277,7 @@ class DfModelTimes(DataframeTableModel):
         '''- kontrola uživatele, categorie, tagu                                
            - vrací user_id!!
         '''
-        #print "checkChangedNumber", tabRow
+        #print "checkChangedNumber", tabRow, type(tabRow["nr"])
                                                                                                                                                                                                                                                    
         if(tabRow["nr"] == 0):
             user_id = 0
@@ -315,11 +319,12 @@ class DfModelTimes(DataframeTableModel):
         db.commit()                                                              
         return res
     
-    def ResetCalculatedValuesForUser(self, user_id):
+    def ResetCalculatedValuesForUser(self, user_id, time_raw):
         query = \
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
-                    " WHERE (times.user_id = \""+str(user_id)+"\")"
+                    " WHERE (times.user_id = \""+str(user_id)+"\") AND (times.time_raw >= " + str(time_raw) + ")"
+        print query
         res = db.query(query) 
         db.commit()
         return res
