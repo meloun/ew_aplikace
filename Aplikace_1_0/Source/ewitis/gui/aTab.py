@@ -30,9 +30,7 @@ class MyTab():
         for table in self.tables:
             ret1 = table.UpdateGui()
             if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.tables):
-                ret1 = table.Update()                            
-                            
-                                                
+                ret1 = table.Update()
 
         #update gui                
         if(mode == UPDATE_MODE.all) or (mode == UPDATE_MODE.gui):

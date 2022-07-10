@@ -7,6 +7,7 @@ from ewitis.gui.aTab import MyTab
 from libs.myqt.DataframeTableModel import DataframeTableModel, ModelUtils 
 
 from ewitis.gui.dfTable import DfTable
+from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.dfTableUsers import tableUsers
 from ewitis.gui.dfTableCategories import tableCategories
 from ewitis.data.dstore import dstore
@@ -36,107 +37,91 @@ class DfModelRaceInfo(DataframeTableModel):
                             
 
                 
-    def getDefaultTableRow(self): 
-        category = DataframeTableModel.getDefaultTableRow(self)                
-        category['name'] = "unknown"        
-        return category 
-        
-    
-    
+    def getDefaultTableRow(self):        
+        row = pd.Series()
+        row["id"] = 0
+        row["name"] = "NOTDEF"
+        row["cell#1"] = "-"
+        row["cell#2"] = "-"
+        row["cell#3"] = "-"
+        row["cell#4"] = "-"
+        row["cell#5"] = "-"
+        row["cell#250"] = "-"        
+        return row    
     
     #virtual function to override
     def GetDataframe(self):
         row_id = 1
-        rows = []
+        rows = pd.DataFrame()
         
+        #check if df is alread available        
+        if tableTimes.model.df.empty:
+            return pd.DataFrame()  
         
-        row = {}
+        '''ADD TOTAL'''
+        #group by cell and get size
+        serTimesByCell_size = tableTimes.model.df.groupby("cell", as_index=False).size()
+                 
+        #create new row               
+        row = self.getDefaultTableRow()
         row["id"] = row_id
-        row["name"] = "Run id:" #+ str(run_id)
-        row["startlist"] = 0 #tableUsers.getCount()  
-        row["dns"] = 0#tableUsers.getCount("dns")          
-        row["finished"] = 0#tableUsers.getCount("finished")
-        row["dq"] = 0#tableUsers.getCount("dq")  
-        row["dnf"] = 0#tableUsers.getCount("dnf")
-        row["race"] = 0#tableUsers.getCount("race") 
+        row["name"] = "Total"        
+        for (k,v) in serTimesByCell_size.iteritems():
+                key = "cell#"+str(k)
+                row[key] = v            
         
+        #append new row
+        rows = rows.append(row, ignore_index=True)
+        row_id =  row_id + 1
+            
         
-        if row["startlist"] ==  row["dns"] + row["finished"] + row["dq"] + row["dnf"] + row["race"]:
-            row["check"] = "ok"
-        else:
-            row["check"] = "ko"        
-             
-        rows.append(row)
-        row_id =  row_id + 1        
-         
-        #categories
-        dbCategories = tableCategories.getDbRows()                      
-        for dbCategory in dbCategories:                                                                                            
-             
-            #row = self.db2tableRow(row)
-            row = {}
+        '''ADD CATEGORIES'''
+        #group by category and get size
+        gbTimesByCategory = tableTimes.model.df.groupby("category")        
+        for category, dfTimesInCategory in gbTimesByCategory: 
+            serTimesForCategoryByCell_size = dfTimesInCategory.groupby("cell").size()        
+                                                                 
+            #create new row
+            row = self.getDefaultTableRow()
             row["id"] = row_id
-            row["name"] = dbCategory["name"]                        
-            row["startlist"] = 0# tableUsers.getCount(dbCategory = dbCategory)  
-            row["dns"] = 0# tableUsers.getCount("dns", dbCategory)              
-            row["finished"] = 0# tableUsers.getCount("finish", dbCategory)
-            row["dq"] = 0# tableUsers.getCount("dq", dbCategory)  
-            row["dnf"] = 0# tableUsers.getCount("dnf", dbCategory)              
-            row["race"] = 0# tableUsers.getCount("race", dbCategory)
-             
-            if row["startlist"] ==  row["dns"] + row["finished"] + row["dq"] + row["dnf"] + row["race"]:
-                row["check"] = "ok"
-            else:
-                row["check"] = "ko"                          
-                   
-            rows.append(row)
-            row_id =  row_id + 1                     
+            row["name"] = category
+            for (k,v) in serTimesForCategoryByCell_size.iteritems():
+                key = "cell#"+str(k)
+                row[key] = v
+                         
+            #add new row and increment id   
+            rows = rows.append(row, ignore_index=True)
+            row_id =  row_id + 1
         
-        
-        df = pd.DataFrame(rows)        
-        return df                    
+        df = pd.DataFrame(rows, columns=row.keys())
+        return df
     
 '''
 Proxy Model
 '''    
 class DfProxymodelRaceInfo(QtGui.QSortFilterProxyModel, ModelUtils):
-    def __init__(self, parent = None):        
+    def __init__(self, parent = None):
         QtGui.QSortFilterProxyModel.__init__(self, parent)
         
         #This property holds whether the proxy model is dynamically sorted and filtered whenever the contents of the source model change.       
         self.setDynamicSortFilter(True)
 
         #This property holds the column where the key used to filter the contents of the source model is read from.
-        #The default value is 0. If the value is -1, the keys will be read from all columns.                
+        #The default value is 0. If the value is -1, the keys will be read from all columns.
         self.setFilterKeyColumn(-1) 
         
 
 # view <- proxymodel <- model 
 class DfTableRaceInfo(DfTable):
-    def  __init__(self):                                                              
+    def  __init__(self):
         DfTable.__init__(self, "RaceInfo")
     def Init(self):        
         DfTable.Init(self)
         self.gui['view'].sortByColumn(0, QtCore.Qt.AscendingOrder)
         
-    #v modelu tahle funkce šahá do db, raceinfo nema tabulku v db        
+    #v modelu tahle funkce šahá do db, raceinfo nema tabulku v db
     def updateDbCounter(self):
         pass
     
 tableRaceInfo = DfTableRaceInfo()
-tabRaceInfo = MyTab(tables = [tableRaceInfo,])         
-                            
-
-
-        
-       
-
-
-        
-        
-            
-            
-
-        
-        
-    
+tabRaceInfo = MyTab(tables = [tableRaceInfo,])

@@ -119,28 +119,28 @@ class DfModelTimes(DataframeTableModel):
         '''pokud true, po uživatelské editaci focus na další řádek'''
         
         #number and cell
-        if(column == 1) or (column == 2):              
+        if(column == 1) or (column == 2):
             return True
         
         return False
     
     def getDefaultRow(self):
-        row = DataframeTableModel.getDefaultRow(self)     
+        row = DataframeTableModel.getDefaultRow(self)
         row["cell"] = 250
         return row
                      
-    def sModelChanged(self, index1, index2):                        
+    def sModelChanged(self, index1, index2):
         DataframeTableModel.sModelChanged(self, index1, index2)
         
-                                                            
+
     def GetDataframe(self):
         
-        df = mgr.GetDfs()["table"]        
+        df = mgr.GetDfs()["table"]
                 
-        if eventCalcReady.is_set() == False:        
+        if eventCalcReady.is_set() == False:
             for index, row in self.changed_rows.iterrows():
                 if index in df.index:
-                    df.loc[index] = row             
+                    df.loc[index] = row
         else:            
             self.changed_rows = pd.DataFrame()
 
@@ -178,13 +178,16 @@ class DfModelTimes(DataframeTableModel):
             return False
         
         
-        #nr changed        
-        if "nr" in mydict:                                                               
+        '''MODIFY THE CHANGED mydict FOR WRITNG TO DB'''               
+        #nr changed          
+        if "nr" in mydict:
+            
+            #check changed number                                                              
             user_id = self.checkChangedNumber(srsChangedRow)                                                                                   
             if user_id == None: #dialog inside checkChangedNumber()
                 return False
             
-            #adjust dict for writing to db
+            #add 'user_id', remove 'nr'
             mydict["user_id"] = user_id
             if mydict["nr"] < 0:                       
                 mydict["us1"] = "Civil #"+str(abs(mydict["nr"]))
@@ -217,12 +220,13 @@ class DfModelTimes(DataframeTableModel):
             uiAccesories.showMessage(self.name+" Update error", "Unexpecting change!")
             return False                                                                                         
                                     
-        # add changed row to "changed_rows"
-        # keep as dataframe otherwise float issues for "nr" and "cell"
-        cleared = self.ClearCalculated(srsChangedRow)  
+        # add changed row to "changed_rows"        
+        if not (("us1" in mydict) or ("un1" in mydict) or ("un2" in mydict) or ("un3" in mydict)):
+            srsChangedRow = self.ClearCalculated(srsChangedRow)
         #print "BEFORE: ", self.changed_rows                                                                         
-        self.changed_rows = self.changed_rows.append(cleared)
+        self.changed_rows = self.changed_rows.append(srsChangedRow)
         #print "AFTER: ", self.changed_rows 
+        
         try:
             self.changed_rows["nr"] = int(self.changed_rows["nr"])                           
             self.changed_rows["cell"] = int(self.changed_rows["cell"])                           
@@ -233,19 +237,26 @@ class DfModelTimes(DataframeTableModel):
         #update db from mydict            
         db.update_from_dict(self.name, mydict)
         
-        #user changed => reset all times for new user
-        if mydict and ("user_id" in mydict):
-            #print "mazu vsechny1", mydict["user_id"]
-            self.ResetCalculatedValuesForUser(mydict["user_id"], dbTimeraw)
+        '''RESET CALCULATED VALUES'''
+        #user changed => reset older times for user before and after change
+        if mydict and ("user_id" in mydict):                     
+            #reset older times for user after change            
+            self.ResetOlderCalculatedValuesForUser(mydict["user_id"], dbTimeraw)
+            #reset older times foŕ user before change
+            if userBeforeChange and ("id" in userBeforeChange):
+                self.ResetOlderCalculatedValuesForUser(userBeforeChange["id"], dbTimeraw)
 
-        #reset 1 time
-        elif mydict and ("id" in mydict):
-            #print "mazu neco", mydict["id"]
-            self.ResetCalculatedValues(mydict["id"])
+        #us1, un1-un3 changed => no action
+        elif mydict and (("us1" in mydict) or ("un1" in mydict) or ("un2" in mydict) or ("un3" in mydict)):                        
+            pass
         
-        if userBeforeChange and ("id" in userBeforeChange):
-            #print "mazu vsechny2", userBeforeChange["id"]
-            self.ResetCalculatedValuesForUser(userBeforeChange["id"], dbTimeraw)
+        #us1 changed => no action
+        elif mydict and ("us1" in mydict):                        
+            pass
+            
+        #any other change(cell, rawtime) => reset the time only
+        elif mydict and ("id" in mydict):                     
+            self.ResetAllCalculatedValuesForUser(userBeforeChange["id"])
                 
         #self.ResetNrOfLaps()  
         eventCalcNow.set()
@@ -310,7 +321,7 @@ class DfModelTimes(DataframeTableModel):
                                                                                                                                                                                                                                     
         return user_id
     
-    def ResetCalculatedValues(self, timeid):
+    def ResetCalculatedValuesForThisTime(self, timeid):
         query = \
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
@@ -319,16 +330,25 @@ class DfModelTimes(DataframeTableModel):
         db.commit()                                                              
         return res
     
-    def ResetCalculatedValuesForUser(self, user_id, time_raw):
+    def ResetOlderCalculatedValuesForUser(self, user_id, time_raw):
         query = \
                 " UPDATE times" +\
                     " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
                     " WHERE (times.user_id = \""+str(user_id)+"\") AND (times.time_raw >= " + str(time_raw) + ")"
-        print query
+        #print query
         res = db.query(query) 
         db.commit()
         return res
     
+    def ResetAllCalculatedValuesForUser(self, user_id):
+        query = \
+                " UPDATE times" +\
+                    " SET time1 = Null, lap1 = Null, time2 = Null, lap2 = Null, time3 = Null, lap3 = Null, time4 = Null, lap4 = Null" +\
+                    " WHERE (times.user_id = \""+str(user_id)+"\")"
+        #print query
+        res = db.query(query) 
+        db.commit()
+        return res
     def ResetNrOfLaps(self):
         query = \
                 " UPDATE times" +\

@@ -4,13 +4,13 @@
             "value": {
                 "lap": [
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "",
                         "fromlaststart": 0
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "",
                         "fromlaststart": 0
@@ -31,8 +31,8 @@
                 "order": [
                     {
                         "checked": 2,
-                        "column1": "Lap1",
-                        "column2": " - - -",
+                        "column1": "Points5",
+                        "column2": "Year",
                         "description": "pořadí podle bodů",
                         "order1": "Asc",
                         "order2": "Asc",
@@ -40,7 +40,7 @@
                         "type": "Total"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "column1": "Time1",
                         "column2": " - - -",
                         "description": "",
@@ -50,7 +50,7 @@
                         "type": "Total"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "column1": "Time1",
                         "column2": " - - -",
                         "description": "",
@@ -63,38 +63,38 @@
                 "points": [
                     {
                         "checked": 0,
-                        "description": "časové trestné body",
-                        "maximum": 9999,
+                        "description": "časové trestné body1",
+                        "maximum": 500,
                         "minimum": 0,
-                        "rule": "time1"
+                        "rule": "abs(time1 - %00:00:13,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "",
-                        "maximum": 9999,
+                        "description": "časové trestné body2",
+                        "maximum": 500,
                         "minimum": 0,
-                        "rule": "time2"
+                        "rule": "abs(time2 - %00:00:20,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "",
-                        "maximum": 9999,
+                        "description": "časové trestné body3",
+                        "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "rule": "abs(time3 - %00:00:10,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "",
-                        "maximum": 9999,
+                        "description": "časové trestné body4",
+                        "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "rule": "abs(time4 - %00:00:18,00%)"
                     },
                     {
                         "checked": 0,
                         "description": "trestné body celkem",
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "max(points1, 5)"
+                        "rule": "points1 + points2 + un1"
                     }
                 ],
                 "status": {
@@ -103,36 +103,36 @@
                 "time": [
                     {
                         "checked": 2,
-                        "description": "čas",
+                        "description": "čas1",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "celltime2 - celltime1"
+                    },
+                    {
+                        "checked": 2,
+                        "description": "čas2",
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "rule": "celltime3 - celltime1"
+                    },
+                    {
+                        "checked": 2,
+                        "description": "čas3",
+                        "filter": "cell=250",
+                        "minute_timeformat": 2,
+                        "rule": "celltime4 - celltime3"
                     },
                     {
                         "checked": 2,
                         "description": "",
-                        "filter": "cell=3",
+                        "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime2"
-                    },
-                    {
-                        "checked": 0,
-                        "description": "",
-                        "filter": "cell=2|3|250",
-                        "minute_timeformat": 2,
-                        "rule": "time - starttime"
-                    },
-                    {
-                        "checked": 0,
-                        "description": "",
-                        "filter": "cell=2|3|250",
-                        "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "time - celltime3"
                     }
                 ],
                 "un": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "penalizace"
                     },
                     {
@@ -146,7 +146,7 @@
                 ],
                 "us": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "důvody penalizací"
                     }
                 ]
@@ -168,46 +168,6 @@
             "value": {
                 "checked": [
                     {
-                        "category": 2,
-                        "club": 2,
-                        "gap1": 0,
-                        "gap2": 0,
-                        "gap3": 0,
-                        "gap4": 0,
-                        "lap1": 0,
-                        "lap2": 0,
-                        "lap3": 0,
-                        "lap4": 0,
-                        "name": 2,
-                        "nr": 2,
-                        "o1": 0,
-                        "o2": 0,
-                        "o3": 0,
-                        "o4": 0,
-                        "order1": 2,
-                        "order2": 0,
-                        "order3": 0,
-                        "ordercat1": 0,
-                        "ordercat2": 0,
-                        "ordercat3": 0,
-                        "points1": 0,
-                        "points2": 0,
-                        "points3": 0,
-                        "points4": 0,
-                        "points5": 0,
-                        "sex": 0,
-                        "status": 0,
-                        "time1": 2,
-                        "time2": 0,
-                        "time3": 0,
-                        "time4": 0,
-                        "un1": 0,
-                        "un2": 0,
-                        "un3": 0,
-                        "us1": 0,
-                        "year": 0
-                    },
-                    {
                         "category": 0,
                         "club": 0,
                         "gap1": 0,
@@ -225,6 +185,46 @@
                         "o3": 0,
                         "o4": 0,
                         "order1": 0,
+                        "order2": 0,
+                        "order3": 0,
+                        "ordercat1": 0,
+                        "ordercat2": 0,
+                        "ordercat3": 0,
+                        "points1": 0,
+                        "points2": 0,
+                        "points3": 0,
+                        "points4": 0,
+                        "points5": 0,
+                        "sex": 0,
+                        "status": 0,
+                        "time1": 0,
+                        "time2": 0,
+                        "time3": 0,
+                        "time4": 0,
+                        "un1": 0,
+                        "un2": 0,
+                        "un3": 0,
+                        "us1": 0,
+                        "year": 0
+                    },
+                    {
+                        "category": 2,
+                        "club": 2,
+                        "gap1": 0,
+                        "gap2": 0,
+                        "gap3": 0,
+                        "gap4": 0,
+                        "lap1": 0,
+                        "lap2": 0,
+                        "lap3": 0,
+                        "lap4": 0,
+                        "name": 2,
+                        "nr": 2,
+                        "o1": 0,
+                        "o2": 0,
+                        "o3": 0,
+                        "o4": 0,
+                        "order1": 2,
                         "order2": 0,
                         "order3": 0,
                         "ordercat1": 0,
@@ -295,7 +295,7 @@
                 ],
                 "enabled_htm": [
                     false,
-                    true,
+                    false,
                     false
                 ],
                 "enabled_sms": [
@@ -305,8 +305,8 @@
                 ],
                 "names": [
                     {
-                        "category": "Kategorie",
-                        "club": "Klub",
+                        "category": "",
+                        "club": "",
                         "gap1": "",
                         "gap2": "",
                         "gap3": "",
@@ -315,34 +315,34 @@
                         "lap2": "",
                         "lap3": "",
                         "lap4": "",
-                        "name": "Jméno",
+                        "name": "",
                         "nr": "Číslo",
-                        "o1": "Nár.",
-                        "o2": "Vozidlo",
+                        "o1": "",
+                        "o2": "",
                         "o3": "",
                         "o4": "",
-                        "order1": "Pořadí",
+                        "order1": "",
                         "order2": "",
                         "order3": "",
                         "ordercat1": "",
                         "ordercat2": "",
                         "ordercat3": "",
-                        "points1": "",
-                        "points2": "",
-                        "points3": "",
-                        "points4": "",
-                        "points5": "Body celkem",
+                        "points1": "Body 1",
+                        "points2": "Body 2",
+                        "points3": "Body 3",
+                        "points4": "Body 4",
+                        "points5": "",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Čas",
-                        "time2": "",
-                        "time3": "",
-                        "time4": "",
+                        "time1": "Čas1",
+                        "time2": "Čas2",
+                        "time3": "Čas3",
+                        "time4": "Čas4",
                         "un1": "Penalizace",
                         "un2": "",
                         "un3": "",
-                        "us1": "",
-                        "year": "RV"
+                        "us1": "Duvod",
+                        "year": ""
                     },
                     {
                         "category": "",
@@ -356,7 +356,7 @@
                         "lap3": "",
                         "lap4": "",
                         "name": "",
-                        "nr": "Nr.",
+                        "nr": "",
                         "o1": "",
                         "o2": "",
                         "o3": "",
@@ -374,7 +374,7 @@
                         "points5": "",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Time",
+                        "time1": "",
                         "time2": "",
                         "time3": "",
                         "time4": "",
@@ -396,7 +396,7 @@
                         "lap3": "",
                         "lap4": "",
                         "name": "",
-                        "nr": "Číslo",
+                        "nr": "",
                         "o1": "",
                         "o2": "",
                         "o3": "",
@@ -407,7 +407,7 @@
                         "ordercat1": "",
                         "ordercat2": "",
                         "ordercat3": "",
-                        "points1": "Body",
+                        "points1": "",
                         "points2": "",
                         "points3": "",
                         "points4": "",
@@ -418,7 +418,7 @@
                         "time2": "",
                         "time3": "",
                         "time4": "",
-                        "un1": "Penalizace",
+                        "un1": "",
                         "un2": "",
                         "un3": "",
                         "us1": "",
@@ -557,20 +557,20 @@
             "changed": true,
             "value": [
                 {
-                    "filter": "all times with time1",
+                    "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "order1",
+                    "sort1": "timeraw",
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
                     "type": "categories"
                 },
                 {
-                    "filter": "all times with time1",
+                    "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "timeraw",
+                    "sort1": "order1",
                     "sort2": "- - -",
-                    "sortorder1": "desc",
+                    "sortorder1": "asc",
                     "sortorder2": "asc",
                     "type": "total"
                 },
@@ -592,8 +592,8 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "%category%",
-                    "description": "Kvalifikace",
+                    "categoryname": "SP22",
+                    "description": "HOCHREITER BAD LEONFELDEN (100m / 30s, 150m / 20s, 80m / 10s, 140m / 18s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
@@ -605,7 +605,7 @@
                 },
                 {
                     "categoryname": "%category%",
-                    "description": "pouze pro celkove",
+                    "description": "%description%",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 }
@@ -654,7 +654,7 @@
                     "o4"
                 ],
                 "text": [
-                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI TP01 – %time1%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
+                    "text sms zprávy",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -675,7 +675,7 @@
                 },
                 {
                     "css_filename": "css/results.css",
-                    "firsttimes": 2,
+                    "firsttimes": 0,
                     "js_filename": "",
                     "lasttimes": 0,
                     "transpose": 0
@@ -697,57 +697,57 @@
                 {
                     "description": "description",
                     "keyword": "JmenoZavodu",
-                    "value": "Skoda Training"
+                    "value": "Mühlviertel CLASSIC 2022"
                 },
                 {
                     "description": "description",
                     "keyword": "TestPresnosti",
-                    "value": "TP01"
+                    "value": "SP22"
                 },
                 {
                     "description": "description",
                     "keyword": "TestJmeno",
-                    "value": "---"
+                    "value": "HOCHREITER BAD LEONFELDEN"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCharakter",
-                    "value": "S-C"
+                    "value": "S1,2-C1-C2,S3,S4-C3-C4"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCasy",
-                    "value": "80m / 16s"
+                    "value": "100m / 30s, 150m / 20s, 80m / 10s, 140m / 18s"
                 },
                 {
                     "description": "description",
                     "keyword": "TestMisto",
-                    "value": "---"
+                    "value": "ověřit sám"
                 },
                 {
                     "description": "description",
                     "keyword": "KdeJeHadice",
-                    "value": "NE"
+                    "value": "ověřit sám"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku",
-                    "value": "00:00:16,00"
+                    "keyword": "CasUseku1",
+                    "value": "00:00:30,00"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "CasUseku2",
+                    "value": "00:00:20,00"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "CasUseku3",
+                    "value": "00:00:10,00"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "CasUseku4",
+                    "value": "00:00:18,00"
                 },
                 {
                     "description": "description",
@@ -803,21 +803,21 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 4
+                    "nr_cells": 0
                 },
                 "autonumbers": {
                     "cells": [
                         1,
                         2,
                         3,
+                        4,
                         250,
-                        0,
                         0,
                         0
                     ],
                     "mode": 3,
-                    "nr_cells": 4,
-                    "nr_users": 4
+                    "nr_cells": 5,
+                    "nr_users": 2
                 },
                 "evaluation": {
                     "finishtime": {
@@ -826,11 +826,11 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/_exe/v3_29b_Sprint/imports/Sprint.json",
-                "profile_desc": "",
-                "race_name": "Sprint 400m",
+                "profile": "C:/EWITIS/v3_30a_MVC_SP22/imports/SP22_new.json",
+                "profile_desc": "Mühlviertel CLASSIC 2022\nSP22 - HOCHREITER BAD LEONFELDEN\nMísto: ověřit sám\n\nS1,2-C1-C2,S3,S4-C3-C4\n100m / 13s, 150m / 20s, 80m / 10s, 140m / 18s\nHadice - ověřit sám",
+                "race_name": "Mühlviertel CLASSIC 2022",
                 "remote": 0,
-                "test_name": "Sprint 400m"
+                "test_name": "SP22"
             }
         },
         "name": "race settings",
@@ -848,12 +848,14 @@
                 "auto_cell_address": 0,
                 "auto_cell_index": 0,
                 "auto_number": [
-                    39,
+                    0,
                     0,
                     0,
                     0
                 ],
-                "auto_refresh": 2,
+                "auto_number_enable": 0,
+                "auto_number_logic": false,
+                "auto_refresh": 1,
                 "auto_timer": 0,
                 "auto_www_refresh": 0,
                 "highlight_enable": 0

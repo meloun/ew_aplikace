@@ -86,6 +86,7 @@ class ManageCalcProcess():
             
         complete_calc_flag = False
         
+        '''casy ktere je nutné updatovat'''
         self.timesDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]
         self.lapsDfs = [pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()]    
         self.orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
@@ -120,11 +121,11 @@ class ManageCalcProcess():
             
             """ update times """
            # if __debug__: ytime = time.clock() 
-            self.GetTimesDfs()
+            #update self.timesDfs[]
+            self.GetTimesDfs() 
+            #calc and update times in DB
             self.UpdateTimes(self.timesDfs)
-            #! self.GetJoinedDf()
             #print "#3", self.joinedDf
-            #print "TTT", self.joinedDf.loc[2237]
            # if __debug__: print "P3: C: UpdateTimes()", (time.clock() - ytime)*1000,"ms"
 
             #laps
@@ -139,15 +140,12 @@ class ManageCalcProcess():
            # if __debug__: print "P4: C: UpdateLaps()", (time.clock() - ytime)*1000,"ms"
 
             #orderX
-            ytime = time.clock()
-            #@ likely not needed?  
-            #self.orderDfs = self.GetOrderDfs()
-            #self.joinedDf = self.UpdateOrder()            
+            ytime = time.clock()                        
            # if __debug__: print "P5: C: UpdateOrder()", (time.clock() - ytime)*1000,"ms"
-            
             #points                                                  
             ytime = time.clock()
-            self.joinedDf = self.UpdatePoints(self.joinedDf)                
+            #!self.joinedDf = self.UpdatePoints(self.joinedDf)                
+            self.UpdatePoints(self.joinedDf)
             #if (info["wdg_calc"] % 2 == 0) or (info["wdg_calc"]==0):
             #    self.joinedDf = self.UpdatePoints(self.joinedDf)                
             #else:
@@ -278,9 +276,26 @@ class ManageCalcProcess():
         self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)        
                        
         return self.joinedDf
-    
+        
+    def time2tableTime(self, row, i, including_hours):
+        """
+        convert time from db format to table forma
+        e.g. 445 -> "00:00:04:45" 
+        """
+        #print row
+        timeX = 'time'+str(i+1)
+        if row[timeX] == None:
+            return None 
+        #elif(type(row[timeX]) == str):
+        #    return row[timeX]
+        elif(row["us1"] == "DNF"):
+            timeX = "DNF"
+        else:                  
+            timeX = TimesUtils.TimesUtils.time2timestring(row[timeX], including_hours = including_hours)
+        return timeX    
+        
     def df2tableDf(self, df):
-
+        
         '''NAME'''                       
         #tabTime['name'] = joinUser['name'].upper() +' '+joinUser['first_name']        
                                                                                     
@@ -293,21 +308,30 @@ class ManageCalcProcess():
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             
             #TIME 1-3
-            if additional_info['time'][i]:                
+            if additional_info['time'][i]:                                
                 timeX = 'time'+str(i+1)
                 if(df[timeX].empty == False):                                                                        
                     minute_timeformat = self.dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
-                    df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                         
+                    #df_dnf = df.us1.str.match("DNF")                                       
+                    #df[~df_dnf][timeX] = df[~df_dnf].apply(lambda row: self.time2tableTime(row, i, including_hours = not(minute_timeformat)), axis = 1)                                                                 
+                    df[timeX] = df.apply(lambda row: self.time2tableTime(row, i, including_hours = not(minute_timeformat)), axis = 1)
+                    #df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                                                 
             else: 
-                df[timeX] = None
-                                                                                         
-                                                                        
+                df[timeX] = None            
+                                                                                                                                                         
         return df                                     
-        
-    """ update TIMES df """
+
+
     def GetTimesDfs(self):
+        """
+        contain times in which the time in UpdateTimes() will be updated        
+        updated self.timesDfs[]
         
-                     
+        inputs:
+            - self.joinedDf¨
+            - dstore.GetItem("additional_info", [ "time", i])['filter']
+        """
+
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             
             timeX = "time"+str(i+1)                
@@ -316,23 +340,24 @@ class ManageCalcProcess():
             if(time_group['checked'] != 0):            
                 
                 #prepare filtered df for times                                                
-                filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])
+                filter_dict = Assigments2Dict(self.dstore.GetItem("additional_info", [ "time", i])['filter'])                
                 tempDf = df_utils.Filter(self.joinedDf, filter_dict)
                 tempDf = tempDf[(tempDf[timeX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                                         
                 self.timesDfs[i] = tempDf
-        #print "tDdfs 0",self.timesDfs[0]
-        #print "=================="
-        #print "tDdfs 1",self.timesDfs[1]
-        #print "=================="
-        #print "tDdfs 2",self.timesDfs[2]
-        #print "=================="
-        #print "=================="
-        return self.timesDfs
+
+        return #self.timesDfs
                 
                             
     """ update LAP df """
     def GetLapsDfs(self):
-                             
+        """
+        contain times in which the lap in UpdateLaps() will be updated        
+        updated self.lapsDfs[i]
+        
+        inputs:
+            - self.joinedDf
+            - dstore.GetItem("additional_info", [ "time", i])['filter']
+        """                             
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
                                     
             timeX = "time"+str(i+1)                
@@ -349,34 +374,38 @@ class ManageCalcProcess():
                 lapDf =  tempDf[(tempDf[timeX].notnull()) & (tempDf[lapX].isnull()) & (tempDf['user_id']!=0) ] #filter times with timeX or with no number                                                                
             
                 self.lapsDfs[i] = lapDf            
-        return self.lapsDfs
+        return #self.lapsDfs
                         
 
-    """ update ORDER df """
-    def GetOrderDfs(self):
-                    
-        #orderDfs = [{'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}, {'total':pd.DataFrame(), "category":  None}]
-        #self.orderGroupbys = [None] * NUMBER_OF.THREECOLUMNS
+    def GetOrderDfs(self):        
+        """
+        contain times in which the order in UpdateOrder() will be updated
+        updated self.self.orderDfs[] -> {"total": df, "category": groubpy}
+        
+        inputs:
+            - self.joinedDf¨
+            - self.dstore.GetItem('additional_info', ['order', i])
+        """                        
         for i in range(0, NUMBER_OF.THREECOLUMNS):            
               
             #get order group
             group = self.dstore.GetItem('additional_info', ['order', i])          
             if (group['checked'] == 0):
                 continue
-                                      
-            #print group
+                                                  
             column1 = group['column1'].lower()  
             column2 = group['column2'].lower()
             asc1 = 1 if(group['order1'].lower() == "asc") else 0
             asc2 = 1 if(group['order2'].lower() == "asc") else 0
             
-            #filter
-            #print joinedDf.columns
+            #filter only times with (not null sort column1) AND number(user_id)            
             if not(column1 in self.joinedDf):
                 continue
             aux_df = self.joinedDf[(self.joinedDf[column1].notnull()) & (self.joinedDf['user_id']!=0)]
                 
-            #FILTER only one time from each user, LAST or BEST                            
+            
+            '''FILTER by row'''
+            #1. sort Best times, Last times                            
             if group['row'] == u'Best times1':                      
                 aux_df = aux_df.sort("time1", ascending = False )
             elif group['row'] == u'Best times2':                      
@@ -389,12 +418,13 @@ class ManageCalcProcess():
                 aux_df = aux_df.sort_values(by="time_raw")
             else:
                 print "ERROR: no row specified!!!", group        
-                                                                         
+                            
+            #2. take only last from each user                                                             
             aux_df = aux_df.groupby("user_id", as_index = False).last()
             aux_df = aux_df.where(pd.notnull(aux_df), None)                                        
             aux_df.set_index('id',  drop=False, inplace = True)                
             
-            #sort again
+            '''SORT by columns'''
             if(column2 in aux_df.columns):
                 #print "nested sorting", column1, column2, asc1, asc2                
                 try:                
@@ -407,48 +437,44 @@ class ManageCalcProcess():
             #category order            
             if(group['type'] == "Total"):
                 self.orderDfs[i]['total'] = aux_df                    
-            elif(group['type'] == "Category"):                    
-                #self.orderGroupbys[i] = aux_df.groupby("category_id", as_index = False)
-                #print aux_df                                                    
-                self.orderDfs[i]['category'] = aux_df.groupby("category", as_index = False)                                                    
-                #self.orderDfs[i]['category'] = aux_df.groupby("category_id", as_index = False)                                                    
+            elif(group['type'] == "Category"):                                                
+                self.orderDfs[i]['category'] = aux_df.groupby("category", as_index = False)                            
             elif(group['type'] == "Group#1"):
                 print "ERROR: Group order NOT implemented"
             elif(group['type'] == "Group#2"):
-                print "ERROR: Group order NOT implemented"                
+                print "ERROR: Group order NOT implemented"
             elif(group['type'] == "Group#3"):
-                print group                
+                print group
                 print "ERROR: Group order NOT implemented"
             else:
                 print "FATAL ERROR",group['type']
-                
-        #print "return", orderDfs[0]['total']
-        return self.orderDfs
-                    
+                       
+        return #self.orderDfs           
 
-                                                                                           
     def UpdateTimes(self, timesDfs):
         """
-        u časů kde 'timeX'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calcTime()        
+        Calc and update times in DB
+        u časů kde 'timeX'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calcTime()
         
-        *Ret:*
-            True: something updated   
-        """                                                       
-
+        inputs: self.timesDfs[i]
+        output: call CalcAndUpdateTime[]
+        ret: True: something updated  
+        """
         for i in range(0, NUMBER_OF.TIMESCOLUMNS):
             if self.timesDfs[i].empty:
                 continue
-            timesDfs[i].apply(lambda row: self.CalcAndUpdateTime(row, i), axis = 1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                          
+            timesDfs[i].apply(lambda row: self.CalcAndUpdateTime(row, i), axis = 1)
+
         return True
     
     def UpdateLaps(self, lapsDfs):
         """
+        Calc and update laps in DB
+
         u časů kde 'timeX'=None, dopočítá time z time_raw a startovacího časů pomocí funkce calcTime()
         u kol kde 'lapX'=None, dopočítá lap pomocí funkce calcLap()
         
-        *Ret:*
-            True: something updated   
+        Ret: True: something updated   
         """
         ret = False     
                                 
@@ -461,21 +487,30 @@ class ManageCalcProcess():
       
     def UpdateOrder(self):
         """        
-        *Ret:*
-            updated dataframe with all order   
+        Calc and update order in DB        
         """
+        
+
+        
+        
+        
         if self.joinedDf.empty == False:
             for i in range(0, NUMBER_OF.THREECOLUMNS):
+                #calc time                
+                group = self.dstore.GetItem('additional_info', ["order", i])
+                if(group["checked"] == 0):                    
+                    self.joinedDf["order"+str(i+1)] = None
+                    continue 
+        
                 if self.orderDfs[i] == None:
                     continue
                 self.joinedDf["order"+str(i+1)] = self.joinedDf.apply(lambda row: self.CalcOrder(row, i), axis = 1)
                 self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)        
-        return self.joinedDf
+        return #self.joinedDf
     
     def UpdatePoints(self, joinedDf):
-        """        
-        *Ret:*
-            updated dataframe with all points   
+        """
+        Calc and update points in DB                 
         """
         if self.joinedDf.empty == False:
             for i in range(0, NUMBER_OF.POINTSCOLUMNS):
@@ -486,7 +521,7 @@ class ManageCalcProcess():
                 else:                                        
                     self.joinedDf[pointsX] = self.joinedDf.apply(lambda row: self.CalcPoints(row, i), axis = 1)
                     self.joinedDf = self.joinedDf.where(pd.notnull(self.joinedDf), None)                
-        return self.joinedDf
+        return #self.joinedDf
     
     def IsTimeToCalc(self, dbTime):        
         

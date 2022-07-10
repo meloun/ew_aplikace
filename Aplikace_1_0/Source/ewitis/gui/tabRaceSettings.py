@@ -266,13 +266,41 @@ class TabRaceSettings():
         #autonumbers
         Ui().comboAutonumbersMode.setCurrentIndex(dstore.GetItem("racesettings-app", ["autonumbers", "mode"]))
         Ui().spinAutonumbersNrOfUsers.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"]))
-        Ui().spinAutonumbersNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"]))    
+        Ui().spinAutonumbersNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"]))
+        an_mode = dstore.GetItem("racesettings-app", ["autonumbers", "mode"])
+        
         for i in range(0, len(self.autonumbers_cell)):                                                        
             self.autonumbers_cell[i].setValue(dstore.GetItem("racesettings-app", ["autonumbers", "cells", i]))
-            if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"])):            
-                self.autonumbers_cell[i].setEnabled(True)
-            else:
+        
+        #mode NONE    
+        if(an_mode == AutonumbersMode.NONE):
+            Ui().spinAutonumbersNrOfUsers.setEnabled(False)
+            Ui().spinAutonumbersNrOfCells.setEnabled(False)
+            for i in range(0, len(self.autonumbers_cell)):
                 self.autonumbers_cell[i].setEnabled(False)
+        #mode SINGLE
+        elif(an_mode == AutonumbersMode.SINGLE):
+            Ui().spinAutonumbersNrOfUsers.setEnabled(False)
+            Ui().spinAutonumbersNrOfCells.setEnabled(False)            
+            for i in range(0, len(self.autonumbers_cell)):
+                self.autonumbers_cell[i].setEnabled(False)
+        #mode SIMPLE    
+        elif(an_mode == AutonumbersMode.SIMPLE):
+            Ui().spinAutonumbersNrOfUsers.setEnabled(True)
+            Ui().spinAutonumbersNrOfCells.setEnabled(False)   
+            for i in range(0, len(self.autonumbers_cell)):                                                                        
+                self.autonumbers_cell[i].setEnabled(False)
+        #mode LOGIC    
+        elif(an_mode == AutonumbersMode.LOGIC):
+            Ui().spinAutonumbersNrOfUsers.setEnabled(True)
+            Ui().spinAutonumbersNrOfCells.setEnabled(True)   
+            for i in range(0, len(self.autonumbers_cell)):  
+                if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"])):            
+                    self.autonumbers_cell[i].setEnabled(True)
+                else:
+                    self.autonumbers_cell[i].setEnabled(False)
+        else:
+            print "E: invalid autonumber mode"
         #autocell
         Ui().spinAutocellNrOfCells.setValue(dstore.GetItem("racesettings-app", ["autocell", "nr_cells"]))        
         #print "TT", dstore.GetItem("racesettings-app", ["autocell", "nr_cells"])

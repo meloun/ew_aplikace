@@ -4,7 +4,7 @@
             "value": {
                 "lap": [
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "ahoj2",
                         "filter": "",
                         "fromlaststart": 0
@@ -37,7 +37,7 @@
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
-                        "type": "Total"
+                        "type": "Category"
                     },
                     {
                         "checked": 0,
@@ -66,7 +66,7 @@
                         "description": "čus4",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:12,00%)"
+                        "rule": "abs(time1 - %00:00:26,00%)"
                     },
                     {
                         "checked": 0,
@@ -90,7 +90,7 @@
                         "rule": "(5 / time3) * 3.6 * 100"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "dasdf",
                         "maximum": 9999,
                         "minimum": 0,
@@ -98,7 +98,7 @@
                     }
                 ],
                 "status": {
-                    "checked": 2
+                    "checked": 0
                 },
                 "time": [
                     {
@@ -123,7 +123,7 @@
                         "rule": "time - starttime"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "cell=4",
                         "minute_timeformat": 2,
@@ -178,23 +178,23 @@
                         "lap2": 0,
                         "lap3": 0,
                         "lap4": 0,
-                        "name": 0,
+                        "name": 2,
                         "nr": 2,
-                        "o1": 0,
-                        "o2": 0,
+                        "o1": 2,
+                        "o2": 2,
                         "o3": 0,
                         "o4": 0,
-                        "order1": 0,
+                        "order1": 2,
                         "order2": 0,
                         "order3": 0,
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 2,
+                        "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
-                        "points5": 0,
+                        "points5": 2,
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
@@ -204,8 +204,8 @@
                         "un1": 2,
                         "un2": 0,
                         "un3": 0,
-                        "us1": 2,
-                        "year": 0
+                        "us1": 0,
+                        "year": 2
                     },
                     {
                         "category": 0,
@@ -218,7 +218,7 @@
                         "lap2": 0,
                         "lap3": 0,
                         "lap4": 0,
-                        "name": 0,
+                        "name": 2,
                         "nr": 2,
                         "o1": 0,
                         "o2": 0,
@@ -237,7 +237,7 @@
                         "points5": 2,
                         "sex": 0,
                         "status": 0,
-                        "time1": 2,
+                        "time1": 0,
                         "time2": 0,
                         "time3": 0,
                         "time4": 0,
@@ -270,7 +270,7 @@
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 0,
+                        "points1": 2,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
@@ -291,7 +291,7 @@
                 "enabled_csv": [
                     true,
                     false,
-                    false
+                    true
                 ],
                 "enabled_htm": [
                     false,
@@ -299,7 +299,7 @@
                     false
                 ],
                 "enabled_sms": [
-                    false,
+                    true,
                     false,
                     false
                 ],
@@ -315,34 +315,34 @@
                         "lap2": "",
                         "lap3": "",
                         "lap4": "",
-                        "name": "",
-                        "nr": "cislo",
-                        "o1": "",
-                        "o2": "",
+                        "name": "Jméno",
+                        "nr": "Číslo",
+                        "o1": "Nár.",
+                        "o2": "Automobil",
                         "o3": "",
                         "o4": "",
-                        "order1": "",
+                        "order1": "Pořadí",
                         "order2": "",
                         "order3": "",
                         "ordercat1": "",
                         "ordercat2": "",
                         "ordercat3": "",
-                        "points1": "casove_body_1",
-                        "points2": "casove_body_2",
-                        "points3": "casove_body_3",
-                        "points4": "casove_body_4",
-                        "points5": "tbd.",
+                        "points1": "",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
+                        "points5": "Body celkem",
                         "sex": "",
                         "status": "Status",
-                        "time1": "cas_1",
-                        "time2": "cas_2",
-                        "time3": "cas_3",
-                        "time4": "cas_4",
-                        "un1": "penalizace",
+                        "time1": "Čas",
+                        "time2": "",
+                        "time3": "",
+                        "time4": "",
+                        "un1": "Penalizace",
                         "un2": "",
                         "un3": "",
-                        "us1": "duvod_penalizaci",
-                        "year": ""
+                        "us1": "Us 1",
+                        "year": "RV"
                     },
                     {
                         "category": "",
@@ -396,7 +396,7 @@
                         "lap3": "",
                         "lap4": "",
                         "name": "",
-                        "nr": "",
+                        "nr": "Číslo",
                         "o1": "",
                         "o2": "",
                         "o3": "",
@@ -407,7 +407,7 @@
                         "ordercat1": "",
                         "ordercat2": "",
                         "ordercat3": "",
-                        "points1": "",
+                        "points1": "Body1",
                         "points2": "",
                         "points3": "",
                         "points4": "",
@@ -418,7 +418,7 @@
                         "time2": "",
                         "time3": "",
                         "time4": "",
-                        "un1": "",
+                        "un1": "Penal",
                         "un2": "",
                         "un3": "",
                         "us1": "Us 1",
@@ -436,7 +436,7 @@
                         "lap1": 22,
                         "lap2": 24,
                         "lap3": 26,
-                        "lap4": 27,
+                        "lap4": 28,
                         "name": 8,
                         "nr": 4,
                         "o1": 9,
@@ -449,17 +449,17 @@
                         "ordercat1": 5,
                         "ordercat2": 6,
                         "ordercat3": 7,
-                        "points1": 28,
-                        "points2": 29,
-                        "points3": 30,
-                        "points4": 31,
-                        "points5": 32,
+                        "points1": 29,
+                        "points2": 30,
+                        "points3": 26,
+                        "points4": 32,
+                        "points5": 33,
                         "sex": 12,
                         "status": 38,
                         "time1": 21,
                         "time2": 23,
                         "time3": 25,
-                        "time4": 26,
+                        "time4": 27,
                         "un1": 34,
                         "un2": 35,
                         "un3": 36,
@@ -478,7 +478,7 @@
                         "lap3": 26,
                         "lap4": 28,
                         "name": 8,
-                        "nr": 1,
+                        "nr": 4,
                         "o1": 13,
                         "o2": 14,
                         "o3": 15,
@@ -496,7 +496,7 @@
                         "points5": 33,
                         "sex": 12,
                         "status": 38,
-                        "time1": 2,
+                        "time1": 21,
                         "time2": 23,
                         "time3": 25,
                         "time4": 27,
@@ -563,7 +563,7 @@
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
-                    "type": "total"
+                    "type": "categories"
                 },
                 {
                     "filter": "last times with time4",
@@ -592,7 +592,7 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "tp07 - %category%",
+                    "categoryname": "tp06 - %category%",
                     "description": "TestDescription (77m / 12s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
@@ -697,12 +697,12 @@
                 {
                     "description": "description",
                     "keyword": "tp",
-                    "value": "tp07"
+                    "value": "tp06"
                 },
                 {
                     "description": "description",
                     "keyword": "racename",
-                    "value": "Růžovoučký a žluťoučký kůň"
+                    "value": "Testrace 2019"
                 },
                 {
                     "description": "description",
@@ -802,9 +802,6 @@
         "GET_SET": {
             "changed": true,
             "value": {
-                "autocell": {
-                    "nr_cells": 3
-                },
                 "autonumbers": {
                     "cells": [
                         1,
@@ -825,41 +822,13 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/_exe/v3_26a_Test/conf/mujtemplate.tjson",
-                "profile_desc": "Testrace 2019\nTPxy\nS1 – C1 \n\n$racename$\n\n00:00:26,00\n\n\n77m / 12s\n\n",
-                "race_name": "Testrace 2019 AB",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/template_TP06.tjson",
+                "profile_desc": "$racename$\nS1 – C1 \n\n77m / 12s\ntp06\nklicek1243\n5678\nasdfasf\nklicek1243\n5678\n5678",
+                "race_name": "Testrace 2019",
                 "remote": 0,
-                "test_name": "TPxy"
             }
         },
         "name": "race settings",
-        "permanent": true
-    },
-    "times": {
-        "GET_SET": {
-            "value": {
-                "auto_cell": [
-                    10,
-                    11,
-                    7,
-                    8
-                ],
-                "auto_cell_address": 2,
-                "auto_cell_index": 0,
-                "auto_number": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "auto_number_enable": 2,
-                "auto_number_logic": true,
-                "auto_refresh": 1,
-                "auto_timer": 25,
-                "auto_www_refresh": 0,
-                "highlight_enable": 0
-            }
-        },
         "permanent": true
     }
 }

@@ -112,11 +112,11 @@ class TabManager():
         #tab changed
         QtCore.QObject.connect(Ui().tabWidget, QtCore.SIGNAL("currentChanged (int)"), self.sTabChanged) 
  
-    def sTabChanged(self, nr):
+    def sTabChanged(self, nr):        
                     
         #update current tab        
         dstore.SetItem("gui", ["active_tab"], nr)
-        self.GetCurrentTab().Update(UPDATE_MODE.gui)
+        self.GetCurrentTab().Update(UPDATE_MODE.all)
 
     
     def Init(self):
@@ -142,7 +142,7 @@ class TabManager():
     def UpdateTab(self, mode = UPDATE_MODE.all):    
         GetCurrentTab().Update(mode)   
     
-    def Update(self, ):
+    def Update(self):
         
         #update all tabs
         tabCGroups.Update()

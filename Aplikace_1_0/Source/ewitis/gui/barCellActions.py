@@ -216,6 +216,8 @@ class BarCellActions():
                 #print "lasttime", lasttime            
             try:
                 dbRow['time_raw'] = TimesUtils.TimesUtils.timestring2time(lasttime['timeraw']) + 300000
+                dbRow['id'] = lasttime['id']+10000000
+                print lasttime
             except TimesUtils.TimeFormat_Error:
                 uiAccesories.showMessage("DNF for active users", "E: wrong time format", MSGTYPE.warning) 
                 continue

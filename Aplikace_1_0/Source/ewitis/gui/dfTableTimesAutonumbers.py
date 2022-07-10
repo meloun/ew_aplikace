@@ -60,18 +60,19 @@ def Focus():
           
 def UpdateGui():
     times = dstore.Get("times")
-    racesettings = dstore.Get("racesettings-app")
+    an_settings = dstore.GetItem("racesettings-app", ["autonumbers"])
         
     #gui['auto_number_enable'].setCheckState(times["auto_number_enable"])
     #gui['auto_number_logic'].setChecked(times["auto_number_logic"])
     
-    #if(times["auto_number_enable"] == 0):
-    if(racesettings["autonumbers"] == AutonumbersMode.NONE):
+    #if(times["auto_number_enable"] == 0):    
+    if(an_settings["mode"] == AutonumbersMode.NONE):
         """ everything off """
-        gui['auto_number_logic'].setEnabled(False)
+        #gui['auto_number_logic'].setEnabled(False)
         for i in range(0, NUMBER_OF.AUTO_NUMBER):
             gui['auto_number'+str(i+1)].setEnabled(False)
-    elif(racesettings["autonumbers"] == AutonumbersMode.SINGLE):
+            print "ZAKAZUJU"
+    elif(an_settings["mode"] == AutonumbersMode.SINGLE):
             """primitive auto number """
             gui['auto_number1'].setEnabled(True)
             for i in range(1, NUMBER_OF.AUTO_NUMBER):
@@ -79,7 +80,7 @@ def UpdateGui():
     else:
         """auto numbers SIMPLE or LOGIC"""
         for i in range(0, NUMBER_OF.AUTO_NUMBER):     
-            if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_users"])):
+            if(i < an_settings["nr_users"]):
                 gui['auto_number'+str(i+1)].setEnabled(True)
             else:
                 gui['auto_number'+str(i+1)].setEnabled(False)

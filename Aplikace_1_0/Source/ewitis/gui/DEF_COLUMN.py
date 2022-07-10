@@ -183,7 +183,7 @@ RACEINFO = {}
 """ table collumns """
 RACEINFO['table'] =    {
                       "id"          :    {"index": 0,  "name": "id",            "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
-                      "name"        :    {"index": 1,  "name": "id",            "default": "unknown", "width": 300,                         "write":False},
+                      "name"        :    {"index": 1,  "name": "name",          "default": "unknown", "width": 300,                         "write":False},
                       "startlist"   :    {"index": 2,  "name": "startlist",     "default": 0,         "width": 2*WIDTH_NUMBER_4DIGIT,       "write":False},
                       "dns"         :    {"index": 3,  "name": "dns"   ,        "default": 0,         "width": WIDTH_NUMBER_4DIGIT,         "write":False},
                       "finished"    :    {"index": 4,  "name": "finished",      "default": 0,         "width": 2*WIDTH_NUMBER_4DIGIT,       "write":False},                                                                                    

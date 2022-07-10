@@ -158,7 +158,7 @@ def sRefresh():
     #disable user actions
     ztime = time.clock()        
                                      
-    ret = tabManager.GetCurrentTab().Update(UPDATE_MODE.all)        
+    ret = tabManager.GetCurrentTab().Update(UPDATE_MODE.all)           
     if(ret == True):
         localtime = time.strftime("%H:%M:%S", time.localtime())
         updatetime = str(time.clock() - ztime)[0:5]+"s"
@@ -190,8 +190,8 @@ if __name__ == "__main__":
     #init shared-data (and sync with dstore)
     print "I: Init multiprocessing manager"
     mgr.Init( {"racesettings-app":None, "additional_info": None},  #shared-dstore
-              {"table"  :  pd.DataFrame()},                #shared-dfs
-              {"wdg_calc":0, "lastcalctime"  :  " - - - "}                                           #shared-info
+              {"table"  :  pd.DataFrame()},                        #shared-dfs
+              {"wdg_calc":0, "lastcalctime"  :  " - - - "}         #shared-info
             )    
     dstore.SetSharedData(mgr.GetDstore())
     dstore.UpdateSharedData("racesettings-app")  
