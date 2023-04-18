@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1503, 748))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1495, 752))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout_14 = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_14.setObjectName(_fromUtf8("gridLayout_14"))
@@ -216,9 +216,11 @@ class Ui_MainWindow(object):
         self.TimesAutoCell4.setObjectName(_fromUtf8("TimesAutoCell4"))
         self.gridLayout.addWidget(self.TimesAutoCell4, 0, 18, 1, 1)
         self.TimesAutoCell2 = QtGui.QSpinBox(self.tabRuns_Times)
+        self.TimesAutoCell2.setMaximum(250)
         self.TimesAutoCell2.setObjectName(_fromUtf8("TimesAutoCell2"))
         self.gridLayout.addWidget(self.TimesAutoCell2, 0, 16, 1, 1)
         self.TimesAutoCell3 = QtGui.QSpinBox(self.tabRuns_Times)
+        self.TimesAutoCell3.setMaximum(250)
         self.TimesAutoCell3.setObjectName(_fromUtf8("TimesAutoCell3"))
         self.gridLayout.addWidget(self.TimesAutoCell3, 0, 17, 1, 1)
         self.TimerSet = QtGui.QSpinBox(self.tabRuns_Times)
@@ -17673,7 +17675,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.scrollArea)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1540, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1540, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuSettings = QtGui.QMenu(self.menubar)
         self.menuSettings.setObjectName(_fromUtf8("menuSettings"))
@@ -18178,7 +18180,7 @@ class Ui_MainWindow(object):
         self.toolBarCellDisable.addSeparator()
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(5)
+        self.tabWidget.setCurrentIndex(0)
         self.comboExportFilter_1.setCurrentIndex(0)
         self.comboExportFilter_2.setCurrentIndex(0)
         self.comboExportFilter_3.setCurrentIndex(0)
@@ -19447,7 +19449,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.lineCellTimesCell_23, self.pushCellClearMissingTimes_23)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "Časomíra Ewitis, Aplikace v1.xx", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ÄŒasomÃ­ra Ewitis, Aplikace v1.xx", None))
         self.label_18.setText(_translate("MainWindow", "Cell: ", None))
         self.TimesAutoCell_Address.setItemText(0, _translate("MainWindow", "#00", None))
         self.TimesAutoCell_Address.setItemText(1, _translate("MainWindow", "#01", None))
@@ -19734,27 +19736,27 @@ class Ui_MainWindow(object):
         self.checkAInfoUserString_1.setText(_translate("MainWindow", "User string #1", None))
         self.label_1112.setToolTip(_translate("MainWindow", "Rawtimes:\n"
 "-----------------------------------------------------\n"
-"time - aktuální čas závodníka\n"
-"celltimeX - aktuální nebo předchozí čas závodníka od dané buňky\n"
-"starttime - startovací čas závodníka\n"
-"%00:01:30,00% - pevný čas závodníka\n"
-"prevtime, prev1time - předchozí čas závodníka\n"
-"prev2time - 2.předchozí čas závodníka\n"
-"nexttime, next1time - následující čas závodníka\n"
-"next2time - 2.následující čas závodníka\n"
+"time - aktuÃ¡lnÃ­ Äas zÃ¡vodnÃ­ka\n"
+"celltimeX - aktuÃ¡lnÃ­ nebo pÅ™edchozÃ­ Äas zÃ¡vodnÃ­ka od danÃ© buÅˆky\n"
+"starttime - startovacÃ­ Äas zÃ¡vodnÃ­ka\n"
+"%00:01:30,00% - pevnÃ½ Äas zÃ¡vodnÃ­ka\n"
+"prevtime, prev1time - pÅ™edchozÃ­ Äas zÃ¡vodnÃ­ka\n"
+"prev2time - 2.pÅ™edchozÃ­ Äas zÃ¡vodnÃ­ka\n"
+"nexttime, next1time - nÃ¡sledujÃ­cÃ­ Äas zÃ¡vodnÃ­ka\n"
+"next2time - 2.nÃ¡sledujÃ­cÃ­ Äas zÃ¡vodnÃ­ka\n"
 "\n"
-"Strings (jen samostatně ve vzorci):\n"
+"Strings (jen samostatnÄ› ve vzorci):\n"
 "-----------------------------------------------------\n"
 "pointsX*\n"
 "orderX\n"
 "unX\n"
-"timeX - X.tý čas závodníka\n"
-"prev1timeX - 1.předchozí čas X závodníka\n"
-"prev2timeX - 2.předchozí čas X závodníka\n"
-"prev3timeX - 3.předchozí čas X závodníka\n"
-"next1timeX - 1.předchozí čas X závodníka\n"
-"next2timeX - 2.předchozí čas X závodníka\n"
-"next3timeX - 3.předchozí čas X závodníka", None))
+"timeX - X.tÃ½ Äas zÃ¡vodnÃ­ka\n"
+"prev1timeX - 1.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka\n"
+"prev2timeX - 2.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka\n"
+"prev3timeX - 3.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka\n"
+"next1timeX - 1.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka\n"
+"next2timeX - 2.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka\n"
+"next3timeX - 3.pÅ™edchozÃ­ Äas X zÃ¡vodnÃ­ka", None))
         self.label_1113.setToolTip(_translate("MainWindow", "examples:\n"
 " cell = 250; \n"
 " cell = 2 | 250; \n"
@@ -19805,14 +19807,14 @@ class Ui_MainWindow(object):
         self.label_17.setText(_translate("MainWindow", "Category description", None))
         self.lineExportHeaderCategory3.setText(_translate("MainWindow", "%category%", None))
         self.lineExportHeaderDescription2.setText(_translate("MainWindow", "%description%", None))
-        self.lineExportHeaderText2.setText(_translate("MainWindow", "čas exportu: %time%", None))
-        self.lineExportHeaderText3.setText(_translate("MainWindow", "čas exportu: %time%", None))
+        self.lineExportHeaderText2.setText(_translate("MainWindow", "Äas exportu: %time%", None))
+        self.lineExportHeaderText3.setText(_translate("MainWindow", "Äas exportu: %time%", None))
         self.lineExportHeaderRace2.setText(_translate("MainWindow", "%race%", None))
         self.lineExportHeaderRace3.setText(_translate("MainWindow", "%race%", None))
         self.lineExportHeaderCategory2.setText(_translate("MainWindow", "%category%", None))
         self.label_207.setText(_translate("MainWindow", "E1", None))
         self.lineExportHeaderRace1.setText(_translate("MainWindow", "%race%", None))
-        self.lineExportHeaderText1.setText(_translate("MainWindow", "čas exportu: %time%", None))
+        self.lineExportHeaderText1.setText(_translate("MainWindow", "Äas exportu: %time%", None))
         self.lineExportHeaderCategory1.setText(_translate("MainWindow", "%category%", None))
         self.lineExportHeaderDescription1.setText(_translate("MainWindow", "%description%", None))
         self.groupBox_19.setTitle(_translate("MainWindow", "Filter and Sort", None))
@@ -20011,18 +20013,18 @@ class Ui_MainWindow(object):
         self.textExportSms1.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÃDCE VOZU Ä. %nr%: TEST PÅ˜ESNOSTI TP4 â€“ %time2%s, PÅ˜ESNOU JÃZDU PÅ˜EJE TÃM CLASSIC RALLYE!</span></p></body></html>", None))
         self.textExportSms2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÃDCE VOZU Ä. %nr%: TEST PÅ˜ESNOSTI TP4 â€“ %time2%s, PÅ˜ESNOU JÃZDU PÅ˜EJE TÃM CLASSIC RALLYE!</span></p></body></html>", None))
         self.textExportSms3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÁDCE VOZU č. %nr%: TEST PŘESNOSTI TP4 – %time2%s, PŘESNOU JÍZDU PŘEJE TÝM CLASSIC RALLYE!</span></p></body></html>", None))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">7 CASTLES TRIAL INFO POSÃDCE VOZU Ä. %nr%: TEST PÅ˜ESNOSTI TP4 â€“ %time2%s, PÅ˜ESNOU JÃZDU PÅ˜EJE TÃM CLASSIC RALLYE!</span></p></body></html>", None))
         self.label_341.setText(_translate("MainWindow", "E1", None))
         self.label_342.setText(_translate("MainWindow", "E2", None))
         self.label_343.setText(_translate("MainWindow", "E3", None))
@@ -21750,7 +21752,7 @@ class Ui_MainWindow(object):
         self.textCommLog.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.5pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\"><br /></span></p></body></html>", None))
         self.checkCommLogCyclic.setToolTip(_translate("MainWindow", "get run, get time, get timing settings", None))
         self.checkCommLogCyclic.setText(_translate("MainWindow", "Log Cyclic Telegrams", None))

@@ -803,7 +803,7 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 0
+                    "nr_cells": 2
                 },
                 "autonumbers": {
                     "cells": [
@@ -840,12 +840,12 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
-                    0,
-                    0,
+                    100,
+                    108,
                     0,
                     0
                 ],
-                "auto_cell_address": 0,
+                "auto_cell_address": 2,
                 "auto_cell_index": 0,
                 "auto_number": [
                     0,

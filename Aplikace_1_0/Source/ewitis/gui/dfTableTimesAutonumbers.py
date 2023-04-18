@@ -71,7 +71,6 @@ def UpdateGui():
         #gui['auto_number_logic'].setEnabled(False)
         for i in range(0, NUMBER_OF.AUTO_NUMBER):
             gui['auto_number'+str(i+1)].setEnabled(False)
-            print "ZAKAZUJU"
     elif(an_settings["mode"] == AutonumbersMode.SINGLE):
             """primitive auto number """
             gui['auto_number1'].setEnabled(True)
