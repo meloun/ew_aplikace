@@ -50,8 +50,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1495</width>
-         <height>752</height>
+         <width>1503</width>
+         <height>748</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_14">
@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -2552,6 +2552,11 @@
              <item>
               <property name="text">
                <string>logic</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>sprint</string>
               </property>
              </item>
             </widget>
@@ -51484,7 +51489,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1540</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">

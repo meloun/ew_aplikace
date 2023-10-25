@@ -148,7 +148,9 @@ def Update(df, new_time):
             ):
             
             #print "I: auto number: MATCH nr.", number
-            ret.append({"id":new_time["id"], "nr": number})                
+            ret.append({"id":new_time["id"], "nr": number})
+                            
+            #shift the numbers                        
             if cell_position == (nr_cells - 1):
                 #print "I: auto number: run finished - shifting nr.", number
                 ShiftNumbers()

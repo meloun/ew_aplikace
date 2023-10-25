@@ -43,7 +43,7 @@ class OrderEvaluation:
 class StarttimeEvaluation:
     VIA_CATEGORY, VIA_USER = range(0,2)
 class AutonumbersMode:
-    NONE, SINGLE, SIMPLE, LOGIC = range(0,4)  
+    NONE, SINGLE, SIMPLE, LOGIC, SPRINT = range(0,5)  
 class LaptimeEvaluation:
     ONLY_FINISHTIME, ALL_TIMES = range(0,2) 
 class ExportLapsFormat:
@@ -425,7 +425,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.32a",
+                                                        "app": "v3.35a Zbuzany",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

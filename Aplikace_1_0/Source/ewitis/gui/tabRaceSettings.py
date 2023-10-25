@@ -299,6 +299,15 @@ class TabRaceSettings():
                     self.autonumbers_cell[i].setEnabled(True)
                 else:
                     self.autonumbers_cell[i].setEnabled(False)
+        #mode LOGIC
+        elif(an_mode == AutonumbersMode.SPRINT):
+            Ui().spinAutonumbersNrOfUsers.setEnabled(True)
+            Ui().spinAutonumbersNrOfCells.setEnabled(True)   
+            for i in range(0, len(self.autonumbers_cell)):  
+                if(i < dstore.GetItem("racesettings-app", ["autonumbers", "nr_cells"])):            
+                    self.autonumbers_cell[i].setEnabled(True)
+                else:
+                    self.autonumbers_cell[i].setEnabled(False)
         else:
             print "E: invalid autonumber mode"
         #autocell

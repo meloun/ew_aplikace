@@ -200,16 +200,18 @@ def Sum(iterable):
 LINE_BREAK_AFTER = NON_CLOSING_TAGS + ['HTML','HEAD','BODY',
     'FRAMESET','FRAME',
     'TITLE','SCRIPT',
-    'TABLE','TR','TD','TH','SELECT','OPTION',
+    'TABLE','THEAD', 'TFOOT', 'TR','TD','TH','SELECT','OPTION',
     'FORM',
     'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
+    'DIV',
     ]
 # tags whose opening tag should be alone in its line
 ONE_LINE = ['HTML','HEAD','BODY',
     'FRAMESET'
     'SCRIPT',
-    'TABLE','TR', #@meloun ,'TD','TH','SELECT','OPTION',
+    'TABLE','THEAD', 'TFOOT', 'TR', #@meloun ,'TD','TH','SELECT','OPTION',
     'FORM',
+    'DIV',
     ]
 
 if __name__ == '__main__':
@@ -217,4 +219,21 @@ if __name__ == '__main__':
     body = BODY()
     body <= H1('This is a test document')
     body <= 'First line' + BR() + 'Second line'
+    
+    tabulka = TABLE(cellpadding="6", cellspacing="0", Class="abc", id="abcd")
+                    
+    
+    #ZAHLAVI, klice - nadpisy sloupcu      
+    zahlavi = THEAD()  # inicializace promenne
+    zahlavi <= TR("dd")        
+    for key in ["a","b","c"]:        
+        zahlavi <= TH(key)
+        
+
+        
+   
+                            
+                          
+        
     print HTML(head + body)
+    print zahlavi

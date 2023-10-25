@@ -1005,11 +1005,21 @@ class ManageCalcProcess():
                         
             expression_string = expression_string.replace("starttime", str(starttime['time_raw']))                                                   
                
-        # TIME1-TIME3                                                        
-        expression_string = expression_string.replace("time1", str(joinTime['time1']))       
-        expression_string = expression_string.replace("time2", str(joinTime['time2']))       
-        expression_string = expression_string.replace("time3", str(joinTime['time3']))
-        expression_string = expression_string.replace("time4", str(joinTime['time4']))
+        
+        # TIME1-TIME3
+        if "time" in expression_string:                                                             
+            expression_string = expression_string.replace("time1", str(joinTime['time1']))       
+            expression_string = expression_string.replace("time2", str(joinTime['time2']))       
+            expression_string = expression_string.replace("time3", str(joinTime['time3']))
+            expression_string = expression_string.replace("time4", str(joinTime['time4']))
+        
+        # LAP1-LAP4
+        if "lap" in expression_string:  
+            expression_string = expression_string.replace("lap1", str(joinTime['lap1']))       
+            expression_string = expression_string.replace("lap2", str(joinTime['lap2']))       
+            expression_string = expression_string.replace("lap3", str(joinTime['lap3']))
+            expression_string = expression_string.replace("lap4", str(joinTime['lap4']))
+        
                
         # TIME
         expression_string = expression_string.replace("time", str(joinTime['time_raw']))

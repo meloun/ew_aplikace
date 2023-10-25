@@ -675,9 +675,28 @@ class ManageComm(Thread):
 
 
         """ STORE NEW TIME TO THE DATABASE """
+        ds_racesettings = dstore.Get("racesettings-app")
+        
         if(aux_time['error'] == 0):
-            self.AddTimeToDb(aux_time)
-            self.index_times += 1 # done, take next 
+            aux_time['us1'] = ""
+            aux_time['un1'] = 0
+            
+            #SPRINT: add us 'A'
+            if(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SPRINT):
+                if(aux_time['cell'] == 1):
+                    aux_time['us1'] = 'A'
+                                
+            self.AddTimeToDb(aux_time)            
+            self.index_times += 1 # done, take next
+            
+            #SPRINT: duplicate the semaphore start time with us 'B'
+            if(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SPRINT):
+                if(aux_time['cell'] == 1):
+                    aux_time2 = aux_time.copy()
+                    aux_time2['user_id'] = 0
+                    aux_time2['us1'] = 'B'
+                    aux_time2['id'] = aux_time2['id'] + 1000
+                    self.AddTimeToDb(aux_time2) 
             eventCalcNow.set()
             #print "CalcNow: set", time.clock()
         else:
@@ -718,13 +737,48 @@ class ManageComm(Thread):
             ds_times = dstore.Get("times")
             ds_racesettings = dstore.Get("racesettings-app")                       
             if(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SINGLE):
-                auto_number = ds_times["auto_number"][0]
-                print "NAHRAZUJI", time['user_id']
+                    auto_number = ds_times["auto_number"][0]
+                    #print "NAHRAZUJI", time['user_id']
+                    if(auto_number != 0) and (time['user_id'] == 0):
+                        #print "NAHRAZUJI", time['user_id']
+                        dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
+                        if dbUser != None:
+                            #print "NAHRAZUJI", time['user_id'], dbUser['id']
+                            time['user_id'] = dbUser['id']
+            elif(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SPRINT):
+                #us1                
+                time['un1'] = time['cell']   
+                if time['cell'] == 1:                    
+                    if time['us1'] == 'A':                        
+                        auto_number = ds_times["auto_number"][0]
+                    elif time['us1'] =='B':                        
+                        auto_number = ds_times["auto_number"][1]
+                    else:
+                        pass          
+                elif time['cell'] == 2:
+                    time["us1"] = "A"
+                    auto_number = ds_times["auto_number"][0]
+                elif time['cell'] == 3:
+                    time["us1"] = "B"
+                    time["cell"] = 2
+                    auto_number = ds_times["auto_number"][1]                    
+                elif time['cell'] == 4:
+                    time["us1"] = "A"
+                    time["cell"] = 250
+                    auto_number = ds_times["auto_number"][0] 
+                elif time['cell'] == 5:
+                    time["us1"] = "B"
+                    time["cell"] = 250
+                    auto_number = ds_times["auto_number"][1] 
+                else:
+                    auto_number = 0;
+                
+                #replace the number in DB
                 if(auto_number != 0) and (time['user_id'] == 0):
-                    print "NAHRAZUJI", time['user_id']
+                    #print "NAHRAZUJI", time['user_id']
                     dbUser = self.db.getParX("users", "nr", auto_number, limit = 1).fetchone()
                     if dbUser != None:
-                        print "NAHRAZUJI", time['user_id'], dbUser['id']
+                        #print "2-NAHRAZUJI", time['user_id'], dbUser['id']
                         time['user_id'] = dbUser['id']
             
              
@@ -738,37 +792,18 @@ class ManageComm(Thread):
                 if ((ds_times["auto_cell_index"]+1) < ds_racesettings["autocell"]["nr_cells"]):           
                     ds_times["auto_cell_index"] = ds_times["auto_cell_index"] + 1
                 else:
-                    ds_times["auto_cell_index"] = 0        
-                
-            #us1
-            time['us1'] = ""
-            
-            '''hack for car sprint'''
-            HACK_SPRINT = False
-            if HACK_SPRINT:                    
-                time['un1'] = time['cell']
-                #replace the us1
-                if (time['cell'] == 2) or (time['cell']== 4):
-                    time["us1"] = "A"
-                if (time['cell'] == 3) or (time['cell']== 5):
-                    time["us1"] = "B"                      
-                #replace the cell 
-                if (time['cell'] == 2) or (time['cell']== 3):                    
-                    time['cell'] = 1
-                elif (time['cell'] == 4) or (time['cell'] == 5):
-                    time['cell'] = 250
-                                            
+                    ds_times["auto_cell_index"] = 0                                                   
                                             
             '''save to database'''        
-            keys = ["state", "id", "user_id", "cell", "time_raw", "us1"]#, "time"]
-            values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], time['us1']] #, time['time']]        
-            '''hack for car sprint'''
-            if HACK_SPRINT:                  
-                keys.append("un1")
-                values.append(time["un1"])
-
-                     
+            keys = ["state", "id", "user_id", "cell", "time_raw", "us1", "un1"]
+            values = [time['state'], time['id'], time['user_id'], time['cell'], time['time_raw'], time['us1'], time['un1']]        
+                    
+            
             ret = self.db.insert_from_lists("times", keys, values)
+            #print "prvni insert", ret
+            #values[1] = values[1] + 1000 
+            #ret |= self.db.insert_from_lists("times", keys, values)
+            #print "druhy insert", ret
         else:
             ret = False
                 
@@ -777,8 +812,8 @@ class ManageComm(Thread):
             print "I: DB: time already exists"
         else:
             #shift auto numbers
-            aux_new_times = dstore.GetItem("gui", ["update_requests", "new_times"])
-            aux_new_times.append(time)  
+            aux_new_times = dstore.GetItem("gui", ["update_requests", "new_times"])            
+            aux_new_times.append(time)              
             dstore.SetItem("gui", ["update_requests", "new_times"], aux_new_times)                                                                              
         return ret
                 
