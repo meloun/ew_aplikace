@@ -21,6 +21,7 @@ import zipfile
 from ewitis.gui.tabRaceSettings import tabRaceSettings
 from ewitis.gui.dfTableTimes import tableTimes
 from ewitis.gui.dfTableUsers import tableUsers
+from ewitis.gui.dfTableRaceInfo import tableRaceInfo
 import ewitis.gui.TimesUtils as TimesUtils
 
 class BarCellActions():
@@ -148,21 +149,182 @@ class BarCellActions():
 
            
     def sBackupDatabase(self, suffix = "_Backup"):        
-        racename = dstore.GetItem("racesettings-app", ['race_name']) 
+        racename = dstore.GetItem("racesettings-app", ['race_name'])
+        testname =  dstore.GetItem("racesettings-app", ['test_name'])
+        filename = timeutils.getUnderlinedDatetime() + "_" + racename + "_" + testname
         dirname = utils.get_filename("backup/"+timeutils.getUnderlinedDatetime()+"_"+racename+suffix+"/")        
         os.makedirs(dirname+"/db")
         os.makedirs(dirname+"/conf") 
         copyfile("db/test_db.sqlite",dirname+"/db/test_db.sqlite")
         copyfile("conf/conf_work.json",dirname+"/conf/conf_work.json")
         
-        zipf = zipfile.ZipFile(dirname+timeutils.getUnderlinedDatetime()+"_"+racename+".zip", 'w', zipfile.ZIP_DEFLATED)        
+        zipf = zipfile.ZipFile(dirname+filename+".zip", 'w', zipfile.ZIP_DEFLATED)        
         self.zipdir(dirname+"/db", zipf)
         self.zipdir(dirname+"/conf", zipf)
         zipf.close() 
+        
+        #create&save report as txt file to backup directory
+        #try:
+        with open(dirname+filename+".txt", "w") as f:
+            f.write(self.GetReport())
+        #except:
+        #    print "E: report - create or save"  
                 
         uiAccesories.showMessage("Backup database", "DB stored", msgtype = MSGTYPE.statusbar)                                                                                                                                                                                            
+       
+    def GetReport(self):
+        report_text = ""          
         
+        report_notes = '-------------------------------' + '\n'
+        report_notes = report_notes + 'NOTES \n'
+        report_notes = report_notes + '-------------------------------' + '\n'
+        report_notes = report_notes + dstore.GetItem("versions", ['app']) + '\n' + '\n'
+        report_notes = report_notes + dstore.GetItem("racesettings-app", ['profile_desc']).encode('utf-8') + '\n' + '\n'       
         
+        #
+        #remove times with nr 0
+        aux_timesDf = tableTimes.model.df[tableTimes.model.df['nr'] != 0].copy()
+        aux_usersDf = tableUsers.model.df[tableUsers.model.df['nr'] > 0].copy()
+        
+        if not aux_timesDf.empty:                            
+            
+            #CELLTIMES NUMBER
+            report_celltimes = '-------------------------------' + '\n'
+            report_celltimes = report_celltimes + "CELLTIMES" + '\n'
+            report_celltimes = report_celltimes + '-------------------------------' + '\n'
+            try:
+                #group by cell and get size
+                serTimesByCell_size = aux_timesDf.groupby("cell", as_index=False).size()                                           
+                #get first cell            
+                first_cell = sorted(list(serTimesByCell_size.keys()))[0]                                   
+                for (cell, nr_of_times) in serTimesByCell_size.iteritems():
+                    #add cell and nr of times
+                    report_celltimes = report_celltimes + "cell#"+str(cell)
+                    if cell != 250: report_celltimes = report_celltimes + "  "
+                    report_celltimes = report_celltimes + " : " + str(nr_of_times) + "time(s)"
+                    
+                    #CHECK #1: first cell and nr of times
+                    if (cell == first_cell):
+                        report_celltimes = report_celltimes + '  - první buňka -> OK' + '\n'
+                    else:
+                        if(nr_of_times == serTimesByCell_size[first_cell]):
+                            report_celltimes = report_celltimes + '  - stejný počet časů jako od startovací buňky -> OK' + '\n'
+                        elif(nr_of_times < serTimesByCell_size[first_cell]):
+                            report_celltimes = report_celltimes + '  - menší počet časů než od první buňky -> KONTROLA' + '\n'
+                        else:
+                            report_celltimes = report_celltimes + '  - větší počet časů než od první buňky -> !! CHYBA !!' + '\n'
+                report_text = report_text + report_celltimes + '\n' 
+            except:
+                print "E: report - celltimes"
+                
+            #USER RAWTIMES
+            report_usertimes = '-------------------------------' + '\n'
+            report_usertimes = report_usertimes + "USER RAWTIMEs" + '\n'
+            report_usertimes = report_usertimes + '-------------------------------' + '\n'
+            try:            
+                #group by nr and get size
+                groupTimesByNr = aux_timesDf.groupby("nr", as_index=False)            
+                serTimesByNr_size = groupTimesByNr.size()            
+                nr_of_users = len(serTimesByNr_size)            
+                most_frequent_nr_times = serTimesByNr_size.value_counts().index[0]                                   
+                report_usertimes = report_usertimes +  "(I) Nejčastější počet průjezdů branami (rawtimes): " + str(most_frequent_nr_times) + '\n'
+                report_usertimes = report_usertimes +  "(I) Počet časů v profilu (autofill): " + str(dstore.GetItem("racesettings-app", ['autonumbers','nr_cells'])) + '\n'            
+                
+                
+                for (nr, nr_of_times) in serTimesByNr_size.iteritems():                
+                    #if nr < 10: report_text = report_text + " "
+                    #if nr < 100: report_text = report_text + " "
+                    nr_string = "nr#" +str(nr) + " : " + str(nr_of_times) + "time(s)"
+                    #CHECK: user times check                
+                    if(nr_of_times == most_frequent_nr_times):
+                        pass
+                    elif(nr_of_times < most_frequent_nr_times):
+                        report_usertimes = report_usertimes + nr_string + '  - menší počet časů než je obvyklé -> !! CHYBA !!'  + '\n'
+                    else:
+                        report_usertimes = report_usertimes + nr_string + '  - větší počet časů než je obvyklé -> !! CHYBA !!'  + '\n'
+                        
+                if not "CHYBA" in report_usertimes:
+                    report_usertimes = report_usertimes + ' - všichni závodníci mají stejný počet časů jako je obvyklé -> OK'  + '\n'
+                report_text = report_text +  report_usertimes + '\n'
+            except:
+                print "E: report - user rawtimes"
+                
+            #TIME 1-4
+            try:
+                for i in range(4):          
+                    seriesTimes = aux_timesDf["time"+str(i+1)].dropna()
+                    seriesTimesNumber = seriesTimes.apply(lambda row: TimesUtils.TimesUtils.timestring2time(row, False))                            
+                    if seriesTimes.empty:
+                        continue                    
+                    else: 
+                        report_time = '-------------------------------' + '\n'
+                        report_time = report_time + "TIME"+str(i+1) + '\n'            
+                        report_time = report_time + '-------------------------------' + '\n'               
+                        time_max = seriesTimes.max()
+                        time_min = seriesTimes.min()
+                        time_median = seriesTimesNumber.median()                
+                        #report_section = report_section + "(I) Median: " + TimesUtils.TimesUtils.time2timestring(time_median) + '\n'
+                        report_time = report_time + "(I) Očekávaný rozsah (min-max): " + TimesUtils.TimesUtils.time2timestring(time_median*0.5) + " - " + TimesUtils.TimesUtils.time2timestring(time_median*1.5) + '\n'
+                        report_time = report_time + "(I) Nejvyšší/nejpomalejší čas: " + str(time_max) + '\n' 
+                        report_time = report_time + "(I) Nejnižší/nejrychlejší čas: " + str(time_min) + '\n'
+                        
+                                        
+                        #slow times
+                        seriesTimesNumber_slow = seriesTimesNumber[seriesTimesNumber > (time_median * 1.5)]
+                        report_time = report_time + 'ID časů vyšších/pomalejších než maximum: '
+                        if seriesTimesNumber_slow.empty:
+                            report_time = report_time + 'žádné časy -> OK'  + '\n'
+                        else:
+                            for nr in seriesTimesNumber_slow.index.values:
+                                report_time = report_time + str(nr) + ', '                 
+                            report_time = report_time + ' -> KONTROLA' + '\n'                              
+                        
+                        #fast times
+                        seriesTimesNumber_fast = seriesTimesNumber[seriesTimesNumber < (time_median * 0.5)]                        
+                        report_time = report_time + 'ID časů nižších/rychlejších než minimum: '
+                        if seriesTimesNumber_fast.empty:
+                            report_time = report_time + 'žádné časy -> OK'  + '\n'
+                        else:
+                            for nr in seriesTimesNumber_fast.index.values:                
+                                report_time = report_time + str(nr) + ', '
+                            report_time = report_time + ' -> KONTROLA' + '\n'
+                                                        
+                    report_text = report_text + report_time + '\n'
+            except:
+                print "E: report - time"
+            
+            report_text = report_text + '\n'
+            report_text = report_text + '--- end of report ---' + '\n'
+            
+            #SUMMARY
+            report_summary = '-------------------------------' + '\n'
+            report_summary = report_summary + 'SUMMARY \n'
+            report_summary = report_summary + '-------------------------------' + '\n'
+            try:
+                report_summary = report_summary + 'jelo ' + str(nr_of_users) + ' závodníků' + '\n'
+                serDnsUsers = aux_usersDf.nr[~aux_usersDf.nr.isin(aux_timesDf.nr)]
+                serUsersWithTime = aux_usersDf.nr[aux_usersDf.nr.isin(aux_timesDf.nr)]
+                report_summary = report_summary + 'nejelo ' + str(serDnsUsers.size) + ' závodníků' + '\n'
+                report_summary = report_summary + '\n' 
+                
+                report_summary = report_summary + 'jela čísla: '
+                for idx,nr in serUsersWithTime.iteritems():                
+                    report_summary = report_summary + str(nr) + ', '
+                report_summary = report_summary + '\n'
+                report_summary = report_summary + '\n'           
+                
+                report_summary = report_summary + 'nejela čísla: '
+                for idx,nr in serDnsUsers.iteritems():                
+                    report_summary = report_summary + str(nr) + ', '
+                report_summary = report_summary + '\n'
+                report_summary = report_summary + '\n'
+            except:
+                print "E: report - summary"
+               
+            report_text = report_summary + report_notes + report_text           
+            
+        return report_text
+            
     def sQuitTiming(self):
         if (uiAccesories.showMessage("Quit Timing", "Are you sure you want to quit timing? \n ", msgtype = MSGTYPE.warning_dialog) != True):            
             return

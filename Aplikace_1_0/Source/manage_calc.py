@@ -906,7 +906,7 @@ class ManageCalcProcess():
         #PREV
         if "prev" in rule:
             # prevYtimeX
-            for prev_i in range(1, 5):
+            for prev_i in range(1, 11):
                 for i in range(1, NUMBER_OF.TIMESCOLUMNS + 1):                   
                     previoustimeX = "prev"+str(prev_i)+"time" + str(i)
                     if previoustimeX in rule:

@@ -22,6 +22,7 @@ import ewitis.gui.TimesUtils as TimesUtils
 from ewitis.data.dstore import dstore
 import pandas as pd
 from ewitis.data.DEF_DATA import *
+from ewitis.gui.UiAccesories import uiAccesories
 from ewitis.gui.tabExportSettings import tabExportSettings
 from ewitis.gui.tabExportColumns import tabExportColumns
 from ewitis.gui.dfTableUsers import tableUsers

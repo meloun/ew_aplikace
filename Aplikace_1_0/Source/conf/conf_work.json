@@ -4,13 +4,13 @@
             "value": {
                 "lap": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
                         "filter": "",
                         "fromlaststart": 0
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
                         "filter": "",
                         "fromlaststart": 0
@@ -30,7 +30,7 @@
                 ],
                 "order": [
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "column1": "Points5",
                         "column2": "Year",
                         "description": "pořadí podle bodů",
@@ -40,7 +40,7 @@
                         "type": "Total"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "column1": "Time1",
                         "column2": " - - -",
                         "description": "",
@@ -50,7 +50,7 @@
                         "type": "Total"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "column1": "Time1",
                         "column2": " - - -",
                         "description": "",
@@ -62,39 +62,39 @@
                 ],
                 "points": [
                     {
-                        "checked": 0,
-                        "description": "časové trestné body1",
+                        "checked": 2,
+                        "description": "Časové trestné body 1",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:13,00%)"
+                        "rule": "abs(time1 - %00:00:10,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "časové trestné body2",
-                        "maximum": 500,
+                        "description": "",
+                        "maximum": 9999,
                         "minimum": 0,
-                        "rule": "abs(time2 - %00:00:20,00%)"
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "časové trestné body3",
-                        "maximum": 500,
+                        "description": "",
+                        "maximum": 9999,
                         "minimum": 0,
-                        "rule": "abs(time3 - %00:00:10,00%)"
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "checked": 0,
-                        "description": "časové trestné body4",
-                        "maximum": 500,
+                        "description": "",
+                        "maximum": 9999,
                         "minimum": 0,
-                        "rule": "abs(time4 - %00:00:18,00%)"
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "checked": 0,
                         "description": "trestné body celkem",
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "points1 + points2 + un1"
+                        "rule": "points1 + un1"
                     }
                 ],
                 "status": {
@@ -103,37 +103,37 @@
                 "time": [
                     {
                         "checked": 2,
-                        "description": "čas1",
+                        "description": "Čas 1",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "celltime2 - celltime1"
+                        "rule": "time - starttime"
                     },
                     {
-                        "checked": 2,
-                        "description": "čas2",
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "rule": "celltime3 - celltime1"
-                    },
-                    {
-                        "checked": 2,
-                        "description": "čas3",
-                        "filter": "cell=250",
-                        "minute_timeformat": 2,
-                        "rule": "celltime4 - celltime3"
-                    },
-                    {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime3"
+                        "rule": "time - starttime"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "filter": "cell=2|3|250",
+                        "minute_timeformat": 2,
+                        "rule": "time - starttime"
+                    },
+                    {
+                        "checked": 0,
+                        "description": "",
+                        "filter": "cell=2|3|250",
+                        "minute_timeformat": 2,
+                        "rule": "time - starttime"
                     }
                 ],
                 "un": [
                     {
-                        "checked": 0,
-                        "description": "penalizace"
+                        "checked": 2,
+                        "description": "Penalizace"
                     },
                     {
                         "checked": 0,
@@ -146,8 +146,8 @@
                 ],
                 "us": [
                     {
-                        "checked": 0,
-                        "description": "důvody penalizací"
+                        "checked": 2,
+                        "description": "Komentář"
                     }
                 ]
             }
@@ -190,21 +190,21 @@
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 0,
+                        "points1": 2,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
                         "sex": 0,
                         "status": 0,
-                        "time1": 0,
+                        "time1": 2,
                         "time2": 0,
                         "time3": 0,
                         "time4": 0,
-                        "un1": 0,
+                        "un1": 2,
                         "un2": 0,
                         "un3": 0,
-                        "us1": 0,
+                        "us1": 2,
                         "year": 0
                     },
                     {
@@ -328,20 +328,20 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "Body 1",
-                        "points2": "Body 2",
-                        "points3": "Body 3",
-                        "points4": "Body 4",
+                        "points2": "",
+                        "points3": "",
+                        "points4": "",
                         "points5": "",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Čas1",
-                        "time2": "Čas2",
-                        "time3": "Čas3",
-                        "time4": "Čas4",
+                        "time1": "Čas 1",
+                        "time2": "",
+                        "time3": "",
+                        "time4": "",
                         "un1": "Penalizace",
                         "un2": "",
                         "un3": "",
-                        "us1": "Duvod",
+                        "us1": "Komentář",
                         "year": ""
                     },
                     {
@@ -592,8 +592,8 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "SP22",
-                    "description": "HOCHREITER BAD LEONFELDEN (100m / 30s, 150m / 20s, 80m / 10s, 140m / 18s)",
+                    "categoryname": "TP01",
+                    "description": "Jméno TP01 do výsledků bez časů a délky (100m / 10s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
@@ -604,8 +604,8 @@
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "%category%",
-                    "description": "%description%",
+                    "categoryname": "TP01 - celkove",
+                    "description": "pouze pro celkove",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 }
@@ -654,7 +654,7 @@
                     "o4"
                 ],
                 "text": [
-                    "text sms zprávy",
+                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI TP01 – %time1%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
                     "text sms zprávy",
                     "text sms zprávy"
                 ]
@@ -697,57 +697,57 @@
                 {
                     "description": "description",
                     "keyword": "JmenoZavodu",
-                    "value": "Mühlviertel CLASSIC 2022"
+                    "value": "7 Castles Trial 2022"
                 },
                 {
                     "description": "description",
                     "keyword": "TestPresnosti",
-                    "value": "SP22"
+                    "value": "TP01"
                 },
                 {
                     "description": "description",
                     "keyword": "TestJmeno",
-                    "value": "HOCHREITER BAD LEONFELDEN"
+                    "value": "TEST PŘESNOSTI ENGINE GROUP"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCharakter",
-                    "value": "S1,2-C1-C2,S3,S4-C3-C4"
+                    "value": "S-C"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCasy",
-                    "value": "100m / 30s, 150m / 20s, 80m / 10s, 140m / 18s"
+                    "value": "70m / 12s"
                 },
                 {
                     "description": "description",
                     "keyword": "TestMisto",
-                    "value": "ověřit sám"
+                    "value": "Engine Gallery"
                 },
                 {
                     "description": "description",
                     "keyword": "KdeJeHadice",
-                    "value": "ověřit sám"
+                    "value": "NE"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku1",
-                    "value": "00:00:30,00"
+                    "keyword": "CasUseku",
+                    "value": "00:00:12,00"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku2",
-                    "value": "00:00:20,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku3",
-                    "value": "00:00:10,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku4",
-                    "value": "00:00:18,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
@@ -803,21 +803,21 @@
             "changed": true,
             "value": {
                 "autocell": {
-                    "nr_cells": 2
+                    "nr_cells": 0
                 },
                 "autonumbers": {
                     "cells": [
                         1,
-                        2,
-                        3,
-                        4,
                         250,
+                        0,
+                        0,
+                        0,
                         0,
                         0
                     ],
                     "mode": 3,
-                    "nr_cells": 5,
-                    "nr_users": 2
+                    "nr_cells": 2,
+                    "nr_users": 4
                 },
                 "evaluation": {
                     "finishtime": {
@@ -826,11 +826,11 @@
                     },
                     "starttime": 1
                 },
-                "profile": "C:/EWITIS/v3_30a_MVC_SP22/imports/SP22_new.json",
-                "profile_desc": "Mühlviertel CLASSIC 2022\nSP22 - HOCHREITER BAD LEONFELDEN\nMísto: ověřit sám\n\nS1,2-C1-C2,S3,S4-C3-C4\n100m / 13s, 150m / 20s, 80m / 10s, 140m / 18s\nHadice - ověřit sám",
-                "race_name": "Mühlviertel CLASSIC 2022",
+                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/import/TP01.json",
+                "profile_desc": "Around the World\nTP01 - Jméno TP01 do výsledků bez časů a délky\nMísto: Labuť Čáslavú\n\nS1-C1\n100m/10s\nHadice 1: Neni\nHadice 2: Neni\n",
+                "race_name": "Around the World",
                 "remote": 0,
-                "test_name": "SP22"
+                "test_name": "TP01"
             }
         },
         "name": "race settings",
@@ -840,15 +840,15 @@
         "GET_SET": {
             "value": {
                 "auto_cell": [
-                    100,
-                    108,
+                    0,
+                    0,
                     0,
                     0
                 ],
-                "auto_cell_address": 2,
+                "auto_cell_address": 0,
                 "auto_cell_index": 0,
                 "auto_number": [
-                    0,
+                    9,
                     0,
                     0,
                     0

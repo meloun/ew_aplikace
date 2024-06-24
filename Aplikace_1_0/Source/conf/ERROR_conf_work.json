@@ -66,28 +66,28 @@
                         "description": "časové trestné body1",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %$CasUseku1$%)"
+                        "rule": "abs(time1 - %00:00:09,00%)"
                     },
                     {
                         "checked": 2,
                         "description": "časové trestné body2",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time2 - %$CasUseku2$%)"
+                        "rule": "abs(time2 - %00:00:20,00%)"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "časové trestné body3",
                         "maximum": 500,
                         "minimum": 0,
                         "rule": "abs(time3 - %$CasUseku3$%)"
                     },
                     {
-                        "checked": 2,
-                        "description": "časové trestné body4",
-                        "maximum": 500,
+                        "checked": 0,
+                        "description": "",
+                        "maximum": 9999,
                         "minimum": 0,
-                        "rule": "abs(time4 - %$CasUseku4$%)"
+                        "rule": "abs(time1 - %00:01:30,00%)"
                     },
                     {
                         "checked": 0,
@@ -116,18 +116,18 @@
                         "rule": "celltime3 - celltime1"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "čas3",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "celltime4 - celltime3"
+                        "rule": "time - celltime2"
                     },
                     {
-                        "checked": 2,
+                        "checked": 0,
                         "description": "",
-                        "filter": "cell=250",
+                        "filter": "cell=2|3|250",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime3"
+                        "rule": "time - starttime"
                     }
                 ],
                 "un": [
@@ -192,15 +192,15 @@
                         "ordercat3": 0,
                         "points1": 2,
                         "points2": 2,
-                        "points3": 2,
-                        "points4": 2,
+                        "points3": 0,
+                        "points4": 0,
                         "points5": 0,
                         "sex": 0,
                         "status": 0,
                         "time1": 2,
                         "time2": 2,
-                        "time3": 2,
-                        "time4": 2,
+                        "time3": 0,
+                        "time4": 0,
                         "un1": 2,
                         "un2": 0,
                         "un3": 0,
@@ -329,15 +329,15 @@
                         "ordercat3": "",
                         "points1": "Body 1",
                         "points2": "Body 2",
-                        "points3": "Body 3",
-                        "points4": "Body 4",
+                        "points3": "",
+                        "points4": "",
                         "points5": "",
                         "sex": "",
                         "status": "Status",
                         "time1": "Čas1",
                         "time2": "Čas2",
                         "time3": "Čas3",
-                        "time4": "Čas4",
+                        "time4": "",
                         "un1": "Penalizace",
                         "un2": "",
                         "un3": "",
@@ -592,8 +592,8 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "$TestPresnosti$",
-                    "description": "$TestJmeno$ ($TestCasy$)",
+                    "categoryname": "SP21",
+                    "description": "DIETRICHSCHLAG (60m / 9s, 140m / 20s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
@@ -697,27 +697,27 @@
                 {
                     "description": "description",
                     "keyword": "JmenoZavodu",
-                    "value": "Mühlviertel CLASSIC 2022"
+                    "value": "Mühlviertel CLASSIC 2022\n"
                 },
                 {
                     "description": "description",
                     "keyword": "TestPresnosti",
-                    "value": "SP22"
+                    "value": "SP21"
                 },
                 {
                     "description": "description",
                     "keyword": "TestJmeno",
-                    "value": "HOCHREITER BAD LEONFELDEN"
+                    "value": "DIETRICHSCHLAG"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCharakter",
-                    "value": "S1,2-C1-C2,S3,S4-C3-C4"
+                    "value": "S1,S2-C1-C2"
                 },
                 {
                     "description": "description",
                     "keyword": "TestCasy",
-                    "value": "100m / 30s, 150m / 20s, 80m / 10s, 140m / 18s"
+                    "value": "60m / 9s, 140m / 20s"
                 },
                 {
                     "description": "description",
@@ -732,7 +732,7 @@
                 {
                     "description": "description",
                     "keyword": "CasUseku1",
-                    "value": "00:00:30,00"
+                    "value": "00:00:09,00"
                 },
                 {
                     "description": "description",
@@ -741,13 +741,13 @@
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku3",
-                    "value": "00:00:10,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku4",
-                    "value": "00:00:18,00"
+                    "keyword": "keyword",
+                    "value": "value"
                 },
                 {
                     "description": "description",
@@ -809,14 +809,14 @@
                     "cells": [
                         1,
                         2,
-                        3,
-                        4,
                         250,
+                        250,
+                        0,
                         0,
                         0
                     ],
                     "mode": 3,
-                    "nr_cells": 5,
+                    "nr_cells": 3,
                     "nr_users": 4
                 },
                 "evaluation": {
@@ -826,11 +826,11 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/conf/Config_S1,2-C1-C2,S3,S4-C3-C4.tjson",
-                "profile_desc": "$JmenoZavodu$\n$TestPresnosti$ - $TestJmeno$\nMísto: $TestMisto$\n\n$TestCharakter$\n$TestCasy$\nHadice - $KdeJeHadice$",
-                "race_name": "$JmenoZavodu$",
+                "profile": "D:/Dropbox/casomira-extern/02_Zavody/Templates_slozky/Importy/profily/template/pro_DB_nemaji_export_pro_PDF/Config_S1,S2-C1-C2.tjson",
+                "profile_desc": "Mühlviertel CLASSIC 2022 \nSP21 - DIETRICHSCHLAG\nMísto: ověřit sám\n\nS1,S2-C1-C2\n60m / 9s, 140m / 20s\nHadice - ověřit sám",
+                "race_name": "Mühlviertel CLASSIC 2022",
                 "remote": 0,
-                "test_name": "$TestPresnosti$"
+                "test_name": "SP21"
             }
         },
         "name": "race settings",

@@ -58,9 +58,14 @@ class DfModelRaceInfo(DataframeTableModel):
         if tableTimes.model.df.empty:
             return pd.DataFrame()  
         
+        
+        #remove times with nr 0
+        aux_timesDf = tableTimes.model.df[tableTimes.model.df['nr'] != 0].copy()
+        
         '''ADD TOTAL'''
         #group by cell and get size
-        serTimesByCell_size = tableTimes.model.df.groupby("cell", as_index=False).size()
+        serTimesByCell_size = aux_timesDf.groupby("cell", as_index=False).size()
+        
                  
         #create new row               
         row = self.getDefaultTableRow()
@@ -77,7 +82,7 @@ class DfModelRaceInfo(DataframeTableModel):
         
         '''ADD CATEGORIES'''
         #group by category and get size
-        gbTimesByCategory = tableTimes.model.df.groupby("category")        
+        gbTimesByCategory = aux_timesDf.groupby("category")        
         for category, dfTimesInCategory in gbTimesByCategory: 
             serTimesForCategoryByCell_size = dfTimesInCategory.groupby("cell").size()        
                                                                  
