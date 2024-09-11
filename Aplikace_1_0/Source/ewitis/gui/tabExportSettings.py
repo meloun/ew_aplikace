@@ -269,9 +269,11 @@ class TabExportSettings():
             self.smsgroups[i].CreateSlots()
             self.filtersortgroups[i] = FilterSortGroup(i)
             self.filtersortgroups[i].CreateSlots()
+        
 
         
-            
+        QtCore.QObject.connect(Ui().spinExportDNSPoints, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export_parameters", ["DNS_points"], state, self.Update))
+        QtCore.QObject.connect(Ui().spinExportDNFPoints, QtCore.SIGNAL("valueChanged(int)"), lambda state: uiAccesories.sGuiSetItem("export_parameters", ["DNF_points"], state, self.Update))    
         
             
         #QtCore.QObject.connect(Ui().radioExportLapsTimes,      QtCore.SIGNAL("toggled(bool)"), lambda index: dstore.SetItem("export_laps", ["column"], 0) if index else None)
@@ -292,7 +294,12 @@ class TabExportSettings():
             self.headergroups[i].Update()
             self.wwwgroups[i].Update()
             self.smsgroups[i].Update()
-            self.filtersortgroups[i].Update()                        
+            self.filtersortgroups[i].Update()
+       
+        #DNS points   
+        Ui().spinExportDNSPoints.setValue(dstore.GetItem("export_parameters", ["DNS_points"]))
+        #DNF points
+        Ui().spinExportDNFPoints.setValue(dstore.GetItem("export_parameters", ["DNF_points"]))                          
           
             
 #             column = dstore.GetItem("export_laps", ["column"])

@@ -41,7 +41,7 @@ class BarCellActions():
     
     def InitGui(self):
         ui = Ui()
-        self.nr = 6 #dstore.Get("nr_cells")
+        self.nr = 8 #dstore.Get("nr_cells")
         
         #toolbar because of css color-settings
         self.toolbar_ping = getattr(ui, "toolBarCellPing")

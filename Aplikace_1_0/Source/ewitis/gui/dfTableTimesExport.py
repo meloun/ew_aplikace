@@ -31,9 +31,58 @@ from ewitis.gui.dfTableCGroups import tableCGroups
 import libs.utils.utils as utils
 import libs.timeutils.timeutils as timeutils
 import ewitis.exports.ewitis_html as ew_html
+import requests, json
+import subprocess
+import datetime
+import threading
+import os
+ 
+
+ 
 
 
-(eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_EXPORT_DB, eCSV_EXPORT_DNS_DB, eHTM_EXPORT, eHTM_EXPORT_LOGO) = range(0, 6)
+(eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_EXPORT_DB, eCSV_EXPORT_DNS_DB, eHTM_EXPORT, eSCRIPT_EXPORT, eHTM_EXPORT_LOGO) = range(0, 7)
+
+def ScriptExecfile(file, global_vars):
+    try:
+        execfile(file, global_vars)
+    except:
+        print "E: user script"
+    
+def ScriptExport(utDf):
+    # Run the called script with arguments
+    #subprocess.run('python user_export.py', shell = True)
+
+    export = {"times": [] }
+    # 3DFs for 3 exports
+    exportDf = pd.DataFrame()
+    arguments = {"utDf": utDf.to_json(orient="records") }
+    
+    if len(utDf) != 0:
+        
+        exportDf =  utDf[ ["id", "nr", "time1"] ].copy()
+        
+        # Vytvoření vlákna pro paralelní běh
+        vlakno = threading.Thread(target=ScriptExecfile, args=('script_export.py', arguments))
+
+        # Spuštění vlákna
+        vlakno.start()
+
+        # Čekání na dokončení vlákna (nepovinné)
+        #vlakno.join()
+        
+        
+        '''EXECFILE '''
+        #print type(utDf.to_json(orient="records"))
+        #execfile('script_export2.py', arguments)
+        
+        
+        
+        '''SUBPROCESS'''  
+        #print(datetime.datetime.now())
+        #p = subprocess.Popen(['python', 'script_export.py', utDf.to_json(orient="records")])
+        #print(datetime.datetime.now())       
+    return True
     
 '''
  F11, F12 - final results
@@ -112,6 +161,12 @@ def Export(utDf, export_type=eCSV_EXPORT):
             # print "PRED",i, aux_df.head(2), aux_df.dtypes
             ConvertToInt(aux_df)
             # print "PO",i, aux_df.head(2), aux_df.dtypes
+            
+            
+            #CHANGE POINTS FOR DNF
+            for c in [s for s in aux_df.columns if "point" in s]:
+                aux_df.loc[ aux_df['us1'] == "DNF", c] = dstore.GetItem("export_parameters", ["DNF_points"])
+
             
             # ADD: missing users with DNS status
             if export_type == eCSV_EXPORT_DNS or export_type == eCSV_EXPORT_DNS_DB:                
@@ -572,7 +627,7 @@ def AddMissingUsers(tDf):
     
     # add 0 to pointX
     for c in [s for s in tDf.columns if "point" in s]:
-        df_dnf_users[c] = 0
+        df_dnf_users[c] = dstore.GetItem("export_parameters", ["DNS_points"])
          
     # add 0 to lapX
     for c in [s for s in tDf.columns if "lap" in s]:

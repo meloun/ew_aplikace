@@ -4,7 +4,7 @@
             "value": {
                 "lap": [
                     {
-                        "checked": 0,
+                        "checked": 2,
                         "description": "",
                         "filter": "",
                         "fromlaststart": 0
@@ -33,7 +33,7 @@
                         "checked": 0,
                         "column1": "Points5",
                         "column2": "Year",
-                        "description": "pořadí podle bodů",
+                        "description": "pořadí podle bodů celkového času",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
@@ -41,9 +41,9 @@
                     },
                     {
                         "checked": 0,
-                        "column1": "Time1",
-                        "column2": " - - -",
-                        "description": "",
+                        "column1": "Points4",
+                        "column2": "Year",
+                        "description": "pořadí podle bodů vložený test",
                         "order1": "Asc",
                         "order2": "Asc",
                         "row": "Last times",
@@ -66,10 +66,17 @@
                         "description": "Časové trestné body 1",
                         "maximum": 500,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:00:10,00%)"
+                        "rule": "abs(time1 - %00:00:22,50%)"
                     },
                     {
-                        "checked": 0,
+                        "checked": 2,
+                        "description": "Časové trestné body tajná 1",
+                        "maximum": 500,
+                        "minimum": 0,
+                        "rule": "abs(time2 - %00:00:08,00%)"
+                    },
+                    {
+                        "checked": 2,
                         "description": "",
                         "maximum": 9999,
                         "minimum": 0,
@@ -77,17 +84,10 @@
                     },
                     {
                         "checked": 0,
-                        "description": "",
+                        "description": "trestné body vložené",
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "abs(time1 - %00:01:30,00%)"
-                    },
-                    {
-                        "checked": 0,
-                        "description": "",
-                        "maximum": 9999,
-                        "minimum": 0,
-                        "rule": "abs(time1 - %00:01:30,00%)"
+                        "rule": "points2 + un2"
                     },
                     {
                         "checked": 0,
@@ -106,14 +106,14 @@
                         "description": "Čas 1",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "celltime2 - starttime"
                     },
                     {
-                        "checked": 0,
-                        "description": "",
-                        "filter": "cell=2|3|250",
+                        "checked": 2,
+                        "description": "Čas tajná 1",
+                        "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - starttime"
+                        "rule": "time - celltime2"
                     },
                     {
                         "checked": 0,
@@ -136,8 +136,8 @@
                         "description": "Penalizace"
                     },
                     {
-                        "checked": 0,
-                        "description": ""
+                        "checked": 2,
+                        "description": "Penalizace tajná"
                     },
                     {
                         "checked": 0,
@@ -208,7 +208,7 @@
                         "year": 0
                     },
                     {
-                        "category": 2,
+                        "category": 0,
                         "club": 2,
                         "gap1": 0,
                         "gap2": 0,
@@ -220,12 +220,12 @@
                         "lap4": 0,
                         "name": 2,
                         "nr": 2,
-                        "o1": 0,
-                        "o2": 0,
+                        "o1": 2,
+                        "o2": 2,
                         "o3": 0,
                         "o4": 0,
-                        "order1": 2,
-                        "order2": 0,
+                        "order1": 0,
+                        "order2": 2,
                         "order3": 0,
                         "ordercat1": 0,
                         "ordercat2": 0,
@@ -237,15 +237,15 @@
                         "points5": 0,
                         "sex": 0,
                         "status": 0,
-                        "time1": 2,
-                        "time2": 0,
+                        "time1": 0,
+                        "time2": 2,
                         "time3": 0,
                         "time4": 0,
                         "un1": 0,
-                        "un2": 0,
+                        "un2": 2,
                         "un3": 0,
                         "us1": 0,
-                        "year": 0
+                        "year": 2
                     },
                     {
                         "category": 0,
@@ -270,7 +270,7 @@
                         "ordercat1": 0,
                         "ordercat2": 0,
                         "ordercat3": 0,
-                        "points1": 2,
+                        "points1": 0,
                         "points2": 0,
                         "points3": 0,
                         "points4": 0,
@@ -278,20 +278,20 @@
                         "sex": 0,
                         "status": 0,
                         "time1": 0,
-                        "time2": 0,
+                        "time2": 2,
                         "time3": 0,
                         "time4": 0,
-                        "un1": 2,
-                        "un2": 0,
+                        "un1": 0,
+                        "un2": 2,
                         "un3": 0,
-                        "us1": 0,
+                        "us1": 2,
                         "year": 0
                     }
                 ],
                 "enabled_csv": [
                     true,
                     false,
-                    false
+                    true
                 ],
                 "enabled_htm": [
                     false,
@@ -396,7 +396,7 @@
                         "lap3": "",
                         "lap4": "",
                         "name": "",
-                        "nr": "",
+                        "nr": "Číslo",
                         "o1": "",
                         "o2": "",
                         "o3": "",
@@ -408,20 +408,20 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "",
-                        "points2": "",
+                        "points2": "Body tajná 1",
                         "points3": "",
                         "points4": "",
                         "points5": "",
                         "sex": "",
                         "status": "Status",
                         "time1": "",
-                        "time2": "",
+                        "time2": "Čas tajná 1",
                         "time3": "",
                         "time4": "",
                         "un1": "",
-                        "un2": "",
+                        "un2": "Penalizace tajná",
                         "un3": "",
-                        "us1": "",
+                        "us1": "Komentář",
                         "year": ""
                     }
                 ],
@@ -492,7 +492,7 @@
                         "points1": 29,
                         "points2": 30,
                         "points3": 31,
-                        "points4": 32,
+                        "points4": 35,
                         "points5": 33,
                         "sex": 12,
                         "status": 38,
@@ -501,7 +501,7 @@
                         "time3": 25,
                         "time4": 27,
                         "un1": 34,
-                        "un2": 35,
+                        "un2": 34,
                         "un3": 36,
                         "us1": 37,
                         "year": 10
@@ -566,18 +566,18 @@
                     "type": "categories"
                 },
                 {
-                    "filter": "last times with time1",
+                    "filter": "last times with time2",
                     "onerow": 0,
-                    "sort1": "order1",
+                    "sort1": "order2",
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
-                    "type": "total"
+                    "type": "categories"
                 },
                 {
                     "filter": "last times with time1",
                     "onerow": 0,
-                    "sort1": "order1",
+                    "sort1": "timeraw",
                     "sort2": "- - -",
                     "sortorder1": "asc",
                     "sortorder2": "asc",
@@ -592,20 +592,20 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "TP01",
-                    "description": "Jméno TP01 do výsledků bez časů a délky (100m / 10s)",
+                    "categoryname": "TP03",
+                    "description": "25 let Škoda Fabia (150m / 22,5s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "%category%",
-                    "description": "%description%",
+                    "categoryname": "$TestPresnosti2$",
+                    "description": "$TestJmeno2$ ($TestCasy2$)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "TP01 - celkove",
-                    "description": "pouze pro celkove",
+                    "categoryname": "TT2",
+                    "description": "Tajný test 2 (40m / 8s)",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 }
@@ -621,6 +621,16 @@
             }
         },
         "name": "export_laps",
+        "permanent": true
+    },
+    "export_parameters": {
+        "GET_SET": {
+            "changed": true,
+            "value": {
+                "DNF_points": 1000,
+                "DNS_points": 1000
+            }
+        },
         "permanent": true
     },
     "export_sms": {
@@ -654,8 +664,8 @@
                     "o4"
                 ],
                 "text": [
-                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI TP01 – %time1%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
-                    "text sms zprávy",
+                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI $TestPresnosti1$ – %time1%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
+                    "7 CASTLES TRIAL INFO POSADCE VOZU c. %nr%: TEST PRESNOSTI $TestPresnosti2$ – %time2%s, PRESNOU JIZDU PREJE TYM CLASSIC RALLYE!",
                     "text sms zprávy"
                 ]
             }
@@ -701,98 +711,98 @@
                 },
                 {
                     "description": "description",
-                    "keyword": "TestPresnosti",
-                    "value": "TP01"
-                },
-                {
-                    "description": "description",
-                    "keyword": "TestJmeno",
-                    "value": "TEST PŘESNOSTI ENGINE GROUP"
-                },
-                {
-                    "description": "description",
-                    "keyword": "TestCharakter",
-                    "value": "S-C"
-                },
-                {
-                    "description": "description",
-                    "keyword": "TestCasy",
-                    "value": "70m / 12s"
-                },
-                {
-                    "description": "description",
                     "keyword": "TestMisto",
-                    "value": "Engine Gallery"
+                    "value": "Slatina u Hazmburku"
                 },
                 {
                     "description": "description",
-                    "keyword": "KdeJeHadice",
+                    "keyword": "TestPresnosti1",
+                    "value": "TP06"
+                },
+                {
+                    "description": "description",
+                    "keyword": "TestJmeno1",
+                    "value": "TEST PŘESNOSTI MED Z ČESKÉHO STŘEDOHOŘÍ"
+                },
+                {
+                    "description": "description",
+                    "keyword": "TestCharakter1",
+                    "value": "S - C, ST - CT"
+                },
+                {
+                    "description": "description",
+                    "keyword": "TestCasy1",
+                    "value": "50m / 0,15min"
+                },
+                {
+                    "description": "description",
+                    "keyword": "KdeJeHadice1",
                     "value": "NE"
                 },
                 {
                     "description": "description",
-                    "keyword": "CasUseku",
-                    "value": "00:00:12,00"
+                    "keyword": "CasUseku1",
+                    "value": "00:00:09,00"
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "TestPresnosti2",
+                    "value": "TT2"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "TestJmeno2",
+                    "value": "TAJNÝ TEST PŘESNOSTI 2"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "TestCharakter2",
+                    "value": "ST - CT"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "TestCasy2",
+                    "value": "80m / 14s"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "KdeJeHadice2",
+                    "value": "NE"
                 },
                 {
                     "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "keyword": "CasUseku2",
+                    "value": "00:00:14,00"
                 },
                 {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 },
                 {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 },
                 {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 },
                 {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 },
                 {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
-                },
-                {
-                    "description": "description",
-                    "keyword": "keyword",
-                    "value": "value"
+                    "description": "",
+                    "keyword": "",
+                    "value": ""
                 }
             ]
         },
@@ -808,15 +818,15 @@
                 "autonumbers": {
                     "cells": [
                         1,
+                        2,
                         250,
-                        0,
-                        0,
+                        250,
                         0,
                         0,
                         0
                     ],
                     "mode": 3,
-                    "nr_cells": 2,
+                    "nr_cells": 3,
                     "nr_users": 4
                 },
                 "evaluation": {
@@ -826,11 +836,11 @@
                     },
                     "starttime": 1
                 },
-                "profile": "D:/Ewitis/ew_aplikace/Aplikace_1_0/Source/import/TP01.json",
-                "profile_desc": "Around the World\nTP01 - Jméno TP01 do výsledků bez časů a délky\nMísto: Labuť Čáslavú\n\nS1-C1\n100m/10s\nHadice 1: Neni\nHadice 2: Neni\n",
-                "race_name": "Around the World",
+                "profile": "C:/Users/PP/EWITIS/2024_08_31_SCT2024/Importy/profily/Export_TP/TP03.json",
+                "profile_desc": "ŠKODA CLASSIC TOUR 2024\nTP03 - 25 let Škoda Fabia\nTT2 - Tajný test 2\nMísto: Chyjice\n\nS1-C1/ST1-CT1\n150m/25,5s\n40m/8s\nHadice 1: Neni\nHadice 2: Neni\n",
+                "race_name": "ŠKODA CLASSIC TOUR 2024",
                 "remote": 0,
-                "test_name": "TP01"
+                "test_name": "TP03"
             }
         },
         "name": "race settings",
@@ -848,7 +858,7 @@
                 "auto_cell_address": 0,
                 "auto_cell_index": 0,
                 "auto_number": [
-                    9,
+                    0,
                     0,
                     0,
                     0
@@ -856,7 +866,8 @@
                 "auto_number_enable": 0,
                 "auto_number_logic": false,
                 "auto_refresh": 1,
-                "auto_timer": 0,
+                "auto_script_refresh": 0,
+                "auto_timer": 30,
                 "auto_www_refresh": 0,
                 "highlight_enable": 0
             }

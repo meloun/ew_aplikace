@@ -746,6 +746,15 @@ class ManageComm(Thread):
                             #print "NAHRAZUJI", time['user_id'], dbUser['id']
                             time['user_id'] = dbUser['id']
             elif(ds_racesettings["autonumbers"]["mode"] == AutonumbersMode.SPRINT):
+                '''
+                cell 1 - semafor => generuje 2 casy, stejný raw time. (ten druhý je pouze v app, má ID +1000)
+                cell 2,3 - ulitý start => generuje oboje jako cell 2,
+                cell 4,5 - rychlost
+                cell 6,7 - cíl => generuje oboje jako cell 250
+                
+                dráha A: 1,2,4,6 => 1,2,4,250 
+                dráha B: 1,3,5,7 => 1,2,4,250
+                '''
                 #us1                
                 time['un1'] = time['cell']   
                 if time['cell'] == 1:                    
@@ -761,12 +770,19 @@ class ManageComm(Thread):
                 elif time['cell'] == 3:
                     time["us1"] = "B"
                     time["cell"] = 2
-                    auto_number = ds_times["auto_number"][1]                    
+                    auto_number = ds_times["auto_number"][1]
                 elif time['cell'] == 4:
+                    time["us1"] = "A"
+                    auto_number = ds_times["auto_number"][0]
+                elif time['cell'] == 5:
+                    time["us1"] = "B"
+                    time["cell"] = 4
+                    auto_number = ds_times["auto_number"][1]                                        
+                elif time['cell'] == 6:
                     time["us1"] = "A"
                     time["cell"] = 250
                     auto_number = ds_times["auto_number"][0] 
-                elif time['cell'] == 5:
+                elif time['cell'] == 7:
                     time["us1"] = "B"
                     time["cell"] = 250
                     auto_number = ds_times["auto_number"][1] 

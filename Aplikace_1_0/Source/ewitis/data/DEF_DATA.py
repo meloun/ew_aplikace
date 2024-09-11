@@ -129,7 +129,8 @@ DEF_DATA = {
                                                           "auto_cell": [0]*NUMBER_OF.AUTO_NUMBER,
                                                           "auto_cell_index": 0,                                                          
                                                           "auto_refresh": 0,
-                                                          "auto_www_refresh": 0,
+                                                          "auto_www_refresh": 0,                                                          
+                                                          "auto_script_refresh": 0,
                                                           "highlight_enable": CheckboxValue.unchecked,
                                                           "auto_timer": 0 
                                                          }
@@ -355,6 +356,14 @@ DEF_DATA = {
                                               "changed": True
                                               }  
                         },
+        "export_parameters"  : {"permanent": True,
+                                "GET_SET"  : {"value": {
+                                                        "DNS_points"      : 1000, 
+                                                        "DNF_points"      : 1000,                                                                                                               
+                                                        },                                              
+                                              "changed": True
+                                              }  
+                            },        
         "export_sms"         : {"permanent": True,
                                 "GET_SET"  : {"value": {
                                                         "phone_column"      : ["o1", "o2"],
@@ -425,7 +434,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.36a MVC2024",
+                                                        "app": "v3.38b Formule",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

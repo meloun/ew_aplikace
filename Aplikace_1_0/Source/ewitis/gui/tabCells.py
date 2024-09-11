@@ -101,6 +101,7 @@ class CellGroup ():
         if task != 0:
             for info in cells_info:
                 if info['task'] == task:
+                    print "INFO", info
                      
                     self.comboCellTask.setCurrentIndex(self.TaskNr2Idx(get_cell_info["task"]))                                                                                                                                                            
                     uiAccesories.showMessage("Cell Update error", "Cannot assign this task, probably already exist!")
@@ -204,12 +205,12 @@ class CellGroup ():
         if task == None:
             task = 0
         elif task == 250:
-            task = 6
+            task = 8
         return task
     
     def Idx2TaskNr(self, idx):
         #take care about finish time
-        if idx == 6:
+        if idx == 8:
             idx = 250
         return idx  
     
