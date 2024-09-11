@@ -434,7 +434,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.38b Formule",
+                                                        "app": "v3.39a PCC",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },
