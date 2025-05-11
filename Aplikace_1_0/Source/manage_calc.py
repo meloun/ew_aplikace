@@ -405,7 +405,9 @@ class ManageCalcProcess():
                 
             
             '''FILTER by row'''
-            #1. sort Best times, Last times                            
+
+            #1. sort Best times, Last times  
+            print type(aux_df)                          
             if group['row'] == u'Best times1':                      
                 aux_df = aux_df.sort("time1", ascending = False )
             elif group['row'] == u'Best times2':                      
@@ -416,6 +418,16 @@ class ManageCalcProcess():
                 aux_df = aux_df.sort("time4", ascending = False )   
             elif group['row'] == u'Last times':                                 
                 aux_df = aux_df.sort_values(by="time_raw")
+            elif group['row'] == u'Best points1':        
+                aux_df = aux_df.sort("points1", ascending = False )
+            elif group['row'] == u'Best points2':        
+                aux_df = aux_df.sort("points2", ascending = False )
+            elif group['row'] == u'Best points3':        
+                aux_df = aux_df.sort("points3", ascending = False )
+            elif group['row'] == u'Best points4':        
+                aux_df = aux_df.sort("points4", ascending = False )
+            elif group['row'] == u'Best points5':        
+                aux_df = aux_df.sort("points5", ascending = False ) 
             else:
                 print "ERROR: no row specified!!!", group        
                             

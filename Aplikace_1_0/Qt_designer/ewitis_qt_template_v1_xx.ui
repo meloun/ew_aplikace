@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -4844,6 +4844,31 @@
                <string>Best times4</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>Best points1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points5</string>
+              </property>
+             </item>
             </widget>
             <widget class="QComboBox" name="comboOrderRow_2">
              <property name="enabled">
@@ -4885,6 +4910,31 @@
                <string>Best times4</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>Best points1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points5</string>
+              </property>
+             </item>
             </widget>
             <widget class="QComboBox" name="comboOrderRow_3">
              <property name="enabled">
@@ -4924,6 +4974,31 @@
              <item>
               <property name="text">
                <string>Best times4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Best points5</string>
               </property>
              </item>
             </widget>

@@ -305,7 +305,7 @@ def ExportToCsvFiles(dfs, dirname, export_type=eCSV_EXPORT):
                     
         # FILTER: checked columns only (export epcific)            
         columns = GetExportCollumns(df, i)        
-        print "columns: ", i, columns                                    
+        print "export columns: ", i, columns                                    
         
         # workarround
         # replace time with DNF for long times
@@ -618,6 +618,7 @@ def AddMissingUsers(tDf):
     # filter civils
     df_dnf_users = df_dnf_users[df_dnf_users["nr"] > 0]
     
+    
     # add name
     df_dnf_users['name'] = df_dnf_users['name'].str.upper() + ' ' + df_dnf_users['first_name']    
                         
@@ -627,7 +628,7 @@ def AddMissingUsers(tDf):
     
     # add 0 to pointX
     for c in [s for s in tDf.columns if "point" in s]:
-        df_dnf_users[c] = dstore.GetItem("export_parameters", ["DNS_points"])
+        df_dnf_users[c] = 0
          
     # add 0 to lapX
     for c in [s for s in tDf.columns if "lap" in s]:
@@ -635,7 +636,11 @@ def AddMissingUsers(tDf):
     
     # add 0 to unX
     for c in [s for s in tDf.columns if "un" in s]:
-        df_dnf_users[c] = 0          
+        df_dnf_users[c] = dstore.GetItem("export_parameters", ["DNS_points"])
+    
+    #add "DNS" to US
+    if "us1" in tDf.columns:
+        df_dnf_users["us1"] = "DNS"          
         
     # order = lastorder + 1 (for all DNS users same order)
     for c in [s for s in tDf.columns if "order" in s]:
@@ -647,7 +652,7 @@ def AddMissingUsers(tDf):
 #             df_dnf_users[c] = int(last_order) + 1
 #         except (ValueError, IndexError):
 #             pass 
-    # print "=================", df_dnf_users                                    
+    #print "vracim=================", df_dnf_users                                    
     tDf = tDf.append(df_dnf_users)
     return tDf 
 
