@@ -414,7 +414,8 @@ class DfTableTimes(DfTable):
         self.gui['auto_refresh_clear'] = Ui().TimesAutoRefreshClear
         self.gui['auto_www_refresh'] = Ui().TimesAutoWWWRefresh
         self.gui['auto_www_refresh_clear'] = Ui().TimesAutoWWWRefreshClear
-        self.gui['auto_script_refresh'] = Ui().TimesAutoScriptRefresh
+        self.gui['auto_script_refresh_1'] = Ui().TimesAutoScriptRefresh1
+        self.gui['auto_script_refresh_2'] = Ui().TimesAutoScriptRefresh2
         self.gui['auto_script_refresh_clear'] = Ui().TimesAutoScriptRefreshClear        
         self.gui['highlight_enable'] = Ui().TimesHighlightEnable
         self.gui['auto_timer_set'] = Ui().TimerSet
@@ -470,10 +471,11 @@ class DfTableTimes(DfTable):
         #
         QtCore.QObject.connect(self.gui['auto_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_refresh"], state, self.UpdateGui), setattr(self, "auto_refresh_cnt", state)))
         QtCore.QObject.connect(self.gui['auto_www_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], state, self.UpdateGui), setattr(self, "auto_www_refresh_cnt", state)))
-        QtCore.QObject.connect(self.gui['auto_script_refresh'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_script_refresh"], state, self.UpdateGui), setattr(self, "auto_script_refresh_cnt", state)))
+        QtCore.QObject.connect(self.gui['auto_script_refresh_1'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_script_refresh_1"], state, self.UpdateGui), setattr(self, "auto_script_refresh_cnt_1", state)))
+        QtCore.QObject.connect(self.gui['auto_script_refresh_2'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_script_refresh_2"], state, self.UpdateGui), setattr(self, "auto_script_refresh_cnt_2", state)))
         QtCore.QObject.connect(self.gui['auto_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_refresh"], 0, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_www_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_www_refresh"], 0, self.UpdateGui))
-        QtCore.QObject.connect(self.gui['auto_script_refresh_clear'], QtCore.SIGNAL("clicked()"), lambda: uiAccesories.sGuiSetItem("times", ["auto_script_refresh"], 0, self.UpdateGui))
+        QtCore.QObject.connect(self.gui['auto_script_refresh_clear'], QtCore.SIGNAL("clicked()"), self.sUserScript_Clear)
         QtCore.QObject.connect(self.gui['highlight_enable'], QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("times", ["highlight_enable"], state, self.UpdateGui))
         QtCore.QObject.connect(self.gui['auto_timer_set'], QtCore.SIGNAL("valueChanged(int)"), lambda state: (uiAccesories.sGuiSetItem("times", ["auto_timer"], state, self.UpdateGui), setattr(self, "auto_timer_cnt", state)))
                
@@ -510,6 +512,10 @@ class DfTableTimes(DfTable):
         print "A: Times: Civils to zeroes.. press F5 to finish"
         return res
     
+    def sUserScript_Clear(self):
+        uiAccesories.sGuiSetItem("times", ["auto_script_refresh_1"], 0, self.UpdateGui)
+        uiAccesories.sGuiSetItem("times", ["auto_script_refresh_2"], 0, self.UpdateGui)
+        
     def sRecalculate(self):
         if (uiAccesories.showMessage("Recalculate", "Are you sure you want to recalculate times and laptimes?", MSGTYPE.warning_dialog) != True):            
             return
@@ -540,8 +546,9 @@ class DfTableTimes(DfTable):
      F11, F12 - final results
      - prepare DFs for export (according to filter, sort, etc.)
      - call ExportToXXXFiles with these 3 DFs
+     - export_set_nr set: used only for user export
     '''  
-    def sExportDirect(self, export_type = ttExport.eCSV_EXPORT):             
+    def sExportDirect(self, export_type = ttExport.eCSV_EXPORT, export_set_nr = None):             
         
         #ret = uiAccesories.showMessage("Results Export", "Choose format of results", MSGTYPE.question_dialog, "NOT finally results", "Finally results")                        
         #if ret == False: #cancel button
@@ -556,17 +563,21 @@ class DfTableTimes(DfTable):
         #merge table users and times
         if len(ttDf) != 0:                       
             cols_to_use = tableUsers.model.df.columns.difference(self.model.df.columns)        
-            cols_to_use = list(cols_to_use) + ["nr"]     
-            utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")                    
-        
+            cols_to_use = list(cols_to_use) + ["nr"]
+            try:     
+                utDf = pd.merge(ttDf, tableUsers.model.df[cols_to_use], how = "left", on="nr")                    
+            except ValueError:
+                uiAccesories.showMessage("Export", time.strftime("%H:%M:%S", time.localtime())+" :: NOT succesfully, buffer.", MSGTYPE.statusbar)
+                return
+                
         
         #script export - no filter, sort, etc.
         if (len(ttDf) != 0) and (export_type == ttExport.eSCRIPT_EXPORT):                        
             try:                
-                exported = ttExport.ScriptExport(utDf)
-                uiAccesories.showMessage("Script Export", time.strftime("%H:%M:%S", time.localtime())+" :: exported ", MSGTYPE.statusbar)            
+                exported = ttExport.ScriptExport(utDf, export_set_nr)
+                #uiAccesories.showMessage("Script Export "+str(export_set_nr), time.strftime("%H:%M:%S", time.localtime())+" :: exported ", MSGTYPE.statusbar)            
             except IOError:                            
-                uiAccesories.showMessage("Script Export", time.strftime("%H:%M:%S", time.localtime())+" :: NOT succesfully, cannot write into the file.", MSGTYPE.statusbar)
+                uiAccesories.showMessage("Script Export "+str(export_set_nr), time.strftime("%H:%M:%S", time.localtime())+" :: NOT succesfully, cannot write into the file.", MSGTYPE.statusbar)
             #except:
             #    uiAccesories.showMessage("Script Export", time.strftime("%H:%M:%S", time.localtime())+" :: General Error", MSGTYPE.statusbar)
             return
@@ -636,19 +647,25 @@ class DfTableTimes(DfTable):
             self.auto_www_refresh_cnt = autorefresh
             ret = self.sExportDirect(ttExport.eHTM_EXPORT)
         
-        #Script export
-        autorefresh = dstore.GetItem("times", ["auto_script_refresh"])        
-        if(autorefresh == 0):
-            pass
-        elif(self.auto_script_refresh_cnt == 0):
-            self.auto_script_refresh_cnt = autorefresh                
-        elif((self.auto_script_refresh_cnt-1) != 0):        
-            self.auto_script_refresh_cnt = self.auto_script_refresh_cnt - 1                  
-        else:
-            #print "auto update", self.auto_refresh_cnt,  autorefresh, "s"
-            self.auto_script_refresh_cnt = autorefresh
-            ret = self.sExportDirect(ttExport.eSCRIPT_EXPORT)
-                        
+        #USER SCRIPT 1
+        autorefresh1 = dstore.GetItem("times", ["auto_script_refresh_1"])
+        autorefresh2 = dstore.GetItem("times", ["auto_script_refresh_2"])
+        if(autorefresh2 != 0):
+            #decrement timer
+            if(self.auto_script_refresh_cnt_2 > 0):
+                self.auto_script_refresh_cnt_2 = self.auto_script_refresh_cnt_2 - 1
+            #call script and reset timer
+            if(self.auto_script_refresh_cnt_2 == 0):                
+                self.auto_script_refresh_cnt_2 = autorefresh2
+                ret = self.sExportDirect(ttExport.eSCRIPT_EXPORT, 2)   
+        if(autorefresh1 != 0):
+            #decrement timer
+            if(self.auto_script_refresh_cnt_1 > 0):
+                self.auto_script_refresh_cnt_1 = self.auto_script_refresh_cnt_1 - 1
+            #call script and reset timer
+            if(self.auto_script_refresh_cnt_1 == 0):
+                self.auto_script_refresh_cnt_1 = autorefresh1
+                ret = self.sExportDirect(ttExport.eSCRIPT_EXPORT, 1)                        
                        
         #decrement the timer
         if(self.auto_timer_cnt > 0):
@@ -742,7 +759,8 @@ class DfTableTimes(DfTable):
              
         self.gui['auto_refresh'].setValue(times["auto_refresh"])
         self.gui['auto_www_refresh'].setValue(times["auto_www_refresh"])                
-        self.gui['auto_script_refresh'].setValue(times["auto_script_refresh"])        
+        self.gui['auto_script_refresh_1'].setValue(times["auto_script_refresh_1"])
+        self.gui['auto_script_refresh_2'].setValue(times["auto_script_refresh_2"])           
         
         #stylesheets
         if(times["auto_refresh"] == 0):

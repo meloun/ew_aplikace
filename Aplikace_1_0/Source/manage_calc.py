@@ -407,7 +407,7 @@ class ManageCalcProcess():
             '''FILTER by row'''
 
             #1. sort Best times, Last times  
-            print type(aux_df)                          
+            #print type(aux_df)                          
             if group['row'] == u'Best times1':                      
                 aux_df = aux_df.sort("time1", ascending = False )
             elif group['row'] == u'Best times2':                      

@@ -37,8 +37,7 @@ import datetime
 import threading
 import os
  
-
- 
+export_lock = threading.Lock()
 
 
 (eCSV_EXPORT, eCSV_EXPORT_DNS, eCSV_EXPORT_DB, eCSV_EXPORT_DNS_DB, eHTM_EXPORT, eSCRIPT_EXPORT, eHTM_EXPORT_LOGO) = range(0, 7)
@@ -46,44 +45,62 @@ import os
 def ScriptExecfile(file, global_vars):
     try:
         execfile(file, global_vars)
-    except:
-        print "E: user script"
-    
-def ScriptExport(utDf):
-    # Run the called script with arguments
-    #subprocess.run('python user_export.py', shell = True)
+    except Exception as e:
+        print("E: chyba ve skriptu:", e)
 
-    export = {"times": [] }
-    # 3DFs for 3 exports
-    exportDf = pd.DataFrame()
-    arguments = {"utDf": utDf.to_json(orient="records") }
     
-    if len(utDf) != 0:
-        
-        exportDf =  utDf[ ["id", "nr", "time1"] ].copy()
-        
-        # Vytvoření vlákna pro paralelní běh
-        vlakno = threading.Thread(target=ScriptExecfile, args=('script_export.py', arguments))
-
-        # Spuštění vlákna
-        vlakno.start()
-
-        # Čekání na dokončení vlákna (nepovinné)
-        #vlakno.join()
-        
-        
-        '''EXECFILE '''
-        #print type(utDf.to_json(orient="records"))
-        #execfile('script_export2.py', arguments)
-        
-        
-        
-        '''SUBPROCESS'''  
-        #print(datetime.datetime.now())
-        #p = subprocess.Popen(['python', 'script_export.py', utDf.to_json(orient="records")])
-        #print(datetime.datetime.now())       
-    return True
+def ScriptExport(utDf, export_set_nr):
+    global export_lock
     
+    if len(utDf) == 0:
+        return
+    
+    filename = "script_export_"+str(export_set_nr)+".py"
+
+    # zkus získat zámek bez čekání
+    if not export_lock.acquire(False):
+        print("E: " + filename + ": some scripts already running - new run skipped")
+        return
+    
+    arguments = {"utDf": utDf.to_json(orient="records"), "filename": filename }
+
+
+    # obalíme ScriptExecfile tak, aby po dokončení uvolnil zámek
+    def run_script_and_release():
+        try:
+            ScriptExecfile("scripts/" + filename, arguments)
+        finally:
+            export_lock.release()
+
+    vlakno = threading.Thread(target=run_script_and_release)
+    vlakno.start()
+    
+#     if len(utDf) != 0:
+#         
+#         exportDf =  utDf[ ["id", "nr", "time1"] ].copy()
+#         
+#         # Vytvoření vlákna pro paralelní běh
+#         vlakno = threading.Thread(target=ScriptExecfile, args=("scripts/"+filename, arguments))
+# 
+#         # Spuštění vlákna
+#         vlakno.start()
+# 
+#         # Čekání na dokončení vlákna (nepovinné)
+#         #vlakno.join()
+#         
+#         
+#         '''EXECFILE '''
+#         #print type(utDf.to_json(orient="records"))
+#         #execfile('script_export2.py', arguments)
+#         
+#         
+#         
+#         '''SUBPROCESS'''  
+#         #print(datetime.datetime.now())
+#         #p = subprocess.Popen(['python', 'script_export.py', utDf.to_json(orient="records")])
+#         #print(datetime.datetime.now())       
+#     return True
+#     
 '''
  F11, F12 - final results
  - prepare DFs for export 

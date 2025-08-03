@@ -85,7 +85,7 @@
            <bool>false</bool>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabRuns_Times">
            <attribute name="title">
@@ -95,7 +95,58 @@
             <property name="horizontalSpacing">
              <number>0</number>
             </property>
-            <item row="0" column="47">
+            <item row="0" column="36">
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="35">
+             <widget class="QPushButton" name="TimerIcon">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>gui/icons/Circle_Grey_34212.png</normaloff>gui/icons/Circle_Grey_34212.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="48">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -266,28 +317,6 @@
               </layout>
              </widget>
             </item>
-            <item row="0" column="13">
-             <widget class="QLabel" name="label_18">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>35</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Cell: </string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="14">
              <widget class="QComboBox" name="TimesAutoCell_Address">
               <property name="sizePolicy">
@@ -432,6 +461,35 @@
               </item>
              </widget>
             </item>
+            <item row="0" column="33">
+             <widget class="QSpinBox" name="TimerSet">
+              <property name="maximum">
+               <number>999</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="13">
+             <widget class="QLabel" name="label_18">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>35</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Cell: </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="15">
              <widget class="QSpinBox" name="TimesAutoCell1">
               <property name="sizePolicy">
@@ -448,13 +506,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="32">
-             <widget class="QSpinBox" name="TimerSet">
-              <property name="maximum">
-               <number>999</number>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="18">
              <widget class="QSpinBox" name="TimesAutoCell4">
               <property name="sizePolicy">
@@ -462,32 +513,6 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="16">
-             <widget class="QSpinBox" name="TimesAutoCell2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximum">
-               <number>250</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="17">
-             <widget class="QSpinBox" name="TimesAutoCell3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximum">
-               <number>250</number>
               </property>
              </widget>
             </item>
@@ -510,7 +535,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="33">
+            <item row="0" column="34">
              <widget class="QLabel" name="TimerGet">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -542,56 +567,31 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="34">
-             <widget class="QPushButton" name="TimerIcon">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
+            <item row="0" column="17">
+             <widget class="QSpinBox" name="TimesAutoCell3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>30</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/Circle_Grey_34212.png</normaloff>gui/icons/Circle_Grey_34212.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
+              <property name="maximum">
+               <number>250</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="35">
-             <spacer name="horizontalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="0" column="16">
+             <widget class="QSpinBox" name="TimesAutoCell2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
+              <property name="maximum">
+               <number>250</number>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>10</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
+             </widget>
             </item>
             <item row="0" column="5">
              <widget class="QPushButton" name="TimesFilterFinishes">
@@ -619,7 +619,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="29">
+            <item row="0" column="30">
              <widget class="QLabel" name="label_6">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -640,25 +640,6 @@
               </property>
               <property name="text">
                <string>Check: </string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLabel" name="RunsCounter">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-              <property name="text">
-               <string>0/0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -691,10 +672,38 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="30">
-             <widget class="QCheckBox" name="TimesHighlightEnable">
+            <item row="2" column="2">
+             <widget class="QLabel" name="RunsCounter">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
               <property name="text">
-               <string/>
+               <string>0/0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="21">
+             <widget class="QSpinBox" name="TimesAutoRefresh">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -750,8 +759,15 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="21">
-             <widget class="QSpinBox" name="TimesAutoRefresh">
+            <item row="0" column="31">
+             <widget class="QCheckBox" name="TimesHighlightEnable">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="10">
+             <widget class="QSpinBox" name="TimesAutoNumber3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -760,9 +776,42 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>0</width>
+                <width>55</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="minimum">
+               <number>-10</number>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="32">
+             <widget class="QLabel" name="label_12">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>55</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Timer: </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -799,8 +848,18 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="10">
-             <widget class="QSpinBox" name="TimesAutoNumber3">
+            <item row="2" column="48">
+             <widget class="QLabel" name="TimesCounter">
+              <property name="text">
+               <string>0/0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="9">
+             <widget class="QSpinBox" name="TimesAutoNumber2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -821,8 +880,8 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="31">
-             <widget class="QLabel" name="label_12">
+            <item row="0" column="11">
+             <widget class="QSpinBox" name="TimesAutoNumber4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -835,16 +894,11 @@
                 <height>0</height>
                </size>
               </property>
-              <property name="font">
-               <font>
-                <pointsize>7</pointsize>
-               </font>
+              <property name="minimum">
+               <number>-10</number>
               </property>
-              <property name="text">
-               <string>Timer: </string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="maximum">
+               <number>99999</number>
               </property>
              </widget>
             </item>
@@ -881,98 +935,6 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="9">
-             <widget class="QSpinBox" name="TimesAutoNumber2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>55</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="47">
-             <widget class="QLabel" name="TimesCounter">
-              <property name="text">
-               <string>0/0</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="11">
-             <widget class="QSpinBox" name="TimesAutoNumber4">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>55</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="TimesFilterLineEdit">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="8">
-             <widget class="QSpinBox" name="TimesAutoNumber1">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>55</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
               </property>
              </widget>
             </item>
@@ -1024,8 +986,8 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="19">
-             <widget class="QPushButton" name="TimesAutoCellClear">
+            <item row="0" column="8">
+             <widget class="QSpinBox" name="TimesAutoNumber1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -1034,29 +996,31 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>20</width>
+                <width>55</width>
                 <height>0</height>
                </size>
               </property>
-              <property name="text">
-               <string/>
+              <property name="minimum">
+               <number>-10</number>
               </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
+              <property name="maximum">
+               <number>99999</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="27">
-             <widget class="QSpinBox" name="TimesAutoScriptRefresh">
+            <item row="0" column="2">
+             <widget class="QLineEdit" name="TimesFilterLineEdit">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -1081,6 +1045,42 @@
               </property>
               <property name="text">
                <string>   Script:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="27">
+             <widget class="QSpinBox" name="TimesAutoScriptRefresh1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="19">
+             <widget class="QPushButton" name="TimesAutoCellClear">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>gui/icons/mail-delete.png</normaloff>gui/icons/mail-delete.png</iconset>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -1111,7 +1111,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="28">
+            <item row="0" column="29">
              <widget class="QPushButton" name="TimesAutoScriptRefreshClear">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1137,7 +1137,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2" colspan="46">
+            <item row="1" column="2" colspan="47">
              <widget class="QTreeView" name="TimesProxyView">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1146,6 +1146,9 @@
                </sizepolicy>
               </property>
              </widget>
+            </item>
+            <item row="0" column="28">
+             <widget class="QSpinBox" name="TimesAutoScriptRefresh2"/>
             </item>
            </layout>
           </widget>

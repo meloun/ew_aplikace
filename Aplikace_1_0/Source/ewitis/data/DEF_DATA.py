@@ -130,7 +130,8 @@ DEF_DATA = {
                                                           "auto_cell_index": 0,                                                          
                                                           "auto_refresh": 0,
                                                           "auto_www_refresh": 0,                                                          
-                                                          "auto_script_refresh": 0,
+                                                          "auto_script_refresh_1": 0,
+                                                          "auto_script_refresh_2": 0,
                                                           "highlight_enable": CheckboxValue.unchecked,
                                                           "auto_timer": 0 
                                                          }
@@ -434,7 +435,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.40a Ada Porsche",
+                                                        "app": "v3.41b Formule",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },
