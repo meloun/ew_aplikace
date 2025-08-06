@@ -7,7 +7,7 @@
                         "checked": 2,
                         "description": "",
                         "filter": "",
-                        "fromlaststart": 0
+                        "fromlaststart": 2
                     },
                     {
                         "checked": 0,
@@ -73,7 +73,7 @@
                         "description": "",
                         "maximum": 9999,
                         "minimum": 0,
-                        "rule": "round((10*360)/(time2+0.00), 2)"
+                        "rule": "time2/100"
                     },
                     {
                         "checked": 0,
@@ -106,14 +106,14 @@
                         "description": "",
                         "filter": "cell=250",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime1"
+                        "rule": "time - prevtime"
                     },
                     {
                         "checked": 2,
                         "description": "",
-                        "filter": "cell=250",
+                        "filter": "cell=2",
                         "minute_timeformat": 2,
-                        "rule": "time - celltime2"
+                        "rule": "time - prevtime"
                     },
                     {
                         "checked": 0,
@@ -179,11 +179,11 @@
                         "lap3": 0,
                         "lap4": 0,
                         "name": 2,
-                        "nr": 0,
+                        "nr": 2,
                         "o1": 0,
                         "o2": 2,
                         "o3": 2,
-                        "o4": 2,
+                        "o4": 0,
                         "order1": 0,
                         "order2": 0,
                         "order3": 0,
@@ -214,7 +214,7 @@
                         "gap2": 0,
                         "gap3": 0,
                         "gap4": 0,
-                        "lap1": 0,
+                        "lap1": 2,
                         "lap2": 0,
                         "lap3": 0,
                         "lap4": 0,
@@ -231,7 +231,7 @@
                         "ordercat2": 0,
                         "ordercat3": 0,
                         "points1": 0,
-                        "points2": 2,
+                        "points2": 0,
                         "points3": 0,
                         "points4": 0,
                         "points5": 0,
@@ -254,7 +254,7 @@
                         "gap2": 0,
                         "gap3": 0,
                         "gap4": 0,
-                        "lap1": 2,
+                        "lap1": 0,
                         "lap2": 0,
                         "lap3": 0,
                         "lap4": 0,
@@ -289,14 +289,14 @@
                     }
                 ],
                 "enabled_csv": [
-                    true,
+                    false,
                     false,
                     false
                 ],
                 "enabled_htm": [
                     false,
                     true,
-                    true
+                    false
                 ],
                 "enabled_sms": [
                     false,
@@ -311,23 +311,23 @@
                         "gap2": "",
                         "gap3": "",
                         "gap4": "",
-                        "lap1": "Run",
+                        "lap1": "",
                         "lap2": "",
                         "lap3": "",
                         "lap4": "",
-                        "name": "Name",
-                        "nr": "Car number",
+                        "name": "",
+                        "nr": "",
                         "o1": "",
-                        "o2": "Cones",
-                        "o3": "Status",
-                        "o4": "Car number",
+                        "o2": "",
+                        "o3": "",
+                        "o4": "",
                         "order1": "",
                         "order2": "",
                         "order3": "",
                         "ordercat1": "",
                         "ordercat2": "",
                         "ordercat3": "",
-                        "points1": "Time [sec]",
+                        "points1": "",
                         "points2": "",
                         "points3": "",
                         "points4": "",
@@ -351,7 +351,7 @@
                         "gap2": "",
                         "gap3": "",
                         "gap4": "",
-                        "lap1": "",
+                        "lap1": "Lap",
                         "lap2": "",
                         "lap3": "",
                         "lap4": "",
@@ -368,13 +368,13 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "",
-                        "points2": "Speed [km/h]",
+                        "points2": "",
                         "points3": "",
                         "points4": "",
                         "points5": "",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Time",
+                        "time1": "Laptime ",
                         "time2": "",
                         "time3": "",
                         "time4": "",
@@ -391,7 +391,7 @@
                         "gap2": "",
                         "gap3": "",
                         "gap4": "",
-                        "lap1": "Finished run",
+                        "lap1": "",
                         "lap2": "",
                         "lap3": "",
                         "lap4": "",
@@ -408,13 +408,13 @@
                         "ordercat2": "",
                         "ordercat3": "",
                         "points1": "",
-                        "points2": "Speed [km/h]",
+                        "points2": "",
                         "points3": "",
                         "points4": "",
                         "points5": "",
                         "sex": "",
                         "status": "Status",
-                        "time1": "Time",
+                        "time1": "Laptime ",
                         "time2": "",
                         "time3": "",
                         "time4": "",
@@ -442,7 +442,7 @@
                         "o1": 13,
                         "o2": 5,
                         "o3": 6,
-                        "o4": 1,
+                        "o4": 16,
                         "order1": 1,
                         "order2": 2,
                         "order3": 3,
@@ -473,7 +473,7 @@
                         "gap2": 18,
                         "gap3": 19,
                         "gap4": 20,
-                        "lap1": 22,
+                        "lap1": 4,
                         "lap2": 24,
                         "lap3": 26,
                         "lap4": 28,
@@ -566,7 +566,7 @@
                     "type": "categories"
                 },
                 {
-                    "filter": "all times with time1",
+                    "filter": "all times with lap1",
                     "onerow": 0,
                     "sort1": "timeraw",
                     "sort2": "- - -",
@@ -575,11 +575,11 @@
                     "type": "total"
                 },
                 {
-                    "filter": "all times with lap1",
-                    "onerow": 0,
+                    "filter": "all times with time1",
+                    "onerow": 2,
                     "sort1": "timeraw",
                     "sort2": "- - -",
-                    "sortorder1": "desc",
+                    "sortorder1": "asc",
                     "sortorder2": "asc",
                     "type": "categories"
                 }
@@ -592,19 +592,19 @@
             "changed": true,
             "value": [
                 {
-                    "categoryname": "Acceleration",
-                    "description": "CSV results",
+                    "categoryname": "Endurance",
+                    "description": "CSV results, times in sec",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "Acceleration",
+                    "categoryname": "Endurance",
                     "description": "Monitor",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
                 },
                 {
-                    "categoryname": "Acceleration",
+                    "categoryname": "Endurance",
                     "description": "Web",
                     "headertext": "čas exportu: %time%",
                     "racename": "%race%"
@@ -684,16 +684,16 @@
                     "transpose": 0
                 },
                 {
-                    "css_filename": "css/nr_name_time_speed.css",
+                    "css_filename": "css/nr_name_time_lap.css",
                     "firsttimes": 5,
-                    "js_filename": "",
+                    "js_filename": "aaa",
                     "lasttimes": 0,
                     "transpose": 0
                 },
                 {
                     "css_filename": "css/results.css",
                     "firsttimes": 0,
-                    "js_filename": "times_acc",
+                    "js_filename": "times_end1",
                     "lasttimes": 0,
                     "transpose": 0
                 }
@@ -825,7 +825,7 @@
                         0,
                         0
                     ],
-                    "mode": 1,
+                    "mode": 2,
                     "nr_cells": 3,
                     "nr_users": 4
                 },
@@ -836,11 +836,11 @@
                     },
                     "starttime": 1
                 },
-                "profile": "C:/Users/Marek/Dropbox/casomira-extern/02_Zavody/2024/2024-08-07_Formule/Importy/profily/Acceleration/conf_work.json",
-                "profile_desc": "Acceleration \n\nS(1)-->M1(2)-->C(250)\n\nPoints1= prumerna rychlost na poslednich 10 metrech v km/h\nPoints2= time1 ve vterinach\n\n!! nastavit pocet casu na zobrazeni podle obrazovky !!\n\nE1: do CSV\nE2: na monitor\nE3: na web",
-                "race_name": "Formula Student Czech 2024",
+                "profile": "D:/Dropbox/casomira-extern/02_Zavody/2025/2025-08-06_Formule/Importy/profily/endurance.json",
+                "profile_desc": "Endurance \n\nS-->11*C-->M1-->11*C\n\nPoints1= time1 ve vterinach, cas kola\nPoints2= time2 ve vterinach, cas v depu\n\n!! nastavit pocet casu na zobrazeni podle obrazovky !!\n\nE1: neni\nE2: na monitor\nE3: neni",
+                "race_name": "Formula Student Czech 2025",
                 "remote": 0,
-                "test_name": "Acceleration"
+                "test_name": "Endurance"
             }
         },
         "name": "race settings",
@@ -865,10 +865,9 @@
                 ],
                 "auto_number_enable": 2,
                 "auto_number_logic": false,
-                "auto_refresh": 0,
-                "auto_script_refresh": 0,
-                "auto_script_refresh_1": 2,
-                "auto_script_refresh_2": 10,
+                "auto_refresh": 1,
+                "auto_script_refresh_1": 0,
+                "auto_script_refresh_2": 0,
                 "auto_timer": 0,
                 "auto_www_refresh": 0,
                 "highlight_enable": 0
