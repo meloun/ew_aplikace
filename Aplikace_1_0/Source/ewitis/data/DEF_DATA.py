@@ -150,7 +150,9 @@ DEF_DATA = {
                                                         "test_name" :         u"TPxy",
                                                         "profile"      :      u"- - -",
                                                         "profile_desc" :      u"",
-                                                        "remote"       :      CheckboxValue.unchecked,                                                                                                                
+                                                        "remote"       :      CheckboxValue.unchecked,
+                                                        "dnf_in_time"  :      CheckboxValue.checked,
+                                                        "users_import_update"  :      CheckboxValue.unchecked,                                                                                                                
                                                         "evaluation"   :      {                                                         
                                                                                 "starttime": StarttimeEvaluation.VIA_USER, 
                                                                                 "finishtime": {"laps":0, "time":"00:00:00,00"}                                                                                                                                                                       
@@ -435,7 +437,7 @@ DEF_DATA = {
         "versions"           : {"name"    : "versions",                                                                 
                                 "GET_SET" : {"value": { "hw" : None,
                                                         "fw" : None,
-                                                        "app": "v3.41c Formule",
+                                                        "app": "v3.42b Formule",
                                                         "cells": [None]*NUMBER_OF.CELLS,
                                                         },                                                                                                                    
                                              },

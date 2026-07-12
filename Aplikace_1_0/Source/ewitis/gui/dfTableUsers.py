@@ -157,12 +157,17 @@ class DfTableUsers(DfTable):
         return df
     
     def importRow2dbRow(self, row):
-        #print "cateogory name:",  row["category"]
-        category = tableCategories.model.getCategoryParName(row["category"])
-        #print "cateogory:", category, type(category)
-        #print "ROW1", row  
-        row["category_id"] = category['id']  
-        row.drop(["category"], inplace=True) 
+        # Nahrazení "category" (string) "category_id" (číslo) -> formát pro db
+        if "category" in row:
+            category = tableCategories.model.getCategoryParName(row["category"])            
+            row["category_id"] = category['id']
+            row.drop(["category"], inplace=True)
+        
+        # Smazání sloupců s prázdnými hodnotami
+        #if dstore.GetItem("racesettings-app", ['users_import_update']): 
+        #    for k, v in list(row.iteritems()): #důvod pro list: abych si to nemazal pod rukama
+        #        if not v:  # Pokud je hodnota prázdná (None, "", 0)
+        #            row.drop([k], inplace=True)
                     
     def Update(self):                                                                                  
         return DfTable.Update(self)

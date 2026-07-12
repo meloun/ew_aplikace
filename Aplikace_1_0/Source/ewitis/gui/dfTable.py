@@ -355,7 +355,7 @@ class DfTable():
             return
         
         #counters
-        state = {'ko':0, 'ok':0}
+        state = {'ko':0, 'ok_insert':0, 'ok_update':0}
         
         #adding rows to DB                        
         for i,row in df.iterrows():
@@ -369,12 +369,24 @@ class DfTable():
             #to dict because of CZ
             row = dict(row)       
                                                          
-            #if(db.insert_from_lists(self.name, columns, row, commit_flag = False) != False):
-            if(db.insert_from_dict(self.name, row, commit = False) != False):
-                                                                      
-                state['ok'] += 1
-            else:            
-                state['ko'] += 1 #increment errors for error message                
+            #check for needed collumns and insert
+            if ("id" in row) and ("nr" in row) and ("name" in row) and ("category_id" in row):
+                ret_insert = db.insert_from_dict(self.name, row, commit = False)
+            else:
+                ret_insert = False
+                         
+            if ret_insert:
+                state['ok_insert'] += 1
+            else:
+                #insert not succesfull
+                if dstore.GetItem("racesettings-app", ['users_import_update']): 
+                    ret_update = db.update_from_dict(self.name, row, commit = False)
+                    if ret_update:                                                               
+                        state['ok_update'] += 1
+                    else:            
+                        state['ko'] += 1 #increment errors for error message
+                else:            
+                    state['ko'] += 1 #increment errors for error message                
 
         db.commit()                        
         self.model.Update()
@@ -389,9 +401,9 @@ class DfTable():
         title = "Table '"+self.name + "' CSV Import"
         
         if(state['ko'] != 0) :
-            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Wrong format or already exist.")                                                            
+            uiAccesories.showMessage(title, "NOT Succesfully"+"\n\n" +str(state['ok_insert'])+" record(s) newly imported.\n"+str(state['ok_update'])+" record(s) updated.\n"+str(state['ko'])+" record(s) NOT imported.\n\n Wrong format or already exist.")                                                            
         else:
-            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok'])+" record(s) imported.", MSGTYPE.info)
+            uiAccesories.showMessage(title,"Succesfully"+"\n\n" +str(state['ok_insert'])+" record(s) newly imported.\n"+str(state['ok_update'])+" record(s) updated.\n", MSGTYPE.info)
                                                        
                                          
     def sExport(self, mode, dialog):

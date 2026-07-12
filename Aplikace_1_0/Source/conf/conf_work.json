@@ -829,6 +829,7 @@
                     "nr_cells": 3,
                     "nr_users": 4
                 },
+                "dnf_in_time": 2,
                 "evaluation": {
                     "finishtime": {
                         "laps": 0,
@@ -840,7 +841,8 @@
                 "profile_desc": "Endurance \n\nS-->11*C-->M1-->11*C\n\nPoints1= time1 ve vterinach, cas kola\nPoints2= time2 ve vterinach, cas v depu\n\n!! nastavit pocet casu na zobrazeni podle obrazovky !!\n\nE1: neni\nE2: na monitor\nE3: neni",
                 "race_name": "Formula Student Czech 2025",
                 "remote": 0,
-                "test_name": "Endurance"
+                "test_name": "Endurance",
+                "users_import_update": 2
             }
         },
         "name": "race settings",

@@ -59,7 +59,9 @@ class TabRaceSettings():
         QtCore.QObject.connect(Ui().lineRaceName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["race_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().lineTestName, QtCore.SIGNAL("textEdited(const QString&)"), lambda name: uiAccesories.sGuiSetItem("racesettings-app", ["test_name"], utils.toUnicode(name), self.Update))                    
         QtCore.QObject.connect(Ui().textProfileDesc, QtCore.SIGNAL("textChanged()"), self.sTextChanged)        
-        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))                                                                                       
+        QtCore.QObject.connect(Ui().checkRemoteRace, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["remote"], state, self.Update, True))
+        QtCore.QObject.connect(Ui().checkDnfInTime, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["dnf_in_time"], state, self.Update))
+        QtCore.QObject.connect(Ui().checkUsersImportUpdate, QtCore.SIGNAL("stateChanged(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["users_import_update"], state, self.Update))                                                                                          
         QtCore.QObject.connect(Ui().comboStarttimeEvaluation, QtCore.SIGNAL("activated(int)"), lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["evaluation", "starttime"], state, self.Update))                                                                                                                                                                                        
         #middle group: auto-numbers
         QtCore.QObject.connect(Ui().comboAutonumbersMode, QtCore.SIGNAL("activated(int)"),        lambda state: uiAccesories.sGuiSetItem("racesettings-app", ["autonumbers", "mode"], state, self.Update))
@@ -258,7 +260,9 @@ class TabRaceSettings():
         
                     
         #dstore.ResetChangedFlag("racesettings-app")        
-        Ui().checkRemoteRace.setChecked(dstore.GetItem("racesettings-app", ["remote"]))                                                                                                                                                                                                                                               
+        Ui().checkRemoteRace.setChecked(dstore.GetItem("racesettings-app", ["remote"]))
+        Ui().checkDnfInTime.setChecked(dstore.GetItem("racesettings-app", ["dnf_in_time"]))   
+        Ui().checkUsersImportUpdate.setChecked(dstore.GetItem("racesettings-app", ["users_import_update"]))                                                                                                                                                                                                                                                  
             
         #evaluations        
         Ui().comboStarttimeEvaluation.setCurrentIndex(dstore.GetItem("racesettings-app", ["evaluation", "starttime"]))                                                             

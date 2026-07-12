@@ -277,7 +277,7 @@ class ManageCalcProcess():
                        
         return self.joinedDf
         
-    def time2tableTime(self, row, i, including_hours):
+    def time2tableTime(self, row, i, including_hours, dnf_in_time):
         """
         convert time from db format to table forma
         e.g. 445 -> "00:00:04:45" 
@@ -288,7 +288,7 @@ class ManageCalcProcess():
             return None 
         #elif(type(row[timeX]) == str):
         #    return row[timeX]
-        elif(row["us1"] == "DNF"):
+        elif(dnf_in_time and row["us1"] == "DNF"):
             timeX = "DNF"
         else:                  
             timeX = TimesUtils.TimesUtils.time2timestring(row[timeX], including_hours = including_hours)
@@ -311,10 +311,11 @@ class ManageCalcProcess():
             if additional_info['time'][i]:                                
                 timeX = 'time'+str(i+1)
                 if(df[timeX].empty == False):                                                                        
-                    minute_timeformat = self.dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
+                    ds_minute_timeformat = self.dstore.GetItem("additional_info", ["time", i, "minute_timeformat"])
+                    ds_dnf_in_time = self.dstore.GetItem("racesettings-app", ["dnf_in_time"])
                     #df_dnf = df.us1.str.match("DNF")                                       
                     #df[~df_dnf][timeX] = df[~df_dnf].apply(lambda row: self.time2tableTime(row, i, including_hours = not(minute_timeformat)), axis = 1)                                                                 
-                    df[timeX] = df.apply(lambda row: self.time2tableTime(row, i, including_hours = not(minute_timeformat)), axis = 1)
+                    df[timeX] = df.apply(lambda row: self.time2tableTime(row, i, including_hours = not(ds_minute_timeformat), dnf_in_time = ds_dnf_in_time), axis = 1)
                     #df[timeX] = df[timeX].apply(lambda row: TimesUtils.TimesUtils.time2timestring(row, including_hours = not(minute_timeformat)))                                                                 
             else: 
                 df[timeX] = None            

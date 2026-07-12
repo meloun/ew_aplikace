@@ -292,8 +292,13 @@ class sqlite_db(object):
         query = u"update %s SET %s WHERE id = \"%s\"" % (tablename, mystring, dict['id']) 
         query = query.replace('\'None\'', 'Null')
                                                
+        #print query
+        res = self.query(query) 
         
-        res = self.query(query)        
+        if res is not None and res.rowcount == 0:
+            # Záznam v DB neexistuje, nebylo co updatovat
+            return False
+               
         if commit == True:  #musi tu byt! napr. zmena kategorie, zapis do db                           
             self.commit()                                               
                     
